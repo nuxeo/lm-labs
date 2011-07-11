@@ -1,0 +1,72 @@
+<project name="nuxeo-assembly" default="build" xmlns:nx="urn:nuxeo-build" xmlns:artifact="urn:nuxeo-artifact">
+  <taskdef resource="org/nuxeo/build/antlib.xml" uri="urn:nuxeo-build" />
+  <taskdef resource="org/nuxeo/build/artifact/antlib.xml" uri="urn:nuxeo-artifact" />
+  <artifact:expand depth="5" />
+
+
+  <target name="init" unless="init.done">
+    <tstamp />
+    <condition property="with.nuxeo">
+      <isset property="maven.profile.with-nuxeo" />
+    </condition>
+
+    <property name="outdir" value="${maven.project.build.directory}" />
+    <property name="init.done" value="true" />
+    <property name="labs" value="${outdir}/labs" />
+
+  </target>
+
+  <target name="expand-nuxeo" if="with.nuxeo">
+    <unzip dest="${outdir}">
+      <artifact:resolveFile key="org.nuxeo.ecm.distribution:nuxeo-lm-distribution:${nuxeo.lm.version}:zip" classifier="nuxeo-dm" />
+      <patternset>
+        <exclude name="**/lucene-*" />
+      </patternset>
+    </unzip>
+    <nx:rename from="${outdir}/nuxeo" to="${labs}" />
+  </target>
+
+  <target name="build" depends="init">
+    <echo>Building LM Tomcat distribution...</echo>
+    <antcall target="expand-nuxeo" />
+    <antcall target="build-bloginno" />
+  </target>
+
+
+  <target name="build-bloginno">
+    <echo>Building Blog Inno distributions...</echo>
+
+    <mkdir dir="${labs}/nxserver/bundles" />
+
+    <!-- Custom resources -->
+    <!-- copy todir="${labs}/" overwrite="true">
+      <fileset dir="src/main/resources/" />
+    </copy -->
+
+    <echo>Copy our own plugins</echo>
+    <copy todir="${labs}/nxserver/bundles" overwrite="true">
+      <artifact:set>
+        <includes>
+          <artifact groupId="com.leroymerlin.labs*" />
+          <artifact groupId="com.leroymerlin.corp.fr.nuxeo.portal*" />
+        </includes>
+        <excludes>
+          <artifact artifactId="lm-portal-user" />
+        </excludes>
+      </artifact:set>
+    </copy>
+
+    <!-- make the final zip -->
+    <zip destfile="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip" basedir="${labs}" />
+    <artifact:attach file="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip" type="zip" target="${maven.project.groupId}:${maven.project.artifactId}" />
+  </target>
+
+  <target name="clean">
+    <delete dir="${stagedir}" />
+  </target>
+
+  <target name="cleanall">
+    <delete dir="${outdir}" />
+  </target>
+
+</project>
