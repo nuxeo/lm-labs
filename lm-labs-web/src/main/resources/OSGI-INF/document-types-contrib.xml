@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.site.document.types">
+
+  <!-- Require the generic portal DM configuration
+  <require>com.leroymerlin.corp.fr.nuxeo.portal.types.ui</require>
+   -->
+
+  <extension target="org.nuxeo.ecm.platform.types.TypeService"
+    point="types">
+
+    <type id="Domain">
+      <subtypes>
+        <type hidden="create">SiteRoot</type>
+      </subtypes>
+    </type>
+
+    <type id="SiteRoot">
+      <subtypes>
+        <type>Site</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
+    </type>
+
+    <type id="Site">
+      <subtypes>
+        <type>Tree</type>
+        <type>Assets</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
+    </type>
+
+    <type id="Page">
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageListe</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
+    </type>
+
+    <type id="PageBlocs">
+    </type>
+
+    <type id="PageNews">
+    </type>
+
+    <type id="PageClasseur">
+    </type>
+
+    <type id="PageListe">
+    </type>
+
+    <type id="Assets">
+      <subtypes>
+        <type>Folder</type>
+        <type>Picture</type>
+<!--         <type>Audio</type> -->
+<!--         <type>Video</type> -->
+        <type>File</type>
+      </subtypes>
+      
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
+    </type>
+
+      <!--
+    <type id="News">
+      <label>News</label>
+      <icon>/icons/news.png</icon>
+      <bigIcon>/icons/news_100.png</bigIcon>
+      <category>SimpleDocument</category>
+      <default-view>view_documents</default-view>
+      <description></description>
+      <create-view>create_news</create-view>
+      <layouts mode="any">
+        <layout>news</layout>
+      </layouts>
+    </type>
+
+    <type id="Workspace">
+      <subtypes>
+        <type>SiteActu</type>
+        <type>News</type>
+      </subtypes>
+    </type>
+
+    <type id="Folder">
+      <subtypes>
+        <type>SiteActu</type>
+        <type>News</type>
+      </subtypes>
+    </type>
+
+    <type id="Rubrique">
+      <label>Rubrique</label>
+      <icon>/icons/rubrique.gif</icon>
+      <category>Collaborative</category>
+      <bigIcon>/icons/rubrique_100.jpeg</bigIcon>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+
+      <subtypes>
+        <type>Rubrique</type>
+      </subtypes>
+      
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
+    </type>
+
+    <type id="SiteActu">
+      <label>Site d'actus</label>
+      <icon>/icons/site.jpeg</icon>
+      <category>Collaborative</category>
+      <bigIcon>/icons/site_100.gif</bigIcon>
+      <default-view>view_documents</default-view>
+      <layouts mode="create">
+        <layout>siteactu_heading</layout>
+      </layouts>
+	  <layouts mode="any">
+       <layout>siteactu_heading</layout>
+	   <layout>siteThemeLayout</layout>
+       <layout>urlLayout</layout>
+	  </layouts>
+	  
+      <subtypes>
+        <type>Rubrique</type>
+      </subtypes>
+      
+      <contentViews category="content">
+        <contentView>orderable_document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
+    </type>
+      -->
+
+  </extension>
+</component>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.site.lifecycles">
+
+  <extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService"
+    point="types">
+
+    <types>
+      <type name="Page">default</type>
+      <type name="PageNews">default</type>
+      <type name="PageClasseur">default</type>
+      <type name="PageListe">default</type>
+    </types>
+  </extension>
+
+</component>
