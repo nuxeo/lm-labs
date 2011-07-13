@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_news"
+  	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_news">
+  	
+  	<xs:element name="content" type="xs:string"/>
+</xs:schema>
