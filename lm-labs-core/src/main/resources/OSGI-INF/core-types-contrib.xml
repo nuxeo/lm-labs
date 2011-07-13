@@ -10,9 +10,8 @@
 		point="schema">
 		<schema name="page" prefix="pg" src="schemas/page.xsd" />
 		<schema name="page_news" prefix="pgn" src="schemas/page_news.xsd" />
-		<schema name="page_news" prefix="pgc" src="schemas/page_classeur.xsd" />
-		<schema name="page_news" prefix="pgl" src="schemas/page_liste.xsd" />
-		<schema name="page_news" prefix="pgl" src="schemas/page_blocs.xsd" />
+		<schema name="page_liste" prefix="pgl" src="schemas/page_liste.xsd" />
+		<schema name="page_blocs" prefix="pgb" src="schemas/page_blocs.xsd" />
 		<!-- <schema name="theme" src="schemas/theme.xsd" /> -->
 	</extension>
 
@@ -66,8 +65,6 @@
 		</doctype>
 
 		<doctype name="PageClasseur" extends="Page">
-			<schema name="file" />
-			<schema name="page_classeur" />
 		</doctype>
 
 		<doctype name="PageListe" extends="Page">
