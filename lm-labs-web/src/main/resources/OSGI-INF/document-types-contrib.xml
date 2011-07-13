@@ -62,6 +62,10 @@
     </type>
 
     <type id="PageClasseur">
+    <subtypes>
+        <type>Folder</type>
+        <type>File</type>
+    </subtypes>
     </type>
 
     <type id="PageListe">
