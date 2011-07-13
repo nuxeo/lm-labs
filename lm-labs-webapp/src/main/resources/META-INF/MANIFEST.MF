@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 1
 Bundle-Name: lm-labs-core
-Bundle-SymbolicName: com.leroymerlin.labs.core;singleton:=true
+Bundle-SymbolicName: com.leroymerlin.labs.webapp;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Vendor: Leroy Merlin
 Require-Bundle: org.nuxeo.ecm.core.api
-Nuxeo-WebModule: org.nuxeo.ecm.webengine.app.WebEngineModule;name=labs;extends=base;package=com/leroymerlin/corp/fr/nuxeo/labs/webobjects
+Nuxeo-WebModule: org.nuxeo.ecm.webengine.app.WebEngineModule;name=labs;extends=base;package=com/leroymerlin/corp/fr/nuxeo/labs/site/webobjects
 
