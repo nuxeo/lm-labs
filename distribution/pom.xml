@@ -50,7 +50,7 @@
       <id>with-nuxeo</id>
       <properties>
         <!-- Version used for lm nuxeo packaging -->
-        <nuxeo.lm.version>5.4.2</nuxeo.lm.version>
+        <nuxeo.lm.version>5.4.2.0</nuxeo.lm.version>
       </properties>
     </profile>
     <profile>
@@ -164,15 +164,15 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.leroymerlin.bloginno</groupId>
+      <groupId>com.leroymerlin.labs</groupId>
       <artifactId>lm-labs-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.leroymerlin.bloginno</groupId>
+      <groupId>com.leroymerlin.labs</groupId>
       <artifactId>lm-labs-webapp</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.leroymerlin.bloginno</groupId>
+      <groupId>com.leroymerlin.labs</groupId>
       <artifactId>lm-labs-web</artifactId>
     </dependency>
     <dependency>
