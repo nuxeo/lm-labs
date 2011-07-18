@@ -10,11 +10,11 @@
 
     <type id="Domain">
       <subtypes>
-        <type hidden="create">SiteRoot</type>
+        <type hidden="create">SitesRoot</type>
       </subtypes>
     </type>
 
-    <type id="SiteRoot">
+    <type id="SitesRoot">
       <subtypes>
         <type>Site</type>
       </subtypes>
@@ -66,9 +66,21 @@
         <type>Folder</type>
         <type>File</type>
     </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
     </type>
 
     <type id="PageListe">
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
     </type>
 
     <type id="Assets">
@@ -79,7 +91,6 @@
 <!--         <type>Video</type> -->
         <type>File</type>
       </subtypes>
-      
       <contentViews category="content">
         <contentView>document_content</contentView>
       </contentViews>

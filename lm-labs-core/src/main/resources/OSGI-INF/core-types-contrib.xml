@@ -19,7 +19,7 @@
 		point="doctype">
 		<documentation>The core universe types</documentation>
 
-		<doctype name="SiteRoot" extends="Folder">
+		<doctype name="SitesRoot" extends="Folder">
 			<facet name="SuperSpace" />
 			<subtypes>
 				<type>Site</type>
