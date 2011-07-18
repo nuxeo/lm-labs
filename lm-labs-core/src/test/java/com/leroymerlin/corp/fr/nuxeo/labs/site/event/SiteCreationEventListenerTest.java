@@ -32,7 +32,7 @@ public class SiteCreationEventListenerTest {
         DocumentModel site1 = session.createDocumentModel("/"
                 + ISiteConstant.Type.SITE_ROOT, SITE_NAME,
                 ISiteConstant.Type.SITE);
-        // whene the "site" is created, an event is fired
+        // when the "site" is created, an event is fired
         site1 = session.createDocument(site1);
         session.save();
 
