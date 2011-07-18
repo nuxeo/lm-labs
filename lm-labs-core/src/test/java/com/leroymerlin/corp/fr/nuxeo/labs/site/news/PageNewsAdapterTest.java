@@ -1,4 +1,4 @@
-package com.leroymerlin.fr.nuxeo.labs.site.liste;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
 import static org.junit.Assert.assertTrue;
 
@@ -12,17 +12,17 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
-import com.leroymerlin.fr.nuxeo.labs.site.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
-@RepositoryConfig(init=PageListeRepositoryInit.class, cleanup=Granularity.METHOD)
-public class PageListeAdapterTest {
+@RepositoryConfig(init=PageNewsRepositoryInit.class, cleanup=Granularity.METHOD)
+public class PageNewsAdapterTest {
     @Inject
     private CoreSession session;
 
     @Test
     public void canCreatePageListe() throws Exception {
-        assertTrue(session.exists(new PathRef("/page_liste")));
+        assertTrue(session.exists(new PathRef("/page_news")));
     }
 }

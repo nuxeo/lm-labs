@@ -7,10 +7,10 @@ import javax.ws.rs.Produces;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
-@WebObject(type = "siteRoot")
+@WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
-@Path("/siteroot")
-public class SiteRoot extends ModuleRoot {
+@Path("/sitesroot")
+public class SitesRoot extends ModuleRoot {
 
     @GET
     public Object doGetDefaultView() {

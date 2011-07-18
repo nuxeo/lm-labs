@@ -1,4 +1,4 @@
-package com.leroymerlin.fr.nuxeo.labs.site.blocs;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.liste;
 
 import static org.junit.Assert.assertTrue;
 
@@ -12,17 +12,17 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
-import com.leroymerlin.fr.nuxeo.labs.site.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
-@RepositoryConfig(init=PageBlocsRepositoryInit.class, cleanup=Granularity.METHOD)
-public class PageBlocsAdapterTest {
+@RepositoryConfig(init=PageListeRepositoryInit.class, cleanup=Granularity.METHOD)
+public class PageListeAdapterTest {
     @Inject
     private CoreSession session;
 
     @Test
     public void canCreatePageListe() throws Exception {
-        assertTrue(session.exists(new PathRef("/page_blocs")));
+        assertTrue(session.exists(new PathRef("/page_liste")));
     }
 }

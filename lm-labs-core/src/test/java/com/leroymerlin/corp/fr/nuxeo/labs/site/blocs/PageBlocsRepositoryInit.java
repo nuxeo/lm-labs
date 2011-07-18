@@ -1,4 +1,4 @@
-package com.leroymerlin.fr.nuxeo.labs.site.blocs;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.blocs;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;

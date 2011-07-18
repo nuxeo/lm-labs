@@ -6,4 +6,6 @@ Bundle-Version: 1.0.0
 Bundle-Vendor: Leroy Merlin
 Require-Bundle: org.nuxeo.ecm.core.api
 Nuxeo-Component: OSGI-INF/core-types-contrib.xml,
- OSGI-INF/lifecycle-contrib.xml
+ OSGI-INF/lifecycle-contrib.xml,
+ OSGI-INF/listener-contrib.xml
+ 
