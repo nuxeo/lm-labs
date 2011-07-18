@@ -15,6 +15,19 @@
     </type>
 
     <type id="SitesRoot">
+      <label>SitesRoot</label>
+      <icon>/icons/workspace.gif</icon>
+      <icon-expanded>/icons/workspace_open.gif</icon-expanded>
+      <bigIcon>/icons/workspace_100.png</bigIcon>
+      <category>SuperDocument</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
       <subtypes>
         <type>Site</type>
       </subtypes>
@@ -27,6 +40,16 @@
     </type>
 
     <type id="Site">
+      <label>Site</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
       <subtypes>
         <type>Tree</type>
         <type>Assets</type>
@@ -39,7 +62,75 @@
       </contentViews>
     </type>
 
+    <type id="Tree">
+      <label>Tree</label>
+      <icon>/icons/folder.gif</icon>
+      <bigIcon>/icons/folder_100.png</bigIcon>
+      <icon-expanded>/icons/folder_open.gif</icon-expanded>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+		<type>Page</type>
+		<type>PageBlocs</type>
+		<type>PageNews</type>
+		<type>PageClasseur</type>
+		<type>PageListe</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
+    </type>
+
+    <type id="Assets">
+      <label>Assets</label>
+      <icon>/icons/folder.gif</icon>
+      <bigIcon>/icons/folder_100.png</bigIcon>
+      <icon-expanded>/icons/folder_open.gif</icon-expanded>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Folder</type>
+        <type>Picture</type>
+<!--         <type>Audio</type> -->
+<!--         <type>Video</type> -->
+        <type>File</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
+    </type>
+
     <type id="Page">
+      <label>Page</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
       <subtypes>
         <type>Page</type>
         <type>PageBlocs</type>
@@ -56,16 +147,43 @@
     </type>
 
     <type id="PageBlocs">
+      <label>PageBlocs</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
     </type>
 
     <type id="PageNews">
+      <label>PageNews</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
     </type>
 
     <type id="PageClasseur">
-    <subtypes>
+      <label>PageClasseur</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
         <type>Folder</type>
         <type>File</type>
-    </subtypes>
+      </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
       </contentViews>
@@ -75,22 +193,16 @@
     </type>
 
     <type id="PageListe">
-      <contentViews category="content">
-        <contentView>document_content</contentView>
-      </contentViews>
-      <contentViews category="trash_content">
-        <contentView showInExportView="false">document_trash_content</contentView>
-      </contentViews>
-    </type>
-
-    <type id="Assets">
-      <subtypes>
-        <type>Folder</type>
-        <type>Picture</type>
-<!--         <type>Audio</type> -->
-<!--         <type>Video</type> -->
-        <type>File</type>
-      </subtypes>
+      <label>PageListe</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
       <contentViews category="content">
         <contentView>document_content</contentView>
       </contentViews>
