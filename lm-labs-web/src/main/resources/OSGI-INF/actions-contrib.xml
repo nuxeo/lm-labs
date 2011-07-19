@@ -13,6 +13,8 @@
         <facet>Folderish</facet>
         <type>SitesRoot</type>
         <type>Site</type>
+        <type>Tree</type>
+        <type>Assets</type>
         <type>Page</type>
         <type>PageBlocs</type>
         <type>PageNews</type>
