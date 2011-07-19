@@ -2,7 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 public interface ISiteConstant {
 
-    interface Type {
+    interface DocType {
         String SITE_ROOT = "SitesRoot";
 
         String SITE = "Site";
@@ -10,11 +10,15 @@ public interface ISiteConstant {
         String TREE = "Tree";
 
         String ASSETS = "Assets";
+
+        String PAGE_BLOCS = "PageBlocs";
     }
 
-    interface Path {
+    interface DocPath {
         String TREE = "tree";
-        
+
         String ASSETS = "assets";
+
+        String WELCOME = "welcome";
     }
 }

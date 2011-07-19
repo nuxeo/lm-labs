@@ -25,13 +25,13 @@ public class SiteCreationEventListenerTest {
     @Test
     public void canHandleEvent() throws Exception {
         DocumentModel sitesRoot = session.createDocumentModel("/",
-                ISiteConstant.Type.SITE_ROOT,
-                ISiteConstant.Type.SITE_ROOT);
+                ISiteConstant.DocType.SITE_ROOT,
+                ISiteConstant.DocType.SITE_ROOT);
         sitesRoot = session.createDocument(sitesRoot);
 
         DocumentModel site1 = session.createDocumentModel("/"
-                + ISiteConstant.Type.SITE_ROOT, SITE_NAME,
-                ISiteConstant.Type.SITE);
+                + ISiteConstant.DocType.SITE_ROOT, SITE_NAME,
+                ISiteConstant.DocType.SITE);
         // when the "site" is created, an event is fired
         site1 = session.createDocument(site1);
         session.save();
@@ -39,8 +39,11 @@ public class SiteCreationEventListenerTest {
         assertTrue(session.exists(sitesRoot.getRef()));
         assertTrue(session.exists(site1.getRef()));
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
-                + ISiteConstant.Path.TREE)));
+                + ISiteConstant.DocPath.TREE)));
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
-                + ISiteConstant.Path.ASSETS)));
+                + ISiteConstant.DocPath.ASSETS)));
+        assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
+                + ISiteConstant.DocPath.TREE + "/"
+                + ISiteConstant.DocPath.WELCOME)));
     }
 }

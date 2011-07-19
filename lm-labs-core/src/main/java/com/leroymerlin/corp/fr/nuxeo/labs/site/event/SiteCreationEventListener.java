@@ -21,19 +21,23 @@ public class SiteCreationEventListener implements EventListener {
         DocumentModel doc = ctx.getSourceDocument();
         String documentType = doc.getType();
 
-        if (!ISiteConstant.Type.SITE.equals(documentType)) {
+        if (!ISiteConstant.DocType.SITE.equals(documentType)) {
             return;
         }
 
         // create "tree base"
         CoreSession session = ctx.getCoreSession();
         DocumentModel tree = session.createDocumentModel(doc.getPathAsString(),
-                ISiteConstant.Path.TREE, ISiteConstant.Type.TREE);
+                ISiteConstant.DocPath.TREE, ISiteConstant.DocType.TREE);
         DocumentModel assets = session.createDocumentModel(
-                doc.getPathAsString(), ISiteConstant.Path.ASSETS,
-                ISiteConstant.Type.ASSETS);
+                doc.getPathAsString(), ISiteConstant.DocPath.ASSETS,
+                ISiteConstant.DocType.ASSETS);
+        DocumentModel welcome = session.createDocumentModel(
+                doc.getPathAsString() + "/" + ISiteConstant.DocPath.TREE,
+                ISiteConstant.DocPath.WELCOME, ISiteConstant.DocType.PAGE_BLOCS);
         session.createDocument(tree);
         session.createDocument(assets);
+        session.createDocument(welcome);
         session.save();
     }
 
