@@ -100,7 +100,7 @@
   </target>
 
   <target name="web-jetty" description="Copy web files to a live Jetty">
-    <copy todir="${webengine.dir}/web/root.war/modules/com.leroymerlin.corp.fr.nuxeo.portal.picturebook.webapp" overwrite="true">
+    <copy todir="${webengine.dir}/web/root.war/modules/com.leroymerlin.labs.webapp" overwrite="true">
       <fileset dir="${basedir}/src/main/resources/" />
     </copy>
   </target>
