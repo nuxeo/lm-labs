@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.site.actions">
+
+  <require>org.nuxeo.ecm.platform.actions</require>
+
+  <extension target="org.nuxeo.ecm.platform.actions.ActionService"
+    point="filters">
+
+    <filter id="create" append="true">
+      <rule grant="true">
+        <permission>AddChildren</permission>
+        <facet>Folderish</facet>
+        <type>SitesRoot</type>
+        <type>Site</type>
+        <type>Tree</type>
+        <type>Assets</type>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageListe</type>
+        <!-- 
+        <condition>#{typeManager.getAllowedSubTypes(document.getType(), document).size() &gt; 0}</condition>
+         -->
+      </rule>
+    </filter>
+
+  </extension>
+</component>
