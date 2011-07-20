@@ -7,7 +7,7 @@ import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.ISiteConstant;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 public class SiteCreationEventListener implements EventListener {
 
@@ -21,20 +21,20 @@ public class SiteCreationEventListener implements EventListener {
         DocumentModel doc = ctx.getSourceDocument();
         String documentType = doc.getType();
 
-        if (!ISiteConstant.DocType.SITE.equals(documentType)) {
+        if (!LabsSiteConstants.Docs.SITE.type().equals(documentType)) {
             return;
         }
 
         // create "tree base"
         CoreSession session = ctx.getCoreSession();
         DocumentModel tree = session.createDocumentModel(doc.getPathAsString(),
-                ISiteConstant.DocPath.TREE, ISiteConstant.DocType.TREE);
+                LabsSiteConstants.Docs.TREE.docName(), LabsSiteConstants.Docs.TREE.type());
         DocumentModel assets = session.createDocumentModel(
-                doc.getPathAsString(), ISiteConstant.DocPath.ASSETS,
-                ISiteConstant.DocType.ASSETS);
+                doc.getPathAsString(), LabsSiteConstants.Docs.ASSETS.docName(),
+                LabsSiteConstants.Docs.ASSETS.type());
         DocumentModel welcome = session.createDocumentModel(
-                doc.getPathAsString() + "/" + ISiteConstant.DocPath.TREE,
-                ISiteConstant.DocPath.WELCOME, ISiteConstant.DocType.PAGE_BLOCS);
+                doc.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName(),
+                LabsSiteConstants.Docs.WELCOME.docName(), LabsSiteConstants.Docs.WELCOME.type());
         session.createDocument(tree);
         session.createDocument(assets);
         session.createDocument(welcome);
