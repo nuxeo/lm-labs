@@ -183,6 +183,9 @@
       <subtypes>
         <type>Folder</type>
         <type>File</type>
+		<type>Picture</type>
+		<!-- <type>Audio</type> -->
+		<!-- <type>Video</type> -->
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
