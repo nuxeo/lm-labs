@@ -33,7 +33,7 @@
 			</subtypes>
 		</doctype>
 
-		<doctype name="Tree" extends="Folder">
+		<doctype name="Tree" extends="OrderedFolder">
 			<subtypes>
 				<type>Page</type>
 				<type>PageBlocs</type>
@@ -43,7 +43,7 @@
 			</subtypes>
 		</doctype>
 
-		<doctype name="Page" extends="Folder">
+		<doctype name="Page" extends="OrderedFolder">
 			<schema name="page" />
 			<subtypes>
 				<type>Page</type>
@@ -65,6 +65,11 @@
 		</doctype>
 
 		<doctype name="PageClasseur" extends="Page">
+				<type>Folder</type>
+				<type>Picture</type>
+				<!-- <type>Audio</type> -->
+				<!-- <type>Video</type> -->
+				<type>File</type>
 		</doctype>
 
 		<doctype name="PageListe" extends="Page">
