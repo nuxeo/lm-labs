@@ -25,7 +25,7 @@ public final class LabsSiteConstants {
         }
 
         /**
-         * @return document name of doucment type which can be instantiated only once otherwise an empty string.
+         * @return document name of document type which can be instantiated only once otherwise an empty string.
          */
         public String docName() {
             return name;
