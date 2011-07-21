@@ -37,7 +37,6 @@ public class SitesRoot extends ModuleRoot {
         if (StringUtils.isNotBlank(siteName)
                 && getContext().getCoreSession().exists(
                         new PathRef(ROOT_PATH + "/" + siteName))) {
-            // FIXME
             template.arg("siteName", siteName);
         }
 
