@@ -11,5 +11,5 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
 })
 @Features(PlatformFeature.class)
 public class SiteFeatures extends SimpleFeature {
-
+    public static final String SITE_NAME = "site1";
 }

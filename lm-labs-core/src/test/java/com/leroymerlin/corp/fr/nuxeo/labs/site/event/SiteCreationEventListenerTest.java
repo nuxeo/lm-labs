@@ -19,17 +19,18 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
 public class SiteCreationEventListenerTest {
-    private static final String SITE_NAME = "site1";
 
     @Inject
     private CoreSession session;
 
     @Test
     public void treeAndAssetsIsCreatedUnderSite() throws Exception {
-        DocumentModel sitesRoot = session.getDocument(new PathRef("/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
+        DocumentModel sitesRoot = session.getDocument(new PathRef(
+                "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
         assertTrue(session.exists(sitesRoot.getRef()));
 
-        DocumentModel site1 = session.createDocumentModel(sitesRoot.getPathAsString(), SITE_NAME,
+        DocumentModel site1 = session.createDocumentModel(
+                sitesRoot.getPathAsString(), SiteFeatures.SITE_NAME,
                 LabsSiteConstants.Docs.SITE.type());
         // when the "site" is created, an event is fired
         site1 = session.createDocument(site1);
@@ -44,16 +45,17 @@ public class SiteCreationEventListenerTest {
                 + LabsSiteConstants.Docs.TREE.docName() + "/"
                 + LabsSiteConstants.Docs.WELCOME.docName())));
     }
-    
+
     @Test
     public void treeNotCreatedUnderFolder() throws Exception {
-        DocumentModel sitesRoot = session.getDocument(new PathRef("/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
+        DocumentModel sitesRoot = session.getDocument(new PathRef(
+                "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
         assertTrue(session.exists(sitesRoot.getRef()));
-        DocumentModel folder = session.createDocumentModel(sitesRoot.getPathAsString(), "folder", "Folder");
+        DocumentModel folder = session.createDocumentModel(
+                sitesRoot.getPathAsString(), "folder", "Folder");
         folder = session.createDocument(folder);
         assertNotNull(folder);
         DocumentModelList children = session.getChildren(folder.getRef());
         assertTrue("Folder should NOT contains children.", children.isEmpty());
     }
 }
-

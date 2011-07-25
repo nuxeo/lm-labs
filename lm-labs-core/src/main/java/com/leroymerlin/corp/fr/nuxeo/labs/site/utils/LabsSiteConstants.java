@@ -14,6 +14,7 @@ public final class LabsSiteConstants {
         PAGENEWS("PageNews", StringUtils.EMPTY),
         PAGECLASSEUR("PageClasseur", StringUtils.EMPTY),
         PAGELISTE("PageListe", StringUtils.EMPTY),
+        FOLDER("Folder", StringUtils.EMPTY),
         WELCOME(PAGEBLOCS.type(), "welcome");
         
         private String name;
