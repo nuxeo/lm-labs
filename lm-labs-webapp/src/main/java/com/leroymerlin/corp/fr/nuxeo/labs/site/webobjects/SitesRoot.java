@@ -13,14 +13,16 @@ import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
 @Path("/labssites")
 public class SitesRoot extends ModuleRoot {
 
-    public static final String ROOT_PATH = "/default-domain/sites-root"; // FIXME
+    protected static final String DOMAIN_PATH = "/default-domain";
 
-    public static final String DEFAULT_VIEW = "index";
+    protected static final String DEFAULT_VIEW = "index";
 
     @GET
     public Object doGetDefaultView() {
@@ -31,7 +33,7 @@ public class SitesRoot extends ModuleRoot {
     public Object doGetSite(@PathParam("siteName") final String siteName)
             throws ClientException {
         CoreSession session = getContext().getCoreSession();
-        PathRef siteRef = new PathRef(ROOT_PATH + "/" + siteName);
+        PathRef siteRef = new PathRef(DOMAIN_PATH + "/" + LabsSiteConstants.Docs.SITESROOT.docName() + "/" + siteName);
         if (getContext().getCoreSession().exists(siteRef)) {
             DocumentModel doc = session.getDocument(siteRef);
             return newObject("site", doc);
