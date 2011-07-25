@@ -97,25 +97,24 @@ public final class NuxeoDocHelperTest {
                 + LabsSiteConstants.Docs.TREE.docName() + "/"
                 + LabsSiteConstants.Docs.WELCOME.docName() + "/folder2/sub2_1")));
 
-        // FIXME
-        Map<DocumentModel, DocumentModelList> rootFolderAndChildren = NuxeoDocHelper.getRootFolderAndChildren(
-                site1, session);
-        assertNotNull(rootFolderAndChildren);
-        assertEquals(3, rootFolderAndChildren.keySet().size());
+        DocumentModelList rootFolder = NuxeoDocHelper.getRootFolder(site1,
+                session);
+        assertNotNull(rootFolder);
+        assertEquals(3, rootFolder.size());
 
-        for (DocumentModel rootFolder : rootFolderAndChildren.keySet()) {
+        for (DocumentModel doc : rootFolder) {
             if (new String(site1.getPathAsString() + "/"
                     + LabsSiteConstants.Docs.TREE.docName() + "/"
-                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder1").equals(rootFolder.getPathAsString())) {
-                assertEquals(2, rootFolderAndChildren.get(rootFolder).size());
+                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder1").equals(doc.getPathAsString())) {
+                assertEquals(2, session.getChildren(doc.getRef()).size());
             } else if (new String(site1.getPathAsString() + "/"
                     + LabsSiteConstants.Docs.TREE.docName() + "/"
-                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder2").equals(rootFolder.getPathAsString())) {
-                assertEquals(1, rootFolderAndChildren.get(rootFolder).size());
+                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder2").equals(doc.getPathAsString())) {
+                assertEquals(1, session.getChildren(doc.getRef()).size());
             } else if (new String(site1.getPathAsString() + "/"
                     + LabsSiteConstants.Docs.TREE.docName() + "/"
-                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder3").equals(rootFolder.getPathAsString())) {
-                assertEquals(0, rootFolderAndChildren.get(rootFolder).size());
+                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder3").equals(doc.getPathAsString())) {
+                assertEquals(0, session.getChildren(doc.getRef()).size());
             }
         }
     }

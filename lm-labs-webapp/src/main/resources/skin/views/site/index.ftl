@@ -13,12 +13,12 @@
 		Bienvenue sur le site '${siteName}'
 		<div id="sidebar">SIDEBAR</div>
 		<#assign i=1>
-		<#list rootFolderAndChildren?keys as rootFolder>
+		<#list rootFolder as root>
 			<div id="bloc${i}" class="bloc">
-				${rootFolder.title}
-				<#--list This.getValueByObjectAsKey(rootFolderAndChildren, rootFolder) as child>
-					${child.title}595
-				</#list-->
+				${root.title}
+				<#list Session.getChildren(root.ref) as child>
+					${child.title}
+				</#list>
 			</div>
 			<#assign i=i+1>
 		</#list>

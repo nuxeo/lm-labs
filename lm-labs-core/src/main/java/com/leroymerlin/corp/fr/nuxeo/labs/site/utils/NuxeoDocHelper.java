@@ -1,8 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -11,7 +8,7 @@ import org.nuxeo.ecm.core.api.PathRef;
 
 public final class NuxeoDocHelper {
 
-    public static final Map<DocumentModel, DocumentModelList> getRootFolderAndChildren(
+    public static final DocumentModelList getRootFolder(
             final DocumentModel site, final CoreSession session)
             throws ClientException {
         PathRef welcomeRef = new PathRef(site.getPathAsString() + "/"
@@ -21,15 +18,6 @@ public final class NuxeoDocHelper {
             return null;
         }
 
-        DocumentModelList rootList = session.getChildren(welcomeRef);
-        Map<DocumentModel, DocumentModelList> rootAndChildren = new HashMap<DocumentModel, DocumentModelList>();
-        if (rootList != null) {
-            for (DocumentModel root : rootList) {
-                DocumentModelList children = session.getChildren(root.getRef());
-                rootAndChildren.put(root, children);
-            }
-        }
-
-        return rootAndChildren;
+        return session.getChildren(welcomeRef);
     }
 }
