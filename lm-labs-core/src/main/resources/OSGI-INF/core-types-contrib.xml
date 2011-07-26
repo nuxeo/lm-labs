@@ -10,6 +10,7 @@
 		point="schema">
 		<schema name="page" prefix="pg" src="schemas/page.xsd" />
 		<schema name="page_news" prefix="pgn" src="schemas/page_news.xsd" />
+		<schema name="labsnews" prefix="ln" src="schemas/labsnews.xsd" />
 		<schema name="page_liste" prefix="pgl" src="schemas/page_liste.xsd" />
 		<schema name="page_blocs" prefix="pgb" src="schemas/page_blocs.xsd" />
 		<!-- <schema name="theme" src="schemas/theme.xsd" /> -->
@@ -62,6 +63,12 @@
 		<doctype name="PageNews" extends="Page">
 			<schema name="file" />
 			<schema name="page_news" />
+		</doctype>
+
+		<doctype name="LabsNews" extends="Document">
+			<schema name="dublincore" />
+			<schema name="file" />
+			<schema name="labsnews" />
 		</doctype>
 
 		<doctype name="PageClasseur" extends="Page">
