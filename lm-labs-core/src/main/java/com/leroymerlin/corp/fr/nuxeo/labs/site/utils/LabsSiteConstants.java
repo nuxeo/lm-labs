@@ -1,5 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 
 public final class LabsSiteConstants {
@@ -21,6 +24,17 @@ public final class LabsSiteConstants {
         private String name;
         private String docType;
 
+        private static final Map<String, Docs> stringToEnum = new HashMap<String, Docs>();
+        static { // Initialize map from constant name to enum constant
+            for (Docs op : values())
+                stringToEnum.put(op.type(), op);
+        }
+        
+        // Returns Operation for string, or null if string is invalid
+        public static Docs fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
+        
         private Docs(String docType, String name) {
             this.name = name;
             this.docType = docType;

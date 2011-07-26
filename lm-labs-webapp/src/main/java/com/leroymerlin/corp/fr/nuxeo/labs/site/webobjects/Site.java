@@ -22,9 +22,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 @Produces("text/html; charset=UTF-8")
 public class Site extends DocumentObject {
 
-    private static final String WELCOME = "welcome";
-    public static final String SITE_VIEW = "index";
-
     @Path("id/{idPage}")
     public Object doGetPageId(@PathParam("idPage") final String idPage){
         DocumentRef docRef = new IdRef(idPage);
@@ -42,34 +39,17 @@ public class Site extends DocumentObject {
         }
     }
 
-    @Path("{path}")
-    @Override public Resource traverse(@PathParam("path") String pageName) {
-        if (WELCOME.equals(pageName)){
-            try {
-                DocumentModel destDoc = getCoreSession().getDocument(new PathRef(doc.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName() + "/" + LabsSiteConstants.Docs.WELCOME.docName()));
-                return newObject(LabsSiteConstants.Docs.WELCOME.type(), destDoc);
-            } catch (ClientException e) {
-                throw WebException.wrap("Page with name '" + WELCOME + "' not found.", e);
-            }
-        }
+    @Override public DocumentObject newDocument(String path) {
         try {
-            DocumentModel tree = getCoreSession().getChild(doc.getRef(), LabsSiteConstants.Docs.TREE.docName());
-            StringBuffer sb = new StringBuffer("SELECT * FROM Document");
-            sb.append(" WHERE ecm:parentId = '").append(tree.getId()).append("'");
-            sb.append(" and ecm:name = '").append(pageName).append("'");
-            DocumentModelList pages = getCoreSession().query(sb.toString());
-            if (pages.isEmpty()) {
-                throw new WebException("Page with name '" + pageName + "' not found.");
+            PathRef pathRef = new PathRef(doc.getPath().append("/" + LabsSiteConstants.Docs.TREE.docName()).append(path).toString());
+            DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
+            if (LabsSiteConstants.Docs.fromString(doc.getType()) == null) {
+                throw new WebException("Unsupported document type " + doc.getType());
             }
-            DocumentModel destDoc = pages.get(0);
-            if (LabsSiteConstants.Docs.LABSNEWS.type().equals(destDoc.getType())){
-                return newObject(destDoc.getType(), destDoc);
-            }
-            else{
-                throw new WebDocumentException("Type not supported");
-            }
-        } catch (ClientException e) {
-            throw WebException.wrap("Page with name '" + pageName + "' not found.", e);
+            return (DocumentObject) ctx.newObject(doc.getType(), doc);
+        } catch (Exception e) {
+            throw WebException.wrap(e);
         }
     }
+
 }
