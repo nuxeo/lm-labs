@@ -6,15 +6,12 @@ import javax.ws.rs.Produces;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
-import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
-import org.nuxeo.ecm.webengine.model.exceptions.WebDocumentException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
@@ -28,11 +25,11 @@ public class Site extends DocumentObject {
         try {
             DocumentModel destDoc = ctx.getCoreSession().getDocument(docRef);
             String type = null;
-            if (LabsSiteConstants.Docs.PAGENEWS.type().equals(destDoc.getType())){
+            if (LabsSiteConstants.Docs.fromString(doc.getType()) != null) {
                 return newObject(type, destDoc);
             }
             else{
-                throw new WebDocumentException("Type not supported");
+                throw new WebException("Unsupported document type " + doc.getType());
             }
         } catch (ClientException e) {
             throw WebException.wrap("The document id='" + idPage + "' not exists", e);
@@ -50,6 +47,14 @@ public class Site extends DocumentObject {
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
+    }
+
+    /* (non-Javadoc)
+     * @see org.nuxeo.ecm.core.rest.DocumentObject#doGet()
+     */
+    @Override
+    public Object doGet() {
+        return redirect(getPath() + "/" + LabsSiteConstants.Docs.WELCOME.docName());
     }
 
 }
