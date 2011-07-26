@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.news.Adapter">
+
+  <documentation>
+    Defines News document adapter
+  </documentation>
+
+  <!-- News Document Adapter -->
+  <extension target="org.nuxeo.ecm.core.api.DocumentAdapterService"
+    point="adapters">
+    <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNewsAdapterFactory" />
+  </extension>
+  
+</component>

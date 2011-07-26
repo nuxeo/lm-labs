@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/news"
+  	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/news">
+  	
+  	<xs:element name="accroche" type="xs:string"></xs:element>
+  	<xs:element name="content" type="xs:string"></xs:element>
+  	<xs:element name="startPublication" type="xs:date"></xs:element>
+  	<xs:element name="endPublication" type="xs:date"></xs:element>
+  	
+  	<xs:element name="template" type="xs:string"></xs:element>
+</xs:schema>
