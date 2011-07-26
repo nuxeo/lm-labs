@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.classeur;
 
-public class PageClasseurAdapter implements PageClasseur {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+
+public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
 
 }

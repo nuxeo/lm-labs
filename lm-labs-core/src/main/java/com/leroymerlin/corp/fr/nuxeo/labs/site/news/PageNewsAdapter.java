@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
-public class PageNewsAdapter implements PageNews {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+
+public class PageNewsAdapter extends AbstractPage implements PageNews {
 
 }

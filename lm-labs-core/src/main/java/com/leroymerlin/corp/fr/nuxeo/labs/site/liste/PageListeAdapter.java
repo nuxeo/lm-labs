@@ -3,7 +3,9 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.liste;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
-public class PageListeAdapter implements PageListe {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+
+public class PageListeAdapter extends AbstractPage implements PageListe {
     private final DocumentModel doc;
 
     public PageListeAdapter(DocumentModel doc) {
