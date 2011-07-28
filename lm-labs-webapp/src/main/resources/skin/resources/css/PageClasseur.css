@@ -1,0 +1,59 @@
+#table {
+	width: 900px;
+}
+
+#table p {
+	clear: both;
+	width: 100%;
+	margin: 3px;
+}
+
+div.row {
+	border-bottom: 1px solid;
+	border-top:none;
+}
+
+#table span {
+	float: left;
+	padding: 0 10px;
+	font-family: verdana;
+	font-size: 11px;
+}
+
+#table span.colCheckBox {
+	width: 10px;
+}
+
+#table span.colIcon {
+	width: 10px;
+	padding-top: 2px;
+}
+
+#table span.colFileName {
+	width: 350px;
+}
+
+#table span.colDescription {
+	width: 150px;
+}
+
+#table span.colFilesize {
+	width: 70px;
+}
+
+#table span.colVersion {
+	width: 20px;
+}
+
+#table span.colModified {
+	width: 200px;
+}
+
+#table span.colCreator {
+	width: 80px;
+}
+
+#table span.colFolderTitle {
+	width: 250px;
+}
+
