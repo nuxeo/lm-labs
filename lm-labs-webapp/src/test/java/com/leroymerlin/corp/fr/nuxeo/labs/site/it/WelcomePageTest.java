@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.runtime.test.runner.Deploy;
@@ -23,6 +24,7 @@ import com.google.inject.Inject;
 @Jetty(port = 8084)
 @Deploy( { "com.leroymerlin.corp.fr.nuxeo.portal.user",
         "org.nuxeo.ecm.platform.usermanager" })
+@Ignore
 public class WelcomePageTest {
 
     @Inject
