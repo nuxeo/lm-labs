@@ -19,10 +19,15 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
-public final class NuxeoDocHelperTest {
+public final class LabsSiteUtilsTest {
 
     @Inject
     private CoreSession session;
+
+    @Test
+    public void iCanGetSitesRoot() throws Exception {
+        assertNotNull(LabsSiteUtils.getSitesRoot(session));
+    }
 
     @Test
     @Deprecated
@@ -96,7 +101,7 @@ public final class NuxeoDocHelperTest {
                 + LabsSiteConstants.Docs.TREE.docName() + "/"
                 + LabsSiteConstants.Docs.WELCOME.docName() + "/folder2/sub2_1")));
 
-        DocumentModelList rootFolder = NuxeoDocHelper.getRootFolder(site1,
+        DocumentModelList rootFolder = LabsSiteUtils.getRootFolder(site1,
                 session);
         assertNotNull(rootFolder);
         assertEquals(3, rootFolder.size());

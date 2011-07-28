@@ -35,9 +35,7 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
         "org.nuxeo.ecm.platform.rating.api",
         "org.nuxeo.ecm.platform.rating.core",
 
-        "org.nuxeo.ecm.platform.rating.core",
         "org.nuxeo.ecm.core.persistence",
-        "org.nuxeo.ecm.platform.rating.api",
         "org.nuxeo.ecm.platform.tag",
         "org.nuxeo.ecm.platform.content.template",
         "org.nuxeo.ecm.platform.filemanager.api",
