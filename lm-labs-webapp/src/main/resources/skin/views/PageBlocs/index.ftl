@@ -9,9 +9,11 @@
     HEADER
     </div>
     <div id="content" class="pageBlocs">
-      <div id="comment">Bienvenue sur le site '${siteName}'</div>
       <div id="sidebar">
         SIDEBAR
+      </div>
+      <div id="comment">
+      	Bienvenue sur le site '${siteName}'
       </div>
       <#assign i=1>
       <#list rootFolder as root>
