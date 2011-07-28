@@ -4,7 +4,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
-public class AbstractPage implements Page {
+public abstract class AbstractPage implements Page {
     
     protected DocumentModel doc;
 

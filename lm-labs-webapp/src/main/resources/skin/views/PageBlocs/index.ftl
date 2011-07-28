@@ -13,7 +13,9 @@
         SIDEBAR
       </div>
       <div id="comment">
-      	Bienvenue sur le site '${siteName}'
+      	Bienvenue sur le site '${This.name}'
+      	<br />
+      	${This.description}${This.desc}
       </div>
       <#assign i=1>
       <#list rootFolder as root>

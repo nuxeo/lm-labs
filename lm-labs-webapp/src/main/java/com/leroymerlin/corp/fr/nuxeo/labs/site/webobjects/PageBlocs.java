@@ -8,13 +8,14 @@ import javax.ws.rs.Produces;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 /**
  * @author fvandaele
- *
+ * 
  */
 @WebObject(type = "PageBlocs")
 @Produces("text/html; charset=UTF-8")
@@ -31,7 +32,6 @@ public class PageBlocs extends DocumentObject {
         // get children
         CoreSession session = getContext().getCoreSession();
         // set variable
-        template.arg("siteName", doc.getName());
         try {
             template.arg("rootFolder", session.getChildren(doc.getRef()));
         } catch (ClientException e) {
@@ -40,6 +40,19 @@ public class PageBlocs extends DocumentObject {
         }
 
         return template;
+    }
+
+    public String getDescription() {
+        try {
+            return doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs.class).getDescription();
+        } catch (PropertyException e) {
+            // FIXME log
+            e.printStackTrace();
+        } catch (ClientException e) {
+            // FIXME log
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

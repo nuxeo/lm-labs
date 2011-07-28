@@ -2,7 +2,7 @@
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.Adapters">
 
   <documentation>
-    Defines News document adapter
+    Defines Page document adapter
   </documentation>
 
   <extension target="org.nuxeo.ecm.core.api.DocumentAdapterService"

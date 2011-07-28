@@ -9,5 +9,4 @@ public class PageBlocsAdapter extends AbstractPage implements PageBlocs {
     public PageBlocsAdapter(DocumentModel doc) {
         this.doc = doc;
     }
-
 }
