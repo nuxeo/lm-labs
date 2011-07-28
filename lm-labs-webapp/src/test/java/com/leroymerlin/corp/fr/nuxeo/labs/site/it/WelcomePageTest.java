@@ -21,7 +21,6 @@ import com.google.inject.Inject;
 @HomePage(type = LabsSiteWelcomePage.class, url = "http://localhost:8084/labssites/site-ofm/welcome")
 @Jetty(port = 8084)
 @RepositoryConfig(init = OfmRepositoryInit.class)
-@Ignore
 public class WelcomePageTest {
 
     @Inject
