@@ -33,7 +33,8 @@ public class SitesRoot extends ModuleRoot {
     public Object doGetSite(@PathParam("siteName") final String siteName)
             throws ClientException {
         CoreSession session = getContext().getCoreSession();
-        PathRef siteRef = new PathRef(DOMAIN_PATH + "/" + LabsSiteConstants.Docs.SITESROOT.docName() + "/" + siteName);
+        PathRef siteRef = new PathRef(DOMAIN_PATH + "/"
+                + LabsSiteConstants.Docs.SITESROOT.docName() + "/" + siteName);
         if (getContext().getCoreSession().exists(siteRef)) {
             DocumentModel doc = session.getDocument(siteRef);
             return newObject("site", doc);

@@ -4,10 +4,22 @@ body {
 	margin-right: auto;
 }
 
-#header {
-	
+div#header {
+	width: 100%;
+	height: 100px;
+	background-color:#00CCFF;
 }
 
-#footer {
-
+div#footer {
+	width: 100%;
+	height: 150px;
+	background-color:#33FF99;
+}
+div#content {
+	width: 100%;
+	height: 600px;	
+}
+div#comment {
+	width: 100%;	
+	height: 70px;
 }

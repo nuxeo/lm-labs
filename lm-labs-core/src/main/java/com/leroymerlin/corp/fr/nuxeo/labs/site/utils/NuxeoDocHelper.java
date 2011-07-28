@@ -8,6 +8,7 @@ import org.nuxeo.ecm.core.api.PathRef;
 
 public final class NuxeoDocHelper {
 
+    @Deprecated
     public static final DocumentModelList getRootFolder(
             final DocumentModel site, final CoreSession session)
             throws ClientException {

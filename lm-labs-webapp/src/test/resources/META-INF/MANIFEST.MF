@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 1
+Bundle-Name: lm-labs-webapp
+Bundle-SymbolicName: com.leroymerlin.labs.webapp.test;singleton:=true
+Bundle-Vendor: Nuxeo

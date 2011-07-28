@@ -1,7 +1,17 @@
+div#sidebar {
+	float: left;
+	width: 160px;
+	height: 600px;
+	background-color:#FF6699;
+}
 .pageBlocs {
-	border: 1px solid #BBB;
 }
 
 .bloc {
-	border: 1px solid #AAA;
+	border: 1px solid #BBB;
+	display: inline-block;
+    width: 40%;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    vertical-align: top;
 }

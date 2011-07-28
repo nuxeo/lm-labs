@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
@@ -12,8 +12,6 @@ import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.NuxeoDocHelper;
-
 /**
  * @author fvandaele
  *
@@ -21,9 +19,9 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.NuxeoDocHelper;
 @WebObject(type = "PageBlocs")
 @Produces("text/html; charset=UTF-8")
 public class PageBlocs extends DocumentObject {
-    
+
     public static final String SITE_VIEW = "index";
-    
+
     @GET
     @Override
     public Object doGet() {
@@ -35,9 +33,9 @@ public class PageBlocs extends DocumentObject {
         // set variable
         template.arg("siteName", doc.getName());
         try {
-            template.arg("rootFolder",
-                    NuxeoDocHelper.getRootFolder(doc, session));
+            template.arg("rootFolder", session.getChildren(doc.getRef()));
         } catch (ClientException e) {
+            // FIXME log
             e.printStackTrace();
         }
 

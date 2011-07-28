@@ -20,28 +20,34 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 public class Site extends DocumentObject {
 
     @Path("id/{idPage}")
-    public Object doGetPageId(@PathParam("idPage") final String idPage){
+    public Object doGetPageId(@PathParam("idPage") final String idPage) {
         DocumentRef docRef = new IdRef(idPage);
         try {
             DocumentModel destDoc = ctx.getCoreSession().getDocument(docRef);
             String type = null;
             if (LabsSiteConstants.Docs.fromString(doc.getType()) != null) {
                 return newObject(type, destDoc);
-            }
-            else{
-                throw new WebException("Unsupported document type " + doc.getType());
+            } else {
+                throw new WebException("Unsupported document type "
+                        + doc.getType());
             }
         } catch (ClientException e) {
-            throw WebException.wrap("The document id='" + idPage + "' not exists", e);
+            throw WebException.wrap("The document id='" + idPage
+                    + "' not exists", e);
         }
     }
 
-    @Override public DocumentObject newDocument(String path) {
+    @Override
+    public DocumentObject newDocument(String path) {
         try {
-            PathRef pathRef = new PathRef(doc.getPath().append("/" + LabsSiteConstants.Docs.TREE.docName()).append(path).toString());
+            PathRef pathRef = new PathRef(
+                    doc.getPath().append(
+                            "/" + LabsSiteConstants.Docs.TREE.docName()).append(
+                            path).toString());
             DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
             if (LabsSiteConstants.Docs.fromString(doc.getType()) == null) {
-                throw new WebException("Unsupported document type " + doc.getType());
+                throw new WebException("Unsupported document type "
+                        + doc.getType());
             }
             return (DocumentObject) ctx.newObject(doc.getType(), doc);
         } catch (Exception e) {
@@ -49,12 +55,15 @@ public class Site extends DocumentObject {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.nuxeo.ecm.core.rest.DocumentObject#doGet()
      */
     @Override
     public Object doGet() {
-        return redirect(getPath() + "/" + LabsSiteConstants.Docs.WELCOME.docName());
+        return redirect(getPath() + "/"
+                + LabsSiteConstants.Docs.WELCOME.docName());
     }
 
 }

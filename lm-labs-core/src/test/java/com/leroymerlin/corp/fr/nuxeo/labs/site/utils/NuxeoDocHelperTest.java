@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -27,6 +25,7 @@ public final class NuxeoDocHelperTest {
     private CoreSession session;
 
     @Test
+    @Deprecated
     public void canGetRootFolderAndChildren() throws ClientException {
         // SITE ROOT
         DocumentModel sitesRoot = session.getDocument(new PathRef(

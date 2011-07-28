@@ -9,16 +9,18 @@
 		HEADER
 		</div>
 		<div id="content" class="pageBlocs">
-			Bienvenue sur le site '${siteName}'
 			<div id="sidebar">
 				SIDEBAR
+			</div>
+			<div id="comment">
+				Bienvenue sur le site '${siteName}'
 			</div>
 			<#assign i=1>
 			<#list rootFolder as root>
 				<div id="bloc${i}" class="bloc">
 					${root.title}
 					<#list Session.getChildren(root.ref) as child>
-						${child.title}
+						<p>${child.title}</p>
 					</#list>
 				</div>
 				<#assign i=i+1>

@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 1
+Bundle-Name: lm-labs-core
+Bundle-SymbolicName: com.leroymerlin.labs.core.test;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: Leroy Merlin
