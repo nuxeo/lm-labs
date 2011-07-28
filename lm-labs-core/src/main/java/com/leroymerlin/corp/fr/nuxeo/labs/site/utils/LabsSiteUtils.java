@@ -6,8 +6,10 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.PathRef;
 
-public final class NuxeoDocHelper {
+public final class LabsSiteUtils {
 
+    private LabsSiteUtils() {}
+    
     @Deprecated
     public static final DocumentModelList getRootFolder(
             final DocumentModel site, final CoreSession session)
@@ -20,5 +22,10 @@ public final class NuxeoDocHelper {
         }
 
         return session.getChildren(welcomeRef);
+    }
+    
+    public static DocumentModel getSitesRoot(final CoreSession session) throws ClientException {
+        return session.getDocument(new PathRef("default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
+        
     }
 }
