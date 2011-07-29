@@ -13,15 +13,12 @@ import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
 @Path("/labssites")
 public class SitesRoot extends ModuleRoot {
-
-    protected static final String DOMAIN_PATH = "/default-domain";
 
     protected static final String DEFAULT_VIEW = "index";
 
