@@ -15,7 +15,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
-@WebObject(type = "site")
+@WebObject(type = "LabsSite")
 @Produces("text/html; charset=UTF-8")
 public class Site extends DocumentObject {
 

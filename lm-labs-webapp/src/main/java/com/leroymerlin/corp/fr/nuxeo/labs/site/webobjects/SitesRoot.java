@@ -34,7 +34,7 @@ public class SitesRoot extends ModuleRoot {
         PathRef siteRef = new PathRef(LabsSiteUtils.getSitesRootPath() + "/" + siteName);
         if (getContext().getCoreSession().exists(siteRef)) {
             DocumentModel doc = session.getDocument(siteRef);
-            return newObject("site", doc);
+            return newObject("LabsSite", doc);
         } else {
             return Response.ok().status(404).build();
         }
