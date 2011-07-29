@@ -1,0 +1,58 @@
+.pageNews {
+	border: 1px solid #BBB;
+}
+
+.news {
+	border: 1px solid #AAA;
+}
+
+.titleNews{
+	padding: 0 10px;
+	font-family: arial,sans-serif;
+	font-size: 25px;
+	font-weight: bold;
+	TEXT-DECORATION: underline;
+}
+
+label{
+	padding: 4px 0 0 10px; 
+}
+
+#newsTitle{
+	width: 720px;
+}
+
+#newsContent{
+	width: 700px;
+	height: 250px;
+}
+
+.labelArea{
+	padding: 125px 0 0 10px; 
+}
+
+.publicationNews{
+	padding: 0 10px;
+	margin-bottom:20px;
+	font-family: Verdana, arial,sans-serif;
+	font-size: 11px;
+}
+
+.contentNews{
+	padding: 0 20px;
+	font-family: arial,sans-serif;
+	font-size: 11px;
+}
+
+.addNews{
+	padding-right: 10px;
+	font-family: arial,sans-serif;
+	text-align: right;
+	TEXT-DECORATION: none;
+}
+
+.newsOK{
+	padding-right: 10px;
+	padding-bottom: 10px;
+	text-align: right;
+}

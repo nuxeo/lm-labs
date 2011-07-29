@@ -2,14 +2,14 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
 import java.util.Calendar;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
-public class LabsNewsAdapter implements LabsNews {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 
-    private final DocumentModel doc;
+public class LabsNewsAdapter extends AbstractPage implements LabsNews {
 
-    static final String TITLE = "dublincore:title";
     static final String CREATOR = "dublincore:creator";
     static final String LAST_CONTRIBUTOR = "dublincore:lastContributor";
     
@@ -24,10 +24,6 @@ public class LabsNewsAdapter implements LabsNews {
         this.doc = doc;
     }
     
-    @Override
-    public String getTitle() throws ClientException {
-        return (String) doc.getPropertyValue(TITLE);
-    }
     @Override
     public Calendar getStartPublication() throws ClientException  {
         return (Calendar) doc.getPropertyValue(START_PUBLICATION);
@@ -46,12 +42,9 @@ public class LabsNewsAdapter implements LabsNews {
 
     @Override
     public String getContent() throws ClientException {
-        return (String) doc.getPropertyValue(CONTENT);
-    }
-
-    @Override
-    public void setTitle(String title) throws ClientException {
-        doc.setPropertyValue(TITLE, title);        
+        String content = (String) doc.getPropertyValue(CONTENT);
+        content = content.replaceAll("\n", "<br/>");
+        return content;
     }
 
     @Override
@@ -95,8 +88,16 @@ public class LabsNewsAdapter implements LabsNews {
 
     @Override
     public String getLastContributor() throws ClientException {
-        // TODO Auto-generated method stub
-        return (String) doc.getPropertyValue(LAST_CONTRIBUTOR);
+        String lastContributor = (String) doc.getPropertyValue(LAST_CONTRIBUTOR);
+        if (StringUtils.isEmpty(lastContributor)){
+            lastContributor = getCreator();
+        }
+        return lastContributor;
+    }
+
+    @Override
+    public DocumentModel getDocumentModel() {
+        return doc;
     }
 
 }

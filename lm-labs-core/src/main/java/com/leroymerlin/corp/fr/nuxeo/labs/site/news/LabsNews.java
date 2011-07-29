@@ -3,6 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 import java.util.Calendar;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.DocumentModel;
 
 
 public interface LabsNews{
@@ -34,4 +35,6 @@ public interface LabsNews{
     String getNewsTemplate() throws ClientException;
     
     void setNewsTemplate(String pNewsTemplate) throws ClientException;
+    
+    DocumentModel getDocumentModel();
 }
