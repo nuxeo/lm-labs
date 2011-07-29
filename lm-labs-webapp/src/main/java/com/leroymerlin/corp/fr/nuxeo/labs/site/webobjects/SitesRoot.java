@@ -14,6 +14,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
@@ -33,8 +34,7 @@ public class SitesRoot extends ModuleRoot {
     public Object doGetSite(@PathParam("siteName") final String siteName)
             throws ClientException {
         CoreSession session = getContext().getCoreSession();
-        PathRef siteRef = new PathRef(DOMAIN_PATH + "/"
-                + LabsSiteConstants.Docs.SITESROOT.docName() + "/" + siteName);
+        PathRef siteRef = new PathRef(LabsSiteUtils.getSitesRootPath() + "/" + siteName);
         if (getContext().getCoreSession().exists(siteRef)) {
             DocumentModel doc = session.getDocument(siteRef);
             return newObject("site", doc);

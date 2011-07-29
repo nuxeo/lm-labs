@@ -25,7 +25,11 @@ public final class LabsSiteUtils {
     }
     
     public static DocumentModel getSitesRoot(final CoreSession session) throws ClientException {
-        return session.getDocument(new PathRef("default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
+        return session.getDocument(new PathRef(getSitesRootPath()));
         
+    }
+
+    public static String getSitesRootPath() {
+        return "default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName();
     }
 }
