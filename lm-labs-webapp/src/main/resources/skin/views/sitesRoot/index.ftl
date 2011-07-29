@@ -1,6 +1,6 @@
 <html>
 <head><title>Site Root</title></head>
 <body>
-Site Root
+  <div class="info">Site Root</div>
 </body>
 </html>
