@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.features;
 
 import javax.sql.DataSource;
 

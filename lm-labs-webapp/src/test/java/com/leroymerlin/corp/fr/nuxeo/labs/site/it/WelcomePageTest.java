@@ -15,6 +15,9 @@ import org.nuxeo.runtime.test.runner.web.BrowserFamily;
 import org.nuxeo.runtime.test.runner.web.HomePage;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LabsSiteWelcomePage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.OfmRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
