@@ -1,8 +1,13 @@
 <html>
   <head>
     <title>${siteName}</title>
+    <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
+	<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+    
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/labssite.css"/>
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/page_blocs.css"/>
+	<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
   </head>
   <body>
     <div id="header">
@@ -15,7 +20,10 @@
       <div id="comment">
       	Bienvenue sur le site '${This.name}'
       	<br />
-      	${This.description}${This.desc}
+      	${This.description}
+      	<br />
+      	<#-- wysiwyg editor parameters -->
+      	<#include "views/common/wysiwyg_editor.ftl" />
       </div>
       <#assign i=1>
       <#list rootFolder as root>

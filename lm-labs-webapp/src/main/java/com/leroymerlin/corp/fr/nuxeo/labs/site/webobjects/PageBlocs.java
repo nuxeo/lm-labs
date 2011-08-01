@@ -44,7 +44,8 @@ public class PageBlocs extends DocumentObject {
 
     public String getDescription() {
         try {
-            return doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs.class).getDescription();
+            return doc.getAdapter(
+                    com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs.class).getDescription();
         } catch (PropertyException e) {
             // FIXME log
             e.printStackTrace();
@@ -54,5 +55,4 @@ public class PageBlocs extends DocumentObject {
         }
         return null;
     }
-
 }
