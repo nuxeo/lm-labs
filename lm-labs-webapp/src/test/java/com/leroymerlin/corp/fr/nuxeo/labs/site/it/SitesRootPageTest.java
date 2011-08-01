@@ -1,6 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +12,9 @@ import org.nuxeo.runtime.test.runner.web.BrowserFamily;
 import org.nuxeo.runtime.test.runner.web.HomePage;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LabsSiteWelcomePage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
