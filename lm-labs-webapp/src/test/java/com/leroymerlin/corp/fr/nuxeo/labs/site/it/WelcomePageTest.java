@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Ignore;
@@ -18,8 +19,8 @@ import com.google.inject.Inject;
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
 @Browser(type = BrowserFamily.FIREFOX)
-@HomePage(type = LabsSiteWelcomePage.class, url = "http://localhost:8084/labssites/site-ofm/welcome")
-@Jetty(port = 8084)
+@HomePage(type = LabsSiteWelcomePage.class, url = "http://localhost:8089/labssites/ofm/welcome")
+@Jetty(port = 8089)
 @RepositoryConfig(init = OfmRepositoryInit.class)
 @Ignore
 public class WelcomePageTest {
@@ -28,7 +29,21 @@ public class WelcomePageTest {
     LabsSiteWelcomePage ofmWelcomePage;
 
     @Test
-    public void displayWelcomePage() throws Exception {
-        assertTrue(ofmWelcomePage.hasMainDiv());
+    public void pageIsReachable() throws Exception {
+        assertNotNull(ofmWelcomePage);
     }
+
+    @Test
+    public void pageHasHeader() throws Exception {
+        assertTrue(ofmWelcomePage.hasHeader());
+    }
+    
+//    private void ensureLogged() {
+//        LoginPage login = ofmWelcomePage.getLoginPage();
+//        if (!login.isAuthenticated()) {
+//            login.ensureLogin("Administrator", "Administrator");
+//        }
+//
+//    }
+
 }

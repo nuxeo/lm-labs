@@ -8,9 +8,10 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import org.nuxeo.runtime.test.runner.SimpleFeature;
 
+@Features({ WebEngineFeature.class })
 @Deploy({
-    "com.leroymerlin.labs.core",
     "com.leroymerlin.labs.webapp",
+    "com.leroymerlin.labs.core",
     "org.nuxeo.ecm.platform.picture.core",
     "org.nuxeo.ecm.platform.picture.api",
         "org.nuxeo.ecm.platform.picture.convert",
@@ -29,7 +30,6 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
 //        "org.nuxeo.ecm.directory.sql",
 //        "com.leroymerlin.corp.fr.nuxeo.portal.picturebook.webapp.test:default-sql-directories.xml"
         })
-@Features({ WebEngineFeature.class })
 public class LabsWebAppFeature extends SimpleFeature {
 
     private static DataSource dataSource = null;

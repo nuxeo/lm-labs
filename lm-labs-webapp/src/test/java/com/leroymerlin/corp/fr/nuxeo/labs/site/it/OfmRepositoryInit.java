@@ -13,7 +13,7 @@ public class OfmRepositoryInit implements RepositoryInit {
     @Override
     public void populate(CoreSession session) throws ClientException {
         DocumentModel root = LabsSiteUtils.getSitesRoot(session);
-        DocumentModel ofm = session.createDocumentModel(root.getPathAsString(), "site-ofm", LabsSiteConstants.Docs.SITE.type());
+        DocumentModel ofm = session.createDocumentModel(root.getPathAsString(), "ofm", LabsSiteConstants.Docs.SITE.type());
         session.createDocument(ofm);
         session.save();
     }

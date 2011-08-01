@@ -6,15 +6,25 @@ import org.openqa.selenium.support.ui.TimeoutException;
 
 public class LabsSiteWelcomePage extends WebPage {
 
-    private static final int WAITING_TIME = 10;
+    private static final int WAITING_TIME = 120;
 
-    public boolean hasMainDiv() {
+    @Override
+    public WebPage ensureLoaded() {
+        waitUntilElementFound(By.id("pageBlocs"), 5);
+        return super.ensureLoaded();
+    }
+
+    public boolean hasHeader() {
         try {
-            this.waitUntilElementFound(By.className("pageBlocs"), WAITING_TIME);
+            this.waitUntilElementFound(By.id("header"), WAITING_TIME);
             return true;
         } catch (TimeoutException e) {
             return false;
         }
     }
+
+//    public LoginPage getLoginPage() {
+//        return getPage(LoginPage.class);
+//    }
     
 }
