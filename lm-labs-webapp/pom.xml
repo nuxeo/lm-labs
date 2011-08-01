@@ -59,6 +59,11 @@
       <artifactId>nuxeo-platform-rating-core</artifactId>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+		<groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
+		<artifactId>lm-portal-common</artifactId>
+	</dependency>
 
     <dependency>
       <groupId>org.nuxeo.ecm.platform</groupId>

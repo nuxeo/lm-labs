@@ -354,6 +354,12 @@
         <artifactId>nuxeo-platform-rating-facade</artifactId>
         <version>${lm.nuxeo.version}</version>
       </dependency>
+      
+      <dependency>
+		<groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
+		<artifactId>lm-portal-common</artifactId>
+		<version>${lm.nuxeo.version}</version>
+	</dependency>
 
       <dependency>
         <groupId>junit</groupId>
