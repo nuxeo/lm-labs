@@ -249,12 +249,6 @@
       </dependency>
       <dependency>
         <groupId>org.nuxeo.runtime</groupId>
-        <artifactId>nuxeo-runtime-test</artifactId>
-        <version>${nuxeo.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.runtime</groupId>
         <artifactId>nuxeo-runtime</artifactId>
         <version>${nuxeo.version}</version>
       </dependency>
@@ -318,25 +312,6 @@
         <artifactId>nuxeo-features-test</artifactId>
         <version>${nuxeo.version}</version>
         <scope>test</scope>
-      </dependency>
-
-
-      <dependency>
-        <groupId>org.nuxeo.runtime</groupId>
-        <artifactId>nuxeo-runtime-test</artifactId>
-        <version>${nuxeo.version}</version>
-        <scope>test</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.nuxeo.ecm.opensocial</groupId>
-        <artifactId>nuxeo-spaces-api</artifactId>
-        <version>${nuxeo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.nuxeo.ecm.opensocial</groupId>
-        <artifactId>nuxeo-spaces-core</artifactId>
-        <version>${nuxeo.version}</version>
       </dependency>
 
       <dependency>
@@ -577,12 +552,6 @@
       <dependency>
         <groupId>org.nuxeo.ecm.platform</groupId>
         <artifactId>nuxeo-platform-directory-core</artifactId>
-        <version>${nuxeo.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.nuxeo.ecm.platform</groupId>
-        <artifactId>nuxeo-platform-directory-api</artifactId>
         <version>${nuxeo.version}</version>
       </dependency>
 
