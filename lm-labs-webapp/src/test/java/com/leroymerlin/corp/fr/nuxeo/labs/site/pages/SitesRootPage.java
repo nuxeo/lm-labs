@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.pages;
 
 import org.nuxeo.runtime.test.runner.web.WebPage;
 import org.openqa.selenium.By;
