@@ -25,7 +25,7 @@
         <@block name="css">
         <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
         <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/labsite.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/labssite.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/theme/main.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" />
         <!--<link rel="search" type="application/opensearchdescription+xml" title="Intralm" href="/nuxeo/site/skin/Intralm/searchIntralm.xml">-->
