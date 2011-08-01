@@ -35,26 +35,22 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
 
     @Override
     public String getAccroche() throws ClientException {
-        String acc = (String) doc.getPropertyValue(ACCROCHE);
-        acc = acc.replaceAll("\n", "<br/>");
-        return acc;
+        return (String) doc.getPropertyValue(ACCROCHE);
     }
 
     @Override
     public String getContent() throws ClientException {
-        String content = (String) doc.getPropertyValue(CONTENT);
-        content = content.replaceAll("\n", "<br/>");
-        return content;
+        return (String) doc.getPropertyValue(CONTENT);
     }
 
     @Override
     public void setAccroche(String pAccroche) throws ClientException {
-        doc.setPropertyValue(ACCROCHE, pAccroche); 
+        doc.setPropertyValue(ACCROCHE, pAccroche);
     }
 
     @Override
     public void setContent(String pContent) throws ClientException {
-        doc.setPropertyValue(CONTENT, pContent); 
+        doc.setPropertyValue(CONTENT, pContent);
     }
 
     @Override
