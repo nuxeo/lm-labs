@@ -7,7 +7,7 @@
         <meta name="author" content="Damien Metzler">
         <meta name="gwt:property" content="locale=fr">
         <!-- Date: 2011-07-15 -->
-        <base href="${Context.basePath}/portail" />
+        <base href="${Context.basePath}/labssites" />
         </@block>
 
         <title>
@@ -17,15 +17,18 @@
         </title>
 
         <@block name="scripts">
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.3.2.min.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.js"></script>
         </@block>
 
         <@block name="css">
         <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
         <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
-        <link rel="stylesheet" type="text/css" media="all" href="/nuxeo/site/portalCommon/skin/css/theme/main.css"/>
-        <link rel="search" type="application/opensearchdescription+xml" title="Intralm" href="/nuxeo/site/skin/Intralm/searchIntralm.xml">
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/labsite.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/theme/main.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" />
+        <!--<link rel="search" type="application/opensearchdescription+xml" title="Intralm" href="/nuxeo/site/skin/Intralm/searchIntralm.xml">-->
         </@block>
 
     </head>
@@ -33,14 +36,13 @@
         <div id="FKtopContent">
 
             <@block name="topHeader">
-            <div id="FKtopHeader">
-                <!-- In this header, all div are float left except div id="_rightHeader" -->
+             <div id="FKtopHeader">
+                <!--In this header, all div are float left except div id="_rightHeader" -->
 
                 <div id="FKbacktointralm" >
                     <a href="${Context.basePath}/portail">${Context.getMessage('label.backToHome')}</a>
                 </div>
                 <div class="FKbgBlackSep">&nbsp;</div>
-                <div id="FKcurrentDate">${This.getCurrentDate()}</div>
                 <div id="FKrightHeader">
                     <div class="FKbgBlackSep">&nbsp;</div>
                     <div id="FKHelp">
@@ -54,25 +56,25 @@
             </@block>
 
             <@block name="banner">
-            <div id="FKbanner">
+            <!--<div id="FKbanner">
                 <form id="FKsearchBox">
                     <span id="FKqimg">&nbsp;</span>
                     <input id="FKq" name="q">&nbsp;<button id="FKsearch" value="${Context.getMessage('label.search')}"/>${Context.getMessage('label.search')}</button>
                 </form>
-            </div>
+            </div>-->
             </@block>
 
             <div id="FKmaincontent">
                 <@block name="tabs">
-                  <li class="FKselected home">&nbsp;Accueil</li>
-              <li class="team">&nbsp;Equipe</li>
-              <li class="team">&nbsp;Services internes</li>
-                  <li class="myspace">&nbsp;My Custom Administrator</li>
+                 <!-- <li class="FKselected home">&nbsp;Accueil</li>
+              	  <li class="team">&nbsp;Equipe</li>
+                  <li class="team">&nbsp;Services internes</li>
+                  <li class="myspace">&nbsp;My Custom Administrator</li>-->
                 </@block>
 
                 <@block name="manager">
 
-                <div id="FKmanagerTabPanel">
+               <!-- <div id="FKmanagerTabPanel">
                     <ul id="FKmanagerTabs">
                         <li class="selected">Widget</li>
                         <li>Thèmes</li>
@@ -103,7 +105,7 @@
                         <div style="clear:both;"></div>
                     </div>
 
-                </div>
+                </div>-->
             </div>
             </@block>
 
