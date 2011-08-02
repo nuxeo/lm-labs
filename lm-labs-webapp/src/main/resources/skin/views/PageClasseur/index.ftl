@@ -1,29 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="fr">
-    <head>
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-          <meta name="gwt:property" content="locale=fr">
-
-        <title>
-              ${Context.module.name} - ${This.document.type} ${This.document.title}
-        </title>
+<@extends src="/views/labs-base.ftl">
+	
+	<@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>
      
-          <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
-    </head>
-    <body>
+	<@block name="scripts">
+	  <@superBlock/>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script> 
+        <#--
+        <script type="text/javascript" src="${skinPath}/js/jquery/ui.core.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/ui.dialog.js"></script>
+        -->
+	</@block>
+	
+	<@block name="css">
+	  <@superBlock/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
+	</@block>
 
+	<@block name="content">	
 <h1>${This.document.dublincore.description}</h1>
-
-  <div id="table">
+<div id="table">
 <@displayChildren ref=This.document.ref />
-  </div>
+</div>
   <#--
 <div id="mainContentBox">
   Attachment: <a href="${This.path}/@file?property=file:content">${file.filename}</a>
 </div>
   -->
 
+<div id="div-addfile" style="display: none;" title="${Context.getMessage('label.PageClasseur.form.title')}" >
+  <form enctype="multipart/form-data" id="form-addfile" action="" method="post">
+    <fieldset>
+      <p>
+        <label for="fileId" id="label_fichier">${Context.getMessage('label.PageClasseur.form.filename')}</label>
+        <span><input type="file" size="35" id="fileId" name="simplefile"/></span>
+      </p>
+      <p>
+        <label for="description" id="label_description">${Context.getMessage('label.PageClasseur.form.description')}</label>
+        <textarea name="description" id="description" rows="4" cols="40" ></textarea>
+      </p>
+    </fieldset>
+  </form>
+</div>
 <#macro displayChildren ref recurse=false>
   <#if recurse>
     <#assign children = Session.getChildren(ref)>
@@ -39,30 +59,22 @@
     <span class="colIcon"><img title="${child.type}" alt="${child.type}" src="/nuxeo/${child.common.icon}" /></span>
 	  <#if child.facets?seq_contains("Folderish") == false >
 	    <#assign modifDate = child.dublincore.modified?datetime >
-	    <#assign file = child["file:content"]/>
-	    <span class="colFileName"><#if file.filename>${file.filename}<#else>${child.dublincore.title}</#if></span>
-	    <#--
-	    -->
-	    <#if file.filename>
-	      <span class="colDescription">${child.dublincore.description}</span>
-	      <span class="colFilesize">${(file.length/1024)?ceiling} Ko</span>
-	    <#else>
-	      <span class="colDescription">${child.dublincore.description}</span>
-	      <span class="colFilesize">000</span>
-	    </#if>
+	    <#assign filename = This.getBlobHolder(child).blob.filename >
+	    <span class="colFileName">${filename}</span>
+	    <span class="colDescription">${child.dublincore.description}</span>
+	    <span class="colFilesize">${(This.getBlobHolder(child).blob.length/1024)?ceiling} Ko</span>
 	    <span class="colVersion">${child.versionLabel}</span>
 	    <span class="colModified">${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</span>
 	    <span class="colCreator">${child.dublincore.creator}</span>
-	    
-        </div></p>
+  </div></p>
 	  <#else>
-        <span class="colFolderTitle">${child.dublincore.title}</span>
-        </div></p>
+        <span class="colFolderTitle">${child.dublincore.title} <a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a></span>
+  </div></p>
         <@displayChildren ref=child.ref recurse=true/>
 	  </#if>
   </#list>
   </#if>
 </#macro>
 
-    </body>
-</html>
+	</@block>
+</@extends>	

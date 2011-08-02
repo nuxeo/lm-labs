@@ -32,7 +32,7 @@ public class SitesRoot extends ModuleRoot {
             throws ClientException {
         CoreSession session = getContext().getCoreSession();
         PathRef siteRef = new PathRef(LabsSiteUtils.getSitesRootPath() + "/" + siteName);
-        if (getContext().getCoreSession().exists(siteRef)) {
+        if (session.exists(siteRef)) {
             DocumentModel doc = session.getDocument(siteRef);
             return newObject("LabsSite", doc);
         } else {
