@@ -29,8 +29,17 @@
           <ace principal="everyone" permission="Read" granted="true"/>
       </acl>
       <template>
-        <templateItem typeName="SitesRoot" id="sites" title="Sites" description="Root of Sites"/>
+        <templateItem typeName="SitesRoot" id="sites" title="Sites" description="Root of Sites">
+        </templateItem>
       </template>
+    </factoryBinding>
+
+    <factoryBinding name="SitesRootFactory" factoryName="SimpleTemplateFactory" targetType="SitesRoot">
+      <acl>
+          <ace principal="Administrator" permission="Everything" granted="true"/>
+          <ace granted="true" permission="Everything" principal="members"/>
+          <ace principal="everyone" permission="Read" granted="true"/>
+      </acl>
     </factoryBinding>
 
   </extension>
