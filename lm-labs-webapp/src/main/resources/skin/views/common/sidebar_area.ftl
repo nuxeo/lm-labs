@@ -1,3 +1,4 @@
 <div id="sidebar">
-    SIDEBAR
+    <#-- SITEMAP AREA --> 
+    <#include "views/common/sitemap_area.ftl" />
 </div>
