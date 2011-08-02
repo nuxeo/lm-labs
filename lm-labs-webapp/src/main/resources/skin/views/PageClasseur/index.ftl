@@ -35,15 +35,36 @@
     <fieldset>
       <p>
         <label for="fileId" id="label_fichier">${Context.getMessage('label.PageClasseur.form.filename')}</label>
+      </p>
+      <#-- TODO
+      <p>
+        <span><input type="radio" name="radioFile" value="desktop" checked="checked">${Context.getMessage('label.PageClasseur.form.radio.desktop')}</input></span>
+      </p>
+      -->
+      <p>
         <span><input type="file" size="35" id="fileId" name="simplefile"/></span>
       </p>
+      <#-- TODO
+      <p>
+        <span><input type="radio" name="radioFile" value="web">${Context.getMessage('label.PageClasseur.form.radio.web')}</input></span>
+      </p>
+      <p>
+        <span><input type="text" size="35" id="fileUrl"/><input type="button" id="downloadFile" value="${Context.getMessage('command.PageClasseur.form.download')}"/></span>
+      </p>
+      <p>
+        <span>${Context.getMessage('label.PageClasseur.form.radio.web.displaytext')} <input type="text" size="35" id="displayText"/></span>
+      </p>
+      -->
       <p>
         <label for="description" id="label_description">${Context.getMessage('label.PageClasseur.form.description')}</label>
+      </p>
+      <p>
         <textarea name="description" id="description" rows="4" cols="40" ></textarea>
       </p>
     </fieldset>
   </form>
 </div>
+
 <#macro displayChildren ref recurse=false>
   <#if recurse>
     <#assign children = Session.getChildren(ref)>
@@ -56,7 +77,7 @@
     <#if child.facets?seq_contains("Folderish") == false >
       <span class="colCheckBox"><input type="checkbox" name="checkoptions" value="${child.id}"/></span>
     </#if>
-    <span class="colIcon"><img title="${child.type}" alt="${child.type}" src="/nuxeo/${child.common.icon}" /></span>
+    <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
 	  <#if child.facets?seq_contains("Folderish") == false >
 	    <#assign modifDate = child.dublincore.modified?datetime >
 	    <#assign filename = This.getBlobHolder(child).blob.filename >

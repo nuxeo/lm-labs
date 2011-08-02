@@ -73,7 +73,7 @@ public class PageClasseurResource extends DocumentObject {
             if (blob == null) {
                 throw new IllegalArgumentException("Could not find any uploaded file");
             } else {
-                blob.setFilename(StringUtils.deleteWhitespace(blob.getFilename()));
+                blob.setFilename(blob.getFilename());
                 try {
                     blob.persist();
                     CoreSession coreSession = ctx.getCoreSession();
