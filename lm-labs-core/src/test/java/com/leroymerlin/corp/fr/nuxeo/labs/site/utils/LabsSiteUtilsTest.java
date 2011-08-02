@@ -4,29 +4,48 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.core.test.CoreFeature;
+import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
+import org.nuxeo.ecm.platform.usermanager.UserManager;
+import org.nuxeo.runtime.api.Framework;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityData;
+import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
 
 @RunWith(FeaturesRunner.class)
-@Features(SiteFeatures.class)
+@Features({LMTestDirectoryFeature.class, SiteFeatures.class})
+@RepositoryConfig(user = "Administrator")
 public final class LabsSiteUtilsTest {
 
     @Inject
     private CoreSession session;
 
+    @Inject protected FeaturesRunner featuresRunner;
+
     @Test
     public void iCanGetSitesRoot() throws Exception {
-        assertNotNull(LabsSiteUtils.getSitesRoot(session));
+        DocumentModel root = LabsSiteUtils.getSitesRoot(session);
+        assertNotNull(root);
+        SecurityData data = SecurityDataHelper.buildSecurityData(root);
+        List<String> list = data.getCurrentDocGrant().get(SecurityConstants.MEMBERS);
+        assertTrue(list.contains(SecurityConstants.EVERYTHING));
     }
 
     @Test
@@ -122,4 +141,33 @@ public final class LabsSiteUtilsTest {
             }
         }
     }
+    
+    @Ignore
+    @Test 
+    public void iCanGetSitesRootAsUser() throws Exception {
+        NuxeoPrincipal principal = getUserManager().getPrincipal("CGM");
+        assertNotNull(principal);
+        assertTrue(principal.getAllGroups().contains(SecurityConstants.MEMBERS));
+        CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
+        CoreSession sessionCGM = coreFeature.getRepository().getRepositoryHandler().openSessionAs("CGM");
+//        changeUser("CGM");
+        assertNotNull(LabsSiteUtils.getSitesRoot(sessionCGM));
+//        changeUser("Administrator");
+        coreFeature.getRepository().getRepositoryHandler().releaseSession(sessionCGM);
+    }
+
+    protected void changeUser(String username) throws ClientException {
+        CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
+        session = coreFeature.getRepository().getRepositoryHandler().changeUser(
+                session, username);
+    }
+
+    private UserManager getUserManager() throws Exception {
+        UserManager userManager = Framework.getService(UserManager.class);
+        if (userManager == null) {
+            throw new Exception("unable to get userManager");
+        }
+        return userManager;
+    }
+
 }
