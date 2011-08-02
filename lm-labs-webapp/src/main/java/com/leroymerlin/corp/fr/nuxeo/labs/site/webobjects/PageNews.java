@@ -17,7 +17,6 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.Sorter;
-import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.filter.PageNewsFilter;
@@ -30,7 +29,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
  */
 @WebObject(type = "PageNews")
 @Produces("text/html; charset=UTF-8")
-public class PageNews extends DocumentObject {
+public class PageNews extends Page {
     
     public static final String SITE_VIEW = "index";
 

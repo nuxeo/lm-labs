@@ -23,8 +23,3 @@ div#comment {
 	width: 100%;	
 	min-height: 70px;
 }
-
-.commentButton {
-	float: right;	
-	margin-left: 600px;
-}
