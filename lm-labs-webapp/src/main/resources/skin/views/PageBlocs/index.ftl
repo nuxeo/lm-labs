@@ -16,9 +16,8 @@
     HEADER
     </div>
     <div id="content" class="pageBlocs">
-      <div id="sidebar">
-        SIDEBAR
-      </div>
+      <#-- SIDEBAR AREA --> 
+      <#include "views/common/sidebar_area.ftl" />
       
       <#-- COMMENT AREA --> 
       <#include "views/common/comment_area.ftl" />
