@@ -60,3 +60,17 @@ div.row {
 #fichier_description {
 	width: 99%;
 }
+
+#form-addfile label {
+	width: 100%;
+	font-weight: bold;
+}
+
+#form-addfile label:after {
+	content: " :";
+	width: 100%;
+}
+
+#form-addfile p {
+	width: 100%;
+}
