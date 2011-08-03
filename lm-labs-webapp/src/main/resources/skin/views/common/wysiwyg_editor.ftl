@@ -1,15 +1,24 @@
 <#-- 
 This is a generic WYSIWYG EDITOR, to use it include this FTL and specify needed parameters
  
-/!\ 'param_name', 'param_value', 'param_url' must be defined in the calling FTL  
+/!\ 'param_name', 'param_value', 'param_url' must be defined in the calling FTL
+
+'area_width', 'area_height' are optional  
 -->
 <#assign canWrite = Session.hasPermission(Document.ref, 'Write') />
+
+<#if area_width == null>
+	<#assign area_width=110 />
+</#if>
+<#if area_height == null>
+	<#assign area_height=10 />
+</#if>
 
 <div id="wysiwygEditor">
 	<#if Context.principal.isAnonymous() || !canWrite>
 		<p>${param_value}</p>
 	<#else>
-		<textarea cols="110" rows="10" name="message" id="editor">
+		<textarea cols="${area_width}" rows="${area_height}" name="message" id="editor">
 		${param_value}
 		</textarea>
 		<div class="editButton">
