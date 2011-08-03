@@ -1,5 +1,9 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -12,8 +16,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
@@ -28,6 +34,27 @@ public class PageClasseurResource extends Page {
     
     @GET public Object doGet() {
         return getView("index");
+    }
+    
+    public List<DocumentModel> getChildren(DocumentModel parent) {
+        return getChildren(parent, "dc:title", "ASC", 0, 0);
+    }
+
+    public List<DocumentModel> getChildren(DocumentModel parent, String orderBy, String orderDir, long limit, long offset) {
+        try {
+            StringBuilder sb = new StringBuilder("SELECT * From Document");
+            sb.append(" WHERE ecm:parentId = '").append(parent.getId()).append("'");
+            sb.append(" AND ecm:isProxy = 0 AND ecm:isCheckedInVersion = 0");
+            sb.append(" AND ecm:currentLifeCycleState <> 'deleted'");
+            sb.append(" ORDER BY ").append(orderBy);
+            DocumentModelList list = getCoreSession().query(sb.toString(), null, limit, offset, true);
+            if ("DESC".equals(orderDir)) {
+                Collections.reverse(list);
+            }
+            return list;
+        } catch (ClientException e) {
+            return new ArrayList<DocumentModel>();
+        }
     }
 
     @POST
@@ -81,7 +108,7 @@ public class PageClasseurResource extends Page {
                         return Response.serverError().status(Status.FORBIDDEN).entity("folder is NOT a child of PageClasseur.").build();
                     }
                     DocumentModel fileDoc = Framework.getService(FileManager.class).createDocumentFromBlob(
-                            coreSession, blob, folder.getPathAsString(), false, blob.getFilename());
+                            coreSession, blob, folder.getPathAsString(), true, blob.getFilename());
                     if (!StringUtils.isEmpty(desc)) {
                         fileDoc.setPropertyValue("dc:description", desc);
                     }

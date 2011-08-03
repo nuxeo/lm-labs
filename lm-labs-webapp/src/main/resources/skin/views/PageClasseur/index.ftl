@@ -23,8 +23,24 @@
 <h1>${This.document.dublincore.description}</h1>
 <#include "views/common/comment_area.ftl">
 <div id="table">
-<@displayChildren ref=This.document.ref />
-</div>
+
+<#assign children = Session.getChildren(Document.ref, "Folder")>
+<#if children?size &gt; 0>
+<#list children as child>
+<div class="${child.type} DropZone" id="${child.id}">
+<p>
+<div class="row ${child.type}" id="${child.id}">
+<span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
+<span class="colFolderTitle">${child.dublincore.title}<#if Session.hasPermission(Document.ref, 'Write')> <a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a></#if></span>
+</div> <!-- row -->
+</p>
+<@displayChildren doc=child />
+</div> <!-- Folder -->
+</#list>
+</#if>
+
+</div><!-- table -->
+
   <#--
 <div id="mainContentBox">
   Attachment: <a href="${This.path}/@file?property=file:content">${file.filename}</a>
@@ -66,12 +82,10 @@
   </form>
 </div>
 
-<#macro displayChildren ref recurse=false>
-  <#if recurse>
-    <#assign children = Session.getChildren(ref)>
-  <#else>
-    <#assign children = Session.getChildren(ref, "Folder")>
-  </#if>
+<#include "views/common/loading.ftl">
+
+<#macro displayChildren doc recurse=false>
+  <#assign children = This.getChildren(doc)>
   <#if children?size &gt; 0>
   <#list children as child>
   <p><div class="row ${child.type}" id="${child.id}">
@@ -88,12 +102,8 @@
 	    <span class="colVersion">${child.versionLabel}</span>
 	    <span class="colModified">${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</span>
 	    <span class="colCreator">${child.dublincore.creator}</span>
-  </div></p>
-	  <#else>
-        <span class="colFolderTitle">${child.dublincore.title} <a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a></span>
-  </div></p>
-        <@displayChildren ref=child.ref recurse=true/>
 	  </#if>
+  </div><!-- row --></p>
   </#list>
   </#if>
 </#macro>
