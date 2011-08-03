@@ -12,10 +12,8 @@ jQuery(document).ready(function(){
 			"Annuler": function() { jQuery(this).dialog("close"); },
 			"Ajouter": function(evt) {
 				if (jQuery("#fileId").attr("value").length > 0) {
-					$('#waitingPopup').dialog( "close" );
-					jQuery('#waitingPopup').dialog({ modal: true });
-					var buttonDomElement = evt.target;
-					$(buttonDomElement).attr('disabled', true);
+					jQuery(this).dialog("close");
+					setTimeout(function() {jQuery('#waitingPopup').dialog({ modal: true });}, 100);
 
 					jQuery("#form-addfile").ajaxSubmit({
 						type: "POST",
@@ -25,11 +23,11 @@ jQuery(document).ready(function(){
 								alert("failed: " + data);
 							} else {
 								window.location.reload();
-								jQuery("#div-addfile").dialog("close");
 							}
 							jQuery("#form-addfile").resetForm();
 						}
 					});
+					$('#waitingPopup').dialog( "close" );
 					return true;
 				}
 			}
