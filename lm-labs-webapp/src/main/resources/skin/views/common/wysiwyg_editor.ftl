@@ -5,7 +5,7 @@ This is a generic WYSIWYG EDITOR, to use it include this FTL and specify needed 
 -->
 
 <div id="wysiwygEditor">
-	<textarea cols="120" rows="10" name="message" id="editor">
+	<textarea cols="110" rows="10" name="message" id="editor">
 	${param_value}
 	</textarea>
 <#assign canWrite = Session.hasPermission(Document.ref, 'Write') />

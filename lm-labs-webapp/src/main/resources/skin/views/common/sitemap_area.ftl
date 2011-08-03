@@ -1,12 +1,3 @@
 <div id="siteMap">
-   	<button class="siteMap">Plan du Site</button>
-   	<script type="text/javascript">
-	var editor;
-	
-	jQuery(document).ready(function() {
-		jQuery("button[class=siteMap]").click(function() {
-			alert("go plan du site");
-		});
-	});
-	</script>
+   	<a href="${This.path}/goSiteMap" class="linkButton"><button class="siteMap">Plan du Site</button></a>
 </div>

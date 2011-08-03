@@ -1,20 +1,3 @@
-body {
-	width: 1024px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-div#header {
-	width: 100%;
-	height: 100px;
-	background-color:#00CCFF;
-}
-
-div#footer {
-	width: 100%;
-	height: 150px;
-	background-color:#33FF99;
-}
 div#content {
 	width: 100%;
 	height: 100%;
@@ -22,4 +5,8 @@ div#content {
 div#comment {
 	width: 100%;	
 	min-height: 70px;
+}
+
+.linkButton {
+	text-decoration: none;	
 }
