@@ -22,7 +22,7 @@ public abstract class AbstractPage implements Page {
     }
 
     @Override
-    public void SetDescription(String description) throws PropertyException, ClientException {
+    public void setDescription(String description) throws PropertyException, ClientException {
         if (description == null) {
             return;
         }

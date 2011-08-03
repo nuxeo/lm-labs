@@ -39,7 +39,7 @@ public class Page extends DocumentObject {
 
         try {
             doc.getAdapter(
-                    com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs.class).SetDescription(
+                    com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs.class).setDescription(
                     description);
             getCoreSession().saveDocument(doc);
             getCoreSession().save();
