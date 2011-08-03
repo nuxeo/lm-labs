@@ -8,11 +8,14 @@ This is a generic WYSIWYG EDITOR, to use it include this FTL and specify needed 
 	<textarea cols="120" rows="10" name="message" id="editor">
 	${param_value}
 	</textarea>
+<#assign canWrite = Session.hasPermission(Document.ref, 'Write') />
+<#if canWrite >
 	<div class="editButton">
 		<button class="edit">Modifier</button>
 		<button class="save">Enregistrer</button>
 		<button class="cancel">Annuler</button>
 	</div>
+</#if>
 	
 	<script type="text/javascript">
 	var editor;
