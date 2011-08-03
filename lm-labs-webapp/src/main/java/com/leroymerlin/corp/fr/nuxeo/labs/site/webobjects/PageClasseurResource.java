@@ -16,14 +16,13 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
-import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.runtime.api.Framework;
 
 @WebObject(type = "PageClasseur")
-public class PageClasseurResource extends DocumentObject {
+public class PageClasseurResource extends Page {
 
     private static final Log LOG = LogFactory.getLog(PageClasseurResource.class);
     
