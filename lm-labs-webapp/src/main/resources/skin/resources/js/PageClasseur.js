@@ -20,7 +20,7 @@ jQuery(document).ready(function(){
 						url : link + "/addFile",
 						success: function(data){
 							if (data.indexOf("Upload file ok") == -1) {
-								allert("failed: " + data);
+								alert("failed: " + data);
 							} else {
 								window.location.reload();
 								jQuery("#div-addfile").dialog("close");
