@@ -12,6 +12,8 @@ jQuery(document).ready(function(){
 			"Annuler": function() { jQuery(this).dialog("close"); },
 			"Ajouter": function(evt) {
 				if (jQuery("#fileId").attr("value").length > 0) {
+					$('#waitingPopup').dialog( "close" );
+					jQuery('#waitingPopup').dialog({ modal: true });
 					var buttonDomElement = evt.target;
 					$(buttonDomElement).attr('disabled', true);
 

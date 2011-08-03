@@ -82,6 +82,8 @@
   </form>
 </div>
 
+<#include "views/common/loading.ftl">
+
 <#macro displayChildren doc recurse=false>
   <#assign children = This.getChildren(doc)>
   <#if children?size &gt; 0>
