@@ -14,6 +14,9 @@
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocsAdapterFactory" />
 
+    <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.Page"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.page.PageAdapterFactory" />
+
   </extension>
   
 </component>
