@@ -21,6 +21,7 @@
 
 	<@block name="content">	
 <h1>${This.document.dublincore.description}</h1>
+<#include "views/common/comment_area.ftl">
 <div id="table">
 <@displayChildren ref=This.document.ref />
 </div>
