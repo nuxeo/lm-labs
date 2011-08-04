@@ -17,6 +17,8 @@
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapterFactory" />
 
+	<adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.Page"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.page.PageAdapterFactory" />
   </extension>
   
 </component>

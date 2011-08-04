@@ -32,4 +32,13 @@ public final class LabsSiteUtils {
     public static String getSitesRootPath() {
         return "default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName();
     }
+    
+    public static Object getSiteMap(final DocumentModel site,
+            final CoreSession session) throws ClientException {
+        if (site == null) {
+            return null;
+        }
+        
+        return session.getChildren(site.getRef());
+    }
 }

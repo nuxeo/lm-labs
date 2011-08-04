@@ -20,7 +20,7 @@ public class Page extends DocumentObject {
     public String getDescription() {
         try {
             return doc.getAdapter(
-                    com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs.class).getDescription();
+                    com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).getDescription();
         } catch (PropertyException pe) {
             LOG.error("Unable to get property " + pe);
         } catch (ClientException ce) {
@@ -39,7 +39,7 @@ public class Page extends DocumentObject {
 
         try {
             doc.getAdapter(
-                    com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs.class).SetDescription(
+                    com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).setDescription(
                     description);
             getCoreSession().saveDocument(doc);
             getCoreSession().save();

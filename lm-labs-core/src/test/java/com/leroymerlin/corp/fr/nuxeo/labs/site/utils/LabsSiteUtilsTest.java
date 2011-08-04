@@ -30,21 +30,23 @@ import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
 
 @RunWith(FeaturesRunner.class)
-@Features({LMTestDirectoryFeature.class, SiteFeatures.class})
+@Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
 @RepositoryConfig(user = "Administrator")
 public final class LabsSiteUtilsTest {
 
     @Inject
     private CoreSession session;
 
-    @Inject protected FeaturesRunner featuresRunner;
+    @Inject
+    protected FeaturesRunner featuresRunner;
 
     @Test
     public void iCanGetSitesRoot() throws Exception {
         DocumentModel root = LabsSiteUtils.getSitesRoot(session);
         assertNotNull(root);
         SecurityData data = SecurityDataHelper.buildSecurityData(root);
-        List<String> list = data.getCurrentDocGrant().get(SecurityConstants.MEMBERS);
+        List<String> list = data.getCurrentDocGrant().get(
+                SecurityConstants.MEMBERS);
         assertTrue(list.contains(SecurityConstants.EVERYTHING));
     }
 
@@ -141,19 +143,21 @@ public final class LabsSiteUtilsTest {
             }
         }
     }
-    
+
     @Ignore
-    @Test 
+    @Test
     public void iCanGetSitesRootAsUser() throws Exception {
         NuxeoPrincipal principal = getUserManager().getPrincipal("CGM");
         assertNotNull(principal);
         assertTrue(principal.getAllGroups().contains(SecurityConstants.MEMBERS));
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
-        CoreSession sessionCGM = coreFeature.getRepository().getRepositoryHandler().openSessionAs("CGM");
-//        changeUser("CGM");
+        CoreSession sessionCGM = coreFeature.getRepository().getRepositoryHandler().openSessionAs(
+                "CGM");
+        // changeUser("CGM");
         assertNotNull(LabsSiteUtils.getSitesRoot(sessionCGM));
-//        changeUser("Administrator");
-        coreFeature.getRepository().getRepositoryHandler().releaseSession(sessionCGM);
+        // changeUser("Administrator");
+        coreFeature.getRepository().getRepositoryHandler().releaseSession(
+                sessionCGM);
     }
 
     protected void changeUser(String username) throws ClientException {
@@ -170,4 +174,24 @@ public final class LabsSiteUtilsTest {
         return userManager;
     }
 
+    @Test
+    public void canGetSiteMap() throws ClientException {
+        // TODO refactoring path
+        
+        // SITE ROOT
+        DocumentModel sitesRoot = session.getDocument(new PathRef(
+                "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
+        assertTrue(session.exists(sitesRoot.getRef()));
+        // SITE
+        DocumentModel site1 = session.createDocumentModel(
+                sitesRoot.getPathAsString(), SiteFeatures.SITE_NAME,
+                LabsSiteConstants.Docs.SITE.type());
+        // when the "site" is created, an event is fired
+        site1 = session.createDocument(site1);
+        session.save();
+
+        assertNotNull(site1);
+        Object siteMap = LabsSiteUtils.getSiteMap(site1, session);
+        assertNotNull(siteMap);
+    }
 }

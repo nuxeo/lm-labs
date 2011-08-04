@@ -1,24 +1,25 @@
-<html>
-  <head>
-    <title>${siteName}</title>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
-	<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-	<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+<@extends src="/views/labs-base.ftl">
+	
+	<@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>
     
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/labssite.css"/>
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/page_blocs.css"/>
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-	<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
-  </head>
-  <body>
-    <div id="header">
-    HEADER
-    </div>
+    <@block name="scripts">
+	  	<@superBlock/>
+		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+	</@block>
+    
+    <@block name="css">
+	  	<@superBlock/>
+	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/page_blocs.css"/>
+	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
+		<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
+	</@block>
+	
+	
+  <@block name="content">
     <div id="content" class="pageBlocs">
-      <div id="sidebar">
-        SIDEBAR
-      </div>
+      <#-- SIDEBAR AREA --> 
+      <#include "views/common/sidebar_area.ftl" />
       
       <#-- COMMENT AREA --> 
       <#include "views/common/comment_area.ftl" />
@@ -38,8 +39,5 @@
         MANUTE FIXME
       </div>
     </div>
-    <div id="footer">
-      FOOTER
-    </div>
-  </body>
-</html>
+  </@block>
+</@extends>	

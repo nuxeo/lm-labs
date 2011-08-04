@@ -9,7 +9,7 @@ public interface Page {
     
     public String getTitle() throws PropertyException, ClientException;
     
-    public void SetDescription(String description) throws PropertyException, ClientException;
+    public void setDescription(String description) throws PropertyException, ClientException;
     
     public String getDescription() throws PropertyException, ClientException;
     
