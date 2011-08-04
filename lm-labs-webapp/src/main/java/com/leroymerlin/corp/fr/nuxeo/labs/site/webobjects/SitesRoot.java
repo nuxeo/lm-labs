@@ -141,7 +141,7 @@ public class SitesRoot extends ModuleRoot {
                     DocumentModel docLabsSite = getDocument(pTitle, pId, session, isNew);   
                     LabsSite labSite = docLabsSite.getAdapter(LabsSite.class);
                     labSite.setTitle(pTitle);
-                    labSite.SetDescription(pDescription);
+                    labSite.setDescription(pDescription);
                     labSite.setURL(pURL);
                     saveDocument(session, isNew, docLabsSite);
                     return Response.status(Status.OK).build();
@@ -151,7 +151,7 @@ public class SitesRoot extends ModuleRoot {
                 DocumentModel docLabsSite = getDocument(pTitle, pId, session, isNew);   
                 LabsSite labSite = docLabsSite.getAdapter(LabsSite.class);
                 labSite.setTitle(pTitle);
-                labSite.SetDescription(pDescription);
+                labSite.setDescription(pDescription);
                 if(!labSite.getURL().equals(pURL)){
                     if (!existURL(pURL, session)){
                        labSite.setURL(pURL);

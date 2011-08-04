@@ -5,7 +5,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 

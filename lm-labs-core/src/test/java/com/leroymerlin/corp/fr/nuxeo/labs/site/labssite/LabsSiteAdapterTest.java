@@ -79,7 +79,7 @@ public class LabsSiteAdapterTest {
         LabsSite labssite = doc.getAdapter(LabsSite.class);
         assertThat(labssite,is(notNullValue()));
         labssite.setTitle("Le titre du site");
-        labssite.SetDescription("Description");
+        labssite.setDescription("Description");
         labssite.setURL("URL");
         
         //Persist document in db
