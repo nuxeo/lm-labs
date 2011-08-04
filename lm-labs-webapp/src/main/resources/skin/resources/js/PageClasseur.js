@@ -37,9 +37,43 @@ jQuery(document).ready(function(){
 		autoOpen: false
 	});
 
+	jQuery("#div-addfolder").dialog({
+		dialogClass: 'dialog-addfolder',
+		open: function() {},
+		buttons: {
+			"Annuler": function() { jQuery(this).dialog("close"); },
+			"Ajouter": function(evt) {
+				if (jQuery("#folderName").attr("value").length > 0) {
+					jQuery.ajax({
+						url: jQuery('#form-addfolder').attr("action"),
+						type: "POST",
+						data: { folderName: jQuery("#folderName").attr("value") },
+						success: function (data, textStatus, jqXHR) {
+							jQuery(this).dialog("close");
+							jQuery("#form-addfolder").resetForm();
+							window.location.reload();
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							alert(errorThrown + ": " + "," + jqXHR.responseText);
+						}
+					});
+					return true;
+				}
+			}
+		},
+		width: 400,
+		modal: true,
+		autoOpen: false
+	});
+
 	jQuery(".addfile").click(function() {
 		link = jQuery(this).attr("href");
 		jQuery("#div-addfile").dialog('open');
+		return false;
+	});
+
+	jQuery("#addFolder").click(function() {
+		jQuery("#div-addfolder").dialog('open');
 		return false;
 	});
 });

@@ -7,6 +7,8 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script> 
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
         <#--
         <script type="text/javascript" src="${skinPath}/js/jquery/ui.core.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/ui.dialog.js"></script>
@@ -17,6 +19,8 @@
 	  <@superBlock/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
+        <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
 	</@block>
 
 	<@block name="content">	
@@ -24,19 +28,24 @@
 <#include "views/common/comment_area.ftl">
 <div id="table">
 
+<#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
 <#assign children = Session.getChildren(Document.ref, "Folder")>
 <#if children?size &gt; 0>
 <#list children as child>
 <div class="${child.type} DropZone" id="${child.id}">
 <p>
-<div class="row ${child.type}" id="${child.id}">
+<div class="row ${child.type}">
 <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
-<span class="colFolderTitle">${child.dublincore.title}<#if Session.hasPermission(Document.ref, 'Write')> <a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a></#if></span>
+<span class="colFolderTitle">${child.dublincore.title}<#if canWrite> <a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a></#if></span>
 </div> <!-- row -->
 </p>
 <@displayChildren doc=child />
 </div> <!-- Folder -->
 </#list>
+</#if>
+
+<#if canWrite>
+<button id="addFolder">${Context.getMessage('command.PageClasseur.addFolder')}</button> 
 </#if>
 
 </div><!-- table -->
@@ -82,6 +91,19 @@
   </form>
 </div>
 
+<div id="div-addfolder" style="display: none;" title="${Context.getMessage('label.PageClasseur.form.folder.title')}" >
+  <form id="form-addfolder" action="${This.path}/addFolder" method="post">
+    <fieldset>
+      <p>
+        <label for="folderName" id="label_folderName">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
+      </p>
+      <p>
+        <span><input type="text" size="35" name="folderName" id="folderName" /></span>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
 <#include "views/common/loading.ftl">
 
 <#macro displayChildren doc recurse=false>
@@ -107,6 +129,5 @@
   </#list>
   </#if>
 </#macro>
-
 	</@block>
 </@extends>	

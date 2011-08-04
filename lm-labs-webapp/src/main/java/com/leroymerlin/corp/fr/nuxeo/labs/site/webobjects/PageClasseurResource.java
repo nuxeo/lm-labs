@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,6 +21,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
@@ -30,6 +32,24 @@ import org.nuxeo.runtime.api.Framework;
 @WebObject(type = "PageClasseur")
 public class PageClasseurResource extends Page {
 
+    private class TitleFilter implements Filter {
+
+        private final String title;
+
+        public TitleFilter(String title) {
+            this.title = title;
+        }
+
+        public boolean accept(DocumentModel docModel) {
+            try {
+                return StringUtils.equals(docModel.getTitle(), this.title);
+            } catch (ClientException e) {
+                return false;
+            }
+        }
+
+    }
+    
     private static final Log LOG = LogFactory.getLog(PageClasseurResource.class);
     
     @GET public Object doGet() {
@@ -117,6 +137,30 @@ public class PageClasseurResource extends Page {
                     return Response.serverError().status(Status.FORBIDDEN).entity(
                             e.getMessage()).build();
                 }
+            }
+        }
+        return Response.serverError().status(Status.FORBIDDEN).entity("ERROR").build();
+    }
+    
+    @POST
+    @Path("addFolder")
+    public Response doAddFolder(@FormParam("folderName") String folderName) {
+        LOG.debug("POST doAddFolder " + folderName);
+        if (!StringUtils.isEmpty(folderName)) {
+            try {
+                DocumentModelList children = getCoreSession().getChildren(doc.getRef(), "Folder", new TitleFilter(folderName), null);
+                if (!children.isEmpty()) {
+                    return Response.serverError().status(Status.FORBIDDEN).entity("folder '" + folderName + "' already exists.").build();
+                }
+                DocumentModel folder = getCoreSession().createDocumentModel(doc.getPathAsString(), folderName, "Folder");
+                folder.setPropertyValue("dc:title", folderName);
+                folder = getCoreSession().createDocument(folder);
+                getCoreSession().save();
+                return Response.ok("Folder created", MediaType.TEXT_PLAIN).build();
+            } catch (ClientException e) {
+                LOG.error(e.getMessage());
+                return Response.serverError().status(Status.FORBIDDEN).entity(
+                        e.getMessage()).build();
             }
         }
         return Response.serverError().status(Status.FORBIDDEN).entity("ERROR").build();
