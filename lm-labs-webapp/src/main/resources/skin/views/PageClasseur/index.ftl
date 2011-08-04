@@ -25,7 +25,10 @@
 
 	<@block name="content">	
 <h1>${This.document.dublincore.description}</h1>
+
+<#assign area_height=2 />
 <#include "views/common/comment_area.ftl">
+
 <div id="table">
 
 <#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
