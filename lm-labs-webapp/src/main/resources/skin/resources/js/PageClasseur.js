@@ -70,7 +70,7 @@ jQuery(document).ready(function(){
 	});
 
 	jQuery(".addfile").click(function() {
-		link = jQuery(this).attr("href");
+		link = jQuery(this).closest("form").attr("action");
 		jQuery("#div-addfile").dialog('open');
 		return false;
 	});

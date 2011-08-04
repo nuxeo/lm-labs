@@ -67,6 +67,10 @@ div.row {
 	float: right;
 }
 
+.form-bt-addfile {
+	float: left;
+}
+
 #fichier_description {
 	width: 99%;
 }
@@ -85,6 +89,6 @@ div.row {
 	width: 100%;
 }
 
-.removebutton:hover {
+.classeurbouton:hover {
 	cursor: pointer;
 }

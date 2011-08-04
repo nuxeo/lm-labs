@@ -42,8 +42,8 @@
 <span class="colFolderTitle">${child.dublincore.title}</span>
 <#if canWrite>
 <span class="colDelete">
-	<a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a>
-	<form class="form-removefolder" action="${This.path}/${child.id}" ><img class="removefolder removebutton" title="${Context.getMessage('command.PageClasseur.deleteFolder')} ${filename}" alt="${Context.getMessage('command.PageClasseur.deleteFolder')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form>
+	<form class="form-bt-addfile" action="${This.path}/${child.id}" ><img class="addfile classeurbouton" title="${Context.getMessage('command.PageClasseur.addFile')}" alt="${Context.getMessage('command.PageClasseur.addFile')}" src="${This.module.skinPathPrefix}/images/add.png" /></form>
+	<form class="form-removefolder" action="${This.path}/${child.id}" ><img class="removefolder classeurbouton" title="${Context.getMessage('command.PageClasseur.deleteFolder')}" alt="${Context.getMessage('command.PageClasseur.deleteFolder')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form>
 </span>
 </#if>
 </div> <!-- row -->
@@ -78,7 +78,7 @@
       </p>
       -->
       <p>
-        <span><input type="file" size="35" id="fileId" name="simplefile"/></span>
+        <span><input type="file" size="33" id="fileId" name="simplefile"/></span>
       </p>
       <#-- TODO
       <p>
@@ -135,7 +135,7 @@
 	    <span class="colModified">${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</span>
 	    <span class="colCreator">${child.dublincore.creator}</span>
 	    <#if canWrite>
-	    <span class="colDelete"><form action="${This.path}/${child.id}" ><img class="removefile removebutton" title="${Context.getMessage('command.PageClasseur.deleteFile')} ${filename}" alt="${Context.getMessage('command.PageClasseur.deleteFile')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form></span>
+	    <span class="colDelete"><form action="${This.path}/${child.id}" ><img class="removefile classeurbouton" title="${Context.getMessage('command.PageClasseur.deleteFile')} ${filename}" alt="${Context.getMessage('command.PageClasseur.deleteFile')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form></span>
 	    </#if>
 	  </#if>
   </div><!-- row --></p>
