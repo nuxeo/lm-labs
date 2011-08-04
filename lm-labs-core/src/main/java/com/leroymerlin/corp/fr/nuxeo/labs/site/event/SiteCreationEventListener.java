@@ -4,11 +4,14 @@ import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityData;
+import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
 
 public class SiteCreationEventListener implements EventListener {
 
@@ -25,6 +28,11 @@ public class SiteCreationEventListener implements EventListener {
         if (!LabsSiteConstants.Docs.SITE.type().equals(documentType)) {
             return;
         }
+        
+        SecurityData data = SecurityDataHelper.buildSecurityData(doc);
+        data.setBlockRightInheritance(true, null);
+        data.addModifiablePrivilege((String) doc.getPropertyValue("dc:creator"), SecurityConstants.EVERYTHING, true);
+        SecurityDataHelper.updateSecurityOnDocument(doc, data);
 
         // create "tree base"
         CoreSession session = ctx.getCoreSession();
