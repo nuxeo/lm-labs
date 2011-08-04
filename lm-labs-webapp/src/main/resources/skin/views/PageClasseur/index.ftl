@@ -29,7 +29,7 @@
 <#assign area_height=2 />
 <#include "views/common/comment_area.ftl">
 
-<div id="table">
+<div class="classeur" id="${This.path}">
 
 <#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
 <#assign children = Session.getChildren(Document.ref, "Folder")>
@@ -50,6 +50,7 @@
 
 <#if canWrite>
 <button id="addFolder">${Context.getMessage('command.PageClasseur.addFolder')}</button> 
+<button id="deleteSelection">${Context.getMessage('command.PageClasseur.deleteSelection')}</button> 
 </#if>
 
 </div><!-- table -->

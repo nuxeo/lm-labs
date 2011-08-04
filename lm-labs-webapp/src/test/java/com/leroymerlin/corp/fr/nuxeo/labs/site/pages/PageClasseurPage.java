@@ -10,7 +10,7 @@ public class PageClasseurPage extends WebPage {
     @Override
     public WebPage ensureLoaded() {
         WebPage page = super.ensureLoaded();
-        waitUntilElementFound(By.id("table"), WAITING_TIME);
+        waitUntilElementFound(By.class("classeur"), WAITING_TIME);
         return page;
     }
 

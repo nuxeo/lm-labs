@@ -57,6 +57,7 @@ jQuery(document).ready(function(){
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
 							alert(errorThrown + ": " + "," + jqXHR.responseText);
+							$(buttonDomElement).attr('disabled', false);
 						}
 					});
 					return true;
@@ -80,7 +81,7 @@ jQuery(document).ready(function(){
 	});
 
 	jQuery(".removefile").click(function(evt) {
-		if (confirm("Etes-vous sur de vouloir effacer le fichier '" + jQuery(this).closest("div").children(".colFileName").text() + "' ?")) {
+		if (confirm("Etes-vous sûr de vouloir effacer le fichier '" + jQuery(this).closest("div").children(".colFileName").text() + "' ?")) {
 			var buttonDomElement = evt.target;
 			$(buttonDomElement).attr('disabled', true);
 			jQuery.ajax({
@@ -90,6 +91,39 @@ jQuery(document).ready(function(){
 					window.location.reload();
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
+					alert(errorThrown + ": " + "," + jqXHR.responseText);
+				}
+			});
+		}
+		return false;
+	});
+
+	jQuery("#deleteSelection").click(function(evt) {
+		if (confirm("Etes-vous sûr de vouloir effacer les fichiers sélectionnés ?")) {
+			var buttonDomElement = evt.target;
+			jQuery(buttonDomElement).attr('disabled', true);
+			var url = jQuery('.classeur').attr("id") + "/bulk?";
+			var n = jQuery('input[name="checkoptions"]:checked').length;
+			if (n <= 0) {
+				return false;
+			}
+			jQuery('input[name="checkoptions"]:checked').each(function(i) {
+				url += "id=" + this.value;
+				if (i < n-1) {
+					url += "&";
+				}
+			});
+			jQuery.ajax({
+				url: url,
+				type: "DELETE",
+				complete: function(jqXHR, textStatus) {
+					jQuery('input[name="checkoptions"]').attr('checked', false);
+				},
+				success: function (data, textStatus, jqXHR) {
+					window.location.reload();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					jQuery(buttonDomElement).attr('disabled', false);
 					alert(errorThrown + ": " + "," + jqXHR.responseText);
 				}
 			});

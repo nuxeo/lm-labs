@@ -1,9 +1,9 @@
-#table {
+.classeur {
 	width: 900px;
 	margin: 10px;
 }
 
-#table p {
+.classeur p {
 	clear: both;
 	width: 100%;
 	margin: 3px;
@@ -14,47 +14,47 @@ div.row {
 	border-top:none;
 }
 
-#table span {
+.classeur span {
 	float: left;
 	padding: 0 10px;
 	font-family: arial,sans-serif;
 	font-size: 11px;
 }
 
-#table span.colCheckBox {
+.classeur span.colCheckBox {
 	width: 10px;
 }
 
-#table span.colIcon {
+.classeur span.colIcon {
 	width: 10px;
 	padding-top: 2px;
 }
 
-#table span.colFileName {
+.classeur span.colFileName {
 	width: 350px;
 }
 
-#table span.colDescription {
+.classeur span.colDescription {
 	width: 150px;
 }
 
-#table span.colFilesize {
+.classeur span.colFilesize {
 	width: 70px;
 }
 
-#table span.colVersion {
+.classeur span.colVersion {
 	width: 20px;
 }
 
-#table span.colModified {
+.classeur span.colModified {
 	width: 160px;
 }
 
-#table span.colCreator {
+.classeur span.colCreator {
 	width: 80px;
 }
 
-#table span.colFolderTitle {
+.classeur span.colFolderTitle {
 	width: auto;
 	font-weight: bold;
 }
