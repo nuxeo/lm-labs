@@ -44,6 +44,8 @@ jQuery(document).ready(function(){
 			"Annuler": function() { jQuery(this).dialog("close"); },
 			"Ajouter": function(evt) {
 				if (jQuery("#folderName").attr("value").length > 0) {
+					var buttonDomElement = evt.target;
+					$(buttonDomElement).attr('disabled', true);
 					jQuery.ajax({
 						url: jQuery('#form-addfolder').attr("action"),
 						type: "POST",
