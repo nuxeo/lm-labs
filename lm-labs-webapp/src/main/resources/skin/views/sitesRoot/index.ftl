@@ -22,15 +22,18 @@
 						<a style="cursor:pointer" onClick="javascript:manageDisplayEdit();">+${Context.getMessage('label.labssite.add.site')}</a>
 					</div>
 				</#if>
-				<#list This.labsSites as n>
-				    <#assign labssite = n />
-					<#include "/views/sitesRoot/displayLabsSite.ftl" />
-				</#list>
 				<#if isAuthorized>
 					<div id="editSite" class="labssite" style="display: none;">
 						<#include "/views/sitesRoot/editLabsSite.ftl" />
 					</div>
 				</#if>
+				<div class="titleHomepage">
+					${Context.getMessage('label.labssite.list.sites.title')}
+				</div>
+				<#list This.labsSites as n>
+				    <#assign labssite = n />
+					<#include "/views/sitesRoot/displayLabsSite.ftl" />
+				</#list>
 			</div>
 	</@block>
 </@extends>		

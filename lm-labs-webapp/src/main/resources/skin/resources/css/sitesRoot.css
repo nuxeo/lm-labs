@@ -48,3 +48,26 @@ padding: 4px 0 0 10px;
 	padding-bottom: 10px;
 	text-align: right;
 }
+
+.titleHomepage{
+	font-family: Verdana,arial,sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	color: black;
+	text-align: center;
+}
+#bt_create_labssite{
+	width: 200px;
+	height: 80px;
+}
+#bt_display_labssite{
+	width: 200px;
+	height: 40px;
+}
+#bt_load_labssite{
+	width: 200px;
+	height: 40px;
+}
+.padding_between{
+	padding-bottom: 20px;
+}
