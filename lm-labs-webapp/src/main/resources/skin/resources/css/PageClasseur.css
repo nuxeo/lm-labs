@@ -59,6 +59,14 @@ div.row {
 	font-weight: bold;
 }
 
+.classeur span.colDelete {
+	width: auto;
+}
+
+.form-removefolder {
+	float: right;
+}
+
 #fichier_description {
 	width: 99%;
 }
@@ -77,6 +85,6 @@ div.row {
 	width: 100%;
 }
 
-.removefile:hover {
+.removebutton:hover {
 	cursor: pointer;
 }

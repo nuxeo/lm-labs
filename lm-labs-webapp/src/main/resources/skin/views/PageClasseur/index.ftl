@@ -40,7 +40,12 @@
 <div class="row ${child.type}">
 <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
 <span class="colFolderTitle">${child.dublincore.title}</span>
-<#if canWrite><span class="colDelete"><a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a></span></#if>
+<#if canWrite>
+<span class="colDelete">
+	<a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a>
+	<form class="form-removefolder" action="${This.path}/${child.id}" ><img class="removefolder removebutton" title="${Context.getMessage('command.PageClasseur.deleteFolder')} ${filename}" alt="${Context.getMessage('command.PageClasseur.deleteFolder')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form>
+</span>
+</#if>
 </div> <!-- row -->
 </p>
 <@displayChildren doc=child />
@@ -130,7 +135,7 @@
 	    <span class="colModified">${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</span>
 	    <span class="colCreator">${child.dublincore.creator}</span>
 	    <#if canWrite>
-	    <span class="colDelete"><form action="${This.path}/${child.id}" ><img class="removefile" title="${Context.getMessage('command.PageClasseur.deleteFile')} ${filename}" alt="${Context.getMessage('command.PageClasseur.deleteFile')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form></span>
+	    <span class="colDelete"><form action="${This.path}/${child.id}" ><img class="removefile removebutton" title="${Context.getMessage('command.PageClasseur.deleteFile')} ${filename}" alt="${Context.getMessage('command.PageClasseur.deleteFile')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form></span>
 	    </#if>
 	  </#if>
   </div><!-- row --></p>

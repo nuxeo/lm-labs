@@ -98,6 +98,24 @@ jQuery(document).ready(function(){
 		return false;
 	});
 
+	jQuery(".removefolder").click(function(evt) {
+		if (confirm("Etes-vous sûr de vouloir effacer le répertoire '" + jQuery(this).closest("div").children(".colFolderTitle").text() + "' ?")) {
+			var buttonDomElement = evt.target;
+			$(buttonDomElement).attr('disabled', true);
+			jQuery.ajax({
+				url: jQuery(this).closest("form").attr("action"),
+				type: "DELETE",
+				success: function (data, textStatus, jqXHR) {
+					window.location.reload();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert(errorThrown + ": " + "," + jqXHR.responseText);
+				}
+			});
+		}
+		return false;
+	});
+
 	jQuery("#deleteSelection").click(function(evt) {
 		if (confirm("Etes-vous sûr de vouloir effacer les fichiers sélectionnés ?")) {
 			var buttonDomElement = evt.target;
