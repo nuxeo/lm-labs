@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -168,6 +169,30 @@ public class PageClasseurResource extends Page {
     
     public BlobHolder getBlobHolder(final DocumentModel document) {
         return document.getAdapter(BlobHolder.class);
+    }
+    
+    @DELETE
+    @Path("{docId}")
+    public Response doDeleteChild(@PathParam("docId") String docId) {
+        final String logPrefix = "<doDeleteChild> ";
+        LOG.debug(logPrefix + docId);
+        
+        try {
+            StringBuilder sb = new StringBuilder("SELECT * From Document");
+            sb.append(" WHERE ecm:path STARTSWITH '").append(doc.getPathAsString()).append("'");
+            sb.append(" AND ecm:uuid = '").append(docId).append("'");
+            DocumentModelList list = getCoreSession().query(sb .toString());
+            if (list.isEmpty()) {
+                return Response.status(Status.NOT_FOUND).build();
+            }
+            getCoreSession().removeDocument(list.get(0).getRef());
+            getCoreSession().save();
+        } catch (ClientException e) {
+            LOG.error(e.getMessage());
+            return Response.status(Status.FORBIDDEN).build();
+        }
+        this.getModule().getSkinPathPrefix();
+        return Response.status(Status.NO_CONTENT).build();
     }
     
 }

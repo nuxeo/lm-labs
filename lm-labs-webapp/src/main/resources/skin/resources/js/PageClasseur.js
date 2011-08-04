@@ -44,6 +44,8 @@ jQuery(document).ready(function(){
 			"Annuler": function() { jQuery(this).dialog("close"); },
 			"Ajouter": function(evt) {
 				if (jQuery("#folderName").attr("value").length > 0) {
+					var buttonDomElement = evt.target;
+					$(buttonDomElement).attr('disabled', true);
 					jQuery.ajax({
 						url: jQuery('#form-addfolder').attr("action"),
 						type: "POST",
@@ -76,4 +78,23 @@ jQuery(document).ready(function(){
 		jQuery("#div-addfolder").dialog('open');
 		return false;
 	});
+
+	jQuery(".removefile").click(function(evt) {
+		if (confirm("Etes-vous sur de vouloir effacer le fichier '" + jQuery(this).closest("div").children(".colFileName").text() + "' ?")) {
+			var buttonDomElement = evt.target;
+			$(buttonDomElement).attr('disabled', true);
+			jQuery.ajax({
+				url: jQuery(this).closest("form").attr("action"),
+				type: "DELETE",
+				success: function (data, textStatus, jqXHR) {
+					window.location.reload();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert(errorThrown + ": " + "," + jqXHR.responseText);
+				}
+			});
+		}
+		return false;
+	});
+
 });
