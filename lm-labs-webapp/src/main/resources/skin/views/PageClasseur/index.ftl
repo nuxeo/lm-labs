@@ -39,7 +39,8 @@
 <p>
 <div class="row ${child.type}">
 <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
-<span class="colFolderTitle">${child.dublincore.title}<#if canWrite> <a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a></#if></span>
+<span class="colFolderTitle">${child.dublincore.title}</span>
+<#if canWrite><span class="colDelete"><a class="addfile" href="${This.path}/${child.id}" >${Context.getMessage("command.PageClasseur.addFile")}</a></span></#if>
 </div> <!-- row -->
 </p>
 <@displayChildren doc=child />
@@ -117,7 +118,7 @@
     <#if child.facets?seq_contains("Folderish") == false >
       <span class="colCheckBox"><input type="checkbox" name="checkoptions" value="${child.id}"/></span>
     </#if>
-    <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
+    <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo${child.common.icon}" /></span>
 	  <#if child.facets?seq_contains("Folderish") == false >
 	    <#assign modifDate = child.dublincore.modified?datetime >
 	    <#assign filename = This.getBlobHolder(child).blob.filename >
@@ -127,6 +128,9 @@
 	    <span class="colVersion">${child.versionLabel}</span>
 	    <span class="colModified">${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</span>
 	    <span class="colCreator">${child.dublincore.creator}</span>
+	    <#if canWrite>
+	    <span class="colDelete"><form action="${This.path}/${child.id}" ><img class="removefile" title="${Context.getMessage('command.PageClasseur.deleteFile')} ${filename}" alt="${Context.getMessage('command.PageClasseur.deleteFile')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form></span>
+	    </#if>
 	  </#if>
   </div><!-- row --></p>
   </#list>

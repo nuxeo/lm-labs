@@ -47,7 +47,7 @@ div.row {
 }
 
 #table span.colModified {
-	width: 200px;
+	width: 160px;
 }
 
 #table span.colCreator {
@@ -55,7 +55,8 @@ div.row {
 }
 
 #table span.colFolderTitle {
-	width: 250px;
+	width: auto;
+	font-weight: bold;
 }
 
 #fichier_description {
@@ -74,4 +75,8 @@ div.row {
 
 #form-addfile p {
 	width: 100%;
+}
+
+.removefile:hover {
+	cursor: pointer;
 }
