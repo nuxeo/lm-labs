@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -194,4 +195,30 @@ public class PageClasseurResource extends Page {
         return Response.status(Status.NO_CONTENT).build();
     }
 
+    @DELETE
+    @Path("bulk")
+    public Response doBulkDelete(@QueryParam("id") List<String> ids) {
+        final String logPrefix = "<doBulkDelete> ";
+        LOG.debug(logPrefix);
+        try {
+            boolean removed = false;
+            for (String id: ids) {
+                LOG.debug(id);
+                IdRef idRef = new IdRef(id);
+                if (getCoreSession().exists(idRef)) {
+                    getCoreSession().removeDocument(idRef);
+                    removed = true;
+                }
+            }
+            if (removed) {
+                getCoreSession().save();
+            }
+        } catch (ClientException e) {
+            LOG.error(e.getMessage());
+            return Response.serverError().status(Status.NOT_MODIFIED).entity(
+                    e.getMessage()).build();
+        }
+        return Response.status(Status.NO_CONTENT).build();
+    }
+    
 }
