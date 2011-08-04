@@ -1,0 +1,50 @@
+.sitesRoot {
+	border: 1px solid #BBB;
+}
+
+.titleLabsSite{
+	padding: 0 10px;
+	font-family: arial,sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: black;
+}
+
+.fieldEdit{
+	padding: 1px 0 0 10px;
+}
+
+.fieldEdit>li{
+	padding: 0 0 10px;
+}
+
+.labssiteField{
+padding: 4px 0 0 10px;
+}
+
+.labsSiteDescription{
+	width: 700px;
+	height: 250px;
+}
+
+.titleEdit{
+	padding: 0 10px;
+	font-family: arial,sans-serif;
+	font-size: 25px;
+	font-weight: bold;
+	color: black;
+}
+
+
+.addSite{
+	padding-right: 10px;
+	font-family: arial,sans-serif;
+	text-align: right;
+	TEXT-DECORATION: none;
+}
+
+.labssiteOK{
+	padding-right: 10px;
+	padding-bottom: 10px;
+	text-align: right;
+}
