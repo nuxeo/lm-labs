@@ -191,8 +191,7 @@ public class PageClasseurResource extends Page {
             LOG.error(e.getMessage());
             return Response.status(Status.FORBIDDEN).build();
         }
-        this.getModule().getSkinPathPrefix();
         return Response.status(Status.NO_CONTENT).build();
     }
-    
+
 }
