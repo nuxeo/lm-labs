@@ -28,6 +28,7 @@
 		</doctype>
 
 		<doctype name="Site" extends="Workspace">
+			<schema name="webcontainer" />
 			<subtypes>
 				<type>Tree</type>
 				<type>Assets</type>
