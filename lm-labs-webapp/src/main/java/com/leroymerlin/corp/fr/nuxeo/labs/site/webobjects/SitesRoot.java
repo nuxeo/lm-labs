@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,6 +43,8 @@ public class SitesRoot extends ModuleRoot {
     private static final Log log = LogFactory.getLog(SitesRoot.class);
 
     private static final String DEFAULT_VIEW = "index";
+
+    private static final String HOMEPAGE_VIEW = "homePage";
     
     private static final String EDIT_VIEW = "views/sitesRoot/editLabsSite.ftl";
     
@@ -52,16 +55,23 @@ public class SitesRoot extends ModuleRoot {
     private DocumentModel doc = null;
     
     private LabsSite currentLabsSite = null;
-    
-    private boolean existURL = false;
-
-    public boolean isExistURL() {
-        return existURL;
-    }
 
     @GET
     public Object doGetDefaultView() {
-        return getView(DEFAULT_VIEW);
+        String home = request.getParameter("homepage");
+        if (!StringUtils.isEmpty(home)){
+            if (home.equals("create")){
+                return getTemplate(EDIT_VIEW);
+            }
+            else if(home.equals("display")){
+                return getView(DEFAULT_VIEW);
+            }
+            else if(home.equals("load")){
+                
+            }
+            return getView(HOMEPAGE_VIEW);
+        }
+        return getView(HOMEPAGE_VIEW);
     }
 
     @Path("{url}")
@@ -80,6 +90,13 @@ public class SitesRoot extends ModuleRoot {
             }
         }
         return Response.ok().status(404).build();
+    }
+    
+    public String escapeJS(String pString){
+        if (StringUtils.isEmpty(pString)){
+            return "";
+        }
+        return StringEscapeUtils.escapeJavaScript(pString);
     }
     
     public boolean isAuthorized(){
