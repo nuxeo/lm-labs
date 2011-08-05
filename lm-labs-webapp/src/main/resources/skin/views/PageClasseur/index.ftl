@@ -59,8 +59,8 @@
 </#list>
 </#if>
 
-<#list This.getLinks(Document.type + "_BOTTOM_ACTIONS") as link>
-<button id="${link.id}">${Context.getMessage('command.PageClasseur.' + link.id)}</button> 
+<#list This.getLinks("BOTTOM_ACTIONS") as link>
+<button id="${link.id}">${Context.getMessage('command.' + Document.type + '.' + link.id)}</button> 
 </#list>
 
 
