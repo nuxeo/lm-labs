@@ -40,7 +40,7 @@
                 <!--In this header, all div are float left except div id="_rightHeader" -->
 
                 <div id="FKbacktointralm" >
-                    <a href="${Context.basePath}/portail">${Context.getMessage('label.backToHome')}</a>
+                    <a href="${Context.basePath}/labssites">${Context.getMessage('label.backToHome')}</a>
                 </div>
                 <div class="FKbgBlackSep">&nbsp;</div>
                 <div id="FKrightHeader">
