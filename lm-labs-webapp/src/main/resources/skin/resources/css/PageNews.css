@@ -48,7 +48,9 @@ label{
 	padding-right: 10px;
 	font-family: arial,sans-serif;
 	text-align: right;
-	TEXT-DECORATION: none;
+	border-top: 1px solid #AAA;
+	cursor:pointer;
+	margin-top: 22px;
 }
 
 .newsOK{
