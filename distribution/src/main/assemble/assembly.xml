@@ -29,12 +29,12 @@
   <target name="build" depends="init">
     <echo>Building LM Tomcat distribution...</echo>
     <antcall target="expand-nuxeo" />
-    <antcall target="build-bloginno" />
+    <antcall target="build-labs" />
   </target>
 
 
-  <target name="build-bloginno">
-    <echo>Building Blog Inno distributions...</echo>
+  <target name="build-labs">
+    <echo>Building LM Labs distributions...</echo>
 
     <mkdir dir="${labs}/nxserver/bundles" />
 

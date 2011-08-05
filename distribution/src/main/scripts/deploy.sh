@@ -53,7 +53,7 @@ main() {
   ssh adminappli@$DEST_HOST <<EOT
     rpm -Uvh /tmp/$RPM_FILE --nodeps
     RESULT=$?
-	mv /tmp/$RPM_FILE /tmp/lm-portal-jetty.rpm
+	mv /tmp/$RPM_FILE /tmp/lm-labs.rpm
 EOT
 
 
