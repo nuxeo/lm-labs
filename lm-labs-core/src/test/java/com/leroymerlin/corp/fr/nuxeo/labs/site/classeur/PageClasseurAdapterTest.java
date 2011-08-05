@@ -39,6 +39,7 @@ public class PageClasseurAdapterTest {
         assertTrue(session.exists(doc.getRef()));
         assertEquals(TITLE2, adapter.getTitle());
     }
+    
     @Test
     public void iCanCreateDocumentUsingAdapterAndSetDescription() throws Exception {
         PageClasseur adapter = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();

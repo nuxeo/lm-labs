@@ -23,10 +23,14 @@ public abstract class AbstractPage implements Page {
 
     @Override
     public void setDescription(String description) throws PropertyException, ClientException {
+        setDescription(doc, description);
+    }
+    
+    protected static void setDescription(DocumentModel document, String description) throws PropertyException, ClientException {
         if (description == null) {
             return;
         }
-        doc.setPropertyValue("pg:commentaire", description);
+        document.setPropertyValue("pg:commentaire", description);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
          * @throws ClientException
          */
         public Model desc(String description) throws PropertyException, ClientException {
-            this.doc.setPropertyValue("dc:description", description);
+            PageClasseurAdapter.setDescription(this.doc, description);
             return this;
         }
         
