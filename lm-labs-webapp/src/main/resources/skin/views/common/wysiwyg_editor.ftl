@@ -2,23 +2,15 @@
 This is a generic WYSIWYG EDITOR, to use it include this FTL and specify needed parameters
  
 /!\ 'param_name', 'param_value', 'param_url' must be defined in the calling FTL
-
-'area_width', 'area_height' are optional  
 -->
 <#assign canWrite = Session.hasPermission(Document.ref, 'Write') />
-
-<#if area_width == null>
-	<#assign area_width=110 />
-</#if>
-<#if area_height == null>
-	<#assign area_height=10 />
-</#if>
 
 <div id="wysiwygEditor">
 	<#if Context.principal.isAnonymous() || !canWrite>
 		<p>${param_value}</p>
 	<#else>
-		<textarea cols="${area_width}" rows="${area_height}" name="message" id="editor">
+		<div id="displayArea">${param_value}</div>
+		<textarea cols="110" rows="10" name="message" id="editor">
 		${param_value}
 		</textarea>
 		<div class="editButton">
@@ -48,6 +40,7 @@ This is a generic WYSIWYG EDITOR, to use it include this FTL and specify needed 
 			jQuery("button[class=edit]").hide();
 			jQuery("button[class=save]").show();
 			jQuery("button[class=cancel]").show();
+			jQuery("#displayArea").hide();
 			
 			editor = CKEDITOR.replace('editor');
 		  	editor.on("instanceReady", function() {
@@ -73,6 +66,7 @@ This is a generic WYSIWYG EDITOR, to use it include this FTL and specify needed 
 					   data: "${param_name}="+value,
 					   success: function(msg){
 					   	 jQuery("#editor").val(value);
+					   	 jQuery("#displayArea").html(value);
 					   },
 					   error: function(msg){
 					   	 alert("erreur " + msg);
@@ -83,8 +77,8 @@ This is a generic WYSIWYG EDITOR, to use it include this FTL and specify needed 
 				CKEDITOR.remove(editor);
 			}
 			jQuery("#cke_editor").remove();
-			jQuery("#editor").show();
-			jQuery("#editor").attr("style", null);
+			jQuery("#editor").hide();
+			jQuery("#displayArea").show();
 		}
 		</script>
 	</#if>
