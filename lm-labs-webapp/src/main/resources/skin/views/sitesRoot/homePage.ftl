@@ -1,6 +1,8 @@
 <@extends src="/views/labs-base.ftl">
 	<#assign isAuthorized = This.isAuthorized()>
 	
+	<@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>
+	
 	<@block name="scripts">
 	  <@superBlock/>
 	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
