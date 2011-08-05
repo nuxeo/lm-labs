@@ -41,9 +41,15 @@
 <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
 <span class="colFolderTitle">${child.dublincore.title}</span>
 <#if canWrite>
-<span class="colDelete">
-	<form class="form-bt-addfile" action="${This.path}/${child.id}" ><img class="addfile classeurbouton" title="${Context.getMessage('command.PageClasseur.addFile')}" alt="${Context.getMessage('command.PageClasseur.addFile')}" src="${This.module.skinPathPrefix}/images/add.png" /></form>
-	<form class="form-removefolder" action="${This.path}/${child.id}" ><img class="removefolder classeurbouton" title="${Context.getMessage('command.PageClasseur.deleteFolder')}" alt="${Context.getMessage('command.PageClasseur.deleteFolder')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form>
+<span class="colActions">
+	<#assign title = Context.getMessage('command.PageClasseur.addFile') />
+	<form class="form-bt-addfile" action="${This.path}/${child.id}" >
+	  <img class="addfile classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/add.png" />
+	</form>
+	<#assign title = Context.getMessage('command.PageClasseur.deleteFolder') />
+	<form class="form-removefolder" action="${This.path}/${child.id}" >
+	  <img class="removefolder classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/x.gif" />
+	</form>
 </span>
 </#if>
 </div> <!-- row -->
@@ -53,10 +59,10 @@
 </#list>
 </#if>
 
-<#if canWrite>
-<button id="addFolder">${Context.getMessage('command.PageClasseur.addFolder')}</button> 
-<button id="deleteSelection">${Context.getMessage('command.PageClasseur.deleteSelection')}</button> 
-</#if>
+<#list This.getLinks(Document.type + "_BOTTOM_ACTIONS") as link>
+<button id="${link.id}">${Context.getMessage('command.PageClasseur.' + link.id)}</button> 
+</#list>
+
 
 </div><!-- table -->
 
@@ -135,7 +141,12 @@
 	    <span class="colModified">${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</span>
 	    <span class="colCreator">${child.dublincore.creator}</span>
 	    <#if canWrite>
-	    <span class="colDelete"><form action="${This.path}/${child.id}" ><img class="removefile classeurbouton" title="${Context.getMessage('command.PageClasseur.deleteFile')} ${filename}" alt="${Context.getMessage('command.PageClasseur.deleteFile')}" src="${This.module.skinPathPrefix}/images/x.gif" /></form></span>
+	    <#assign title = Context.getMessage('command.PageClasseur.deleteFile') />
+	    <span class="colActions">
+	      <form action="${This.path}/${child.id}" >
+	        <img class="removefile classeurbouton" title="${title} ${filename}" alt="${title}" src="${skinPath}/images/x.gif" />
+	      </form>
+	    </span>
 	    </#if>
 	  </#if>
   </div><!-- row --></p>

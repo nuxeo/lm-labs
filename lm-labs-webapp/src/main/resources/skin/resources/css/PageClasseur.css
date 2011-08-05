@@ -10,7 +10,12 @@
 }
 
 div.row {
-	border-bottom: 1px solid;
+	border-bottom: 1px solid lightgrey;
+	border-top:none;
+}
+
+div.row.Folder {
+	border-bottom: 1px solid black;
 	border-top:none;
 }
 
@@ -59,7 +64,7 @@ div.row {
 	font-weight: bold;
 }
 
-.classeur span.colDelete {
+.classeur span.colActions {
 	width: auto;
 }
 

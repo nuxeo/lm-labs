@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<module>
+
+  <links>
+  
+    <!-- PageClasseur bottom buttons -->
+    <link id="addFolder">
+      <category>PageClasseur_BOTTOM_ACTIONS</category>
+      <type>PageClasseur</type>
+      <guard>Write</guard>
+    </link>
+    
+    <link id="deleteSelection">
+      <category>PageClasseur_BOTTOM_ACTIONS</category>
+      <type>PageClasseur</type>
+      <guard>Write</guard>
+    </link>
+  </links>
+
+</module>
