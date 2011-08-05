@@ -26,12 +26,12 @@ public abstract class AbstractPage implements Page {
         if (description == null) {
             return;
         }
-        doc.setPropertyValue("dc:description", description);
+        doc.setPropertyValue("pg:commentaire", description);
     }
 
     @Override
     public String getDescription() throws PropertyException, ClientException {
-        return (String) doc.getPropertyValue("dc:description");
+        return (String) doc.getPropertyValue("pg:commentaire");
     }
 
 }
