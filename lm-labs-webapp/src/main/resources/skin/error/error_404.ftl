@@ -1,4 +1,4 @@
-<@extends src="labs-base.ftl">
+<@extends src="/views/labs-base.ftl">
 
 
 <@block name="title">
