@@ -15,11 +15,7 @@
     });
 
     jQuery("#FKlogin").click(valid);
-    if(document.location.href.indexOf("picturebook") != -1) {
-      jQuery("#FKlogout").click(doLogoutPictureBook);
-    } else {
-      jQuery("#FKlogout").click(doLogout);
-    }
+    jQuery("#FKlogout").click(doLogout);
   });
 
   function valid(){
@@ -43,12 +39,7 @@
 
   function doLogout() {
     clearUserData();
-    document.location.href = "${Context.basePath}/portail";
-  }
-
-  function doLogoutPictureBook() {
-    clearUserData();
-    document.location.href = "${Context.basePath}/picturebook";
+    document.location.href = "${Context.basePath}/labssites";
   }
 
   function clearUserData() {
