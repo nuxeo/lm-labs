@@ -5,10 +5,17 @@ import org.openqa.selenium.By;
 
 public class SitesRootPage extends WebPage {
 
-    @Override
-    public WebPage ensureLoaded() {
-        waitUntilElementFound(By.className("info"), 5);
-        return super.ensureLoaded();
+    private static final int WAITING_TIME = 5;
+
+//        @Override
+//    public WebPage ensureLoaded() {
+//        waitUntilElementFound(By.id("homePage"), 5);
+//        return super.ensureLoaded();
+//    }
+    
+    public boolean isloaded() {
+        waitUntilElementFound(By.id("homePage"), WAITING_TIME);
+        return true;
     }
 
 }

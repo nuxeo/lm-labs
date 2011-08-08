@@ -3,3 +3,4 @@ Bundle-ManifestVersion: 1
 Bundle-Name: lm-labs-webapp
 Bundle-SymbolicName: com.leroymerlin.labs.webapp.test;singleton:=true
 Bundle-Vendor: Nuxeo
+Nuxeo-WebModule: org.nuxeo.ecm.webengine.app.WebEngineModule;name=labs;extends=base;package=com/leroymerlin/corp/fr/nuxeo/labs/site/webobjects
