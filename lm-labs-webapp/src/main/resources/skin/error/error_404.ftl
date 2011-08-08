@@ -1,4 +1,4 @@
-<@extends src="picturebook-base.ftl">
+<@extends src="labs-base.ftl">
 
 
 <@block name="title">
