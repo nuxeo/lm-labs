@@ -2,7 +2,7 @@
 	<div class="titleLabsSite">
 		<a class="titleLabsSite" style="cursor:pointer;color: black;" href="${This.path}/${labssite.URL}">${labssite.title}</a>
 	</div>
-	<#if isAuthorized>
+	<#if Session.hasPermission(labssite.documentModel.ref, 'Everything')>
 		<div class="actionNews">
 			<!--  <img src="${skinPath}/images/PictureBook/bin.png"/>  -->
 			<ul class="labsSiteActions">

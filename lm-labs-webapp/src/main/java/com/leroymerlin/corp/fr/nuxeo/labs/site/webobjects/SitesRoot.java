@@ -27,6 +27,7 @@ import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
@@ -101,7 +102,11 @@ public class SitesRoot extends ModuleRoot {
     }
     
     public boolean isAuthorized(){
-        return ((NuxeoPrincipal)this.getContext().getPrincipal()).isAdministrator();
+        try {
+            return getContext().getCoreSession().hasPermission(LabsSiteUtils.getSitesRoot(getContext().getCoreSession()).getRef(), SecurityConstants.EVERYTHING);
+        } catch (ClientException e) {
+            return false;
+        }
     }
     
     public String getPathForEdit(){
