@@ -2,7 +2,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.util.ArrayList;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -198,20 +197,6 @@ public class SitesRoot extends ModuleRoot {
         return false;
     }
 
-    @DELETE
-    @Path("delete/{idLabsSite}")
-    public Response deleteLabssite(@PathParam("idLabsSite") final String pIdLabsSite) {
-        CoreSession session = ctx.getCoreSession();
-        try {
-            DocumentModel document = ctx.getCoreSession().getDocument(new IdRef(pIdLabsSite));
-            session.removeDocument(document.getRef());
-            session.save();
-        } catch (ClientException e) {
-            return Response.status(Status.GONE).build();
-        }
-        return Response.noContent().build();
-    }
-    
     @PUT
     @Path("edit/{idLabsSite}")
     public Object editLabsSite(@PathParam("idLabsSite") final String pIdLabsSite){
@@ -254,7 +239,7 @@ public class SitesRoot extends ModuleRoot {
             CoreSession pSession, boolean pIsNew) throws ClientException {
         DocumentModel docLabsSite;
         if (pIsNew){
-            docLabsSite = pSession.createDocumentModel(getDoc().getPathAsString(), pName,LabsSiteConstants.Docs.SITE.type());
+            docLabsSite = pSession.createDocumentModel(LabsSiteUtils.getSitesRootPath(), pName,LabsSiteConstants.Docs.SITE.type());
         }
         else{
             docLabsSite = pSession.getDocument(new IdRef(pId));
