@@ -10,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -29,6 +30,7 @@ import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
+import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
@@ -278,5 +280,21 @@ public class SitesRoot extends ModuleRoot {
             }
         }
         return isNew;
+    }
+
+    /* (non-Javadoc)
+     * @see org.nuxeo.ecm.webengine.model.impl.ModuleRoot#handleError(javax.ws.rs.WebApplicationException)
+     */
+    @Override
+    public Object handleError(WebApplicationException e) {
+        if (e instanceof WebResourceNotFoundException) {
+            String fileName = "error/error_404.ftl";
+            log.debug(fileName);
+            return Response.status(404).entity(getTemplate(fileName)).build();
+        } else {
+            log.info("No error handling for class " + e.getClass().getName());
+            log.error(e.getMessage(), e);
+            return super.handleError(e);
+        }
     }
 }
