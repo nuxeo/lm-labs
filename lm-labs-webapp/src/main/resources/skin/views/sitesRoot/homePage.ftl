@@ -23,9 +23,11 @@
 				${Context.getMessage('label.labssite.homepage.title')}
 			</div>
 			<ul class="">
+<#if !Context.principal.anonymous>
 				<li class="padding_between">
 					<button id="bt_create_labssite"  name="create_labssite" >${Context.getMessage('label.labssite.add.site')}</button>
 				</li>
+</#if>			
 				<li class="padding_between">
 					<button id="bt_display_labssite"  name="display_labssite" onClick="go('${This.path}?homepage=display');" >${Context.getMessage('label.labssite.display.site')}</button>
 				</li>
