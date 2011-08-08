@@ -14,6 +14,7 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 @WebObject(type = "LabsSite")
 @Produces("text/html; charset=UTF-8")
@@ -40,10 +41,7 @@ public class Site extends DocumentObject {
     @Override
     public DocumentObject newDocument(String path) {
         try {
-            PathRef pathRef = new PathRef(
-                    doc.getPath().append(
-                            "/" + LabsSiteConstants.Docs.TREE.docName()).append(
-                            path).toString());
+            PathRef pathRef = new PathRef(LabsSiteUtils.getSiteTreePath(doc) + "/" + path);
             DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
             if (LabsSiteConstants.Docs.fromString(doc.getType()) == null) {
                 throw new WebException("Unsupported document type "
