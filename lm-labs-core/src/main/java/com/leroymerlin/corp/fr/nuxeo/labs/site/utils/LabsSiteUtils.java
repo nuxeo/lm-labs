@@ -33,7 +33,7 @@ public final class LabsSiteUtils {
     }
 
     public static String getSitesRootPath() {
-        return "default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName();
+        return "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName();
     }
     
     public static String getSiteTreePath(DocumentModel doc) throws ClientException {
