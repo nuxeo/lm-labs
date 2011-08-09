@@ -30,10 +30,12 @@
 				<div class="titleHomepage">
 					${Context.getMessage('label.labssite.list.sites.title')}
 				</div>
+				<div id="MySites">
 				<#list This.labsSites as n>
 				    <#assign labssite = n />
 					<#include "/views/sitesRoot/displayLabsSite.ftl" />
 				</#list>
+				</div>
 			</div>
 	</@block>
 </@extends>		

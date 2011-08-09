@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.pages;
 
 import org.nuxeo.runtime.test.runner.web.WebPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class SitesRootPage extends WebPage {
 
@@ -17,5 +18,26 @@ public class SitesRootPage extends WebPage {
         waitUntilElementFound(By.id("homePage"), WAITING_TIME);
         return true;
     }
+
+    public boolean canClickAddSite() {
+        WebElement bt;
+        try {
+            bt = this.findElement(By.id("bt_create_labssite"));
+        } catch (Exception e) {
+            return false;
+        }
+        return (bt != null);
+    }
+
+    public LoginPage getLoginPage() {
+        return getPage(LoginPage.class);
+    }
+
+    public CreateSitePopup createSite() {
+        WebElement createButton = findElement(By.id("bt_create_labssite"));
+        createButton.click();
+        waitUntilElementFound(By.className("create-labs-site"), WAITING_TIME);
+        return getPage(CreateSitePopup.class);
+   }
 
 }
