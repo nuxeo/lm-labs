@@ -1,13 +1,12 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
-import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.PathRef;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public final class LabsSiteUtils {
 
@@ -18,8 +17,8 @@ public final class LabsSiteUtils {
             final DocumentModel site, final CoreSession session)
             throws ClientException {
         PathRef welcomeRef = new PathRef(site.getPathAsString() + "/"
-                + LabsSiteConstants.Docs.TREE.docName() + "/"
-                + LabsSiteConstants.Docs.WELCOME.docName());
+                + Docs.TREE.docName() + "/"
+                + Docs.WELCOME.docName());
         if (site == null || session == null || !session.exists(welcomeRef)) {
             return null;
         }
@@ -33,11 +32,14 @@ public final class LabsSiteUtils {
     }
 
     public static String getSitesRootPath() {
-        return "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName();
+        return "/default-domain/" + Docs.SITESROOT.docName();
     }
     
     public static String getSiteTreePath(DocumentModel doc) throws ClientException {
-        return getSitesRootPath() + "/" + doc.getName() + "/" + LabsSiteConstants.Docs.TREE.docName();
+        if (!Docs.SITE.type().equals(doc.getType())) {
+            throw new IllegalArgumentException("document is not a " + Docs.SITE.type());
+        }
+        return getSitesRootPath() + "/" + doc.getName() + "/" + Docs.TREE.docName();
     }
     
     public static Object getSiteMap(final DocumentModel site,

@@ -7,7 +7,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -40,6 +42,8 @@ public final class LabsSiteUtilsTest {
     @Inject
     protected FeaturesRunner featuresRunner;
 
+    @Rule public ExpectedException thrown = ExpectedException.none();
+    
     @Test
     public void iCanGetSitesRoot() throws Exception {
         DocumentModel root = LabsSiteUtils.getSitesRoot(session);
@@ -142,6 +146,25 @@ public final class LabsSiteUtilsTest {
                 assertEquals(0, session.getChildren(doc.getRef()).size());
             }
         }
+    }
+    
+    @Test
+    public void iCanGetSiteTreePath() throws Exception {
+        DocumentModel site = session.createDocumentModel(LabsSiteUtils.getSitesRootPath(), "MonSite", LabsSiteConstants.Docs.SITE.type());
+        assertNotNull(site);
+        site = session.createDocument(site);
+        String treePath = LabsSiteUtils.getSiteTreePath(site);
+        assertNotNull(treePath);
+        assertTrue(treePath.endsWith("/tree"));
+        assertTrue(treePath.contains("/MonSite/"));
+    }
+    
+    @Test
+    public void iCannotGetTreePathOfNonSite() throws Exception {
+        DocumentModel welcomePage = session.getDocument(new PathRef(LabsSiteUtils.getSitesRootPath() + "/MonSite/tree/welcome"));
+        assertNotNull(welcomePage);
+        thrown.expect(IllegalArgumentException.class);
+        LabsSiteUtils.getSiteTreePath(welcomePage);
     }
 
     @Ignore
