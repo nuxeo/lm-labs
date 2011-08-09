@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.event.DocumentEventTypes;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
@@ -24,12 +25,16 @@ public class SiteCreationEventListener implements EventListener {
         if (!(evt.getContext() instanceof DocumentEventContext)) {
             return;
         }
-
+        String eventName = evt.getName();
         DocumentEventContext ctx = (DocumentEventContext) evt.getContext();
         DocumentModel doc = ctx.getSourceDocument();
         String documentType = doc.getType();
 
         if (!LabsSiteConstants.Docs.SITE.type().equals(documentType)) {
+            return;
+        }
+        LOG.debug("event: " + eventName);
+        if (!DocumentEventTypes.DOCUMENT_CREATED.equals(eventName)) {
             return;
         }
 
