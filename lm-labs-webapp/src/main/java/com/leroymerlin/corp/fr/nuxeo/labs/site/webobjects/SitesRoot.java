@@ -23,8 +23,6 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.IdRef;
-import org.nuxeo.ecm.core.api.NuxeoPrincipal;
-import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
@@ -117,19 +115,12 @@ public class SitesRoot extends ModuleRoot {
         return currentLabsSite;
     }
     
-    public DocumentModel getDoc(){
-        if (doc == null){
-            PathRef siteRef = new PathRef(LabsSiteUtils.getSitesRootPath());
-            try {
-                doc = ctx.getCoreSession().getDocument(siteRef);
-            } catch (ClientException e) {
-                log.error(e, e);
-            }
-        }
-        return doc;
+    public DocumentModel getDoc() throws ClientException{
+        return LabsSiteUtils.getSitesRoot(ctx.getCoreSession());
     }
     
-    public ArrayList<LabsSite> getLabsSites() throws ClientException{
+    public ArrayList<LabsSite> getLabsSites() throws ClientException {
+        final String logPrefix = "<getLabsSites> ";
         ArrayList<LabsSite> result = new ArrayList<LabsSite>();
         DocumentModelList listDoc = new DocumentModelListImpl();
         Sorter sorter = null;
@@ -142,7 +133,8 @@ public class SitesRoot extends ModuleRoot {
             listDoc = ctx.getCoreSession().getChildren(getDoc().getRef(), LabsSiteConstants.Docs.SITE.type(), null, filter, sorter);
         }
         LabsSite labssite = null;
-        for (DocumentModel doc1:listDoc){
+        for (DocumentModel doc1 : listDoc){
+            log.debug(logPrefix + doc1.getName());
             labssite = doc1.getAdapter(LabsSite.class);
             result.add(labssite);
         }
@@ -161,13 +153,14 @@ public class SitesRoot extends ModuleRoot {
         try {
             if (isNew){
                 if (!existURL(pURL, session)){
-                    DocumentModel docLabsSite = getDocument(pTitle, pId, session, isNew);   
+                    DocumentModel docLabsSite = session.createDocumentModel(LabsSiteUtils.getSitesRootPath(), pTitle, LabsSiteConstants.Docs.SITE.type());
                     LabsSite labSite = docLabsSite.getAdapter(LabsSite.class);
                     labSite.setTitle(pTitle);
                     labSite.setDescription(pDescription);
                     labSite.setURL(pURL);
-                    saveDocument(session, isNew, docLabsSite);
-                    return Response.status(Status.OK).build();
+                    docLabsSite = session.createDocument(docLabsSite);
+                    session.save();
+                    return Response.status(Status.OK).entity(pTitle + " created.").build();
                 }
             }
             else{
@@ -189,6 +182,7 @@ public class SitesRoot extends ModuleRoot {
             }
             return Response.status(Status.NOT_MODIFIED).build();
         } catch (ClientException e) {
+            log.debug(e, e);
             return Response.status(Status.GONE).build();
         }
 
