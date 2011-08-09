@@ -66,6 +66,8 @@ public class SiteCreationEventListener implements EventListener {
         session.createDocument(tree);
         session.createDocument(assets);
         session.createDocument(welcome);
+        
+        session.save();
     }
 
 }
