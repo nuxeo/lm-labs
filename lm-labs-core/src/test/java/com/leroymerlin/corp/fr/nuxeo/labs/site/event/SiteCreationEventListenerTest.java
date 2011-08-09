@@ -32,8 +32,9 @@ public class SiteCreationEventListenerTest {
 
     @Test
     public void treeAndAssetsIsCreatedUnderSite() throws Exception {
-        DocumentModel sitesRoot = session.getDocument(new PathRef(
-                "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
+        DocumentModel sitesRoot = session.getDocument(new PathRef("/"
+                + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName() + "/"
+                + LabsSiteConstants.Docs.SITESROOT.docName()));
         assertTrue(session.exists(sitesRoot.getRef()));
 
         DocumentModel site1 = session.createDocumentModel(
@@ -67,8 +68,9 @@ public class SiteCreationEventListenerTest {
 
     @Test
     public void treeNotCreatedUnderFolder() throws Exception {
-        DocumentModel sitesRoot = session.getDocument(new PathRef(
-                "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
+        DocumentModel sitesRoot = session.getDocument(new PathRef("/"
+                + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName() + "/"
+                + LabsSiteConstants.Docs.SITESROOT.docName()));
         assertTrue(session.exists(sitesRoot.getRef()));
         DocumentModel folder = session.createDocumentModel(
                 sitesRoot.getPathAsString(), "folder", "Folder");

@@ -1,6 +1,24 @@
 <div id="comment">
-	<#assign param_name="description" />
-	<#assign param_value=This.description />
-	<#assign param_url=This.path+"/updateDescription" />
-	<#include "views/common/wysiwyg_editor.ftl" />
+  <div id="comment_form">
+    <div id="commentField" class="formWysiwyg">${This.description}</div>
+
+    <#assign form_name="comment_form" />
+    <#assign callback_function="save" />
+    <#include "views/common/form_utils.ftl" />
+
+    <script type="text/javascript">
+    function save() {
+      jQuery.ajax({
+         type: "POST",
+         url: "${This.path}/updateDescription",
+         data: "description="+jQuery("#commentField").html(),
+         success: function(msg){
+         },
+         error: function(msg){
+            alert("erreur " + msg);
+         }
+      });
+    }
+    </script>
+  </div>
 </div>
