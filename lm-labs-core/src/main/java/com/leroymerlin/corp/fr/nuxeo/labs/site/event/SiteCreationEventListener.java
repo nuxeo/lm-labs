@@ -1,6 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.event;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -15,6 +17,8 @@ import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
 
 public class SiteCreationEventListener implements EventListener {
 
+    private static final Log LOG = LogFactory.getLog(SiteCreationEventListener.class);
+
     @Override
     public void handleEvent(Event evt) throws ClientException {
         if (!(evt.getContext() instanceof DocumentEventContext)) {
@@ -28,19 +32,24 @@ public class SiteCreationEventListener implements EventListener {
         if (!LabsSiteConstants.Docs.SITE.type().equals(documentType)) {
             return;
         }
-        
+
+        LOG.debug("Creating site '" + doc.getName() + "'");
+        LOG.debug("Setting Permissions ...");
         SecurityData data = SecurityDataHelper.buildSecurityData(doc);
         data.setBlockRightInheritance(true, null);
         data.addModifiablePrivilege((String) doc.getPropertyValue("dc:creator"), SecurityConstants.EVERYTHING, true);
         SecurityDataHelper.updateSecurityOnDocument(doc, data);
 
         // create "tree base"
+        LOG.debug("Creating tree ...");
         CoreSession session = ctx.getCoreSession();
         DocumentModel tree = session.createDocumentModel(doc.getPathAsString(),
                 LabsSiteConstants.Docs.TREE.docName(), LabsSiteConstants.Docs.TREE.type());
+        LOG.debug("Creating assets ...");
         DocumentModel assets = session.createDocumentModel(
                 doc.getPathAsString(), LabsSiteConstants.Docs.ASSETS.docName(),
                 LabsSiteConstants.Docs.ASSETS.type());
+        LOG.debug("Creating welcome page ...");
         DocumentModel welcome = session.createDocumentModel(
                 doc.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName(),
                 LabsSiteConstants.Docs.WELCOME.docName(), LabsSiteConstants.Docs.WELCOME.type());
