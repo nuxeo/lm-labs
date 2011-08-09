@@ -50,4 +50,34 @@ public final class LabsSiteUtils {
         
         return session.getChildren(site.getRef());
     }
+    
+     public static String getTreeviewChildren(final DocumentModel parent,
+            final CoreSession session) throws ClientException {
+        if (parent == null || session == null || parent.getRef() == null) {
+            return null;
+        }
+
+        DocumentModelList children = session.getChildren(parent.getRef());
+        StringBuilder result = null;
+        if (children != null) {
+            result = new StringBuilder();
+
+            result.append("[");
+            for (DocumentModel doc : children) {
+                // TODO "expanded" : true when there are grand-children
+                // result.append("[{\"text\": \"1. Review of existing structures\",\"expanded\": true},");
+                // result.append("{\"text\": \"<a href='www.google.fr'>Google de ouf</a>\"},");
+                // result.append("{\"text\": \"3. Summary\"},");
+                // result.append("{\"text\": \"4. Questions and answers\"}]");
+
+                result.append("{").append("\"text\": ").append("\"<a href='").append(
+                        doc.getPathAsString()).append("'>").append(
+                        doc.getName()).append("</a>\"}");
+            }
+            result.append("]");
+
+        }
+
+        return result.toString();
+    }
 }

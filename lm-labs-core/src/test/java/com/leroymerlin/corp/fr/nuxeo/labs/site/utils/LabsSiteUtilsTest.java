@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -57,9 +58,40 @@ public final class LabsSiteUtilsTest {
     @Test
     @Deprecated
     public void canGetRootFolderAndChildren() throws ClientException {
+        generateSite();
+
+        final DocumentModel site1 = session.getDocument(new PathRef("/"
+                + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName() + "/"
+                + LabsSiteConstants.Docs.SITESROOT.docName() + "/"
+                + SiteFeatures.SITE_NAME));
+
+        DocumentModelList rootFolder = LabsSiteUtils.getRootFolder(site1,
+                session);
+        assertNotNull(rootFolder);
+        assertEquals(3, rootFolder.size());
+
+        for (DocumentModel doc : rootFolder) {
+            if (new String(site1.getPathAsString() + "/"
+                    + LabsSiteConstants.Docs.TREE.docName() + "/"
+                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder1").equals(doc.getPathAsString())) {
+                assertEquals(2, session.getChildren(doc.getRef()).size());
+            } else if (new String(site1.getPathAsString() + "/"
+                    + LabsSiteConstants.Docs.TREE.docName() + "/"
+                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder2").equals(doc.getPathAsString())) {
+                assertEquals(1, session.getChildren(doc.getRef()).size());
+            } else if (new String(site1.getPathAsString() + "/"
+                    + LabsSiteConstants.Docs.TREE.docName() + "/"
+                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder3").equals(doc.getPathAsString())) {
+                assertEquals(0, session.getChildren(doc.getRef()).size());
+            }
+        }
+    }
+
+    private void generateSite() throws ClientException {
         // SITE ROOT
-        DocumentModel sitesRoot = session.getDocument(new PathRef(
-                "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
+        DocumentModel sitesRoot = session.getDocument(new PathRef("/"
+                + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName() + "/"
+                + LabsSiteConstants.Docs.SITESROOT.docName()));
         assertTrue(session.exists(sitesRoot.getRef()));
         // SITE
         DocumentModel site1 = session.createDocumentModel(
@@ -125,27 +157,6 @@ public final class LabsSiteUtilsTest {
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
                 + LabsSiteConstants.Docs.TREE.docName() + "/"
                 + LabsSiteConstants.Docs.WELCOME.docName() + "/folder2/sub2_1")));
-
-        DocumentModelList rootFolder = LabsSiteUtils.getRootFolder(site1,
-                session);
-        assertNotNull(rootFolder);
-        assertEquals(3, rootFolder.size());
-
-        for (DocumentModel doc : rootFolder) {
-            if (new String(site1.getPathAsString() + "/"
-                    + LabsSiteConstants.Docs.TREE.docName() + "/"
-                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder1").equals(doc.getPathAsString())) {
-                assertEquals(2, session.getChildren(doc.getRef()).size());
-            } else if (new String(site1.getPathAsString() + "/"
-                    + LabsSiteConstants.Docs.TREE.docName() + "/"
-                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder2").equals(doc.getPathAsString())) {
-                assertEquals(1, session.getChildren(doc.getRef()).size());
-            } else if (new String(site1.getPathAsString() + "/"
-                    + LabsSiteConstants.Docs.TREE.docName() + "/"
-                    + LabsSiteConstants.Docs.WELCOME.docName() + "/folder3").equals(doc.getPathAsString())) {
-                assertEquals(0, session.getChildren(doc.getRef()).size());
-            }
-        }
     }
     
     @Test
@@ -183,6 +194,38 @@ public final class LabsSiteUtilsTest {
                 sessionCGM);
     }
 
+    @Test
+    public void cannotGetTreeviewChildren() throws ClientException {
+        String treeviewChildren = LabsSiteUtils.getTreeviewChildren(null, null);
+        assertNull(treeviewChildren);
+        treeviewChildren = LabsSiteUtils.getTreeviewChildren(null, session);
+        assertNull(treeviewChildren);
+
+        generateSite();
+        final DocumentModel site1 = session.getDocument(new PathRef("/"
+                + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName() + "/"
+                + LabsSiteConstants.Docs.SITESROOT.docName() + "/"
+                + SiteFeatures.SITE_NAME));
+        treeviewChildren = LabsSiteUtils.getTreeviewChildren(site1, null);
+        assertNull(treeviewChildren);
+    }
+
+    @Test
+    public void canGetTreeviewChildren() throws ClientException {
+        generateSite();
+
+        final DocumentModel site1 = session.getDocument(new PathRef("/"
+                + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName() + "/"
+                + LabsSiteConstants.Docs.SITESROOT.docName() + "/"
+                + SiteFeatures.SITE_NAME));
+
+        String treeviewChildren = LabsSiteUtils.getTreeviewChildren(site1,
+                session);
+        assertNotNull(treeviewChildren);
+        
+        // TODO test de la chaîne?
+    }
+
     protected void changeUser(String username) throws ClientException {
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
         session = coreFeature.getRepository().getRepositoryHandler().changeUser(
@@ -195,26 +238,5 @@ public final class LabsSiteUtilsTest {
             throw new Exception("unable to get userManager");
         }
         return userManager;
-    }
-
-    @Test
-    public void canGetSiteMap() throws ClientException {
-        // TODO refactoring path
-        
-        // SITE ROOT
-        DocumentModel sitesRoot = session.getDocument(new PathRef(
-                "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
-        assertTrue(session.exists(sitesRoot.getRef()));
-        // SITE
-        DocumentModel site1 = session.createDocumentModel(
-                sitesRoot.getPathAsString(), SiteFeatures.SITE_NAME,
-                LabsSiteConstants.Docs.SITE.type());
-        // when the "site" is created, an event is fired
-        site1 = session.createDocument(site1);
-        session.save();
-
-        assertNotNull(site1);
-        Object siteMap = LabsSiteUtils.getSiteMap(site1, session);
-        assertNotNull(siteMap);
     }
 }
