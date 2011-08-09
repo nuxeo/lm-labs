@@ -13,7 +13,7 @@ import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 @WebObject(type = "LabsSite")
@@ -26,7 +26,7 @@ public class Site extends DocumentObject {
         try {
             DocumentModel destDoc = ctx.getCoreSession().getDocument(docRef);
             String type = null;
-            if (LabsSiteConstants.Docs.fromString(doc.getType()) != null) {
+            if (Docs.fromString(doc.getType()) != null) {
                 return newObject(type, destDoc);
             } else {
                 throw new WebException("Unsupported document type "
@@ -43,7 +43,7 @@ public class Site extends DocumentObject {
         try {
             PathRef pathRef = new PathRef(LabsSiteUtils.getSiteTreePath(doc) + "/" + path);
             DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
-            if (LabsSiteConstants.Docs.fromString(doc.getType()) == null) {
+            if (Docs.fromString(doc.getType()) == null) {
                 throw new WebException("Unsupported document type "
                         + doc.getType());
             }
@@ -61,7 +61,7 @@ public class Site extends DocumentObject {
     @Override
     public Object doGet() {
         return redirect(getPath() + "/"
-                + LabsSiteConstants.Docs.WELCOME.docName());
+                + Docs.WELCOME.docName());
     }
 
 }
