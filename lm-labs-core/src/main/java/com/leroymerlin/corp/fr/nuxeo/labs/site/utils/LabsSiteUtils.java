@@ -37,14 +37,7 @@ public final class LabsSiteUtils {
     }
     
     public static String getSiteTreePath(DocumentModel doc) throws ClientException {
-        LabsSite site = (LabsSite) doc.getAdapter(LabsSite.class);
-        String url = site.getURL();
-        if (StringUtils.isEmpty(url)) { // should never happen ...
-            site.setURL(doc.getName());
-            doc = doc.getCoreSession().saveDocument(doc);
-            doc.getCoreSession().save();
-        }
-        return getSitesRootPath() + "/" + url + "/" + LabsSiteConstants.Docs.TREE.docName();
+        return getSitesRootPath() + "/" + doc.getName() + "/" + LabsSiteConstants.Docs.TREE.docName();
     }
     
     public static Object getSiteMap(final DocumentModel site,
