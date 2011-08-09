@@ -52,7 +52,7 @@ public class Site extends DocumentObject {
                     "treeviewRootParent",
                     getCoreSession().getDocument(
                             new PathRef(this.doc.getPathAsString() + "/"
-                                    + LabsSiteConstants.Docs.TREE.docName())));
+                                    + Docs.TREE.docName())));
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
