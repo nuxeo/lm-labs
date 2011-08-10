@@ -2,13 +2,19 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+
+import java.io.File;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nuxeo.common.utils.FileUtils;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Features;
@@ -81,6 +87,8 @@ public class LabsSiteAdapterTest {
         labssite.setTitle("Le titre du site");
         labssite.setDescription("Description");
         labssite.setURL("URL");
+        Blob blob = getTestBlob();
+        labssite.setLogo(blob);
         
         //Persist document in db
         doc = session.createDocument(doc);
@@ -94,6 +102,19 @@ public class LabsSiteAdapterTest {
         assertThat(labssite.getTitle(), is("Le titre du site"));
         assertThat(labssite.getDescription(), is("Description"));
         assertThat(labssite.getURL(), is("URL"));
+        assertThat(labssite.getLogo(), is(notNullValue()));
+        assertEquals(labssite.getLogo().getFilename(), blob.getFilename());
+        assertEquals(labssite.getLogo().getLength(), blob.getLength());
 
+    }
+
+    private Blob getTestBlob() {
+        String filename = "vision.jpg";
+        File testFile = new File(
+                FileUtils.getResourcePathFromContext("testFiles/" + filename));
+        Blob blob = new FileBlob(testFile);
+        blob.setMimeType("image/jpeg");
+        blob.setFilename(filename);
+        return blob;
     }
 }

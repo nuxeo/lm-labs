@@ -56,12 +56,7 @@
             </@block>
 
             <@block name="banner">
-            <!--<div id="FKbanner">
-                <form id="FKsearchBox">
-                    <span id="FKqimg">&nbsp;</span>
-                    <input id="FKq" name="q">&nbsp;<button id="FKsearch" value="${Context.getMessage('label.search')}"/>${Context.getMessage('label.search')}</button>
-                </form>
-            </div>-->
+            	<#include "views/common/banner.ftl" />
             </@block>
 
             <div id="FKmaincontent">

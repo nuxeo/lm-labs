@@ -1,7 +1,7 @@
 <div class="titleNews">
-	${Context.getMessage('label.labsNews.add.news')}
+	${Context.getMessage('label.labsNews.edit.edit')}
 </div>
-<form method="post" action="${This.pathForEdit}/persistNews">
+<form method="post" name="form-news" id="form-news" action="${This.pathForEdit}/persistNews">
 	<fieldset>	
 		<p>
         	<label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>&nbsp;:&nbsp;
@@ -20,7 +20,13 @@
         </p>
 	</fieldset>
 	<div class="newsOK">
-		<button id="FKNews" title="Persister news">${Context.getMessage('label.labsNews.edit.valid')}</button>
+		<button id="FKNews" onClick="javascript:submitForm();" title="Persister news">${Context.getMessage('label.labsNews.edit.valid')}</button>
 	</div>
 	<input type="hidden" name="newsId" id="newsId" value="<#if This.labsNews == null >-1<#else>${This.labsNews.documentModel.id}</#if>" />
 </form>
+<script type="text/javascript">
+	function submitForm(){
+		$("#form-news").submit();
+	}
+
+	</script>
