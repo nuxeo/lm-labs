@@ -1,14 +1,3 @@
-	<@block name="scripts">
-	  <@superBlock/>
-	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/jquery/jquery.validate.min.js"></script>
-	</@block>
-	
-	<@block name="css">
-	  <@superBlock/>
-	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
-	</@block>
 
 <div id="labssite-banner">
     <img src="${This.path}/@banner" id="bannerImgId"/> 
