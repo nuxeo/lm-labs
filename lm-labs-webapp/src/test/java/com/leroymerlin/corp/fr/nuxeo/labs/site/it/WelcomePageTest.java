@@ -44,16 +44,19 @@ public class WelcomePageTest {
         WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
         assertNotNull(welcomePage);
         assertTrue(welcomePage.hasSidebar());
+        rootPage.home();
     }
     
-    @Ignore("TODO") @Test
+    @Ignore("welcome page should not have any blocs, welcome page is a work in progress.") @Test
     public void pageDoesNotHaveBlocs() throws Exception {
+        ensureLoggedIn();
         MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
         WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertNotNull(welcomePage);
         assertFalse(welcomePage.hasBlocs());
     }
 
-    @Ignore("TODO") @Test
+    @Test
     public void pageHasSidebar() throws Exception {
         MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
         WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
