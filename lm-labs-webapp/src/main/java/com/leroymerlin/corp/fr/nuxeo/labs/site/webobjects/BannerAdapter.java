@@ -29,7 +29,7 @@ import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 /**
  * @author fvandaele
@@ -56,13 +56,12 @@ public class BannerAdapter extends DefaultAdapter {
     }
     
     @GET
-    public Response getImgBanner() throws ClientException{    
+    public Response getImgBanner() throws ClientException {
         DocumentModel document = getDocumentSite();
-        Response response = getImgResponse(document);
-        if (response == null){
-            response = redirect(getSkinPathPrefix(getModule()) + "/images/banniere.jpg");
+        if (document != null) {
+            return getImgResponse(document);
         }
-        return response;
+        return redirect(getSkinPathPrefix(getModule()) + "/images/banniere.jpg");
     }
     
     
@@ -87,18 +86,9 @@ public class BannerAdapter extends DefaultAdapter {
     
     private DocumentModel getDocumentSite() throws ClientException{
         Resource target = getTarget();
-        DocumentModel doc = null;
         if (target instanceof DocumentObject){
             DocumentObject site = (DocumentObject)target;
-            doc = site.getDocument();
-        }
-        while (doc.getParentRef() != null){
-            if (LabsSiteConstants.Docs.SITE.type().equals(doc.getType())){
-                return doc;
-            }
-            else{
-                doc = ctx.getCoreSession().getDocument(doc.getParentRef());
-            }
+            return LabsSiteUtils.getParentSite(site.getDocument());
         }
         return null;
     }
