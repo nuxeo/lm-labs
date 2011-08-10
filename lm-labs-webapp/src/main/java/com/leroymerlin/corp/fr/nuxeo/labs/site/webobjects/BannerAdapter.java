@@ -92,7 +92,7 @@ public class BannerAdapter extends DefaultAdapter {
             DocumentObject site = (DocumentObject)target;
             doc = site.getDocument();
         }
-        while (doc.getParentRef() != null){
+        while (doc != null && doc.getParentRef() != null){
             if (LabsSiteConstants.Docs.SITE.type().equals(doc.getType())){
                 return doc;
             }

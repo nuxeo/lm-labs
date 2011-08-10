@@ -17,6 +17,12 @@
 	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
 	</@block>
 	
+	<@block name="banner">
+    	<div id="labssite-banner">
+		    <img src="${skinPath}/images/banniere.jpg" id="bannerImgId"/> 
+		</div>
+    </@block>
+	
 	<@block name="content">	
 		<div id="homePage">
 			<div class="titleHomepage">
