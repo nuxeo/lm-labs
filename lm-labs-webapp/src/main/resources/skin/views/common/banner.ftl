@@ -3,8 +3,14 @@
     <img src="${This.path}/@banner" id="bannerImgId"/> 
 </div>
 
+<#assign canAdminister = false />
+<#if This.type.name != "sitesRoot" >
+  <#if Session.hasPermission(This.document.ref, 'Everything') >
+    <#assign canAdminister = true />
+  </#if>
+</#if>
 
-<#if Session.hasPermission(This.document.ref, 'Everything')>
+<#if canAdminister >
 	<style type="text/css">
 	  #actionBanner {
 	    float: right;
