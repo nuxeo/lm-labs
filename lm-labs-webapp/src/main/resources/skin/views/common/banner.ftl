@@ -4,7 +4,7 @@
 </div>
 
 
-
+<#if Session.hasPermission(This.document.ref, 'Everything')>
 	<style type="text/css">
 	  #actionBanner {
 	    float: right;
@@ -93,3 +93,4 @@
 			
 		});
 	</script>
+</#if>
