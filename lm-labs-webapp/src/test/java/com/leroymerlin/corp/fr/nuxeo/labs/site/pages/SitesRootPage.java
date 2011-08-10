@@ -8,11 +8,11 @@ public class SitesRootPage extends WebPage {
 
     private static final int WAITING_TIME = 5;
 
-//        @Override
-//    public WebPage ensureLoaded() {
-//        waitUntilElementFound(By.id("homePage"), 5);
-//        return super.ensureLoaded();
-//    }
+    @Override
+    public WebPage ensureLoaded() {
+        waitUntilElementFound(By.id("homePage"), 5);
+        return super.ensureLoaded();
+    }
     
     public boolean isloaded() {
         waitUntilElementFound(By.id("homePage"), WAITING_TIME);
@@ -31,6 +31,13 @@ public class SitesRootPage extends WebPage {
 
     public LoginPage getLoginPage() {
         return getPage(LoginPage.class);
+    }
+    
+    public MesSitesPage getMesSitesPage() {
+        WebElement bt = findElement(By.id("bt_display_labssite"));
+        bt.click();
+        waitUntilElementFound(By.id("MySites"), WAITING_TIME);
+        return getPage(MesSitesPage.class);
     }
 
     public CreateSitePopup createSite() {

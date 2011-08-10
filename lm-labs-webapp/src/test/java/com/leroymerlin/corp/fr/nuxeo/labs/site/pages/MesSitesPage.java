@@ -13,11 +13,6 @@ public class MesSitesPage extends WebPage {
     }
 
     public boolean containsSite(String title) {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         List<WebElement> elements = findElements(By.className("titleLabsSite"));
         for (WebElement element : elements) {
             if (title.equals(element.getText())) {
@@ -34,6 +29,17 @@ public class MesSitesPage extends WebPage {
     public WebPage ensureLoaded() {
         this.waitUntilElementFound(By.id("MySites"), 10);
         return this;
+    }
+
+    public WelcomePage welcomePage(String title) {
+        List<WebElement> elements = findElements(By.className("titleLabsSite"));
+        for (WebElement element : elements) {
+            if (title.equals(element.getText())) {
+                element.click();
+                return getPage(WelcomePage.class);
+            }
+        }
+        return null;
     }
 
 }

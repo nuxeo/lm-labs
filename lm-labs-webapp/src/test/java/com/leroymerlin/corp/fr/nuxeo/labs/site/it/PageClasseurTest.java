@@ -15,23 +15,32 @@ import org.nuxeo.runtime.test.runner.web.HomePage;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageClasseurPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageClasseurRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.OfmRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
 @Browser(type = BrowserFamily.FIREFOX)
-@RepositoryConfig(init = PageClasseurRepositoryInit.class)
-@HomePage(type = PageClasseurPage.class, url = "http://localhost:8089/labssites/site1/pageclasseur")
+@HomePage(type = SitesRootPage.class, url = "http://localhost:8089/labssites")
+@RepositoryConfig(init = OfmRepositoryInit.class)
 @Jetty(port = 8089)
 @Ignore
 public class PageClasseurTest {
 
-    @Inject PageClasseurPage page;
+    @Inject SitesRootPage page;
     
     @Test
     public void pageIsReachable() throws Exception {
+        ensureLoggedIn();
         assertNotNull(page);
     }
 
+    public void ensureLoggedIn() {
+        LoginPage login = page.getLoginPage();
+        if(!login.isAuthenticated()) {
+            login.ensureLogin("Administrator", "Administrator");
+        }
+    }
+    
 }
