@@ -47,13 +47,7 @@ public class SitesRoot extends ModuleRoot {
     private static final String HOMEPAGE_VIEW = "homePage";
     
     private static final String EDIT_VIEW = "views/sitesRoot/editLabsSite.ftl";
-    
-    /**
-     * use getDoc()
-     */
-    @Deprecated
-    private DocumentModel doc = null;
-    
+        
     private LabsSite currentLabsSite = null;
 
     @GET
@@ -83,8 +77,7 @@ public class SitesRoot extends ModuleRoot {
         if (listDoc != null && !listDoc.isEmpty()){
             DocumentModel document = listDoc.get(0);
             if (session.exists(document.getRef())) {
-                DocumentModel doc = session.getDocument(document.getRef());
-                return newObject("LabsSite", doc);
+                return newObject("LabsSite", document);
             } else {
                 return Response.ok().status(404).build();
             }
