@@ -32,14 +32,18 @@ public final class LabsSiteUtils {
     }
 
     public static String getSitesRootPath() {
-        return "/default-domain/" + Docs.SITESROOT.docName();
+        return "/" + Docs.DEFAULT_DOMAIN.docName() + "/" + Docs.SITESROOT.docName();
     }
     
-    public static String getSiteTreePath(DocumentModel doc) throws ClientException {
-        if (!Docs.SITE.type().equals(doc.getType())) {
+    public static String getSiteTreePath(DocumentModel siteDoc) throws ClientException {
+        if (!Docs.SITE.type().equals(siteDoc.getType())) {
             throw new IllegalArgumentException("document is not a " + Docs.SITE.type());
         }
-        return getSitesRootPath() + "/" + doc.getName() + "/" + Docs.TREE.docName();
+        return getSitesRootPath() + "/" + siteDoc.getName() + "/" + Docs.TREE.docName();
+    }
+    
+    public static DocumentModel getSiteTree(DocumentModel siteDoc) throws ClientException {
+        return siteDoc.getCoreSession().getDocument(new PathRef(getSiteTreePath(siteDoc)));
     }
     
     public static Object getSiteMap(final DocumentModel site,
@@ -79,5 +83,19 @@ public final class LabsSiteUtils {
         }
 
         return result.toString();
+    }
+
+    public static DocumentModel getParentSite(DocumentModel doc) throws ClientException {
+        CoreSession session = doc.getCoreSession();
+        if (Docs.SITE.type().equals(doc.getType())){
+            return doc;
+        }
+        while (!doc.getParentRef().equals(session.getRootDocument().getRef())){
+            doc = session.getDocument(doc.getParentRef());
+            if (Docs.SITE.type().equals(doc.getType())) {
+                return doc;
+            }
+        }
+        throw new IllegalArgumentException("document '" + doc.getPathAsString() + "' is not lacated in a site.");
     }
 }
