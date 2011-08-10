@@ -14,4 +14,8 @@ public class PageClasseurPage extends WebPage {
         return page;
     }
 
+    public LoginPage getLoginPage() {
+        return getPage(LoginPage.class);
+    }
+
 }
