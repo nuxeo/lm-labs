@@ -22,6 +22,8 @@ function modifyNews(url){
 		success: function(msg){
 			$("#editNews")[0].innerHTML = msg;	
 			initEditDateNews();
+			removeCheckeditor();
+			initCheckeditor();
 			displayEdit();
 		},
 		error: function(msg){
@@ -77,4 +79,13 @@ function initFields(){
 	$("#newsStartPublication").val("");
 	$("#newsEndPublication").val("");
 	$("#newsId").val("");
+	CKEDITOR.instances.newsContent.setData("");
+}
+
+function initCheckeditor(){
+	CKEDITOR.replace( 'newsContent' );
+}
+
+function removeCheckeditor(){
+	CKEDITOR.remove(CKEDITOR.instances.newsContent);
 }
