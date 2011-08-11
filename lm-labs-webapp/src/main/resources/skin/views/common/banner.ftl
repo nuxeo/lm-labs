@@ -34,9 +34,9 @@
 	<div style="clear: both; "></div>
 	
 	<div id="divEditBanner" class="editBanner" style="display: none;">
-		<form enctype="multipart/form-data" id="form-banner">
+		<form enctype="multipart/form-data" id="form-banner" method="post">
 			<p>
-	        	<span><input type="file" size="33" id="fileId" name="bannerfile"/></span>
+	        	<span><input type="file" size="33" id="bannerFileId" name="bannerfile"/></span>
 	     	</p>
 		</form>
 	</div>
@@ -50,7 +50,7 @@
 				buttons: {
 					"Annuler": function() { jQuery(this).dialog("close");},
 					"Modifier": function(evt) {
-						if (jQuery("#fileId").attr("value").length > 0) {
+						if (jQuery("#bannerFileId").attr("value").length > 0) {
 							jQuery(this).dialog("close");
 							setTimeout(function() {jQuery('#waitingPopup').dialog({ modal: true });}, 100);
 		
@@ -61,13 +61,13 @@
 									if (data.indexOf("Upload file ok") == -1) {
 										alert("failed: " + data);
 									} else {
-										jQuery("#fileId").val("");
+										jQuery("#bannerFileId").val("");
 										var cal = new Date();
-										$("#bannerImgId").attr("src","${This.path}/@banner?date="+cal.getTime());
+							            jQuery('#waitingPopup').dialog( "close" );
+										jQuery("#bannerImgId").attr("src","${This.path}/@banner?date="+cal.getTime());
 									}
 								}
 							});
-							$('#waitingPopup').dialog( "close" );
 							return true;
 						}
 					}
