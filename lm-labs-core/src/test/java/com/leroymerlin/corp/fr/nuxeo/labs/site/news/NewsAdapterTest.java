@@ -5,7 +5,6 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
