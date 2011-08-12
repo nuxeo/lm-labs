@@ -22,33 +22,12 @@
 		    <div>
 		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
 		    </div>
-		    <div id="treeviewControl">
-		    	<a href="#" id="reduceLink">Tout réduire</a>
-		    </div>
+		    <#list allDoc as doc>
+		    	<br />${doc.title} Créé par Dernière mise à jour par
+		    </#list>
 		    <div>
-			  <ul id="tree">
-			    <li class="hasChildren">
-			      <span>Arborescence du site ${This.document.title}</span>
-			      <ul>
-			        <li><span class="placeholder">&nbsp;</span></li>
-			      </ul>
-			    </li>
-			  </ul>
-			</div>
-		
-		    <script type="text/javascript">
-		    jQuery(document).ready( function() {
-			    jQuery("#tree").treeview({
-			      url: "${This.path}/treeview",
-			      ajax: {
-			        data: { },
-			        type: "post"
-			      },
-			      control: "#treeviewControl"
-		    	});
-			  	jQuery(".hitarea").click();
-		  	});
-		    </script>
+		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
+		    </div>
 		</div>
 	</@block>
 </@extends>	

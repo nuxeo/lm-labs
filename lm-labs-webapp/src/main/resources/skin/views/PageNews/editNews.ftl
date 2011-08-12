@@ -15,7 +15,6 @@
            	<input type="text" size="8" id="newsEndPublication" class="date-pick formfield" name="newsEndPublication" <#if This.labsNews!=null && This.labsNews.endPublication!=null> value="${This.labsNews.endPublication.time?string('dd/MM/yyyy')}" </#if>/>
         </p>
         <p>
-        	<label class="labelArea" for="newsContent">${Context.getMessage('label.labsNews.edit.content')}&nbsp;:&nbsp;</label>
             <textarea name="newsContent" id="newsContent" class="contentText"><#if This.labsNews != null >${This.labsNews.content}</#if></textarea>
         </p>
 	</fieldset>
@@ -25,7 +24,11 @@
 	<input type="hidden" name="newsId" id="newsId" value="<#if This.labsNews == null >-1<#else>${This.labsNews.documentModel.id}</#if>" />
 </form>
 <script type="text/javascript">
+
+	initCheckeditor();
+	
 	function submitForm(){
+		$("newsContent").val(CKEDITOR.instances.newsContent.getData());
 		$("#form-news").submit();
 	}
 

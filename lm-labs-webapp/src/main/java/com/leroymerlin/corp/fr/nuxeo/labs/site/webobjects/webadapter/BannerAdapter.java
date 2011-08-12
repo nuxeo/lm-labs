@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
 import static org.nuxeo.ecm.webengine.WebEngine.SKIN_PATH_PREFIX_KEY;
 
@@ -57,11 +57,15 @@ public class BannerAdapter extends DefaultAdapter {
     
     @GET
     public Response getImgBanner() throws ClientException {
+        Response response = null;
         DocumentModel document = getDocumentSite();
         if (document != null) {
-            return getImgResponse(document);
+            response =  getImgResponse(document);
         }
-        return redirect(getSkinPathPrefix(getModule()) + "/images/banniere.jpg");
+        if (response == null){
+            response = redirect(getSkinPathPrefix(getModule()) + "/images/banniere.jpg");
+        }
+        return response;
     }
     
     
