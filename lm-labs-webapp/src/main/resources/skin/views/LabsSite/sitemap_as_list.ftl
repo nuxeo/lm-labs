@@ -22,9 +22,16 @@
 		    <div>
 		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
 		    </div>
-		    <#list allDoc as doc>
-		    	<br />${doc.title} Créé par Dernière mise à jour par
-		    </#list>
+		    <table>
+		    	<tr><th>Elément</th><th>Créé par</th><th>Dernière mise à jour par</th></tr>
+			    <#list allDoc as doc>
+			    	<tr>
+			    		<td><a href="#">${doc.title}</a></td>
+			    		<td>${This.getCreatorUsername(doc.ref)} (${This.getCreated(doc.ref)})</td>
+			    		<td>${This.getLastModifierUsername(doc.ref)} (${This.getLastModified(doc.ref)})</td>
+			    	</tr>
+			    </#list>
+			</table>
 		    <div>
 		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
 		    </div>
