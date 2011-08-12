@@ -6,7 +6,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
@@ -25,6 +24,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 public class Site extends DocumentObject {
 
     public static final String SITEMAP_VIEW = "sitemap";
+
+    public static final String SITEMAP_AS_LIST_VIEW = "sitemap_as_list";
 
     @Path("id/{idPage}")
     public Object doGetPageId(@PathParam("idPage") final String idPage) {
@@ -47,35 +48,43 @@ public class Site extends DocumentObject {
     @GET
     @Path("siteMap")
     public Template doGoSiteMap() {
+        return getView(SITEMAP_VIEW);
+    }
+
+    @GET
+    @Path("siteMapAsList")
+    public Template doGoSiteMapAsList() {
         try {
-            return getView(SITEMAP_VIEW).arg(
-                    "treeviewRootParent",
-                    getCoreSession().getDocument(
-                            new PathRef(this.doc.getPathAsString() + "/"
-                                    + Docs.TREE.docName())));
+            return getView(SITEMAP_AS_LIST_VIEW).arg(
+                    "allDoc",
+                    LabsSiteUtils.getAllDoc(
+                            getCoreSession().getDocument(
+                                    new PathRef(this.doc.getPathAsString()
+                                            + "/" + Docs.TREE.docName())),
+                            getCoreSession()));
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
     }
 
     @POST
-    @Path("treeviewChildren/{treenodeId}")
-    public String doTreeviewChildren(
-            @PathParam("treenodeId") final String treenodeId) {
-        if (StringUtils.isBlank(treenodeId)) {
-            return null;
+    @Path("treeview")
+    public String doTreeview() {
+        try {
+            return LabsSiteUtils.getTreeview(
+                    getCoreSession().getDocument(
+                            new PathRef(this.doc.getPathAsString() + "/"
+                                    + Docs.TREE.docName())), getCoreSession());
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
         }
-
-        return "[{\"text\": \"1. Review of existing structures\",\"expanded\": true,\"children\": [{\"text\": \"1.1 jQuery core\"}, {\"text\": \"1.2 metaplugins\"}]},"
-                + "{\"text\": \"<a href='www.google.fr'>Google de ouf</a>\"},"
-                + "{\"text\": \"3. Summary\"},"
-                + "{\"text\": \"4. Questions and answers\"}]";
     }
 
     @Override
     public DocumentObject newDocument(String path) {
         try {
-            PathRef pathRef = new PathRef(LabsSiteUtils.getSiteTreePath(doc) + "/" + path);
+            PathRef pathRef = new PathRef(LabsSiteUtils.getSiteTreePath(doc)
+                    + "/" + path);
             DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
             if (Docs.fromString(doc.getType()) == null) {
                 throw new WebException("Unsupported document type "
@@ -94,8 +103,7 @@ public class Site extends DocumentObject {
      */
     @Override
     public Object doGet() {
-        return redirect(getPath() + "/"
-                + Docs.WELCOME.docName());
+        return redirect(getPath() + "/" + Docs.WELCOME.docName());
     }
 
 }

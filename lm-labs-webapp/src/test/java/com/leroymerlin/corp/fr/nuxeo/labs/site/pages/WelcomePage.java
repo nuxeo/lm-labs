@@ -9,11 +9,11 @@ import org.openqa.selenium.support.ui.TimeoutException;
 
 public class WelcomePage extends WebPage {
 
-    private static final int WAITING_TIME = 120;
+    private static final int WAITING_TIME = 5;
 
     @Override
     public WebPage ensureLoaded() {
-        waitUntilElementFound(By.className("pageBlocs"), 5);
+        waitUntilElementFound(By.className("pageBlocs"), WAITING_TIME);
         return super.ensureLoaded();
     }
 

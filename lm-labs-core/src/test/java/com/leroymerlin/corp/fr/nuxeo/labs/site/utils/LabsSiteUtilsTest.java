@@ -41,8 +41,9 @@ public final class LabsSiteUtilsTest {
     @Inject
     protected FeaturesRunner featuresRunner;
 
-    @Rule public ExpectedException thrown = ExpectedException.none();
-    
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
     public void iCanGetSitesRoot() throws Exception {
         DocumentModel root = LabsSiteUtils.getSitesRoot(session);
@@ -60,8 +61,7 @@ public final class LabsSiteUtilsTest {
 
         final DocumentModel site1 = session.getDocument(new PathRef("/"
                 + Docs.DEFAULT_DOMAIN.docName() + "/"
-                + Docs.SITESROOT.docName() + "/"
-                + SiteFeatures.SITE_NAME));
+                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
 
         DocumentModelList rootFolder = LabsSiteUtils.getRootFolder(site1,
                 session);
@@ -69,17 +69,16 @@ public final class LabsSiteUtilsTest {
         assertEquals(3, rootFolder.size());
 
         for (DocumentModel doc : rootFolder) {
-            if (new String(site1.getPathAsString() + "/"
-                    + Docs.TREE.docName() + "/"
-                    + Docs.WELCOME.docName() + "/folder1").equals(doc.getPathAsString())) {
+            if (new String(site1.getPathAsString() + "/" + Docs.TREE.docName()
+                    + "/" + Docs.WELCOME.docName() + "/folder1").equals(doc.getPathAsString())) {
                 assertEquals(2, session.getChildren(doc.getRef()).size());
             } else if (new String(site1.getPathAsString() + "/"
-                    + Docs.TREE.docName() + "/"
-                    + Docs.WELCOME.docName() + "/folder2").equals(doc.getPathAsString())) {
+                    + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
+                    + "/folder2").equals(doc.getPathAsString())) {
                 assertEquals(1, session.getChildren(doc.getRef()).size());
             } else if (new String(site1.getPathAsString() + "/"
-                    + Docs.TREE.docName() + "/"
-                    + Docs.WELCOME.docName() + "/folder3").equals(doc.getPathAsString())) {
+                    + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
+                    + "/folder3").equals(doc.getPathAsString())) {
                 assertEquals(0, session.getChildren(doc.getRef()).size());
             }
         }
@@ -99,67 +98,59 @@ public final class LabsSiteUtilsTest {
         site1 = session.createDocument(site1);
         // ROOT FOLDER
         DocumentModel folder1 = session.createDocumentModel(
-                site1.getPathAsString() + "/"
-                        + Docs.TREE.docName() + "/"
-                        + Docs.WELCOME.docName(), "folder1",
-                Docs.FOLDER.type());
+                site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
+                        + Docs.WELCOME.docName(), "folder1", Docs.PAGE.type());
         DocumentModel folder2 = session.createDocumentModel(
-                site1.getPathAsString() + "/"
-                        + Docs.TREE.docName() + "/"
-                        + Docs.WELCOME.docName(), "folder2",
-                Docs.FOLDER.type());
+                site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
+                        + Docs.WELCOME.docName(), "folder2", Docs.PAGE.type());
         DocumentModel folder3 = session.createDocumentModel(
-                site1.getPathAsString() + "/"
-                        + Docs.TREE.docName() + "/"
-                        + Docs.WELCOME.docName(), "folder3",
-                Docs.FOLDER.type());
+                site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
+                        + Docs.WELCOME.docName(), "folder3", Docs.PAGE.type());
         session.createDocument(folder1);
         session.createDocument(folder2);
         session.createDocument(folder3);
         // SUB FOLDER
         DocumentModel sub1_1 = session.createDocumentModel(
-                site1.getPathAsString() + "/"
-                        + Docs.TREE.docName() + "/"
-                        + Docs.WELCOME.docName() + "/folder1",
-                "sub1_1", Docs.FOLDER.type());
+                site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
+                        + Docs.WELCOME.docName() + "/folder1", "sub1_1",
+                Docs.PAGE.type());
         DocumentModel sub1_2 = session.createDocumentModel(
-                site1.getPathAsString() + "/"
-                        + Docs.TREE.docName() + "/"
-                        + Docs.WELCOME.docName() + "/folder1",
-                "sub1_2", Docs.FOLDER.type());
+                site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
+                        + Docs.WELCOME.docName() + "/folder1", "sub1_2",
+                Docs.PAGE.type());
         DocumentModel sub2_1 = session.createDocumentModel(
-                site1.getPathAsString() + "/"
-                        + Docs.TREE.docName() + "/"
-                        + Docs.WELCOME.docName() + "/folder2",
-                "sub2_1", Docs.FOLDER.type());
+                site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
+                        + Docs.WELCOME.docName() + "/folder2", "sub2_1",
+                Docs.PAGE.type());
         session.createDocument(sub1_1);
         session.createDocument(sub1_2);
         session.createDocument(sub2_1);
         session.save();
 
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
-                + Docs.TREE.docName() + "/"
-                + Docs.WELCOME.docName() + "/folder1")));
+                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
+                + "/folder1")));
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
-                + Docs.TREE.docName() + "/"
-                + Docs.WELCOME.docName() + "/folder2")));
+                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
+                + "/folder2")));
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
-                + Docs.TREE.docName() + "/"
-                + Docs.WELCOME.docName() + "/folder3")));
+                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
+                + "/folder3")));
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
-                + Docs.TREE.docName() + "/"
-                + Docs.WELCOME.docName() + "/folder1/sub1_1")));
+                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
+                + "/folder1/sub1_1")));
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
-                + Docs.TREE.docName() + "/"
-                + Docs.WELCOME.docName() + "/folder1/sub1_2")));
+                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
+                + "/folder1/sub1_2")));
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
-                + Docs.TREE.docName() + "/"
-                + Docs.WELCOME.docName() + "/folder2/sub2_1")));
+                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
+                + "/folder2/sub2_1")));
     }
-    
+
     @Test
     public void iCanGetSiteTreePath() throws Exception {
-        DocumentModel site = session.createDocumentModel(LabsSiteUtils.getSitesRootPath(), "MonSite", Docs.SITE.type());
+        DocumentModel site = session.createDocumentModel(
+                LabsSiteUtils.getSitesRootPath(), "MonSite", Docs.SITE.type());
         assertNotNull(site);
         site = session.createDocument(site);
         String treePath = LabsSiteUtils.getSiteTreePath(site);
@@ -167,10 +158,11 @@ public final class LabsSiteUtilsTest {
         assertTrue(treePath.endsWith("/tree"));
         assertTrue(treePath.contains("/MonSite/"));
     }
-    
+
     @Test
     public void iCannotGetTreePathOfNonSite() throws Exception {
-        DocumentModel welcomePage = session.getDocument(new PathRef(LabsSiteUtils.getSitesRootPath() + "/MonSite/tree/welcome"));
+        DocumentModel welcomePage = session.getDocument(new PathRef(
+                LabsSiteUtils.getSitesRootPath() + "/MonSite/tree/welcome"));
         assertNotNull(welcomePage);
         thrown.expect(IllegalArgumentException.class);
         LabsSiteUtils.getSiteTreePath(welcomePage);
@@ -193,51 +185,50 @@ public final class LabsSiteUtilsTest {
     }
 
     @Test
-    public void cannotGetTreeviewChildren() throws ClientException {
-        String treeviewChildren = LabsSiteUtils.getTreeviewChildren(null, null);
-        assertNull(treeviewChildren);
-        treeviewChildren = LabsSiteUtils.getTreeviewChildren(null, session);
-        assertNull(treeviewChildren);
-
+    public void canGetTreeview() throws ClientException {
         generateSite();
+
         final DocumentModel site1 = session.getDocument(new PathRef("/"
                 + Docs.DEFAULT_DOMAIN.docName() + "/"
-                + Docs.SITESROOT.docName() + "/"
-                + SiteFeatures.SITE_NAME));
-        treeviewChildren = LabsSiteUtils.getTreeviewChildren(site1, null);
-        assertNull(treeviewChildren);
+                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
+
+        String treeview = LabsSiteUtils.getTreeview(site1, session);
+        assertNotNull(treeview);
+        // TODO test result with regex
     }
 
     @Test
-    public void canGetTreeviewChildren() throws ClientException {
+    public void canGetAllDoc() throws ClientException {
         generateSite();
 
         final DocumentModel site1 = session.getDocument(new PathRef("/"
                 + Docs.DEFAULT_DOMAIN.docName() + "/"
-                + Docs.SITESROOT.docName() + "/"
-                + SiteFeatures.SITE_NAME));
+                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
 
-        String treeviewChildren = LabsSiteUtils.getTreeviewChildren(site1,
-                session);
-        assertNotNull(treeviewChildren);
-        
-        // TODO test de la chaîne?
+        DocumentModelList allDoc = LabsSiteUtils.getAllDoc(site1, session);
+        assertNotNull(allDoc);
+        assertTrue(allDoc.size() > 1);
     }
-    
+
     @Test
     public void iCanGetParentSite() throws Exception {
         final String siteName = "monsite";
-        DocumentModel site = session.createDocumentModel(LabsSiteUtils.getSitesRootPath(), siteName, Docs.SITE.type());
+        DocumentModel site = session.createDocumentModel(
+                LabsSiteUtils.getSitesRootPath(), siteName, Docs.SITE.type());
         site = session.createDocument(site);
         assertEquals(site.getId(), LabsSiteUtils.getParentSite(site).getId());
-        
-        DocumentModel tree = session.getDocument(new PathRef(LabsSiteUtils.getSitesRootPath() + "/" + siteName + "/" + Docs.TREE.docName()));
+
+        DocumentModel tree = session.getDocument(new PathRef(
+                LabsSiteUtils.getSitesRootPath() + "/" + siteName + "/"
+                        + Docs.TREE.docName()));
         assertEquals(site.getId(), LabsSiteUtils.getParentSite(tree).getId());
-        
-        DocumentModel pageClasseur = session.createDocumentModel(tree.getPathAsString(), "page1", Docs.PAGECLASSEUR.type());
+
+        DocumentModel pageClasseur = session.createDocumentModel(
+                tree.getPathAsString(), "page1", Docs.PAGECLASSEUR.type());
         pageClasseur = session.createDocument(pageClasseur);
-        assertEquals(site.getId(), LabsSiteUtils.getParentSite(pageClasseur).getId());
-        
+        assertEquals(site.getId(),
+                LabsSiteUtils.getParentSite(pageClasseur).getId());
+
         thrown.expect(IllegalArgumentException.class);
         LabsSiteUtils.getParentSite(LabsSiteUtils.getSitesRoot(session));
     }

@@ -1,59 +1,54 @@
-<html>
-  <head>
-    <title></title>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.sortable.js"></script>
-    
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/labssite.css"/>
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
-  </head>
-  <body>
-  	TODO : extends LABS-BASE
-    <!--ul id="tree">
-		<li class="hasChildren">
-			<span class="folder">Item 1</span>
-			<ul>
-				<li><span class="placeholder">&nbsp;</span></li>
-			</ul>
-		</li>
-		<li id="36" class="hasChildren">
-			<span>Item 2</span>
-			<ul>
-				<li><span class="placeholder">&nbsp;</span></li>
-			</ul>
-		</li>
-	</ul-->
+<@extends src="/views/labs-base.ftl">
+
+	<@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>
+
+	<@block name="scripts">
+	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.sortable.js"></script>
+	 </@block>
+
+	 <@block name="css">
+	  	<@superBlock/>
+	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
+	</@block>
 	
-	<ul id="tree">
-		<#list Session.getChildren(treeviewRootParent.ref) as child>
-		   <li id="${child.ref}">
-		   		<#assign subChildren = Session.getChildren(child.ref) /> 
-		   		<#--if subChildren == null>
-					<span>${child.title}</span>
-				<#else>
-					<span><a href="treeviewChildren/${child.ref}">${child.title}</a></span>
-					<ul>
-						<li><span class="placeholder">&nbsp;</span></li>
-					</ul>
-		   		</#if-->
-			</li>
-		</#list>
-	</ul>
-    
-    <script type="text/javascript">
-    jQuery(document).ready( function() {
-		jQuery("#tree").treeview({
-			url: "${This.path}/treeviewChildren/adfffbf1-8a1a-46ab-86f4-d0a1dffcf3ed",
-			// add some additional, dynamic data and request with POST
-			ajax: {
-				data: { "additional": "testa" },
-				type: "post"
-			}
-		});
-	}); 
-    </script>
-  </body>
-</html>
+	<@block name="content">
+		<div id="content">
+			TODO : liens sur les noeuds
+			<h1>PLAN DU SITE</h1>
+		    <div>
+		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
+		    </div>
+		    <div id="treeviewControl">
+		    	<a href="#" id="reduceLink">Tout réduire</a>
+		    </div>
+		    <div>
+			  <ul id="tree">
+			    <li class="hasChildren">
+			      <span>Arborescence du site ${This.document.title}</span>
+			      <ul>
+			        <li><span class="placeholder">&nbsp;</span></li>
+			      </ul>
+			    </li>
+			  </ul>
+			</div>
+		
+		    <script type="text/javascript">
+		    jQuery(document).ready( function() {
+			    jQuery("#tree").treeview({
+			      url: "${This.path}/treeview",
+			      ajax: {
+			        data: { },
+			        type: "post"
+			      },
+			      control: "#treeviewControl"
+		    	});
+			  	jQuery(".hitarea").click();
+		  	});
+		    </script>
+		</div>
+	</@block>
+</@extends>	
