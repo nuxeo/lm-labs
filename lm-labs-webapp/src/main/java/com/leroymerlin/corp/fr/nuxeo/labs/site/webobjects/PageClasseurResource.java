@@ -31,6 +31,8 @@ import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PageClasseurUtils;
+
 @WebObject(type = "PageClasseur")
 public class PageClasseurResource extends Page {
 
@@ -118,32 +120,22 @@ public class PageClasseurResource extends Page {
         if (form.isMultipartContent()) {
             String desc = form.getString("description");
             Blob blob = form.getFirstBlob();
-            if (blob == null) {
-                throw new IllegalArgumentException("Could not find any uploaded file");
-            } else {
-                blob.setFilename(blob.getFilename());
-                try {
-                    blob.persist();
-                    CoreSession coreSession = ctx.getCoreSession();
-                    DocumentModel folder = coreSession.getDocument(new IdRef(folderId));
-                    if (!folder.getParentRef().equals(doc.getRef())) {
-                        return Response.serverError().status(Status.FORBIDDEN).entity("folder is NOT a child of PageClasseur.").build();
-                    }
-                    DocumentModel fileDoc = Framework.getService(FileManager.class).createDocumentFromBlob(
-                            coreSession, blob, folder.getPathAsString(), true, blob.getFilename());
-                    if (!StringUtils.isEmpty(desc)) {
-                        fileDoc.setPropertyValue("dc:description", desc);
-                    }
-                    return Response.ok("Upload file ok", MediaType.TEXT_PLAIN).build();
-                } catch (Exception e) {
-                    return Response.serverError().status(Status.FORBIDDEN).entity(
-                            e.getMessage()).build();
-                }
+            try {
+                PageClasseurUtils.importBlobInPageClasseur(doc, folderId, desc, blob);
+                return Response.ok("Upload file ok", MediaType.TEXT_PLAIN).build();
+//            } catch (IllegalArgumentException e) {
+//                return Response.serverError().status(Status.FORBIDDEN).entity(e.getMessage()).build();
+//            } catch (IOException e) {
+//                return Response.serverError().status(Status.FORBIDDEN).entity(e.getMessage()).build();
+//            } catch (ClientException e) {
+//                return Response.serverError().status(Status.FORBIDDEN).entity(e.getMessage()).build();
+            } catch (Exception e) {
+                return Response.serverError().status(Status.FORBIDDEN).entity(e.getMessage()).build();
             }
         }
-        return Response.serverError().status(Status.FORBIDDEN).entity("ERROR").build();
+        return Response.serverError().status(Status.FORBIDDEN).entity("Invalid form").build();
     }
-    
+
     @POST
     @Path("addFolder")
     public Response doAddFolder(@FormParam("folderName") String folderName) {
