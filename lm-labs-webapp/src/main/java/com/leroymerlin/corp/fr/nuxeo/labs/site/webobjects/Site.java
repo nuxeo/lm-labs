@@ -80,6 +80,42 @@ public class Site extends DocumentObject {
         }
     }
 
+    public String getCreatorUsername(final String docRef) {
+        try {
+            return LabsSiteUtils.getCreatorUsername(getCoreSession().getDocument(
+                    new IdRef(docRef)));
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+    }
+
+    public String getLastModifierUsername(final String docRef) {
+        try {
+            return LabsSiteUtils.getLastModifierUsername(getCoreSession().getDocument(
+                    new IdRef(docRef)));
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+    }
+
+    public String getCreated(final String docRef) {
+        try {
+            return LabsSiteUtils.getCreated(getCoreSession().getDocument(
+                    new IdRef(docRef)));
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+    }
+
+    public String getLastModified(final String docRef) {
+        try {
+            return LabsSiteUtils.getLastModified(getCoreSession().getDocument(
+                    new IdRef(docRef)));
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+    }
+
     @Override
     public DocumentObject newDocument(String path) {
         try {
