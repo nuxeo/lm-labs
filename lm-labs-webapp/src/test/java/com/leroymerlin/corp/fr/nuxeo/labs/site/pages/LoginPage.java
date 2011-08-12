@@ -84,7 +84,7 @@ public class LoginPage extends WebPage {
 
     public boolean isAuthenticated() {
         try {
-            driver.findElement(By.id("logout"));
+            driver.findElement(By.id("FKlogout"));
             return true;
         } catch (NoSuchElementException e) {
             return false;

@@ -30,6 +30,11 @@ public class WelcomePage extends WebPage {
         List<WebElement> blocs = this.findElements(By.className("bloc"));
         return !blocs.isEmpty();
     }
+    
+//    public PageClasseurPage goToPageClasseur(String siteURL, String name) {
+//        this.getDriver().navigate().to(siteURL + "/" + name);
+//        return this.getPage(PageClasseurPage.class);
+//    }
 
     public LoginPage getLoginPage() {
         return getPage(LoginPage.class);

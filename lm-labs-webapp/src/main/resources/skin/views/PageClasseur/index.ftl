@@ -35,11 +35,15 @@
 <#assign children = Session.getChildren(Document.ref, "Folder")>
 <#if children?size &gt; 0>
 <#list children as child>
-<div class="${child.type} DropZone" id="${child.id}">
+<div class="${child.type}" id="${child.id}">
 <p>
 <div class="row ${child.type}">
-<span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
-<span class="colFolderTitle">${child.dublincore.title}</span>
+<div class="DropZone" >
+  <form enctype="multipart/form-data" method="POST" action="${This.path}">
+    <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
+    <span class="colFolderTitle">${child.dublincore.title}</span>
+  </form>
+</div>
 <#if canWrite>
 <span class="colActions">
 	<#assign title = Context.getMessage('command.PageClasseur.addFile') />
@@ -136,7 +140,7 @@
 	    <#assign filename = This.getBlobHolder(child).blob.filename >
 	    <span class="colFileName">${filename}</span>
 	    <span class="colDescription">${child.dublincore.description}</span>
-	    <span class="colFilesize">${(This.getBlobHolder(child).blob.length/1024)?ceiling} Ko</span>
+	    <span class="colFilesize">${bytesFormat(This.getBlobHolder(child).blob.length, "K", "fr_FR")}</span>
 	    <span class="colVersion">${child.versionLabel}</span>
 	    <span class="colModified">${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</span>
 	    <span class="colCreator">${child.dublincore.creator}</span>

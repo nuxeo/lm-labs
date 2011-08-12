@@ -6,11 +6,11 @@ import org.openqa.selenium.WebElement;
 
 public class SitesRootPage extends WebPage {
 
-    private static final int WAITING_TIME = 5;
+    private static final int WAITING_TIME = 10;
 
     @Override
     public WebPage ensureLoaded() {
-        waitUntilElementFound(By.id("homePage"), 5);
+        waitUntilElementFound(By.id("homePage"), WAITING_TIME);
         return super.ensureLoaded();
     }
     
@@ -46,5 +46,10 @@ public class SitesRootPage extends WebPage {
         waitUntilElementFound(By.className("create-labs-site"), WAITING_TIME);
         return getPage(CreateSitePopup.class);
    }
+
+    public PageClasseurPage goToPageClasseur(String siteURL, String name) {
+        this.getDriver().navigate().to(siteURL + "/" + name);
+        return this.getPage(PageClasseurPage.class);
+    }
 
 }
