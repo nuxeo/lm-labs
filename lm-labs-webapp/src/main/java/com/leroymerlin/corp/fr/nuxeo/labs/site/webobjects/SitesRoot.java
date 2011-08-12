@@ -26,11 +26,14 @@ import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
+import org.nuxeo.ecm.platform.rendering.fm.FreemarkerEngine;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
+import com.leroymerlin.corp.fr.nuxeo.freemarker.BytesFormatTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
@@ -49,6 +52,21 @@ public class SitesRoot extends ModuleRoot {
     private static final String EDIT_VIEW = "views/sitesRoot/editLabsSite.ftl";
         
     private LabsSite currentLabsSite = null;
+
+
+    /* (non-Javadoc)
+     * @see org.nuxeo.ecm.webengine.model.impl.AbstractResource#initialize(java.lang.Object[])
+     */
+    @Override
+    protected void initialize(Object... args) {
+        super.initialize(args);
+        // Add global fm variables
+        RenderingEngine rendering = getContext().getEngine().getRendering();
+        if (rendering instanceof FreemarkerEngine) {
+            FreemarkerEngine fm = (FreemarkerEngine) rendering;
+            fm.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
+        }
+    }
 
     @GET
     public Object doGetDefaultView() {
