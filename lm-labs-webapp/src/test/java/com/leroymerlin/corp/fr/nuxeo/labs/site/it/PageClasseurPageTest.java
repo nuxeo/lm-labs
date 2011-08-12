@@ -17,11 +17,9 @@ import org.nuxeo.runtime.test.runner.web.HomePage;
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.MesSitesPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageClasseurAddFolderPopup;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageClasseurPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.WelcomePage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageClasseurPageRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
@@ -54,7 +52,7 @@ public class PageClasseurPageTest {
         assertTrue(pageClasseur.hasFolder(PageClasseurPageRepositoryInit.FOLDER1_NAME));
     }
 
-    @Ignore @Test
+    @Ignore("Unable to click on button in jQuery UI Dialog.") @Test
     public void addFolder() throws Exception {
         PageClasseurPage pageClasseur = getPageClasseur();
         PageClasseurAddFolderPopup popup = pageClasseur.clickAddFolder();

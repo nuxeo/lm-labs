@@ -14,12 +14,24 @@ public class PageClasseurAddFolderPopup extends WebPage {
 
     public PageClasseurPage validate() {
         WebElement buttonsDiv = findElement(By.className("ui-dialog-buttonset"));
-        List<WebElement> buttons = buttonsDiv.findElements(By.className("ui-button-text"));
+        List<WebElement> buttons = buttonsDiv.findElements(By.className("ui-button"));
+//        buttons.get(1).click();
+//        return getPage(PageClasseurPage.class);
+        
+        
         for (WebElement button : buttons) {
-            if ("Ajouter".equals(button.getText())) {
+            try {
+                WebElement span = button.findElement(By.xpath("//span[text()='Ajouter']"));
                 button.click();
                 return getPage(PageClasseurPage.class);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+//            WebElement span = button.findElement(By.className("ui-button-text"));
+//            if ("Ajouter".equals(span.getText())) {
+//                button.click();
+//                return getPage(PageClasseurPage.class);
+//            }
         }
         return null;
     }
