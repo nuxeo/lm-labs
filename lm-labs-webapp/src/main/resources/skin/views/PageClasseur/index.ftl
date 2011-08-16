@@ -151,6 +151,7 @@
 	        <img class="removefile classeurbouton" title="${title} ${filename}" alt="${title}" src="${skinPath}/images/x.gif" />
 	      </form>
 	    </span>
+	    <span class="colView"><a href="${This.path}/doc/${child.id}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a></span>
 	    <span class="colDownload"><a href="${This.path}/doc/${child.id}/@blob">${Context.getMessage('command.PageClasseur.download')}</a></span>
 	    </#if>
 	  </#if>
