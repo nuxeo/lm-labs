@@ -23,7 +23,7 @@
 	     
 	  #labssite-banner {
 	  	float: left;
-	    height: 79px;
+	    /*height: 79px;*/
 	    z-index: -1;
 	     }
 	 </style>
