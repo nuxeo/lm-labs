@@ -4,11 +4,11 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -16,7 +16,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -25,12 +24,14 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.Sorter;
+import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 /**
  * @author fvandaele
@@ -48,18 +49,23 @@ public class PageBlocs extends Page {
     @Override
     public Object doGet() {
 
-        Template template = getView(SITE_VIEW);
-
-        // get children
-        CoreSession session = getContext().getCoreSession();
-        // set variable
-        try {
-            template.arg("rootFolder", session.getChildren(doc.getRef()));
-        } catch (ClientException ce) {
-            LOG.error("Unable to get description " + ce);
+        Template template;
+        if (LabsSiteConstants.Docs.WELCOME.docName().equals(doc.getName())) {
+            template = getView("welcome");
+        } else {
+            template = getView(SITE_VIEW);
         }
-
         return template;
+    }
+    
+    
+    public List<DocumentModel> getChildren() {
+        try {
+            return getCoreSession().query("SELECT * FROM Page WHERE ecm:parentId = '" + LabsSiteUtils.getSiteTree(LabsSiteUtils.getParentSite(doc)).getId() + "'");
+        } catch (ClientException e) {
+            LOG.error(e, e);
+        }
+        return new DocumentModelListImpl();
     }
     
     public ArrayList<ExternalURL> getExternalURLs() throws ClientException {
