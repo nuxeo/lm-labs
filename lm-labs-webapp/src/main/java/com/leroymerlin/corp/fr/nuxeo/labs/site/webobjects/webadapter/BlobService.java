@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.util.Calendar;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Request;
@@ -18,21 +19,60 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.core.convert.api.ConversionService;
+import org.nuxeo.ecm.platform.preview.adapter.PreviewAdapterManager;
+import org.nuxeo.ecm.platform.preview.api.HtmlPreviewAdapter;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
+import org.nuxeo.runtime.api.Framework;
 
 @WebAdapter(name = "blob", type = "BlobService")
 public class BlobService extends DefaultAdapter {
 
+    private enum ContentDisposition {
+        attachement, inline;
+    }
+    
     private static final Log LOG = LogFactory.getLog(BlobService.class);
     
     @GET
     public Object doGet(@Context Request request) {
         DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        return getBlob(doc, request, "attachment");
+        return getBlob(doc, request, ContentDisposition.attachement);
     }
     
-    protected Object getBlob(DocumentModel doc, Request request, String contentDisposition) {
+    @GET @Path("preview")
+    public Object getPreview() {
+        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
+        String previewURL = ctx.getBaseURL() + "/nuxeo/"  + getPreviewURL(doc);
+        return this.redirect(previewURL);
+    }
+
+    public String getPreviewURL(DocumentModel doc) throws IllegalStateException {
+        PreviewAdapterManager pam = Framework.getLocalService(PreviewAdapterManager.class);
+        boolean hasPreview = pam.hasAdapter(doc);
+        if (hasPreview) {
+            HtmlPreviewAdapter previewAdapter = pam.getAdapter(doc);
+            return previewAdapter.getFilePreviewURL();
+        }
+        throw new IllegalStateException("No preview adapter available for " + doc.getPathAsString());
+        
+    }
+    
+    @GET
+    @Path("html")
+    @Deprecated
+    public Object doGetView(@Context Request request) throws Exception {
+        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
+        BlobHolder blobHolder = doc.getAdapter(BlobHolder.class);
+        Blob blob = blobHolder.getBlob();
+        ConversionService service = Framework.getService(ConversionService.class);
+        String converterName = service.getConverterName(blob.getMimeType(), "text/html");
+        BlobHolder convert = service.convert(converterName, blobHolder, null);
+        return convert.getBlob().getString();
+    }
+    
+    protected Object getBlob(DocumentModel doc, Request request, ContentDisposition disposition) {
         try {
             Blob blob = doc.getAdapter(BlobHolder.class).getBlob();
             Calendar modified = (Calendar) doc.getPropertyValue("dc:modified");
@@ -47,7 +87,7 @@ public class BlobService extends DefaultAdapter {
                     : blob.getMimeType();
             String filename = blob.getFilename() == null ? "file" : blob.getFilename();
             return Response.ok(blob)
-                    .header("Content-Disposition", contentDisposition + ";filename=\"" + filename + "\"")
+                    .header("Content-Disposition", disposition.name() + ";filename=\"" + filename + "\"")
                     .type(mimeType)
                     .lastModified(modified.getTime())
                     .expires(expire.getTime())
