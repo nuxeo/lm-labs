@@ -147,10 +147,11 @@
 	    <#if canWrite>
 	    <#assign title = Context.getMessage('command.PageClasseur.deleteFile') />
 	    <span class="colActions">
-	      <form action="${This.path}/${child.id}" >
+	      <form action="${This.path}/doc/${child.id}" >
 	        <img class="removefile classeurbouton" title="${title} ${filename}" alt="${title}" src="${skinPath}/images/x.gif" />
 	      </form>
 	    </span>
+	    <span class="colDownload"><a href="${This.path}/doc/${child.id}/@blob">${Context.getMessage('command.PageClasseur.download')}</a></span>
 	    </#if>
 	  </#if>
   </div><!-- row --></p>

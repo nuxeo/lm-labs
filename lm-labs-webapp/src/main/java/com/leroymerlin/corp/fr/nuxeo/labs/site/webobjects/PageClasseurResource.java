@@ -28,6 +28,7 @@ import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 import org.nuxeo.ecm.webengine.forms.FormData;
+import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.runtime.api.Framework;
 
@@ -164,28 +165,31 @@ public class PageClasseurResource extends Page {
         return document.getAdapter(BlobHolder.class);
     }
     
-    @DELETE
-    @Path("{docId}")
-    public Response doDeleteChild(@PathParam("docId") String docId) {
-        final String logPrefix = "<doDeleteChild> ";
+    private DocumentModelList getChild(String docId) throws ClientException {
+        StringBuilder sb = new StringBuilder("SELECT * From Document");
+        sb.append(" WHERE ecm:path STARTSWITH '").append(doc.getPathAsString()).append("'");
+        sb.append(" AND ecm:uuid = '").append(docId).append("'");
+        DocumentModelList list = getCoreSession().query(sb .toString());
+        return list;
+    }
+    
+    @Path("doc/{docId}")
+    public Object doGetChild(@PathParam("docId") String docId) {
+        final String logPrefix = "<doGetChild> ";
         LOG.debug(logPrefix + docId);
-        
+        DocumentModelList list;
         try {
-            StringBuilder sb = new StringBuilder("SELECT * From Document");
-            sb.append(" WHERE ecm:path STARTSWITH '").append(doc.getPathAsString()).append("'");
-            sb.append(" AND ecm:uuid = '").append(docId).append("'");
-            DocumentModelList list = getCoreSession().query(sb .toString());
+            list = getChild(docId);
             if (list.isEmpty()) {
                 return Response.status(Status.NOT_FOUND).build();
             }
-            getCoreSession().removeDocument(list.get(0).getRef());
-            getCoreSession().save();
+            return newObject("ClasseurElement", list.get(0));
         } catch (ClientException e) {
             LOG.error(e.getMessage());
             return Response.status(Status.FORBIDDEN).build();
         }
-        return Response.status(Status.NO_CONTENT).build();
     }
+
 
     @DELETE
     @Path("bulk")
