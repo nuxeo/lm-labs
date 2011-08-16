@@ -55,4 +55,13 @@ public class PageBlocsAdapterTest {
         pageBlocs.setTitle(null);
     }
     
+    @Test
+    public void iCannotSetExternalURLs() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_blocs"));
+        assertNotNull(doc);
+        PageBlocs pageBlocs = doc.getAdapter(PageBlocs.class);
+        assertNotNull(pageBlocs);
+        pageBlocs.setTitle(TITRE_1);
+    }
+    
 }
