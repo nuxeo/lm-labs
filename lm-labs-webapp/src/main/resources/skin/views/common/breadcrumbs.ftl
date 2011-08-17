@@ -1,4 +1,5 @@
 <div id="breadcrumbs">
+<#if This.type.name != "sitesRoot" >
 <#assign mySeq = [] />
 <@prev doc = This.document />
 
@@ -25,3 +26,4 @@
   <#if mySeq?first.id != resource.id><span>&gt;</span></#if>
 </#list>
 </div>
+</#if>
