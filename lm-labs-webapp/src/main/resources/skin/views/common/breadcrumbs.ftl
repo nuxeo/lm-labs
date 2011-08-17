@@ -18,7 +18,7 @@
 
 <#list mySeq?reverse as resource >
   <#if resource.type == "Site" >
-    <a href="${sitePath}" title="">${resource.dublincore.title}</a>
+    <a href="${sitePath}" title="${resource.dublincore.title}">${resource.dublincore.title}</a>
   <#else>
     <a href="${sitePath}/id/${resource.id}" title="">${resource.dublincore.title}</a>
   </#if>
