@@ -1,17 +1,19 @@
 
 
 function deleteLabsSite(url, path){
-	jQuery.ajax({
-		type: "DELETE",
-		url: url,
-		data: '',
-		success: function(msg){
-			document.location.href=path + '?homepage=display';
-		},
-		error: function(msg){
-			alert( msg.responseText );
-		}
-	});
+	if (confirm("Etes-vous sûr de vouloir effacer ce site ?")) {
+		jQuery.ajax({
+			type: "DELETE",
+			url: url,
+			data: '',
+			success: function(msg){
+				document.location.href=path + '?homepage=display';
+			},
+			error: function(msg){
+				alert( msg.responseText );
+			}
+		});
+	}
 }
 
 function modifyLabsSite(url){
