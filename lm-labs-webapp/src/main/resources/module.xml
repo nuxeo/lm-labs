@@ -15,6 +15,26 @@
       <type>PageClasseur</type>
       <guard>Write</guard>
     </link>
+    
+    <!-- Page description buttons -->
+    <link id="PageDescriptionModifyBt">
+      <category>PAGE_DESCRIPTION_BEFORE_BUTTONS</category>
+      <type>PageClasseur</type>
+      <guard>Write</guard>
+    </link>
+    
+    <link id="PageDescriptionSaveBt">
+      <category>PAGE_DESCRIPTION_AFTER_BUTTONS</category>
+      <type>PageClasseur</type>
+      <guard>Write</guard>
+    </link>
+    
+    <link id="PageDescriptionCancelBt">
+      <category>PAGE_DESCRIPTION_AFTER_BUTTONS</category>
+      <type>PageClasseur</type>
+      <guard>Write</guard>
+    </link>
+    
   </links>
 
 </module>

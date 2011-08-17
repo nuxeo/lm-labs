@@ -24,7 +24,7 @@
 	</@block>
 
 	<@block name="content">	
-<h1>${This.document.dublincore.description}</h1>
+<#include "views/common/description_area.ftl">
 
 <#assign area_height=2 />
 <#include "views/common/comment_area.ftl">
