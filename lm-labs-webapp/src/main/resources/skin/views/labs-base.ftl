@@ -63,6 +63,9 @@
             <@block name="banner">
             	<#include "views/common/banner.ftl" />
             </@block>
+            <@block name="breadcrumbs">
+                <#include "views/common/breadcrumbs.ftl">
+            </@block>
 
             <div id="FKmaincontent">
                 <@block name="tabs">

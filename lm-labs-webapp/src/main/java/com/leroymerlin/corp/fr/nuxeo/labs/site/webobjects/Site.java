@@ -32,12 +32,11 @@ public class Site extends DocumentObject {
         DocumentRef docRef = new IdRef(idPage);
         try {
             DocumentModel destDoc = ctx.getCoreSession().getDocument(docRef);
-            String type = null;
-            if (Docs.fromString(doc.getType()) != null) {
-                return newObject(type, destDoc);
+            if (Docs.fromString(destDoc.getType()) != null) {
+                return newObject(destDoc.getType(), destDoc);
             } else {
                 throw new WebException("Unsupported document type "
-                        + doc.getType());
+                        + destDoc.getType());
             }
         } catch (ClientException e) {
             throw WebException.wrap("The document id='" + idPage
