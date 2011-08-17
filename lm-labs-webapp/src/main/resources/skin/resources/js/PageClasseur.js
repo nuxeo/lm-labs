@@ -1,9 +1,5 @@
 jQuery(document).ready(function(){
 	
-	jQuery("#downloadFile").click(function() {
-		// TODO
-	});
-	
 	var link ="";
 	jQuery("#div-addfile").dialog({
 		dialogClass: 'dialog-addfile',
