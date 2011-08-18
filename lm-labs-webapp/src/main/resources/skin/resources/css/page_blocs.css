@@ -1,17 +1,48 @@
 div#sidebar {
 	float: left;
-	width: 160px;
+	width: 19%;
 	height: 550px;
 	background-color:#FF6699;
 }
 .pageBlocs {
+	width: 80%;
+}
+
+.blocTitle {
+	font-size: large;
+	font-weight: bold;
+	border-bottom: 1px solid black;
+	padding-bottom: 0.5em;
+	background-color: #BBB;
+	text-align: center;
+}
+
+
+.blocTitle a {
+	text-decoration: none;
+}
+
+.blocTitle a:hover {
+	text-decoration: underline;
+}
+
+.blocContent ul {
+	margin: 0 0 0 0.5em;	
 }
 
 .bloc {
-	border: 1px solid #BBB;
+	border: 1px solid black;
 	display: inline-block;
-    width: 40%;
+    width: 49%;
     border-radius: 7px;
     margin-bottom: 15px;
     vertical-align: top;
+}
+
+.bloc li a {
+	text-decoration: none;
+}
+
+.bloc li a:hover {
+	text-decoration: underline;
 }

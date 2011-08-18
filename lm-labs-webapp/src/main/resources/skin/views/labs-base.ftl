@@ -116,6 +116,7 @@
             <@block name="content"></@block>
 
         </div>
+        <div style="clear:both;" />
         <div id="FKfooter">
 
             <div id="FKfooter_logo_lm">&nbsp;</div>

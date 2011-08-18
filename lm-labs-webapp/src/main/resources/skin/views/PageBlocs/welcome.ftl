@@ -17,9 +17,9 @@
 	
 	
   <@block name="content">
-    <div id="content" class="pageBlocs">
       <#-- SIDEBAR AREA --> 
       <#include "views/common/sidebar_area.ftl" />
+    <div id="content" class="pageBlocs">
       
       <#-- COMMENT AREA --> 
       <#include "views/common/comment_area.ftl" />
@@ -43,8 +43,12 @@
       </#list>
       <#-- FIXME -->
         <div id="bloc_test" class="bloc">
-        MANUTE FIXME
-        </div>
+          <div class="blocTitle">
+        MANUTEO
+          </div>
+          <div class="blocContent">
+          Catalogue en ligne des engins et supports de manutention
+          </div>
       </div>
     </div>
   </@block>
