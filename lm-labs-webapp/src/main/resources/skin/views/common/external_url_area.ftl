@@ -7,14 +7,40 @@
 		cursor:pointer;
 	}
 	#div_externalURL{
-		border: 1px solid #BBB;
+		border: 1px solid white;
 		margin: 2px 2px 2px 2px;
 		padding: 2px 2px 2px 2px;
+		background-color: lightSalmon;
+	}
+	#div_externalURL ul {
+		margin: 0 0 0 0.5em;
+	}
+	#div_externalURL ul li {
+		display: block;
+		text-decoration: none;
+		height: 1.5em;
+	}
+	.actionExternalURL {
+		float: right;
+	}
+	.actionExternalURL img {
+		float: right;
+	}
+	.actionExternalURL.actionAdd {
+		width: 100%;
+	}
+	.titleExternalURL {
+		font-weight: bold;
+		width: 100%;
+		color: white;
 	}
 </style>
 
 <div id="div_externalURL">
+		<div class="titleExternalURL">${Context.getMessage('label.externalURL.title')}</div>
+		<ul>
    	<#list This.externalURLs as e >
+   		<li>
 		<a href="${e.getURL()}" style="word-wrap: break-word" target="_blank" title="${e.getURL()}">${e.name}</a>
 		<#if Session.hasPermission(This.document.ref, 'Everything')>
 			<div class="actionExternalURL">
@@ -22,10 +48,14 @@
 				<img onClick="javascript:deleteExternalURL('${This.path}/deleteExternalURL/${e.document.id}', '${This.path}');" title="Supprimer" alt="Supprimer" src="${skinPath}/images/x.gif" />
 			</div>
 		</#if>
+		</li>
 	</#list>
 	<#if Session.hasPermission(This.document.ref, 'Everything')>
-		<div class="actionExternalURL"><img class="actionExternalURL" title="Ajouter" id="addExternalURL" alt="Ajouter" src="${skinPath}/images/add.png" /></div>
+		<li>
+		<div class="actionExternalURL actionAdd"><img class="actionExternalURL" title="Ajouter" id="addExternalURL" alt="Ajouter" src="${skinPath}/images/add.png" /></div>
+		</li>
 	</#if>
+		</ul>
 </div>
 
 <div id="div_persistExternalURL" style="display: none;" title="${Context.getMessage('label.externalURL.edit.title')}">
