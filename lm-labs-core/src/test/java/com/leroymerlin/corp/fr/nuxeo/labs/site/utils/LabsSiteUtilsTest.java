@@ -192,7 +192,7 @@ public final class LabsSiteUtilsTest {
                 + Docs.DEFAULT_DOMAIN.docName() + "/"
                 + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
 
-        String treeview = LabsSiteUtils.getTreeview(site1, session);
+        String treeview = LabsSiteUtils.getTreeview(site1);
         assertNotNull(treeview);
         // TODO test result with regex
     }
@@ -205,7 +205,7 @@ public final class LabsSiteUtilsTest {
                 + Docs.DEFAULT_DOMAIN.docName() + "/"
                 + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
 
-        DocumentModelList allDoc = LabsSiteUtils.getAllDoc(site1, session);
+        DocumentModelList allDoc = LabsSiteUtils.getAllDoc(site1);
         assertNotNull(allDoc);
         assertTrue(allDoc.size() > 1);
     }
