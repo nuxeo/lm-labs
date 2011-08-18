@@ -53,21 +53,24 @@ public final class LabsSiteUtils {
                 new PathRef(getSiteTreePath(siteDoc)));
     }
 
-    public static Object getSiteMap(final DocumentModel site,
-            final CoreSession session) throws ClientException {
+    /**
+     * @param site
+     * @return JSON representation of site's tree.
+     * @throws ClientException if unable to retrieve children of site.
+     * @throws IllegalArgumentException if site is <code>null</code>.
+     */
+    public static Object getSiteMap(final DocumentModel site) throws ClientException, IllegalArgumentException {
         if (site == null) {
-            return null;
+            throw new IllegalArgumentException("site's document model can not be null.");
         }
-
-        return session.getChildren(site.getRef());
+        return site.getCoreSession().getChildren(site.getRef());
     }
 
-    public static String getTreeview(final DocumentModel parent,
-            final CoreSession session) throws ClientException {
-        if (parent == null || session == null || parent.getRef() == null) {
-            return null;
+    public static String getTreeview(final DocumentModel parent) throws ClientException {
+        if (parent == null) {
+            throw new IllegalArgumentException("document model can not be null.");
         }
-
+        CoreSession session = parent.getCoreSession();
         DocumentModelList children = session.getChildren(parent.getRef());
         StringBuilder result = null;
         if (children != null) {
@@ -84,7 +87,7 @@ public final class LabsSiteUtils {
                         doc.getName()).append("</a>\"");
                 if (session.hasChildren(doc.getRef())) {
                     result.append(",\"expanded\": true,\"children\":");
-                    result.append(getTreeview(doc, session));
+                    result.append(getTreeview(doc));
                 }
                 result.append("}");
                 i++;
@@ -96,13 +99,18 @@ public final class LabsSiteUtils {
         return result.toString();
     }
 
-    public static DocumentModelList getAllDoc(final DocumentModel parent,
-            final CoreSession session) throws ClientException {
-        if (parent == null || session == null) {
-            return null;
+    /**
+     * @param parent
+     * @return list of Page Document models.
+     * @throws ClientException if unable to retrieve Page document models under <code>parent</code>.
+     * @throws IllegalArgumentException if parent is null.
+     */
+    public static DocumentModelList getAllDoc(final DocumentModel parent) throws ClientException, IllegalArgumentException {
+        if (parent == null) {
+            throw new IllegalArgumentException("document model can not be null.");
         }
 
-        return session.query("SELECT * FROM Page where ecm:path STARTSWITH '"
+        return parent.getCoreSession().query("SELECT * FROM Page where ecm:path STARTSWITH '"
                 + parent.getPathAsString() + "'");
     }
 

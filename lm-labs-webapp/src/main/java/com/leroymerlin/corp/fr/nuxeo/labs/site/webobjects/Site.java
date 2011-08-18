@@ -56,12 +56,8 @@ public class Site extends DocumentObject {
         try {
             return getView(SITEMAP_AS_LIST_VIEW).arg(
                     "allDoc",
-                    LabsSiteUtils.getAllDoc(
-                            getCoreSession().getDocument(
-                                    new PathRef(this.doc.getPathAsString()
-                                            + "/" + Docs.TREE.docName())),
-                            getCoreSession()));
-        } catch (ClientException e) {
+                    LabsSiteUtils.getAllDoc(LabsSiteUtils.getSiteTree(doc)));
+        } catch (Exception e) {
             throw WebException.wrap(e);
         }
     }
@@ -70,11 +66,8 @@ public class Site extends DocumentObject {
     @Path("treeview")
     public String doTreeview() {
         try {
-            return LabsSiteUtils.getTreeview(
-                    getCoreSession().getDocument(
-                            new PathRef(this.doc.getPathAsString() + "/"
-                                    + Docs.TREE.docName())), getCoreSession());
-        } catch (ClientException e) {
+            return LabsSiteUtils.getTreeview(LabsSiteUtils.getSiteTree(doc));
+        } catch (Exception e) {
             throw WebException.wrap(e);
         }
     }
