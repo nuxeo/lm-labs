@@ -6,6 +6,7 @@ div#sidebar {
 }
 .pageBlocs {
 	width: 80%;
+	float: right;
 }
 
 .blocTitle {
