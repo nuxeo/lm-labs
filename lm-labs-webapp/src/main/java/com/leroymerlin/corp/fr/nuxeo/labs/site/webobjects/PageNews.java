@@ -15,8 +15,8 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.IdRef;
-import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.Sorter;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.filter.PageNewsFilter;
@@ -37,8 +37,8 @@ public class PageNews extends Page {
         return null;
     }
     
-    public boolean isAuthorized(){
-        return ((NuxeoPrincipal)this.getContext().getPrincipal()).isAdministrator();
+    private boolean isAuthorized() throws ClientException{
+        return getCoreSession().hasPermission(doc.getRef(), SecurityConstants.WRITE);
     }
     
     public String getPathForEdit(){
