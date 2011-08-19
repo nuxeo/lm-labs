@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 @RunWith(FeaturesRunner.class)
-@Features(com.leroymerlin.corp.fr.nuxeo.labs.site.SiteFeatures.class)
+@Features(com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures.class)
 @RepositoryConfig(cleanup = Granularity.METHOD)
 public class ExternalURLAdapterTest {
 
