@@ -34,7 +34,11 @@
           <div class="blocContent">
             <ul>
           <#list Session.getChildren(root.ref) as child>
+            <#if child.type == 'LabsNews'>
+              <li>${child.title}</li>
+            <#else>
               <li><a href="${This.previous.path}/${root.name}/${child.name}">${child.title}</a></li>
+            </#if>
           </#list>
             </ul>
           </div>
