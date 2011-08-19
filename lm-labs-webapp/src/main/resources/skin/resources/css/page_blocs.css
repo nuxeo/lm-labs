@@ -4,7 +4,7 @@ div#sidebar {
 	height: 550px;
 	background-color:#FF6699;
 }
-.pageBlocs {
+.pageBlocs.welcome {
 	width: 80%;
 	float: right;
 }
@@ -12,12 +12,14 @@ div#sidebar {
 .blocTitle {
 	font-size: large;
 	font-weight: bold;
-	border-bottom: 1px solid black;
 	padding-bottom: 0.5em;
+}
+
+.blocTitle.welcome {
+	border-bottom: 1px solid black;
 	background-color: #BBB;
 	text-align: center;
 }
-
 
 .blocTitle a {
 	text-decoration: none;
@@ -28,7 +30,8 @@ div#sidebar {
 }
 
 .blocContent ul {
-	margin: 0 0 0 0.5em;	
+	margin: 0 0 0 0.5em;
+	min-height: 1em;
 }
 
 .bloc {

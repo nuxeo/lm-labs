@@ -19,7 +19,7 @@
   <@block name="content">
       <#-- SIDEBAR AREA --> 
       <#include "views/common/sidebar_area.ftl" />
-    <div id="content" class="pageBlocs">
+    <div id="content" class="pageBlocs welcome">
       
       <#-- COMMENT AREA --> 
       <#include "views/common/comment_area.ftl" />
@@ -28,7 +28,7 @@
       <#list This.children as root>
         <#if root.name != "welcome">
         <div id="bloc${root_index}" class="bloc">
-          <div class="blocTitle">
+          <div class="blocTitle welcome">
           <a href="${This.previous.path}/${root.name}">${root.title}</a>
           </div>
           <div class="blocContent">
@@ -43,7 +43,7 @@
       </#list>
       <#-- FIXME -->
         <div id="bloc_test" class="bloc">
-          <div class="blocTitle">
+          <div class="blocTitle welcome">
         MANUTEO
           </div>
           <div class="blocContent">
