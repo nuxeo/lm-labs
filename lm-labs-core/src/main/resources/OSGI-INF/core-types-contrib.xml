@@ -65,11 +65,21 @@
 		<doctype name="PageBlocs" extends="Page">
 			<schema name="file" />
 			<schema name="page_blocs" />
+			<subtypes>
+				<type>Page</type>
+				<type>PageBlocs</type>
+				<type>PageNews</type>
+				<type>PageClasseur</type>
+				<type>PageListe</type>
+			</subtypes>
 		</doctype>
 
 		<doctype name="PageNews" extends="Page">
 			<schema name="file" />
 			<schema name="page_news" />
+			<subtypes>
+				<type>LabsNews</type>
+			</subtypes>
 		</doctype>
 
 		<doctype name="LabsNews" extends="Document">
