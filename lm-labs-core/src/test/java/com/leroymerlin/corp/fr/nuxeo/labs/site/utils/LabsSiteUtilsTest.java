@@ -185,19 +185,6 @@ public final class LabsSiteUtilsTest {
     }
 
     @Test
-    public void canGetTreeview() throws ClientException {
-        generateSite();
-
-        final DocumentModel site1 = session.getDocument(new PathRef("/"
-                + Docs.DEFAULT_DOMAIN.docName() + "/"
-                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
-
-        String treeview = LabsSiteUtils.getTreeview(site1);
-        assertNotNull(treeview);
-        // TODO test result with regex
-    }
-
-    @Test
     public void canGetAllDoc() throws ClientException {
         generateSite();
 

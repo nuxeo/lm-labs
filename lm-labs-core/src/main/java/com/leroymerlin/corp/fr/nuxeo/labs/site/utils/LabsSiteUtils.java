@@ -66,39 +66,6 @@ public final class LabsSiteUtils {
         return site.getCoreSession().getChildren(site.getRef());
     }
 
-    public static String getTreeview(final DocumentModel parent) throws ClientException {
-        if (parent == null) {
-            throw new IllegalArgumentException("document model can not be null.");
-        }
-        CoreSession session = parent.getCoreSession();
-        DocumentModelList children = session.getChildren(parent.getRef());
-        StringBuilder result = null;
-        if (children != null) {
-            result = new StringBuilder();
-
-            result.append("[");
-            int i = 0;
-            for (DocumentModel doc : children) {
-                if (i > 0) {
-                    result.append(",");
-                }
-                result.append("{").append("\"text\":").append("\"<a href='").append(
-                        doc.getPathAsString()).append("'>").append(
-                        doc.getName()).append("</a>\"");
-                if (session.hasChildren(doc.getRef())) {
-                    result.append(",\"expanded\": true,\"children\":");
-                    result.append(getTreeview(doc));
-                }
-                result.append("}");
-                i++;
-            }
-            result.append("]");
-
-        }
-
-        return result.toString();
-    }
-
     /**
      * @param parent
      * @return list of Page Document models.

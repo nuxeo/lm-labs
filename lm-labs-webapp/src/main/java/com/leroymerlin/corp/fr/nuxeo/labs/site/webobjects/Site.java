@@ -6,6 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
@@ -18,6 +20,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 @WebObject(type = "LabsSite")
 @Produces("text/html; charset=UTF-8")
@@ -26,6 +29,8 @@ public class Site extends DocumentObject {
     public static final String SITEMAP_VIEW = "sitemap";
 
     public static final String SITEMAP_AS_LIST_VIEW = "sitemap_as_list";
+
+    private static final Log LOG = LogFactory.getLog(Site.class);
 
     @Path("id/{idPage}")
     public Object doGetPageId(@PathParam("idPage") final String idPage) {
@@ -66,8 +71,9 @@ public class Site extends DocumentObject {
     @Path("treeview")
     public String doTreeview() {
         try {
-            return LabsSiteUtils.getTreeview(LabsSiteUtils.getSiteTree(doc));
+            return LabsSiteWebAppUtils.getTreeview(LabsSiteUtils.getSiteTree(doc), this);
         } catch (Exception e) {
+            LOG.error(e, e);
             throw WebException.wrap(e);
         }
     }
