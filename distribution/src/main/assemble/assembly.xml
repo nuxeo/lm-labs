@@ -52,6 +52,7 @@
         </includes>
         <excludes>
           <artifact artifactId="lm-portal-user" />
+          <artifact artifactId="lm-portal-common" />
         </excludes>
       </artifact:set>
     </copy>
