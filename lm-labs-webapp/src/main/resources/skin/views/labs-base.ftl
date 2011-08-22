@@ -39,7 +39,6 @@
     </head>
     <body>
         <div id="FKtopContent">
-
             <@block name="topHeader">
              <div id="FKtopHeader">
                 <!--In this header, all div are float left except div id="_rightHeader" -->
@@ -56,8 +55,8 @@
                     <div id="FKidentity">
                         <#include "common/login.ftl" />
                     </div>
-                </div>
-            </div>
+                </div><!--FKrightHeader-->
+            </div><!--FKtopHeader-->
             </@block>
 
             <@block name="banner">
@@ -68,55 +67,12 @@
             </@block>
 
             <div id="FKmaincontent">
-                <@block name="tabs">
-                 <!-- <li class="FKselected home">&nbsp;Accueil</li>
-              	  <li class="team">&nbsp;Equipe</li>
-                  <li class="team">&nbsp;Services internes</li>
-                  <li class="myspace">&nbsp;My Custom Administrator</li>-->
-                </@block>
-
-                <@block name="manager">
-
-               <!-- <div id="FKmanagerTabPanel">
-                    <ul id="FKmanagerTabs">
-                        <li class="selected">Widget</li>
-                        <li>Thèmes</li>
-                        <li>Organisation</li>
-                        <li>Administrer</li>
-                    </ul>
-                    <div style="clear:both;"></div>
-                    <div class="FKmanagerTab" id="addWidget">
-                        <ul id="widgetCategories">
-                            <li class="selected">Utilitaires</li>
-                            <li>Collaboratifs</li>
-                            <li>Médias</li>
-                            <li>Commerce</li>
-                        </ul>
-                        <ul id="widgetList">
-                            <li>
-                                <img src="http://localhost/~dmetzler/lm-portal-offline/images/rss_icon.png"/>
-                                <div>Flux RSS</div>
-                                <button class="green">Ajouter</button>
-                            </li>
-                            <li>
-                                <img src="http://localhost/~dmetzler/lm-portal-offline/images/rss_icon.png"/>
-                                <div>Flux RSS</div>
-                                <button class="green">Ajouter</button>
-                            </li>
-                        </ul>
-
-                        <div style="clear:both;"></div>
-                    </div>
-
-                </div>-->
-            </div>
-            </@block>
-
-
-            <@block name="content"></@block>
-
-        </div>
-        <div style="clear:both;" />
+                <@block name="tabs"></@block>
+                <@block name="manager"></@block>
+	            <@block name="content"></@block>
+    	    </div><!--FKmaincontent-->
+    	</div><!--FKtopContent-->
+        <div style="clear:both;"></div>
         <div id="FKfooter">
 
             <div id="FKfooter_logo_lm">&nbsp;</div>
@@ -127,9 +83,9 @@
             <div style="clear:both;"></div>
 
             <div id="FKfooter_bottom">
-                <div id="FKfooter_logo_adeo"/>
+                <div id="FKfooter_logo_adeo"></div>
             </div>
-        </div>
+        </div><!--FKfooter-->
 
     </body>
 </html>
