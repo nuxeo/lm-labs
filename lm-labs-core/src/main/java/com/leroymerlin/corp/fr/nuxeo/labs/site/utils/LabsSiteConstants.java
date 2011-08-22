@@ -15,6 +15,7 @@ public final class LabsSiteConstants {
         ASSETS("Assets", "assets"),
         PAGE("Page", StringUtils.EMPTY),
         PAGEBLOCS("PageBlocs", StringUtils.EMPTY),
+        EXTERNAL_URL("ExternalURL", StringUtils.EMPTY),
         PAGENEWS("PageNews", StringUtils.EMPTY),
         LABSNEWS("LabsNews", StringUtils.EMPTY),
         PAGECLASSEUR("PageClasseur", StringUtils.EMPTY),

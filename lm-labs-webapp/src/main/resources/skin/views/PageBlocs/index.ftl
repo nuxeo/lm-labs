@@ -18,26 +18,19 @@
 	
   <@block name="content">
     <div id="content" class="pageBlocs">
-      <#-- SIDEBAR AREA --> 
-      <#include "views/common/sidebar_area.ftl" />
-      
       <#-- COMMENT AREA --> 
       <#include "views/common/comment_area.ftl" />
       
-      <#assign i=1>
-      <#list rootFolder as root>
-        <div id="bloc${i}" class="bloc">
-          ${root.title}
-          <#list Session.getChildren(root.ref) as child>
-            ${child.title}
+          <div class="blocTitle">
+          ${Document.dublincore.description}
+          </div>
+          <div class="blocContent">
+            <ul>
+          <#list Session.getChildren(This.document.ref) as child>
+              <li><a href="${This.path}/${child.name}">${child.title}</a></li>
           </#list>
-        </div>
-        <#assign i=i+1>
-      </#list>
-      <#-- FIXME -->
-      <div id="bloc${i}" class="bloc">
-        MANUTE FIXME
-      </div>
+            </ul>
+          </div>
     </div>
   </@block>
 </@extends>	

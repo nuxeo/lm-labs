@@ -5,8 +5,8 @@
 	<#if Session.hasPermission(labssite.documentModel.ref, 'Everything')>
 		<div class="actionNews">
 			<ul class="labsSiteActions">
-				<li><a class="deleteActionLabsSite" style="cursor:pointer" id="deleteLabsSite${labssite.documentModel.id}" onClick="javascript:deleteLabsSite('${This.path}/${labssite.URL}', '${This.path}');">delete</a></li>
-				<li><a class="modifyActionLabsSite" style="cursor:pointer" id="modifyLabsSite${labssite.documentModel.id}" onClick="javascript:modifyLabsSite('${This.path}/edit/${labssite.documentModel.id}');">modify</a></li>
+				<li><a class="deleteActionLabsSite" style="cursor:pointer" id="deleteLabsSite${labssite.documentModel.id}" onClick="javascript:deleteLabsSite('${This.path}/${labssite.URL}', '${This.path}');">${Context.getMessage('command.LabsSite.delete')}</a></li>
+				<li><a class="modifyActionLabsSite" style="cursor:pointer" id="modifyLabsSite${labssite.documentModel.id}" onClick="javascript:modifyLabsSite('${This.path}/edit/${labssite.documentModel.id}');">${Context.getMessage('command.LabsSite.modify')}</a></li>
 			</ul>
 		</div>
 	</#if>

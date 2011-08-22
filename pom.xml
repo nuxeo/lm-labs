@@ -338,6 +338,18 @@
       </dependency>
 
       <dependency>
+        <groupId>org.nuxeo.ecm.core</groupId>
+        <artifactId>nuxeo-core-convert-api</artifactId>
+        <version>${nuxeo.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.nuxeo.ecm.platform</groupId>
+        <artifactId>nuxeo-platform-preview</artifactId>
+        <version>${nuxeo.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
         <artifactId>lm-portal-user</artifactId>
         <version>${lm.nuxeo.version}</version>

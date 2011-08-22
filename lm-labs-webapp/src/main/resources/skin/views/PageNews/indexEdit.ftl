@@ -21,20 +21,11 @@
 	
 	<@block name="content">	
 			<div id="content" class="pageNews">
-				<#-- COMMENT AREA --> 
-      			<#include "views/common/comment_area.ftl" />
-				<#if isAuthorized>
-					<div id="linkAddNews" class="addNews"onClick="javascript:manageDisplayEdit();">+${Context.getMessage('label.labsNews.add.news')}</div>
-				</#if>
 				<#if isAuthorized>
 					<div id="editNews" class="news" style="display: none;">
 						<#include "/views/PageNews/editNews.ftl" />
 					</div>
 				</#if>
-				<#list This.listNews as n>
-				    <#assign news = n />
-					<#include "/views/PageNews/displayNews.ftl" />
-				</#list>
 			</div>
 	</@block>
 </@extends>		

@@ -6,6 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,5 +51,12 @@ public class Page extends DocumentObject {
         }
 
         return Response.ok().build();
+    }
+    
+    public String escapeJS(String pString){
+        if (StringUtils.isEmpty(pString)){
+            return "";
+        }
+        return StringEscapeUtils.escapeJavaScript(pString);
     }
 }

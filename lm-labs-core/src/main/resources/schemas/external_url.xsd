@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/external_url"
+  	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/external_url">
+  	
+  	<xs:element name="name" type="xs:string"></xs:element>
+  	<xs:element name="url" type="xs:string"></xs:element>
+  	<xs:element name="order" type="xs:int"></xs:element>
+  	
+</xs:schema>

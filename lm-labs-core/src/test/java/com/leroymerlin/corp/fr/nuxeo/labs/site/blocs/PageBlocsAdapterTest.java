@@ -15,7 +15,7 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -53,6 +53,15 @@ public class PageBlocsAdapterTest {
         assertNotNull(pageBlocs);
         thrown.expect(IllegalArgumentException.class);
         pageBlocs.setTitle(null);
+    }
+    
+    @Test
+    public void iCannotSetExternalURLs() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_blocs"));
+        assertNotNull(doc);
+        PageBlocs pageBlocs = doc.getAdapter(PageBlocs.class);
+        assertNotNull(pageBlocs);
+        pageBlocs.setTitle(TITRE_1);
     }
     
 }

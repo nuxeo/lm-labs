@@ -24,7 +24,7 @@
 	</@block>
 
 	<@block name="content">	
-<h1>${This.document.dublincore.description}</h1>
+<#include "views/common/description_area.ftl">
 
 <#assign area_height=2 />
 <#include "views/common/comment_area.ftl">
@@ -147,10 +147,12 @@
 	    <#if canWrite>
 	    <#assign title = Context.getMessage('command.PageClasseur.deleteFile') />
 	    <span class="colActions">
-	      <form action="${This.path}/${child.id}" >
+	      <form action="${This.path}/doc/${child.id}" >
 	        <img class="removefile classeurbouton" title="${title} ${filename}" alt="${title}" src="${skinPath}/images/x.gif" />
 	      </form>
 	    </span>
+	    <span class="colView"><a href="${This.path}/doc/${child.id}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a></span>
+	    <span class="colDownload"><a href="${This.path}/doc/${child.id}/@blob">${Context.getMessage('command.PageClasseur.download')}</a></span>
 	    </#if>
 	  </#if>
   </div><!-- row --></p>

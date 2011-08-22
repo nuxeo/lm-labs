@@ -157,6 +157,19 @@
         <layout>heading</layout>
         <layout>dublincore</layout>
       </layouts>
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageListe</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
     </type>
 
     <type id="PageNews">
@@ -167,6 +180,15 @@
         <layout>heading</layout>
         <layout>dublincore</layout>
       </layouts>
+      <subtypes>
+        <type>LabsNews</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews>
     </type>
 
     <type id="PageClasseur">
@@ -214,20 +236,23 @@
       </contentViews>
     </type>
 
-      <!--
-    <type id="News">
+    <type id="LabsNews">
       <label>News</label>
       <icon>/icons/news.png</icon>
       <bigIcon>/icons/news_100.png</bigIcon>
       <category>SimpleDocument</category>
       <default-view>view_documents</default-view>
       <description></description>
-      <create-view>create_news</create-view>
       <layouts mode="any">
-        <layout>news</layout>
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
       </layouts>
     </type>
 
+      <!--
     <type id="Workspace">
       <subtypes>
         <type>SiteActu</type>

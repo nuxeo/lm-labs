@@ -25,7 +25,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
@@ -185,19 +185,6 @@ public final class LabsSiteUtilsTest {
     }
 
     @Test
-    public void canGetTreeview() throws ClientException {
-        generateSite();
-
-        final DocumentModel site1 = session.getDocument(new PathRef("/"
-                + Docs.DEFAULT_DOMAIN.docName() + "/"
-                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
-
-        String treeview = LabsSiteUtils.getTreeview(site1, session);
-        assertNotNull(treeview);
-        // TODO test result with regex
-    }
-
-    @Test
     public void canGetAllDoc() throws ClientException {
         generateSite();
 
@@ -205,7 +192,7 @@ public final class LabsSiteUtilsTest {
                 + Docs.DEFAULT_DOMAIN.docName() + "/"
                 + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
 
-        DocumentModelList allDoc = LabsSiteUtils.getAllDoc(site1, session);
+        DocumentModelList allDoc = LabsSiteUtils.getAllDoc(site1);
         assertNotNull(allDoc);
         assertTrue(allDoc.size() > 1);
     }

@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.test;
 
 import org.nuxeo.ecm.platform.test.PlatformFeature;
 import org.nuxeo.runtime.test.runner.Deploy;

@@ -13,6 +13,7 @@
 		<schema name="labsnews" prefix="ln" src="schemas/labsnews.xsd" />
 		<schema name="page_liste" prefix="pgl" src="schemas/page_liste.xsd" />
 		<schema name="page_blocs" prefix="pgb" src="schemas/page_blocs.xsd" />
+		<schema name="external_url" prefix="exturl" src="schemas/external_url.xsd" />
 		<!-- <schema name="theme" src="schemas/theme.xsd" /> -->
 	</extension>
 
@@ -56,14 +57,29 @@
 			</subtypes>
 		</doctype>
 
+		<doctype name="ExternalURL" extends="Document">
+			<schema name="dublincore" />
+			<schema name="external_url" />
+		</doctype>
+
 		<doctype name="PageBlocs" extends="Page">
 			<schema name="file" />
 			<schema name="page_blocs" />
+			<subtypes>
+				<type>Page</type>
+				<type>PageBlocs</type>
+				<type>PageNews</type>
+				<type>PageClasseur</type>
+				<type>PageListe</type>
+			</subtypes>
 		</doctype>
 
 		<doctype name="PageNews" extends="Page">
 			<schema name="file" />
 			<schema name="page_news" />
+			<subtypes>
+				<type>LabsNews</type>
+			</subtypes>
 		</doctype>
 
 		<doctype name="LabsNews" extends="Document">

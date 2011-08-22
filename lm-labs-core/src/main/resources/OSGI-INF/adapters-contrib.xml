@@ -13,6 +13,10 @@
 
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocsAdapterFactory" />
+      
+    <!-- ExternalURL Document Adapter -->
+    <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURLAdapterFactory" />
 
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapterFactory" />
