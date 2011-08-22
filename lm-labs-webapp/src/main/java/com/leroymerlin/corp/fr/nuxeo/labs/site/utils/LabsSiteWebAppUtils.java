@@ -35,7 +35,7 @@ public final class LabsSiteWebAppUtils {
                     if (site != null) { // TODO
                         url.append(site.getPath());
                     }
-                    url.append("/id/").append(doc.getId());
+                    url.append(buildEndUrl(doc));
                     result.append(getHref(url.toString(), doc.getName()));
                 } else if ("Folder".equals(parent.getType())
                         && parent.getCoreSession().getDocument(parent.getParentRef()).hasSchema("page")
@@ -44,13 +44,12 @@ public final class LabsSiteWebAppUtils {
                     if (site != null) { // TODO
                         url.append(site.getPath());
                     }
-                    DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getParentRef());
-                    url.append("/id/").append(pageDoc.getId());
-                    url.append("/doc/").append(doc.getId());
-                    url.append("/@blob/preview");
+                    url.append(buildEndUrl(doc));
                     result.append(getHref(url.toString(), doc.getName()));
                 } else if (Docs.EXTERNAL_URL.type().equals(doc.getType())) {
-                    result.append(getHref((String) doc.getPropertyValue("exturl:url"), doc.getName()));
+                    StringBuilder url = new StringBuilder();
+                    url.append(buildEndUrl(doc));
+                    result.append(getHref(url.toString(), doc.getName()));
                 } else {
                     result.append(doc.getName());
                 }
@@ -65,8 +64,36 @@ public final class LabsSiteWebAppUtils {
             result.append("]");
 
         }
-
+        
         return result.toString();
+    }
+    
+    /**
+     * TODO uni tests
+     * @param doc
+     * @return
+     * @throws ClientException
+     */
+    public static String buildEndUrl(DocumentModel doc) throws ClientException {
+        StringBuilder url = new StringBuilder();
+        CoreSession session = doc.getCoreSession();
+        DocumentModel parent = session.getParentDocument(doc.getRef());
+        if (doc.hasSchema("page")) {
+            // TODO improve
+            url.append("/id/").append(doc.getId());
+        } else if ("Folder".equals(parent.getType())
+                && parent.getCoreSession().getDocument(parent.getParentRef()).hasSchema("page")
+                && doc.getAdapter(BlobHolder.class) != null) {
+            DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getParentRef());
+            url.append("/id/").append(pageDoc.getId());
+            url.append("/doc/").append(doc.getId());
+            url.append("/@blob/preview");
+        } else if (Docs.EXTERNAL_URL.type().equals(doc.getType())) {
+            url.append((String) doc.getPropertyValue("exturl:url"));
+        } else {
+            throw new UnsupportedOperationException("Unable to generate URL for document '" + doc.getPathAsString() + "' of type " + doc.getType());
+        }
+        return url.toString();
     }
     
     private static String getHref(String url, String text) {
