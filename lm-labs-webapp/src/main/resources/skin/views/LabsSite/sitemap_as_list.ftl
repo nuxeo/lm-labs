@@ -22,13 +22,13 @@
 		    <div>
 		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
 		    </div>
-		    <table>
+		    <table id="sitemapList">
 		    	<tr><th>Elément</th><th>Créé par</th><th>Dernière mise à jour par</th></tr>
 			    <#list allDoc as doc>
-			    	<tr class="rowList">
-			    		<td><a href="${This.path}/${doc.title}">${doc.title}</a></td>
-			    		<td>${This.getCreatorUsername(doc.ref)} (${This.getCreated(doc.ref)})</td>
-			    		<td>${This.getLastModifierUsername(doc.ref)} (${This.getLastModified(doc.ref)})</td>
+			    	<tr>
+			    		<td class="nameCol"><a href="${This.path}/${doc.title}">${doc.title}</a></td>
+			    		<td class="createdCol">${This.getCreatorUsername(doc.ref)} (${This.getCreated(doc.ref)})</td>
+			    		<td class="updatedCol">${This.getLastModifierUsername(doc.ref)} (${This.getLastModified(doc.ref)})</td>
 			    	</tr>
 			    </#list>
 			</table>

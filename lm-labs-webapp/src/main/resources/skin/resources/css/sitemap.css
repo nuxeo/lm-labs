@@ -1,3 +1,22 @@
-.rowList {
-	border-style: solid;	
+#sitemapList {
+	width: 90%;	
+	text-align: left;
+	border-collapse: collapse;
+	margin: 20px;
+}
+
+#sitemapList td {
+	border-bottom: 1px solid #CCC;
+}
+
+.nameCol {
+	width: 30%;	
+}
+
+.createdCol {
+	width: 35%;	
+}
+
+.updatedCol {
+	width: 35%;	
 }
