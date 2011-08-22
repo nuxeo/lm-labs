@@ -13,11 +13,11 @@
 	 <@block name="css">
 	  	<@superBlock/>
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
+	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/sitemap.css"/>
 	</@block>
 	
 	<@block name="content">
 		<div id="content">
-			TODO : liens sur les noeuds
 			<h1>PLAN DU SITE</h1>
 		    <div>
 		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
@@ -25,8 +25,8 @@
 		    <table>
 		    	<tr><th>Elément</th><th>Créé par</th><th>Dernière mise à jour par</th></tr>
 			    <#list allDoc as doc>
-			    	<tr>
-			    		<td><a href="#">${doc.title}</a></td>
+			    	<tr class="rowList">
+			    		<td><a href="${This.path}/${doc.title}">${doc.title}</a></td>
 			    		<td>${This.getCreatorUsername(doc.ref)} (${This.getCreated(doc.ref)})</td>
 			    		<td>${This.getLastModifierUsername(doc.ref)} (${This.getLastModified(doc.ref)})</td>
 			    	</tr>

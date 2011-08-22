@@ -94,7 +94,8 @@ public final class LabsSiteUtils {
             return null;
         }
 
-        DocumentModelList children = session.getChildren(parent.getRef());
+        DocumentModelList children = session.getChildren(parent.getRef()/*,
+                LabsSiteConstants.Docs.PAGE.type()*/); // FIXME
         StringBuilder result = null;
         if (children != null) {
             result = new StringBuilder();
