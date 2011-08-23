@@ -5,7 +5,7 @@
     <button id="${link.id}">${Context.getMessage('command.Page.' + link.id)}</button> 
 </#list>
   <div id="pageDescriptionEditDiv" style="display:none;">
-    <form action="${This.path}/@put" method="POST" >
+    <form id="pageDescriptionForm" action="${This.path}/@put" method="POST" >
       <textarea id="dc:description" rows="2" cols="80">${Document.dublincore.description}</textarea>
     </form>
 <#list This.getLinks("PAGE_DESCRIPTION_AFTER_BUTTONS") as link>
@@ -13,37 +13,36 @@
 </#list>
   </div>
 
-<script type="text/javascript">
-jQuery(document).ready(function() {
-	jQuery("#pageDescriptionCancelBt").click(function(evt) {
-		descriptionViewMode();
-	});
-	jQuery("#PageDescriptionModifyBt").click(function(evt) {
-		descriptionEditMode();
-	});
-	jQuery("#PageDescriptionSaveBt").click(function(evt) {
-		setTimeout(function() {jQuery('#waitingPopup').dialog({ modal: true });}, 100);
-		jQuery.ajax({
-			type: jQuery(this).closest("form").attr("method"),
-			url: jQuery(this).closest("form").attr("action"),
-			success: function(msg) { descriptionViewMode(); },
-			error: function(msg) {
-				alert("ERROR: " + msg);
-			}
-		});
-		jQuery('#waitingPopup').dialog( "close" );
-	});
-	
+	<script type="text/javascript">
 	function descriptionViewMode() {
 		jQuery('#PageDescriptionModifyBt').show();
-		jQuery('#pageDescriptionEditDiv').hide():
+		jQuery('#pageDescriptionEditDiv').hide();
 	}
-	
 	function descriptionEditMode() {
 		jQuery('#pageDescriptionEditDiv').show();
-		jQuery('#PageDescriptionModifyBt').hide():
+		jQuery('#PageDescriptionModifyBt').hide();
 	}
-});
-</script>
+	jQuery(document).ready(function() {
+		jQuery("#PageDescriptionCancelBt").click(function(evt) {
+			descriptionViewMode();
+		});
+		jQuery("#PageDescriptionModifyBt").click(function(evt) {
+			descriptionEditMode();
+		});
+		jQuery("#PageDescriptionSaveBt").click(function(evt) {
+			jQuery.ajax({
+				type: jQuery("#pageDescriptionForm").attr("method"),
+				url: jQuery("#pageDescriptionForm").attr("action"),
+				success: function(msg) {
+				jQuery('#pageDescription>h1').val(jQuery("dc:description").val());
+					descriptionViewMode();
+				},
+				error: function(msg) {
+					alert("ERROR: " + msg);
+				}
+			});
+		});
+	});
+	</script>
 
 </div>
