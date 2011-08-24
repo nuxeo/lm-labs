@@ -10,7 +10,6 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.Sorter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 
 /**
  * @author fvandaele
