@@ -1,6 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +28,23 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageNewsRepositoryInit
 
 public class PageNewsPageTest {
 
+    private static final String TITRE_NEWS_ADD = "Titre news 1.";
     @Inject
     SitesRootPage rootPage;
+    
+    @Test
+    public void iAddNews() throws Exception {
+
+        PageNewsPage pageNews = getPageClasseur();
+        pageNews.displayEditWithAdd();
+        pageNews.setTitle(TITRE_NEWS_ADD);
+        pageNews.setNewsStartPublication("23/01/2011");
+//        if (selenium != null)
+//            selenium.runScript("CKEDITOR.instances.['newsContent'].setData('Content')");
+        //pageNews.setContent("Content");
+        pageNews = pageNews.clickSubmitNews();
+        pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD);
+    }
 
     @Test
     public void pageIsReachable() throws Exception {
