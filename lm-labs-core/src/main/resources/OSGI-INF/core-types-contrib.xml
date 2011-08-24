@@ -42,7 +42,7 @@
 				<type>PageBlocs</type>
 				<type>PageNews</type>
 				<type>PageClasseur</type>
-				<type>PageListe</type>
+				<type>PageList</type>
 			</subtypes>
 		</doctype>
 
@@ -53,7 +53,7 @@
 				<type>PageBlocs</type>
 				<type>PageNews</type>
 				<type>PageClasseur</type>
-				<type>PageListe</type>
+				<type>PageList</type>
 			</subtypes>
 		</doctype>
 
@@ -70,7 +70,7 @@
 				<type>PageBlocs</type>
 				<type>PageNews</type>
 				<type>PageClasseur</type>
-				<type>PageListe</type>
+				<type>PageList</type>
 			</subtypes>
 		</doctype>
 
@@ -96,7 +96,7 @@
 				<type>File</type>
 		</doctype>
 
-		<doctype name="PageListe" extends="Page">
+		<doctype name="PageList" extends="Page">
 			<schema name="file" />
 			<schema name="page_list" />
 		</doctype>
@@ -120,7 +120,7 @@
 		<indexableDocType indexAllSchemas="true" name="PageBlocs" />
 		<indexableDocType indexAllSchemas="true" name="PageNews" />
 		<indexableDocType indexAllSchemas="true" name="PageClasseur" />
-		<indexableDocType indexAllSchemas="true" name="PageListe" />
+		<indexableDocType indexAllSchemas="true" name="PageList" />
 	</extension>
 
 </component>
