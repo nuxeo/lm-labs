@@ -11,15 +11,19 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 public class OfmRepositoryInit implements RepositoryInit {
+    
+    public static final String SITE_URL = "ofm";
+    public static final String SITE_TITLE = "OFM";
+    public static final String TREE = "tree";
 
     @Override
     public void populate(CoreSession session) throws ClientException {
         DocumentModel root = LabsSiteUtils.getSitesRoot(session);
-        if (!session.exists(new PathRef(root.getPathAsString() + "/OFM"))) {
-            DocumentModel ofm = session.createDocumentModel(root.getPathAsString(), "OFM", LabsSiteConstants.Docs.SITE.type());
+        if (!session.exists(new PathRef(root.getPathAsString() + "/" + SITE_TITLE))) {
+            DocumentModel ofm = session.createDocumentModel(root.getPathAsString(), SITE_TITLE, LabsSiteConstants.Docs.SITE.type());
             LabsSite site = ofm.getAdapter(LabsSite.class);
-            site.setURL("ofm");
-            site.setTitle("OFM");
+            site.setURL(SITE_URL);
+            site.setTitle(SITE_TITLE);
             ofm = session.createDocument(ofm);
             session.save();
         }

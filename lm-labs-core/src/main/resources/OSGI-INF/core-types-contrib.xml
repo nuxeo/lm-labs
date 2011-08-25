@@ -11,7 +11,7 @@
 		<schema name="page" prefix="pg" src="schemas/page.xsd" />
 		<schema name="page_news" prefix="pgn" src="schemas/page_news.xsd" />
 		<schema name="labsnews" prefix="ln" src="schemas/labsnews.xsd" />
-		<schema name="page_liste" prefix="pgl" src="schemas/page_liste.xsd" />
+		<schema name="page_list" prefix="pgl" src="schemas/page_list.xsd" />
 		<schema name="page_blocs" prefix="pgb" src="schemas/page_blocs.xsd" />
 		<schema name="external_url" prefix="exturl" src="schemas/external_url.xsd" />
 		<!-- <schema name="theme" src="schemas/theme.xsd" /> -->
@@ -42,7 +42,7 @@
 				<type>PageBlocs</type>
 				<type>PageNews</type>
 				<type>PageClasseur</type>
-				<type>PageListe</type>
+				<type>PageList</type>
 			</subtypes>
 		</doctype>
 
@@ -53,7 +53,7 @@
 				<type>PageBlocs</type>
 				<type>PageNews</type>
 				<type>PageClasseur</type>
-				<type>PageListe</type>
+				<type>PageList</type>
 			</subtypes>
 		</doctype>
 
@@ -70,7 +70,7 @@
 				<type>PageBlocs</type>
 				<type>PageNews</type>
 				<type>PageClasseur</type>
-				<type>PageListe</type>
+				<type>PageList</type>
 			</subtypes>
 		</doctype>
 
@@ -96,9 +96,9 @@
 				<type>File</type>
 		</doctype>
 
-		<doctype name="PageListe" extends="Page">
+		<doctype name="PageList" extends="Page">
 			<schema name="file" />
-			<schema name="page_liste" />
+			<schema name="page_list" />
 		</doctype>
 
 		<doctype name="Assets" extends="Folder">
@@ -120,7 +120,7 @@
 		<indexableDocType indexAllSchemas="true" name="PageBlocs" />
 		<indexableDocType indexAllSchemas="true" name="PageNews" />
 		<indexableDocType indexAllSchemas="true" name="PageClasseur" />
-		<indexableDocType indexAllSchemas="true" name="PageListe" />
+		<indexableDocType indexAllSchemas="true" name="PageList" />
 	</extension>
 
 </component>

@@ -1,27 +1,37 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.repository;
 
+import java.util.Calendar;
+
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 public class PageNewsRepositoryInit extends OfmRepositoryInit {
 
+    public static final String PAGE_NEWS_TITLE = "pageNews";
+    public static final String NEWS_TITLE = "News1";
+
     @Override
     public void populate(CoreSession session) throws ClientException {
         super.populate(session);
+                
+        DocumentModel ofmTree = session.getDocument(new PathRef(LabsSiteUtils.getSitesRootPath() + "/" + OfmRepositoryInit.SITE_TITLE + "/" + OfmRepositoryInit.TREE));
+        DocumentModel pageNews = session.createDocumentModel(ofmTree.getPathAsString(), PAGE_NEWS_TITLE, LabsSiteConstants.Docs.PAGENEWS.type());
+        pageNews = session.createDocument(pageNews);
         
-        DocumentModel ofmTree = session.getDocument(new PathRef(LabsSiteUtils.getSitesRootPath() + "/ofm/tree"));
-        DocumentModel pageNews = session.createDocumentModel(ofmTree.getPathAsString(), "pageNews", LabsSiteConstants.Docs.PAGENEWS.type());
-        session.createDocument(pageNews);
+        DocumentModel news = session.createDocumentModel(pageNews.getPathAsString(), NEWS_TITLE, LabsSiteConstants.Docs.LABSNEWS.type());
+        LabsNews newsAdapter = news.getAdapter(LabsNews.class);
+        newsAdapter.setContent("labsNewsContent<br />Passage à la ligne");
+        newsAdapter.setTitle("LabsNewsTitle");
+        newsAdapter.setStartPublication(Calendar.getInstance());
+        session.createDocument(news);
         session.save();
-//        DocumentModel root = LabsSiteUtils.getSitesRoot(session);
-//        DocumentModel ofm = session.createDocumentModel(root.getPathAsString(), "ofm", LabsSiteConstants.Docs.SITE.type());
-//        session.createDocument(ofm);
-//        session.save();
+        
     }
 
 }
