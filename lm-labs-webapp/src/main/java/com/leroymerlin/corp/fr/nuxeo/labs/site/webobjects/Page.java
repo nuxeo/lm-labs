@@ -18,30 +18,22 @@ public class Page extends DocumentObject {
 
     private static final Log LOG = LogFactory.getLog(Page.class);
 
-    public String getDescription() {
-        try {
-            return doc.getAdapter(
-                    com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).getDescription();
-        } catch (PropertyException pe) {
-            LOG.error("Unable to get property " + pe);
-        } catch (ClientException ce) {
-            LOG.error("Unable to get description " + ce);
-        }
-        return null;
+    public com.leroymerlin.corp.fr.nuxeo.labs.site.Page getPage() {
+        return doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class);
     }
 
     @POST
-    @Path("updateDescription")
-    public Object doSetDescription(
-            @FormParam("description") final String description) {
-        if (StringUtils.isBlank(description)) {
+    @Path("updateCommentaire")
+    public Object doSetCommentaire(
+            @FormParam("commentaire") final String commentaire) {
+        if (StringUtils.isBlank(commentaire)) {
             return Response.status(Status.NOT_MODIFIED).build();
         }
 
         try {
             doc.getAdapter(
-                    com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).setDescription(
-                    description);
+                    com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).setCommentaire(
+                    commentaire);
             getCoreSession().saveDocument(doc);
             getCoreSession().save();
         } catch (PropertyException pe) {

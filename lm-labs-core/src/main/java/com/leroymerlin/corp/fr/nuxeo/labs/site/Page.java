@@ -13,4 +13,8 @@ public interface Page {
     
     public String getDescription() throws PropertyException, ClientException;
     
+    public void setCommentaire(String description) throws PropertyException, ClientException;
+    
+    public String getCommentaire() throws PropertyException, ClientException;
+    
 }

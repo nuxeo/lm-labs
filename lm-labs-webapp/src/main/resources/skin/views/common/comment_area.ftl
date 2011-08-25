@@ -1,6 +1,6 @@
 <div id="comment">
   <div id="comment_form">
-    <div id="commentField" class="formWysiwyg">${This.description}</div>
+    <div id="commentField" class="formWysiwyg">${This.page.commentaire}</div>
 
     <#assign form_name="comment_form" />
     <#assign callback_function="save" />
@@ -10,8 +10,8 @@
     function save() {
       jQuery.ajax({
          type: "POST",
-         url: "${This.path}/updateDescription",
-         data: "description="+jQuery("#commentField").html(),
+         url: "${This.path}/updateCommentaire",
+         data: "commentaire="+jQuery("#commentField").html(),
          success: function(msg){
          },
          error: function(msg){

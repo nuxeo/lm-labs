@@ -30,11 +30,28 @@ public abstract class AbstractPage implements Page {
         if (description == null) {
             return;
         }
-        document.setPropertyValue("pg:commentaire", description);
+        document.setPropertyValue("dc:description", description);
     }
 
     @Override
     public String getDescription() throws PropertyException, ClientException {
+        return (String) doc.getPropertyValue("dc:description");
+    }
+
+    @Override
+    public void setCommentaire(String commentaire) throws PropertyException, ClientException {
+        setCommentaire(doc, commentaire);
+    }
+    
+    protected static void setCommentaire(DocumentModel document, String commentaire) throws PropertyException, ClientException {
+        if (commentaire == null) {
+            return;
+        }
+        document.setPropertyValue("pg:commentaire", commentaire);
+    }
+
+    @Override
+    public String getCommentaire() throws PropertyException, ClientException {
         return (String) doc.getPropertyValue("pg:commentaire");
     }
 

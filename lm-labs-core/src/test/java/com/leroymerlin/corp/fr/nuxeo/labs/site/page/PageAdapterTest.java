@@ -27,6 +27,8 @@ public class PageAdapterTest {
     private static final String TITRE_1 = "titre 1";
 
     private static final String DESCRIPTION_1 = "Ma description";
+
+    private static final String COMMENTAIRE = "Mon commentaire";
     
     @Inject private CoreSession session;
 
@@ -67,6 +69,15 @@ public class PageAdapterTest {
         assertNotNull(page);
         page.setDescription(DESCRIPTION_1);
         assertEquals(DESCRIPTION_1, page.getDescription());
+    }
+    
+    @Test
+    public void iCanSetCommentaire() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = doc.getAdapter(Page.class);
+        assertNotNull(page);
+        page.setCommentaire(COMMENTAIRE);
+        assertEquals(COMMENTAIRE, page.getCommentaire());
     }
     
 }

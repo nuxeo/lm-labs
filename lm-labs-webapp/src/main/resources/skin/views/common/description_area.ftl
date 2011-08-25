@@ -5,8 +5,8 @@
     <button id="${link.id}">${Context.getMessage('command.Page.' + link.id)}</button> 
 </#list>
   <div id="pageDescriptionEditDiv" style="display:none;">
-    <form id="pageDescriptionForm" action="${This.path}/@put" method="POST" >
-      <textarea id="dc:description" rows="2" cols="80">${Document.dublincore.description}</textarea>
+    <form id="pageDescriptionForm" action="${This.path}" method="POST" >
+      <textarea name="PageDescriptionTxt" id="PageDescriptionTxt" rows="2" cols="80">${Document.dublincore.description}</textarea>
     </form>
 <#list This.getLinks("PAGE_DESCRIPTION_AFTER_BUTTONS") as link>
     <button id="${link.id}">${Context.getMessage('command.Page.' + link.id)}</button> 
@@ -30,11 +30,13 @@
 			descriptionEditMode();
 		});
 		jQuery("#PageDescriptionSaveBt").click(function(evt) {
+			var description = jQuery("#PageDescriptionTxt").val();
 			jQuery.ajax({
 				type: jQuery("#pageDescriptionForm").attr("method"),
-				url: jQuery("#pageDescriptionForm").attr("action"),
+				url: jQuery("#pageDescriptionForm").attr("action") + "/@put",
+				data: "dc:description=" + description,
 				success: function(msg) {
-				jQuery('#pageDescription>h1').val(jQuery("dc:description").val());
+					jQuery('#pageDescription>h1').html(description);
 					descriptionViewMode();
 				},
 				error: function(msg) {
