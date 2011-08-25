@@ -1,6 +1,12 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.list;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +18,19 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.dto.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
 @RepositoryConfig(cleanup=Granularity.METHOD)
 public class PageListAdapterTest {
+    private static final int WIDTH = 25;
+    private static final int ID_HEADER = 1;
+    private static final int FONT_SIZE = 50;
+    private static final String FONT_NAME = "fontName";
+    private static final String TYPE = "type";
+    private static final String NAME = "name";
     private static final String PATH_SEPARATOR = "/";
     private static final String PAGE_LIST_TITLE = "page_liste";
     @Inject
@@ -33,9 +46,30 @@ public class PageListAdapterTest {
     public void canCreateHeaderList() throws Exception {
         PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
         PageList pageList = model.getAdapter();
-        //pageList.setDatalistRow("toto");
-        model.create();
+        assertThat(pageList,is(notNullValue()));
+        
+        Header head = new Header();
+        head.setName(NAME);
+        head.setType(TYPE);
+        head.setFontName(FONT_NAME);
+        head.setFontSize(FONT_SIZE);
+        head.setIdHeader(ID_HEADER);
+        head.setWidth(WIDTH);
+        pageList.addHeader(head);
+        pageList = model.create();
+        
         assertTrue(session.exists(new PathRef(PATH_SEPARATOR + PAGE_LIST_TITLE)));
+        Set<Header> headerList = pageList.getHeaderSet();
+        assertNotNull(headerList);
+        assertTrue(headerList.size() == 1);
+        for (Header header:headerList){
+            assertTrue(NAME.equals(header.getName()));
+            assertTrue(TYPE.equals(header.getType()));
+            assertTrue(FONT_NAME.equals(header.getFontName()));
+            assertTrue(FONT_SIZE == header.getFontSize());
+            assertTrue(ID_HEADER == header.getIdHeader());
+            assertTrue(WIDTH == header.getWidth());
+        }
     }
 
 }
