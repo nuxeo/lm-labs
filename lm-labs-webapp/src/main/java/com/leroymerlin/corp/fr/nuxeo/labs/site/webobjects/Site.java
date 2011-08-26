@@ -13,6 +13,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.Template;
@@ -140,4 +141,17 @@ public class Site extends DocumentObject {
         return redirect(getPath() + "/" + Docs.WELCOME.docName());
     }
 
+    public BlobHolder getBlobHolder(final DocumentModel document) {
+        return document.getAdapter(BlobHolder.class);
+    }
+    
+    public DocumentModel getClosestPage(DocumentModel document) {
+        LOG.debug("<getClosestPage> Site");
+        return LabsSiteUtils.getClosestPage(document);
+    }
+    
+    public String getPageEndUrl(DocumentModel document) throws ClientException {
+        return LabsSiteWebAppUtils.buildEndUrl(document);
+    }
+    
 }

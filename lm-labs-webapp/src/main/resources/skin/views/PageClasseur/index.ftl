@@ -5,8 +5,8 @@
 	<@block name="scripts">
 	  <@superBlock/>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script> 
+        <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
         <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
         <#--
@@ -51,7 +51,7 @@
 	  <img class="addfile classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/add.png" />
 	</form>
 	<#assign title = Context.getMessage('command.PageClasseur.deleteFolder') />
-	<form class="form-removefolder" action="${This.path}/${child.id}" >
+	<form class="form-removefolder" action="${This.path}/doc/${child.id}" >
 	  <img class="removefolder classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/x.gif" />
 	</form>
 </span>
@@ -151,9 +151,9 @@
 	        <img class="removefile classeurbouton" title="${title} ${filename}" alt="${title}" src="${skinPath}/images/x.gif" />
 	      </form>
 	    </span>
+	    </#if>
 	    <span class="colView"><a href="${This.path}/doc/${child.id}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a></span>
 	    <span class="colDownload"><a href="${This.path}/doc/${child.id}/@blob">${Context.getMessage('command.PageClasseur.download')}</a></span>
-	    </#if>
 	  </#if>
   </div><!-- row --></p>
   </#list>

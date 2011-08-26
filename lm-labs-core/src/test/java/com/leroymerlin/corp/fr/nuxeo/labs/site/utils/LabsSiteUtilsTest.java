@@ -1,13 +1,14 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -40,9 +41,6 @@ public final class LabsSiteUtilsTest {
 
     @Inject
     protected FeaturesRunner featuresRunner;
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void iCanGetSitesRoot() throws Exception {
@@ -159,12 +157,11 @@ public final class LabsSiteUtilsTest {
         assertTrue(treePath.contains("/MonSite/"));
     }
 
-    @Test
+    @Test(expected=IllegalArgumentException.class)
     public void iCannotGetTreePathOfNonSite() throws Exception {
         DocumentModel welcomePage = session.getDocument(new PathRef(
                 LabsSiteUtils.getSitesRootPath() + "/MonSite/tree/welcome"));
         assertNotNull(welcomePage);
-        thrown.expect(IllegalArgumentException.class);
         LabsSiteUtils.getSiteTreePath(welcomePage);
     }
 
@@ -215,9 +212,30 @@ public final class LabsSiteUtilsTest {
         pageClasseur = session.createDocument(pageClasseur);
         assertEquals(site.getId(),
                 LabsSiteUtils.getParentSite(pageClasseur).getId());
-
-        thrown.expect(IllegalArgumentException.class);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void iCannotGetParentSiteOfSitesRoot() throws Exception {
         LabsSiteUtils.getParentSite(LabsSiteUtils.getSitesRoot(session));
+    }
+    
+    @Test
+    public void testGetClosestPage() throws Exception {
+        final String siteName = "monsite";
+        assertEquals(LabsSiteUtils.getSitesRoot(session), LabsSiteUtils.getClosestPage(LabsSiteUtils.getSitesRoot(session)));
+        DocumentModel pageClasseur = session.getDocument(new PathRef(
+                LabsSiteUtils.getSitesRootPath() + "/" + siteName + "/"
+                        + Docs.TREE.docName() + "/page1"));
+        assertEquals(pageClasseur, LabsSiteUtils.getClosestPage(pageClasseur));
+
+        DocumentModel folder = session.createDocumentModel(pageClasseur.getPathAsString(), "folder", "Folder");
+        folder = session.createDocument(folder);
+        assertEquals(pageClasseur, LabsSiteUtils.getClosestPage(folder));
+        
+        DocumentModel file = session.createDocumentModel(pageClasseur.getPathAsString(), "file", "File");
+        file = session.createDocument(file);
+        assertEquals(pageClasseur, LabsSiteUtils.getClosestPage(file));
+        
     }
 
     protected void changeUser(String username) throws ClientException {
