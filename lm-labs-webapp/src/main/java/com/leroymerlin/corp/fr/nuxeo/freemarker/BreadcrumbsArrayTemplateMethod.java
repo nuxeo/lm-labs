@@ -28,11 +28,6 @@ public class BreadcrumbsArrayTemplateMethod implements TemplateMethodModelEx {
                     "BreadcrumbsArray takes only ONE parameter !");
         }
         DocumentTemplate a = (DocumentTemplate) arguments.get(0);
-//        StringModel object = (StringModel) arguments.get(0);
-//        Object obj = object.getWrappedObject();
-//        if (!(obj instanceof DocumentModel)) {
-//            throw new TemplateModelException("Parameter must be a DocumentModel");
-//        }
         DocumentModel document = a.getDocument();
         DocumentModelList list = new DocumentModelListImpl(2);
         try {
@@ -41,7 +36,6 @@ public class BreadcrumbsArrayTemplateMethod implements TemplateMethodModelEx {
             LOG.error(e, e);
         }
         Collections.reverse(list);
-//        return list.toArray();
         return list;
     }
 
