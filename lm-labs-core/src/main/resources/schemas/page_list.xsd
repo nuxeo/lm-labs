@@ -2,6 +2,15 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list"
 	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list">
 
+	<!-- list of data of datalistLine for the table -->
+	<xs:element name="dataRowOfLine" type="tns:dataRowOfLine" />
+	<xs:complexType name="dataRowOfLine">
+		<xs:sequence>
+			<xs:element name="allContributors" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+			<xs:element name="allCanComment" type="xs:boolean" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
 	<!-- list of header -->
 	<xs:element name="headerlist" type="tns:headerlist" />
 	<xs:complexType name="headerlist">
@@ -10,45 +19,6 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<!-- list of data for one line -->
-	<xs:complexType name="datalistLine">
-		<xs:sequence>
-			<xs:element name="item" type="tns:data" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-
-	<!-- list of data of datalistLine for the table -->
-	<xs:element name="datalistRow" type="tns:datalistRow" />
-	<xs:complexType name="datalistRow">
-		<xs:sequence>
-<!-- 			<xs:element name="datalistLine" type="tns:datalistLine" minOccurs="0" maxOccurs="unbounded" /> -->
-			<xs:element name="allContributors" type="xs:boolean" minOccurs="1" maxOccurs="1" />
-			<xs:element name="allCanComment" type="xs:boolean" minOccurs="1" maxOccurs="1" />
-		</xs:sequence>
-	</xs:complexType>
-
-	<!-- One data -->
-	<xs:complexType name="data">
-		<xs:sequence>
-			<xs:element name="idHeader" type="xs:integer" minOccurs="1" maxOccurs="1" />
-			<xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="1" />
-			<xs:element name="date" type="xs:date" minOccurs="0" maxOccurs="1" />
-			<xs:element name="checkbox" type="xs:boolean" minOccurs="0" maxOccurs="1" />
-			<xs:element name="checkboxlist" type="xs:boolean" minOccurs="0" maxOccurs="unbounded" />
-			<xs:element name="selectlist" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-			<xs:element name="dataURL" type="tns:urlType" minOccurs="0" maxOccurs="1" />
-<!-- 			<xs:element name="dataComments" type="xs:string" minOccurs="0" maxOccurs="unbounded" /> -->
-		</xs:sequence>
-	</xs:complexType>
-
-	<!-- URL data type -->
-	<xs:complexType name="urlType">
-		<xs:sequence>
-			<xs:element name="name" type="xs:string"></xs:element>
-			<xs:element name="url" type="xs:string"></xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	
 	<!-- One header; the type give the field of data -->
 	<xs:complexType name="header">
 		<xs:sequence>
@@ -58,6 +28,8 @@
 			<xs:element name="fontName" type="xs:string"></xs:element>
 			<xs:element name="fontSize" type="xs:int"></xs:element>
 			<xs:element name="idHeader" type="xs:int"></xs:element>
+			<xs:element name="orderPosition" type="xs:int"></xs:element>
+			<xs:element name="selectlist" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
