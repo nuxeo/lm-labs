@@ -95,7 +95,7 @@ jQuery(document).ready(function(){
 	});
 
 	jQuery(".removefolder").click(function(evt) {
-		if (confirm("Etes-vous sûr de vouloir effacer le répertoire '" + jQuery(this).closest("div").children(".colFolderTitle").text() + "' ?")) {
+		if (confirm("Etes-vous sûr de vouloir effacer le répertoire '" + jQuery(this).closest("div").find(".colFolderTitle").text() + "' ?")) {
 			var buttonDomElement = evt.target;
 			$(buttonDomElement).attr('disabled', true);
 			jQuery.ajax({

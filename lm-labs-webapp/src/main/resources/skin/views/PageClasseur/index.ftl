@@ -51,7 +51,7 @@
 	  <img class="addfile classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/add.png" />
 	</form>
 	<#assign title = Context.getMessage('command.PageClasseur.deleteFolder') />
-	<form class="form-removefolder" action="${This.path}/${child.id}" >
+	<form class="form-removefolder" action="${This.path}/doc/${child.id}" >
 	  <img class="removefolder classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/x.gif" />
 	</form>
 </span>
