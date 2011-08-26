@@ -20,6 +20,7 @@ public final class LabsSiteConstants {
         LABSNEWS("LabsNews", StringUtils.EMPTY),
         PAGECLASSEUR("PageClasseur", StringUtils.EMPTY),
         PAGELIST("PageList", StringUtils.EMPTY),
+        DATA("Data", StringUtils.EMPTY),
         FOLDER("Folder", StringUtils.EMPTY),
         WELCOME(PAGEBLOCS.type(), "welcome");
         
