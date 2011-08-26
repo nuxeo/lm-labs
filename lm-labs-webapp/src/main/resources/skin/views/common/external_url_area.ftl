@@ -6,12 +6,6 @@
 	.actionExternalURL>IMG{
 		cursor:pointer;
 	}
-	#div_externalURL{
-		border: 1px solid white;
-		margin: 2px 2px 2px 2px;
-		padding: 2px 2px 2px 2px;
-		background-color: lightSalmon;
-	}
 	#div_externalURL ul {
 		margin: 0 0 0 0.5em;
 	}
@@ -36,7 +30,7 @@
 	}
 </style>
 
-<div id="div_externalURL">
+<div id="div_externalURL" class="sidebarzone" >
 		<div class="titleExternalURL">${Context.getMessage('label.externalURL.title')}</div>
 		<ul>
    	<#list This.externalURLs as e >

@@ -1,4 +1,4 @@
-<div id="searchbox">
+<div id="searchbox" class="sidebarzone" >
 	<input type="text" id="fullText" name="fullText" />
 	<img id="searchBt" src="${skinPath}/images/search.png" />
 </div>
