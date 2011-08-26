@@ -1,7 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.freemarker;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -10,7 +8,6 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -38,11 +35,6 @@ public class BreadcrumbsArrayTemplateMethodTest {
         cfg.setObjectWrapper(new DefaultObjectWrapper());
         cfg.setSharedVariable("breadcrumbsDocs", new BreadcrumbsArrayTemplateMethod());
 
-    }
-
-    @Test
-    public void dateInWordsTemplateMethosWorksWithDate() throws Exception {
-        assertThat(getTemplateOutputFor(new DateTime().minusMinutes(2).toDate()), is("2 minutes"));
     }
 
     @Ignore("TODO") @Test
