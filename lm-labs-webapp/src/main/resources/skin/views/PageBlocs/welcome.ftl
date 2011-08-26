@@ -13,6 +13,7 @@
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/page_blocs.css"/>
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
 		<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
+	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/searchbox.css"/>
 	</@block>
 	
 	

@@ -28,15 +28,18 @@ import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.platform.rendering.fm.FreemarkerEngine;
+import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
+import com.leroymerlin.corp.fr.nuxeo.freemarker.BreadcrumbsArrayTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.BytesFormatTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
@@ -65,6 +68,7 @@ public class SitesRoot extends ModuleRoot {
         if (rendering instanceof FreemarkerEngine) {
             FreemarkerEngine fm = (FreemarkerEngine) rendering;
             fm.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
+            fm.setSharedVariable("breadcrumbsDocs", new BreadcrumbsArrayTemplateMethod());
         }
     }
 
@@ -290,6 +294,22 @@ public class SitesRoot extends ModuleRoot {
             log.info("No error handling for class " + e.getClass().getName());
             log.error(e.getMessage(), e);
             return super.handleError(e);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.nuxeo.ecm.webengine.model.impl.ModuleRoot#getLink(org.nuxeo.ecm.core.api.DocumentModel)
+     */
+    @Override
+    public String getLink(DocumentModel doc) {
+        try {
+            return new StringBuilder().append(getPath())
+                    .append("/")
+                    .append(LabsSiteUtils.getParentSite(doc).getAdapter(LabsSite.class).getURL())
+                    .append(LabsSiteWebAppUtils.buildEndUrl(doc))
+                    .toString();
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
         }
     }
 }

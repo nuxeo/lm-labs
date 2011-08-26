@@ -122,6 +122,26 @@ public final class LabsSiteUtils {
         throw new IllegalArgumentException("document '" + doc.getPathAsString()
                 + "' is not lacated in a site.");
     }
+    
+    /**
+     * @param document search starting point's {@link DocumentModel}
+     * @return the closest parent DocumentModel having schema "page" otherwise <code>document</code>.
+     */
+    public static DocumentModel getClosestPage(DocumentModel document) {
+        DocumentModel parentDocument = document;
+        while (!LabsSiteConstants.Docs.DEFAULT_DOMAIN.type().equals(parentDocument.getType())) {
+            try {
+                parentDocument = document.getCoreSession().getParentDocument(parentDocument.getRef());
+                if (parentDocument.hasSchema("page")) {
+                    return parentDocument;
+                }
+            } catch (ClientException e) {
+                LOG.error(e, e);
+                break;
+            }
+        }
+        return document;
+    }
 
     public static String getCreatorUsername(DocumentModel doc)
             throws ClientException {
