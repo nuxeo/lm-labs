@@ -6,6 +6,7 @@
 	  	<@superBlock/>
 		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckfinder/ckfinder.js"></script>
 	</@block>
     
     <@block name="css">

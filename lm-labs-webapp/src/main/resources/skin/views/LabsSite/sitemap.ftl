@@ -17,7 +17,6 @@
 	
 	<@block name="content">
 		<div id="content">
-			TODO : liens sur les noeuds
 			<h1>PLAN DU SITE</h1>
 		    <div>
 		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>

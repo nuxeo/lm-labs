@@ -35,6 +35,10 @@ public class LabsSiteWebAppUtilsTest {
 
         String treeview = LabsSiteWebAppUtils.getTreeview(site1, null);
         assertNotNull(treeview);
+        
+        treeview = LabsSiteWebAppUtils.getTreeview(site1, null, false);
+         assertNotNull(treeview);
+        
         // TODO test result with regex
     }
 

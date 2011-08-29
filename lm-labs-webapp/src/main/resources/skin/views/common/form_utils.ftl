@@ -5,6 +5,8 @@ This is a generic WYSIWYG EDITOR, to use it include this FTL and specify needed 
 ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
 -->
 <#assign canWrite = Session.hasPermission(Document.ref, 'Write') />
+<#assign ckfinderPath = skinPath + '/js/ckfinder' />
+
 
 <#if !Context.principal.isAnonymous() && canWrite>
   <div class="editButton">
@@ -15,6 +17,11 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
 
   <script type="text/javascript">
   var editorList = new Array();
+  /*var ref = CKEDITOR.tools.addFunction(
+    function()
+    {
+        alert( 'Hello!');
+    });*/
 
   jQuery(document).ready(function() {
       jQuery("button[class=edit]").click(function() {
@@ -44,7 +51,18 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
            var id = jQuery(this).attr("id");
            var val = jQuery(this).html();
            jQuery(this).html("<textarea id='${form_name}_"+id+"' cols='110' rows='10'>"+val+"</textarea>");
-           var editor = CKEDITOR.replace("${form_name}_"+id);
+           //var editor = CKEDITOR.replace("${form_name}_"+id);
+           
+           var editor = CKEDITOR.replace("${form_name}_"+id,
+           		{
+					filebrowserBrowseUrl : '${This.path}/displayBrowseTree',
+					filebrowserImageBrowseUrl : '${This.path}/displayBrowseTree',
+					filebrowserFlashBrowseUrl : '${This.path}/displayBrowseTree',
+					filebrowserUploadUrl : '${This.path}/displayBrowseTree',
+					filebrowserImageUploadUrl : '${This.path}/displayBrowseTree',
+					filebrowserFlashUploadUrl : '${This.path}/displayBrowseTree'
+				}
+           );
            editorList[i] = editor;
            /*editor.on("instanceReady", function() {
            CKEDITOR.instances.editor.document.on('keydown', function() {
