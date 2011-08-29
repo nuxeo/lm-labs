@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,39 +32,6 @@ public class PageNewsPageTest {
     private static final String TITRE_NEWS_ADD = "Titre news 1.";
     @Inject
     SitesRootPage rootPage;
-    
-    @Test
-    public void iAddNews() throws Exception {
-
-        PageNewsPage pageNews = getPageNews();
-        pageNews.displayEditWithAdd();
-        pageNews.setTitle(TITRE_NEWS_ADD);
-        pageNews.setNewsStartPublication("23/01/2011");
-//        if (selenium != null)
-//            selenium.runScript("CKEDITOR.instances.['newsContent'].setData('Content')");
-        //pageNews.setContent("Content");
-        pageNews = pageNews.clickSubmitNews();
-        assertTrue(pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD));
-    }
-    
-    @Test
-    public void iModifyNews() throws Exception {
-        PageNewsPage pageNews = getPageNews();
-        assertTrue(pageNews.containNews());
-        pageNews.displayEditWithModify();
-        pageNews.setClearTitle();
-        pageNews.setTitle(PageNewsRepositoryInit.LABS_NEWS_TITLE + "ert");
-        pageNews = pageNews.clickSubmitNews();
-        assertTrue( pageNews.canDisplayMyNewNews(PageNewsRepositoryInit.LABS_NEWS_TITLE + "ert"));
-    }
-    
-    @Test
-    public void iDeleteNews() throws Exception {
-        PageNewsPage pageNews = getPageNews();
-        assertTrue(pageNews.containNews());
-        pageNews.deleteNews();
-        assertFalse(pageNews.containNews());
-    }
 
     @Test
     public void pageIsReachable() throws Exception {
@@ -81,6 +49,39 @@ public class PageNewsPageTest {
     public void iCanModifyAndDeleteNews() throws Exception {
         PageNewsPage pageNews = getPageNews();
         assertTrue(pageNews.canModifyAndDeleteNews());
+    }
+    
+    @Test
+    public void iDeleteNews() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        PageNewsPage.sleep(3000);
+        assertTrue(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
+        pageNews.deleteNews();
+        assertFalse(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
+    }
+    
+    @Test
+    public void iAddNews() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        pageNews.displayEditWithAdd();
+        pageNews.setTitle(TITRE_NEWS_ADD);
+        pageNews.setNewsStartPublication("23/01/2011");
+//        if (selenium != null)
+//            selenium.runScript("CKEDITOR.instances.['newsContent'].setData('Content')");
+        //pageNews.setContent("Content");
+        pageNews = pageNews.clickSubmitNews();
+        assertTrue(pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD));
+    }
+    
+    @Test
+    public void iModifyNews() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        assertTrue(pageNews.containNews(TITRE_NEWS_ADD));
+        pageNews.displayEditWithModify();
+        pageNews.setClearTitle();
+        pageNews.setTitle(TITRE_NEWS_ADD + "ert");
+        pageNews = pageNews.clickSubmitNews();
+        assertTrue( pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD + "ert"));
     }
 
     

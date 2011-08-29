@@ -6,11 +6,9 @@ import org.nuxeo.runtime.test.runner.web.WebPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageNewsRepositoryInit;
-
 public class PageNewsPage extends WebPage {
 
-    private static final int WAITING_TIME = 20;
+    private static final int WAITING_TIME = 60;
 
     @Override
     public WebPage ensureLoaded() {
@@ -31,12 +29,12 @@ public class PageNewsPage extends WebPage {
         return false;
     }
 
-    public boolean containNews() {
+    public boolean containNews(String title) {
         try {
             List<WebElement> elements = findElements(By.className("titleNews"));
             if (!elements.isEmpty()) {
                 for (WebElement element:elements){
-                    if (element != null && PageNewsRepositoryInit.LABS_NEWS_TITLE.equals(element.getText())) {
+                    if (element != null && title.equals(element.getText())) {
                         return true;
                     }
                 }
@@ -78,6 +76,7 @@ public class PageNewsPage extends WebPage {
     
     public void displayEditWithModify(){
         findElement(By.className("modifyActionNews"), WAITING_TIME).click();
+        sleep(3000);
     }
     
     public void deleteNews(){
@@ -98,6 +97,17 @@ public class PageNewsPage extends WebPage {
     public void setClearTitle() {
         WebElement findElement = findElement(By.id("newsTitle"), WAITING_TIME);
         findElement.clear();
+    }
+
+    /**
+     * @param time
+     */
+    public static void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     
     public void setNewsStartPublication(String pNewsStartPublication) {
