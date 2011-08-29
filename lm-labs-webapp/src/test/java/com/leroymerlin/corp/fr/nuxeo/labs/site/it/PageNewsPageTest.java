@@ -43,7 +43,26 @@ public class PageNewsPageTest {
 //            selenium.runScript("CKEDITOR.instances.['newsContent'].setData('Content')");
         //pageNews.setContent("Content");
         pageNews = pageNews.clickSubmitNews();
-        pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD);
+        assertTrue(pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD));
+    }
+    
+    @Test
+    public void iModifyNews() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        assertTrue(pageNews.containNews());
+        pageNews.displayEditWithModify();
+        pageNews.setClearTitle();
+        pageNews.setTitle(PageNewsRepositoryInit.LABS_NEWS_TITLE + "ert");
+        pageNews = pageNews.clickSubmitNews();
+        assertTrue( pageNews.canDisplayMyNewNews(PageNewsRepositoryInit.LABS_NEWS_TITLE + "ert"));
+    }
+    
+    @Test
+    public void iDeleteNews() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        assertTrue(pageNews.containNews());
+        pageNews.deleteNews();
+        assertFalse(pageNews.containNews());
     }
 
     @Test
