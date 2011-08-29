@@ -76,6 +76,15 @@ public class PageNewsPageTest {
     @Test
     public void iModifyNews() throws Exception {
         PageNewsPage pageNews = getPageNews();
+        
+        pageNews.displayEditWithAdd();
+        pageNews.setTitle(TITRE_NEWS_ADD);
+        pageNews.setNewsStartPublication("23/01/2011");
+//        if (selenium != null)
+//            selenium.runScript("CKEDITOR.instances.['newsContent'].setData('Content')");
+        //pageNews.setContent("Content");
+        pageNews = pageNews.clickSubmitNews();
+        
         assertTrue(pageNews.containNews(TITRE_NEWS_ADD));
         pageNews.displayEditWithModify();
         pageNews.setClearTitle();
