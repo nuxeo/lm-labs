@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 public class PageNewsPage extends WebPage {
 
-    private static final int WAITING_TIME = 60;
+    private static final int WAITING_TIME = 120;
 
     @Override
     public WebPage ensureLoaded() {
