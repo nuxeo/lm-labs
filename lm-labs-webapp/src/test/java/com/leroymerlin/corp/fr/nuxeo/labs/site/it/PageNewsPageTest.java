@@ -52,17 +52,14 @@ public class PageNewsPageTest {
     }
     
     @Test
-    public void iDeleteNews() throws Exception {
+    public void CRUDNews() throws Exception {
+        //delete
         PageNewsPage pageNews = getPageNews();
         PageNewsPage.sleep(3000);
         assertTrue(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
         pageNews.deleteNews();
         assertFalse(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
-    }
-    
-    @Test
-    public void iAddNews() throws Exception {
-        PageNewsPage pageNews = getPageNews();
+        //add
         pageNews.displayEditWithAdd();
         pageNews.setTitle(TITRE_NEWS_ADD);
         pageNews.setNewsStartPublication("23/01/2011");
@@ -71,28 +68,13 @@ public class PageNewsPageTest {
         //pageNews.setContent("Content");
         pageNews = pageNews.clickSubmitNews();
         assertTrue(pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD));
-    }
-    
-    @Test
-    public void iModifyNews() throws Exception {
-        PageNewsPage pageNews = getPageNews();
-        
-        pageNews.displayEditWithAdd();
-        pageNews.setTitle(TITRE_NEWS_ADD);
-        pageNews.setNewsStartPublication("23/01/2011");
-//        if (selenium != null)
-//            selenium.runScript("CKEDITOR.instances.['newsContent'].setData('Content')");
-        //pageNews.setContent("Content");
-        pageNews = pageNews.clickSubmitNews();
-        
-        assertTrue(pageNews.containNews(TITRE_NEWS_ADD));
+        //modify
         pageNews.displayEditWithModify();
         pageNews.setClearTitle();
         pageNews.setTitle(TITRE_NEWS_ADD + "ert");
         pageNews = pageNews.clickSubmitNews();
         assertTrue( pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD + "ert"));
     }
-
     
     private PageNewsPage getPageNews() {
         ensureLoggedIn();
