@@ -35,7 +35,7 @@ public class PageNewsPageTest {
     @Test
     public void iAddNews() throws Exception {
 
-        PageNewsPage pageNews = getPageClasseur();
+        PageNewsPage pageNews = getPageNews();
         pageNews.displayEditWithAdd();
         pageNews.setTitle(TITRE_NEWS_ADD);
         pageNews.setNewsStartPublication("23/01/2011");
@@ -48,24 +48,24 @@ public class PageNewsPageTest {
 
     @Test
     public void pageIsReachable() throws Exception {
-        PageNewsPage pageNews = getPageClasseur();
+        PageNewsPage pageNews = getPageNews();
         assertTrue(pageNews.isLoaded());
     }
     
     @Test
     public void iCanAddNews() throws Exception {
-        PageNewsPage pageNews = getPageClasseur();
+        PageNewsPage pageNews = getPageNews();
         assertTrue(pageNews.canAddNews());
     }
     
     @Test
     public void iCanModifyAndDeleteNews() throws Exception {
-        PageNewsPage pageNews = getPageClasseur();
+        PageNewsPage pageNews = getPageNews();
         assertTrue(pageNews.canModifyAndDeleteNews());
     }
 
     
-    private PageNewsPage getPageClasseur() {
+    private PageNewsPage getPageNews() {
         ensureLoggedIn();
         PageNewsPage pageNews = rootPage.goToPageNews("http://localhost:8089/labssites" + "/" + PageNewsRepositoryInit.SITE_URL, PageNewsRepositoryInit.PAGE_NEWS_TITLE);
         return pageNews;
