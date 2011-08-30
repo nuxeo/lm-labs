@@ -30,6 +30,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtilsTest;
 
 public class PageNewsPageTest {
 
+    private static final String CONTENT = "Content";
     private static final String TITRE_NEWS_ADD = "Titre news 1.";
     @Inject
     SitesRootPage rootPage;
@@ -52,8 +53,35 @@ public class PageNewsPageTest {
         assertTrue(pageNews.canModifyAndDeleteNews());
     }
     
+//    @Test
+//    public void CRUDNews() throws Exception {
+//        //delete
+//        PageNewsPage pageNews = getPageNews();
+//        LabsSiteWebAppUtilsTest.sleep(3000);
+//        assertTrue(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
+//        pageNews.deleteNews();
+//        LabsSiteWebAppUtilsTest.sleep(3000);
+//        assertFalse(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
+//        //add
+//        pageNews.displayEditWithAdd();
+//        LabsSiteWebAppUtilsTest.sleep(3000);
+//        pageNews.setTitle(TITRE_NEWS_ADD);
+//        pageNews.setNewsStartPublication("23/01/2011");
+//        pageNews.setContent(CONTENT);
+//        pageNews = pageNews.clickSubmitNews();
+//        LabsSiteWebAppUtilsTest.sleep(3000);
+//        assertTrue(pageNews.canDisplayMyNews(TITRE_NEWS_ADD, CONTENT));
+//        //modify
+//        pageNews.displayEditWithModify();
+//        pageNews.setClearTitle();
+//        pageNews.setTitle(TITRE_NEWS_ADD + "ert");
+//        pageNews.setContent(CONTENT + "ert");
+//        pageNews = pageNews.clickSubmitNews();
+//        assertTrue( pageNews.canDisplayMyNews(TITRE_NEWS_ADD + "ert", CONTENT + "ert"));
+//    }
+    
     @Test
-    public void CRUDNews() throws Exception {
+    public void deleteNews() throws Exception {
         //delete
         PageNewsPage pageNews = getPageNews();
         LabsSiteWebAppUtilsTest.sleep(3000);
@@ -61,23 +89,34 @@ public class PageNewsPageTest {
         pageNews.deleteNews();
         LabsSiteWebAppUtilsTest.sleep(3000);
         assertFalse(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
+    }
+    
+    @Test
+    public void addDNews() throws Exception {
         //add
+        PageNewsPage pageNews = getPageNews();
         pageNews.displayEditWithAdd();
         LabsSiteWebAppUtilsTest.sleep(3000);
         pageNews.setTitle(TITRE_NEWS_ADD);
         pageNews.setNewsStartPublication("23/01/2011");
-//        if (selenium != null)
-//            selenium.runScript("CKEDITOR.instances.['newsContent'].setData('Content')");
-        //pageNews.setContent("Content");
+        pageNews.setContent(CONTENT);
         pageNews = pageNews.clickSubmitNews();
         LabsSiteWebAppUtilsTest.sleep(3000);
-        assertTrue(pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD));
+        assertTrue(pageNews.canDisplayMyNews(TITRE_NEWS_ADD, CONTENT));
+    }
+    
+    @Test
+    public void modifyNews() throws Exception {
         //modify
+        PageNewsPage pageNews = getPageNews();
         pageNews.displayEditWithModify();
+        LabsSiteWebAppUtilsTest.sleep(3000);
         pageNews.setClearTitle();
         pageNews.setTitle(TITRE_NEWS_ADD + "ert");
+        pageNews.setContent(CONTENT + "ert");
         pageNews = pageNews.clickSubmitNews();
-        assertTrue( pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD + "ert"));
+        LabsSiteWebAppUtilsTest.sleep(3000);
+        assertTrue( pageNews.canDisplayMyNews(TITRE_NEWS_ADD + "ert", CONTENT + "ert"));
     }
     
     private PageNewsPage getPageNews() {

@@ -10,7 +10,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtilsTest;
 
 public class PageNewsPage extends WebPage {
 
-    private static final int WAITING_TIME = 120;
+    private static final int WAITING_TIME = 30;
 
     @Override
     public WebPage ensureLoaded() {
@@ -20,8 +20,7 @@ public class PageNewsPage extends WebPage {
 
     public boolean isLoaded() {
         try {
-            WebElement element = findElement(By.className("pageNews"),
-                    WAITING_TIME);
+            WebElement element = findElement(By.className("pageNews"), WAITING_TIME);
             if (element != null) {
                 return true;
             }
@@ -35,7 +34,7 @@ public class PageNewsPage extends WebPage {
         try {
             List<WebElement> elements = findElements(By.className("titleNews"));
             if (!elements.isEmpty()) {
-                for (WebElement element:elements){
+                for (WebElement element : elements) {
                     if (element != null && title.equals(element.getText())) {
                         return true;
                     }
@@ -61,8 +60,7 @@ public class PageNewsPage extends WebPage {
 
     public boolean canModifyAndDeleteNews() {
         try {
-            WebElement element = findElement(By.className("newsActions"),
-                    WAITING_TIME);
+            WebElement element = findElement(By.className("newsActions"), WAITING_TIME);
             if (element != null) {
                 return true;
             }
@@ -71,17 +69,16 @@ public class PageNewsPage extends WebPage {
         }
         return false;
     }
-    
-    public void displayEditWithAdd(){
+
+    public void displayEditWithAdd() {
         findElement(By.id("linkAddNews"), WAITING_TIME).click();
     }
-    
-    public void displayEditWithModify(){
+
+    public void displayEditWithModify() {
         findElement(By.className("modifyActionNews"), WAITING_TIME).click();
-        LabsSiteWebAppUtilsTest.sleep(3000);
     }
-    
-    public void deleteNews(){
+
+    public void deleteNews() {
         findElement(By.className("deleteActionNews"), WAITING_TIME).click();
     }
 
@@ -90,38 +87,57 @@ public class PageNewsPage extends WebPage {
         button.click();
         return getPage(PageNewsPage.class);
     }
-    
+
     public void setTitle(String pTitle) {
         WebElement findElement = findElement(By.id("newsTitle"), WAITING_TIME);
         findElement.sendKeys(pTitle);
     }
-    
+
     public void setClearTitle() {
         WebElement findElement = findElement(By.id("newsTitle"), WAITING_TIME);
         findElement.clear();
     }
-    
+
     public void setNewsStartPublication(String pNewsStartPublication) {
         findElement(By.id("newsStartPublication")).sendKeys(pNewsStartPublication);
     }
-    
-    
+
     public void setContent(String pContent) {
-        WebElement findElement = findElement(By.id("newsContent"));
-        findElement.sendKeys(pContent);
+        WebElement body = LabsSiteWebAppUtilsTest.getContentElementInCheckEditor(this, "newsContent");
+        if (body != null) {
+            body.sendKeys(pContent);
+        }
+        LabsSiteWebAppUtilsTest.returnToDefaultContent(this);
     }
-    
-    public boolean canDisplayMyNewNews(String pTitle) {
+
+    public boolean canDisplayMyNews(String pTitle, String pContent) {
         try {
+            boolean findTitle = false;
+            boolean findContent = false;
             List<WebElement> elements = findElements(By.className("titleNews"));
             if (!elements.isEmpty()) {
-                for (WebElement element:elements){
-                    if (pTitle.equals(element.getText())){
-                        return true;
+                for (WebElement element : elements) {
+                    if (pTitle.equals(element.getText())) {
+                        findTitle = true;
                     }
                 }
             }
+            elements = findElements(By.className("contentNews"));
+            if (!elements.isEmpty()) {
+                for (WebElement element : elements) {
+                    String innerHTML = element.getText();
+                    // Contains and not equals because i can't delete the before
+                    // text if it's not empty.
+                    if (innerHTML != null && innerHTML.contains(pContent)) {
+                        findContent = true;
+                    }
+                }
+            }
+            if (findTitle && findContent) {
+                return true;
+            }
         } catch (Exception e) {
+            LabsSiteWebAppUtilsTest.returnToDefaultContent(this);
             return false;
         }
         return false;
