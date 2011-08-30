@@ -5,3 +5,8 @@
 	background-color: lightSalmon;
 	
 }
+.sidebarzone > div.title {
+	font-weight: bold;
+	width: 100%;
+	color: white;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.pageproviders.contrib">
+
+  <extension target="org.nuxeo.ecm.platform.query.api.PageProviderService"
+    point="providers">
+
+
+    <genericPageProvider name="latest_uploads"
+      class="com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider">
+    </genericPageProvider>
+
+<!-- 
+    <coreQueryPageProvider name="latest_uploads">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM Document WHERE ecm:mixinType != 'HiddenInNavigation'
+        AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:path STARTSWITH ?
+      </pattern>
+      <!- sort column="dc:title" ascending="true" / sort by fulltext relevance ->
+      <pageSize>5</pageSize>
+      <sort column="dc:modified" ascending="false" />
+    </coreQueryPageProvider>
+ -->
+
+  </extension>
+
+</component>

@@ -1,0 +1,8 @@
+.paging > ul {
+	display: inline;
+}
+
+.paging > ul > li {
+	display: inline;
+	list-style: none;
+} 

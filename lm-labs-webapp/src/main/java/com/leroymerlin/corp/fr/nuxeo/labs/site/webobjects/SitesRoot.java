@@ -36,6 +36,8 @@ import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
 import com.leroymerlin.corp.fr.nuxeo.freemarker.BreadcrumbsArrayTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.BytesFormatTemplateMethod;
+import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
+import com.leroymerlin.corp.fr.nuxeo.freemarker.PageEndUrlTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
@@ -69,6 +71,8 @@ public class SitesRoot extends ModuleRoot {
             FreemarkerEngine fm = (FreemarkerEngine) rendering;
             fm.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
             fm.setSharedVariable("breadcrumbsDocs", new BreadcrumbsArrayTemplateMethod());
+            fm.setSharedVariable("pageEndUrl", new PageEndUrlTemplateMethod());
+            fm.setSharedVariable("latestUploadsPageProvider", new LatestUploadsPageProviderTemplateMethod());
         }
     }
 

@@ -14,6 +14,8 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+
 public class Page extends DocumentObject {
 
     private static final Log LOG = LogFactory.getLog(Page.class);
@@ -50,5 +52,9 @@ public class Page extends DocumentObject {
             return "";
         }
         return StringEscapeUtils.escapeJavaScript(pString);
+    }
+    
+    public String getSiteUrlProp() throws PropertyException, ClientException {
+        return (String) LabsSiteUtils.getParentSite(doc).getPropertyValue("webc:url");
     }
 }
