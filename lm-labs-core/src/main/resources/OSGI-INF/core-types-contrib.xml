@@ -15,6 +15,7 @@
 		<schema name="data" prefix="data" src="schemas/data.xsd" />
 		<schema name="page_blocs" prefix="pgb" src="schemas/page_blocs.xsd" />
 		<schema name="external_url" prefix="exturl" src="schemas/external_url.xsd" />
+		<schema name="page_html" prefix="html" src="schemas/page_html.xsd" />
 		<!-- <schema name="theme" src="schemas/theme.xsd" /> -->
 	</extension>
 
@@ -118,6 +119,13 @@
 				<type>File</type>
 			</subtypes>
 		</doctype>
+		
+		
+		
+		<doctype name="HtmlPage" extends="Page">
+			<schema name="page_html"/>
+		</doctype>
+		
 
 	</extension>
 
