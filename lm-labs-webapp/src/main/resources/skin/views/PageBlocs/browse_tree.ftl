@@ -58,7 +58,14 @@
 	  	
 	  	function addJs(obj) {
 			//alert(obj.id);
-			jQuery("#resources").html('<a id="pictureId" href="http://blog.levis-heb.net/data/images/softwares/nuxeo_logo.png" onclick="sendToCKEditor(this.href);return false;"><img src="http://blog.levis-heb.net/data/images/softwares/nuxeo_logo.png" /></a>');
+			jQuery.ajax({
+				url: "${Context.basePath}/labssites/${siteName}/getPictures",
+				type: "post",
+				data: "docId="+obj.id,
+				success: function(msg) {
+					jQuery("#resources").html(msg);
+				}
+			});
 	  	}
 		
 		function sendToCKEditor(href) {

@@ -20,6 +20,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 public class Page extends DocumentObject {
 
     private static final String BROWSE_TREE_VIEW = "browse_tree";
+
     private static final Log LOG = LogFactory.getLog(Page.class);
 
     public com.leroymerlin.corp.fr.nuxeo.labs.site.Page getPage() {
@@ -35,8 +36,7 @@ public class Page extends DocumentObject {
         }
 
         try {
-            doc.getAdapter(
-                    com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).setCommentaire(
+            doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).setCommentaire(
                     commentaire);
             getCoreSession().saveDocument(doc);
             getCoreSession().save();
@@ -49,8 +49,8 @@ public class Page extends DocumentObject {
         return Response.ok().build();
     }
 
-	public String escapeJS(String pString){
-        if (StringUtils.isEmpty(pString)){
+    public String escapeJS(String pString) {
+        if (StringUtils.isEmpty(pString)) {
             return "";
         }
         return StringEscapeUtils.escapeJavaScript(pString);
@@ -60,7 +60,7 @@ public class Page extends DocumentObject {
     @Path("displayBrowseTree")
     public Object doBrowseTree() {
         // FIXME generic view
-        
+
         Template template = getView(BROWSE_TREE_VIEW);
         return template;
     }

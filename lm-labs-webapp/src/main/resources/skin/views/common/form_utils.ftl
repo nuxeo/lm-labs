@@ -5,8 +5,6 @@ This is a generic WYSIWYG EDITOR, to use it include this FTL and specify needed 
 ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
 -->
 <#assign canWrite = Session.hasPermission(Document.ref, 'Write') />
-<#assign ckfinderPath = skinPath + '/js/ckfinder' />
-
 
 <#if !Context.principal.isAnonymous() && canWrite>
   <div class="editButton">
@@ -17,11 +15,6 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
 
   <script type="text/javascript">
   var editorList = new Array();
-  /*var ref = CKEDITOR.tools.addFunction(
-    function()
-    {
-        alert( 'Hello!');
-    });*/
 
   jQuery(document).ready(function() {
       jQuery("button[class=edit]").click(function() {

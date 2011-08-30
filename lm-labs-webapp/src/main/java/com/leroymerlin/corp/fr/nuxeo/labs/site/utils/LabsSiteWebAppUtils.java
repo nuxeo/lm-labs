@@ -51,36 +51,41 @@ public final class LabsSiteWebAppUtils {
                     if (site != null) { // TODO
                         url.append(site.getPath());
                     }
-                    url.append(buildEndUrl(doc));
                     if (enableBrowsingTree) {
+                        url.append(buildEndUrl(doc));
                         result.append(getHref(url.toString(), doc.getName()));
                     } else {
-                        result.append(getHrefToBrowseTree(url.toString(),
-                                doc.getName(), doc.getRef()));
+                        result.append(getHrefToBrowseTree(doc.getName(),
+                                doc.getPathAsString()));
                     }
                  } else if (canGetPreview(doc)) {
                     StringBuilder url = new StringBuilder();
                     if (site != null) { // TODO
                         url.append(site.getPath());
                     }
-                    url.append(buildEndUrl(doc));
                     if (enableBrowsingTree) {
+                        url.append(buildEndUrl(doc));
                         result.append(getHref(url.toString(), doc.getName()));
                     } else {
-                        result.append(getHrefToBrowseTree(url.toString(),
-                                doc.getName(), doc.getRef()));
+                        result.append(getHrefToBrowseTree(doc.getName(),
+                                doc.getPathAsString()));
                     }
                 } else if (Docs.EXTERNAL_URL.type().equals(doc.getType())) {
-                    StringBuilder url = new StringBuilder();
-                    url.append(buildEndUrl(doc));
                     if (enableBrowsingTree) {
+                        StringBuilder url = new StringBuilder();
+                        url.append(buildEndUrl(doc));
                         result.append(getHref(url.toString(), doc.getName()));
                     } else {
-                        result.append(getHrefToBrowseTree(url.toString(),
-                                doc.getName(), doc.getRef()));
+                        result.append(getHrefToBrowseTree(doc.getName(),
+                                doc.getPathAsString()));
                     }
                 } else {
-                    result.append(doc.getName());
+                    if (enableBrowsingTree) {
+                        result.append(getHrefToBrowseTree(doc.getName(),
+                                doc.getPathAsString()));
+                    } else {
+                        result.append(doc.getName());
+                    }
                 }
                 result.append("\"");
                 if (session.hasChildren(doc.getRef())) {
@@ -143,14 +148,12 @@ public final class LabsSiteWebAppUtils {
         return result.toString();
     }
 
-    public static String getHrefToBrowseTree(final String url,
-            final String text, final DocumentRef ref) throws ClientException {
+    public static String getHrefToBrowseTree(final String text,
+            final String path) throws ClientException {
         StringBuilder result = new StringBuilder();
         result.append("<a id='");
-        result.append(ref);
-        result.append("' href='");
-        result.append(url);
-        result.append("' class='browseLink' onclick='addJs(this);return false;'>");
+        result.append(path);
+        result.append("' href='#' onclick='addJs(this);return false;'>");
         result.append(text);
         result.append("</a>");
         return result.toString();

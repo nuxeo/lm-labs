@@ -62,13 +62,13 @@ public class LabsSiteWebAppUtilsTest {
         // ROOT FOLDER
         DocumentModel folder1 = session.createDocumentModel(
                 site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
-                        + Docs.WELCOME.docName(), "folder1", Docs.PAGE.type());
+                        + Docs.WELCOME.docName(), "folder1", Docs.FOLDER.type());
         DocumentModel folder2 = session.createDocumentModel(
                 site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
-                        + Docs.WELCOME.docName(), "folder2", Docs.PAGE.type());
+                        + Docs.WELCOME.docName(), "folder2", Docs.FOLDER.type());
         DocumentModel folder3 = session.createDocumentModel(
                 site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
-                        + Docs.WELCOME.docName(), "folder3", Docs.PAGE.type());
+                        + Docs.WELCOME.docName(), "folder3", Docs.FOLDER.type());
         session.createDocument(folder1);
         session.createDocument(folder2);
         session.createDocument(folder3);
@@ -76,15 +76,15 @@ public class LabsSiteWebAppUtilsTest {
         DocumentModel sub1_1 = session.createDocumentModel(
                 site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
                         + Docs.WELCOME.docName() + "/folder1", "sub1_1",
-                Docs.PAGE.type());
+                Docs.FOLDER.type());
         DocumentModel sub1_2 = session.createDocumentModel(
                 site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
                         + Docs.WELCOME.docName() + "/folder1", "sub1_2",
-                Docs.PAGE.type());
+                Docs.FOLDER.type());
         DocumentModel sub2_1 = session.createDocumentModel(
                 site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
                         + Docs.WELCOME.docName() + "/folder2", "sub2_1",
-                Docs.PAGE.type());
+                Docs.FOLDER.type());
         session.createDocument(sub1_1);
         session.createDocument(sub1_2);
         session.createDocument(sub2_1);

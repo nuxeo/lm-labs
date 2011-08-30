@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -10,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
@@ -33,6 +35,13 @@ public class Site extends DocumentObject {
     public static final String SITEMAP_AS_LIST_VIEW = "sitemap_as_list";
 
     private static final Log LOG = LogFactory.getLog(Site.class);
+
+    private interface Query {
+        String TAG_VALUE = "%VALUE%";
+
+        String SELECT_PICTURE = "select * from Picture where ecm:path STARTSWITH '"
+                + TAG_VALUE + "'";
+    }
 
     @Path("id/{idPage}")
     public Object doGetPageId(@PathParam("idPage") final String idPage) {
@@ -61,8 +70,7 @@ public class Site extends DocumentObject {
     @Path("siteMapAsList")
     public Template doGoSiteMapAsList() {
         try {
-            return getView(SITEMAP_AS_LIST_VIEW).arg(
-                    "allDoc",
+            return getView(SITEMAP_AS_LIST_VIEW).arg("allDoc",
                     LabsSiteUtils.getAllDoc(LabsSiteUtils.getSiteTree(doc)));
         } catch (Exception e) {
             throw WebException.wrap(e);
@@ -73,24 +81,55 @@ public class Site extends DocumentObject {
     @Path("treeview")
     public String doTreeview() {
         try {
-            return LabsSiteWebAppUtils.getTreeview(LabsSiteUtils.getSiteTree(doc), this);
+            return LabsSiteWebAppUtils.getTreeview(
+                    LabsSiteUtils.getSiteTree(doc), this, false);
         } catch (Exception e) {
             LOG.error(e, e);
             throw WebException.wrap(e);
         }
     }
-    
+
     @POST
     @Path("browseTree")
     public String doBrowseTree() {
         try {
-            return LabsSiteWebAppUtils.getTreeview(LabsSiteUtils.getSiteTree(doc), this, false);
+            return LabsSiteWebAppUtils.getTreeview(
+                    LabsSiteUtils.getSiteTree(doc), this, true);
         } catch (Exception e) {
             LOG.error(e, e);
             throw WebException.wrap(e);
         }
     }
-    
+
+    @POST
+    @Path("getPictures")
+    public String doGetPictures(@FormParam("docId") final String docId) {
+        String query = Query.SELECT_PICTURE.replace(Query.TAG_VALUE, docId);
+        DocumentModelList pictures = null;
+        StringBuilder result = null;
+
+        try {
+            pictures = getCoreSession().query(query);
+        } catch (ClientException e) {
+            LOG.error(e, e);
+            throw WebException.wrap(e);
+        }
+
+        if (pictures != null) {
+            result = new StringBuilder();
+            for (DocumentModel doc : pictures) {
+                result.append("<a id='");
+                result.append(docId);
+                result.append("' href='");
+                result.append(doc.getPathAsString()); // FIXME
+                result.append("' onclick='sendToCKEditor(this.href);return false;'><img src='");
+                result.append(doc.getPathAsString()); // FIXME
+                result.append("' /></a>");
+            }
+        }
+
+        return result.toString();
+    }
 
     public String getCreatorUsername(final String docRef) {
         try {
@@ -157,13 +196,13 @@ public class Site extends DocumentObject {
     public BlobHolder getBlobHolder(final DocumentModel document) {
         return document.getAdapter(BlobHolder.class);
     }
-    
+
     public DocumentModel getClosestPage(DocumentModel document) {
         return LabsSiteUtils.getClosestPage(document);
     }
-    
+
     public String getPageEndUrl(DocumentModel document) throws ClientException {
         return LabsSiteWebAppUtils.buildEndUrl(document);
     }
-    
+
 }
