@@ -23,7 +23,11 @@
       <#-- SIDEBAR AREA --> 
       <#include "views/common/sidebar_area.ftl" />
     <div id="content" class="pageBlocs welcome">
-      
+      <#if Session.hasPermission(This.previous.document.ref, 'Everything') >
+      <div style="float:right;">
+      	<a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${This.siteUrlProp}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a>
+      </div>
+      </#if>
       <#-- COMMENT AREA --> 
       <#include "views/common/comment_area.ftl" />
       
