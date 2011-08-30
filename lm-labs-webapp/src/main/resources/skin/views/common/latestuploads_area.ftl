@@ -5,7 +5,10 @@
 #latestuploads > ul > li {
 	display: list-item;
 	font-size: 10px;
-	width: 150px;
+	width: 170px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 </style>
 <div id="latestuploads" class="sidebarzone" >
