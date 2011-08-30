@@ -6,6 +6,8 @@ import org.nuxeo.runtime.test.runner.web.WebPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtilsTest;
+
 public class PageNewsPage extends WebPage {
 
     private static final int WAITING_TIME = 120;
@@ -76,7 +78,7 @@ public class PageNewsPage extends WebPage {
     
     public void displayEditWithModify(){
         findElement(By.className("modifyActionNews"), WAITING_TIME).click();
-        sleep(3000);
+        LabsSiteWebAppUtilsTest.sleep(3000);
     }
     
     public void deleteNews(){
@@ -97,17 +99,6 @@ public class PageNewsPage extends WebPage {
     public void setClearTitle() {
         WebElement findElement = findElement(By.id("newsTitle"), WAITING_TIME);
         findElement.clear();
-    }
-
-    /**
-     * @param time
-     */
-    public static void sleep(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
     
     public void setNewsStartPublication(String pNewsStartPublication) {

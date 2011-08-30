@@ -106,5 +106,16 @@ public class LabsSiteWebAppUtilsTest {
                 + "/folder2/sub2_1")));
     }
 
+    /**
+     * @param time
+     */
+    public static void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

@@ -19,6 +19,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageNewsPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageNewsRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtilsTest;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
@@ -55,18 +56,21 @@ public class PageNewsPageTest {
     public void CRUDNews() throws Exception {
         //delete
         PageNewsPage pageNews = getPageNews();
-        PageNewsPage.sleep(3000);
+        LabsSiteWebAppUtilsTest.sleep(3000);
         assertTrue(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
         pageNews.deleteNews();
+        LabsSiteWebAppUtilsTest.sleep(3000);
         assertFalse(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
         //add
         pageNews.displayEditWithAdd();
+        LabsSiteWebAppUtilsTest.sleep(3000);
         pageNews.setTitle(TITRE_NEWS_ADD);
         pageNews.setNewsStartPublication("23/01/2011");
 //        if (selenium != null)
 //            selenium.runScript("CKEDITOR.instances.['newsContent'].setData('Content')");
         //pageNews.setContent("Content");
         pageNews = pageNews.clickSubmitNews();
+        LabsSiteWebAppUtilsTest.sleep(3000);
         assertTrue(pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD));
         //modify
         pageNews.displayEditWithModify();
