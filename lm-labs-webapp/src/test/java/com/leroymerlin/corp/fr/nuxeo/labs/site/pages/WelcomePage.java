@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.TimeoutException;
 
 public class WelcomePage extends WebPage {
 
-    private static final int WAITING_TIME = 5;
+    private static final int WAITING_TIME = 15;
 
     @Override
     public WebPage ensureLoaded() {
