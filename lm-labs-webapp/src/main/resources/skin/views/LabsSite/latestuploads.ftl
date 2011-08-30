@@ -28,9 +28,10 @@
 						<#assign closestPage = This.getClosestPage(upload) />
 					    <span class="colClosestPage">${Context.getMessage('label.LabsSite.latestuploads.onpage')} <a href="${This.URL}${This.getPageEndUrl(closestPage)}" target="_blank" >${closestPage.title}</a></span>
 					    <#assign previewUrl = This.path + pageEndUrl(upload) />
-					    <span class="colView"><a href="${previewUrl}" target="_blank">${Context.getMessage('command.LabsSite.latestuploads.display')}</a></span>
-					    <span class="colDownload"><a href="${previewUrl?split('/preview')[0]}">${Context.getMessage('command.LabsSite.latestuploads.download')}</a></span>
-					    <span>
+					    <div class="colActions" >
+						    <span class="colView"><a href="${previewUrl}" target="_blank">${Context.getMessage('command.LabsSite.latestuploads.display')}</a></span>
+						    <span class="colDownload"><a href="${previewUrl?split('/preview')[0]}">${Context.getMessage('command.LabsSite.latestuploads.download')}</a></span>
+					    <div>
 					</li>
 					</#list>
 				</ul>
