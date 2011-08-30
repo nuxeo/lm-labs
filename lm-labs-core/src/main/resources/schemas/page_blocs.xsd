@@ -3,21 +3,4 @@
 	targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_blocs"
   	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_blocs">
   	
-  <xs:element name="externalURLs" type="tns:externalURLs" />
-  
-  <xs:complexType name="externalURLs">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="item" type="tns:externalURL" />
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="externalURL">
-    <xs:sequence>
-      <xs:element name="url" type="xs:string" />
-      <xs:element name="name" type="xs:string" />
-      <xs:element name="order" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-
-  	
 </xs:schema>
