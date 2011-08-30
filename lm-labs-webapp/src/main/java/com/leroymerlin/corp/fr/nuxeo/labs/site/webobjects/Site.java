@@ -15,6 +15,7 @@ import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
+import org.nuxeo.ecm.platform.query.api.PageProvider;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -146,7 +147,6 @@ public class Site extends DocumentObject {
     }
     
     public DocumentModel getClosestPage(DocumentModel document) {
-        LOG.debug("<getClosestPage> Site");
         return LabsSiteUtils.getClosestPage(document);
     }
     
