@@ -19,6 +19,7 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
         "org.nuxeo.ecm.platform.filemanager.core",
         "org.nuxeo.ecm.platform.filemanager.core.listener",
         "org.nuxeo.ecm.platform.commandline.executor",
+        "org.nuxeo.ecm.platform.query.api",
         "org.nuxeo.ecm.core.persistence",
         "org.nuxeo.ecm.platform"
 //        "com.leroymerlin.corp.fr.nuxeo.portal.picturebook.webapp.test:hibernate-contrib.xml",
