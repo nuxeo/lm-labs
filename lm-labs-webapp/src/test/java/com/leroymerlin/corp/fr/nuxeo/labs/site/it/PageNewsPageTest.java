@@ -14,12 +14,12 @@ import org.nuxeo.runtime.test.runner.web.BrowserFamily;
 import org.nuxeo.runtime.test.runner.web.HomePage;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageNewsPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageNewsRepositoryInit;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtilsTest;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
@@ -30,6 +30,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtilsTest;
 
 public class PageNewsPageTest {
 
+    private static final String DESCRIPTION = "Description";
     private static final String CONTENT = "Content";
     private static final String TITRE_NEWS_ADD = "Titre news 1.";
     @Inject
@@ -53,41 +54,21 @@ public class PageNewsPageTest {
         assertTrue(pageNews.canModifyAndDeleteNews());
     }
     
-//    @Test
-//    public void CRUDNews() throws Exception {
-//        //delete
-//        PageNewsPage pageNews = getPageNews();
-//        LabsSiteWebAppUtilsTest.sleep(3000);
-//        assertTrue(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
-//        pageNews.deleteNews();
-//        LabsSiteWebAppUtilsTest.sleep(3000);
-//        assertFalse(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
-//        //add
-//        pageNews.displayEditWithAdd();
-//        LabsSiteWebAppUtilsTest.sleep(3000);
-//        pageNews.setTitle(TITRE_NEWS_ADD);
-//        pageNews.setNewsStartPublication("23/01/2011");
-//        pageNews.setContent(CONTENT);
-//        pageNews = pageNews.clickSubmitNews();
-//        LabsSiteWebAppUtilsTest.sleep(3000);
-//        assertTrue(pageNews.canDisplayMyNews(TITRE_NEWS_ADD, CONTENT));
-//        //modify
-//        pageNews.displayEditWithModify();
-//        pageNews.setClearTitle();
-//        pageNews.setTitle(TITRE_NEWS_ADD + "ert");
-//        pageNews.setContent(CONTENT + "ert");
-//        pageNews = pageNews.clickSubmitNews();
-//        assertTrue( pageNews.canDisplayMyNews(TITRE_NEWS_ADD + "ert", CONTENT + "ert"));
-//    }
+    @Test
+    public void iCanModifyDescription() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        Tools.sleep(3000);
+        assertTrue(pageNews.canModifyDescription());
+    }
     
     @Test
     public void deleteNews() throws Exception {
         //delete
         PageNewsPage pageNews = getPageNews();
-        LabsSiteWebAppUtilsTest.sleep(3000);
+        Tools.sleep(3000);
         assertTrue(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
         pageNews.deleteNews();
-        LabsSiteWebAppUtilsTest.sleep(3000);
+        Tools.sleep(3000);
         assertFalse(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
     }
     
@@ -96,12 +77,12 @@ public class PageNewsPageTest {
         //add
         PageNewsPage pageNews = getPageNews();
         pageNews.displayEditWithAdd();
-        LabsSiteWebAppUtilsTest.sleep(3000);
+        Tools.sleep(3000);
         pageNews.setTitle(TITRE_NEWS_ADD);
         pageNews.setNewsStartPublication("23/01/2011");
         pageNews.setContent(CONTENT);
         pageNews = pageNews.clickSubmitNews();
-        LabsSiteWebAppUtilsTest.sleep(3000);
+        Tools.sleep(3000);
         assertTrue(pageNews.canDisplayMyNews(TITRE_NEWS_ADD, CONTENT));
     }
     
@@ -110,13 +91,24 @@ public class PageNewsPageTest {
         //modify
         PageNewsPage pageNews = getPageNews();
         pageNews.displayEditWithModify();
-        LabsSiteWebAppUtilsTest.sleep(3000);
+        Tools.sleep(3000);
         pageNews.setClearTitle();
         pageNews.setTitle(TITRE_NEWS_ADD + "ert");
         pageNews.setContent(CONTENT + "ert");
         pageNews = pageNews.clickSubmitNews();
-        LabsSiteWebAppUtilsTest.sleep(3000);
+        Tools.sleep(3000);
         assertTrue( pageNews.canDisplayMyNews(TITRE_NEWS_ADD + "ert", CONTENT + "ert"));
+    }
+    
+    @Test
+    public void modifyDescriptionOfPage() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        pageNews.displayModifyDescriptionOfPage();
+        Tools.sleep(3000);
+        pageNews.setDescription(DESCRIPTION);
+        pageNews = pageNews.clickSubmitDescriptionOfPage();
+        Tools.sleep(3000);
+        assertTrue( pageNews.canDisplayMyDescription(DESCRIPTION));
     }
     
     private PageNewsPage getPageNews() {

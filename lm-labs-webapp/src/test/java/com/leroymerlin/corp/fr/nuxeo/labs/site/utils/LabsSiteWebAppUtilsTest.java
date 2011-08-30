@@ -12,15 +12,11 @@ import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-import org.nuxeo.runtime.test.runner.web.WebPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 @RunWith(FeaturesRunner.class)
 @Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
@@ -108,45 +104,5 @@ public class LabsSiteWebAppUtilsTest {
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
                 + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
                 + "/folder2/sub2_1")));
-    }
-
-    /**
-     * Sleep while time milliseconds
-     * @param time
-     */
-    public static void sleep(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    /**
-     * Get the content'element containing the value of the texteArea in checkEditor <br />
-     * After yours operations on the content'element you must launch {@link com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtilsTest#returnToDefaultContent returnToDefaultContent}
-     * @param pWebPage the current web page
-     * @param pIdTextArea the id of textArea
-     * @return the content'element containing the value of the texteArea in checkEditor
-     */
-    public static WebElement getContentElementInCheckEditor(WebPage pWebPage, String pIdTextArea) {
-        StringBuilder xpath = new StringBuilder("//td[@id='cke_contents_");
-        xpath.append(pIdTextArea);
-        xpath.append("']/iframe");
-        WebElement element = pWebPage.getDriver().findElement(By.xpath(xpath.toString()));
-        WebElement body = null;
-        if (element != null) {
-            WebDriver frame = pWebPage.getDriver().switchTo().frame(element);
-            body = frame.findElement(By.xpath("//body"));
-        }
-        return body;
-    }
-    
-    /**
-     * After switch to a frame, you must return to your web page.
-     * @param pWebPage
-     */
-    public static void returnToDefaultContent(WebPage pWebPage){
-        pWebPage.getDriver().switchTo().defaultContent();
     }
 }
