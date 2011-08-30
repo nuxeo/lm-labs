@@ -23,15 +23,10 @@
 	.actionExternalURL.actionAdd {
 		width: 100%;
 	}
-	.titleExternalURL {
-		font-weight: bold;
-		width: 100%;
-		color: white;
-	}
 </style>
 
 <div id="div_externalURL" class="sidebarzone" >
-		<div class="titleExternalURL">${Context.getMessage('label.externalURL.title')}</div>
+		<div class="title">${Context.getMessage('label.externalURL.title')}</div>
 		<ul>
    	<#list This.externalURLs as e >
    		<li>
