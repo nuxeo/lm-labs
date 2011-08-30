@@ -6,9 +6,11 @@ import org.nuxeo.runtime.test.runner.web.WebPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtilsTest;
+
 public class PageNewsPage extends WebPage {
 
-    private static final int WAITING_TIME = 20;
+    private static final int WAITING_TIME = 120;
 
     @Override
     public WebPage ensureLoaded() {
@@ -22,6 +24,22 @@ public class PageNewsPage extends WebPage {
                     WAITING_TIME);
             if (element != null) {
                 return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
+    public boolean containNews(String title) {
+        try {
+            List<WebElement> elements = findElements(By.className("titleNews"));
+            if (!elements.isEmpty()) {
+                for (WebElement element:elements){
+                    if (element != null && title.equals(element.getText())) {
+                        return true;
+                    }
+                }
             }
         } catch (Exception e) {
             return false;
@@ -57,6 +75,15 @@ public class PageNewsPage extends WebPage {
     public void displayEditWithAdd(){
         findElement(By.id("linkAddNews"), WAITING_TIME).click();
     }
+    
+    public void displayEditWithModify(){
+        findElement(By.className("modifyActionNews"), WAITING_TIME).click();
+        LabsSiteWebAppUtilsTest.sleep(3000);
+    }
+    
+    public void deleteNews(){
+        findElement(By.className("deleteActionNews"), WAITING_TIME).click();
+    }
 
     public PageNewsPage clickSubmitNews() {
         WebElement button = findElement(By.id("FKNews"), WAITING_TIME);
@@ -67,6 +94,11 @@ public class PageNewsPage extends WebPage {
     public void setTitle(String pTitle) {
         WebElement findElement = findElement(By.id("newsTitle"), WAITING_TIME);
         findElement.sendKeys(pTitle);
+    }
+    
+    public void setClearTitle() {
+        WebElement findElement = findElement(By.id("newsTitle"), WAITING_TIME);
+        findElement.clear();
     }
     
     public void setNewsStartPublication(String pNewsStartPublication) {

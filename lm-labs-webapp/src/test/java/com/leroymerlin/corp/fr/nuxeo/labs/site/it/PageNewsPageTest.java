@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageNewsPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageNewsRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtilsTest;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
@@ -31,41 +33,54 @@ public class PageNewsPageTest {
     private static final String TITRE_NEWS_ADD = "Titre news 1.";
     @Inject
     SitesRootPage rootPage;
+
+    @Test
+    public void pageIsReachable() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        assertTrue(pageNews.isLoaded());
+    }
     
     @Test
-    public void iAddNews() throws Exception {
-
-        PageNewsPage pageNews = getPageClasseur();
+    public void iCanAddNews() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        assertTrue(pageNews.canAddNews());
+    }
+    
+    @Test
+    public void iCanModifyAndDeleteNews() throws Exception {
+        PageNewsPage pageNews = getPageNews();
+        assertTrue(pageNews.canModifyAndDeleteNews());
+    }
+    
+    @Test
+    public void CRUDNews() throws Exception {
+        //delete
+        PageNewsPage pageNews = getPageNews();
+        LabsSiteWebAppUtilsTest.sleep(3000);
+        assertTrue(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
+        pageNews.deleteNews();
+        LabsSiteWebAppUtilsTest.sleep(3000);
+        assertFalse(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
+        //add
         pageNews.displayEditWithAdd();
+        LabsSiteWebAppUtilsTest.sleep(3000);
         pageNews.setTitle(TITRE_NEWS_ADD);
         pageNews.setNewsStartPublication("23/01/2011");
 //        if (selenium != null)
 //            selenium.runScript("CKEDITOR.instances.['newsContent'].setData('Content')");
         //pageNews.setContent("Content");
         pageNews = pageNews.clickSubmitNews();
-        pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD);
-    }
-
-    @Test
-    public void pageIsReachable() throws Exception {
-        PageNewsPage pageNews = getPageClasseur();
-        assertTrue(pageNews.isLoaded());
-    }
-    
-    @Test
-    public void iCanAddNews() throws Exception {
-        PageNewsPage pageNews = getPageClasseur();
-        assertTrue(pageNews.canAddNews());
+        LabsSiteWebAppUtilsTest.sleep(3000);
+        assertTrue(pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD));
+        //modify
+        pageNews.displayEditWithModify();
+        pageNews.setClearTitle();
+        pageNews.setTitle(TITRE_NEWS_ADD + "ert");
+        pageNews = pageNews.clickSubmitNews();
+        assertTrue( pageNews.canDisplayMyNewNews(TITRE_NEWS_ADD + "ert"));
     }
     
-    @Test
-    public void iCanModifyAndDeleteNews() throws Exception {
-        PageNewsPage pageNews = getPageClasseur();
-        assertTrue(pageNews.canModifyAndDeleteNews());
-    }
-
-    
-    private PageNewsPage getPageClasseur() {
+    private PageNewsPage getPageNews() {
         ensureLoggedIn();
         PageNewsPage pageNews = rootPage.goToPageNews("http://localhost:8089/labssites" + "/" + PageNewsRepositoryInit.SITE_URL, PageNewsRepositoryInit.PAGE_NEWS_TITLE);
         return pageNews;

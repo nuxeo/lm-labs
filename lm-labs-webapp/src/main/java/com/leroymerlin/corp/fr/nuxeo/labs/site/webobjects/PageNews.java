@@ -70,19 +70,13 @@ public class PageNews extends Page {
         return listNews;
     }
 
-    @Path(value="persistNews")
+    @Path(value="news")
     public Object doPostAddNews() throws ClientException {
         return newObject(LabsSiteConstants.Docs.LABSNEWS.type(), doc);
     }
 
-    @Path("delete/{idNews}")
+    @Path("news/{idNews}")
     public Object doDeleteNews(@PathParam("idNews") final String pIdNews) throws ClientException {
-        DocumentModel document = getCoreSession().getDocument(new IdRef(pIdNews));
-        return newObject(LabsSiteConstants.Docs.LABSNEWS.type(), document);
-    }
-
-    @Path("edit/{idNews}")
-    public Object doEditNews(@PathParam("idNews") final String pIdNews) throws ClientException {
         DocumentModel document = getCoreSession().getDocument(new IdRef(pIdNews));
         return newObject(LabsSiteConstants.Docs.LABSNEWS.type(), document);
     }

@@ -1,7 +1,7 @@
 <div class="titleNews">
 	${Context.getMessage('label.labsNews.edit.edit')}
 </div>
-<form method="post" name="form-news" id="form-news" action="${This.pathForEdit}/persistNews">
+<form method="post" name="form-news" id="form-news" action="${This.pathForEdit}/news">
 	<fieldset>	
 		<p>
         	<label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>&nbsp;:&nbsp;

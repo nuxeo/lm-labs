@@ -35,6 +35,10 @@ public class LabsSiteWebAppUtilsTest {
 
         String treeview = LabsSiteWebAppUtils.getTreeview(site1, null);
         assertNotNull(treeview);
+        
+        treeview = LabsSiteWebAppUtils.getTreeview(site1, null, false);
+         assertNotNull(treeview);
+        
         // TODO test result with regex
     }
 
@@ -100,6 +104,17 @@ public class LabsSiteWebAppUtilsTest {
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
                 + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
                 + "/folder2/sub2_1")));
+    }
+
+    /**
+     * @param time
+     */
+    public static void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 

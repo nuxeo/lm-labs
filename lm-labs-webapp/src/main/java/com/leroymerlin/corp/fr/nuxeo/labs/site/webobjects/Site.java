@@ -79,6 +79,18 @@ public class Site extends DocumentObject {
             throw WebException.wrap(e);
         }
     }
+    
+    @POST
+    @Path("browseTree")
+    public String doBrowseTree() {
+        try {
+            return LabsSiteWebAppUtils.getTreeview(LabsSiteUtils.getSiteTree(doc), this, false);
+        } catch (Exception e) {
+            LOG.error(e, e);
+            throw WebException.wrap(e);
+        }
+    }
+    
 
     public String getCreatorUsername(final String docRef) {
         try {

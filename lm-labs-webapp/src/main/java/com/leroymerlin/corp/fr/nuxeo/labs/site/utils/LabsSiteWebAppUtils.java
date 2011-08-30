@@ -23,9 +23,12 @@ public final class LabsSiteWebAppUtils {
 
     private static final String LATEST_UPLOADS_PAGEPROVIDER = "latest_uploads";
 
-    private LabsSiteWebAppUtils() {}
-    
-    public static String getTreeview(final DocumentModel parent, Resource site) throws ClientException, IllegalArgumentException {
+    private LabsSiteWebAppUtils() {
+    }
+
+    public static String getTreeview(final DocumentModel parent, Resource site,
+            final Boolean enableBrowsingTree) throws ClientException,
+            IllegalArgumentException {
         if (parent == null) {
             throw new IllegalArgumentException("document model can not be null.");
         }
@@ -48,25 +51,40 @@ public final class LabsSiteWebAppUtils {
                         url.append(site.getPath());
                     }
                     url.append(buildEndUrl(doc));
-                    result.append(getHref(url.toString(), doc.getName()));
-                } else if (canGetPreview(doc)) {
+                    if (enableBrowsingTree) {
+                        result.append(getHref(url.toString(), doc.getName()));
+                    } else {
+                        result.append(getHrefToBrowseTree(url.toString(),
+                                doc.getName(), doc.getRef()));
+                    }
+                 } else if (canGetPreview(doc)) {
                     StringBuilder url = new StringBuilder();
                     if (site != null) { // TODO
                         url.append(site.getPath());
                     }
                     url.append(buildEndUrl(doc));
-                    result.append(getHref(url.toString(), doc.getName()));
+                    if (enableBrowsingTree) {
+                        result.append(getHref(url.toString(), doc.getName()));
+                    } else {
+                        result.append(getHrefToBrowseTree(url.toString(),
+                                doc.getName(), doc.getRef()));
+                    }
                 } else if (Docs.EXTERNAL_URL.type().equals(doc.getType())) {
                     StringBuilder url = new StringBuilder();
                     url.append(buildEndUrl(doc));
-                    result.append(getHref(url.toString(), doc.getName()));
+                    if (enableBrowsingTree) {
+                        result.append(getHref(url.toString(), doc.getName()));
+                    } else {
+                        result.append(getHrefToBrowseTree(url.toString(),
+                                doc.getName(), doc.getRef()));
+                    }
                 } else {
                     result.append(doc.getName());
                 }
                 result.append("\"");
                 if (session.hasChildren(doc.getRef())) {
                     result.append(",\"expanded\": true,\"children\":");
-                    result.append(getTreeview(doc, site));
+                    result.append(getTreeview(doc, site, enableBrowsingTree));
                 }
                 result.append("}");
                 i++;
@@ -77,7 +95,12 @@ public final class LabsSiteWebAppUtils {
         
         return result.toString();
     }
-    
+
+    public static String getTreeview(final DocumentModel parent, Resource site)
+            throws ClientException, IllegalArgumentException {
+        return getTreeview(parent, site, true);
+    }
+
     /**
      * TODO uni tests
      * @param doc
@@ -111,11 +134,24 @@ public final class LabsSiteWebAppUtils {
                 && doc.getAdapter(BlobHolder.class) != null;
     }
     
-    private static String getHref(String url, String text) {
+    private static String getHref(final String url, final String text) {
         StringBuilder result = new StringBuilder();
         result.append("<a href='");
         result.append(url);
         result.append("'>").append(text).append("</a>");
+        return result.toString();
+    }
+
+    public static String getHrefToBrowseTree(final String url,
+            final String text, final DocumentRef ref) throws ClientException {
+        StringBuilder result = new StringBuilder();
+        result.append("<a id='");
+        result.append(ref);
+        result.append("' href='");
+        result.append(url);
+        result.append("' class='browseLink' onclick='addJs(this);return false;'>");
+        result.append(text);
+        result.append("</a>");
         return result.toString();
     }
 
