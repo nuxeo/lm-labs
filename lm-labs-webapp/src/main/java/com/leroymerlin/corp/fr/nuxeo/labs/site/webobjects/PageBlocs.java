@@ -61,7 +61,8 @@ public class PageBlocs extends Page {
     
     public List<DocumentModel> getChildren() {
         try {
-            return getCoreSession().query("SELECT * FROM Page WHERE ecm:parentId = '" + LabsSiteUtils.getSiteTree(LabsSiteUtils.getParentSite(doc)).getId() + "'");
+            return getCoreSession().query("SELECT * FROM Page WHERE ecm:parentId = '" + LabsSiteUtils.getSiteTree(LabsSiteUtils.getParentSite(doc)).getId() + "'"
+                    + " AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
         } catch (ClientException e) {
             LOG.error(e, e);
         }
