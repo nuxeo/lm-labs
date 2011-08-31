@@ -85,6 +85,7 @@
 
 		<doctype name="LabsNews" extends="Document">
 			<schema name="dublincore" />
+			<schema name="common" />
 			<schema name="file" />
 			<schema name="labsnews" />
 		</doctype>

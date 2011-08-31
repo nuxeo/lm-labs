@@ -312,6 +312,8 @@ public class SitesRoot extends ModuleRoot {
                     .append(LabsSiteUtils.getParentSite(doc).getAdapter(LabsSite.class).getURL())
                     .append(LabsSiteWebAppUtils.buildEndUrl(doc))
                     .toString();
+        } catch (UnsupportedOperationException e) {
+            throw WebException.wrap(e);
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
