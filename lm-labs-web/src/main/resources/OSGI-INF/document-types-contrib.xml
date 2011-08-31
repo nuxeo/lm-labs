@@ -176,6 +176,9 @@
       <label>PageNews</label>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
       <layouts mode="edit">
         <layout>heading</layout>
         <layout>dublincore</layout>
