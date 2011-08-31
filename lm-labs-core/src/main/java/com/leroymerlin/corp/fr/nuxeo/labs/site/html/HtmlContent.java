@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.nuxeo.ecm.core.api.ClientException;
+
 public class HtmlContent {
 
-	private final int colNumber;
-	private final String html;
+	private final HtmlRow parent;
+	private int colNumber;
+	private String html;
 
-	public HtmlContent(int colNumber, String html) {
+	public HtmlContent(HtmlRow parent, int colNumber, String html) {
+		this.parent = parent;
 		this.colNumber = colNumber;
 		this.html = html;
 	}
@@ -27,6 +31,28 @@ public class HtmlContent {
 		map.put("colnumber", colNumber);
 		map.put("html", html);
 		return map;
+	}
+
+	public HtmlContent insertBefore(int i, String html) {
+		return parent.insertContentBefore(this,i,html);
+		
+	}
+
+	public void remove() {
+		parent.removeContent(this);
+		
+	}
+
+	public void setHtml(String html) throws ClientException {
+		this.html = html;
+		parent.update();
+		
+	}
+
+	public void setColNumber(int colNumber) throws ClientException {
+		this.colNumber = colNumber;
+		parent.update();
+		
 	}
 
 }

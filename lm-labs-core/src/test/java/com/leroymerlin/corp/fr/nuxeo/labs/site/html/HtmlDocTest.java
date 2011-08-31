@@ -2,7 +2,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.html;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
@@ -144,8 +143,6 @@ public class HtmlDocTest {
 		assertThat(content.getHtml(),is("My Content 1"));
 
 	}
-
-	
 
 	private HtmlPage retrieveTestPage() throws ClientException {
 		DocumentModel doc = session.getDocument(new PathRef(TEST_PATHREF));

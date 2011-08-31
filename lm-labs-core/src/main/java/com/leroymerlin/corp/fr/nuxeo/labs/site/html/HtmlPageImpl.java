@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.model.PropertyException;
-import org.python.modules.newmodule;
 
 public class HtmlPageImpl implements HtmlPage {
 
@@ -52,10 +50,10 @@ public class HtmlPageImpl implements HtmlPage {
 	@Override
 	public List<HtmlSection> getSections() throws ClientException {
 		if (sections == null) {
+			@SuppressWarnings("unchecked")
 			List<Map<String, Serializable>> sectionsMap = (List<Map<String, Serializable>>) doc
 					.getPropertyValue("html:sections");
-			sections = new ArrayList<HtmlSection>(
-					sectionsMap.size());
+			sections = new ArrayList<HtmlSection>(sectionsMap.size());
 			for (Map<String, Serializable> map : sectionsMap) {
 				sections.add(new HtmlSection(this, map));
 			}
@@ -72,7 +70,7 @@ public class HtmlPageImpl implements HtmlPage {
 		sections.add(returnedSection);
 		update();
 
-				return returnedSection;
+		return returnedSection;
 	}
 
 	void update() throws ClientException {
@@ -84,7 +82,26 @@ public class HtmlPageImpl implements HtmlPage {
 
 		doc.setPropertyValue("html:sections", (Serializable) sectionsMap);
 
+	}
 
+	@Override
+	public HtmlSection section(int index) throws ClientException {
+		return getSections().get(index);
+	}
+
+	public HtmlSection addSectionBefore(HtmlSection htmlSection) throws ClientException {
+		List<HtmlSection> sections = getSections();
+		HtmlSection section = new HtmlSection(this);
+		sections.add(sections.indexOf(htmlSection), section);
+		update();
+		return section;
+		
+		
+	}
+
+	public void removeSection(HtmlSection htmlSection) throws ClientException {
+		getSections().remove(htmlSection);
+		update();
 	}
 
 }

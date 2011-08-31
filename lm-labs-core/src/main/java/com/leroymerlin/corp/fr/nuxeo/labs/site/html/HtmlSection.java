@@ -63,12 +63,13 @@ public class HtmlSection {
 		return row;
 	}
 
-	void update() {
+	void update() throws ClientException {
 		List<Serializable> rowsMap = new ArrayList<Serializable>();
 		for (HtmlRow row : getRows()) {
-			rowsMap.add((Serializable) row.toList());
+			rowsMap.add((Serializable) row.toMap());
 		}
 		innerMap.put("rows", (Serializable) rowsMap);
+		parent.update();
 	}
 
 	public List<HtmlRow> getRows() {
@@ -76,6 +77,7 @@ public class HtmlSection {
 		if (rows == null) {
 			rows = new ArrayList<HtmlRow>();
 			if (innerMap.containsKey("rows")) {
+				@SuppressWarnings("unchecked")
 				List<Map<String, Serializable>> rowsMap = (List<Map<String, Serializable>>) innerMap
 						.get("rows");
 				for (Map<String, Serializable> rowMap : rowsMap) {
@@ -87,6 +89,33 @@ public class HtmlSection {
 
 		return rows;
 
+	}
+
+	public HtmlRow row(int index) {
+		return getRows().get(index);
+	}
+
+	public HtmlSection insertBefore() throws ClientException {
+		return parent.addSectionBefore(this);
+	}
+
+	public void remove() throws ClientException {
+		parent.removeSection(this);
+		
+	}
+
+	public HtmlRow insertBefore(HtmlRow htmlRow) throws ClientException {
+		List<HtmlRow> rows = getRows();
+		HtmlRow row = new HtmlRow(this);
+		rows.add(rows.indexOf(htmlRow), row);
+		update();
+		return row;
+		
+	}
+
+	public void remove(HtmlRow row) throws ClientException {
+		getRows().remove(row);
+		update();
 	}
 
 }

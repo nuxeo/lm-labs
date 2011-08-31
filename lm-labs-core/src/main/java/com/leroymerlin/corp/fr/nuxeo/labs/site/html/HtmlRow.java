@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.nuxeo.ecm.core.api.ClientException;
+
 public class HtmlRow {
 
 	private final HtmlSection parentSection;
@@ -21,18 +23,18 @@ public class HtmlRow {
 		this.rowMap = rowMap;
 	}
 
-	public Map<String, Serializable> toList() {
+	public Map<String, Serializable> toMap() {
 		Map<String, Serializable> result = new HashMap<String, Serializable>();
-		result.put("contents", (Serializable) contentsToMap());
+		result.put("contents", (Serializable) contentsToListOfMap());
 		return result;
 	}
 
-	public void addContent(int colNumber, String html) {
-		getContents().add(new HtmlContent(colNumber, html));
+	public void addContent(int colNumber, String html) throws ClientException {
+		getContents().add(new HtmlContent(this, colNumber, html));
 		parentSection.update();
 	}
 
-	private List<Map<String, Serializable>> contentsToMap() {
+	private List<Map<String, Serializable>> contentsToListOfMap() {
 		List<Map<String, Serializable>> contentMap = new ArrayList<Map<String, Serializable>>();
 		for (HtmlContent content : getContents()) {
 			contentMap.add(content.toMap());
@@ -44,16 +46,46 @@ public class HtmlRow {
 	public List<HtmlContent> getContents() {
 		if (contents == null) {
 			contents = new ArrayList<HtmlContent>();
-			if(rowMap.containsKey("content")) {
-				List<Map<String, Serializable>> contentsMap = (List<Map<String, Serializable>>) rowMap.get("content");
+			if(rowMap.containsKey("contents")) {
+				@SuppressWarnings("unchecked")
+				List<Map<String, Serializable>> contentsMap = (List<Map<String, Serializable>>) rowMap.get("contents");
 				for(Map<String,Serializable> map : contentsMap) {
-					int colNumber = (Integer) map.get("colnumber");
+					long colNumber = (Long) map.get("colnumber");
 					String html = (String) map.get("html");
-					this.contents.add(new HtmlContent(colNumber,html));
+					this.contents.add(new HtmlContent(this, (int)colNumber,html));
 				}
 			}
 		}
 		return contents;
+	}
+
+	public HtmlContent content(int index) {
+		return getContents().get(index);
+	}
+
+	public HtmlRow insertBefore() throws ClientException {
+		return parentSection.insertBefore(this);
+	}
+
+	public void remove() throws ClientException {
+		parentSection.remove(this);
+		
+	}
+
+	public HtmlContent insertContentBefore(HtmlContent content, int colNumber, String html) {
+		List<HtmlContent> contents = getContents();
+		HtmlContent newContent = new HtmlContent(this, colNumber, html);
+		contents.add(contents.indexOf(content), newContent);
+		return newContent;
+	}
+
+	public void removeContent(HtmlContent htmlContent) {
+		getContents().remove(htmlContent);
+	}
+
+	public void update() throws ClientException {
+		parentSection.update();
+		
 	}
 
 }

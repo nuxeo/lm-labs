@@ -21,4 +21,6 @@ public interface HtmlPage {
 
 	HtmlSection addSection() throws ClientException;
 
+	HtmlSection section(int index) throws ClientException;
+
 }
