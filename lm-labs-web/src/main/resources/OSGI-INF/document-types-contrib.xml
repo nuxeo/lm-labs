@@ -220,8 +220,8 @@
       </contentViews>
     </type>
 
-    <type id="PageListe">
-      <label>PageListe</label>
+    <type id="PageList">
+      <label>PageList</label>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
       <layouts mode="any">
