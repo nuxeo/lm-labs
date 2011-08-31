@@ -129,6 +129,9 @@
 		<indexableDocType indexAllSchemas="true" name="PageNews" />
 		<indexableDocType indexAllSchemas="true" name="PageClasseur" />
 		<indexableDocType indexAllSchemas="true" name="PageList" />
+		<indexableDocType indexAllSchemas="true" name="LabsNews" />
+		<indexableDocType indexAllSchemas="true" name="ExternalURL" />
+		<indexableDocType indexAllSchemas="true" name="Data" />
 	</extension>
 
 </component>
