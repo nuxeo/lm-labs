@@ -7,7 +7,7 @@
 <ul>
     <#list result as doc>
     <li>
-    	<span class="colIcon"><img title="${doc.type}" alt="&gt;" src="/nuxeo/${doc.common.icon}" /></span>
+    	<span class="colIcon"><img title="${doc.type}" alt="&gt;&gt;" <#if doc.schemas?seq_contains("common") >src="/nuxeo/${doc.common.icon}"</#if> /></span>
         <span><a href="${Context.getUrlPath(doc)}" target="_blank" >${doc.dublincore.title}</a></span>
         <span>par ${doc.dublincore.lastContributor}</span>
         <#assign filesize = "No File" />

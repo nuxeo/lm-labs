@@ -9,7 +9,6 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.SortInfo;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
@@ -126,8 +125,9 @@ public final class LabsSiteWebAppUtils {
      * @param doc
      * @return
      * @throws ClientException
+     * @throws UnsupportedOperationException
      */
-    public static String buildEndUrl(DocumentModel doc) throws ClientException {
+    public static String buildEndUrl(DocumentModel doc) throws ClientException, UnsupportedOperationException {
         StringBuilder url = new StringBuilder();
         CoreSession session = doc.getCoreSession();
         DocumentModel parent = session.getParentDocument(doc.getRef());
@@ -142,6 +142,9 @@ public final class LabsSiteWebAppUtils {
             url.append("/id/").append(pageDoc.getId());
             url.append("/doc/").append(doc.getId());
             url.append("/@blob/preview");
+        } else if (Docs.LABSNEWS.type().equals(doc.getType())) {
+            DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
+            url.append("/id/").append(pageDoc.getId());
         } else {
             throw new UnsupportedOperationException(
                     "Unable to generate URL for document '"
