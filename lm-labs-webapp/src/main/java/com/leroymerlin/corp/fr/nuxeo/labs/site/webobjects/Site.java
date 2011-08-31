@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.util.Date;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,11 +19,12 @@ import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
-import org.nuxeo.ecm.platform.query.api.PageProvider;
+import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
@@ -39,8 +42,24 @@ public class Site extends DocumentObject {
     private interface Query {
         String TAG_VALUE = "%VALUE%";
 
-        String SELECT_PICTURE = "select * from Picture where ecm:path STARTSWITH '"
+        String SELECT_PICTURE = "select * from Picture where ecm:parentId = '"
                 + TAG_VALUE + "'";
+    }
+
+    @Override
+    public void initialize(Object... args) {
+        super.initialize(args);
+        RenderingEngine rendering = getContext().getEngine().getRendering();
+        try {
+            PathRef assetDocRef = new PathRef("/default-domain/sites/"
+                    + doc.getName() + "/"
+                    + LabsSiteConstants.Docs.ASSETS.docName());
+            rendering.setSharedVariable("ASSET_DOC_ID",
+                    getCoreSession().getDocument(assetDocRef).getRef().toString());
+        } catch (ClientException e) {
+            LOG.error(e, e);
+            throw WebException.wrap(e);
+        }
     }
 
     @Path("id/{idPage}")
@@ -82,7 +101,7 @@ public class Site extends DocumentObject {
     public String doTreeview() {
         try {
             return LabsSiteWebAppUtils.getTreeview(
-                    LabsSiteUtils.getSiteTree(doc), this, false);
+                    LabsSiteUtils.getSiteTree(doc), this, false, false);
         } catch (Exception e) {
             LOG.error(e, e);
             throw WebException.wrap(e);
@@ -93,8 +112,17 @@ public class Site extends DocumentObject {
     @Path("browseTree")
     public String doBrowseTree() {
         try {
-            return LabsSiteWebAppUtils.getTreeview(
-                    LabsSiteUtils.getSiteTree(doc), this, true);
+            DocumentModel assetDoc = getCoreSession().getDocument(
+                    new PathRef("/default-domain/sites/" + doc.getName() + "/"
+                            + LabsSiteConstants.Docs.ASSETS.docName()));
+
+            // FIXME type page && folder
+            // TODO tree id
+            String treeview = LabsSiteWebAppUtils.getTreeview(assetDoc, this,
+                    true, true);
+
+            // filter list
+            return treeview;
         } catch (Exception e) {
             LOG.error(e, e);
             throw WebException.wrap(e);
@@ -118,12 +146,19 @@ public class Site extends DocumentObject {
         if (pictures != null) {
             result = new StringBuilder();
             for (DocumentModel doc : pictures) {
+                StringBuilder imgSrc = new StringBuilder(
+                        "/nuxeo/nxpicsfile/default/");
+                imgSrc.append(doc.getRef().toString());
+                imgSrc.append("/Thumbnail:content/");
+                imgSrc.append(new Date().getTime());
+
                 result.append("<a id='");
                 result.append(docId);
                 result.append("' href='");
-                result.append(doc.getPathAsString()); // FIXME
+                result.append(imgSrc.toString().replace("/Thumbnail",
+                        "/Original"));
                 result.append("' onclick='sendToCKEditor(this.href);return false;'><img src='");
-                result.append(doc.getPathAsString()); // FIXME
+                result.append(imgSrc);
                 result.append("' /></a>");
             }
         }

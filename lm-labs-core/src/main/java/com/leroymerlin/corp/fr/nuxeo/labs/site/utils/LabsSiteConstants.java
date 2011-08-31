@@ -24,8 +24,8 @@ public final class LabsSiteConstants {
         FOLDER("Folder", StringUtils.EMPTY),
         WELCOME(PAGEBLOCS.type(), "welcome");
         
-        private String name;
         private String docType;
+        private String name;
 
         private static final Map<String, Docs> stringToEnum = new HashMap<String, Docs>();
         static { // Initialize map from constant name to enum constant

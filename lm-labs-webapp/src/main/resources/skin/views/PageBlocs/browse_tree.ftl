@@ -32,7 +32,7 @@
     	<div>
 			 <ul id="tree">
 			    <li class="hasChildren">
-			      <span>ARBORESCENCE</span>
+			      <span><a onclick="addJs(this);return false;" href="#" id="${ASSET_DOC_ID}" class="">ARBORESCENCE</a></span>
 			      <ul>
 			        <li><span class="placeholder">&nbsp;</span></li>
 			      </ul>
@@ -82,7 +82,7 @@
 			//window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, 'http://blog.levis-heb.net/data/images/softwares/nuxeo_logo.png');
 			
 			// TODO dynamise "cke_105_textInput"
-			window.opener.document.getElementById('cke_105_textInput').value = "http://blog.levis-heb.net/data/images/softwares/nuxeo_logo.png";
+			window.opener.document.getElementById('cke_105_textInput').value = href;
 			window.close();
 		}
 		</script>

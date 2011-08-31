@@ -25,6 +25,7 @@ public class LabsSiteWebAppUtilsTest {
 
     @Inject
     private CoreSession session;
+
     @Test
     public void canGetTreeview() throws ClientException {
         generateSite();
@@ -35,10 +36,13 @@ public class LabsSiteWebAppUtilsTest {
 
         String treeview = LabsSiteWebAppUtils.getTreeview(site1, null);
         assertNotNull(treeview);
-        
-        treeview = LabsSiteWebAppUtils.getTreeview(site1, null, false);
-         assertNotNull(treeview);
-        
+
+        final DocumentModel asset = session.getDocument(new PathRef(
+                site1.getPathAsString() + "/" + Docs.ASSETS.docName()));
+
+        treeview = LabsSiteWebAppUtils.getTreeview(asset, null, false, true);
+        assertNotNull(treeview);
+
         // TODO test result with regex
     }
 
@@ -65,9 +69,17 @@ public class LabsSiteWebAppUtilsTest {
         DocumentModel folder3 = session.createDocumentModel(
                 site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
                         + Docs.WELCOME.docName(), "folder3", Docs.FOLDER.type());
+        DocumentModel folderAsset1 = session.createDocumentModel(
+                site1.getPathAsString() + "/" + Docs.ASSETS.docName(),
+                "folderAsset1", Docs.FOLDER.type());
+        DocumentModel folderAsset2 = session.createDocumentModel(
+                site1.getPathAsString() + "/" + Docs.ASSETS.docName(),
+                "folderAsset2", Docs.FOLDER.type());
         session.createDocument(folder1);
         session.createDocument(folder2);
         session.createDocument(folder3);
+        session.createDocument(folderAsset1);
+        session.createDocument(folderAsset2);
         // SUB FOLDER
         DocumentModel sub1_1 = session.createDocumentModel(
                 site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
@@ -81,9 +93,17 @@ public class LabsSiteWebAppUtilsTest {
                 site1.getPathAsString() + "/" + Docs.TREE.docName() + "/"
                         + Docs.WELCOME.docName() + "/folder2", "sub2_1",
                 Docs.FOLDER.type());
+        DocumentModel subAsset1_1 = session.createDocumentModel(
+                site1.getPathAsString() + "/" + Docs.ASSETS.docName()
+                        + "/folderAsset1", "subAsset1_1", Docs.FOLDER.type());
+        DocumentModel subAsset1_2 = session.createDocumentModel(
+                site1.getPathAsString() + "/" + Docs.ASSETS.docName()
+                        + "/folderAsset1", "subAsset1_2", Docs.FOLDER.type());
         session.createDocument(sub1_1);
         session.createDocument(sub1_2);
         session.createDocument(sub2_1);
+        session.createDocument(subAsset1_1);
+        session.createDocument(subAsset1_2);
         session.save();
 
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
@@ -104,5 +124,13 @@ public class LabsSiteWebAppUtilsTest {
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
                 + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
                 + "/folder2/sub2_1")));
+        assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
+                + Docs.ASSETS.docName() + "/folderAsset1")));
+        assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
+                + Docs.ASSETS.docName() + "/folderAsset2")));
+        assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
+                + Docs.ASSETS.docName() + "/folderAsset1/subAsset1_1")));
+        assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
+                + Docs.ASSETS.docName() + "/folderAsset1/subAsset1_2")));
     }
 }
