@@ -177,7 +177,7 @@ public final class LabsSiteWebAppUtils {
         StringBuilder result = new StringBuilder();
         result.append("<a id='");
         result.append(ref);
-        result.append("' href='#' onclick='addJs(this);return false;'>");
+        result.append("' href='#' class='hrefToBrowseTree' onclick='addJs(this);return false;'>");
         result.append(text);
         result.append("</a>");
         return result.toString();

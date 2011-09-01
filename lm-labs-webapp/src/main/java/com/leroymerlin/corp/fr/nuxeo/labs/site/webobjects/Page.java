@@ -19,7 +19,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 public class Page extends DocumentObject {
 
-    private static final String BROWSE_TREE_VIEW = "browse_tree";
+    private static final String BROWSE_TREE_VIEW = "views/common/browse_tree.ftl";
 
     private static final Log LOG = LogFactory.getLog(Page.class);
 
@@ -59,13 +59,12 @@ public class Page extends DocumentObject {
     @GET
     @Path("displayBrowseTree")
     public Object doBrowseTree() {
-        // FIXME generic view
-
-        Template template = getView(BROWSE_TREE_VIEW);
+        Template template = getTemplate(BROWSE_TREE_VIEW);
         return template;
     }
-    
+
     public String getSiteUrlProp() throws PropertyException, ClientException {
-        return (String) LabsSiteUtils.getParentSite(doc).getPropertyValue("webc:url");
+        return (String) LabsSiteUtils.getParentSite(doc).getPropertyValue(
+                "webc:url");
     }
 }

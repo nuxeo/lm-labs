@@ -11,6 +11,7 @@
 	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.sortable.js"></script>
 	    
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
+	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/browse_tree.css"/>
     </head>
     <body>
     	<#-- [BEGIN] DETERMINE SITE NAME -->
@@ -26,19 +27,21 @@
 		</#macro>
 		<#-- [END] DETERMINE SITE NAME -->
 		
-    	<div id="treeviewControl">
-	    	<a href="#" id="reduceLink">Tout réduire</a>
+		<div id="treeview">
+	    	<div id="treeviewControl">
+		    	<a href="#" id="reduceLink">Tout réduire</a>
+		    </div>
+	    	<div id="treeviewDisplay">
+				 <ul id="tree">
+				    <li class="hasChildren">
+				      <span><a onclick="addJs(this);return false;" href="#" id="${ASSET_DOC_ID}" class="">ARBORESCENCE</a></span>
+				      <ul>
+				        <li><span class="placeholder">&nbsp;</span></li>
+				      </ul>
+				    </li>
+				  </ul>
+	    	</div>
 	    </div>
-    	<div>
-			 <ul id="tree">
-			    <li class="hasChildren">
-			      <span><a onclick="addJs(this);return false;" href="#" id="${ASSET_DOC_ID}" class="">ARBORESCENCE</a></span>
-			      <ul>
-			        <li><span class="placeholder">&nbsp;</span></li>
-			      </ul>
-			    </li>
-			  </ul>
-    	</div>
     	<div id="resources">
 		</div>
 	
@@ -54,6 +57,7 @@
 	    	});
 	    	
 		  	jQuery(".hitarea").click();
+		  	jQuery("#${ASSET_DOC_ID}").click();
 	  	});
 	  	
 	  	function addJs(obj) {
@@ -69,16 +73,6 @@
 	  	}
 		
 		function sendToCKEditor(href) {
-			//CKEDITOR.tools.callFunction( window.opener.ref ); 
-			//window.opener.CKEDITOR.tools.callFunction( testa, "http://blog.levis-heb.net/data/images/softwares/nuxeo_logo.png" );
-			//CKEDITOR.tools.callFunction( testa, 'http://blog.levis-heb.net/data/images/softwares/nuxeo_logo.png' );
-			//window.parent.CKEDITOR.tools.callFunction(CKEditorFuncNum, 'http://blog.levis-heb.net/data/images/softwares/nuxeo_logo.png', "errorMessage");
-			/*var CKEditorFuncNum = CKEDITOR.tools.addFunction(
-		    function()
-		    {
-		        //alert(jQuery("#pictureId").html());
-		        alert("hello from popup");
-		    });*/
 			//window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, 'http://blog.levis-heb.net/data/images/softwares/nuxeo_logo.png');
 			
 			// TODO dynamise "cke_105_textInput"
