@@ -17,6 +17,7 @@ import org.nuxeo.runtime.test.runner.web.BrowserFamily;
 import org.nuxeo.runtime.test.runner.web.HomePage;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.MesSitesPage;
@@ -34,6 +35,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.OfmRepositoryInit;
 "org.nuxeo.ecm.platform.usermanager" })
 public class WelcomePageTest {
 
+    private static final String URL_ORDER = "1";
+    private static final String URL_URL = "http://www.yahoo.fr";
+    private static final String URL_URL_MODIFY = "http://www.google.fr";
+    private static final String URL_NAME = "yahoo";
+    private static final String URL_NAME_MODIFY = "google";
     @Inject SitesRootPage rootPage;
     
     @Test
@@ -61,6 +67,59 @@ public class WelcomePageTest {
         MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
         WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
         assertTrue(welcomePage.hasSidebar());
+    }
+
+    @Test
+    public void pageHasExternalURL() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertTrue(welcomePage.hasExternalURL());
+    }
+
+    @Test
+    public void pageHasAddExternalURL() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertTrue(welcomePage.hasAddExternalURL());
+    }
+
+    @Test
+    public void iAddExternalURL() throws Exception {
+        rootPage.home();
+//        ensureLoggedIn();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        welcomePage.clickAddExternalURL();
+        Tools.sleep(3000);
+        welcomePage.setFieldsExternalURL(URL_NAME, URL_URL, URL_ORDER);
+        welcomePage.clickSubmitExternalURL();
+        Tools.sleep(3000);
+        assertTrue(welcomePage.hasMyExternalURL(URL_NAME, URL_URL));
+    }
+
+    @Test
+    public void iModifyExternalURL() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        welcomePage.clickModifyExternalURL();
+        Tools.sleep(3000);
+        welcomePage.setFieldsExternalURL(URL_NAME_MODIFY, URL_URL_MODIFY, URL_ORDER);
+        welcomePage.clickSubmitExternalURL();
+        Tools.sleep(3000);
+        assertTrue(welcomePage.hasMyExternalURL(URL_NAME_MODIFY, URL_URL_MODIFY));
+    }
+
+    @Test
+    public void iDeleteExternalURL() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        welcomePage.clickDeleteExternalURL();
+        Tools.sleep(3000);
+        assertFalse(welcomePage.hasMyExternalURL(URL_NAME_MODIFY, URL_URL_MODIFY));
     }
     
     public void ensureLoggedIn() {
