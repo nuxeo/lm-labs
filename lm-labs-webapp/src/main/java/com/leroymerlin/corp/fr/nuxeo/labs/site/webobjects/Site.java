@@ -54,7 +54,8 @@ public class Site extends DocumentObject {
             PathRef assetDocRef = new PathRef("/default-domain/sites/"
                     + doc.getName() + "/"
                     + LabsSiteConstants.Docs.ASSETS.docName());
-            rendering.setSharedVariable("ASSET_DOC_ID",
+            rendering.setSharedVariable(
+                    "ASSET_DOC_ID",
                     getCoreSession().getDocument(assetDocRef).getRef().toString());
         } catch (ClientException e) {
             LOG.error(e, e);
@@ -116,13 +117,8 @@ public class Site extends DocumentObject {
                     new PathRef("/default-domain/sites/" + doc.getName() + "/"
                             + LabsSiteConstants.Docs.ASSETS.docName()));
 
-            // FIXME type page && folder
-            // TODO tree id
-            String treeview = LabsSiteWebAppUtils.getTreeview(assetDoc, this,
-                    true, true);
+            return LabsSiteWebAppUtils.getTreeview(assetDoc, this, true, true);
 
-            // filter list
-            return treeview;
         } catch (Exception e) {
             LOG.error(e, e);
             throw WebException.wrap(e);
@@ -152,14 +148,14 @@ public class Site extends DocumentObject {
                 imgSrc.append("/Thumbnail:content/");
                 imgSrc.append(new Date().getTime());
 
-                result.append("<a id='");
+                result.append("<div class='resourcesForCKEditor'><a id='");
                 result.append(docId);
                 result.append("' href='");
                 result.append(imgSrc.toString().replace("/Thumbnail",
                         "/Original"));
                 result.append("' onclick='sendToCKEditor(this.href);return false;'><img src='");
                 result.append(imgSrc);
-                result.append("' /></a>");
+                result.append("' /></a></div>");
             }
         }
 

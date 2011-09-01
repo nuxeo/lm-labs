@@ -1,0 +1,25 @@
+body {
+	margin: 10px 15px;	
+}
+
+#treeview {
+	float: left;
+	width: 20%;	
+}
+
+#resources {
+	float: left;
+	height: 240px;
+    width: 75%;
+    margin: 10px 11px 0;
+}
+
+.resourcesForCKEditor {
+	height: 130px;
+	width: 130px;
+	line-height: 180px;
+	text-align: center;
+	border: 1px solid #DDDDDD;
+	float: left;
+	margin: 10px 11px 0;
+}
