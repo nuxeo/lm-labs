@@ -9,7 +9,7 @@ import java.util.List;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -82,9 +82,9 @@ public class PageBlocs extends Page {
     }
     
 
-    @PUT
+    @POST
     @Path(value="persistExternalURL")
-    public Object modifyExternalURL(
+    public Object addExternalURL(
             @FormParam("extUrlName") String pName,
             @FormParam("extURLURL") String pURL,
             @FormParam("extURLOrder") int pOrder){
@@ -97,15 +97,15 @@ public class PageBlocs extends Page {
             extURL.setOrder(pOrder);
             session.createDocument(docExtURL);
             session.save();
-            return redirect(this.getPath());
+            return Response.status(Status.OK).build();
         } catch (ClientException e) {
             return Response.status(Status.GONE).build();
         }
     }
 
-    @PUT
+    @POST
     @Path(value="persistExternalURL/{idExt}")
-    public Object addExternalURL(
+    public Object modifyExternalURL(
             @FormParam("extUrlName") String pName,
             @FormParam("extURLURL") String pURL,
             @FormParam("extURLOrder") int pOrder,
@@ -120,7 +120,7 @@ public class PageBlocs extends Page {
             extURL.setOrder(pOrder);
             session.saveDocument(docExtURL);
             session.save();
-            return redirect(this.getPath());
+            return Response.status(Status.OK).build();
         } catch (ClientException e) {
             return Response.status(Status.GONE).build();
         }

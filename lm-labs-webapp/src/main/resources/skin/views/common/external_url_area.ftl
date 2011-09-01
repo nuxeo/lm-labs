@@ -18,7 +18,7 @@
 		float: right;
 	}
 	.actionExternalURL img {
-		float: right;
+		float: left;
 	}
 	.actionExternalURL.actionAdd {
 		width: 100%;
@@ -48,22 +48,21 @@
 </div>
 
 <div id="div_persistExternalURL" style="display: none;" title="${Context.getMessage('label.externalURL.edit.title')}">
-	<form method="put" id="form-externalURL" action="${This.path}/persistExternalURL">
-	
-			<ul class="fieldEditExternalURL">
-				<li>
-					<label for="extUrlName">${Context.getMessage('label.externalURL.edit.name')}</label><br />
-					<input type="text" class="required" name="extUrlName" id="extUrlName" size="60" value="" />
-				</li>
-				<li>
-					<label for="extURLURL">${Context.getMessage('label.externalURL.edit.url')}</label><br />
-	    			<input type="text" class="required" name="extURLURL" size="60" id="extURLURL" value="" />
-				</li>
-				<li>
-					<label for="extURLOrder">${Context.getMessage('label.externalURL.edit.order')}</label><br />		
-	    			<input type="text" name="extURLOrder" id="extURLOrder"size="5" class="extURLOrder" value="" />
-				</li>
-			</ul>
+	<form method="post" id="form-externalURL" action="${This.path}/persistExternalURL">
+		<ul class="fieldEditExternalURL">
+			<li>
+				<label for="extUrlName">${Context.getMessage('label.externalURL.edit.name')}</label><br />
+				<input type="text" class="required" name="extUrlName" id="extUrlName" size="60" value="" />
+			</li>
+			<li>
+				<label for="extURLURL">${Context.getMessage('label.externalURL.edit.url')}</label><br />
+    			<input type="text" class="required" name="extURLURL" size="60" id="extURLURL" value="" />
+			</li>
+			<li>
+				<label for="extURLOrder">${Context.getMessage('label.externalURL.edit.order')}</label><br />		
+    			<input type="text" name="extURLOrder" id="extURLOrder"size="5" class="extURLOrder" value="" />
+			</li>
+		</ul>
 	</form>
 </div>
 	
@@ -114,18 +113,15 @@ jQuery(document).ready(function(){
 						return $("#form-externalURL").valid();
 					},
 			        success: function(responseText, statusText) {
+			        	jQuery(this).dialog("close");
 			        	document.location.href='${This.path}';
 			        },
 			        error: function(){
 			          alert("ERROR");
+			          jQuery(this).dialog("close");
 			        }
 			    };
 			    $('#form-externalURL').ajaxSubmit(options2);
-			
-				jQuery(this).dialog("close");
-				//setTimeout(function() {jQuery('#waitingPopup').dialog({ modal: true });}, 100);
-				//sendFormExternalURL('${This.path}');
-				//$('#waitingPopup').dialog( "close" );
 				return true;
 			}
 		},
@@ -133,7 +129,6 @@ jQuery(document).ready(function(){
 		modal: true,
 		autoOpen: false
 	});
-
 
 	jQuery("#addExternalURL").click(function() {
 		jQuery("#div_persistExternalURL").dialog('open');
