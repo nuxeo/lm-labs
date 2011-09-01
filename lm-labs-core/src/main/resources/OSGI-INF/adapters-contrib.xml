@@ -23,6 +23,9 @@
 
 	<adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.Page"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.page.PageAdapterFactory" />
+      
+      <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPageAdapterFactory" />
   </extension>
   
 </component>

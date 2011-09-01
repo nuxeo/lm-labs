@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_html"
+	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_html">
+
+	<xs:element name="sections" type="tns:sections"></xs:element>
+
+	<xs:complexType name="sections">
+		<xs:sequence>
+			<xs:element name="section" type="tns:section" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="section">
+		<xs:sequence>
+			<xs:element name="title" type="xs:string"/>
+			<xs:element name="subtitle" type="xs:string"/>
+			<xs:element name="rows" type="tns:html_rows"/>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="html_rows">
+		<xs:sequence>
+			<xs:element name="row" type="tns:html_row" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="html_row">
+		<xs:sequence>
+			<xs:element name="contents" type="tns:html_contents"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="html_contents">
+		<xs:sequence>
+			<xs:element name="content" type="tns:html_content" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="html_content">
+		<xs:sequence>
+			<xs:element name="colnumber" type="xs:integer"/>
+			<xs:element name="html" type="xs:string" />				
+		</xs:sequence>
+	</xs:complexType>
+
+
+</xs:schema>
+
