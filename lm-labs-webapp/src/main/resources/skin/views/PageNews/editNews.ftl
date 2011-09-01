@@ -1,3 +1,6 @@
+<style>
+	label.error { float: none; color: red; font-size:12px; padding-left: .5em;  }
+</style>
 <div class="titleNews">
 	${Context.getMessage('label.labsNews.edit.edit')}
 </div>
@@ -5,12 +8,12 @@
 	<fieldset>	
 		<p>
         	<label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>&nbsp;:&nbsp;
-            <input type="text" name="newsTitle" id="newsTitle" value="<#if This.labsNews != null >${This.labsNews.title}</#if>" />
+            <input type="text" class="required" name="newsTitle" id="newsTitle" value="<#if This.labsNews != null >${This.labsNews.title}</#if>" />
         </p>
         <p>
         	<label for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>&nbsp;:&nbsp;
             ${Context.getMessage('label.labsNews.edit.du')}
-            <input type="text" size="8" id="newsStartPublication" class="date-pick formfield" name="newsStartPublication" <#if This.labsNews!=null && This.labsNews.startPublication!=null> value="${This.labsNews.startPublication.time?string('dd/MM/yyyy')}" </#if>/>
+            <input type="text" size="8" id="newsStartPublication" class="date-pick formfield required" name="newsStartPublication" <#if This.labsNews!=null && This.labsNews.startPublication!=null> value="${This.labsNews.startPublication.time?string('dd/MM/yyyy')}" </#if>/>
            	${Context.getMessage('label.labsNews.edit.au')} 
            	<input type="text" size="8" id="newsEndPublication" class="date-pick formfield" name="newsEndPublication" <#if This.labsNews!=null && This.labsNews.endPublication!=null> value="${This.labsNews.endPublication.time?string('dd/MM/yyyy')}" </#if>/>
         </p>
@@ -29,7 +32,9 @@
 	
 	function submitForm(){
 		$("newsContent").val(CKEDITOR.instances.newsContent.getData());
-		$("#form-news").submit();
+		if ($("#form-news").valid()){
+			$("#form-news").submit();
+		}
 	}
 
 	</script>
