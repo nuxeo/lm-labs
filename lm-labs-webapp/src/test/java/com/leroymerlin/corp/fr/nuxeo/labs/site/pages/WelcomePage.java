@@ -71,10 +71,16 @@ public class WelcomePage extends WebPage {
 
     public void clickSubmitExternalURL() {
         try {
-            String xpath = "//button[@class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only'] [last()]";
-            WebElement bt_valid = findElement(By.xpath(xpath));
-            if (bt_valid != null) {
-                bt_valid.click();
+            String xpath = "//div[@class='ui-dialog ui-widget ui-widget-content ui-corner-all edit-external-url ui-draggable ui-resizable']";
+            WebElement div = findElement(By.xpath(xpath), WAITING_TIME);
+            if (div != null){
+                xpath = "//button[@class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only']";
+                List<WebElement> bt_valids = div.findElements(By.xpath(xpath));
+                for (WebElement element:bt_valids){
+                    if (element != null && element.getText().contains("valider")){
+                        element.click();
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,6 +122,50 @@ public class WelcomePage extends WebPage {
             return false;
         }
         return false;
+    }
+
+    public boolean canModifyBanner() {
+        try {
+            WebElement element = findElement(By.id("bt_modifyBanner"), WAITING_TIME);
+            if (element != null) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
+    public boolean canDeleteBanner() {
+        try {
+            WebElement element = findElement(By.id("bt_deleteBanner"), WAITING_TIME);
+            if (element != null) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
+    public void clickModifyBanner() {
+        try {
+            WebElement element = findElement(By.id("bt_modifyBanner"), WAITING_TIME);
+            if (element != null) {
+                element.click();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void clickDeleteBanner() {
+        try {
+            WebElement element = findElement(By.id("bt_deleteBanner"), WAITING_TIME);
+            if (element != null) {
+                element.click();
+            }
+        } catch (Exception e) {
+        }
     }
 
     public boolean hasBlocs() {

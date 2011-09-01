@@ -121,6 +121,22 @@ public class WelcomePageTest {
         Tools.sleep(3000);
         assertFalse(welcomePage.hasMyExternalURL(URL_NAME_MODIFY, URL_URL_MODIFY));
     }
+
+    @Test
+    public void iCanModifyBanner() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertTrue(welcomePage.canModifyBanner());
+    }
+
+    @Test
+    public void iCanDeleteBanner() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertTrue(welcomePage.canDeleteBanner());
+    }
     
     public void ensureLoggedIn() {
         LoginPage login = rootPage.getLoginPage();

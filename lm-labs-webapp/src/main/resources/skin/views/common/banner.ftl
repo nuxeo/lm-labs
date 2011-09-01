@@ -10,7 +10,7 @@
   </#if>
 </#if>
 
-<#--if canAdminister >
+<#if canAdminister >
 	<style type="text/css">
 	  #actionBanner {
 	    float: right;
@@ -99,4 +99,4 @@
 			
 		});
 	</script>
-</#if-->
+</#if>
