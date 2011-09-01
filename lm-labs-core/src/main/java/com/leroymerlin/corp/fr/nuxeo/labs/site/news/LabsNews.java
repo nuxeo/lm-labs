@@ -37,4 +37,6 @@ public interface LabsNews{
     void setNewsTemplate(String pNewsTemplate) throws ClientException;
     
     DocumentModel getDocumentModel();
+    
+    String getLastContributorFullName() throws Exception;
 }

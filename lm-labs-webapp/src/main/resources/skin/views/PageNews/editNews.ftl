@@ -27,6 +27,9 @@
 	<input type="hidden" name="newsId" id="newsId" value="<#if This.labsNews == null >-1<#else>${This.labsNews.documentModel.id}</#if>" />
 </form>
 <script type="text/javascript">
+	$(document).ready(function() {
+	    $.validator.messages.required = "${Context.getMessage('label.externalURL.edit.required')}";
+	});
 
 	initCheckeditor();
 	

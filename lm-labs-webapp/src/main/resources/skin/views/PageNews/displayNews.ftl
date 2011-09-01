@@ -3,11 +3,10 @@
 		${news.title}
 	</div>
 	<div class="publicationNews">
-		publié le ${news.startPublication.time?string('dd MMMMM yyyy')} par ${news.lastContributor} 
+		${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')} ${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}
 	</div>
 	<div class="contentNews">
-		<#assign newsContent = This.formatHTML(news.content)>
-		${newsContent}
+		${news.content}
 	</div>
 	<#if isAuthorized>
 		<div class="actionNews">

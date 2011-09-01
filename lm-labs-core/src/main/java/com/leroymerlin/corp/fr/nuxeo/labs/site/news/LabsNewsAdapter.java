@@ -5,6 +5,9 @@ import java.util.Calendar;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.NuxeoPrincipal;
+import org.nuxeo.ecm.platform.usermanager.UserManager;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 
@@ -18,6 +21,8 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
     static final String ACCROCHE = "ln:accroche";
     static final String CONTENT = "ln:content";
     static final String NEWS_TEMPLATE = "ln:template";
+    
+    private String lastContributorFullName = null;
     
 
     public LabsNewsAdapter(DocumentModel doc) {
@@ -95,5 +100,13 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
     public DocumentModel getDocumentModel() {
         return doc;
     }
-
+    
+    public String getLastContributorFullName() throws Exception {
+        if (StringUtils.isEmpty(lastContributorFullName)){
+            UserManager userManager = Framework.getService(UserManager.class);
+            NuxeoPrincipal user = userManager.getPrincipal(getLastContributor());
+            lastContributorFullName = user.getFirstName() + " " + user.getLastName();
+        }
+        return lastContributorFullName;
+    }
 }
