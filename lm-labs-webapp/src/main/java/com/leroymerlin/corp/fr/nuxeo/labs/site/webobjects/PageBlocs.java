@@ -4,6 +4,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -29,7 +30,9 @@ import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.filter.PageNewsFilter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.PageNewsSorter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
@@ -67,6 +70,17 @@ public class PageBlocs extends Page {
             LOG.error(e, e);
         }
         return new DocumentModelListImpl();
+    }
+
+    public ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews> getNews(String pRef) throws ClientException {
+        ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews> listNews = new ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews>();
+        CoreSession session = getCoreSession();  
+        DocumentModelList listDoc = session.getChildren(new IdRef(pRef), LabsSiteConstants.Docs.LABSNEWS.type(), null, new PageNewsFilter(Calendar.getInstance()), new PageNewsSorter());
+        for (DocumentModel doc:listDoc){
+            com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews news = doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews.class);
+            listNews.add(news);
+        }
+        return listNews;
     }
     
     public ArrayList<ExternalURL> getExternalURLs() throws ClientException {
