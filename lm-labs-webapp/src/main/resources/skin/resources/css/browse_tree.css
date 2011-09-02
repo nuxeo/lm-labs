@@ -5,13 +5,18 @@ body {
 #treeview {
 	float: left;
 	width: 20%;	
+	border: solid 1px #CCD9FD;
+	padding: 10px;
+	border-radius: 15px;
 }
 
 #resources {
 	float: left;
-	height: 240px;
-    width: 75%;
-    margin: 10px 11px 0;
+    width: 60%;
+    margin: 0 11px;
+    border: solid 1px #CCD9FD;
+	padding: 10px;
+	border-radius: 15px;
 }
 
 .resourcesForCKEditor {

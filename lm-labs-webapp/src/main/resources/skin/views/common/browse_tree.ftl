@@ -61,7 +61,6 @@
 	  	});
 	  	
 	  	function addJs(obj) {
-			//alert(obj.id);
 			jQuery.ajax({
 				url: "${Context.basePath}/labssites/${siteName}/getPictures",
 				type: "post",
@@ -73,10 +72,7 @@
 	  	}
 		
 		function sendToCKEditor(href) {
-			//window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, 'http://blog.levis-heb.net/data/images/softwares/nuxeo_logo.png');
-			
-			// TODO dynamise "cke_105_textInput"
-			window.opener.document.getElementById('cke_105_textInput').value = href;
+			window.opener.CKEDITOR.tools.callFunction('2', href);
 			window.close();
 		}
 		</script>

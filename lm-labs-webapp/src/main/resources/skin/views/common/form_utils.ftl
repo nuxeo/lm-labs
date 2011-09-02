@@ -15,6 +15,10 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
 
   <script type="text/javascript">
   var editorList = new Array();
+  
+  /*function testa(href) {
+  	alert(href);
+  }*/
 
   jQuery(document).ready(function() {
       jQuery("button[class=edit]").click(function() {
