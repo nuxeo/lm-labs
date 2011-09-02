@@ -1,11 +1,15 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.pages;
 
+import java.io.File;
 import java.util.List;
 
 import org.nuxeo.runtime.test.runner.web.WebPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.TimeoutException;
+
 
 public class WelcomePage extends WebPage {
 
@@ -73,11 +77,12 @@ public class WelcomePage extends WebPage {
         try {
             String xpath = "//div[@class='ui-dialog ui-widget ui-widget-content ui-corner-all edit-external-url ui-draggable ui-resizable']";
             WebElement div = findElement(By.xpath(xpath), WAITING_TIME);
-            if (div != null){
+            if (div != null) {
                 xpath = "//button[@class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only']";
                 List<WebElement> bt_valids = div.findElements(By.xpath(xpath));
-                for (WebElement element:bt_valids){
-                    if (element != null && element.getText().contains("valider")){
+                for (WebElement element : bt_valids) {
+                    if (element != null && element.getText()
+                            .contains("valider")) {
                         element.click();
                     }
                 }
@@ -115,7 +120,9 @@ public class WelcomePage extends WebPage {
         try {
             String xpath = "//div[@id='div_externalURL']/ul/li/a";
             WebElement element = findElement(By.xpath(xpath), WAITING_TIME);
-            if (element != null && element.getAttribute("href").equals(pURL) && element.getText().equals(pName)) {
+            if (element != null && element.getAttribute("href")
+                    .equals(pURL) && element.getText()
+                    .equals(pName)) {
                 return true;
             }
         } catch (Exception e) {
@@ -156,6 +163,49 @@ public class WelcomePage extends WebPage {
             }
         } catch (Exception e) {
         }
+    }
+
+    public void setFieldsBanner(File testFile) {
+        try {
+            WebElement element = findElement(By.id("bannerFileId"), WAITING_TIME);
+            if (element != null) {
+                element.sendKeys(testFile.getAbsolutePath());
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void clickSubmitBanner() {
+        try {
+            String xpath = "//div[@class='ui-dialog ui-widget ui-widget-content ui-corner-all modify-banner ui-draggable ui-resizable']";
+            WebElement div = findElement(By.xpath(xpath), WAITING_TIME);
+            if (div != null) {
+                xpath = "//button[@class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only']";
+                List<WebElement> bt_valids = div.findElements(By.xpath(xpath));
+                for (WebElement element : bt_valids) {
+                    if (element != null && element.getText()
+                            .contains("Modifier")) {
+                        element.click();
+                        flushPageCache();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public boolean hasOKBanner(Dimension pDim) {
+        try {
+            WebElement element = findElement(By.id("bannerImgId"), WAITING_TIME);
+            if (element != null) {
+                RenderedWebElement rend = (RenderedWebElement) element;
+                return pDim.equals(rend.getSize());
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
     }
 
     public void clickDeleteBanner() {

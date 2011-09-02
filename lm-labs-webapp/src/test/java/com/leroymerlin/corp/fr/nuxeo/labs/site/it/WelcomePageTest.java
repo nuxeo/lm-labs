@@ -4,9 +4,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
@@ -15,6 +18,7 @@ import org.nuxeo.runtime.test.runner.Jetty;
 import org.nuxeo.runtime.test.runner.web.Browser;
 import org.nuxeo.runtime.test.runner.web.BrowserFamily;
 import org.nuxeo.runtime.test.runner.web.HomePage;
+import org.openqa.selenium.Dimension;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Tools;
@@ -136,6 +140,44 @@ public class WelcomePageTest {
         MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
         WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
         assertTrue(welcomePage.canDeleteBanner());
+    }
+
+    @Test
+    public void iHaveADefaultBanner() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        Tools.sleep(3000);
+        assertTrue(welcomePage.hasOKBanner(new Dimension(959, 79)));
+    }
+
+    @Test
+    public void iModifyBanner() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertTrue(welcomePage.canModifyBanner());
+        welcomePage.clickModifyBanner();
+        welcomePage.setFieldsBanner(getTestFile());
+        welcomePage.clickSubmitBanner();
+        Tools.sleep(3000);
+        assertTrue(welcomePage.hasOKBanner(new Dimension(561, 191)));
+    }
+
+    @Test
+    public void iDeleteBanner() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertTrue(welcomePage.canDeleteBanner());
+        welcomePage.clickDeleteBanner();
+        Tools.sleep(3000);
+        assertTrue(welcomePage.hasOKBanner(new Dimension(959, 79)));
+    }
+    
+    private static File getTestFile() {
+        return new File(
+                FileUtils.getResourcePathFromContext("testFiles/vision.jpg"));
     }
     
     public void ensureLoggedIn() {
