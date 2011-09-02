@@ -22,7 +22,7 @@ label.error { float: none; color: red; font-size:12px; padding-left: .5em;  }
 		</ul>
 	</fieldset>
 	<div class="labssiteOK">
-		<button class="inputSubmit" id="submit_button"  name="submit_button" onClick="javascript:sendForm('${This.path}', '${This.escapeJS(Context.getMessage('label.labssites.edit.error'))}');" >${Context.getMessage('label.labssites.edit.valid')}</button>
+		<button class="inputSubmit" id="btSubmitLabsSite"  name="submit_button" onClick="javascript:sendForm('${This.path}', '${This.escapeJS(Context.getMessage('label.labssites.edit.error'))}');" >${Context.getMessage('label.labssites.edit.valid')}</button>
 	</div>
 	<input type="hidden" name="labssiteId" id="labssiteId" value="<#if This.labsSite == null >-1<#else>${This.labsSite.documentModel.id}</#if>" />
 	<input type="hidden" name="oldURL" id="oldURL" value="<#if This.labsSite != null >${This.labsSite.URL}</#if>" />

@@ -19,7 +19,7 @@ public class CreateSitePopup extends WebPage {
     }
     
     public MesSitesPage validate() {
-        WebElement bt = findElement(By.id("submit_button"));
+        WebElement bt = findElement(By.id("btSubmitLabsSite"));
         bt.click();
         return getPage(MesSitesPage.class);
     }
