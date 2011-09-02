@@ -23,7 +23,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
 @RepositoryConfig(cleanup=Granularity.METHOD)
-public class DataAdapterTest {
+public class PageListEntryAdapterTest {
     private static final boolean CHECKBOX = true;
     private static final Calendar CAL = Calendar.getInstance();
     private static final String TEXT = "text";
@@ -35,30 +35,30 @@ public class DataAdapterTest {
 
     @Test
     public void canCreateDataModel() throws Exception {
-        new DataAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE).create();
+        new PageListEntryAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE).create();
         assertTrue(session.exists(new PathRef(PATH_SEPARATOR + DATA_TITLE)));
     }
 
     @Test
     public void canCreateHeaderList() throws Exception {
-        DataAdapter.Model model = new DataAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE);
-        Data data = model.getAdapter();
-        assertThat(data,is(notNullValue()));
+        PageListEntryAdapter.Model model = new PageListEntryAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE);
+        PageListEntry entry = model.getAdapter();
+        assertThat(entry,is(notNullValue()));
         
-        data.setIdHeader(ID_HEADER);
-        data.setText(TEXT);
-        data.setDate(CAL);
-        data.setCheckbox(CHECKBOX);
+        entry.setIdHeader(ID_HEADER);
+        entry.setText(TEXT);
+        entry.setDate(CAL);
+        entry.setCheckbox(CHECKBOX);
         UrlType url = new UrlType("nameURL", "http://www.google.fr");
-        data.setDataURL(url);
-        data = model.create();
+        entry.setDataURL(url);
+        entry = model.create();
         
         assertTrue(session.exists(new PathRef(PATH_SEPARATOR + DATA_TITLE)));
-        assertTrue(ID_HEADER == data.getIdHeader());
-        assertTrue(TEXT.equals(data.getText()));
-        assertTrue(CAL.equals(data.getDate()));
-        assertTrue(CHECKBOX == data.getCheckBox());
-        assertTrue(url.equals(data.getDataURL()));
+        assertTrue(ID_HEADER == entry.getIdHeader());
+        assertTrue(TEXT.equals(entry.getText()));
+        assertTrue(CAL.equals(entry.getDate()));
+        assertTrue(CHECKBOX == entry.getCheckBox());
+        assertTrue(url.equals(entry.getDataURL()));
     }
 
 }

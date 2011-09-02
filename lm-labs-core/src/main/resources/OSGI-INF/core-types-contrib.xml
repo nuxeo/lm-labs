@@ -12,7 +12,7 @@
 		<schema name="page_news" prefix="pgn" src="schemas/page_news.xsd" />
 		<schema name="labsnews" prefix="ln" src="schemas/labsnews.xsd" />
 		<schema name="page_list" prefix="pgl" src="schemas/page_list.xsd" />
-		<schema name="data" prefix="data" src="schemas/data.xsd" />
+		<schema name="page_list_entry" prefix="pglen" src="schemas/page_list_entry.xsd" />
 		<schema name="page_blocs" prefix="pgb" src="schemas/page_blocs.xsd" />
 		<schema name="external_url" prefix="exturl" src="schemas/external_url.xsd" />
 		<schema name="page_html" prefix="html" src="schemas/page_html.xsd" />
@@ -103,12 +103,12 @@
 			<schema name="file" />
 			<schema name="page_list" />
 			<subtypes>
-				<type>Data</type>
+				<type>page_list_entry</type>
 			</subtypes>
 		</doctype>
 		
-		<doctype name="Data" extends="Document">
-			<schema name="data" />
+		<doctype name="PageListEntry" extends="Document">
+			<schema name="page_list_entry" />
 		</doctype>
 
 		<doctype name="Assets" extends="Folder">
@@ -140,7 +140,7 @@
 		<indexableDocType indexAllSchemas="true" name="PageList" />
 		<indexableDocType indexAllSchemas="true" name="LabsNews" />
 		<indexableDocType indexAllSchemas="true" name="ExternalURL" />
-		<indexableDocType indexAllSchemas="true" name="Data" />
+		<indexableDocType indexAllSchemas="true" name="page_list_entry" />
 	</extension>
 
 </component>

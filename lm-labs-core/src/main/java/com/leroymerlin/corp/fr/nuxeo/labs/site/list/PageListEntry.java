@@ -7,7 +7,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.dto.UrlType;
 
 
-public interface Data {
+public interface PageListEntry {
 
     void setIdHeader(int idHeader) throws ClientException;
 

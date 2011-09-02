@@ -13,20 +13,20 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.dto.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
-public class DataAdapter implements Data {
+public class PageListEntryAdapter implements PageListEntry {
 
-    private static final String DATA_DATA_URL = "data:dataURL";
-    private static final String DATA_CHECKBOX = "data:checkbox";
-    private static final String DATA_DATE = "data:date";
-    private static final String DATA_TEXT = "data:text";
-    private static final String DATA_ID_HEADER = "data:idHeader";
+    private static final String DATA_DATA_URL = "pglen:dataURL";
+    private static final String DATA_CHECKBOX = "pglen:checkbox";
+    private static final String DATA_DATE = "pglen:date";
+    private static final String DATA_TEXT = "pglen:text";
+    private static final String DATA_ID_HEADER = "pglen:idHeader";
     private static final boolean DEFAULT_BOOLEAN = false;
     private static final int DEFAULT_INT = -1;
     public static final int NULL_VALUE_FOR_INT = DEFAULT_INT;
     
     protected DocumentModel doc;
 
-    public DataAdapter(DocumentModel doc) {
+    public PageListEntryAdapter(DocumentModel doc) {
         this.doc = doc;
     }
     
@@ -41,7 +41,7 @@ public class DataAdapter implements Data {
          * @throws ClientException
          */
         public Model(CoreSession session, String parentPath, String title) throws ClientException {
-            this.doc = session.createDocumentModel(parentPath, title, Docs.DATA.type());
+            this.doc = session.createDocumentModel(parentPath, title, Docs.PAGELISTENTRY.type());
         }
         
         /**
@@ -49,8 +49,8 @@ public class DataAdapter implements Data {
          * @return an adapter
          * @throws ClientException
          */
-        public Data create() throws ClientException {
-            return new DataAdapter(this.doc.getCoreSession().createDocument(this.doc));
+        public PageListEntry create() throws ClientException {
+            return new PageListEntryAdapter(this.doc.getCoreSession().createDocument(this.doc));
         }
         
         /**
@@ -58,8 +58,8 @@ public class DataAdapter implements Data {
          * @return an adapter
          * @throws ClientException
          */
-        public Data getAdapter() throws ClientException{
-            return new DataAdapter(this.doc);
+        public PageListEntry getAdapter() throws ClientException{
+            return new PageListEntryAdapter(this.doc);
         }
     }
 

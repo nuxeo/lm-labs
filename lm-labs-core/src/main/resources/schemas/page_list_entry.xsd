@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/data"
-	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/data">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list_entry"
+	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list_entry">
 
-	<!-- One data -->
+	<!-- One entry -->
 	<xs:element name="idHeader" type="xs:int" />
 	<xs:element name="text" type="xs:string" />
 	<xs:element name="date" type="xs:date" />
