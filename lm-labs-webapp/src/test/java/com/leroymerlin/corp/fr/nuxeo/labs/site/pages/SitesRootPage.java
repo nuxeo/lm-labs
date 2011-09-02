@@ -57,4 +57,9 @@ public class SitesRootPage extends WebPage {
         return this.getPage(PageNewsPage.class);
     }
 
+    public PageListPage goToPageList(String siteURL, String name) {
+        this.getDriver().navigate().to(siteURL + "/" + name);
+        return this.getPage(PageListPage.class);
+    }
+
 }
