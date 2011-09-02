@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.io.IOException;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -37,7 +38,7 @@ public final class PageClasseurUtils {
                 throw new IllegalArgumentException("folder is NOT a child of PageClasseur.");
             }
             DocumentModel fileDoc = Framework.getService(FileManager.class).createDocumentFromBlob(
-                    classeur.getCoreSession(), blob, folder.getPathAsString(), true, blob.getFilename());
+                    classeur.getCoreSession(), blob, folder.getPathAsString(), true, StringEscapeUtils.escapeHtml(blob.getFilename()));
             if (!StringUtils.isEmpty(desc)) {
                 fileDoc.setPropertyValue("dc:description", desc);
             }
