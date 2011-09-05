@@ -4,9 +4,7 @@
     <head>
         <@block name="meta">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="author" content="Damien Metzler">
         <meta name="gwt:property" content="locale=fr">
-        <!-- Date: 2011-07-15 -->
         <base href="${Context.basePath}/labssites" />
         </@block>
 
@@ -15,69 +13,97 @@
             Labs
             </@block>
         </title>
-
-        <@block name="scripts">
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.js"></script>
         
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/jquery/jquery.validate.min.js"></script>
-        </@block>
-
         <@block name="css">
         <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
         <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/labssite.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/theme/main.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/main.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" />
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
-        <!--<link rel="search" type="application/opensearchdescription+xml" title="Intralm" href="/nuxeo/site/skin/Intralm/searchIntralm.xml">-->
+        
+        
+        
+        
+        <link rel="stylesheet/less" href="${skinPath}/less/bootstrap/bootstrap.less">
+		<script src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
         </@block>
+
+        <@block name="scripts">
+	        <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
+	        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
+	        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.js"></script>
+	        <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
+			<script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
+			<script type="text/javascript" src="${skinPath}/js/jquery/jquery.validate.min.js"></script>
+			<script type="text/javascript" src="${skinPath}/js/labs.js"></script>
+        </@block>
+
+        
 
     </head>
     <body>
         <div id="FKtopContent">
-            <@block name="topHeader">
-             <div id="FKtopHeader">
-                <!--In this header, all div are float left except div id="_rightHeader" -->
-
-                <div id="FKbacktointralm" >
-                    <a href="${Context.basePath}/labssites">${Context.getMessage('label.backToHome')}</a>
-                </div>
-                <div class="FKbgBlackSep">&nbsp;</div>
-                <div id="FKrightHeader">
-                    <div class="FKbgBlackSep">&nbsp;</div>
-                    <div id="FKHelp">
-                        <#include "common/help.ftl" />
-                    </div>
-                    <div id="FKidentity">
-                        <#include "common/login.ftl" />
-                    </div>
-                </div><!--FKrightHeader-->
-            </div><!--FKtopHeader-->
-            </@block>
-
+            
+            
+            
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <h3><a href="#"><#if site??>${site.title}</#if></a></h3>
+          <ul>
+            
+          </ul>
+          
+          <ul class="nav secondary-nav">
+          <li><form>
+            <input class="normal" placeholder="Rechercher dans le site" name="q"/>
+            </form></li>            
+            <li><#include "common/login.ftl" /></li>
+            <#if Context.principal.isAnonymous() == false>           
+            <li class="menu">
+              <a href="#" class="menu">${Context.principal.firstName} ${Context.principal.lastName}</a>
+              <ul class="menu-dropdown">
+                <li><a href="#">Profil</a></li>                
+                <li class="divider"></li>
+                <li><a id="logout" href="#">Déconnexion</a></li>
+              </ul>
+            </li>
+            </#if>
+          </ul>
+        </div>
+      </div><!-- /fill -->
+    </div><!-- /topbar -->
+    &nbsp;
+    
+    <div id="masthead">
             <@block name="banner">
-            	<#include "views/common/banner.ftl" />
+    	<#include "views/common/banner.ftl" />
+            	
             </@block>
+    </div>
+    
+
             <@block name="breadcrumbs">
                 <#include "views/common/breadcrumbs.ftl">
             </@block>
 
-            <div id="FKmaincontent">
-                <@block name="tabs"></@block>
-                <@block name="manager"></@block>
-	            <@block name="content"></@block>
-    	    </div><!--FKmaincontent-->
+        
+        
+        
+           <@block name="content"></@block>
+           <div style="clear:both;"></div>
     	</div><!--FKtopContent-->
-        <div style="clear:both;"></div>
+    	
+    	
+    	
+    	
+        
         <div id="FKfooter">
 
             <div id="FKfooter_logo_lm">&nbsp;</div>
             <@block name="footer">
-            <a href="/nuxeo/pdf/charte.pdf" target="_blank">${Context.getMessage('label.information')}</a> | ${Context.getMessage('label.contact')} : <a href="mailto:communicationinterne@leroymerlin.fr">communicationinterne@leroymerlin.fr</a>
+              <a href="/nuxeo/pdf/charte.pdf" target="_blank">${Context.getMessage('label.information')}</a> | ${Context.getMessage('label.contact')} : <a href="mailto:communicationinterne@leroymerlin.fr">communicationinterne@leroymerlin.fr</a>
             </@block>
 
             <div style="clear:both;"></div>

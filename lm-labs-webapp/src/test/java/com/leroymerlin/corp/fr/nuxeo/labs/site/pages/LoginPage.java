@@ -24,10 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-/**
- * @author <a href="mailto:bs@nuxeo.com">Bogdan Stefanescu</a>
- *
- */
+
 public class LoginPage extends WebPage {
 
     @FindBy(how=How.ID, using="username")
@@ -36,10 +33,10 @@ public class LoginPage extends WebPage {
     @FindBy(how=How.ID, using="password")
     protected WebElement inputPassword;
 
-    @FindBy(how=How.ID, using="FKlogin")
+    @FindBy(how=How.ID, using="login")
     protected WebElement login;
 
-    @FindBy(how=How.ID, using="FKlogout")
+    @FindBy(how=How.ID, using="logout")
     protected WebElement logout;
 
     public void login(String username, String password) {
@@ -84,7 +81,7 @@ public class LoginPage extends WebPage {
 
     public boolean isAuthenticated() {
         try {
-            driver.findElement(By.id("FKlogout"));
+            driver.findElement(By.id("logout"));
             return true;
         } catch (NoSuchElementException e) {
             return false;

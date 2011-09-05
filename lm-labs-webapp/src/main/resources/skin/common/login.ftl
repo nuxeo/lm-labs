@@ -14,8 +14,8 @@
       }
     });
 
-    jQuery("#FKlogin").click(valid);
-    jQuery("#FKlogout").click(doLogout);
+    jQuery("#login").click(valid);
+    jQuery("#logout").click(doLogout);
   });
 
   function valid(){
@@ -84,11 +84,9 @@
 
 
 <#if Context.principal.isAnonymous() == true>
-    <div id="FKerrorLogin"></div>
-    <input type="text" id="username" value="${Context.getMessage('label.Username')}" class="listener" size="13"/>
-    <input type="password" id="password" value="password" class="listener" size="13"/>
-    <button id="FKlogin" title="Login" class="black listener">OK</button>
-  <#else>
-    <div style="margin-top:3px;">${Context.principal.firstName} ${Context.principal.lastName}</div>
-  <button id="FKlogout" title=" ${Context.getMessage('label.logout')}" class="black"> ${Context.getMessage('label.logout')}</button>
+    <form action="">
+    <input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="small listener" size="13"/>
+    <input type="password" id="password" placeholder="Mot de passe" class="small listener" size="13"/>
+    <button id="login" title="Login" class="btn listener">OK</button>
+    </form> 
 </#if>

@@ -10,12 +10,12 @@ public class SitesRootPage extends WebPage {
 
     @Override
     public WebPage ensureLoaded() {
-        waitUntilElementFound(By.id("homePage"), WAITING_TIME);
+        isloaded();
         return super.ensureLoaded();
     }
     
     public boolean isloaded() {
-        waitUntilElementFound(By.id("homePage"), WAITING_TIME);
+        //waitUntilElementFound(By.id("content"), WAITING_TIME);
         return true;
     }
 

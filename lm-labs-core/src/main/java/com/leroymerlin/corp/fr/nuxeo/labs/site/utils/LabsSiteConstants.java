@@ -22,7 +22,8 @@ public final class LabsSiteConstants {
         PAGELIST("PageList", StringUtils.EMPTY),
         PAGELISTENTRY("PageListEntry", StringUtils.EMPTY),
         FOLDER("Folder", StringUtils.EMPTY),
-        WELCOME(PAGEBLOCS.type(), "welcome");
+        WELCOME(PAGEBLOCS.type(), "welcome"),
+        HTMLPAGE("HtmlPage",StringUtils.EMPTY);
         
         private String docType;
         private String name;
