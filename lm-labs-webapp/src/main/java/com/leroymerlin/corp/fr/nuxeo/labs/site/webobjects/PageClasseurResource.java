@@ -102,6 +102,8 @@ public class PageClasseurResource extends Page {
                             blob.getFilename());
                     if (!StringUtils.isEmpty(desc)) {
                         fileDoc.setPropertyValue("dc:description", desc);
+                        fileDoc = getCoreSession().saveDocument(fileDoc);
+                        getCoreSession().save();
                     }
                     return Response.ok("Upload file ok", MediaType.TEXT_PLAIN).build();
                 } catch (Exception e) {
@@ -124,7 +126,7 @@ public class PageClasseurResource extends Page {
             try {
                 DocumentModel imported = PageClasseurUtils.importBlobInPageClasseur(doc, folderId, desc, blob);
                 getCoreSession().save();
-                return Response.ok("Upload file ok", MediaType.TEXT_PLAIN).build();
+                return Response.ok("{\"result\":\"Upload file ok\"}", MediaType.TEXT_PLAIN).build();
 //            } catch (IllegalArgumentException e) {
 //                return Response.serverError().status(Status.FORBIDDEN).entity(e.getMessage()).build();
 //            } catch (IOException e) {
@@ -132,6 +134,7 @@ public class PageClasseurResource extends Page {
 //            } catch (ClientException e) {
 //                return Response.serverError().status(Status.FORBIDDEN).entity(e.getMessage()).build();
             } catch (Exception e) {
+                LOG.error(e, e);
                 return Response.serverError().status(Status.FORBIDDEN).entity(e.getMessage()).build();
             }
         }

@@ -1,5 +1,5 @@
 .classeur {
-	width: 900px;
+	width: 960px;
 	margin: 10px;
 }
 
@@ -19,24 +19,36 @@ div.row.Folder {
 	border-top:none;
 }
 
+.classeurFiles {
+	border-spacing: 0px;
+	width: 100%;
+}
+
+.classeurFiles tr {
+	border-spacing: 0px;
+}
+
 .classeur span {
 	float: left;
-	padding: 0 10px;
 	font-family: arial,sans-serif;
 	font-size: 11px;
 }
 
 .classeur span.colCheckBox {
-	width: 10px;
+	/*width: 10px;*/
 }
 
 .classeur span.colIcon {
+	/*
 	width: 10px;
+	*/
 	padding-top: 2px;
 }
 
 .classeur span.colFileName {
+	/*
 	width: 350px;
+	*/
 }
 
 .classeur span.colDescription {
@@ -44,7 +56,7 @@ div.row.Folder {
 }
 
 .classeur span.colFilesize {
-	width: 70px;
+	width: 40px;
 }
 
 .classeur span.colVersion {
@@ -52,7 +64,7 @@ div.row.Folder {
 }
 
 .classeur span.colModified {
-	width: 160px;
+	width: 140px;
 }
 
 .classeur span.colCreator {
@@ -64,12 +76,20 @@ div.row.Folder {
 	font-weight: bold;
 }
 
-.classeur span.colActions {
+.classeur span.colView {
+	padding: 0 10px;
+}
+
+.classeur.folderActions {
 	width: auto;
 }
 
+.form-dropfile {
+	float: left;
+}
+
 .form-removefolder {
-	float: right;
+	float: left;
 }
 
 .form-bt-addfile {
@@ -96,4 +116,38 @@ div.row.Folder {
 
 .classeurbouton:hover {
 	cursor: pointer;
+}
+
+#classeurBottomActions {
+	margin-top: 1em;
+	padding-bottom: 1em;
+}
+
+.closedropzone {
+	display: none;	
+}
+
+.dropzoneStyle {
+	border-style: dashed;
+	border-color: lightgrey;
+	height: 4em;
+	color: lightgrey;
+	float: right;
+	-moz-border-radius: 0.7em;
+}
+
+.dropzoneStyle span {
+	font-weight: bold;
+	font-size: 13px; 
+	
+}
+
+#dropFolderTitle:before,#dropFolderTitle:after {
+	content: "'";
+}
+
+.dropzonehighlighted {
+	background-color: lightgrey;
+	border-color: white;
+	color: white;
 }
