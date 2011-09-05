@@ -20,16 +20,15 @@
 	
   <@block name="content">
       <#-- SIDEBAR AREA --> 
-      <#include "views/common/sidebar_area.ftl" />
-    <div id="content" class="pageBlocs welcome">
-      <#if Session.hasPermission(This.previous.document.ref, 'Everything') >
-      <div style="float:right;">
-      	<a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${This.previous.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a>
+      <div id="container-fluid">
+      <div class="sidebar">
+      	<#include "views/common/sidebar_area.ftl" />
       </div>
-      </#if>
-      <#-- COMMENT AREA --> 
-      <#include "views/common/comment_area.ftl" />
       
+      
+      <div class="content">
+      
+
       <div id="blocs" >
       <#------------------------------------maxNbLabsNews------------------------> 
       <#assign maxNbLabsNews = 5 />
@@ -63,14 +62,8 @@
         </div>
         </#if>
       </#list>
-      <#-- FIXME -->
-        <div id="bloc_test" class="bloc">
-          <div class="blocTitle welcome">
-        MANUTEO
-          </div>
-          <div class="blocContent">
-          Catalogue en ligne des engins et supports de manutention
-          </div>
+
+      </div>
       </div>
     </div>
   </@block>
