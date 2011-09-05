@@ -19,7 +19,6 @@ import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
-import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -44,23 +43,6 @@ public class Site extends DocumentObject {
 
         String SELECT_PICTURE = "select * from Picture where ecm:parentId = '"
                 + TAG_VALUE + "'";
-    }
-
-    @Override
-    public void initialize(Object... args) {
-        super.initialize(args);
-        RenderingEngine rendering = getContext().getEngine().getRendering();
-        try {
-            PathRef assetDocRef = new PathRef("/default-domain/sites/"
-                    + doc.getName() + "/"
-                    + LabsSiteConstants.Docs.ASSETS.docName());
-            rendering.setSharedVariable(
-                    "ASSET_DOC_ID",
-                    getCoreSession().getDocument(assetDocRef).getRef().toString());
-        } catch (ClientException e) {
-            LOG.error(e, e);
-            throw WebException.wrap(e);
-        }
     }
 
     @Path("id/{idPage}")

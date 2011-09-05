@@ -34,7 +34,7 @@
 	    	<div id="treeviewDisplay">
 				 <ul id="tree">
 				    <li class="hasChildren">
-				      <span><a onclick="addJs(this);return false;" href="#" id="${ASSET_DOC_ID}" class="">ARBORESCENCE</a></span>
+				      <span><a onclick="addJs(this);return false;" href="#" id="" class="rootNode" class="">ARBORESCENCE</a></span>
 				      <ul>
 				        <li><span class="placeholder">&nbsp;</span></li>
 				      </ul>
@@ -56,8 +56,17 @@
 		      control: "#treeviewControl"
 	    	});
 	    	
-		  	jQuery(".hitarea").click();
-		  	jQuery("#${ASSET_DOC_ID}").click();
+		  	jQuery.ajax({
+		  		url: "${Context.basePath}/labssites/${siteName}/@assets/id",
+		  		type: "get",
+		  		success: function(id) {
+					jQuery(".rootNode").attr("id", id);
+				  	jQuery(".hitarea").click();
+				  	jQuery(".rootNode").click();
+				}
+		  	});
+		  	
+		  	
 	  	});
 	  	
 	  	function addJs(obj) {
