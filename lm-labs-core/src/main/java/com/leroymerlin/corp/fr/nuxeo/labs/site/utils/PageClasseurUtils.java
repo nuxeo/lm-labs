@@ -41,6 +41,7 @@ public final class PageClasseurUtils {
                     classeur.getCoreSession(), blob, folder.getPathAsString(), true, StringEscapeUtils.escapeHtml(blob.getFilename()));
             if (!StringUtils.isEmpty(desc)) {
                 fileDoc.setPropertyValue("dc:description", desc);
+                fileDoc = classeur.getCoreSession().saveDocument(fileDoc);
             }
             return fileDoc;
         }
