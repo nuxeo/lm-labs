@@ -121,7 +121,7 @@ public final class LabsSiteWebAppUtils {
     }
 
     /**
-     * TODO uni tests
+     * TODO unit tests
      * 
      * @param doc
      * @return
@@ -168,7 +168,7 @@ public final class LabsSiteWebAppUtils {
         StringBuilder result = new StringBuilder();
         result.append("<a href='");
         result.append(url);
-        result.append("'>").append(text).append("</a>");
+        result.append("' onclick='window.open(this.href);return false;'>").append(text).append("</a>");
         return result.toString();
     }
 
