@@ -8,6 +8,7 @@
 	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
 	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
 	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.sortable.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
 	 </@block>
 
 	 <@block name="css">
