@@ -44,7 +44,7 @@
 	<div class="folderHeader">
       <span class="colCheckBox">
       <#if canWrite>
-      	<input type="checkbox" name="checkoptionsFolder" value="${child.id}" title="Sélectionner tous les fichiers du répertoire"/>
+      	<input type="checkbox" name="checkoptionsFolder" value="${child.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
       </#if>
       </span>
 	  <div class="folderInfos">
