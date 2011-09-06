@@ -42,6 +42,11 @@
 <p>
 <div class="row ${child.type}">
 	<div class="folderHeader">
+      <span class="colCheckBox">
+      <#if canWrite>
+      	<input type="checkbox" name="checkoptionsFolder" value="${child.id}"/>
+      </#if>
+      </span>
 	  <div class="folderInfos">
 	    <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
 	    <span class="colFolderTitle">${child.dublincore.title}</span>
@@ -146,7 +151,11 @@
   <tr class="main ${child.id}">
   	<td>
     <#if child.facets?seq_contains("Folderish") == false >
-      <span class="colCheckBox"><input type="checkbox" name="checkoptions" value="${child.id}"/></span>
+      <span class="colCheckBox">
+      <#if canWrite>
+      	<input type="checkbox" name="checkoptions" value="${child.id}" title="Sélectionner tous les fichiers du répertoire" />
+      </#if>
+      </span>
     </#if>
     </td>
     <td>

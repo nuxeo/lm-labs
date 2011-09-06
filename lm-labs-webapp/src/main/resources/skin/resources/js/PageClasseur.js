@@ -177,6 +177,8 @@ jQuery(document).ready(function(){
 		    rename: function(name) {
 		        // name in string format
 		        // must return alternate name as string
+		    	var escaped = name;
+		    	return escaped;
 		    },
 		    beforeEach: function(file) {
 //				console.log('beforeEach ' + file.name);
@@ -266,6 +268,15 @@ jQuery(document).ready(function(){
 			});
 		}
 		return false;
+	});
+	
+	jQuery('input[name="checkoptionsFolder"]').change(function() {
+		var checkboxes = jQuery(this).closest('.Folder:not(.row)').find('input[name="checkoptions"]');
+		if (jQuery(this).is(':checked')) {
+			jQuery(checkboxes).attr('checked','checked');
+		} else {
+			jQuery(checkboxes).removeAttr('checked');
+		}
 	});
 
 	function closeDropzone() {
