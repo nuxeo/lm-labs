@@ -10,7 +10,6 @@ import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.TimeoutException;
 
-
 public class WelcomePage extends WebPage {
 
     private static final int WAITING_TIME = 5;
@@ -81,8 +80,8 @@ public class WelcomePage extends WebPage {
                 xpath = "//button[@class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only']";
                 List<WebElement> bt_valids = div.findElements(By.xpath(xpath));
                 for (WebElement element : bt_valids) {
-                    if (element != null && element.getText()
-                            .contains("valider")) {
+                    if (element != null
+                            && element.getText().contains("valider")) {
                         element.click();
                     }
                 }
@@ -120,9 +119,8 @@ public class WelcomePage extends WebPage {
         try {
             String xpath = "//div[@id='div_externalURL']/ul/li/a";
             WebElement element = findElement(By.xpath(xpath), WAITING_TIME);
-            if (element != null && element.getAttribute("href")
-                    .equals(pURL) && element.getText()
-                    .equals(pName)) {
+            if (element != null && element.getAttribute("href").equals(pURL)
+                    && element.getText().equals(pName)) {
                 return true;
             }
         } catch (Exception e) {
@@ -133,7 +131,8 @@ public class WelcomePage extends WebPage {
 
     public boolean canModifyBanner() {
         try {
-            WebElement element = findElement(By.id("bt_modifyBanner"), WAITING_TIME);
+            WebElement element = findElement(By.id("bt_modifyBanner"),
+                    WAITING_TIME);
             if (element != null) {
                 return true;
             }
@@ -145,7 +144,8 @@ public class WelcomePage extends WebPage {
 
     public boolean canDeleteBanner() {
         try {
-            WebElement element = findElement(By.id("bt_deleteBanner"), WAITING_TIME);
+            WebElement element = findElement(By.id("bt_deleteBanner"),
+                    WAITING_TIME);
             if (element != null) {
                 return true;
             }
@@ -157,7 +157,8 @@ public class WelcomePage extends WebPage {
 
     public void clickModifyBanner() {
         try {
-            WebElement element = findElement(By.id("bt_modifyBanner"), WAITING_TIME);
+            WebElement element = findElement(By.id("bt_modifyBanner"),
+                    WAITING_TIME);
             if (element != null) {
                 element.click();
             }
@@ -167,7 +168,8 @@ public class WelcomePage extends WebPage {
 
     public void setFieldsBanner(File testFile) {
         try {
-            WebElement element = findElement(By.id("bannerFileId"), WAITING_TIME);
+            WebElement element = findElement(By.id("bannerFileId"),
+                    WAITING_TIME);
             if (element != null) {
                 element.sendKeys(testFile.getAbsolutePath());
             }
@@ -183,8 +185,8 @@ public class WelcomePage extends WebPage {
                 xpath = "//button[@class='ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only']";
                 List<WebElement> bt_valids = div.findElements(By.xpath(xpath));
                 for (WebElement element : bt_valids) {
-                    if (element != null && element.getText()
-                            .contains("Modifier")) {
+                    if (element != null
+                            && element.getText().contains("Modifier")) {
                         element.click();
                         flushPageCache();
                     }
@@ -194,7 +196,7 @@ public class WelcomePage extends WebPage {
             e.printStackTrace();
         }
     }
-    
+
     public boolean hasOKBanner(Dimension pDim) {
         try {
             WebElement element = findElement(By.id("bannerImgId"), WAITING_TIME);
@@ -210,12 +212,22 @@ public class WelcomePage extends WebPage {
 
     public void clickDeleteBanner() {
         try {
-            WebElement element = findElement(By.id("bt_deleteBanner"), WAITING_TIME);
+            WebElement element = findElement(By.id("bt_deleteBanner"),
+                    WAITING_TIME);
             if (element != null) {
                 element.click();
             }
         } catch (Exception e) {
         }
+    }
+
+    public SitemapPage sitemapPage() {
+        WebElement element = findElement(By.className("siteMapButton"), 10);
+        if (element != null) {
+            element.click();
+            return getPage(SitemapPage.class);
+        }
+        return null;
     }
 
     public boolean hasBlocs() {
