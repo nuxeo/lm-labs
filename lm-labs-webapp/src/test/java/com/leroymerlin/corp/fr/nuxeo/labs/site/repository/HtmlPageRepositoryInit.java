@@ -6,11 +6,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.annotations.RepositoryInit;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
@@ -36,30 +32,7 @@ public class HtmlPageRepositoryInit implements RepositoryInit {
             page.setTitle("HTML Test page");
             page.setDescription("Page HTML de test");
             
-            HtmlSection section = page.addSection();
-            section.setTitle("Première section");
-            section.setDescription("Avec description");
-            
-			HtmlRow row = section.addRow();
-            row.addContent(4, "Marge à gauche");
-            row.addContent(12, "Contenu à droite");
-            
-            row = section.addRow();
-            row.addContent(12, "Contenu à gauche");
-            row.addContent(4, "Marge à droite");
-            
-            
-            section = page.addSection();
-            section.setTitle("Deuxième section");
-            section.setDescription("Une deuxième description");
-            
-			row = section.addRow();
-            row.addContent(4, "Marge à gauche");
-            row.addContent(12, "Contenu à droite");
-            
-            row = section.addRow();
-            row.addContent(12, "Contenu à gauche");
-            row.addContent(4, "Marge à droite");
+           
             
             session.createDocument(page.getDocument());
             

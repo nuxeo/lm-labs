@@ -48,18 +48,24 @@ public class SitesRootPage extends WebPage {
    }
 
     public PageClasseurPage goToPageClasseur(String siteURL, String name) {
-        this.getDriver().navigate().to(siteURL + "/" + name);
-        return this.getPage(PageClasseurPage.class);
+    	return goToPage(siteURL, name, PageClasseurPage.class);
     }
 
     public PageNewsPage goToPageNews(String siteURL, String name) {
-        this.getDriver().navigate().to(siteURL + "/" + name);
-        return this.getPage(PageNewsPage.class);
+    	return goToPage(siteURL, name, PageNewsPage.class);
     }
 
     public PageListPage goToPageList(String siteURL, String name) {
-        this.getDriver().navigate().to(siteURL + "/" + name);
-        return this.getPage(PageListPage.class);
+    	return goToPage(siteURL, name, PageListPage.class);
+    }
+    
+    public PageHtmlPage goToPageHtml(String siteURL, String name) {
+    	return goToPage(siteURL, name, PageHtmlPage.class);        
+    }
+    
+    public <T extends WebPage> T  goToPage(String siteUrl, String name, Class<T> type) {
+    	this.getDriver().navigate().to(siteUrl + "/" + name);
+        return getPage(type);
     }
 
 }

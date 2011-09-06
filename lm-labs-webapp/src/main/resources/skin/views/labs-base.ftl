@@ -30,6 +30,10 @@
         </@block>
 
         <@block name="scripts">
+        	    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	    <!--[if lt IE 9]>
+	      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	    <![endif]-->
 	        <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
 	        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
 	        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.js"></script>
@@ -52,7 +56,7 @@
         <div class="container">
           <h3><a href="#"><#if site??>${site.title}</#if></a></h3>
           <ul>
-            
+            <@block name="docactions"></@block>                
           </ul>
           
           <ul class="nav secondary-nav">
@@ -64,8 +68,8 @@
             <li class="menu">
               <a href="#" class="menu">${Context.principal.firstName} ${Context.principal.lastName}</a>
               <ul class="menu-dropdown">
-                <li><a href="#">Profil</a></li>                
-                <li class="divider"></li>
+                <@block name="docactions"></@block>
+                <@block name="siteactions"></@block>                                
                 <li><a id="logout" href="#">Déconnexion</a></li>
               </ul>
             </li>
