@@ -66,7 +66,7 @@
             <li><#include "common/login.ftl" /></li>
             <#if Context.principal.isAnonymous() == false>           
             <li class="dropdown	">
-              <a href="#" class="dropdown-toggle">User : ${Context.principal.firstName} ${Context.principal.lastName}</a>
+              <a href="#" class="dropdown-toggle">${Context.principal.firstName} ${Context.principal.lastName}</a>
               <ul class="dropdown-menu">
                 <@block name="docactions"></@block>
                 <@block name="siteactions"></@block>                                
