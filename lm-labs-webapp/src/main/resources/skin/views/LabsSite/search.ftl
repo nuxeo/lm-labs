@@ -4,7 +4,7 @@
 <#if result?size &gt; 0>
 <div class="resultsSearchSubtitle">Affichage des résultats 1-${result?size} sur ${result?size} pour <span>${query?split('"')[1]}</span></div>
 
-<ul>
+<ul id="resultsSearch" >
     <#list result as doc>
     <li>
     	<span class="colIcon"><img title="${doc.type}" alt="&gt;&gt;" <#if doc.schemas?seq_contains("common") >src="/nuxeo/${doc.common.icon}"</#if> /></span>

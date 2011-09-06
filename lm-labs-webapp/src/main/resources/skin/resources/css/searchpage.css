@@ -1,3 +1,7 @@
 .resultsSearchSubtitle > span {
 	font-weight: bold;
 }
+
+#resultsSearch {
+	list-style: none inside none;
+}
