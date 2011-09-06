@@ -55,8 +55,7 @@
       <div class="fill">
         <div class="container">
           <h3><a href="#"><#if site??>${site.title}</#if></a></h3>
-          <ul>
-            <@block name="docactions"></@block>                
+          <ul>             
           </ul>
           
           <ul class="nav secondary-nav">

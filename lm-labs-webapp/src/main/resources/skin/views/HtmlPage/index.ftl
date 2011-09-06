@@ -21,7 +21,7 @@
 	
 	<@block name="docactions">
 		<@superBlock/>
-		<li><a href="http://google.fr"/>Google</a></li>
+		<li><a id="page_edit" href="${This.path}/@views/edit"/>Modifier la page</a></li>
 	</@block>
 	
 	<@block name="content">	
