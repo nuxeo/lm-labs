@@ -10,7 +10,7 @@
     	<span class="colIcon"><img title="${doc.type}" alt="&gt;&gt;" <#if doc.schemas?seq_contains("common") >src="/nuxeo/${doc.common.icon}"</#if> /></span>
         <span><a href="${Context.getUrlPath(doc)}" target="_blank" >${doc.dublincore.title}</a></span>
         <span>par ${doc.dublincore.lastContributor}</span>
-        <#assign filesize = "No File" />
+        <#assign filesize = "(Pas de fichier)" />
         <#assign holder = This.getBlobHolder(doc) />
         <#if holder != null && holder.blob != null >
         	<#assign filesize = bytesFormat(holder.blob.length, "K", "fr_FR") />
