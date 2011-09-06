@@ -28,6 +28,10 @@ div.row.Folder {
 	border-spacing: 0px;
 }
 
+table.classeurFiles th, table.classeurFiles th {
+	line-height: 1px;
+}
+
 .classeur span {
 	float: left;
 	font-family: arial,sans-serif;

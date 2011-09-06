@@ -59,10 +59,10 @@
 		</form>
 		<#assign title = Context.getMessage('command.PageClasseur.openDropzone') />
 		<form action="${This.path}/${child.id}" >
-		  <img class="opendropzone classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/new_model.gif" />
+		  <img class="opendropzone classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/open_dropzone.gif" />
 		</form>
 		<#assign title = Context.getMessage('command.PageClasseur.closeDropzone') />
-	  	<img class="closedropzone classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/toggle_minus.png" />
+	  	<img class="closedropzone classeurbouton" title="${title}" alt="${title}" src="${skinPath}/images/close_dropzone.gif" />
 	</div>
 	<div class="dropzoneContainer"></div>
 </#if>
