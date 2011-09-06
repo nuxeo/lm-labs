@@ -39,7 +39,7 @@ public class WebHtmlSection extends DocumentObject {
             throw WebException.wrap(
                     "Failed to delete section " + doc.getPathAsString(), e);
         }
-        return redirect(prev.getPath());
+        return redirect(prev.getPath() + "/@views/edit");
     }
 
     @Override

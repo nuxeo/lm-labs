@@ -71,10 +71,16 @@
 	          </div><!-- /clearfix -->
 	          <div class="actions">
 	            <button type="submit" class="btn primary">Modifier</button>&nbsp;
-	            <button type="submit" class="btn danger" onclick="confirm('Voulez vous vraiment supprimer cette section ?')">Supprimer la section</button>
+	            
+	            <!-- This button submits the hidden delete form -->
+	            <button type="submit" class="btn danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
 	          </div>
 	          </legend>
 	         </fieldset>
+	       </form>
+	       
+		   <!-- Hidden form to handle delete action -->	       
+	       <form action="${This.path}/s/${section_index}/@delete" method="get" id="frm_section_${section_index}_delete">
 	       </form>
 
   		  

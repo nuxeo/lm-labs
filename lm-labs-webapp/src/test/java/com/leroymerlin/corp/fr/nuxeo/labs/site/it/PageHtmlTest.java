@@ -55,8 +55,8 @@ public class PageHtmlTest {
     	assertThat(section.getDescription(), is("Sous-titre de section"));
     	
     	
-//    	section.remove();
-//    	assertThat(page.getSections().size(), is(0));
+    	section.remove();
+    	assertThat(page.getSections().size(), is(0));
     	
 	}
 
