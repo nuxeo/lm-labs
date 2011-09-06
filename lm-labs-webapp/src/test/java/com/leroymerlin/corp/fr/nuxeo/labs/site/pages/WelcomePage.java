@@ -17,7 +17,7 @@ public class WelcomePage extends WebPage {
 
     @Override
     public WebPage ensureLoaded() {
-        waitUntilElementFound(By.className("pageBlocs"), WAITING_TIME);
+        waitUntilElementFound(By.id("blocs"), WAITING_TIME);
         return super.ensureLoaded();
     }
 
