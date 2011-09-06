@@ -44,7 +44,7 @@
 	<div class="folderHeader">
       <span class="colCheckBox">
       <#if canWrite>
-      	<input type="checkbox" name="checkoptionsFolder" value="${child.id}"/>
+      	<input type="checkbox" name="checkoptionsFolder" value="${child.id}" title="Sélectionner tous les fichiers du répertoire"/>
       </#if>
       </span>
 	  <div class="folderInfos">
@@ -153,7 +153,7 @@
     <#if child.facets?seq_contains("Folderish") == false >
       <span class="colCheckBox">
       <#if canWrite>
-      	<input type="checkbox" name="checkoptions" value="${child.id}" title="Sélectionner tous les fichiers du répertoire" />
+      	<input type="checkbox" name="checkoptions" value="${child.id}" />
       </#if>
       </span>
     </#if>
