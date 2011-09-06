@@ -43,7 +43,8 @@ public class PageHtmlTest {
 	public void canAddAndRemoveSection() throws Exception {
     	PageHtmlPage page = goToHtmlPage();
     	
-
+    	page.edit();
+    	
     	assertThat(page.getSections().size(), is(0));
     	
     	page = page.addSection("Titre de section", "Sous-titre de section");
@@ -62,7 +63,7 @@ public class PageHtmlTest {
     
     private PageHtmlPage goToHtmlPage() {
     	ensureLoggedIn();
-		return rootPage.goToPageHtml("http://localhost:8089/labssites" + "/" + HtmlPageRepositoryInit.SITE_URL, "htmlTestPage/@views/edit");
+		return rootPage.goToPageHtml("http://localhost:8089/labssites" + "/" + HtmlPageRepositoryInit.SITE_URL, "htmlTestPage");
 	}
 
 

@@ -51,7 +51,7 @@ public class PageHtmlPage extends WebPage {
     }
 
     public void edit() {
-        getDriver().findElement(By.xpath("//li[@class='menu']//a[@class='menu']")).click();
+        getDriver().findElement(By.xpath("//a[@class='dropdown-toggle']")).click();
         WebElement editMenuItem = this.waitUntilElementFound(By.id("page_edit"), 3);
         editMenuItem.click();
         
