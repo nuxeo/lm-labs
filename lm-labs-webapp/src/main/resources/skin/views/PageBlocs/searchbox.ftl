@@ -12,7 +12,7 @@ jQuery(document).ready(function() {
 			type: "GET",
 			url: '${This.previous.path}' + adapter + jQuery('#fullText').val(),
 			success: function(msg) {
-				jQuery('#content').html(msg);
+				jQuery('div.content').html(msg);
 			},
 			error: function(xhr, status, error) { alert("ERROR: " + xhr + "/" + error); }
 		});
