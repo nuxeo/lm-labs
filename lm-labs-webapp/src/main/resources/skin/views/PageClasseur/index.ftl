@@ -49,7 +49,7 @@
       </span>
 	  <div class="folderInfos">
 	    <span class="colIcon"><img title="${child.type}" alt="${child.type}/" src="/nuxeo/${child.common.icon}" /></span>
-	    <span class="colFolderTitle">${child.dublincore.title}</span>
+	    <span class="colFolderTitle" title="${child.dublincore.description}" >${child.dublincore.title}</span>
 	  </div>
 	</div>
 <#if canWrite>
