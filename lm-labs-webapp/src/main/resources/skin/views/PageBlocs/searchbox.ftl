@@ -10,7 +10,7 @@ jQuery(document).ready(function() {
 	jQuery('#searchBt').click(function() {
 		jQuery.ajax({
 			type: "GET",
-			url: '${This.previous.path}' + adapter + jQuery('#fullText').val(),
+			url: '${This.previous.path}' + adapter + escape(jQuery('#fullText').val()),
 			success: function(msg) {
 				jQuery('div.content').html(msg);
 			},
