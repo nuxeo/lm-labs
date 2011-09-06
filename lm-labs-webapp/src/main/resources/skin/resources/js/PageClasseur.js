@@ -200,7 +200,7 @@ jQuery(document).ready(function(){
 	});
 
 	jQuery(".removefile").click(function(evt) {
-		if (confirm("Etes-vous sûr de vouloir effacer le fichier '" + jQuery(this).closest("div").children(".colFileName").text() + "' ?")) {
+		if (confirm("Etes-vous sûr de vouloir effacer le fichier '" + jQuery(this).closest("tr").find(".colFileName").text() + "' ?")) {
 			var buttonDomElement = evt.target;
 			$(buttonDomElement).attr('disabled', true);
 			jQuery.ajax({
