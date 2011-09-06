@@ -60,40 +60,20 @@ public final class LabsSiteWebAppUtils {
                 result.append(",");
             }
             result.append("{").append("\"text\":").append("\"");
-            if (doc.hasSchema("page")) {
+            try {
+                String endUrl = buildEndUrl(doc);
                 StringBuilder url = new StringBuilder();
                 if (site != null) { // TODO
                     url.append(site.getPath());
                 }
                 if (enableBrowsingTree) {
-                    url.append(buildEndUrl(doc));
+                    url.append(endUrl);
                     result.append(getHref(url.toString(), doc.getName()));
                 } else {
                     result.append(getHrefToBrowseTree(doc.getName(),
                             doc.getRef()));
                 }
-            } else if (canGetPreview(doc)) {
-                StringBuilder url = new StringBuilder();
-                if (site != null) { // TODO
-                    url.append(site.getPath());
-                }
-                if (enableBrowsingTree) {
-                    url.append(buildEndUrl(doc));
-                    result.append(getHref(url.toString(), doc.getName()));
-                } else {
-                    result.append(getHrefToBrowseTree(doc.getName(),
-                            doc.getRef()));
-                }
-            } else if (Docs.EXTERNAL_URL.type().equals(doc.getType())) {
-                if (enableBrowsingTree) {
-                    StringBuilder url = new StringBuilder();
-                    url.append(buildEndUrl(doc));
-                    result.append(getHref(url.toString(), doc.getName()));
-                } else {
-                    result.append(getHrefToBrowseTree(doc.getName(),
-                            doc.getRef()));
-                }
-            } else {
+            } catch (UnsupportedOperationException e) {
                 if (enableBrowsingTree) {
                     result.append(getHrefToBrowseTree(doc.getName(),
                             doc.getRef()));
@@ -144,6 +124,9 @@ public final class LabsSiteWebAppUtils {
             url.append("/doc/").append(doc.getId());
             url.append("/@blob/preview");
         } else if (Docs.LABSNEWS.type().equals(doc.getType())) {
+            DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
+            url.append("/id/").append(pageDoc.getId());
+        } else if (Docs.FOLDER.type().equals(doc.getType()) && parent.hasSchema("page")) {
             DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
             url.append("/id/").append(pageDoc.getId());
         } else {
