@@ -33,7 +33,7 @@ public class PageClasseurPage extends WebPage {
     }
 
     public boolean hasFolder(String folderName) {
-        List<WebElement> folders = findElements(By.cssSelector(".row.Folder"));
+        List<WebElement> folders = findElements(By.cssSelector(".folderInfos"));
         for (WebElement folder : folders) {
             if (folderName.equals(folder.findElement(By.className("colFolderTitle")).getText())) {
                 return true;
