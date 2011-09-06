@@ -18,55 +18,57 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 @WebObject(type = "HtmlPage")
 public class WebHtmlPage extends DocumentObject {
 
-	@Override
-	public void initialize(Object... args) {
-		super.initialize(args);
+    @Override
+    public void initialize(Object... args) {
+        super.initialize(args);
 
-		RenderingEngine rendering = ctx.getEngine().getRendering();
-		rendering.setSharedVariable("page", getPage());
-	}
+        RenderingEngine rendering = ctx.getEngine()
+                .getRendering();
+        rendering.setSharedVariable("page", getPage());
+    }
 
-	@POST
-	@Override
-	public Response doPost() {
+    @POST
+    @Override
+    public Response doPost() {
 
-		try {
-			FormData form = ctx.getForm();
-			String title = form.getString("title");
-			String description = form.getString("description");
+        try {
+            FormData form = ctx.getForm();
+            String title = form.getString("title");
+            String description = form.getString("description");
 
-			HtmlSection section = getPage().addSection();
-			section.setTitle(title);
-			section.setDescription(description);
-			
-			saveDocument();
-			
-			return redirect(getPath());
-		} catch (ClientException e) {
-			return Response.serverError().build();
-		}
+            HtmlSection section = getPage().addSection();
+            section.setTitle(title);
+            section.setDescription(description);
 
-	}
-	
-	
-	@Path("s/{index}")
-	public Object getSection(@PathParam("index") int sectionIndex) {
-		try {
-			HtmlSection section = getPage().section(sectionIndex);
-			return newObject("HtmlSection", doc, section);
-		} catch (ClientException e) {
-			return Response.serverError().build();
-		}
-	}
+            saveDocument();
 
-	private void saveDocument() throws ClientException {
-		CoreSession session = ctx.getCoreSession();
-		session.saveDocument(doc);
-		session.save();
-	}
+            return redirect(getPath() + "/@views/edit");
+        } catch (ClientException e) {
+            return Response.serverError()
+                    .build();
+        }
 
-	private HtmlPage getPage() {
-		return doc.getAdapter(HtmlPage.class);
-	}
+    }
+
+    @Path("s/{index}")
+    public Object getSection(@PathParam("index") int sectionIndex) {
+        try {
+            HtmlSection section = getPage().section(sectionIndex);
+            return newObject("HtmlSection", doc, section);
+        } catch (ClientException e) {
+            return Response.serverError()
+                    .build();
+        }
+    }
+
+    private void saveDocument() throws ClientException {
+        CoreSession session = ctx.getCoreSession();
+        session.saveDocument(doc);
+        session.save();
+    }
+
+    private HtmlPage getPage() {
+        return doc.getAdapter(HtmlPage.class);
+    }
 
 }

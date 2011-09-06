@@ -12,45 +12,50 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 
-@WebObject(type="HtmlContent")
+@WebObject(type = "HtmlContent")
 public class WebHtmlContent extends DocumentObject {
 
-	private HtmlContent content;
+    private HtmlContent content;
 
-	@Override
-	public void initialize(Object... args) {
-		super.initialize(args);
-		assert args != null && args.length == 2;
-		content = (HtmlContent) args[1];
-		RenderingEngine engine = ctx.getEngine().getRendering();
-		engine.setSharedVariable("content", content);
-	}
-	
-	@POST
-	@Override
-	public Response doPost() {
-		FormData form = ctx.getForm();
-		try {
-			content.setHtml(form.getString("content"));
-			saveDocument();
-			return redirect(prev.getPrevious().getPrevious().getPath());
-		} catch (ClientException e) {
-			return Response.serverError().build();
-		}
-		
-	}
-	
-	
-	@Override
-	public Response doDelete() {
-		//Do nothing, but don't delete the doc !
-		return redirect(prev.getPrevious().getPrevious().getPath());
-	}
+    @Override
+    public void initialize(Object... args) {
+        super.initialize(args);
+        assert args != null && args.length == 2;
+        content = (HtmlContent) args[1];
+        RenderingEngine engine = ctx.getEngine()
+                .getRendering();
+        engine.setSharedVariable("content", content);
+    }
 
-	private void saveDocument() throws ClientException {
-		CoreSession session = ctx.getCoreSession();
-		session.saveDocument(doc);
-		session.save();
-	}
+    @POST
+    @Override
+    public Response doPost() {
+        FormData form = ctx.getForm();
+        try {
+            content.setHtml(form.getString("content"));
+            saveDocument();
+            return redirect(prev.getPrevious()
+                    .getPrevious()
+                    .getPath() + "/@views/edit");
+        } catch (ClientException e) {
+            return Response.serverError()
+                    .build();
+        }
+
+    }
+
+    @Override
+    public Response doDelete() {
+        // Do nothing, but don't delete the doc !
+        return redirect(prev.getPrevious()
+                .getPrevious()
+                .getPath() + "/@views/edit");
+    }
+
+    private void saveDocument() throws ClientException {
+        CoreSession session = ctx.getCoreSession();
+        session.saveDocument(doc);
+        session.save();
+    }
 
 }

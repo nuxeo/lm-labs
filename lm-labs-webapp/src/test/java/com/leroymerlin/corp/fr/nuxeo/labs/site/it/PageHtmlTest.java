@@ -44,7 +44,7 @@ public class PageHtmlTest {
     	PageHtmlPage page = goToHtmlPage();
     	
     	page.edit();
-    	
+    	 
     	assertThat(page.getSections().size(), is(0));
     	
     	page = page.addSection("Titre de section", "Sous-titre de section");

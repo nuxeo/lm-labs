@@ -18,41 +18,39 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 @WebObject(type = "HtmlRow")
 public class WebHtmlRow extends DocumentObject {
 
-	private HtmlRow row;
+    private HtmlRow row;
 
-	@Override
-	public void initialize(Object... args) {
-		super.initialize(args);
-		assert args != null && args.length == 2;
-		row = (HtmlRow) args[1];
-	}
-	
-	
-	@Path("c/{index}")
-	public Object doGetContent(@PathParam("index") int contentIndex) {
-		HtmlContent content = row.content(contentIndex);
-		return newObject("HtmlContent", doc, content);
-	}
-	
+    @Override
+    public void initialize(Object... args) {
+        super.initialize(args);
+        assert args != null && args.length == 2;
+        row = (HtmlRow) args[1];
+    }
 
+    @Path("c/{index}")
+    public Object doGetContent(@PathParam("index") int contentIndex) {
+        HtmlContent content = row.content(contentIndex);
+        return newObject("HtmlContent", doc, content);
+    }
 
-	@DELETE
-	@Override
-	public Response doDelete() {
-		try {
-			row.remove();
+    @DELETE
+    @Override
+    public Response doDelete() {
+        try {
+            row.remove();
 
-			saveDocument();
-		} catch (Exception e) {
-			throw WebException.wrap(
-					"Failed to delete section " + doc.getPathAsString(), e);
-		}
-		return redirect(prev.getPrevious().getPath());
-	}
-	
-	private void saveDocument() throws ClientException {
-		CoreSession session = ctx.getCoreSession();
-		session.saveDocument(doc);
-		session.save();
-	}
+            saveDocument();
+        } catch (Exception e) {
+            throw WebException.wrap(
+                    "Failed to delete section " + doc.getPathAsString(), e);
+        }
+        return redirect(prev.getPrevious()
+                .getPath() + "/@views/edit");
+    }
+
+    private void saveDocument() throws ClientException {
+        CoreSession session = ctx.getCoreSession();
+        session.saveDocument(doc);
+        session.save();
+    }
 }

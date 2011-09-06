@@ -19,75 +19,64 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 @WebObject(type = "HtmlSection")
 public class WebHtmlSection extends DocumentObject {
 
-	private HtmlSection section;
+    private HtmlSection section;
 
-	@Override
-	public void initialize(Object... args) {
-		super.initialize(args);
-		assert args != null && args.length == 2;
-		section = (HtmlSection) args[1];
-	}
-	
+    @Override
+    public void initialize(Object... args) {
+        super.initialize(args);
+        assert args != null && args.length == 2;
+        section = (HtmlSection) args[1];
+    }
 
+    @DELETE
+    @Override
+    public Response doDelete() {
+        try {
+            section.remove();
 
-	@DELETE
-	@Override
-	public Response doDelete() {
-		try {
-			section.remove();
+            saveDocument();
+        } catch (Exception e) {
+            throw WebException.wrap(
+                    "Failed to delete section " + doc.getPathAsString(), e);
+        }
+        return redirect(prev.getPath());
+    }
 
-			saveDocument();
-		} catch (Exception e) {
-			throw WebException.wrap(
-					"Failed to delete section " + doc.getPathAsString(), e);
-		}
-		return redirect(prev.getPath());
-	}
-	
-	
+    @Override
+    @POST
+    public Response doPost() {
+        try {
+            FormData form = ctx.getForm();
+            String action = form.getString("action");
 
-	@Override
-	@POST
-	public Response doPost() {
-		try {
-			FormData form = ctx.getForm();
-			String action = form.getString("action");
-			
-			if("addrow".equals(action)) {
-				HtmlRow row= section.addRow();
-				String rowTemplate = form.getString("rowTemplate");
-				RowTemplate.initRow(row, RowTemplate.fromString(rowTemplate));
-			} else if("editsection".equals(action)) {
-				String title = form.getString("title");
-				String description = form.getString("description");
-				section.setTitle(title);
-				section.setDescription(description);				
-			}
-			
-			saveDocument();
-		} catch (ClientException e) {
-			throw WebException.wrap(
-					"Failed to delete section " + doc.getPathAsString(), e);
-		}
-		return redirect(prev.getPath());
-	}
-	
-	
-	
-	
+            if ("addrow".equals(action)) {
+                HtmlRow row = section.addRow();
+                String rowTemplate = form.getString("rowTemplate");
+                RowTemplate.initRow(row, RowTemplate.fromString(rowTemplate));
+            } else if ("editsection".equals(action)) {
+                String title = form.getString("title");
+                String description = form.getString("description");
+                section.setTitle(title);
+                section.setDescription(description);
+            }
 
+            saveDocument();
+        } catch (ClientException e) {
+            throw WebException.wrap(
+                    "Failed to delete section " + doc.getPathAsString(), e);
+        }
+        return redirect(prev.getPath() + "/@views/edit");
+    }
 
-	@Path("r/{index}")
-	public Object getRow(@PathParam("index") int rowIndex) {
-			HtmlRow row = section.row(rowIndex);
-			return newObject("HtmlRow", doc, row);
-	}
+    @Path("r/{index}")
+    public Object getRow(@PathParam("index") int rowIndex) {
+        HtmlRow row = section.row(rowIndex);
+        return newObject("HtmlRow", doc, row);
+    }
 
-
-
-	private void saveDocument() throws ClientException {
-		CoreSession session = ctx.getCoreSession();
-		session.saveDocument(doc);
-		session.save();
-	}
+    private void saveDocument() throws ClientException {
+        CoreSession session = ctx.getCoreSession();
+        session.saveDocument(doc);
+        session.save();
+    }
 }
