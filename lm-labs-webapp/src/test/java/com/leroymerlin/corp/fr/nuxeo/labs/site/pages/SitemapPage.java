@@ -20,8 +20,5 @@ public class SitemapPage extends WebPage {
         return StringUtils.isNotBlank(element.getText());
     }
     
-    public Boolean containsTreeview() {
-        WebElement element = findElement(By.id("tree"), WAITING_TIME);
-        return StringUtils.isNotBlank(element.getText());
-    }
+
 }

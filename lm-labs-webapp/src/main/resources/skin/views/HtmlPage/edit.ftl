@@ -96,20 +96,21 @@
                 <a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
               </div>
               </#list>
+              
+               <div>
+	        		<form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
+	                  <button type="submit" class="btn small danger">Supprimer la ligne</button>
+	                </form>
+	        	</div>
             </div>
             
-            <div class="row editblock" id="row_s${section_index}_r${row_index}_admin">
-            	<div class="span16 columns">
-            		<form action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
-                      <button type="submit" class="btn small danger">Supprimer la ligne</button>
-                    </form>
-            	</div>
-            </div>
+            
+
           </#list>
           
           
           <div class="well editblock">
-          <form action="${This.path}/s/${section_index}" method="post" >
+          <form id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
           <input type="hidden" name="action" value="addrow"/>
               <fieldset>
                 <legend>Ajouter une ligne</legend>

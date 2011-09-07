@@ -27,7 +27,7 @@
        		
        		<div class="span12 columns">
        			<h3>Modifier le contenu</h3>
-       			<form class="form-stacked" action="${This.path}" method="post">
+       			<form id="editcontent" class="form-stacked" action="${This.path}" method="post">
        			<fieldset>
                 <div class="clearfix">
                 <label for="title">Contenu</label>

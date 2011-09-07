@@ -8,7 +8,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.elts.HtmlContentElt;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.elts.HtmlSectionElt;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.it.pages.HtmlContentPage;
 
 public class PageHtmlPage extends WebPage {
 
@@ -55,6 +57,11 @@ public class PageHtmlPage extends WebPage {
         WebElement editMenuItem = this.waitUntilElementFound(By.id("page_edit"), 3);
         editMenuItem.click();
         
+    }
+
+    public HtmlContentPage editContent(HtmlContentElt content) {
+        content.edit();
+        return getPage(HtmlContentPage.class);
     }
 
 }

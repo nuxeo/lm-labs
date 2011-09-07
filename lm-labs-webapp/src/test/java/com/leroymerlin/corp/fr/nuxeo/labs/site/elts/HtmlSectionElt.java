@@ -1,10 +1,14 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.elts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 public class HtmlSectionElt {
 
@@ -34,6 +38,24 @@ public class HtmlSectionElt {
                 .alert();
         alert.accept();
 
+    }
+
+    public List<HtmlRowElt> getRows() {
+        List<HtmlRowElt> result = new ArrayList<HtmlRowElt>();
+        List<WebElement> rowElements = sectionElt.findElements(By.className("row"));
+        for(WebElement elt : rowElements) {
+            result.add(new HtmlRowElt(elt,driver));
+        }
+        return result;
+    }
+
+    public void addRow(String template) {
+        WebElement selectTemplateInput = sectionElt.findElement(By.xpath("//form[contains(@id,'addrow_')]//select"));
+        Select select = new Select(selectTemplateInput);
+        select.selectByValue(template);
+        WebElement addRowBtn = sectionElt.findElement(By.xpath("//form[contains(@id,'addrow_')]//button[contains(@class,'primary')]"));
+        addRowBtn.click();
+        
     }
 
 }

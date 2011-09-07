@@ -53,41 +53,45 @@ public class SitesRoot extends ModuleRoot {
     private static final String DEFAULT_VIEW = "index";
 
     private static final String HOMEPAGE_VIEW = "homePage";
-    
+
     private static final String EDIT_VIEW = "views/sitesRoot/editLabsSite.ftl";
-        
+
     private LabsSite currentLabsSite = null;
 
-
-    /* (non-Javadoc)
-     * @see org.nuxeo.ecm.webengine.model.impl.AbstractResource#initialize(java.lang.Object[])
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.nuxeo.ecm.webengine.model.impl.AbstractResource#initialize(java.lang
+     * .Object[])
      */
     @Override
     protected void initialize(Object... args) {
         super.initialize(args);
         // Add global fm variables
-        RenderingEngine rendering = getContext().getEngine().getRendering();
+        RenderingEngine rendering = getContext().getEngine()
+                .getRendering();
         if (rendering instanceof FreemarkerEngine) {
             FreemarkerEngine fm = (FreemarkerEngine) rendering;
             fm.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
-            fm.setSharedVariable("breadcrumbsDocs", new BreadcrumbsArrayTemplateMethod());
+            fm.setSharedVariable("breadcrumbsDocs",
+                    new BreadcrumbsArrayTemplateMethod());
             fm.setSharedVariable("pageEndUrl", new PageEndUrlTemplateMethod());
-            fm.setSharedVariable("latestUploadsPageProvider", new LatestUploadsPageProviderTemplateMethod());
+            fm.setSharedVariable("latestUploadsPageProvider",
+                    new LatestUploadsPageProviderTemplateMethod());
         }
     }
 
     @GET
     public Object doGetDefaultView() {
         String home = request.getParameter("homepage");
-        if (!StringUtils.isEmpty(home)){
-            if (home.equals("create")){
+        if (!StringUtils.isEmpty(home)) {
+            if (home.equals("create")) {
                 return getTemplate(EDIT_VIEW);
-            }
-            else if(home.equals("display")){
+            } else if (home.equals("display")) {
                 return getView(DEFAULT_VIEW);
-            }
-            else if(home.equals("load")){
-                
+            } else if (home.equals("load")) {
+
             }
             return getView(HOMEPAGE_VIEW);
         }
@@ -95,49 +99,60 @@ public class SitesRoot extends ModuleRoot {
     }
 
     @Path("{url}")
-    public Object doGetSite(@PathParam("url") final String pURL)
-            throws ClientException {
+    public Object doGetSite(@PathParam("url") final String pURL) {
         CoreSession session = getContext().getCoreSession();
-        
-        DocumentModelList listDoc = session.query("SELECT * FROM Document where webc:url = '" + pURL +"' ");
-        if (listDoc != null && !listDoc.isEmpty()){
-            DocumentModel document = listDoc.get(0);
-            if (session.exists(document.getRef())) {
+        try {
+            DocumentModelList listDoc = session.query("SELECT * FROM Document where webc:url = '"
+                    + pURL + "' ");
+            if (listDoc != null && !listDoc.isEmpty()) {
+                DocumentModel document = listDoc.get(0);
                 return newObject("LabsSite", document);
+
             } else {
-                return Response.ok().status(404).build();
+                return Response.ok()
+                        .status(404)
+                        .build();
             }
+
+        } catch (ClientException e) {
+            return Response.ok()
+                    .status(404)
+                    .build();
         }
-        return Response.ok().status(404).build();
+
     }
-    
-    public String escapeJS(String pString){
-        if (StringUtils.isEmpty(pString)){
+
+    public String escapeJS(String pString) {
+        if (StringUtils.isEmpty(pString)) {
             return "";
         }
         return StringEscapeUtils.escapeJavaScript(pString);
     }
-    
-    public boolean isAuthorized(){
+
+    public boolean isAuthorized() {
         try {
-            return getContext().getCoreSession().hasPermission(LabsSiteUtils.getSitesRoot(getContext().getCoreSession()).getRef(), SecurityConstants.EVERYTHING);
+            return getContext().getCoreSession()
+                    .hasPermission(
+                            LabsSiteUtils.getSitesRoot(
+                                    getContext().getCoreSession())
+                                    .getRef(), SecurityConstants.EVERYTHING);
         } catch (ClientException e) {
             return false;
         }
     }
-    
-    public String getPathForEdit(){
+
+    public String getPathForEdit() {
         return getPath();
     }
-    
+
     public LabsSite getLabsSite() {
         return currentLabsSite;
     }
-    
-    public DocumentModel getDoc() throws ClientException{
+
+    public DocumentModel getDoc() throws ClientException {
         return LabsSiteUtils.getSitesRoot(ctx.getCoreSession());
     }
-    
+
     public ArrayList<LabsSite> getLabsSites() throws ClientException {
         final String logPrefix = "<getLabsSites> ";
         ArrayList<LabsSite> result = new ArrayList<LabsSite>();
@@ -145,71 +160,85 @@ public class SitesRoot extends ModuleRoot {
         Sorter sorter = null;
         Filter filter = null;
         boolean isAuthorized = isAuthorized();
-        if (isAuthorized){
-            listDoc = ctx.getCoreSession().getChildren(getDoc().getRef(), LabsSiteConstants.Docs.SITE.type(), null, null, sorter);
-        }
-        else{
-            listDoc = ctx.getCoreSession().getChildren(getDoc().getRef(), LabsSiteConstants.Docs.SITE.type(), null, filter, sorter);
+        if (isAuthorized) {
+            listDoc = ctx.getCoreSession()
+                    .getChildren(getDoc().getRef(),
+                            LabsSiteConstants.Docs.SITE.type(), null, null,
+                            sorter);
+        } else {
+            listDoc = ctx.getCoreSession()
+                    .getChildren(getDoc().getRef(),
+                            LabsSiteConstants.Docs.SITE.type(), null, filter,
+                            sorter);
         }
         LabsSite labssite = null;
-        for (DocumentModel doc1 : listDoc){
+        for (DocumentModel doc1 : listDoc) {
             log.debug(logPrefix + doc1.getName());
             labssite = doc1.getAdapter(LabsSite.class);
             result.add(labssite);
         }
-        return result; 
+        return result;
     }
 
     @POST
-    @Path(value="persistLabsSite")
-    public Response doPost(
-            @FormParam("labsSiteTitle") String pTitle,
+    @Path(value = "persistLabsSite")
+    public Response doPost(@FormParam("labsSiteTitle") String pTitle,
             @FormParam("labsSiteURL") String pURL,
             @FormParam("labsSiteDescription") String pDescription,
-            @FormParam("labssiteId") String pId){
+            @FormParam("labssiteId") String pId) {
         CoreSession session = ctx.getCoreSession();
         boolean isNew = isNew(pId);
         try {
-            if (isNew){
-                if (!existURL(pURL, session)){
-                    DocumentModel docLabsSite = session.createDocumentModel(LabsSiteUtils.getSitesRootPath(), pTitle, LabsSiteConstants.Docs.SITE.type());
+            if (isNew) {
+                if (!existURL(pURL, session)) {
+                    DocumentModel docLabsSite = session.createDocumentModel(
+                            LabsSiteUtils.getSitesRootPath(), pTitle,
+                            LabsSiteConstants.Docs.SITE.type());
                     LabsSite labSite = docLabsSite.getAdapter(LabsSite.class);
                     labSite.setTitle(pTitle);
                     labSite.setDescription(pDescription);
                     labSite.setURL(pURL);
                     docLabsSite = session.createDocument(docLabsSite);
                     session.save();
-                    return Response.status(Status.OK).entity(pTitle + " created.").build();
+                    return Response.status(Status.OK)
+                            .entity(pTitle + " created.")
+                            .build();
                 }
-            }
-            else{
-                DocumentModel docLabsSite = getDocument(pTitle, pId, session, isNew);   
+            } else {
+                DocumentModel docLabsSite = getDocument(pTitle, pId, session,
+                        isNew);
                 LabsSite labSite = docLabsSite.getAdapter(LabsSite.class);
                 labSite.setTitle(pTitle);
                 labSite.setDescription(pDescription);
-                if(!labSite.getURL().equals(pURL)){
-                    if (!existURL(pURL, session)){
-                       labSite.setURL(pURL);
+                if (!labSite.getURL()
+                        .equals(pURL)) {
+                    if (!existURL(pURL, session)) {
+                        labSite.setURL(pURL);
                         saveDocument(session, isNew, docLabsSite);
-                        return Response.status(Status.OK).build();
+                        return Response.status(Status.OK)
+                                .build();
                     }
-                }
-                else{
+                } else {
                     saveDocument(session, isNew, docLabsSite);
-                    return Response.status(Status.OK).build();
+                    return Response.status(Status.OK)
+                            .build();
                 }
             }
-            return Response.status(Status.NOT_MODIFIED).build();
+            return Response.status(Status.NOT_MODIFIED)
+                    .build();
         } catch (ClientException e) {
             log.debug(e, e);
-            return Response.status(Status.GONE).build();
+            return Response.status(Status.GONE)
+                    .build();
         }
 
     }
 
-    private boolean existURL(String pURL, CoreSession pSession) throws ClientException {
-        DocumentModelList listDoc = pSession.query("SELECT * FROM Document where webc:url = '" + pURL +"' ");
-        if (listDoc != null && !listDoc.isEmpty()){
+    private boolean existURL(String pURL, CoreSession pSession)
+            throws ClientException {
+        DocumentModelList listDoc = pSession.query("SELECT * FROM Document where webc:url = '"
+                + pURL + "' ");
+        if (listDoc != null && !listDoc.isEmpty()) {
             return true;
         }
         return false;
@@ -217,9 +246,10 @@ public class SitesRoot extends ModuleRoot {
 
     @PUT
     @Path("edit/{idLabsSite}")
-    public Object editLabsSite(@PathParam("idLabsSite") final String pIdLabsSite){
+    public Object editLabsSite(@PathParam("idLabsSite") final String pIdLabsSite) {
         try {
-            DocumentModel document = ctx.getCoreSession().getDocument(new IdRef(pIdLabsSite));
+            DocumentModel document = ctx.getCoreSession()
+                    .getDocument(new IdRef(pIdLabsSite));
             currentLabsSite = document.getAdapter(LabsSite.class);
         } catch (ClientException e) {
             log.error(e, e);
@@ -236,10 +266,9 @@ public class SitesRoot extends ModuleRoot {
      */
     private void saveDocument(CoreSession pSession, boolean pIsNew,
             DocumentModel pDocLabsSite) throws ClientException {
-        if (pIsNew){
+        if (pIsNew) {
             pDocLabsSite = pSession.createDocument(pDocLabsSite);
-        }
-        else{
+        } else {
             pDocLabsSite = pSession.saveDocument(pDocLabsSite);
         }
         pSession.save();
@@ -256,10 +285,11 @@ public class SitesRoot extends ModuleRoot {
     private DocumentModel getDocument(String pName, String pId,
             CoreSession pSession, boolean pIsNew) throws ClientException {
         DocumentModel docLabsSite;
-        if (pIsNew){
-            docLabsSite = pSession.createDocumentModel(LabsSiteUtils.getSitesRootPath(), pName,LabsSiteConstants.Docs.SITE.type());
-        }
-        else{
+        if (pIsNew) {
+            docLabsSite = pSession.createDocumentModel(
+                    LabsSiteUtils.getSitesRootPath(), pName,
+                    LabsSiteConstants.Docs.SITE.type());
+        } else {
             docLabsSite = pSession.getDocument(new IdRef(pId));
         }
         return docLabsSite;
@@ -271,45 +301,56 @@ public class SitesRoot extends ModuleRoot {
      */
     private boolean isNew(String pId) {
         boolean isNew = false;
-        if (StringUtils.isEmpty(pId)){
+        if (StringUtils.isEmpty(pId)) {
             isNew = true;
-        }
-        else {
-            if ("-1".equals(pId)){
+        } else {
+            if ("-1".equals(pId)) {
                 isNew = true;
-            }
-            else{
+            } else {
                 isNew = false;
             }
         }
         return isNew;
     }
 
-    /* (non-Javadoc)
-     * @see org.nuxeo.ecm.webengine.model.impl.ModuleRoot#handleError(javax.ws.rs.WebApplicationException)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.nuxeo.ecm.webengine.model.impl.ModuleRoot#handleError(javax.ws.rs
+     * .WebApplicationException)
      */
     @Override
     public Object handleError(WebApplicationException e) {
         if (e instanceof WebResourceNotFoundException) {
             String fileName = "error/error_404.ftl";
             log.debug(fileName);
-            return Response.status(404).entity(getTemplate(fileName)).build();
+            return Response.status(404)
+                    .entity(getTemplate(fileName))
+                    .build();
         } else {
-            log.info("No error handling for class " + e.getClass().getName());
+            log.info("No error handling for class " + e.getClass()
+                    .getName());
             log.error(e.getMessage(), e);
             return super.handleError(e);
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.nuxeo.ecm.webengine.model.impl.ModuleRoot#getLink(org.nuxeo.ecm.core.api.DocumentModel)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.nuxeo.ecm.webengine.model.impl.ModuleRoot#getLink(org.nuxeo.ecm.core
+     * .api.DocumentModel)
      */
     @Override
     public String getLink(DocumentModel doc) {
         try {
             return new StringBuilder().append(getPath())
                     .append("/")
-                    .append(LabsSiteUtils.getParentSite(doc).getAdapter(LabsSite.class).getURL())
+                    .append(LabsSiteUtils.getParentSite(doc)
+                            .getAdapter(LabsSite.class)
+                            .getURL())
                     .append(LabsSiteWebAppUtils.buildEndUrl(doc))
                     .toString();
         } catch (UnsupportedOperationException e) {
