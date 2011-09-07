@@ -14,6 +14,7 @@ import org.nuxeo.runtime.test.runner.web.BrowserFamily;
 import org.nuxeo.runtime.test.runner.web.HomePage;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.elts.HtmlContentElt;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.elts.HtmlRowElt;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.elts.HtmlSectionElt;
@@ -92,7 +93,7 @@ public class PageHtmlTest {
                 .get(0);
         assertThat(section.getRows()
                 .size(), is(0));
-
+        Tools.sleep(1000);
         section.remove();
     }
 
@@ -118,7 +119,7 @@ public class PageHtmlTest {
         section = page.getSections().get(0);
         content = section.getRows().get(0).getContents().get(0);
         assertThat(content.getHtml(), is("Contenu de test"));
-
+        Tools.sleep(1000);
         section.remove();
 
     }

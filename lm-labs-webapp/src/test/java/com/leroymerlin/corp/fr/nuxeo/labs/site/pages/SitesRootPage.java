@@ -59,11 +59,12 @@ public class SitesRootPage extends WebPage {
     	return goToPage(siteURL, name, PageListPage.class);
     }
     
-    public PageHtmlPage goToPageHtml(String siteURL, String name) {
+    public PageHtmlPage goToPageHtml(String siteURL, String name) {        
     	return goToPage(siteURL, name, PageHtmlPage.class);        
     }
     
     public <T extends WebPage> T  goToPage(String siteUrl, String name, Class<T> type) {
+        flushPageCache();
     	this.getDriver().navigate().to(siteUrl + "/" + name);
         return getPage(type);
     }

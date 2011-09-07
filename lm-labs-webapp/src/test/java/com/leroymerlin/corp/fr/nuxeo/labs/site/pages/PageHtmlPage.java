@@ -14,6 +14,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.it.pages.HtmlContentPage;
 
 public class PageHtmlPage extends WebPage {
 
+
     @FindBy(xpath = "//form[@id='addsection']//input[@name='title']")
     WebElement addSectionTitleInput;
 
@@ -26,6 +27,14 @@ public class PageHtmlPage extends WebPage {
     public String getTitle() {
         return getDriver().getTitle();
     }
+    
+    
+    @Override
+    public WebPage ensureLoaded() {
+        waitUntilElementFound(By.id("masthead"), 3);
+        return super.ensureLoaded();
+    }
+
 
     public List<HtmlSectionElt> getSections() {
         List<WebElement> sections = getDriver().findElements(By.xpath("//section"));
