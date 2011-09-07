@@ -20,5 +20,20 @@ public class SitemapPage extends WebPage {
         return StringUtils.isNotBlank(element.getText());
     }
     
-
+    public Boolean containsListview() {
+        WebElement element = findElement(By.id("sitemapList"), WAITING_TIME);
+        return StringUtils.isNotBlank(element.getText());
+    }
+    
+    public void reduceTreeview() {
+        findElement(By.id("reduceLink"), WAITING_TIME).click();
+    }
+    
+    public void switchToListview() {
+        findElement(By.id("listButton"), WAITING_TIME).click();
+    }
+    
+    public void switchToTreeview() {
+        findElement(By.id("treeButton"), WAITING_TIME).click();
+    }
 }
