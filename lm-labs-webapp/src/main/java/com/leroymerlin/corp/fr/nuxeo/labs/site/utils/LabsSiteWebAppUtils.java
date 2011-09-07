@@ -1,10 +1,13 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.jboss.remoting.samples.chat.exceptions.InvalidArgumentException;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -19,6 +22,8 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public final class LabsSiteWebAppUtils {
 
@@ -112,24 +117,31 @@ public final class LabsSiteWebAppUtils {
         StringBuilder url = new StringBuilder();
         CoreSession session = doc.getCoreSession();
         DocumentModel parent = session.getParentDocument(doc.getRef());
-        if (doc.hasSchema("page")) {
-            // TODO improve
-            url.append("/id/").append(doc.getId());
-        } else if (Docs.EXTERNAL_URL.type().equals(doc.getType())) {
-            url.append((String) doc.getPropertyValue("exturl:url"));
-        } else if (canGetPreview(doc)) {
-            DocumentModel pageDoc = parent.getCoreSession().getDocument(
-                    parent.getParentRef());
-            url.append("/id/").append(pageDoc.getId());
-            url.append("/doc/").append(doc.getId());
-            url.append("/@blob/preview");
-        } else if (Docs.LABSNEWS.type().equals(doc.getType())) {
-            DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
-            url.append("/id/").append(pageDoc.getId());
-        } else if (Docs.FOLDER.type().equals(doc.getType()) && parent.hasSchema("page")) {
-            DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
-            url.append("/id/").append(pageDoc.getId());
-        } else {
+        try {
+            if (doc.hasSchema("page")) {
+                // TODO improve
+                url.append(buildPageEndUrl(doc));
+            } else if (Docs.EXTERNAL_URL.type().equals(doc.getType())) {
+                url.append((String) doc.getPropertyValue("exturl:url"));
+            } else if (canGetPreview(doc)) {
+                DocumentModel pageDoc = parent.getCoreSession().getDocument(
+                        parent.getParentRef());
+                url.append(buildPageEndUrl(pageDoc));
+                url.append("/doc/").append(doc.getId());
+                url.append("/@blob/preview");
+            } else if (Docs.LABSNEWS.type().equals(doc.getType())) {
+                DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
+                url.append(buildPageEndUrl(pageDoc));
+            } else if (Docs.FOLDER.type().equals(doc.getType()) && parent.hasSchema("page")) {
+                DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
+                url.append(buildPageEndUrl(pageDoc));
+            } else {
+                throw new UnsupportedOperationException(
+                        "Unable to generate URL for document '"
+                                + doc.getPathAsString() + "' of type "
+                                + doc.getType());
+            }
+        } catch (InvalidArgumentException e) {
             throw new UnsupportedOperationException(
                     "Unable to generate URL for document '"
                             + doc.getPathAsString() + "' of type "
@@ -179,6 +191,26 @@ public final class LabsSiteWebAppUtils {
                 LATEST_UPLOADS_PAGEPROVIDER, sortInfos, new Long(pageSize),
                 null, props, "");
         return pp;
+    }
+    
+    /**
+     * @param doc
+     * @return
+     * @throws InvalidArgumentException when doc is not a <code>DocumentModel</code> having schema <code>page</code>
+     * @throws ClientException when unable to get page title
+     */
+    public static String buildPageEndUrl(final DocumentModel doc) throws InvalidArgumentException, ClientException {
+        if (!doc.hasSchema(LabsSiteConstants.Schemas.PAGE.getName())) {
+            throw new InvalidArgumentException();
+        }
+        List<String> list = new ArrayList<String>();
+        DocumentModel page = doc;
+        do {
+            list.add(page.getName());
+            page = page.getCoreSession().getParentDocument(page.getRef());
+        } while (page.hasSchema(LabsSiteConstants.Schemas.PAGE.getName()));
+        Collections.reverse(list);
+        return "/" + StringUtils.join(list, "/");
     }
 
 }

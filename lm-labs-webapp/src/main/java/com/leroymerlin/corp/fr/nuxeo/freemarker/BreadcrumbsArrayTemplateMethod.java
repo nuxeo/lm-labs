@@ -41,7 +41,7 @@ public class BreadcrumbsArrayTemplateMethod implements TemplateMethodModelEx {
 
     private void buildList(DocumentModelList list, final DocumentModel doc) throws ClientException {
         list.add(doc);
-        if (LabsSiteConstants.Docs.SITESROOT.type().equals(doc.getType())) {
+        if (LabsSiteConstants.Docs.SITE.type().equals(doc.getType())) {
             return;
         }
         buildList(list, doc.getCoreSession().getDocument(doc.getParentRef()));

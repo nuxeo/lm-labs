@@ -1,29 +1,20 @@
 <div id="breadcrumbs">
 <#if This.type.name != "sitesRoot" >
-<#assign mySeq = [] />
-<@prev doc = This.document />
-
-<#macro prev doc>
-  <#if doc.type == "SitesRoot" >
-    <#return>
-  </#if>
-  <#if doc.type != "Tree" >
-    <#assign mySeq = mySeq + [doc] />
-  </#if>
-  <@prev doc = Session.getParentDocument(doc.ref) /> 
-</#macro>
-
-<#assign siteResource = mySeq?last >
+<#assign mySeq = breadcrumbsDocs(This.document) />
+<#assign siteResource = mySeq?first >
 <#assign siteUrlProp = siteResource.webcontainer.url >
 <#assign sitePath = Context.basePath + "/labssites/" + siteUrlProp >
 
-<#list mySeq?reverse as resource >
+<#list mySeq as resource >
+  <#assign sep = "&gt;" />
   <#if resource.type == "Site" >
     <a href="${sitePath}" title="${resource.dublincore.title}">${resource.dublincore.title}</a>
-  <#else>
-    <a href="${sitePath}/id/${resource.id}" title="">${resource.dublincore.title}</a>
+  <#elseif resource.type == "Tree" >
+    <#assign sep = "" />
+  <#else >
+    <a href="${sitePath}${pageEndUrl(resource)}" title="">${resource.dublincore.title}</a>
   </#if>
-  <#if mySeq?first.id != resource.id><span>&gt;</span></#if>
+  <#if mySeq?last.id != resource.id><span>${sep}</span></#if>
 </#list>
 </div>
 </#if>
