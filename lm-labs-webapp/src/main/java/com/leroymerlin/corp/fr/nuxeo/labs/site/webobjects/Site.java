@@ -45,6 +45,7 @@ public class Site extends DocumentObject {
                 + TAG_VALUE + "'";
     }
 
+    @Deprecated
     @Path("id/{idPage}")
     public Object doGetPageId(@PathParam("idPage") final String idPage) {
         DocumentRef docRef = new IdRef(idPage);
