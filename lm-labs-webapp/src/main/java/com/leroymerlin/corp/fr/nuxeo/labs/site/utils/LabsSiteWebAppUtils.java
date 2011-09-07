@@ -69,7 +69,9 @@ public final class LabsSiteWebAppUtils {
                 String endUrl = buildEndUrl(doc);
                 StringBuilder url = new StringBuilder();
                 if (site != null) { // TODO
-                    url.append(site.getPath());
+                    if (!Docs.EXTERNAL_URL.type().equals(doc.getType())) {
+                        url.append(site.getPath());
+                    }
                 }
                 if (enableBrowsingTree) {
                     url.append(endUrl);
