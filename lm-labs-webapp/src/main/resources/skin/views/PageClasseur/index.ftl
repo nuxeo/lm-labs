@@ -129,7 +129,7 @@
 </div>
 
 <div id="div-addfolder" style="display: none;" title="${Context.getMessage('label.PageClasseur.form.folder.title')}" >
-  <form id="form-addfolder" action="${This.path}/addFolder" method="post">
+  <form id="form-addfolder" action="${This.path}/addFolder" method="post" onkeypress="return event.keyCode != 13;">
     <fieldset>
       <p>
         <label for="folderName" id="label_folderName">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>

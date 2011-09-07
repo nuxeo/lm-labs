@@ -7,6 +7,23 @@ import org.apache.commons.lang.StringUtils;
 
 public final class LabsSiteConstants {
     
+    public enum Schemas {
+        PAGE("page");
+
+        private String name;
+
+        private Schemas(String name) {
+            this.name = name;
+        }
+
+        /**
+         * @return schema name
+         */
+        public String getName() {
+            return name;
+        }
+    }
+    
     public enum Docs {
         DEFAULT_DOMAIN("Domain", "default-domain"),
         SITESROOT("SitesRoot", "sites"),
