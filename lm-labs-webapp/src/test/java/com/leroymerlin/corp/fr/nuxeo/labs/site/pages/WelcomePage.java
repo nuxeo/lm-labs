@@ -10,6 +10,8 @@ import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.TimeoutException;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.it.SearchResultsPage;
+
 public class WelcomePage extends WebPage {
 
     private static final int WAITING_TIME = 5;
@@ -250,6 +252,15 @@ public class WelcomePage extends WebPage {
 
     public LoginPage getLoginPage() {
         return getPage(LoginPage.class);
+    }
+
+    public SearchResultsPage search(String searchString) {
+        WebElement searchBox = findElement(By.xpath("//div[@id='searchbox']/input[@id='fullText']"));
+        searchBox.sendKeys(searchString);
+        WebElement button = findElement(By.xpath("//div[@id='searchbox']/img[@id='searchBt']"));
+        button.click();
+        waitUntilElementFound(By.id("resultsSearch"), 5);
+        return getPage(SearchResultsPage.class);
     }
 
 }

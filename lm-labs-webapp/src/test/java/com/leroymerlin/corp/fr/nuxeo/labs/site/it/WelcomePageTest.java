@@ -184,6 +184,15 @@ public class WelcomePageTest {
         assertFalse(welcomePage.hasLatestUploads());
     }
     
+    @Test
+    public void iCanSearchWelcomePage() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        SearchResultsPage searchResultsPage = welcomePage.search("Welcome");
+        assertEquals(1, searchResultsPage.getNbrResults());
+    }
+    
     private static File getTestFile() {
         return new File(
                 FileUtils.getResourcePathFromContext("testFiles/vision.jpg"));
