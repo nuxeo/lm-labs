@@ -1,5 +1,5 @@
 .classeur {
-	width: 960px;
+	width: 100%;
 	margin: 10px;
 }
 
@@ -9,80 +9,6 @@
 	margin: 3px;
 }
 
-div.row {
-	border-bottom: 1px solid lightgrey;
-	border-top:none;
-}
-
-div.row.Folder {
-	border-bottom: 1px solid black;
-	border-top:none;
-}
-
-.classeurFiles {
-	border-spacing: 0px;
-	width: 100%;
-}
-
-.classeurFiles tr {
-	border-spacing: 0px;
-}
-
-table.classeurFiles th, table.classeurFiles th {
-	line-height: 1px;
-}
-
-.classeur span {
-	float: left;
-	font-family: arial,sans-serif;
-	font-size: 11px;
-}
-
-.classeur span.colCheckBox {
-	/*width: 10px;*/
-}
-
-.classeur span.colIcon {
-	/*
-	width: 10px;
-	*/
-	padding-top: 2px;
-}
-
-.classeur span.colFileName {
-	/*
-	width: 350px;
-	*/
-}
-
-.classeur span.colDescription {
-	width: 150px;
-}
-
-.classeur span.colFilesize {
-	width: 40px;
-}
-
-.classeur span.colVersion {
-	width: 20px;
-}
-
-.classeur span.colModified {
-	width: 140px;
-}
-
-.classeur span.colCreator {
-	width: 80px;
-}
-
-.classeur span.colFolderTitle {
-	width: auto;
-	font-weight: bold;
-}
-
-.classeur span.colView {
-	padding: 0 10px;
-}
 
 .classeur.folderActions {
 	width: auto;

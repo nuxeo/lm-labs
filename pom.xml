@@ -165,7 +165,7 @@
 
   <repositories>
     <repository>
-      <id>public</id>
+      <id>lm-public</id>
       <url>http://dportalintegr.fr.corp.leroymerlin.com:8082/nexus/content/groups/public/</url>
       <releases>
         <enabled>true</enabled>
@@ -175,7 +175,7 @@
       </snapshots>
     </repository>
     <repository>
-      <id>snapshots</id>
+      <id>lm-snapshots</id>
       <url>http://dportalintegr.fr.corp.leroymerlin.com:8082/nexus/content/groups/public-snapshots</url>
       <releases>
         <enabled>false</enabled>

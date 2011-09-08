@@ -21,7 +21,8 @@ public class PageNewsRepositoryInit extends OfmRepositoryInit {
     public void populate(CoreSession session) throws ClientException {
         super.populate(session);
                 
-        DocumentModel ofmTree = session.getDocument(new PathRef(LabsSiteUtils.getSitesRootPath() + "/" + OfmRepositoryInit.SITE_TITLE + "/" + OfmRepositoryInit.TREE));
+        DocumentModel ofmTree = session.getDocument(new PathRef(ofm.getPathAsString() + "/" + OfmRepositoryInit.TREE));
+        
         DocumentModel pageNews = session.createDocumentModel(ofmTree.getPathAsString(), PAGE_NEWS_TITLE, LabsSiteConstants.Docs.PAGENEWS.type());
         pageNews = session.createDocument(pageNews);
         

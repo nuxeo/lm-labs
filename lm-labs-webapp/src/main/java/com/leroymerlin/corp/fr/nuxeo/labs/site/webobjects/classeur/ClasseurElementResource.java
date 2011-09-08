@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.classeur;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
