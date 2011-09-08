@@ -2,14 +2,14 @@
 
   <h1>${Document.dublincore.description}</h1>
 <#list This.getLinks("PAGE_DESCRIPTION_BEFORE_BUTTONS") as link>
-    <button id="${link.id}">${Context.getMessage('command.Page.' + link.id)}</button> 
+    <button id="${link.id}">${Context.getMessage('command.Page.' + link.id)}</button>
 </#list>
   <div id="pageDescriptionEditDiv" style="display:none;">
     <form id="pageDescriptionForm" action="${This.path}" method="POST" >
       <textarea name="PageDescriptionTxt" id="PageDescriptionTxt" rows="2" cols="80">${Document.dublincore.description}</textarea>
     </form>
 <#list This.getLinks("PAGE_DESCRIPTION_AFTER_BUTTONS") as link>
-    <button id="${link.id}">${Context.getMessage('command.Page.' + link.id)}</button> 
+    <button id="${link.id}">${Context.getMessage('command.Page.' + link.id)}</button>
 </#list>
   </div>
 

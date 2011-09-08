@@ -3,10 +3,14 @@ div#content {
 	height: 100%;
 }
 div#comment {
-	width: 100%;	
+	float: left;
+	width: 780px;	
 	min-height: 70px;
 }
 
 .linkButton {
 	text-decoration: none;	
+}
+div#commentField {
+	margin-top: 10px;
 }

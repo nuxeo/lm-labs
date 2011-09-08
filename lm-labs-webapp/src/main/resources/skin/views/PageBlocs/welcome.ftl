@@ -15,6 +15,7 @@
 		<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/searchbox.css"/>
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/sidebar.css"/>
+	    <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
 	</@block>
 	
 	
@@ -27,6 +28,9 @@
       
       
       <div class="content">
+      <#include "views/common/description_area.ftl">
+	
+	  <#include "views/common/comment_area.ftl">
       
 
       <div id="blocs" >

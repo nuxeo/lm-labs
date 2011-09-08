@@ -2,7 +2,6 @@
 <module>
 
   <links>
-  
     <!-- PageClasseur bottom buttons -->
     <link id="addFolder">
       <category>BOTTOM_ACTIONS</category>
@@ -20,18 +19,21 @@
     <link id="PageDescriptionModifyBt">
       <category>PAGE_DESCRIPTION_BEFORE_BUTTONS</category>
       <type>PageClasseur</type>
+      <type>PageBlocs</type>
       <guard>Write</guard>
     </link>
     
     <link id="PageDescriptionSaveBt">
       <category>PAGE_DESCRIPTION_AFTER_BUTTONS</category>
       <type>PageClasseur</type>
+      <type>PageBlocs</type>
       <guard>Write</guard>
     </link>
     
     <link id="PageDescriptionCancelBt">
       <category>PAGE_DESCRIPTION_AFTER_BUTTONS</category>
       <type>PageClasseur</type>
+      <type>PageBlocs</type>
       <guard>Write</guard>
     </link>
     
