@@ -141,6 +141,7 @@
 		<indexableDocType indexAllSchemas="true" name="LabsNews" />
 		<indexableDocType indexAllSchemas="true" name="ExternalURL" />
 		<indexableDocType indexAllSchemas="true" name="PageListEntry" />
+		<indexableDocType indexAllSchemas="true" name="HtmlPage" />
 	</extension>
 
 </component>
