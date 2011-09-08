@@ -28,13 +28,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.MesSitesPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.WelcomePage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.OfmRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.AllDocTypeRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
 @Browser(type = BrowserFamily.FIREFOX)
 @HomePage(type = SitesRootPage.class, url = "http://localhost:8089/labssites")
-@RepositoryConfig(init = OfmRepositoryInit.class)
+@RepositoryConfig(init = AllDocTypeRepositoryInit.class)
 @Jetty(port = 8089)
 @Deploy({ "com.leroymerlin.corp.fr.nuxeo.portal.user",
 "org.nuxeo.ecm.platform.usermanager" })

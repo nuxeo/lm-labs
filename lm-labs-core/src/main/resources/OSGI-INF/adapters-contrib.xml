@@ -7,6 +7,12 @@
 
   <extension target="org.nuxeo.ecm.core.api.DocumentAdapterService"
     point="adapters">
+    
+    <!-- Classeur Document Adapter -->
+    <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurAdapterFactory" />
+    <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurAdapterFactory" />  
     <!-- News Document Adapter -->
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNewsAdapterFactory" />

@@ -11,34 +11,21 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
-public class HtmlPageRepositoryInit implements RepositoryInit {
+public class HtmlPageRepositoryInit extends OfmRepositoryInit {
 
-    public static final String SITE_URL = "ofm";
-    public static final String SITE_TITLE = "OFM";
-    
     @Override
     public void populate(CoreSession session) throws ClientException {
-        DocumentModel root = LabsSiteUtils.getSitesRoot(session);
-        if (!session.exists(new PathRef(root.getPathAsString() + "/" + SITE_TITLE))) {
-            DocumentModel ofm = session.createDocumentModel(root.getPathAsString(), SITE_TITLE, LabsSiteConstants.Docs.SITE.type());
-            LabsSite site = ofm.getAdapter(LabsSite.class);
-            site.setURL(SITE_URL);
-            site.setTitle(SITE_TITLE);
-            ofm = session.createDocument(ofm);
-            
-            DocumentModel doc = session.createDocumentModel(ofm.getPathAsString()+"/" + LabsSiteConstants.Docs.TREE.docName(),"htmlTestPage","HtmlPage");
-            HtmlPage page = doc.getAdapter(HtmlPage.class);
-            
-            page.setTitle("HTML Test page");
-            page.setDescription("Page HTML de test");
-            
-           
-            
-            session.createDocument(page.getDocument());
-            
-    
-            session.save();
-        }
+        super.populate(session);
+
+        DocumentModel doc = session.createDocumentModel(ofm.getPathAsString()
+                + "/" + LabsSiteConstants.Docs.TREE.docName(), "htmlTestPage",
+                "HtmlPage");
+        HtmlPage page = doc.getAdapter(HtmlPage.class);
+        page.setTitle("HTML Test page");
+        page.setDescription("Page HTML de test");
+        session.createDocument(page.getDocument());
+
+        session.save();
     }
 
 }

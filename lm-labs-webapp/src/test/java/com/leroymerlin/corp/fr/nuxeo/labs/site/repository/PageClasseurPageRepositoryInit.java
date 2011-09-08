@@ -1,7 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.repository;
 
-import java.io.IOException;
-
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -12,10 +10,10 @@ import org.nuxeo.ecm.core.test.annotations.RepositoryInit;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurAdapter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PageClasseurUtils;
 
 public class PageClasseurPageRepositoryInit implements RepositoryInit {
 
@@ -36,20 +34,20 @@ public class PageClasseurPageRepositoryInit implements RepositoryInit {
             site.setURL(SITE_URL);
             site.setTitle(SITE_TITLE);
             ofm = session.createDocument(ofm);
-            PageClasseur classeur = new PageClasseurAdapter.Model(session, ofm.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName(), PAGE_CLASSEUR_TITLE).create();
+            PageClasseur classeur = new PageClasseurAdapter.Model(session,
+                    ofm.getPathAsString() + "/"
+                            + LabsSiteConstants.Docs.TREE.docName(),
+                    PAGE_CLASSEUR_TITLE).create();
             classeur.setTitle(PAGE_CLASSEUR_TITLE);
-            DocumentModel classeurDoc = classeur.getDocument();
-            DocumentModel folder = session.createDocumentModel(classeurDoc.getPathAsString(), FOLDER1_NAME, "Folder");
-            folder.setPropertyValue("dc:title", FOLDER1_NAME);
-            folder = session.createDocument(folder);
-            Blob blob = null;
+
+            PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME);
+            session.save();
             try {
-                blob = new FileBlob(getClass().getResourceAsStream("/" + FILE1_NAME));
+                Blob blob = new FileBlob(
+                        getClass().getResourceAsStream("/" + FILE1_NAME));
                 blob.setFilename(FILE1_NAME);
-                PageClasseurUtils.importBlobInPageClasseur(classeurDoc, folder.getId(), FILE1_DESCRIPTION, blob);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                folder.addFile(blob, FILE1_DESCRIPTION);
+
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

@@ -33,13 +33,14 @@ public class PageClasseurPage extends WebPage {
     }
 
     public boolean hasFolder(String folderName) {
-        List<WebElement> folders = findElements(By.cssSelector(".folderInfos"));
-        for (WebElement folder : folders) {
-            if (folderName.equals(folder.findElement(By.className("colFolderTitle")).getText())) {
+        List<WebElement> folders = findElements(By.xpath("//section/div[@class='page-header']/h1"));
+        for(WebElement elt : folders) {
+            if(folderName.equals(elt.getText())) {
                 return true;
             }
         }
         return false;
+        
     }
 
     public PageClasseurAddFolderPopup clickAddFolder() {
