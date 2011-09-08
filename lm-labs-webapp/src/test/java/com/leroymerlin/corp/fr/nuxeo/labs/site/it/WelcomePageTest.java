@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -173,6 +174,14 @@ public class WelcomePageTest {
         welcomePage.clickDeleteBanner();
         Tools.sleep(3000);
         assertTrue(welcomePage.hasOKBanner(new Dimension(959, 79)));
+    }
+    
+    @Test
+    public void iDontHaveAnyUpload() throws Exception {
+        rootPage.home();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertFalse(welcomePage.hasLatestUploads());
     }
     
     private static File getTestFile() {

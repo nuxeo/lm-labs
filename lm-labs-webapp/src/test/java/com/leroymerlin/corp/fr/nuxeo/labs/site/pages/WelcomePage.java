@@ -234,6 +234,14 @@ public class WelcomePage extends WebPage {
         List<WebElement> blocs = this.findElements(By.className("bloc"));
         return !blocs.isEmpty();
     }
+    
+    public List<WebElement> getLatestUploads() {
+        return findElements(By.xpath("//div[contains(@class,'latestuploads')]/ul/li"));
+    }
+    
+    public boolean hasLatestUploads() {
+        return !getLatestUploads().isEmpty();
+    }
 
     // public PageClasseurPage goToPageClasseur(String siteURL, String name) {
     // this.getDriver().navigate().to(siteURL + "/" + name);
