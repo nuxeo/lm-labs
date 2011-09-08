@@ -17,6 +17,7 @@ import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
 public final class LabsSiteUtils {
 
@@ -132,7 +133,7 @@ public final class LabsSiteUtils {
         while (!LabsSiteConstants.Docs.DEFAULT_DOMAIN.type().equals(parentDocument.getType())) {
             try {
                 parentDocument = document.getCoreSession().getParentDocument(parentDocument.getRef());
-                if (parentDocument.hasSchema("page")) {
+                if (parentDocument.hasSchema(Schemas.PAGE.getName())) {
                     return parentDocument;
                 }
             } catch (ClientException e) {

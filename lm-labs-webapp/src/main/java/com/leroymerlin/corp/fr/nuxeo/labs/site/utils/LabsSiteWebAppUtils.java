@@ -22,6 +22,7 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -120,7 +121,7 @@ public final class LabsSiteWebAppUtils {
         CoreSession session = doc.getCoreSession();
         DocumentModel parent = session.getParentDocument(doc.getRef());
         try {
-            if (doc.hasSchema("page")) {
+            if (doc.hasSchema(Schemas.PAGE.getName())) {
                 // TODO improve
                 url.append(buildPageEndUrl(doc));
             } else if (Docs.EXTERNAL_URL.type().equals(doc.getType())) {
@@ -134,7 +135,7 @@ public final class LabsSiteWebAppUtils {
             } else if (Docs.LABSNEWS.type().equals(doc.getType())) {
                 DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
                 url.append(buildPageEndUrl(pageDoc));
-            } else if (Docs.FOLDER.type().equals(doc.getType()) && parent.hasSchema("page")) {
+            } else if (Docs.FOLDER.type().equals(doc.getType()) && parent.hasSchema(Schemas.PAGE.getName())) {
                 DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
                 url.append(buildPageEndUrl(pageDoc));
             } else {
@@ -158,7 +159,7 @@ public final class LabsSiteWebAppUtils {
                 doc.getRef());
         return "Folder".equals(parent.getType())
                 && parent.getCoreSession().getDocument(parent.getParentRef()).hasSchema(
-                        "page") && doc.getAdapter(BlobHolder.class) != null;
+                        Schemas.PAGE.getName()) && doc.getAdapter(BlobHolder.class) != null;
     }
 
     private static String getHref(final String url, final String text) {

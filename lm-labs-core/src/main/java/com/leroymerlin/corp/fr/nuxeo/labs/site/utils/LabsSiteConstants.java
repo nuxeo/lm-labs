@@ -9,12 +9,21 @@ import org.apache.commons.lang.StringUtils;
 public final class LabsSiteConstants {
     
     public enum Schemas {
-        PAGE("page");
+        PAGE("page", "pg"),
+        PAGENEWS("page_news", "pgn"),
+        NEWS("labsnews", "ln"),
+        PAGELIST("page_list", "pgl"),
+        PAGELIST_ENTRY("page_list_entry", "pglen"),
+        PAGEBLOCS("page_blocs", "pgb"),
+        EXTERNALURL("external_url", "exturl"),
+        HTMLPAGE("page_html", "html");
 
         private String name;
+        private String prefix;
 
-        private Schemas(String name) {
+        private Schemas(String name, String prefix) {
             this.name = name;
+            this.prefix = prefix;
         }
 
         /**
@@ -22,6 +31,10 @@ public final class LabsSiteConstants {
          */
         public String getName() {
             return name;
+        }
+
+        public String prefix() {
+            return prefix;
         }
     }
     
