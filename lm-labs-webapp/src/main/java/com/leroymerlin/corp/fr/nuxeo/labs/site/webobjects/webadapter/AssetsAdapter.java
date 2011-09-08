@@ -24,7 +24,8 @@ public class AssetsAdapter extends DefaultAdapter {
 
     public DocumentModel getAssetDoc() {
         try {
-            PathRef ref = new PathRef("/default-domain/sites/"
+            PathRef ref = new PathRef("/" + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName()
+                    + "/" + LabsSiteConstants.Docs.SITESROOT.docName() + "/"
                     + this.getPrevious().getName() + "/"
                     + LabsSiteConstants.Docs.ASSETS.docName());
             return ctx.getCoreSession().getDocument(ref);
