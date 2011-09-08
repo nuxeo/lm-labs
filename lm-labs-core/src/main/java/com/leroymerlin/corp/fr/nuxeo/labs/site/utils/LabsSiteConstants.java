@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,8 +75,12 @@ public final class LabsSiteConstants {
         public String type() {
             return docType;
         }
+        
+        public static EnumSet<Docs> pageDocs() {
+            return EnumSet.of(HTMLPAGE, PAGE, PAGEBLOCS, PAGECLASSEUR, PAGELIST, PAGENEWS ,WELCOME);
+        }
     }
-
+    
     private LabsSiteConstants() {}
 
 }

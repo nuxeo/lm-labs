@@ -51,7 +51,7 @@ public class Site extends DocumentObject {
         DocumentRef docRef = new IdRef(idPage);
         try {
             DocumentModel destDoc = ctx.getCoreSession().getDocument(docRef);
-            if (Docs.fromString(destDoc.getType()) != null) {
+            if (Docs.pageDocs().contains(Docs.fromString(destDoc.getType()))) {
                 return newObject(destDoc.getType(), destDoc);
             } else {
                 throw new WebException("Unsupported document type "
@@ -187,7 +187,7 @@ public class Site extends DocumentObject {
             PathRef pathRef = new PathRef(LabsSiteUtils.getSiteTreePath(doc)
                     + "/" + path);
             DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
-            if (Docs.fromString(doc.getType()) == null) {
+            if (!Docs.pageDocs().contains(Docs.fromString(doc.getType()))) {
                 throw new WebException("Unsupported document type "
                         + doc.getType());
             }
