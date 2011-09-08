@@ -15,16 +15,7 @@
     </head>
     <body>
     	<#-- [BEGIN] DETERMINE SITE NAME -->
-    	<#assign siteName = ''/>
-    	<@prev doc = This.document />
-    	
-    	<#macro prev doc>
-		  <#if doc.type == "Site" >
-		  	<#assign siteName = doc.webcontainer.url/>
-		    <#return>
-		  </#if>
-		  <@prev doc = Session.getParentDocument(doc.ref) /> 
-		</#macro>
+    	<#assign siteName = breadcrumbsDocs(Document)?first.webcontainer.url/>
 		<#-- [END] DETERMINE SITE NAME -->
 		
 		<div id="treeview">
