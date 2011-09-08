@@ -1,11 +1,9 @@
 <div id="breadcrumbs">
 <#if This.type.name != "sitesRoot" >
-<#assign mySeq = breadcrumbsDocs(This.document) />
-<#assign siteResource = mySeq?first >
-<#assign siteUrlProp = siteResource.webcontainer.url >
-<#assign sitePath = Context.basePath + "/labssites/" + siteUrlProp >
+<#assign breadcrumbs = breadcrumbsDocs(This.document) />
+<#assign sitePath = Context.basePath + "/labssites/" + breadcrumbs?first.webcontainer.url >
 
-<#list mySeq as resource >
+<#list breadcrumbs as resource >
   <#assign sep = "&gt;" />
   <#if resource.type == "Site" >
     <a href="${sitePath}" title="${resource.dublincore.title}">${resource.dublincore.title}</a>
@@ -14,7 +12,7 @@
   <#else >
     <a href="${sitePath}${pageEndUrl(resource)}" title="">${resource.dublincore.title}</a>
   </#if>
-  <#if mySeq?last.id != resource.id><span>${sep}</span></#if>
+  <#if breadcrumbs?last.id != resource.id><span>${sep}</span></#if>
 </#list>
 </div>
 </#if>
