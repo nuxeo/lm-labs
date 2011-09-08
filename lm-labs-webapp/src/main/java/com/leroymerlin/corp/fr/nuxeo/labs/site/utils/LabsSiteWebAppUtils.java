@@ -157,7 +157,7 @@ public final class LabsSiteWebAppUtils {
             throws ClientException {
         DocumentModel parent = doc.getCoreSession().getParentDocument(
                 doc.getRef());
-        return "Folder".equals(parent.getType())
+        return Docs.FOLDER.type().equals(parent.getType())
                 && parent.getCoreSession().getDocument(parent.getParentRef()).hasSchema(
                         Schemas.PAGE.getName()) && doc.getAdapter(BlobHolder.class) != null;
     }
