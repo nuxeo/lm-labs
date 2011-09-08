@@ -191,7 +191,7 @@
 	    <td>${bytesFormat(This.getBlobHolder(child).blob.length, "K", "fr_FR")}</span></td>
 	    <td>${child.versionLabel}</span></td>
 	    <td>${modifDateStr}</td>
-	    <td>${child.dublincore.creator}</td>
+	    <td>${userFullName(child.dublincore.creator)}</td>
 	    <td>
 			<#if canWrite>
 	        	<button class="btn danger" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
