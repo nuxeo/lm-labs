@@ -40,7 +40,24 @@ public class SitemapTest {
         WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
         assertNotNull(welcomePage);
         assertTrue(welcomePage.hasSidebar());
-        SitemapPage sitemapPage = welcomePage.sitemapPage();
+        SitemapPage sitemapPage =  welcomePage.sitemapPage();
+        assertTrue(sitemapPage.containsTreeview());
+    }
+    
+    @Test
+    public void actionsAreAvailable() throws Exception {
+        ensureLoggedIn();
+        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
+        assertTrue(mesSitesPage.containsSite("OFM"));
+        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertNotNull(welcomePage);
+        assertTrue(welcomePage.hasSidebar());
+        SitemapPage sitemapPage =  welcomePage.sitemapPage();
+        assertTrue(sitemapPage.containsTreeview());
+        sitemapPage.reduceTreeview();
+        sitemapPage.switchToListview();
+        assertTrue(sitemapPage.containsListview());
+        sitemapPage.switchToTreeview();
         assertTrue(sitemapPage.containsTreeview());
     }
 
