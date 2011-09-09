@@ -16,47 +16,25 @@ jQuery(document).ready(function(){
 	    	}
 	    });
 	    
-    
+    $(".dialog2").dialog2({
+        showCloseHandle: false,
+        removeOnClose: false, 
+        autoOpen: false
+    });
+
+    $(".open-dialog").click(function(event) {
+        event.preventDefault();
+        var dialogId = $(this).attr("dialog");
+        $(dialogId).dialog2("open");
+    });
 	    	
 	var nbPictUploaded=0;
 	var link ="";
-	jQuery("#div-addfile").dialog({
-		dialogClass: 'dialog-addfile',
-		open: function() {},
-		buttons: {
-			"Annuler": function() { jQuery(this).dialog("close"); },
-			"Ajouter": function(evt) {
-				if (jQuery("#fileId").attr("value").length > 0) {
-					jQuery(this).dialog("close");
-					setTimeout(function() {jQuery('#waitingPopup').dialog({ modal: true });}, 100);
-
-					jQuery("#form-addfile").ajaxSubmit({
-						type: "POST",
-						url : link + "/addFile",
-						success: function(data){
-							if (data.indexOf("Upload file ok") == -1) {
-								alert("failed: " + data);
-							} else {
-								window.location.reload();
-							}
-							jQuery("#form-addfile").resetForm();
-						}
-					});
-					$('#waitingPopup').dialog( "close" );
-					return true;
-				}
-			}
-		},
-		width: 400,
-		modal: true,
-		autoOpen: false
-	});
-
+	
 	jQuery("#div-addfolder").dialog({
-		dialogClass: 'dialog-addfolder',
 		open: function() {},
 		buttons: {
-			"Annuler": function() { jQuery(this).dialog("close"); },
+			"Annuler": function() { jQuery(this).dialog2("close"); },
 			"Ajouter": function(evt) {
 				if (jQuery("#folderName").attr("value").length > 0) {
 					var buttonDomElement = evt.target;
@@ -66,7 +44,7 @@ jQuery(document).ready(function(){
 						type: "POST",
 						data: { folderName: jQuery("#folderName").attr("value") },
 						success: function (data, textStatus, jqXHR) {
-							jQuery(this).dialog("close");
+							jQuery(this).dialog2("close");
 							jQuery("#form-addfolder").resetForm();
 							window.location.reload();
 						},
@@ -86,7 +64,7 @@ jQuery(document).ready(function(){
 
 	jQuery(".addfile").click(function() {
 		link = jQuery(this).closest("form").attr("action");
-		jQuery("#div-addfile").dialog('open');
+		jQuery("#div-addfile").dialog2('open');
 		return false;
 	});
 

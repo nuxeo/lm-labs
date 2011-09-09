@@ -9,12 +9,16 @@
         <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
 	</@block>
 	
 	<@block name="css">
 	  <@superBlock/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
         <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
 	</@block>
 
@@ -27,9 +31,7 @@
 
 	<#include "views/common/description_area.ftl">	
 
-	<#assign area_height=2 />
-    <#include "views/common/comment_area.ftl">
-
+	
     <input type="hidden" id="folderPath" value="" />
 
     <div class="classeur" id="${This.path}">
@@ -49,19 +51,17 @@
 				<div class="row">
 				  
 				  <div class="span16 columns">
-				    <a href="#" onclick="jQuery('#addfile_${folder.document.id}_modal').toggle();return false;" class="btn" >Ajouter un fichier</a>
+				    <a href="#" dialog="#addfile_${folder.document.id}_modal" class="btn open-dialog" >Ajouter un fichier</a>
+				    
+	    
 					<!-- This button submits the hidden delete form -->
 					<button type="submit" class="btn danger" onclick="$('#delete_${folder.document.id}').submit();return false;">${Context.getMessage('command.PageClasseur.deleteFolder')}</button>
 					
 					
-				    <div id="addfile_${folder.document.id}_modal" class="modal" style="display:none;" >
-					    <div class="modal-header">
-					      <h3>${Context.getMessage('command.PageClasseur.addFile')}</h3>					      
-					    </div> <!-- /modal-header -->
-	
-					    <form action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
+					<div id="addfile_${folder.document.id}_modal" class="dialog2" >
+					    <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
+					    <form class="ajax" action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
 						    <fieldset>
-						    <div class="modal-body">
 					    		<div class="clearfix">
 				                <label for="title">Choisir le fichier</label>
 				                  <div class="input">
@@ -75,28 +75,25 @@
 				                    <textarea name="description"></textarea>
 				                  </div>
 				                </div><!-- /clearfix -->
-					        </div>
 					        </fieldset>
-					        <div class="modal-footer">
-					        	<button type="submit" class="btn primary">Ajouter</button>
-					        	<button class="btn">Annuler</button>
-					        </div> <!-- /modal-footer -->   
+						    
+					    
+					    
+					    <div class="actions">
+					    	<button class="btn primary">Envoyer</button>
+					    </div>
 					    </form>
 					    
-					    <form id="delete_${folder.document.id}" onsubmit="return confirm('Voulez vous vraiment supprimer ce répertoire ?');" action="${This.path}/${folder.document.name}/@delete" method="get" enctype="multipart/form-data">
-					    </form>
   					</div> <!-- /modal -->
   					
+					    <form id="delete_${folder.document.id}" onsubmit="return confirm('Voulez vous vraiment supprimer ce répertoire ?');" action="${This.path}/${folder.document.name}/@delete" method="get" enctype="multipart/form-data">
+					    </form>
   					
   					
 				  </div>
 				  
 				</div>
 				</#if>
-		
-			
-			
-			
 		
 			<@displayChildren folder=folder />
 		</section> <!-- Folder -->
@@ -114,43 +111,8 @@
 
   
 
-	<div id="div-addfile" style="display: none;" title="${Context.getMessage('label.PageClasseur.form.title')}" >
-  <form enctype="multipart/form-data" id="form-addfile" action="" method="post">
-    <fieldset>
-      <p>
-        <label for="fileId" id="label_fichier">${Context.getMessage('label.PageClasseur.form.filename')}</label>
-      </p>
-      <#-- TODO
-      <p>
-        <span><input type="radio" name="radioFile" value="desktop" checked="checked">${Context.getMessage('label.PageClasseur.form.radio.desktop')}</input></span>
-      </p>
-      -->
-      <p>
-        <span><input type="file" size="33" id="fileId" name="simplefile"/></span>
-      </p>
-      <#-- TODO
-      <p>
-        <span><input type="radio" name="radioFile" value="web">${Context.getMessage('label.PageClasseur.form.radio.web')}</input></span>
-      </p>
-      <p>
-        <span><input type="text" size="35" id="fileUrl"/><input type="button" id="downloadFile" value="${Context.getMessage('command.PageClasseur.form.download')}"/></span>
-      </p>
-      <p>
-        <span>${Context.getMessage('label.PageClasseur.form.radio.web.displaytext')} <input type="text" size="35" id="displayText"/></span>
-      </p>
-      -->
-      <p>
-        <label for="description" id="label_description">${Context.getMessage('label.PageClasseur.form.description')}</label>
-      </p>
-      <p>
-        <textarea name="description" id="description" rows="4" cols="40" ></textarea>
-      </p>
-    </fieldset>
-  </form>
-</div>
 
 <div id="div-addfolder" style="display: none;" title="${Context.getMessage('label.PageClasseur.form.folder.title')}" >
-
   <form id="form-addfolder" action="${This.path}" method="post" onkeypress="return event.keyCode != 13;">
     <fieldset>
       <p>
