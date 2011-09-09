@@ -8,22 +8,22 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
 
 <#if !Context.principal.isAnonymous() && canWrite>
   <div class="editButton">
-    <button class="edit">${Context.getMessage('command.Page.CommentModify')}</button>
-    <button class="save">${Context.getMessage('command.Page.CommentSave')}</button>
-    <button class="cancel">${Context.getMessage('command.Page.CommentCancel')}</button>
+    <button class="edit btn small">${Context.getMessage('command.Page.CommentModify')}</button>
+    <button class="save primary btn small">${Context.getMessage('command.Page.CommentSave')}</button>
+    <button class="cancel btn small">${Context.getMessage('command.Page.CommentCancel')}</button>
   </div>
 
   <script type="text/javascript">
   var editorList = new Array();
 
   jQuery(document).ready(function() {
-      jQuery("button[class=edit]").click(function() {
+      jQuery("button.edit").click(function() {
           editMode();
     });
-    jQuery("button[class=save]").click(function() {
+    jQuery("button.save").click(function() {
       readonlyMode(true);
     });
-    jQuery("button[class=cancel]").click(function() {
+    jQuery("button.cancel").click(function() {
       readonlyMode(false);
     });
 
@@ -31,9 +31,9 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
   });
 
   function editMode() {
-    jQuery("button[class=edit]").hide();
-    jQuery("button[class=save]").show();
-    jQuery("button[class=cancel]").show();
+    jQuery("button.edit").hide();
+    jQuery("button.save").show();
+    jQuery("button.cancel").show();
 
     jQuery("#${form_name}").children('.formInput').each(function (i) {
       var val = jQuery(this).html();
@@ -68,9 +68,9 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
   }
 
   function readonlyMode(toBeSaved) {
-    jQuery("button[class=edit]").show();
-    jQuery("button[class=save]").hide();
-    jQuery("button[class=cancel]").hide();
+    jQuery("button.edit").show();
+    jQuery("button.save").hide();
+    jQuery("button.cancel").hide();
 
     jQuery("#${form_name}").children('.formInput').each(function (i) {
           var val = jQuery(this).children().val();
