@@ -18,23 +18,17 @@
     <!-- Page description buttons -->
     <link id="PageDescriptionModifyBt">
       <category>PAGE_DESCRIPTION_BEFORE_BUTTONS</category>
-      <type>PageClasseur</type>
-      <type>PageBlocs</type>
-      <guard>Write</guard>
+      <guard>permission=Write AND (type=PageClasseur OR type=PageBlocs)</guard>
     </link>
     
     <link id="PageDescriptionSaveBt">
       <category>PAGE_DESCRIPTION_AFTER_BUTTONS</category>
-      <type>PageClasseur</type>
-      <type>PageBlocs</type>
-      <guard>Write</guard>
+      <guard>permission=Write AND (type=PageClasseur OR type=PageBlocs)</guard>
     </link>
     
     <link id="PageDescriptionCancelBt">
       <category>PAGE_DESCRIPTION_AFTER_BUTTONS</category>
-      <type>PageClasseur</type>
-      <type>PageBlocs</type>
-      <guard>Write</guard>
+      <guard>permission=Write AND (type=PageClasseur OR type=PageBlocs)</guard>
     </link>
     
   </links>
