@@ -21,8 +21,8 @@
 	
   <@block name="content">
       <#-- SIDEBAR AREA --> 
-      <div id="container-fluid">
-      <div class="sidebar">
+      <div class="container-fluid">
+      <div id="sidebar" class="sidebar">
       	<#include "views/common/sidebar_area.ftl" />
       </div>
       
@@ -30,15 +30,16 @@
       <div class="content">
       <#include "views/common/description_area.ftl">
 	
+	
+		<div  class="span12 columns">
 	  <#include "views/common/comment_area.ftl">
-      
+		</div>
 
-      <div id="blocs" >
       <#------------------------------------maxNbLabsNews------------------------> 
       <#assign maxNbLabsNews = 5 />
       <#list This.children as root>
         <#if root.name != "welcome">
-        <div id="bloc${root_index}" class="bloc">
+        <div id="bloc${root_index}" class="bloc columns">
           <div class="blocTitle welcome">
           <a href="${This.previous.path}/${root.name}">${root.title}</a>
           </div>
@@ -63,12 +64,11 @@
 			    </#if>
             </ul>
           </div>
-        </div>
+        </div> <!-- bloc -->
         </#if>
       </#list>
 
-      </div>
-      </div>
-    </div>
+      </div> <!-- content -->
+    </div> <!-- container-fluid -->
   </@block>
 </@extends>	
