@@ -31,8 +31,11 @@ public class PageClasseurFolderResource extends DocumentObject {
             String desc = form.getString("description");
             Blob blob = form.getFirstBlob();
             try {
-                folder.addFile(blob, desc);
-                getCoreSession().save();
+                blob.persist();
+                if (blob.getLength() > 0) {
+                    folder.addFile(blob, desc);
+                    getCoreSession().save();
+                }
                 return redirect(prev.getPath());
             } catch (Exception e) {
                 return Response.serverError()

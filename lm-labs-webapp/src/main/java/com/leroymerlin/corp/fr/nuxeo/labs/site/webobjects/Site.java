@@ -187,10 +187,6 @@ public class Site extends DocumentObject {
             PathRef pathRef = new PathRef(LabsSiteUtils.getSiteTreePath(doc)
                     + "/" + path);
             DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
-            if (!Docs.pageDocs().contains(Docs.fromString(doc.getType()))) {
-                throw new WebException("Unsupported document type "
-                        + doc.getType());
-            }
             return (DocumentObject) ctx.newObject(doc.getType(), doc);
         } catch (Exception e) {
             throw WebException.wrap(e);
