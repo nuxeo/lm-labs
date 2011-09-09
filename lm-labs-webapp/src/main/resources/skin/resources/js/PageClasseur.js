@@ -1,5 +1,23 @@
 jQuery(document).ready(function(){
-	
+
+	// Select columns to sort
+	$("table[class*='classeurFiles']").tablesorter({ 
+	    	sortList: [[2,0]],
+	    	headers: {
+	    		0: {
+	    			sorter:false
+	    		},
+	    		1: {
+	    			sorter:false
+	    		},
+	    		6: {
+	    			sorter:false
+	    		}
+	    	}
+	    });
+	    
+    
+	    	
 	var nbPictUploaded=0;
 	var link ="";
 	jQuery("#div-addfile").dialog({

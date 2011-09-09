@@ -8,6 +8,7 @@
         <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
         <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
 	</@block>
 	
 	<@block name="css">
@@ -18,7 +19,11 @@
 	</@block>
 
 	<@block name="content">	
+	
+	
 	<div class="container">
+	
+
 
 	<#include "views/common/description_area.ftl">	
 
@@ -28,7 +33,7 @@
     <input type="hidden" id="folderPath" value="" />
 
     <div class="classeur" id="${This.path}">
-
+    
 	<#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
 	<#assign children = Session.getChildren(Document.ref, "Folder")>
 	
@@ -44,38 +49,46 @@
 				<div class="row">
 				  
 				  <div class="span16 columns">
-				    <div class="well">
-				    <form action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
-				    	<fieldset>
-				    		<legend>${Context.getMessage('command.PageClasseur.addFile')}</legend>
-				    		
-				    		<div class="clearfix">
-			                <label for="title">Choisir le fichier</label>
-			                  <div class="input">
-			                    <input type="file" name="file"/>
-			                  </div>
-			            
-			                </div><!-- /clearfix -->
-			                
-			                <div class="clearfix">
-			                <label for="description">Description</label>
-			                  <div class="input">
-			                    <textarea name="description"></textarea>
-			                  </div>
-			            
-			                </div><!-- /clearfix -->
-			                
-			                <div class="actions">
-			                	<button type="submit" class="btn primary">Envoyer</button>&nbsp;
-					            <!-- This button submits the hidden delete form -->
-					            <button type="submit" class="btn danger" onclick="$('#delete_${folder.document.id}').submit();return false;">${Context.getMessage('command.PageClasseur.deleteFolder')}</button>
-				    	</fieldset>
-			           
-				    </form>
-				    
-				    <form id="delete_${folder.document.id}" onsubmit="return confirm('Voulez vous vraiment supprimer ce répertoire ?');" action="${This.path}/${folder.document.name}/@delete" method="get" enctype="multipart/form-data">
-				    </form>
-  					</div>
+				    <a href="#" onclick="jQuery('#addfile_${folder.document.id}_modal').toggle();return false;" class="btn" >Ajouter un fichier</a>
+					<!-- This button submits the hidden delete form -->
+					<button type="submit" class="btn danger" onclick="$('#delete_${folder.document.id}').submit();return false;">${Context.getMessage('command.PageClasseur.deleteFolder')}</button>
+					
+					
+				    <div id="addfile_${folder.document.id}_modal" class="modal" style="display:none;" >
+					    <div class="modal-header">
+					      <h3>${Context.getMessage('command.PageClasseur.addFile')}</h3>					      
+					    </div> <!-- /modal-header -->
+	
+					    <form action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
+						    <fieldset>
+						    <div class="modal-body">
+					    		<div class="clearfix">
+				                <label for="title">Choisir le fichier</label>
+				                  <div class="input">
+				                    <input type="file" name="file"/>
+				                  </div>
+				                </div><!-- /clearfix -->
+				                
+				                <div class="clearfix">
+				                <label for="description">Description</label>
+				                  <div class="input">
+				                    <textarea name="description"></textarea>
+				                  </div>
+				                </div><!-- /clearfix -->
+					        </div>
+					        </fieldset>
+					        <div class="modal-footer">
+					        	<button type="submit" class="btn primary">Ajouter</button>
+					        	<button class="btn">Annuler</button>
+					        </div> <!-- /modal-footer -->   
+					    </form>
+					    
+					    <form id="delete_${folder.document.id}" onsubmit="return confirm('Voulez vous vraiment supprimer ce répertoire ?');" action="${This.path}/${folder.document.name}/@delete" method="get" enctype="multipart/form-data">
+					    </form>
+  					</div> <!-- /modal -->
+  					
+  					
+  					
 				  </div>
 				  
 				</div>
@@ -138,7 +151,7 @@
 
 <div id="div-addfolder" style="display: none;" title="${Context.getMessage('label.PageClasseur.form.folder.title')}" >
 
-  <form id="form-addfolder" action="${This.path}/addFolder" method="post" onkeypress="return event.keyCode != 13;">
+  <form id="form-addfolder" action="${This.path}" method="post" onkeypress="return event.keyCode != 13;">
     <fieldset>
       <p>
         <label for="folderName" id="label_folderName">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
@@ -162,13 +175,13 @@
       	<input type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
       </th>
       <th>&nbsp;</th>
-      <th>Filename</th>
-      <th>Size</th>
-      <th>Version</th>
-      <th>Modified</th>
-      <th>Creator</th>
+      <th>${Context.getMessage('label.PageClasseur.tableheader.filename')}</th>
+      <th>${Context.getMessage('label.PageClasseur.tableheader.size')}</th>
+      <#-- <th>${Context.getMessage('label.PageClasseur.tableheader.version')}</th> -->
+      <th>${Context.getMessage('label.PageClasseur.tableheader.modified')}</th>
+      <th>${Context.getMessage('label.PageClasseur.tableheader.creator')}</th>
       <th>&nbsp;</th>
-      </tr>
+    </tr>
   </thead>
   <tbody>
   <#list folder.files as child>
@@ -189,7 +202,7 @@
 	    <#assign filename = This.getBlobHolder(child).blob.filename >
 	    <td><span title="${child.dublincore.description}">${filename}</span></td>
 	    <td>${bytesFormat(This.getBlobHolder(child).blob.length, "K", "fr_FR")}</span></td>
-	    <td>${child.versionLabel}</span></td>
+	    <#-- <td>${child.versionLabel}</span></td> -->
 	    <td>${modifDateStr}</td>
 	    <td>${userFullName(child.dublincore.creator)}</td>
 	    <td>
