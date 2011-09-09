@@ -1,4 +1,3 @@
-<div id="sidebar">
     <#-- SITEMAP AREA --> 
     <#include "views/common/sitemap_area.ftl" />
 	<#-- SEARCHBOX --> 
@@ -8,4 +7,3 @@
     <#-- LASTEST UPLOADS AREA --> 
     <#include "views/common/latestuploads_area.ftl" />
       
-</div>
