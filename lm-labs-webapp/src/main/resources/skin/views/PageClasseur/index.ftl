@@ -30,7 +30,10 @@
 
 
 	<#include "views/common/description_area.ftl">	
-
+	
+	
+	<#assign area_height=2 />
+    <#include "views/common/comment_area.ftl">
 	
     <input type="hidden" id="folderPath" value="" />
 
@@ -58,7 +61,7 @@
 					<button type="submit" class="btn danger" onclick="$('#delete_${folder.document.id}').submit();return false;">${Context.getMessage('command.PageClasseur.deleteFolder')}</button>
 					
 					
-					<div id="addfile_${folder.document.id}_modal" class="dialog2" >
+					<div id="addfile_${folder.document.id}_modal" class="dialog2">
 					    <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
 					    <form class="ajax" action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
 						    <fieldset>
@@ -112,17 +115,28 @@
   
 
 
-<div id="div-addfolder" style="display: none;" title="${Context.getMessage('label.PageClasseur.form.folder.title')}" >
-  <form id="form-addfolder" action="${This.path}" method="post" onkeypress="return event.keyCode != 13;">
-    <fieldset>
-      <p>
-        <label for="folderName" id="label_folderName">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
-      </p>
-      <p>
-        <span><input type="text" size="35" name="folderName" id="folderName" /></span>
-      </p>
-    </fieldset>
-  </form>
+<div id="div-addfolder" style="display: none;" >
+    <h1>${Context.getMessage('label.PageClasseur.form.folder.title')}</h1>
+					    
+	<form class="ajax" action="${This.path}" method="post" enctype="multipart/form-data">
+	    <fieldset>
+			<div class="clearfix">
+	        <label for="folderName">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
+	          <div class="input">
+	            <input name="folderName"/>
+	          </div>
+	        </div><!-- /clearfix -->
+	    </fieldset>
+	    
+	
+	
+	<div class="actions">
+		<button class="btn primary">Envoyer</button>
+	</div>
+	</form>
+
+
+  
 </div>
 
 <#include "views/common/loading.ftl">
