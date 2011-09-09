@@ -3,8 +3,6 @@ div#content {
 	height: 100%;
 }
 div#comment {
-	float: left;
-	width: 900px;	
 	min-height: 70px;
 }
 

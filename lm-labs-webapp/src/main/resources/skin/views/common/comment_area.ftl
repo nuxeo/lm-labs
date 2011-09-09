@@ -1,3 +1,5 @@
+<div  class="row">
+<div  class="span16 columns">
 <div id="comment" <#if Session.hasPermission(Document.ref, 'Write') >class="well"</#if>>
   <div id="comment_form">
     <div id="commentField" class="formWysiwyg">${This.page.commentaire}</div>
@@ -21,4 +23,6 @@
     }
     </script>
   </div>
+</div>
+</div>
 </div>
