@@ -32,6 +32,7 @@ div#sidebar {
 .blocContent ul {
 	margin: 0 0 0 0.5em;
 	min-height: 1em;
+	list-style-type: none;
 }
 
 .bloc {
