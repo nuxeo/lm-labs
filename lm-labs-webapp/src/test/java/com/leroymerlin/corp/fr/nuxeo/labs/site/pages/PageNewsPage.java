@@ -72,7 +72,7 @@ public class PageNewsPage extends WebPage {
 
     public boolean canModifyDescription() {
         try {
-            WebElement element = findElement(By.xpath("//div[@class='editButton']/button[@class='edit']"), WAITING_TIME);
+            WebElement element = findElement(By.xpath("//div[@class='editButton']/button[contains(@class,'edit')]"), WAITING_TIME);
             if (element != null) {
                 return true;
             }
@@ -87,7 +87,7 @@ public class PageNewsPage extends WebPage {
     }
 
     public void displayModifyDescriptionOfPage() {
-            findElement(By.xpath("//div[@class='editButton']/button[@class='edit']"), WAITING_TIME).click();
+            findElement(By.xpath("//div[@class='editButton']/button[contains(@class,'edit')]"), WAITING_TIME).click();
     }
 
     public void displayEditWithModify() {
@@ -105,7 +105,7 @@ public class PageNewsPage extends WebPage {
     }
 
     public PageNewsPage clickSubmitDescriptionOfPage() {
-        WebElement button = findElement(By.xpath("//div[@class='editButton']/button[@class='save']"), WAITING_TIME);
+        WebElement button = findElement(By.xpath("//div[@class='editButton']/button[contains(@class,'save')]"), WAITING_TIME);
         button.click();
         return getPage(PageNewsPage.class);
     }
