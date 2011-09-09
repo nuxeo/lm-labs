@@ -36,7 +36,7 @@
 	<#list classeur.folders as folder>
 		<section class="${folder.document.type}" id="${folder.document.id}" >
 			<div class="page-header">
-				<h1>${folder.document.dublincore.title}</h1>
+				<h1><span title="${folder.document.dublincore.description}" >${folder.document.dublincore.title}</span></h1>
 			</div>
 
 			
