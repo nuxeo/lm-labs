@@ -80,15 +80,27 @@ public final class LabsSiteUtils {
                 new PathRef(getSiteTreePath(siteDoc)));
     }
 
+    // TODO unit test
+    public static DocumentModelList getChildren(final DocumentModel parentDoc)
+            throws ClientException {
+        return parentDoc.getCoreSession().query(
+                "SELECT * FROM Page WHERE ecm:parentId = '"
+                        + getSiteTree(getParentSite(parentDoc)).getId()
+                        + "'"
+                        + " AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
+    }
+
     /**
      * @param site
      * @return JSON representation of site's tree.
      * @throws ClientException if unable to retrieve children of site.
      * @throws IllegalArgumentException if site is <code>null</code>.
      */
-    public static Object getSiteMap(final DocumentModel site) throws ClientException, IllegalArgumentException {
+    public static Object getSiteMap(final DocumentModel site)
+            throws ClientException, IllegalArgumentException {
         if (site == null) {
-            throw new IllegalArgumentException("site's document model can not be null.");
+            throw new IllegalArgumentException(
+                    "site's document model can not be null.");
         }
         return site.getCoreSession().getChildren(site.getRef());
     }
@@ -96,16 +108,20 @@ public final class LabsSiteUtils {
     /**
      * @param parent
      * @return list of Page Document models.
-     * @throws ClientException if unable to retrieve Page document models under <code>parent</code>.
+     * @throws ClientException if unable to retrieve Page document models under
+     *             <code>parent</code>.
      * @throws IllegalArgumentException if parent is null.
      */
-    public static DocumentModelList getAllDoc(final DocumentModel parent) throws ClientException, IllegalArgumentException {
+    public static DocumentModelList getAllDoc(final DocumentModel parent)
+            throws ClientException, IllegalArgumentException {
         if (parent == null) {
-            throw new IllegalArgumentException("document model can not be null.");
+            throw new IllegalArgumentException(
+                    "document model can not be null.");
         }
 
-        return parent.getCoreSession().query("SELECT * FROM Page where ecm:path STARTSWITH '"
-                + parent.getPathAsString() + "'");
+        return parent.getCoreSession().query(
+                "SELECT * FROM Page where ecm:path STARTSWITH '"
+                        + parent.getPathAsString() + "'");
     }
 
     public static DocumentModel getParentSite(DocumentModel doc)
@@ -123,16 +139,19 @@ public final class LabsSiteUtils {
         throw new IllegalArgumentException("document '" + doc.getPathAsString()
                 + "' is not lacated in a site.");
     }
-    
+
     /**
      * @param document search starting point's {@link DocumentModel}
-     * @return the closest parent DocumentModel having schema "page" otherwise <code>document</code>.
+     * @return the closest parent DocumentModel having schema "page" otherwise
+     *         <code>document</code>.
      */
     public static DocumentModel getClosestPage(DocumentModel document) {
         DocumentModel parentDocument = document;
-        while (!LabsSiteConstants.Docs.DEFAULT_DOMAIN.type().equals(parentDocument.getType())) {
+        while (!LabsSiteConstants.Docs.DEFAULT_DOMAIN.type().equals(
+                parentDocument.getType())) {
             try {
-                parentDocument = document.getCoreSession().getParentDocument(parentDocument.getRef());
+                parentDocument = document.getCoreSession().getParentDocument(
+                        parentDocument.getRef());
                 if (parentDocument.hasSchema(Schemas.PAGE.getName())) {
                     return parentDocument;
                 }

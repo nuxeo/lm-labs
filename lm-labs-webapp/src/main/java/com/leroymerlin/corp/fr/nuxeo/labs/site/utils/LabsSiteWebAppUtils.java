@@ -41,12 +41,6 @@ public final class LabsSiteWebAppUtils {
                     "document model can not be null.");
         }
 
-        // if (onlyFolder
-        // && LabsSiteConstants.Docs.FOLDER.type().equals(
-        // ((DocumentModel) parent).getType())) {
-        // return "";
-        // }
-
         CoreSession session = parent.getCoreSession();
         DocumentModelList children = null;
 
@@ -116,7 +110,8 @@ public final class LabsSiteWebAppUtils {
      * @throws ClientException
      * @throws UnsupportedOperationException
      */
-    public static String buildEndUrl(DocumentModel doc) throws ClientException, UnsupportedOperationException {
+    public static String buildEndUrl(DocumentModel doc) throws ClientException,
+            UnsupportedOperationException {
         StringBuilder url = new StringBuilder();
         CoreSession session = doc.getCoreSession();
         DocumentModel parent = session.getParentDocument(doc.getRef());
@@ -133,10 +128,13 @@ public final class LabsSiteWebAppUtils {
                 url.append("/doc/").append(doc.getId());
                 url.append("/@blob/preview");
             } else if (Docs.LABSNEWS.type().equals(doc.getType())) {
-                DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
+                DocumentModel pageDoc = parent.getCoreSession().getDocument(
+                        parent.getRef());
                 url.append(buildPageEndUrl(pageDoc));
-            } else if (Docs.FOLDER.type().equals(doc.getType()) && parent.hasSchema(Schemas.PAGE.getName())) {
-                DocumentModel pageDoc = parent.getCoreSession().getDocument(parent.getRef());
+            } else if (Docs.FOLDER.type().equals(doc.getType())
+                    && parent.hasSchema(Schemas.PAGE.getName())) {
+                DocumentModel pageDoc = parent.getCoreSession().getDocument(
+                        parent.getRef());
                 url.append(buildPageEndUrl(pageDoc));
             } else {
                 throw new UnsupportedOperationException(
@@ -159,14 +157,16 @@ public final class LabsSiteWebAppUtils {
                 doc.getRef());
         return Docs.FOLDER.type().equals(parent.getType())
                 && parent.getCoreSession().getDocument(parent.getParentRef()).hasSchema(
-                        Schemas.PAGE.getName()) && doc.getAdapter(BlobHolder.class) != null;
+                        Schemas.PAGE.getName())
+                && doc.getAdapter(BlobHolder.class) != null;
     }
 
     private static String getHref(final String url, final String text) {
         StringBuilder result = new StringBuilder();
         result.append("<a href='");
         result.append(url);
-        result.append("' onclick='window.open(this.href);return false;'>").append(text).append("</a>");
+        result.append("' onclick='window.open(this.href);return false;'>").append(
+                text).append("</a>");
         return result.toString();
     }
 
@@ -195,14 +195,16 @@ public final class LabsSiteWebAppUtils {
                 null, props, "");
         return pp;
     }
-    
+
     /**
      * @param doc
      * @return
-     * @throws InvalidArgumentException when doc is not a <code>DocumentModel</code> having schema <code>page</code>
+     * @throws InvalidArgumentException when doc is not a
+     *             <code>DocumentModel</code> having schema <code>page</code>
      * @throws ClientException when unable to get page title
      */
-    public static String buildPageEndUrl(final DocumentModel doc) throws InvalidArgumentException, ClientException {
+    public static String buildPageEndUrl(final DocumentModel doc)
+            throws InvalidArgumentException, ClientException {
         if (!doc.hasSchema(LabsSiteConstants.Schemas.PAGE.getName())) {
             throw new InvalidArgumentException();
         }

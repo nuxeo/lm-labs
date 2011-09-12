@@ -43,9 +43,9 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 @WebObject(type = "PageBlocs")
 @Produces("text/html; charset=UTF-8")
 public class PageBlocs extends Page {
-    
+
     public static final String SITE_VIEW = "index";
-    
+
     private static final Log LOG = LogFactory.getLog(PageBlocs.class);
 
     @GET
@@ -60,51 +60,55 @@ public class PageBlocs extends Page {
         }
         return template;
     }
-    
-    
+
     public List<DocumentModel> getChildren() {
         try {
-            return getCoreSession().query("SELECT * FROM Page WHERE ecm:parentId = '" + LabsSiteUtils.getSiteTree(LabsSiteUtils.getParentSite(doc)).getId() + "'"
-                    + " AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
+            return LabsSiteUtils.getChildren(doc);
         } catch (ClientException e) {
             LOG.error(e, e);
         }
         return new DocumentModelListImpl();
     }
 
-    public ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews> getNews(String pRef) throws ClientException {
+    public ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews> getNews(
+            String pRef) throws ClientException {
         ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews> listNews = new ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews>();
-        CoreSession session = getCoreSession();  
-        DocumentModelList listDoc = session.getChildren(new IdRef(pRef), LabsSiteConstants.Docs.LABSNEWS.type(), null, new PageNewsFilter(Calendar.getInstance()), new PageNewsSorter());
-        for (DocumentModel doc:listDoc){
+        CoreSession session = getCoreSession();
+        DocumentModelList listDoc = session.getChildren(new IdRef(pRef),
+                LabsSiteConstants.Docs.LABSNEWS.type(), null,
+                new PageNewsFilter(Calendar.getInstance()),
+                new PageNewsSorter());
+        for (DocumentModel doc : listDoc) {
             com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews news = doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews.class);
             listNews.add(news);
         }
         return listNews;
     }
-    
+
     public ArrayList<ExternalURL> getExternalURLs() throws ClientException {
         ArrayList<ExternalURL> listExtURL = new ArrayList<ExternalURL>();
         DocumentModelList listDoc = null;
         Sorter extURLSorter = new ExternalURLSorter();
-        listDoc = getCoreSession().getChildren(doc.getRef(), LabsSiteConstants.Docs.EXTERNAL_URL.type(), null, null, extURLSorter);
-        for (DocumentModel doc:listDoc){
+        listDoc = getCoreSession().getChildren(doc.getRef(),
+                LabsSiteConstants.Docs.EXTERNAL_URL.type(), null, null,
+                extURLSorter);
+        for (DocumentModel doc : listDoc) {
             ExternalURL extURL = doc.getAdapter(ExternalURL.class);
             listExtURL.add(extURL);
         }
         return listExtURL;
     }
-    
 
     @POST
-    @Path(value="persistExternalURL")
-    public Object addExternalURL(
-            @FormParam("extUrlName") String pName,
+    @Path(value = "persistExternalURL")
+    public Object addExternalURL(@FormParam("extUrlName") String pName,
             @FormParam("extURLURL") String pURL,
-            @FormParam("extURLOrder") int pOrder){
+            @FormParam("extURLOrder") int pOrder) {
         CoreSession session = ctx.getCoreSession();
         try {
-            DocumentModel docExtURL = session.createDocumentModel(doc.getPathAsString(), pName, LabsSiteConstants.Docs.EXTERNAL_URL.type());
+            DocumentModel docExtURL = session.createDocumentModel(
+                    doc.getPathAsString(), pName,
+                    LabsSiteConstants.Docs.EXTERNAL_URL.type());
             ExternalURL extURL = docExtURL.getAdapter(ExternalURL.class);
             extURL.setName(pName);
             extURL.setURL(pURL);
@@ -118,12 +122,11 @@ public class PageBlocs extends Page {
     }
 
     @POST
-    @Path(value="persistExternalURL/{idExt}")
-    public Object modifyExternalURL(
-            @FormParam("extUrlName") String pName,
+    @Path(value = "persistExternalURL/{idExt}")
+    public Object modifyExternalURL(@FormParam("extUrlName") String pName,
             @FormParam("extURLURL") String pURL,
             @FormParam("extURLOrder") int pOrder,
-            @PathParam("idExt") final String pId){
+            @PathParam("idExt") final String pId) {
         CoreSession session = ctx.getCoreSession();
 
         try {
@@ -142,7 +145,8 @@ public class PageBlocs extends Page {
 
     @DELETE
     @Path("deleteExternalURL/{idExt}")
-    public Object doDeleteNews(@PathParam("idExt") final String pId) throws ClientException {
+    public Object doDeleteNews(@PathParam("idExt") final String pId)
+            throws ClientException {
         CoreSession session = ctx.getCoreSession();
         DocumentModel document = session.getDocument(new IdRef(pId));
         try {
