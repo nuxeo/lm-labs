@@ -32,7 +32,7 @@ public class HtmlSectionElt {
     }
 
     public void remove() {
-        WebElement deleteBtn = sectionElt.findElement(By.xpath("//form[contains(@id,'editsection_')]//button[contains(@class,'danger')]"));
+        WebElement deleteBtn = sectionElt.findElement(By.xpath("//button[contains(@class,'danger')]"));
         deleteBtn.click();
         Alert alert = driver.switchTo()
                 .alert();

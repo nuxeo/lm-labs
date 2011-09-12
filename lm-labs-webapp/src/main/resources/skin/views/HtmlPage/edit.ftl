@@ -11,7 +11,9 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script> 
         <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
         <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
 	</@block>
@@ -33,6 +35,30 @@
 	</@block>
 
 	<@block name="content">	
+	
+	<script type="text/javascript">
+	var ckeditorconfig = {
+		filebrowserBrowseUrl : '${This.path}/displayBrowseTree',
+		filebrowserImageBrowseUrl : '${This.path}/displayBrowseTree',
+		filebrowserFlashBrowseUrl : '${This.path}/displayBrowseTree',
+		filebrowserUploadUrl : '${This.path}/displayBrowseTree',
+		filebrowserImageUploadUrl : '${This.path}/displayBrowseTree',
+		filebrowserFlashUploadUrl : '${This.path}/displayBrowseTree',
+		toolbar:
+		[
+		['Source','-','Preview','-'],
+		['Cut','Copy','Paste','PasteText','PasteFromWord'],
+		
+		['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+		'/',
+		[ 'Bold','Italic','Strike','-','SelectAll','RemoveFormat'],
+		[ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar' ] ,'/',
+		['Format','Font','FontSize'],
+		['TextColor','BGColor'],
+		['Maximize', 'ShowBlocks','-']
+		]
+		};
+	</script>
 
   
        <div class="container">
@@ -58,7 +84,10 @@
   		    <a href="#" dialog="#editsection_${section_index}" class="btn open-dialog" >Modifier la section</a>
   		    <!-- This button submits the hidden delete form -->
 	        <button type="submit" class="btn danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
-  		    <div class="dialog2" id="editsection_${section_index}" >    
+	        
+	        
+  		    <div class="dialog2" id="editsection_${section_index}" >
+  		    <h1>Modifier la section</h1>    
 			<form action="${This.path}/s/${section_index}" method="post">
 			<input type="hidden" name="action" value="editsection"/>
 			<fieldset>
@@ -104,12 +133,20 @@
   		    <div class="row" id="row_s${section_index}_r${row_index}">
               <#list row.contents as content>
               <div class="span${content.colNumber} columns">
-                ${content.html}
-                <a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
+                <div id="s_${section_index}_r_${row_index}_c_${content_index}">${content.html}</div>
+                <script type="text/javascript">
+                	$('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
+                		e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
+                		ckeditor_config: ckeditorconfig
+                		});
+                </script>
+                <noscript>
+                	<a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
+                </noscript>
               </div>
               </#list>
               
-               <div>
+               <div style="margin-left:20px" class="editblock">
 	        		<form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
 	                  <button type="submit" class="btn small danger">Supprimer la ligne</button>
 	                </form>
@@ -157,11 +194,11 @@
 		
 		
 		<#-- Add Section -->
-		<a href="#" dialog="#addsection" class="btn open-dialog" >Ajouter une section</a>
+		<a id="addsectionlink" href="#" dialog="#addsection" class="btn open-dialog editblock" >Ajouter une section</a>
 		
 		<div id="addsection" class="dialog2">
 		<h1>Ajouter une section</h1>
-		<form  action="${This.path}" method="post">
+		<form  id="addsectionfrm" action="${This.path}" method="post">
 			<fieldset>
 	          <div class="clearfix">
 	            <label for="title">Titre</label>
@@ -183,7 +220,6 @@
 	          </div><!-- /clearfix -->
 	          <div class="actions">
 	            <button type="submit" class="btn small primary">Ajouter</button>&nbsp;
-	            <button type="reset" class="btn small">Annuler</button>
 	          </div>
 	          </legend>
 	         </fieldset>
