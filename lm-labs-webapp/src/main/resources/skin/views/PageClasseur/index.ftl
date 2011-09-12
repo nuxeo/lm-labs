@@ -134,7 +134,9 @@
   <thead>
     <tr>
       <th>
+      <#if canWrite>
       	<input type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
+      </#if>
       </th>
       <th>&nbsp;</th>
       <th>${Context.getMessage('label.PageClasseur.tableheader.filename')}</th>
@@ -165,8 +167,8 @@
 	    <td><span title="${child.dublincore.description}">${filename}</span></td>
 	    <td>${bytesFormat(This.getBlobHolder(child).blob.length, "K", "fr_FR")}</span></td>
 	    <#-- <td>${child.versionLabel}</span></td> -->
-	    <td>${modifDateStr}</td>
-	    <td>${userFullName(child.dublincore.creator)}</td>
+	    <td><span title="${modifDateStr}" >${Context.getMessage('label.PageClasseur.table.dateInWordsFormat', dateInWords(modifDate))}</span></td>
+	    <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
 	    <td>
 			<#if canWrite>
 	        	<button class="btn danger" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
