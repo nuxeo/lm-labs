@@ -7,16 +7,16 @@ import javax.ws.rs.core.Response;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.Page;
 
 @WebObject(type = "HtmlPage")
-public class WebHtmlPage extends DocumentObject {
+public class WebHtmlPage extends Page {
 
     @Override
     public void initialize(Object... args) {
@@ -24,7 +24,7 @@ public class WebHtmlPage extends DocumentObject {
 
         RenderingEngine rendering = ctx.getEngine()
                 .getRendering();
-        rendering.setSharedVariable("page", getPage());
+        rendering.setSharedVariable("page", getHtmlPage());
     }
 
     @POST
@@ -36,7 +36,7 @@ public class WebHtmlPage extends DocumentObject {
             String title = form.getString("title");
             String description = form.getString("description");
 
-            HtmlSection section = getPage().addSection();
+            HtmlSection section = getHtmlPage().addSection();
             section.setTitle(title);
             section.setDescription(description);
 
@@ -53,7 +53,7 @@ public class WebHtmlPage extends DocumentObject {
     @Path("s/{index}")
     public Object getSection(@PathParam("index") int sectionIndex) {
         try {
-            HtmlSection section = getPage().section(sectionIndex);
+            HtmlSection section = getHtmlPage().section(sectionIndex);
             return newObject("HtmlSection", doc, section);
         } catch (ClientException e) {
             return Response.serverError()
@@ -67,7 +67,7 @@ public class WebHtmlPage extends DocumentObject {
         session.save();
     }
 
-    private HtmlPage getPage() {
+    private HtmlPage getHtmlPage() {
         return doc.getAdapter(HtmlPage.class);
     }
 

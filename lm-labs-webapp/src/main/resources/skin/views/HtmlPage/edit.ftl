@@ -6,7 +6,10 @@
 	  <@superBlock/>
 	  
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script> 
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script> 
         <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
         <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
@@ -18,6 +21,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/js/assets/prettify/prettify.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageHtml.css"/>
 
 	</@block>
@@ -33,11 +37,14 @@
   
        <div class="container">
 
+<#include "views/common/description_area.ftl">	
+	
+	
+	<#assign area_height=2 />
+    <#include "views/common/comment_area.ftl">
+	    
     
     
-    
-		<h1>${page.title}</h1>
-		${page.description}
 		
 		<#list page.sections as section>
 		<section id="section_${section_index}">
@@ -145,11 +152,12 @@
 		
 		
 		<#-- Add Section -->
+		<a href="#" dialog="#addsection" class="btn open-dialog" >Ajouter une section</a>
 		
-		<div class="well editblock">
-		<form id="addsection" action="${This.path}" method="post">
+		<div id="addsection" class="dialog2">
+		<h1>Ajouter une section</h1>
+		<form  action="${This.path}" method="post">
 			<fieldset>
-	          <legend>Ajouter une section</legend>
 	          <div class="clearfix">
 	            <label for="title">Titre</label>
 	            <div class="input">
@@ -169,7 +177,8 @@
 	            </div>
 	          </div><!-- /clearfix -->
 	          <div class="actions">
-	            <button type="submit" class="btn small primary">Ajouter</button>&nbsp;<button type="reset" class="btn small">Annuler</button>
+	            <button type="submit" class="btn small primary">Ajouter</button>&nbsp;
+	            <button type="reset" class="btn small">Annuler</button>
 	          </div>
 	          </legend>
 	         </fieldset>
