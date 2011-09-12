@@ -43,7 +43,7 @@
 	<#assign area_height=2 />
     <#include "views/common/comment_area.ftl">
 	    
-    
+<div style="clear:both;"></div>    
     
 		
 		<#list page.sections as section>
@@ -52,9 +52,14 @@
             <h1>${section.title} <small>${section.description}</small></h1>
   		  </div>
   	
+  	
+  		  
   		  <div class="well editblock">
-  		    
-			<form id="editsection_${section_index}" action="${This.path}/s/${section_index}" method="post">
+  		    <a href="#" dialog="#editsection_${section_index}" class="btn open-dialog" >Modifier la section</a>
+  		    <!-- This button submits the hidden delete form -->
+	        <button type="submit" class="btn danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
+  		    <div class="dialog2" id="editsection_${section_index}" >    
+			<form action="${This.path}/s/${section_index}" method="post">
 			<input type="hidden" name="action" value="editsection"/>
 			<fieldset>
 	          <legend>Modifier la section</legend>
@@ -79,12 +84,12 @@
 	          <div class="actions">
 	            <button type="submit" class="btn primary">Modifier</button>&nbsp;
 	            
-	            <!-- This button submits the hidden delete form -->
-	            <button type="submit" class="btn danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
+	            
 	          </div>
 	          </legend>
 	         </fieldset>
 	       </form>
+	       </div>
 	       
 		   <!-- Hidden form to handle delete action -->	       
 	       <form action="${This.path}/s/${section_index}/@delete" method="get" id="frm_section_${section_index}_delete">
