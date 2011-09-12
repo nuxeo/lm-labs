@@ -19,9 +19,7 @@
 	<@block name="content">
 		<div id="content">
 			<h1>PLAN DU SITE</h1>
-		    <div>
-		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
-		    </div>
+		    <#include "views/LabsSite/sitemap_switch_control.ftl">	
 		    <div id="treeviewControl">
 		    	<a href="#" id="reduceLink">Tout réduire</a>
 		    </div>

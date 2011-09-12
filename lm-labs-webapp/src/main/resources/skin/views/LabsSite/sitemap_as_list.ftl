@@ -19,9 +19,7 @@
 	<@block name="content">
 		<div id="content">
 			<h1>PLAN DU SITE</h1>
-		    <div>
-		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
-		    </div>
+		    <#include "views/LabsSite/sitemap_switch_control.ftl">	
 		    <table id="sitemapList">
 		    	<tr><th>Elément</th><th>Créé par</th><th>Dernière mise à jour par</th></tr>
 			    <#list allDoc as doc>
@@ -32,9 +30,7 @@
 			    	</tr>
 			    </#list>
 			</table>
-		    <div>
-		    	<a href="${This.path}/siteMap"><button id="treeButton">Arborescence</button></a> <a href="${This.path}/siteMapAsList"><button id="listButton">Liste</button></a>
-		    </div>
+		    <#include "views/LabsSite/sitemap_switch_control.ftl">	
 		</div>
 	</@block>
 </@extends>	
