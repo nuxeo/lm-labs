@@ -8,9 +8,9 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
 
 <#if !Context.principal.isAnonymous() && canWrite>
   <div class="editButton">
-    <button class="edit btn small">${Context.getMessage('command.Page.CommentModify')}</button>
-    <button class="save primary btn small">${Context.getMessage('command.Page.CommentSave')}</button>
-    <button class="cancel btn small">${Context.getMessage('command.Page.CommentCancel')}</button>
+    <button id="editCommentButton" class="edit btn small">${Context.getMessage('command.Page.CommentModify')}</button>
+    <button id="saveCommentButton" class="save primary btn small">${Context.getMessage('command.Page.CommentSave')}</button>
+    <button id="cancelCommentButton" class="cancel btn small">${Context.getMessage('command.Page.CommentCancel')}</button>
   </div>
 
   <script type="text/javascript">

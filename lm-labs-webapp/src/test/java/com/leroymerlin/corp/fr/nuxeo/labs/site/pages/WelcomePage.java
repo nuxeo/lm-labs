@@ -10,6 +10,7 @@ import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.TimeoutException;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.it.SearchResultsPage;
 
 public class WelcomePage extends WebPage {
@@ -43,6 +44,15 @@ public class WelcomePage extends WebPage {
     public boolean hasAddExternalURL() {
         try {
             this.waitUntilElementFound(By.id("addExternalURL"), WAITING_TIME);
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public boolean hasEditCommentButton() {
+        try {
+            this.waitUntilElementFound(By.id("editCommentButton"), WAITING_TIME);
             return true;
         } catch (TimeoutException e) {
             return false;
@@ -117,6 +127,28 @@ public class WelcomePage extends WebPage {
         }
     }
 
+    public void clickEditCommentButton() {
+        try {
+            WebElement element = findElement(By.id("editCommentButton"),
+                    WAITING_TIME);
+            if (element != null) {
+                element.click();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void clickSaveCommentButton() {
+        try {
+            WebElement element = findElement(By.id("saveCommentButton"),
+                    WAITING_TIME);
+            if (element != null) {
+                element.click();
+            }
+        } catch (Exception e) {
+        }
+    }
+
     public boolean hasMyExternalURL(String pName, String pURL) {
         try {
             String xpath = "//div[@id='div_externalURL']/ul/li/a";
@@ -179,6 +211,42 @@ public class WelcomePage extends WebPage {
         }
     }
 
+    public void setCommentField(final String value) {
+        try {
+            WebElement element = Tools.getContentElementInCheckEditor(this,
+                    "comment_form_commentField");
+            if (element != null) {
+                element.sendKeys(value);
+            }
+            Tools.returnToDefaultContent(this);
+        } catch (Exception e) {
+            System.out.println("error while finding comment field: "
+                    + e.getMessage());
+        }
+    }
+
+    public boolean commentFieldHasChanged(final String expectedValue) {
+        try {
+            List<WebElement> elements = findElements(By.id("commentField"));
+            if (!elements.isEmpty()) {
+                for (WebElement element : elements) {
+                    String innerHTML = element.getText();
+                    // Contains and not equals because i can't delete the before
+                    // text if it's not empty.
+                    if (innerHTML != null && innerHTML.contains(expectedValue)) {
+                        Tools.returnToDefaultContent(this);
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Tools.returnToDefaultContent(this);
+            return false;
+        }
+        Tools.returnToDefaultContent(this);
+        return false;
+    }
+
     public void clickSubmitBanner() {
         try {
             String xpath = "//div[@class='ui-dialog ui-widget ui-widget-content ui-corner-all modify-banner ui-draggable ui-resizable']";
@@ -236,11 +304,11 @@ public class WelcomePage extends WebPage {
         List<WebElement> blocs = this.findElements(By.className("bloc"));
         return !blocs.isEmpty();
     }
-    
+
     public List<WebElement> getLatestUploads() {
         return findElements(By.xpath("//div[contains(@class,'latestuploads')]/ul/li"));
     }
-    
+
     public boolean hasLatestUploads() {
         return !getLatestUploads().isEmpty();
     }
