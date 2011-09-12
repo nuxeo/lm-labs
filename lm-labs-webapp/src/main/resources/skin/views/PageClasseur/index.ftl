@@ -63,7 +63,7 @@
 					
 					<div id="addfile_${folder.document.id}_modal" class="dialog2">
 					    <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
-					    <form class="ajax" action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
+					    <form action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
 						    <fieldset>
 					    		<div class="clearfix">
 				                <label for="title">Choisir le fichier</label>
