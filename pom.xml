@@ -351,6 +351,18 @@
 
       <dependency>
         <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
+        <artifactId>lm-nuxeo-common-core</artifactId>
+        <version>${lm.nuxeo.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
+        <artifactId>lm-nuxeo-common-webapp</artifactId>
+        <version>${lm.nuxeo.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
         <artifactId>lm-portal-user</artifactId>
         <version>${lm.nuxeo.version}</version>
       </dependency>

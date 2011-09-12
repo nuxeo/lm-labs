@@ -34,11 +34,12 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 
+import com.leroymerlin.common.freemarker.DateInWordsMethod;
+import com.leroymerlin.common.freemarker.BytesFormatTemplateMethod;
+import com.leroymerlin.common.freemarker.UserFullNameTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.BreadcrumbsArrayTemplateMethod;
-import com.leroymerlin.corp.fr.nuxeo.freemarker.BytesFormatTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.PageEndUrlTemplateMethod;
-import com.leroymerlin.corp.fr.nuxeo.freemarker.UserFullNameTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
@@ -81,6 +82,7 @@ public class SitesRoot extends ModuleRoot {
             fm.setSharedVariable("latestUploadsPageProvider",
                     new LatestUploadsPageProviderTemplateMethod());
             fm.setSharedVariable("userFullName", new UserFullNameTemplateMethod());
+            fm.setSharedVariable("dateInWords", new DateInWordsMethod());
         }
     }
 
