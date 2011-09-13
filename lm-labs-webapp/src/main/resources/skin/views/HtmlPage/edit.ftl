@@ -143,6 +143,7 @@
                 <noscript>
                 	<a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
                 </noscript>
+                &nbsp; <!-- Needed to give an empty cell a content -->
               </div>
               </#list>
               

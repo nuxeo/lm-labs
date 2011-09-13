@@ -13,6 +13,8 @@ public enum RowTemplate {
 			"3COL"), R4COL("4COL");
 
 	private final String value;
+	
+	private static final String NO_CONTENT = "";
 
 	private RowTemplate(String value) {
 		this.value = value;
@@ -38,30 +40,30 @@ public enum RowTemplate {
 			content.remove();
 		}
 
-		String dummy = "DummyContent";
+		
 		switch (template) {
 
 		case R2COL_2575:
-			row.addContent(4, dummy);
-			row.addContent(12, dummy);
+			row.addContent(4, NO_CONTENT);
+			row.addContent(12, NO_CONTENT);
 			break;
 		case R2COL_7525:
-			row.addContent(12, dummy);
-			row.addContent(4, dummy);
+			row.addContent(12, NO_CONTENT);
+			row.addContent(4, NO_CONTENT);
 			break;
 		case R3COL:
-			row.addContent(5, dummy);
-			row.addContent(5, dummy);
-			row.addContent(6, dummy);
+			row.addContent(5, NO_CONTENT);
+			row.addContent(5, NO_CONTENT);
+			row.addContent(6, NO_CONTENT);
 			break;
 		case R4COL:
-			row.addContent(4, dummy);
-			row.addContent(4, dummy);
-			row.addContent(4, dummy);
-			row.addContent(4, dummy);
+			row.addContent(4, NO_CONTENT);
+			row.addContent(4, NO_CONTENT);
+			row.addContent(4, NO_CONTENT);
+			row.addContent(4, NO_CONTENT);
 			break;
 		default:
-			row.addContent(16, dummy);
+			row.addContent(16, NO_CONTENT);
 			break;
 		}
 
