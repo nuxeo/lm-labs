@@ -11,9 +11,9 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.Filter;
 
+import com.leroymerlin.common.core.periode.PeriodInvalidException;
+import com.leroymerlin.common.core.periode.Periode;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
-import com.leroymerlin.corp.fr.nuxeo.portal.periode.PeriodInvalidException;
-import com.leroymerlin.corp.fr.nuxeo.portal.periode.Periode;
 
 /**
  * @author fvandaele
