@@ -60,7 +60,7 @@ public final class LabsSiteUtils {
     }
 
     public static String getSitesRootPath() {
-        return "/" + Docs.DEFAULT_DOMAIN.docName() 
+        return "/" + Docs.DEFAULT_DOMAIN.docName() + "/"
                 + Docs.SITESROOT.docName();
     }
 
