@@ -63,7 +63,7 @@ public class PageBlocs extends Page {
 
     public List<DocumentModel> getChildren() {
         try {
-            return LabsSiteUtils.getChildren(doc);
+            return LabsSiteUtils.getTreeChildren(doc);
         } catch (ClientException e) {
             LOG.error(e, e);
         }

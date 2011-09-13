@@ -1,6 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -157,7 +156,7 @@ public final class LabsSiteUtilsTest {
         assertTrue(treePath.contains("/MonSite/"));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void iCannotGetTreePathOfNonSite() throws Exception {
         DocumentModel welcomePage = session.getDocument(new PathRef(
                 LabsSiteUtils.getSitesRootPath() + "/MonSite/tree/welcome"));
@@ -213,29 +212,46 @@ public final class LabsSiteUtilsTest {
         assertEquals(site.getId(),
                 LabsSiteUtils.getParentSite(pageClasseur).getId());
     }
-    
-    @Test(expected=IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void iCannotGetParentSiteOfSitesRoot() throws Exception {
         LabsSiteUtils.getParentSite(LabsSiteUtils.getSitesRoot(session));
     }
-    
+
     @Test
     public void testGetClosestPage() throws Exception {
         final String siteName = "monsite";
-        assertEquals(LabsSiteUtils.getSitesRoot(session), LabsSiteUtils.getClosestPage(LabsSiteUtils.getSitesRoot(session)));
+        assertEquals(
+                LabsSiteUtils.getSitesRoot(session),
+                LabsSiteUtils.getClosestPage(LabsSiteUtils.getSitesRoot(session)));
         DocumentModel pageClasseur = session.getDocument(new PathRef(
                 LabsSiteUtils.getSitesRootPath() + "/" + siteName + "/"
                         + Docs.TREE.docName() + "/page1"));
         assertEquals(pageClasseur, LabsSiteUtils.getClosestPage(pageClasseur));
 
-        DocumentModel folder = session.createDocumentModel(pageClasseur.getPathAsString(), "folder", "Folder");
+        DocumentModel folder = session.createDocumentModel(
+                pageClasseur.getPathAsString(), "folder", "Folder");
         folder = session.createDocument(folder);
         assertEquals(pageClasseur, LabsSiteUtils.getClosestPage(folder));
-        
-        DocumentModel file = session.createDocumentModel(pageClasseur.getPathAsString(), "file", "File");
+
+        DocumentModel file = session.createDocumentModel(
+                pageClasseur.getPathAsString(), "file", "File");
         file = session.createDocument(file);
         assertEquals(pageClasseur, LabsSiteUtils.getClosestPage(file));
-        
+
+    }
+
+    @Test
+    public void canGetChildren() throws Exception {
+        generateSite();
+        DocumentModel sub2_1 = session.getDocument(new PathRef("/"
+                + Docs.DEFAULT_DOMAIN.docName() + "/"
+                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME + "/"
+                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName() + "/folder2/sub2_1"));
+        assertNotNull(sub2_1);
+        DocumentModelList children = LabsSiteUtils.getTreeChildren(sub2_1);
+        assertNotNull(children);
+        assertEquals(1, children.size());
     }
 
     protected void changeUser(String username) throws ClientException {

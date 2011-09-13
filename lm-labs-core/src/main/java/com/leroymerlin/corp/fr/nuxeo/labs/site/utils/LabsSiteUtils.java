@@ -80,8 +80,7 @@ public final class LabsSiteUtils {
                 new PathRef(getSiteTreePath(siteDoc)));
     }
 
-    // TODO unit test
-    public static DocumentModelList getChildren(final DocumentModel parentDoc)
+    public static DocumentModelList getTreeChildren(final DocumentModel parentDoc)
             throws ClientException {
         return parentDoc.getCoreSession().query(
                 "SELECT * FROM Page WHERE ecm:parentId = '"
