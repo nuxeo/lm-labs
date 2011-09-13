@@ -16,57 +16,33 @@ jQuery(document).ready(function(){
 	    	}
 	    });
 	    
-    $(".dialog2").dialog2({
-        showCloseHandle: false,
-        removeOnClose: false, 
-        autoOpen: false
+    $(".dialog2").each(function() {
+    	$(this).dialog2({
+	        showCloseHandle: false,
+	        removeOnClose: true, 
+	        autoOpen: false
+	    });
     });
 
     $(".open-dialog").click(function(event) {
         event.preventDefault();
-        var dialogId = $(this).attr("dialog");
+        dialogId = $(this).attr("dialog");
         $(dialogId).dialog2("open");
     });
 	    	
 	var nbPictUploaded=0;
 	var link ="";
 	
-	jQuery("#div-addfolder").dialog({
+	jQuery("#div-addfolder").dialog2({
 		open: function() {},
 		buttons: {
-			"Annuler": function() { jQuery(this).dialog2("close"); },
-			"Ajouter": function(evt) {
-				if (jQuery("#folderName").attr("value").length > 0) {
-					var buttonDomElement = evt.target;
-					$(buttonDomElement).attr('disabled', true);
-					jQuery.ajax({
-						url: jQuery('#form-addfolder').attr("action"),
-						type: "POST",
-						data: { folderName: jQuery("#folderName").attr("value") },
-						success: function (data, textStatus, jqXHR) {
-							jQuery(this).dialog2("close");
-							jQuery("#form-addfolder").resetForm();
-							window.location.reload();
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
-							alert(errorThrown + ": " + "," + jqXHR.responseText);
-							$(buttonDomElement).attr('disabled', false);
-						}
-					});
-					return true;
-				}
-			}
+			"Annuler": function() { jQuery(this).dialog2("close"); }
 		},
 		width: 400,
 		modal: true,
 		autoOpen: false
 	});
 
-	jQuery(".addfile").click(function() {
-		link = jQuery(this).closest("form").attr("action");
-		jQuery("#div-addfile").dialog2('open');
-		return false;
-	});
 
 	jQuery(".opendropzone").click(function() {
 		jQuery('.opendropzone').show();
@@ -193,7 +169,7 @@ jQuery(document).ready(function(){
 	});
 
 	jQuery("#addFolder").click(function() {
-		jQuery("#div-addfolder").dialog('open');
+		jQuery("#div-addfolder").dialog2('open');
 		return false;
 	});
 

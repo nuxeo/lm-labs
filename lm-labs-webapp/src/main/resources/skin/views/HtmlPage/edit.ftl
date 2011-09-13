@@ -6,9 +6,14 @@
 	  <@superBlock/>
 	  
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script> 
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script> 
         <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
         <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
 	</@block>
@@ -18,6 +23,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/js/assets/prettify/prettify.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageHtml.css"/>
 
 	</@block>
@@ -29,15 +35,42 @@
 	</@block>
 
 	<@block name="content">	
+	
+	<script type="text/javascript">
+	var ckeditorconfig = {
+		filebrowserBrowseUrl : '${This.path}/displayBrowseTree',
+		filebrowserImageBrowseUrl : '${This.path}/displayBrowseTree',
+		filebrowserFlashBrowseUrl : '${This.path}/displayBrowseTree',
+		filebrowserUploadUrl : '${This.path}/displayBrowseTree',
+		filebrowserImageUploadUrl : '${This.path}/displayBrowseTree',
+		filebrowserFlashUploadUrl : '${This.path}/displayBrowseTree',
+		toolbar:
+		[
+		['Source','-','Preview','-'],
+		['Cut','Copy','Paste','PasteText','PasteFromWord'],
+		
+		['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+		'/',
+		[ 'Bold','Italic','Strike','-','SelectAll','RemoveFormat'],
+		[ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar' ] ,'/',
+		['Format','Font','FontSize'],
+		['TextColor','BGColor'],
+		['Maximize', 'ShowBlocks','-']
+		]
+		};
+	</script>
 
   
        <div class="container">
 
+<#include "views/common/description_area.ftl">	
+	
+	
+	<#assign area_height=2 />
+    <#include "views/common/comment_area.ftl">
+	    
+<div style="clear:both;"></div>    
     
-    
-    
-		<h1>${page.title}</h1>
-		${page.description}
 		
 		<#list page.sections as section>
 		<section id="section_${section_index}">
@@ -45,9 +78,17 @@
             <h1>${section.title} <small>${section.description}</small></h1>
   		  </div>
   	
+  	
+  		  
   		  <div class="well editblock">
-  		    
-			<form id="editsection_${section_index}" action="${This.path}/s/${section_index}" method="post">
+  		    <a href="#" dialog="#editsection_${section_index}" class="btn open-dialog" >Modifier la section</a>
+  		    <!-- This button submits the hidden delete form -->
+	        <button type="submit" class="btn danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
+	        
+	        
+  		    <div class="dialog2" id="editsection_${section_index}" >
+  		    <h1>Modifier la section</h1>    
+			<form action="${This.path}/s/${section_index}" method="post">
 			<input type="hidden" name="action" value="editsection"/>
 			<fieldset>
 	          <legend>Modifier la section</legend>
@@ -72,12 +113,12 @@
 	          <div class="actions">
 	            <button type="submit" class="btn primary">Modifier</button>&nbsp;
 	            
-	            <!-- This button submits the hidden delete form -->
-	            <button type="submit" class="btn danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
+	            
 	          </div>
 	          </legend>
 	         </fieldset>
 	       </form>
+	       </div>
 	       
 		   <!-- Hidden form to handle delete action -->	       
 	       <form action="${This.path}/s/${section_index}/@delete" method="get" id="frm_section_${section_index}_delete">
@@ -92,12 +133,20 @@
   		    <div class="row" id="row_s${section_index}_r${row_index}">
               <#list row.contents as content>
               <div class="span${content.colNumber} columns">
-                ${content.html}
-                <a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
+                <div id="s_${section_index}_r_${row_index}_c_${content_index}">${content.html}</div>
+                <script type="text/javascript">
+                	$('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
+                		e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
+                		ckeditor_config: ckeditorconfig
+                		});
+                </script>
+                <noscript>
+                	<a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
+                </noscript>
               </div>
               </#list>
               
-               <div>
+               <div style="margin-left:20px" class="editblock">
 	        		<form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
 	                  <button type="submit" class="btn small danger">Supprimer la ligne</button>
 	                </form>
@@ -145,11 +194,12 @@
 		
 		
 		<#-- Add Section -->
+		<a id="addsectionlink" href="#" dialog="#addsection" class="btn open-dialog editblock" >Ajouter une section</a>
 		
-		<div class="well editblock">
-		<form id="addsection" action="${This.path}" method="post">
+		<div id="addsection" class="dialog2">
+		<h1>Ajouter une section</h1>
+		<form  id="addsectionfrm" action="${This.path}" method="post">
 			<fieldset>
-	          <legend>Ajouter une section</legend>
 	          <div class="clearfix">
 	            <label for="title">Titre</label>
 	            <div class="input">
@@ -169,7 +219,7 @@
 	            </div>
 	          </div><!-- /clearfix -->
 	          <div class="actions">
-	            <button type="submit" class="btn small primary">Ajouter</button>&nbsp;<button type="reset" class="btn small">Annuler</button>
+	            <button type="submit" class="btn small primary">Ajouter</button>&nbsp;
 	          </div>
 	          </legend>
 	         </fieldset>

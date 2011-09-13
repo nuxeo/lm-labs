@@ -15,13 +15,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.it.pages.HtmlContentPage;
 public class PageHtmlPage extends WebPage {
 
 
-    @FindBy(xpath = "//form[@id='addsection']//input[@name='title']")
+    @FindBy(xpath = "//form[@id='addsectionfrm']//input[@name='title']")
     WebElement addSectionTitleInput;
 
-    @FindBy(xpath = "//form[@id='addsection']//input[@name='description']")
+    @FindBy(xpath = "//form[@id='addsectionfrm']//input[@name='description']")
     WebElement addSectionDescriptionInput;
 
-    @FindBy(xpath = "//form[@id='addsection']//div[@class='actions']//button[contains(@class,'primary')]")
+    @FindBy(xpath = "//div[@class='modal-footer']//a[contains(@class,'primary')]")
     WebElement addSectionAddBtn;
 
     public String getTitle() {
@@ -51,6 +51,10 @@ public class PageHtmlPage extends WebPage {
     }
 
     public PageHtmlPage addSection(String title, String subtitle) {
+        
+        WebElement addSectionLink = waitUntilElementFound(By.id("addsectionlink"), 10);
+        addSectionLink.click();
+        
         addSectionTitleInput.clear();
         addSectionTitleInput.sendKeys(title);
         addSectionDescriptionInput.clear();
