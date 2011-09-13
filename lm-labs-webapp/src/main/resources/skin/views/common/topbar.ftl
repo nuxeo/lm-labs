@@ -1,3 +1,10 @@
+<script type="text/javascript">
+function topBarFullTextSearch() {
+	<#if This.type.name != "sitesRoot" >
+	window.location.href = '${Context.modulePath}/${breadcrumbsDocs(This.document)?first.webcontainer.url}/@views/searchresults?fullText=' + jQuery('input[name=q]').val();
+	</#if>
+}
+</script>
     <div class="topbar-wrapper" style="z-index: 5;">            
     <div class="topbar">
     	<div class="topbar-inner">      
@@ -7,7 +14,7 @@
           
           <ul class="nav secondary-nav">
             <li>
-          	  <form>
+          	  <form onsubmit="topBarFullTextSearch();return false;" >
             	<input class="normal" placeholder="Rechercher dans le site" name="q"/>
           	  </form>
             </li>
