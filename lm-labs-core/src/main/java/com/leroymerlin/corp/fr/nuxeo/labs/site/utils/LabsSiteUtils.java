@@ -2,10 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -27,15 +24,6 @@ public final class LabsSiteUtils {
     private static final DateFormat dateFormat = new SimpleDateFormat(
             "dd/MM/yyyy hh:ss");
 
-    private static UserManager userManager = null;
-
-    static {
-        try {
-            userManager = Framework.getService(UserManager.class);
-        } catch (Exception e) {
-            LOG.error(e.getMessage());
-        }
-    }
 
     private LabsSiteUtils() {
     }
@@ -162,62 +150,6 @@ public final class LabsSiteUtils {
         return document;
     }
 
-    public static String getCreatorUsername(DocumentModel doc)
-            throws ClientException {
-        return getFormattedUsername(getCreator(doc));
-    }
 
-    public static String getLastModifierUsername(DocumentModel doc)
-            throws ClientException {
-        return getFormattedUsername(getLastModifier(doc));
-    }
-
-    private static String getCreator(final DocumentModel doc)
-            throws ClientException {
-        return doc.getPropertyValue("dc:creator") != null ? (String) doc.getPropertyValue("dc:creator")
-                : "";
-    }
-
-    private static String getLastModifier(DocumentModel doc)
-            throws ClientException {
-        return doc.getPropertyValue("dc:lastContributor") != null ? (String) doc.getPropertyValue("dc:lastContributor")
-                : "";
-    }
-
-    private static String getFormattedUsername(String creator)
-            throws ClientException {
-
-        DocumentModel principal = userManager.getUserModel(creator);
-        if (principal != null) {
-            String lastName = (String) principal.getProperty(
-                    userManager.getUserSchemaName(), "lastName");
-            String firstName = (String) principal.getProperty(
-                    userManager.getUserSchemaName(), "firstName");
-
-            if (StringUtils.isBlank(firstName) && StringUtils.isBlank(lastName)) {
-                return creator;
-            }
-
-            return (StringUtils.isNotBlank(firstName) ? firstName : "") + " "
-                    + (StringUtils.isNotBlank(lastName) ? lastName : "");
-        }
-
-        return creator;
-    }
-
-    public static String getCreated(DocumentModel doc) throws ClientException {
-        GregorianCalendar date = (GregorianCalendar) doc.getPropertyValue("dc:created");
-        return getFormattedDate(date.getTime());
-    }
-
-    public static String getLastModified(DocumentModel doc)
-            throws ClientException {
-        GregorianCalendar date = (GregorianCalendar) doc.getPropertyValue("dc:modified");
-        return getFormattedDate(date.getTime());
-    }
-
-    private static String getFormattedDate(Date date) {
-        return dateFormat.format(date);
-    }
 
 }
