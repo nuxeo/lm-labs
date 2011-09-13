@@ -10,8 +10,6 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.PathRef;
-import org.nuxeo.ecm.platform.usermanager.UserManager;
-import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
@@ -21,24 +19,8 @@ public final class LabsSiteUtils {
     // Log
     private static final Log LOG = LogFactory.getLog(LabsSiteUtils.class);
 
-    private static final DateFormat dateFormat = new SimpleDateFormat(
-            "dd/MM/yyyy hh:ss");
-
 
     private LabsSiteUtils() {
-    }
-
-    @Deprecated
-    public static final DocumentModelList getRootFolder(
-            final DocumentModel site, final CoreSession session)
-            throws ClientException {
-        PathRef welcomeRef = new PathRef(site.getPathAsString() + "/"
-                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName());
-        if (site == null || session == null || !session.exists(welcomeRef)) {
-            return null;
-        }
-
-        return session.getChildren(welcomeRef);
     }
 
     public static DocumentModel getSitesRoot(final CoreSession session)

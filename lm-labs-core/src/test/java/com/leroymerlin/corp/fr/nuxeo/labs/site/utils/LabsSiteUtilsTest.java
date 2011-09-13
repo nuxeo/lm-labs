@@ -51,35 +51,6 @@ public final class LabsSiteUtilsTest {
         assertTrue(list.contains(SecurityConstants.EVERYTHING));
     }
 
-    @Test
-    @Deprecated
-    public void canGetRootFolderAndChildren() throws ClientException {
-        generateSite();
-
-        final DocumentModel site1 = session.getDocument(new PathRef("/"
-                + Docs.DEFAULT_DOMAIN.docName() + "/"
-                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
-
-        DocumentModelList rootFolder = LabsSiteUtils.getRootFolder(site1,
-                session);
-        assertNotNull(rootFolder);
-        assertEquals(3, rootFolder.size());
-
-        for (DocumentModel doc : rootFolder) {
-            if (new String(site1.getPathAsString() + "/" + Docs.TREE.docName()
-                    + "/" + Docs.WELCOME.docName() + "/folder1").equals(doc.getPathAsString())) {
-                assertEquals(2, session.getChildren(doc.getRef()).size());
-            } else if (new String(site1.getPathAsString() + "/"
-                    + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
-                    + "/folder2").equals(doc.getPathAsString())) {
-                assertEquals(1, session.getChildren(doc.getRef()).size());
-            } else if (new String(site1.getPathAsString() + "/"
-                    + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
-                    + "/folder3").equals(doc.getPathAsString())) {
-                assertEquals(0, session.getChildren(doc.getRef()).size());
-            }
-        }
-    }
 
     private void generateSite() throws ClientException {
         // SITE ROOT
