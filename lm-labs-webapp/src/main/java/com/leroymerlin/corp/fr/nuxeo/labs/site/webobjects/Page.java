@@ -32,10 +32,6 @@ public class Page extends DocumentObject {
     @Path("updateCommentaire")
     public Object doSetCommentaire(
             @FormParam("content") final String commentaire) {
-        if (StringUtils.isBlank(commentaire)) {
-            return Response.status(Status.NOT_MODIFIED).build();
-        }
-
         try {
             doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).setCommentaire(
                     commentaire);
