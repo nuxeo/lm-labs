@@ -87,8 +87,9 @@ public class Site extends DocumentObject {
     @Path("treeview")
     public String doTreeview() {
         try {
+
             return LabsSiteWebAppUtils.getTreeview(
-                    LabsSiteUtils.getSiteTree(doc), this, true, false);
+                    site.getTree(), this, true, false);
         } catch (Exception e) {
             LOG.error(e, e);
             throw WebException.wrap(e);

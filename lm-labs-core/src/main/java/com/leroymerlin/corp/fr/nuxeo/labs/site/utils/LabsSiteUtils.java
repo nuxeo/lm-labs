@@ -37,11 +37,6 @@ public final class LabsSiteUtils {
                 + Docs.TREE.docName();
     }
 
-    public static DocumentModel getSiteTree(DocumentModel siteDoc)
-            throws ClientException {
-        return siteDoc.getCoreSession()
-                .getDocument(new PathRef(getSiteTreePath(siteDoc)));
-    }
 
 
 

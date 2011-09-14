@@ -191,10 +191,9 @@ public final class LabsSiteWebAppUtils {
 
         SiteDocument sd = doc.getAdapter(SiteDocument.class);
 
-
         props.put(
                 LatestUploadsPageProvider.PARENT_DOCUMENT_PROPERTY,
-                (Serializable) LabsSiteUtils.getSiteTree(sd.getSite().getDocument()));
+                (Serializable) sd.getSite().getTree());
         @SuppressWarnings("unchecked")
         PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) ppService.getPageProvider(
                 LATEST_UPLOADS_PAGEPROVIDER, sortInfos, new Long(pageSize),
