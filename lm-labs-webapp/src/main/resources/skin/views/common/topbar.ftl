@@ -1,7 +1,8 @@
+<#assign site = breadcrumbsDocs(This.document)?first />
 <script type="text/javascript">
 function topBarFullTextSearch() {
 	<#if This.type.name != "sitesRoot" >
-	window.location.href = '${Context.modulePath}/${breadcrumbsDocs(This.document)?first.webcontainer.url}/@views/searchresults?fullText=' + jQuery('input[name=q]').val();
+	window.location.href = '${Context.modulePath}/${site.webcontainer.url}/@views/searchresults?fullText=' + jQuery('input[name=q]').val();
 	</#if>
 }
 </script>
@@ -25,6 +26,10 @@ function topBarFullTextSearch() {
               <ul class="dropdown-menu">
                 <@block name="docactions"></@block>
                 <@block name="siteactions"></@block>                                
+              <#if Session.hasPermission(site.ref, 'Everything') >
+                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
+              </#if>
+                <li class="divider"></li>
                 <li><a id="logout" href="#">Déconnexion</a></li>
               </ul>
             </li>
