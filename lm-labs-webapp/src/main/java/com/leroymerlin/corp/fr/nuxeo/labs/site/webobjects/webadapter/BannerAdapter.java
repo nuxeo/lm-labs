@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
@@ -28,6 +28,7 @@ import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
@@ -37,11 +38,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
  */
 @WebAdapter(name = "banner", type = "bannerAdapter")
 public class BannerAdapter extends DefaultAdapter {
-    
+
     private static final Log LOG = LogFactory.getLog(BannerAdapter.class);
-    
+
     String NUXEO_WEBENGINE_BASE_PATH = "nuxeo-webengine-base-path";
-    
+
     private String getSkinPathPrefix(Module module) {
         if (Framework.getProperty(SKIN_PATH_PREFIX_KEY) != null) {
             return module.getSkinPathPrefix();
@@ -54,7 +55,7 @@ public class BannerAdapter extends DefaultAdapter {
             return ctx.getBasePath() + "/" + module.getName() + "/skin";
         }
     }
-    
+
     @GET
     public Response getImgBanner() throws ClientException {
         Response response = null;
@@ -67,8 +68,8 @@ public class BannerAdapter extends DefaultAdapter {
         }
         return response;
     }
-    
-    
+
+
     @GET
     @Path("url")
     public String getPathFoBanner() throws ClientException{
@@ -87,22 +88,23 @@ public class BannerAdapter extends DefaultAdapter {
         }
         return null;
     }
-    
+
     private DocumentModel getDocumentSite() throws ClientException{
         Resource target = getTarget();
         if (target instanceof DocumentObject){
             DocumentObject site = (DocumentObject)target;
-            return LabsSiteUtils.getParentSite(site.getDocument());
+            SiteDocument sd = site.getDocument().getAdapter(SiteDocument.class);
+            return sd.getSite().getDocument();
         }
         return null;
     }
-    
+
     public Object getBanner() throws ClientException{
         DocumentModel doc = getDocumentSite();
         LabsSite labssite = doc.getAdapter(LabsSite.class);
         return labssite.getLogo();
     }
-    
+
     @DELETE
     public Response deleteImgBanner() throws ClientException{
         DocumentModel document = getDocumentSite();
@@ -114,7 +116,7 @@ public class BannerAdapter extends DefaultAdapter {
         }
         return Response.noContent().build();
     }
-    
+
     @POST
     public Response doPost() {
         LOG.debug("POST doPost");

@@ -40,6 +40,7 @@ import com.leroymerlin.common.freemarker.UserFullNameTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.BreadcrumbsArrayTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.PageEndUrlTemplateMethod;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
@@ -62,7 +63,7 @@ public class SitesRoot extends ModuleRoot {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.nuxeo.ecm.webengine.model.impl.AbstractResource#initialize(java.lang
      * .Object[])
@@ -319,7 +320,7 @@ public class SitesRoot extends ModuleRoot {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.nuxeo.ecm.webengine.model.impl.ModuleRoot#handleError(javax.ws.rs
      * .WebApplicationException)
@@ -342,7 +343,7 @@ public class SitesRoot extends ModuleRoot {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.nuxeo.ecm.webengine.model.impl.ModuleRoot#getLink(org.nuxeo.ecm.core
      * .api.DocumentModel)
@@ -350,9 +351,10 @@ public class SitesRoot extends ModuleRoot {
     @Override
     public String getLink(DocumentModel doc) {
         try {
+            SiteDocument sd = doc.getAdapter(SiteDocument.class);
             return new StringBuilder().append(getPath())
                     .append("/")
-                    .append(LabsSiteUtils.getParentSite(doc)
+                    .append(sd.getSite().getDocument()
                             .getAdapter(LabsSite.class)
                             .getURL())
                     .append(LabsSiteWebAppUtils.buildEndUrl(doc))

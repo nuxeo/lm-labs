@@ -13,6 +13,7 @@ import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.platform.query.api.AbstractPageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
@@ -25,7 +26,7 @@ public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentMode
     private static final Log LOG = LogFactory.getLog(LatestUploadsPageProvider.class);
 
     private static final String UPLOADS_SORT_FIELD = "dc:modified";
-    
+
     protected List<DocumentModel> pageUploads = null;
 
     @Override
@@ -35,10 +36,12 @@ public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentMode
             DocumentModel doc = getParentDocument();
             StringBuilder query = new StringBuilder();
             try {
+                SiteDocument sd = doc.getAdapter(SiteDocument.class);
+
                 query.append("SELECT * FROM Document WHERE ")
                 .append("ecm:currentLifeCycleState <> 'deleted'")
                 .append(" AND ")
-                .append("ecm:path STARTSWITH '" + LabsSiteUtils.getSiteTree(LabsSiteUtils.getParentSite(doc)).getPathAsString() + "'")
+                .append("ecm:path STARTSWITH '" + LabsSiteUtils.getSiteTree(sd.getSite().getDocument()).getPathAsString() + "'")
                 .append(" ORDER BY " + UPLOADS_SORT_FIELD + " DESC");
                 @SuppressWarnings("serial")
                 List<DocumentModel> documents = doc.getCoreSession().query(query.toString(), new Filter() {
