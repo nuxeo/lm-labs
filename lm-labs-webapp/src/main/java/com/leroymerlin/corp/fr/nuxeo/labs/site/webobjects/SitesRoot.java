@@ -25,7 +25,6 @@ import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
-import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.platform.rendering.fm.FreemarkerEngine;
 import org.nuxeo.ecm.webengine.WebException;
@@ -33,15 +32,19 @@ import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
+import org.nuxeo.runtime.api.Framework;
 
-import com.leroymerlin.common.freemarker.DateInWordsMethod;
 import com.leroymerlin.common.freemarker.BytesFormatTemplateMethod;
+import com.leroymerlin.common.freemarker.DateInWordsMethod;
 import com.leroymerlin.common.freemarker.UserFullNameTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.BreadcrumbsArrayTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.PageEndUrlTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
@@ -135,15 +138,7 @@ public class SitesRoot extends ModuleRoot {
     }
 
     public boolean isAuthorized() {
-        try {
-            return getContext().getCoreSession()
-                    .hasPermission(
-                            LabsSiteUtils.getSitesRoot(
-                                    getContext().getCoreSession())
-                                    .getRef(), SecurityConstants.EVERYTHING);
-        } catch (ClientException e) {
-            return false;
-        }
+        return true;
     }
 
     public String getPathForEdit() {
@@ -155,7 +150,7 @@ public class SitesRoot extends ModuleRoot {
     }
 
     public DocumentModel getDoc() throws ClientException {
-        return LabsSiteUtils.getSitesRoot(ctx.getCoreSession());
+        return LabsSiteAdapter.getDefaultRoot(ctx.getCoreSession());
     }
 
     public ArrayList<LabsSite> getLabsSites() throws ClientException {
@@ -196,38 +191,26 @@ public class SitesRoot extends ModuleRoot {
         try {
             if (isNew) {
                 if (!existURL(pURL, session)) {
-                    DocumentModel docLabsSite = session.createDocumentModel(
-                            LabsSiteUtils.getSitesRootPath(), pTitle,
-                            LabsSiteConstants.Docs.SITE.type());
-                    LabsSite labSite = docLabsSite.getAdapter(LabsSite.class);
+                    SiteManager sm = getSiteManager();
+                    LabsSite labSite;
+                    try {
+                        labSite = sm.createSite(session, pTitle, pURL);
+                    } catch (SiteManagerException e) {
+                        throw new ClientException(e.getMessage());
+                    }
+
                     labSite.setTitle(pTitle);
                     labSite.setDescription(pDescription);
                     labSite.setURL(pURL);
-                    docLabsSite = session.createDocument(docLabsSite);
+                    session.saveDocument(labSite.getDocument());
                     session.save();
                     return Response.status(Status.OK)
                             .entity(pTitle + " created.")
                             .build();
                 }
             } else {
-                DocumentModel docLabsSite = getDocument(pTitle, pId, session,
-                        isNew);
-                LabsSite labSite = docLabsSite.getAdapter(LabsSite.class);
-                labSite.setTitle(pTitle);
-                labSite.setDescription(pDescription);
-                if (!labSite.getURL()
-                        .equals(pURL)) {
-                    if (!existURL(pURL, session)) {
-                        labSite.setURL(pURL);
-                        saveDocument(session, isNew, docLabsSite);
-                        return Response.status(Status.OK)
-                                .build();
-                    }
-                } else {
-                    saveDocument(session, isNew, docLabsSite);
-                    return Response.status(Status.OK)
-                            .build();
-                }
+                //Should be managed on Site WebObject
+
             }
             return Response.status(Status.NOT_MODIFIED)
                     .build();
@@ -237,6 +220,14 @@ public class SitesRoot extends ModuleRoot {
                     .build();
         }
 
+    }
+
+    private SiteManager getSiteManager() {
+        try {
+            return Framework.getService(SiteManager.class);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private boolean existURL(String pURL, CoreSession pSession)
@@ -263,42 +254,7 @@ public class SitesRoot extends ModuleRoot {
         return template;
     }
 
-    /**
-     * @param pSession
-     * @param pIsNew
-     * @param pDocLabsSite
-     * @throws ClientException
-     */
-    private void saveDocument(CoreSession pSession, boolean pIsNew,
-            DocumentModel pDocLabsSite) throws ClientException {
-        if (pIsNew) {
-            pDocLabsSite = pSession.createDocument(pDocLabsSite);
-        } else {
-            pDocLabsSite = pSession.saveDocument(pDocLabsSite);
-        }
-        pSession.save();
-    }
 
-    /**
-     * @param pName
-     * @param pId
-     * @param pSession
-     * @param pIsNew
-     * @return
-     * @throws ClientException
-     */
-    private DocumentModel getDocument(String pName, String pId,
-            CoreSession pSession, boolean pIsNew) throws ClientException {
-        DocumentModel docLabsSite;
-        if (pIsNew) {
-            docLabsSite = pSession.createDocumentModel(
-                    LabsSiteUtils.getSitesRootPath(), pName,
-                    LabsSiteConstants.Docs.SITE.type());
-        } else {
-            docLabsSite = pSession.getDocument(new IdRef(pId));
-        }
-        return docLabsSite;
-    }
 
     /**
      * @param pId
