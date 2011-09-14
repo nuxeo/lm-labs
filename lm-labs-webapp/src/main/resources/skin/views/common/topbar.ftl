@@ -1,4 +1,6 @@
-<#assign site = breadcrumbsDocs(This.document)?first />
+<#if This.type.name != "sitesRoot" >
+  <#assign site = breadcrumbsDocs(This.document)?first />
+</#if>
 <script type="text/javascript">
 function topBarFullTextSearch() {
 	<#if This.type.name != "sitesRoot" >
@@ -10,7 +12,7 @@ function topBarFullTextSearch() {
     <div class="topbar">
     	<div class="topbar-inner">      
         <div class="container">
-          <h3><a href="${Context.modulePath}/${site.webcontainer.url}"><#if site??>${site.title}</#if></a></h3>
+          <h3><a href="<#if site??>${Context.modulePath}/${site.webcontainer.url}<#else>#</#if>"><#if site??>${site.title}</#if></a></h3>
           
           
           <ul class="nav secondary-nav">
@@ -26,7 +28,7 @@ function topBarFullTextSearch() {
               <ul class="dropdown-menu">
                 <@block name="docactions"></@block>
                 <@block name="siteactions"></@block>                                
-              <#if Session.hasPermission(site.ref, 'Everything') >
+              <#if site?? && Session.hasPermission(site.ref, 'Everything') >
                 <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
