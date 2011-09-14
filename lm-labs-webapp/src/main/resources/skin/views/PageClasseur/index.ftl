@@ -10,10 +10,6 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
 	</@block>
 	
 	<@block name="css">
@@ -21,7 +17,6 @@
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
-        <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
 	</@block>
 
 	<@block name="content">	

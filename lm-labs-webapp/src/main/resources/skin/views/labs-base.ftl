@@ -21,6 +21,7 @@
 	        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
 	        <link rel="stylesheet/less" href="${skinPath}/less/bootstrap/bootstrap.less">
 			<script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
+			<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
         </@block>
 
         <@block name="scripts">
@@ -36,6 +37,10 @@
 			<script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
 			<script type="text/javascript" src="${skinPath}/js/jquery/jquery.validate.min.js"></script>
 			<script type="text/javascript" src="${skinPath}/js/labs.js"></script>
+			<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+			<script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
+			<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+			<script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
         </@block>
     </head>
     <body>

@@ -5,8 +5,6 @@
 	<@block name="scripts">
 	  <@superBlock/>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script> 
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
 	</@block>
@@ -14,7 +12,6 @@
 	<@block name="css">
 	  <@superBlock/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-        <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/js/assets/prettify/prettify.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageHtml.css"/>
 	</@block>

@@ -4,20 +4,14 @@
     
     <@block name="scripts">
 	  	<@superBlock/>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
 	</@block>
     
     <@block name="css">
 	  	<@superBlock/>
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/page_blocs.css"/>
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-		<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/searchbox.css"/>
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/sidebar.css"/>
-	    <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
 	</@block>
 	
 	
