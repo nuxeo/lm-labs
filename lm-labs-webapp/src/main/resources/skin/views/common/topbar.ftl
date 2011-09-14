@@ -1,10 +1,10 @@
 <#if This.type.name != "sitesRoot" >
-  <#assign site = breadcrumbsDocs(This.document)?first />
+  <#assign siteDoc = breadcrumbsDocs(This.document)?first />
 </#if>
 <script type="text/javascript">
 function topBarFullTextSearch() {
-	<#if This.type.name != "sitesRoot" >
-	window.location.href = '${Context.modulePath}/${site.webcontainer.url}/@views/searchresults?fullText=' + jQuery('input[name=q]').val();
+	<#if siteDoc?? >
+	window.location.href = '${Context.modulePath}/${siteDoc.webcontainer.url}/@views/searchresults?fullText=' + jQuery('input[name=q]').val();
 	</#if>
 }
 </script>
@@ -12,7 +12,7 @@ function topBarFullTextSearch() {
     <div class="topbar">
     	<div class="topbar-inner">      
         <div class="container">
-          <h3><a href="<#if site??>${Context.modulePath}/${site.webcontainer.url}<#else>#</#if>"><#if site??>${site.title}</#if></a></h3>
+          <h3><a href="<#if siteDoc??>${Context.modulePath}/${siteDoc.webcontainer.url}<#else>#</#if>"><#if siteDoc??>${siteDoc.title}</#if></a></h3>
           
           
           <ul class="nav secondary-nav">
@@ -28,8 +28,8 @@ function topBarFullTextSearch() {
               <ul class="dropdown-menu">
                 <@block name="docactions"></@block>
                 <@block name="siteactions"></@block>                                
-              <#if site?? && Session.hasPermission(site.ref, 'Everything') >
-                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
+              <#if siteDoc?? && Session.hasPermission(siteDoc.ref, 'Everything') >
+                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${siteDoc.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
                 <li><a id="logout" href="#">Déconnexion</a></li>
