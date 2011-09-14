@@ -10,7 +10,7 @@ function topBarFullTextSearch() {
     <div class="topbar">
     	<div class="topbar-inner">      
         <div class="container">
-          <h3><a href="#"><#if site??>${site.title}</#if></a></h3>
+          <h3><a href="${Context.modulePath}/${site.webcontainer.url}"><#if site??>${site.title}</#if></a></h3>
           
           
           <ul class="nav secondary-nav">
