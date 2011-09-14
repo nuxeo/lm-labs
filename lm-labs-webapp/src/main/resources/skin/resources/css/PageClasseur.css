@@ -9,6 +9,9 @@
 	margin: 3px;
 }
 
+.sortValue {
+	display: none;
+}
 
 .classeur.folderActions {
 	width: auto;
