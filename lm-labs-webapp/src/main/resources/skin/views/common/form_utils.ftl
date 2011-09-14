@@ -7,13 +7,43 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
 <#assign canWrite = Session.hasPermission(Document.ref, 'Write') />
 
 <#if !Context.principal.isAnonymous() && canWrite>
-  <div class="editButton">
+  <#--div class="editButton">
     <button id="editCommentButton" class="edit btn small">${Context.getMessage('command.Page.CommentModify')}</button>
     <button id="saveCommentButton" class="save primary btn small">${Context.getMessage('command.Page.CommentSave')}</button>
     <button id="cancelCommentButton" class="cancel btn small">${Context.getMessage('command.Page.CommentCancel')}</button>
-  </div>
-
+  </div-->
+  
   <script type="text/javascript">
+	var ckeditorconfig = {
+	filebrowserBrowseUrl : '${This.path}/displayBrowseTree',
+	filebrowserImageBrowseUrl : '${This.path}/displayBrowseTree',
+	filebrowserFlashBrowseUrl : '${This.path}/displayBrowseTree',
+	filebrowserUploadUrl : '${This.path}/displayBrowseTree',
+	filebrowserImageUploadUrl : '${This.path}/displayBrowseTree',
+	filebrowserFlashUploadUrl : '${This.path}/displayBrowseTree',
+	toolbar:
+	[
+	['Source','-','Preview','-'],
+	['Cut','Copy','Paste','PasteText','PasteFromWord'],
+	
+	['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+	'/',
+	[ 'Bold','Italic','Strike','-','SelectAll','RemoveFormat'],
+	[ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar' ] ,'/',
+	['Format','Font','FontSize'],
+	['TextColor','BGColor'],
+	['Maximize', 'ShowBlocks','-']
+	]
+	};
+		
+	$('#commentField').ckeip({
+		e_url: '${This.path}/updateCommentaire',
+		data: {
+			commentaire : jQuery("#commentField").html()
+		},	
+		ckeditor_config: ckeditorconfig
+	});	
+		
   var editorList = new Array();
 
   jQuery(document).ready(function() {
@@ -44,9 +74,8 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
            var id = jQuery(this).attr("id");
            var val = jQuery(this).html();
            jQuery(this).html("<textarea id='${form_name}_"+id+"' cols='110' rows='10'>"+val+"</textarea>");
-           //var editor = CKEDITOR.replace("${form_name}_"+id);
            
-           var editor = CKEDITOR.replace("${form_name}_"+id,
+           /*var editor = CKEDITOR.replace("${form_name}_"+id,
            		{
 					filebrowserBrowseUrl : '${This.path}/displayBrowseTree',
 					filebrowserImageBrowseUrl : '${This.path}/displayBrowseTree',
@@ -56,14 +85,7 @@ ALL FIELD MUST HAVE ONE OF THESE CLASSES: formInput or formWysiwyg
 					filebrowserFlashUploadUrl : '${This.path}/displayBrowseTree'
 				}
            );
-           editorList[i] = editor;
-           /*editor.on("instanceReady", function() {
-           CKEDITOR.instances.editor.document.on('keydown', function() {
-              CKEDITOR.tools.setTimeout( function() {
-                  $("#${form_name}_"+id).val(CKEDITOR.instances.editor.getData());
-              }, 0);
-           });
-        });*/
+           editorList[i] = editor;*/
       });
   }
 

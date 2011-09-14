@@ -30,7 +30,7 @@ public class Page extends DocumentObject {
     @POST
     @Path("updateCommentaire")
     public Object doSetCommentaire(
-            @FormParam("commentaire") final String commentaire) {
+            @FormParam("content") final String commentaire) {
         if (StringUtils.isBlank(commentaire)) {
             return Response.status(Status.NOT_MODIFIED).build();
         }
