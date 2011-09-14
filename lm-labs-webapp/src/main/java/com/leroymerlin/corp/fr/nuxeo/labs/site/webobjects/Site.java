@@ -56,7 +56,9 @@ public class Site extends DocumentObject {
         super.initialize(args);
         site = doc.getAdapter(LabsSite.class);
 
-        ctx.getEngine().getRendering().setSharedVariable("site", site);
+        ctx.getEngine()
+                .getRendering()
+                .setSharedVariable("site", site);
     }
 
     @Deprecated
@@ -64,8 +66,10 @@ public class Site extends DocumentObject {
     public Object doGetPageId(@PathParam("idPage") final String idPage) {
         DocumentRef docRef = new IdRef(idPage);
         try {
-            DocumentModel destDoc = ctx.getCoreSession().getDocument(docRef);
-            if (Docs.pageDocs().contains(Docs.fromString(destDoc.getType()))) {
+            DocumentModel destDoc = ctx.getCoreSession()
+                    .getDocument(docRef);
+            if (Docs.pageDocs()
+                    .contains(Docs.fromString(destDoc.getType()))) {
                 return newObject(destDoc.getType(), destDoc);
             } else {
                 throw new WebException("Unsupported document type "
@@ -88,8 +92,8 @@ public class Site extends DocumentObject {
     public String doTreeview() {
         try {
 
-            return LabsSiteWebAppUtils.getTreeview(
-                    site.getTree(), this, true, false);
+            return LabsSiteWebAppUtils.getTreeview(site.getTree(), this, true,
+                    false);
         } catch (Exception e) {
             LOG.error(e, e);
             throw WebException.wrap(e);
@@ -131,15 +135,16 @@ public class Site extends DocumentObject {
             for (DocumentModel doc : pictures) {
                 StringBuilder imgSrc = new StringBuilder(
                         "/nuxeo/nxpicsfile/default/");
-                imgSrc.append(doc.getRef().toString());
+                imgSrc.append(doc.getRef()
+                        .toString());
                 imgSrc.append("/Thumbnail:content/");
                 imgSrc.append(new Date().getTime());
 
                 result.append("<div class='resourcesForCKEditor'><a id='");
                 result.append(docId);
                 result.append("' href='");
-                result.append(imgSrc.toString().replace("/Thumbnail",
-                        "/Original"));
+                result.append(imgSrc.toString()
+                        .replace("/Thumbnail", "/Original"));
                 result.append("' onclick='sendToCKEditor(this.href);return false;'><img src='");
                 result.append(imgSrc);
                 result.append("' /></a></div>");
@@ -154,21 +159,20 @@ public class Site extends DocumentObject {
     @Override
     public DocumentObject newDocument(String path) {
         try {
-            PathRef pathRef = new PathRef(LabsSiteUtils.getSiteTreePath(doc)
-                    + "/" + path);
-            DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
+
+            PathRef pathRef = new PathRef(site.getTree()
+                    .getPathAsString() + "/" + path);
+            DocumentModel doc = ctx.getCoreSession()
+                    .getDocument(pathRef);
             return (DocumentObject) ctx.newObject(doc.getType(), doc);
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
     }
 
-
-
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.nuxeo.ecm.core.rest.DocumentObject#doGet()
      */
     @Override
@@ -182,7 +186,9 @@ public class Site extends DocumentObject {
 
     public DocumentModel getClosestPage(DocumentModel document)
             throws ClientException {
-        return document.getAdapter(SiteDocument.class).getPage().getDocument();
+        return document.getAdapter(SiteDocument.class)
+                .getPage()
+                .getDocument();
     }
 
     public String getPageEndUrl(DocumentModel document) throws ClientException {

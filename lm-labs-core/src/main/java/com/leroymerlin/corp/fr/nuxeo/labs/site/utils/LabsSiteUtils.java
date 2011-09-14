@@ -26,17 +26,6 @@ public final class LabsSiteUtils {
                 + Docs.SITESROOT.docName();
     }
 
-    public static String getSiteTreePath(DocumentModel siteDoc)
-            throws ClientException {
-        if (!Docs.SITE.type()
-                .equals(siteDoc.getType())) {
-            throw new IllegalArgumentException("document is not a "
-                    + Docs.SITE.type());
-        }
-        return getSitesRootPath() + "/" + siteDoc.getName() + "/"
-                + Docs.TREE.docName();
-    }
-
 
 
 

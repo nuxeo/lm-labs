@@ -126,38 +126,16 @@ public final class LabsSiteUtilsTest {
                 LabsSiteUtils.getSitesRootPath(), "MonSite", Docs.SITE.type());
         assertNotNull(site);
         site = session.createDocument(site);
-        String treePath = LabsSiteUtils.getSiteTreePath(site);
-        assertNotNull(treePath);
+
+        LabsSite ls = site.getAdapter(LabsSite.class);
+
+        assertNotNull(ls.getTree());
+        String treePath = ls.getTree().getPathAsString();
         assertTrue(treePath.endsWith("/tree"));
         assertTrue(treePath.contains("/MonSite/"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void iCannotGetTreePathOfNonSite() throws Exception {
-        DocumentModel welcomePage = session.getDocument(new PathRef(
-                LabsSiteUtils.getSitesRootPath() + "/MonSite/tree/welcome"));
-        assertNotNull(welcomePage);
-        LabsSiteUtils.getSiteTreePath(welcomePage);
-    }
 
-    @Ignore
-    @Test
-    public void iCanGetSitesRootAsUser() throws Exception {
-        NuxeoPrincipal principal = getUserManager().getPrincipal("CGM");
-        assertNotNull(principal);
-        assertTrue(principal.getAllGroups()
-                .contains(SecurityConstants.MEMBERS));
-        CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
-        CoreSession sessionCGM = coreFeature.getRepository()
-                .getRepositoryHandler()
-                .openSessionAs("CGM");
-        // changeUser("CGM");
-        assertNotNull(LabsSiteUtils.getSitesRoot(sessionCGM));
-        // changeUser("Administrator");
-        coreFeature.getRepository()
-                .getRepositoryHandler()
-                .releaseSession(sessionCGM);
-    }
 
     @Test
     public void canGetAllDoc() throws ClientException {
