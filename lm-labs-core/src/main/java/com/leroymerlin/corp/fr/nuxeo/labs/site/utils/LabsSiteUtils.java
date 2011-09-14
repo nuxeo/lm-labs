@@ -54,23 +54,6 @@ public final class LabsSiteUtils {
                         + " AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
     }
 
-    /**
-     * @param site
-     * @return JSON representation of site's tree.
-     * @throws ClientException if unable to retrieve children of site.
-     * @throws IllegalArgumentException if site is <code>null</code>.
-     */
-    public static Object getSiteMap(final DocumentModel site)
-            throws ClientException, IllegalArgumentException {
-        if (site == null) {
-            throw new IllegalArgumentException(
-                    "site's document model can not be null.");
-        }
-        return site.getCoreSession().getChildren(site.getRef());
-    }
-
-
-
 
 
 
