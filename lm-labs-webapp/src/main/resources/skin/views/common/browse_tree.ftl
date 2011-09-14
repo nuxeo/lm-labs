@@ -67,6 +67,9 @@
 				data: "docId="+obj.id,
 				success: function(msg) {
 					jQuery("#resources").html(msg);
+				},
+				error: function(msg) {
+					jQuery("#resources").html("<p style='text-align:center'>Le site ${siteName} ne contient aucune image.</p>");
 				}
 			});
 	  	}
