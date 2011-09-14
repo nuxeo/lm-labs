@@ -4,6 +4,7 @@
     
     <@block name="scripts">
 	  	<@superBlock/>
+<script type="text/javascript">
 jQuery(document).ready(function() {
 	jQuery.ajax({
 		type: "GET",
@@ -14,7 +15,7 @@ jQuery(document).ready(function() {
 		error: function() { alert("ERROR"); }
 	});
 });
-		</script>
+</script>
 	</@block>
     
     <@block name="css">
