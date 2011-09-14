@@ -1,6 +1,6 @@
 <div id="comment" <#if Session.hasPermission(Document.ref, 'Write') >class="well"</#if>>
   <div id="comment_form">
-    <div id="commentField" class="formWysiwyg">${This.page.commentaire}</div>
+    <div id="commentField" class="formWysiwyg">&nbsp;${This.page.commentaire}</div>
 
     <#assign form_name="comment_form" />
     <#assign callback_function="save" />
