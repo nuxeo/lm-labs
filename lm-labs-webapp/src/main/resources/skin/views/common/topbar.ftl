@@ -16,11 +16,13 @@ function topBarFullTextSearch() {
           
           
           <ul class="nav secondary-nav">
+            <#if siteDoc?? >
             <li>
           	  <form onsubmit="topBarFullTextSearch();return false;" >
             	<input class="normal" placeholder="Rechercher dans le site" name="q"/>
           	  </form>
             </li>
+            </#if>
             <li><#include "common/login.ftl" /></li>
             <#if Context.principal.isAnonymous() == false>           
             <li class="dropdown	">
