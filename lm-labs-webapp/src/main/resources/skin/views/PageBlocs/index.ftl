@@ -4,8 +4,10 @@
     
     <@block name="scripts">
 	  	<@superBlock/>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
 	</@block>
     
     <@block name="css">
@@ -17,6 +19,7 @@
 	
 	
   <@block name="content">
+  
     <div id="content" class="pageBlocs">
       <#-- COMMENT AREA --> 
       <#include "views/common/comment_area.ftl" />
