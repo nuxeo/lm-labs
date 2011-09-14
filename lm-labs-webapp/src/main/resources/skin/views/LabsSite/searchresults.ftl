@@ -4,8 +4,6 @@
     
     <@block name="scripts">
 	  	<@superBlock/>
-		<script type="text/javascript" src="${skinPath}/js/searchpage.js"></script>
-		<script type="text/javascript">
 jQuery(document).ready(function() {
 	jQuery.ajax({
 		type: "GET",
