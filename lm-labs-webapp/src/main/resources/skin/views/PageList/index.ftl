@@ -17,7 +17,7 @@
 	
 	<@block name="content">	
 			<div id="content" class="pageList">
-				<#-- COMMENT AREA --> 
+				
       			<#include "views/common/comment_area.ftl" />
 				<#if isAuthorized>
 					<div id="divActionManageList">

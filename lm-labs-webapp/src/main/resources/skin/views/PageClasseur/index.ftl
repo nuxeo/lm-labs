@@ -29,7 +29,6 @@
 	<#include "views/common/description_area.ftl">	
 	
 	
-	<#assign area_height=2 />
     <#include "views/common/comment_area.ftl">
 	
     <input type="hidden" id="folderPath" value="" />
