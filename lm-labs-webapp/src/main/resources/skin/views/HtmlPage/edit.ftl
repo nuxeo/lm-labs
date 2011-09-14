@@ -32,27 +32,7 @@
 	<@block name="content">	
 	
 	<script type="text/javascript">
-	var ckeditorconfig = {
-		filebrowserBrowseUrl : '${This.path}/displayBrowseTree',
-		filebrowserImageBrowseUrl : '${This.path}/displayBrowseTree',
-		filebrowserFlashBrowseUrl : '${This.path}/displayBrowseTree',
-		filebrowserUploadUrl : '${This.path}/displayBrowseTree',
-		filebrowserImageUploadUrl : '${This.path}/displayBrowseTree',
-		filebrowserFlashUploadUrl : '${This.path}/displayBrowseTree',
-		toolbar:
-		[
-		['Source','-','Preview','-'],
-		['Cut','Copy','Paste','PasteText','PasteFromWord'],
-		
-		['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
-		'/',
-		[ 'Bold','Italic','Strike','-','SelectAll','RemoveFormat'],
-		[ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar' ] ,'/',
-		['Format','Font','FontSize'],
-		['TextColor','BGColor'],
-		['Maximize', 'ShowBlocks','-']
-		]
-		};
+		<#include "views/common/ckeditor_config.ftl" />
 	</script>
 
   
@@ -60,8 +40,6 @@
 
 <#include "views/common/description_area.ftl">	
 	
-	
-	<#assign area_height=2 />
     <#include "views/common/comment_area.ftl">
 	    
 <div style="clear:both;"></div>    

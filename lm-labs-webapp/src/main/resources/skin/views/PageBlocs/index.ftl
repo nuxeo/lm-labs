@@ -16,7 +16,7 @@
   <@block name="content">
   
     <div id="content" class="pageBlocs">
-      <#-- COMMENT AREA --> 
+      
       <#include "views/common/comment_area.ftl" />
       
           <div class="blocTitle">
