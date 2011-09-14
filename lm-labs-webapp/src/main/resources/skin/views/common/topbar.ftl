@@ -19,7 +19,7 @@ function topBarFullTextSearch() {
             <#if siteDoc?? >
             <li>
           	  <form onsubmit="topBarFullTextSearch();return false;" >
-            	<input class="normal" placeholder="Rechercher dans le site" name="q"/>
+            	<input class="normal" placeholder="${Context.getMessage('label.search')}" name="q"/>
           	  </form>
             </li>
             </#if>
