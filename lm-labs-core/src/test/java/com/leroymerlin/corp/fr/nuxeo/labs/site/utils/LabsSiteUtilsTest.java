@@ -242,19 +242,7 @@ public final class LabsSiteUtilsTest {
                 .getRef(), is(pageClasseur.getRef()));
     }
 
-    @Test
-    public void canGetChildren() throws Exception {
-        generateSite();
-        DocumentModel sub2_1 = session.getDocument(new PathRef("/"
-                + Docs.DEFAULT_DOMAIN.docName() + "/"
-                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME + "/"
-                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
-                + "/folder2/sub2_1"));
-        assertNotNull(sub2_1);
-        DocumentModelList children = LabsSiteUtils.getTreeChildren(sub2_1);
-        assertNotNull(children);
-        assertEquals(1, children.size());
-    }
+
 
     protected void changeUser(String username) throws ClientException {
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);

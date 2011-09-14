@@ -27,5 +27,14 @@ public interface LabsSite extends Page {
 
     void setLogo(Blob pBlob) throws ClientException;
 
+
     List<Page> getAllPages() throws ClientException;
+
+    /**
+     * Returns the base document of the tree
+     *
+     * @return
+     * @throws ClientException
+     */
+    DocumentModel getTree() throws ClientException;
 }

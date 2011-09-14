@@ -9,12 +9,14 @@ import java.util.List;
 
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 /**
  * @author fvandaele
@@ -75,7 +77,7 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
 
     @Override
     public List<Page> getAllPages() throws ClientException {
-        DocumentModelList docs = doc.getCoreSession()
+        DocumentModelList docs = getCoreSession()
                 .query("SELECT * FROM Page where ecm:path STARTSWITH '"
                         + doc.getPathAsString() + "'");
 
@@ -84,6 +86,15 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
             pages.add(doc.getAdapter(Page.class));
         }
         return pages;
+    }
+
+    private CoreSession getCoreSession() {
+        return doc.getCoreSession();
+    }
+
+    @Override
+    public DocumentModel getTree() throws ClientException {
+        return getCoreSession().getChild(doc.getRef(), Docs.TREE.docName());
     }
 
 }
