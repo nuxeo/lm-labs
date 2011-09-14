@@ -8,6 +8,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,7 +50,6 @@ public class Site extends DocumentObject {
     }
 
     private LabsSite site;
-
 
     @Override
     public void initialize(Object... args) {
@@ -112,7 +113,7 @@ public class Site extends DocumentObject {
 
     @POST
     @Path("getPictures")
-    public String doGetPictures(@FormParam("docId") final String docId) {
+    public Object doGetPictures(@FormParam("docId") final String docId) {
         String query = Query.SELECT_PICTURE.replace(Query.TAG_VALUE, docId);
         DocumentModelList pictures = null;
         StringBuilder result = null;
@@ -142,9 +143,11 @@ public class Site extends DocumentObject {
                 result.append(imgSrc);
                 result.append("' /></a></div>");
             }
+        } else {
+            return Response.status(Status.NOT_FOUND).build();
         }
 
-        return result.toString();
+        return Response.status(Status.OK).entity(result.toString()).build();
     }
 
     @Override
@@ -161,7 +164,7 @@ public class Site extends DocumentObject {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.nuxeo.ecm.core.rest.DocumentObject#doGet()
      */
     @Override
@@ -173,7 +176,8 @@ public class Site extends DocumentObject {
         return document.getAdapter(BlobHolder.class);
     }
 
-    public DocumentModel getClosestPage(DocumentModel document) throws ClientException {
+    public DocumentModel getClosestPage(DocumentModel document)
+            throws ClientException {
         return document.getAdapter(SiteDocument.class).getPage().getDocument();
     }
 
