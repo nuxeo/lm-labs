@@ -1,10 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -13,12 +8,9 @@ import org.nuxeo.ecm.core.api.PathRef;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
 public final class LabsSiteUtils {
 
-    // Log
-    private static final Log LOG = LogFactory.getLog(LabsSiteUtils.class);
 
 
     private LabsSiteUtils() {
