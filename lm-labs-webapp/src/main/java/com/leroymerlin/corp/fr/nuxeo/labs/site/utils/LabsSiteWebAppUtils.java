@@ -126,7 +126,8 @@ public final class LabsSiteWebAppUtils {
                 DocumentModel pageDoc = parent.getCoreSession().getDocument(
                         parent.getParentRef());
                 url.append(buildPageEndUrl(pageDoc));
-                url.append("/doc/").append(doc.getId());
+                url.append("/").append(session.getParentDocument(doc.getRef()).getName());
+                url.append("/").append(doc.getName());
                 url.append("/@blob/preview");
             } else if (Docs.LABSNEWS.type().equals(doc.getType())) {
                 DocumentModel pageDoc = parent.getCoreSession().getDocument(
