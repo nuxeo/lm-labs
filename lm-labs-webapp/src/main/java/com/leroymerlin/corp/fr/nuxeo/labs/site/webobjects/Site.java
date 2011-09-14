@@ -24,6 +24,7 @@ import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
@@ -44,6 +45,17 @@ public class Site extends DocumentObject {
 
         String SELECT_PICTURE = "select * from Picture where ecm:parentId = '"
                 + TAG_VALUE + "'";
+    }
+
+    private LabsSite site;
+
+
+    @Override
+    public void initialize(Object... args) {
+        super.initialize(args);
+        site = doc.getAdapter(LabsSite.class);
+
+        ctx.getEngine().getRendering().setSharedVariable("site", site);
     }
 
     @Deprecated
@@ -68,17 +80,6 @@ public class Site extends DocumentObject {
     @Path("siteMap")
     public Template doGoSiteMap() {
         return getView(SITEMAP_VIEW);
-    }
-
-    @GET
-    @Path("siteMapAsList")
-    public Template doGoSiteMapAsList() {
-        try {
-            return getView(SITEMAP_AS_LIST_VIEW).arg("allDoc",
-                    LabsSiteUtils.getAllDoc(LabsSiteUtils.getSiteTree(doc)));
-        } catch (Exception e) {
-            throw WebException.wrap(e);
-        }
     }
 
     @POST

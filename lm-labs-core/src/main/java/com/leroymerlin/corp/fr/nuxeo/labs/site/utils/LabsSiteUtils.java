@@ -69,26 +69,6 @@ public final class LabsSiteUtils {
         return site.getCoreSession().getChildren(site.getRef());
     }
 
-    /**
-     * @param parent
-     * @return list of Page Document models.
-     * @throws ClientException if unable to retrieve Page document models under
-     *             <code>parent</code>.
-     * @throws IllegalArgumentException if parent is null.
-     */
-    public static DocumentModelList getAllDoc(final DocumentModel parent)
-            throws ClientException, IllegalArgumentException {
-        if (parent == null) {
-            throw new IllegalArgumentException(
-                    "document model can not be null.");
-        }
-
-        return parent.getCoreSession().query(
-                "SELECT * FROM Page where ecm:path STARTSWITH '"
-                        + parent.getPathAsString() + "'");
-    }
-
-
 
 
 

@@ -1,25 +1,29 @@
 /**
- * 
+ *
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 
 /**
  * @author fvandaele
  *
  */
 public class LabsSiteAdapter extends AbstractPage implements LabsSite {
-    
+
     static final String URL = "webcontainer:url";
-    
+
     static final String BANNER = "webcontainer:logo";
 
     public LabsSiteAdapter(DocumentModel doc) {
@@ -42,7 +46,8 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
     }
 
     @Override
-    public void setDescription(String description) throws PropertyException, ClientException {
+    public void setDescription(String description) throws PropertyException,
+            ClientException {
         if (description == null) {
             return;
         }
@@ -61,11 +66,24 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
 
     @Override
     public void setLogo(Blob pBlob) throws ClientException {
-        if (pBlob == null){
+        if (pBlob == null) {
             doc.setPropertyValue(BANNER, null);
-        }else{
+        } else {
             doc.setPropertyValue(BANNER, (Serializable) pBlob);
         }
+    }
+
+    @Override
+    public List<Page> getAllPages() throws ClientException {
+        DocumentModelList docs = doc.getCoreSession()
+                .query("SELECT * FROM Page where ecm:path STARTSWITH '"
+                        + doc.getPathAsString() + "'");
+
+        List<Page> pages = new ArrayList<Page>();
+        for(DocumentModel doc : docs) {
+            pages.add(doc.getAdapter(Page.class));
+        }
+        return pages;
     }
 
 }

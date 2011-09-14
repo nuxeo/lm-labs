@@ -1,8 +1,10 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -26,12 +28,13 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
-import static org.hamcrest.CoreMatchers.*;
 
 @RunWith(FeaturesRunner.class)
 @Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
@@ -164,9 +167,11 @@ public final class LabsSiteUtilsTest {
                 + Docs.DEFAULT_DOMAIN.docName() + "/"
                 + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
 
-        DocumentModelList allDoc = LabsSiteUtils.getAllDoc(site1);
-        assertNotNull(allDoc);
-        assertTrue(allDoc.size() > 1);
+        LabsSite site  = site1.getAdapter(LabsSite.class);
+
+        List<Page> allPages = site.getAllPages();
+        assertNotNull(allPages);
+        assertTrue(allPages.size() > 1);
     }
 
     @Test

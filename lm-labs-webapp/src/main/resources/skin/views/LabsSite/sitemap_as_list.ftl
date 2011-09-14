@@ -25,8 +25,9 @@
           <tr><th>Elément</th><th>Créé par</th><th>Dernière mise à jour par</th></tr>
           </thead>
           <tbody>
-          <#list allDoc as doc>
+          <#list site.allPages as page>
             <tr>
+              <#assign doc=page.document />
               <td class="nameCol"><a href="${This.path}/${doc.title}">${doc.title}</a></td>
               <td class="createdCol">${userFullName(doc.dublincore.creator)} (${doc.dublincore.created?string.medium}}</td>
               <td class="updatedCol">${userFullName(doc.dublincore.lastContributor)} (${doc.dublincore.modified?string.medium})</td>
