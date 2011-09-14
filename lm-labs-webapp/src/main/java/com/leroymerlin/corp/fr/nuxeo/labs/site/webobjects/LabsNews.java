@@ -31,11 +31,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 public class LabsNews extends DefaultObject {
 
     private static final Log log = LogFactory.getLog(LabsNews.class);
-    
+
     private static final String DATE_FORMAT_STRING = "dd/MM/yyyy";
 
     private static final String EDIT_VIEW = "views/PageNews/editNews.ftl";
-    
+
     private DocumentModel doc;
 
     @Override
@@ -55,7 +55,7 @@ public class LabsNews extends DefaultObject {
     public String getPathForEdit(){
         return this.getPrevious().getPath();
     }
-    
+
     @GET
     public Object editNews(){
         Template template = getTemplate(EDIT_VIEW);
@@ -85,7 +85,7 @@ public class LabsNews extends DefaultObject {
         CoreSession session = ctx.getCoreSession();
         boolean isNew = isNew(pNewsId);
         try {
-            DocumentModel docNews = getDocument(pTitle, pNewsId, session, isNew);   
+            DocumentModel docNews = getDocument(pTitle, pNewsId, session, isNew);
             com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews news = docNews.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews.class);
             news.setTitle(pTitle);
             news.setContent(pContent);

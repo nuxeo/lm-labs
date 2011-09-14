@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -25,11 +26,12 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
-
+import static org.hamcrest.CoreMatchers.*;
 @RunWith(FeaturesRunner.class)
 @Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
 @RepositoryConfig(user = "Administrator")
@@ -192,24 +194,33 @@ public final class LabsSiteUtilsTest {
     @Test
     public void testGetClosestPage() throws Exception {
         final String siteName = "monsite";
-        assertEquals(
-                LabsSiteUtils.getSitesRoot(session),
-                LabsSiteUtils.getClosestPage(LabsSiteUtils.getSitesRoot(session)));
+
+
+        DocumentModel sitesRoot = LabsSiteUtils.getSitesRoot(session);
+        SiteDocument sd = sitesRoot.getAdapter(SiteDocument.class);
+        assertThat(sd,is(notNullValue()));
+        assertThat(sd.getPage(),is(notNullValue()));
+        assertThat(sd.getPage().getDocument().getRef(), is(sitesRoot.getRef()));
+
+
         DocumentModel pageClasseur = session.getDocument(new PathRef(
                 LabsSiteUtils.getSitesRootPath() + "/" + siteName + "/"
                         + Docs.TREE.docName() + "/page1"));
-        assertEquals(pageClasseur, LabsSiteUtils.getClosestPage(pageClasseur));
+        sd = pageClasseur.getAdapter(SiteDocument.class);
+        assertThat(sd.getPage().getDocument().getRef(), is(pageClasseur.getRef()));
+
 
         DocumentModel folder = session.createDocumentModel(
                 pageClasseur.getPathAsString(), "folder", "Folder");
         folder = session.createDocument(folder);
-        assertEquals(pageClasseur, LabsSiteUtils.getClosestPage(folder));
+        sd = folder.getAdapter(SiteDocument.class);
+        assertThat(sd.getPage().getDocument().getRef(), is(pageClasseur.getRef()));
 
         DocumentModel file = session.createDocumentModel(
                 pageClasseur.getPathAsString(), "file", "File");
         file = session.createDocument(file);
-        assertEquals(pageClasseur, LabsSiteUtils.getClosestPage(file));
-
+        sd = file.getAdapter(SiteDocument.class);
+        assertThat(sd.getPage().getDocument().getRef(), is(pageClasseur.getRef()));
     }
 
     @Test

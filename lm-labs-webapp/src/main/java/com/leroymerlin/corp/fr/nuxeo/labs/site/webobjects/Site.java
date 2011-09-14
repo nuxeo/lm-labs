@@ -23,6 +23,7 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
@@ -171,8 +172,8 @@ public class Site extends DocumentObject {
         return document.getAdapter(BlobHolder.class);
     }
 
-    public DocumentModel getClosestPage(DocumentModel document) {
-        return LabsSiteUtils.getClosestPage(document);
+    public DocumentModel getClosestPage(DocumentModel document) throws ClientException {
+        return document.getAdapter(SiteDocument.class).getPage().getDocument();
     }
 
     public String getPageEndUrl(DocumentModel document) throws ClientException {
