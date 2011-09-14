@@ -5,13 +5,15 @@
 	<@block name="scripts">
 	  <@superBlock/>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
 	</@block>
 	
 	<@block name="css">
