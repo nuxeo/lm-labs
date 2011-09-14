@@ -32,6 +32,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
 import static org.hamcrest.CoreMatchers.*;
+
 @RunWith(FeaturesRunner.class)
 @Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
 @RepositoryConfig(user = "Administrator")
@@ -48,11 +49,10 @@ public final class LabsSiteUtilsTest {
         DocumentModel root = LabsSiteUtils.getSitesRoot(session);
         assertNotNull(root);
         SecurityData data = SecurityDataHelper.buildSecurityData(root);
-        List<String> list = data.getCurrentDocGrant().get(
-                SecurityConstants.MEMBERS);
+        List<String> list = data.getCurrentDocGrant()
+                .get(SecurityConstants.MEMBERS);
         assertTrue(list.contains(SecurityConstants.EVERYTHING));
     }
-
 
     private void generateSite() throws ClientException {
         // SITE ROOT
@@ -142,15 +142,18 @@ public final class LabsSiteUtilsTest {
     public void iCanGetSitesRootAsUser() throws Exception {
         NuxeoPrincipal principal = getUserManager().getPrincipal("CGM");
         assertNotNull(principal);
-        assertTrue(principal.getAllGroups().contains(SecurityConstants.MEMBERS));
+        assertTrue(principal.getAllGroups()
+                .contains(SecurityConstants.MEMBERS));
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
-        CoreSession sessionCGM = coreFeature.getRepository().getRepositoryHandler().openSessionAs(
-                "CGM");
+        CoreSession sessionCGM = coreFeature.getRepository()
+                .getRepositoryHandler()
+                .openSessionAs("CGM");
         // changeUser("CGM");
         assertNotNull(LabsSiteUtils.getSitesRoot(sessionCGM));
         // changeUser("Administrator");
-        coreFeature.getRepository().getRepositoryHandler().releaseSession(
-                sessionCGM);
+        coreFeature.getRepository()
+                .getRepositoryHandler()
+                .releaseSession(sessionCGM);
     }
 
     @Test
@@ -172,55 +175,66 @@ public final class LabsSiteUtilsTest {
         DocumentModel site = session.createDocumentModel(
                 LabsSiteUtils.getSitesRootPath(), siteName, Docs.SITE.type());
         site = session.createDocument(site);
-        assertEquals(site.getId(), LabsSiteUtils.getParentSite(site).getId());
+        SiteDocument sd = site.getAdapter(SiteDocument.class);
+        assertEquals(site.getId(), sd.getSite().getDocument().getId());
 
         DocumentModel tree = session.getDocument(new PathRef(
                 LabsSiteUtils.getSitesRootPath() + "/" + siteName + "/"
                         + Docs.TREE.docName()));
-        assertEquals(site.getId(), LabsSiteUtils.getParentSite(tree).getId());
+        sd = tree.getAdapter(SiteDocument.class);
+        assertEquals(site.getId(), sd.getSite().getDocument().getId());
 
         DocumentModel pageClasseur = session.createDocumentModel(
                 tree.getPathAsString(), "page1", Docs.PAGECLASSEUR.type());
         pageClasseur = session.createDocument(pageClasseur);
+        sd = pageClasseur.getAdapter(SiteDocument.class);
         assertEquals(site.getId(),
-                LabsSiteUtils.getParentSite(pageClasseur).getId());
+                sd.getSite().getDocument().getId());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void iCannotGetParentSiteOfSitesRoot() throws Exception {
-        LabsSiteUtils.getParentSite(LabsSiteUtils.getSitesRoot(session));
+
+        DocumentModel sitesRoot = LabsSiteUtils.getSitesRoot(session);
+        SiteDocument sd = sitesRoot.getAdapter(SiteDocument.class);
+        sd.getSite();
     }
 
     @Test
     public void testGetClosestPage() throws Exception {
         final String siteName = "monsite";
 
-
         DocumentModel sitesRoot = LabsSiteUtils.getSitesRoot(session);
         SiteDocument sd = sitesRoot.getAdapter(SiteDocument.class);
-        assertThat(sd,is(notNullValue()));
-        assertThat(sd.getPage(),is(notNullValue()));
-        assertThat(sd.getPage().getDocument().getRef(), is(sitesRoot.getRef()));
-
+        assertThat(sd, is(notNullValue()));
+        assertThat(sd.getPage(), is(notNullValue()));
+        assertThat(sd.getPage()
+                .getDocument()
+                .getRef(), is(sitesRoot.getRef()));
 
         DocumentModel pageClasseur = session.getDocument(new PathRef(
                 LabsSiteUtils.getSitesRootPath() + "/" + siteName + "/"
                         + Docs.TREE.docName() + "/page1"));
         sd = pageClasseur.getAdapter(SiteDocument.class);
-        assertThat(sd.getPage().getDocument().getRef(), is(pageClasseur.getRef()));
-
+        assertThat(sd.getPage()
+                .getDocument()
+                .getRef(), is(pageClasseur.getRef()));
 
         DocumentModel folder = session.createDocumentModel(
                 pageClasseur.getPathAsString(), "folder", "Folder");
         folder = session.createDocument(folder);
         sd = folder.getAdapter(SiteDocument.class);
-        assertThat(sd.getPage().getDocument().getRef(), is(pageClasseur.getRef()));
+        assertThat(sd.getPage()
+                .getDocument()
+                .getRef(), is(pageClasseur.getRef()));
 
         DocumentModel file = session.createDocumentModel(
                 pageClasseur.getPathAsString(), "file", "File");
         file = session.createDocument(file);
         sd = file.getAdapter(SiteDocument.class);
-        assertThat(sd.getPage().getDocument().getRef(), is(pageClasseur.getRef()));
+        assertThat(sd.getPage()
+                .getDocument()
+                .getRef(), is(pageClasseur.getRef()));
     }
 
     @Test
@@ -229,7 +243,8 @@ public final class LabsSiteUtilsTest {
         DocumentModel sub2_1 = session.getDocument(new PathRef("/"
                 + Docs.DEFAULT_DOMAIN.docName() + "/"
                 + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME + "/"
-                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName() + "/folder2/sub2_1"));
+                + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
+                + "/folder2/sub2_1"));
         assertNotNull(sub2_1);
         DocumentModelList children = LabsSiteUtils.getTreeChildren(sub2_1);
         assertNotNull(children);
@@ -238,8 +253,9 @@ public final class LabsSiteUtilsTest {
 
     protected void changeUser(String username) throws ClientException {
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
-        session = coreFeature.getRepository().getRepositoryHandler().changeUser(
-                session, username);
+        session = coreFeature.getRepository()
+                .getRepositoryHandler()
+                .changeUser(session, username);
     }
 
     private UserManager getUserManager() throws Exception {

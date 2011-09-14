@@ -11,6 +11,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.PathRef;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
@@ -52,9 +53,11 @@ public final class LabsSiteUtils {
 
     public static DocumentModelList getTreeChildren(final DocumentModel parentDoc)
             throws ClientException {
+
+        SiteDocument sd = parentDoc.getAdapter(SiteDocument.class);
         return parentDoc.getCoreSession().query(
                 "SELECT * FROM Page WHERE ecm:parentId = '"
-                        + getSiteTree(getParentSite(parentDoc)).getId()
+                        + getSiteTree(sd.getSite().getDocument()).getId()
                         + "'"
                         + " AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'");
     }
@@ -93,21 +96,7 @@ public final class LabsSiteUtils {
                         + parent.getPathAsString() + "'");
     }
 
-    public static DocumentModel getParentSite(DocumentModel doc)
-            throws ClientException {
-        CoreSession session = doc.getCoreSession();
-        if (Docs.SITE.type().equals(doc.getType())) {
-            return doc;
-        }
-        while (!doc.getParentRef().equals(session.getRootDocument().getRef())) {
-            doc = session.getDocument(doc.getParentRef());
-            if (Docs.SITE.type().equals(doc.getType())) {
-                return doc;
-            }
-        }
-        throw new IllegalArgumentException("document '" + doc.getPathAsString()
-                + "' is not lacated in a site.");
-    }
+
 
 
 

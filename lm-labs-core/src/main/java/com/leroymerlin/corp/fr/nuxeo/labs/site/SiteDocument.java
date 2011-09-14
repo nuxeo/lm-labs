@@ -2,6 +2,8 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
 import org.nuxeo.ecm.core.api.ClientException;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+
 /**
  * This interface can be adapted to every document in a site
  * tree. It has various methods to get information about it
@@ -16,4 +18,12 @@ public interface SiteDocument {
      * @throws ClientException
      */
     Page getPage() throws ClientException;
+
+    /**
+     * Return the parent site for this document
+     * @return
+     * @throws ClientException
+     */
+    LabsSite getSite() throws ClientException;
+
 }
