@@ -52,7 +52,7 @@ public class PageClasseurPageTest {
         assertTrue(pageClasseur.hasFolder(PageClasseurPageRepositoryInit.FOLDER1_NAME));
     }
 
-    @Ignore("Unable to click on button in jQuery UI Dialog.") @Test
+    @Test
     public void addFolder() throws Exception {
         PageClasseurPage pageClasseur = getPageClasseur();
         PageClasseurAddFolderPopup popup = pageClasseur.clickAddFolder();
