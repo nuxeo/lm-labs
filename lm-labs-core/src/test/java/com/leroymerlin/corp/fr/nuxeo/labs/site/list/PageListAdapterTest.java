@@ -25,9 +25,9 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 @Features(SiteFeatures.class)
 @RepositoryConfig(cleanup=Granularity.METHOD)
 public class PageListAdapterTest {
-    private static final int WIDTH = 25;
+    private static final String WIDTH = "S8";
     private static final int ID_HEADER = 1;
-    private static final int FONT_SIZE = 50;
+    private static final String FONT_SIZE = "50";
     private static final String FONT_NAME = "fontName";
     private static final String TYPE = "type";
     private static final String NAME = "name";

@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.list;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
     private static final String FONT_NAME = "fontName";
     private static final String TYPE = "type";
     private static final String NAME = "name";
+    private static final String ORDER_POSITION = "orderPosition";
+    private static final String SELECT_LIST = "selectlist";
     public static final int NULL_VALUE_FOR_INT = -1;
 
     public PageListAdapter(DocumentModel doc) {
@@ -92,6 +95,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
         map.put(FONT_SIZE, pHead.getFontSize());
         map.put(ID_HEADER, pHead.getIdHeader());
         map.put(WIDTH, pHead.getWidth());
+        map.put(ORDER_POSITION, pHead.getOrderPosition());
+        map.put(SELECT_LIST, pHead.getSelectlist());
         return map;
     }
 
@@ -130,15 +135,19 @@ public class PageListAdapter extends AbstractPage implements PageList {
             throw new IllegalArgumentException("This object is null.", e);
         }
         try {
-            header.setFontSize(Tools.getInt(pMap.get(FONT_SIZE)));
+            header.setOrderPosition(Tools.getInt(pMap.get(ORDER_POSITION)));
         } catch (NullException e) {
-            header.setFontSize(NULL_VALUE_FOR_INT);
+            throw new IllegalArgumentException("This object is null.", e);
         }
-        try {
-            header.setWidth(Tools.getInt(pMap.get(WIDTH)));
-        } catch (NullException e) {
-            header.setWidth(NULL_VALUE_FOR_INT);
-        }
+        header.setFontSize(Tools.getString(pMap.get(FONT_SIZE)));
+        header.setWidth(Tools.getString(pMap.get(WIDTH)));
+        header.setSelectlist(Tools.getStringList(pMap.get(SELECT_LIST)));
         return header;
+    }
+
+    @Override
+    public void resetHeaders() throws ClientException {
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        doc.getProperty(PGL_HEADERLIST).setValue(list);
     }
 }

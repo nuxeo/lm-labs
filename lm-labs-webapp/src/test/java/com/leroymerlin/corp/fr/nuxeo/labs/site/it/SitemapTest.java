@@ -55,9 +55,9 @@ public class SitemapTest {
         SitemapPage sitemapPage = rootPage.getMesSitesPage().welcomePage("OFM").sitemapPage();
         sitemapPage.reduceTreeview();
         sitemapPage.switchToListview();
-        // assertTrue(sitemapPage.containsListview());
-        // sitemapPage.switchToTreeview();
-        // assertTrue(sitemapPage.containsTreeview());
+         assertTrue(sitemapPage.containsListview());
+         sitemapPage.switchToTreeview();
+         assertTrue(sitemapPage.containsTreeview());
     }
 
     public void ensureLoggedIn() {

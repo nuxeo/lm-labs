@@ -9,7 +9,6 @@ import org.nuxeo.ecm.core.api.PathRef;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 public class PageNewsRepositoryInit extends OfmRepositoryInit {
 
@@ -20,12 +19,12 @@ public class PageNewsRepositoryInit extends OfmRepositoryInit {
     @Override
     public void populate(CoreSession session) throws ClientException {
         super.populate(session);
-                
+
         DocumentModel ofmTree = session.getDocument(new PathRef(ofm.getPathAsString() + "/" + OfmRepositoryInit.TREE));
-        
+
         DocumentModel pageNews = session.createDocumentModel(ofmTree.getPathAsString(), PAGE_NEWS_TITLE, LabsSiteConstants.Docs.PAGENEWS.type());
         pageNews = session.createDocument(pageNews);
-        
+
         DocumentModel news = session.createDocumentModel(pageNews.getPathAsString(), NEWS_TITLE_OF_DOC, LabsSiteConstants.Docs.LABSNEWS.type());
         LabsNews newsAdapter = news.getAdapter(LabsNews.class);
         newsAdapter.setContent("labsNewsContent<br />Passage à la ligne");
@@ -33,7 +32,7 @@ public class PageNewsRepositoryInit extends OfmRepositoryInit {
         newsAdapter.setStartPublication(Calendar.getInstance());
         session.createDocument(news);
         session.save();
-        
+
     }
 
 }

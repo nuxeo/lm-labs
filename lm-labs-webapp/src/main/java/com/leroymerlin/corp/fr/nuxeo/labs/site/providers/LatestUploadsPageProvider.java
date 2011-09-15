@@ -14,7 +14,6 @@ import org.nuxeo.ecm.platform.query.api.AbstractPageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentModel> implements PageProvider<DocumentModel> {
@@ -41,7 +40,7 @@ public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentMode
                 query.append("SELECT * FROM Document WHERE ")
                 .append("ecm:currentLifeCycleState <> 'deleted'")
                 .append(" AND ")
-                .append("ecm:path STARTSWITH '" + LabsSiteUtils.getSiteTree(sd.getSite().getDocument()).getPathAsString() + "'")
+                .append("ecm:path STARTSWITH '" + sd.getSite().getTree().getPathAsString() + "'")
                 .append(" ORDER BY " + UPLOADS_SORT_FIELD + " DESC");
                 @SuppressWarnings("serial")
                 List<DocumentModel> documents = doc.getCoreSession().query(query.toString(), new Filter() {
