@@ -3,19 +3,16 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.repository;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
-import org.nuxeo.ecm.core.test.annotations.RepositoryInit;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
-public class PageClasseurPageRepositoryInit implements RepositoryInit {
+public class PageClasseurPageRepositoryInit extends OfmRepositoryInit {
 
     public static final String FILE1_NAME = "pomodoro_cheat_sheet.pdf";
     public static final String FILE1_DESCRIPTION = "Ma Description";
@@ -23,17 +20,18 @@ public class PageClasseurPageRepositoryInit implements RepositoryInit {
     public static final String SITE_URL = "ofm";
     public static final String SITE_TITLE = "OFM";
     public static final String PAGE_CLASSEUR_TITLE = "Page Classeur";
-//    public static final String PAGECLASSEUR_NAME = "pageclasseur";
+
+    // public static final String PAGECLASSEUR_NAME = "pageclasseur";
 
     @Override
     public void populate(CoreSession session) throws ClientException {
-        DocumentModel root = LabsSiteUtils.getSitesRoot(session);
-        if (!session.exists(new PathRef(root.getPathAsString() + "/" + SITE_TITLE))) {
-            DocumentModel ofm = session.createDocumentModel(root.getPathAsString(), SITE_TITLE, LabsSiteConstants.Docs.SITE.type());
-            LabsSite site = ofm.getAdapter(LabsSite.class);
-            site.setURL(SITE_URL);
+        super.populate(session);
+        try {
+            LabsSite site = getSiteManager().getSite(session,
+                    OfmRepositoryInit.SITE_URL);
             site.setTitle(SITE_TITLE);
-            ofm = session.createDocument(ofm);
+            session.saveDocument(site.getDocument());
+
             PageClasseur classeur = new PageClasseurAdapter.Model(session,
                     ofm.getPathAsString() + "/"
                             + LabsSiteConstants.Docs.TREE.docName(),
@@ -43,8 +41,8 @@ public class PageClasseurPageRepositoryInit implements RepositoryInit {
             PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME);
             session.save();
             try {
-                Blob blob = new FileBlob(
-                        getClass().getResourceAsStream("/" + FILE1_NAME));
+                Blob blob = new FileBlob(getClass().getResourceAsStream(
+                        "/" + FILE1_NAME));
                 blob.setFilename(FILE1_NAME);
                 folder.addFile(blob, FILE1_DESCRIPTION);
 
@@ -53,6 +51,8 @@ public class PageClasseurPageRepositoryInit implements RepositoryInit {
                 e.printStackTrace();
             }
             session.save();
+        } catch (SiteManagerException e) {
+            // At this point we can do nothing
         }
     }
 

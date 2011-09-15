@@ -38,7 +38,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 /**
  * @author fvandaele
- * 
+ *
  */
 @WebObject(type = "PageBlocs")
 @Produces("text/html; charset=UTF-8")
@@ -61,14 +61,6 @@ public class PageBlocs extends Page {
         return template;
     }
 
-    public List<DocumentModel> getChildren() {
-        try {
-            return LabsSiteUtils.getTreeChildren(doc);
-        } catch (ClientException e) {
-            LOG.error(e, e);
-        }
-        return new DocumentModelListImpl();
-    }
 
     public ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews> getNews(
             String pRef) throws ClientException {

@@ -1,25 +1,31 @@
 /**
- * 
+ *
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 /**
  * @author fvandaele
  *
  */
 public class LabsSiteAdapter extends AbstractPage implements LabsSite {
-    
+
     static final String URL = "webcontainer:url";
-    
+
     static final String BANNER = "webcontainer:logo";
 
     public LabsSiteAdapter(DocumentModel doc) {
@@ -42,7 +48,8 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
     }
 
     @Override
-    public void setDescription(String description) throws PropertyException, ClientException {
+    public void setDescription(String description) throws PropertyException,
+            ClientException {
         if (description == null) {
             return;
         }
@@ -61,11 +68,64 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
 
     @Override
     public void setLogo(Blob pBlob) throws ClientException {
-        if (pBlob == null){
+        if (pBlob == null) {
             doc.setPropertyValue(BANNER, null);
-        }else{
+        } else {
             doc.setPropertyValue(BANNER, (Serializable) pBlob);
         }
+    }
+
+    @Override
+    public List<Page> getAllPages() throws ClientException {
+        DocumentModelList docs = getCoreSession().query(
+                "SELECT * FROM Page where ecm:path STARTSWITH '"
+                        + doc.getPathAsString() + "'");
+
+        List<Page> pages = new ArrayList<Page>();
+        for (DocumentModel doc : docs) {
+            pages.add(doc.getAdapter(Page.class));
+        }
+        return pages;
+    }
+
+    private CoreSession getCoreSession() {
+        return doc.getCoreSession();
+    }
+
+    @Override
+    public DocumentModel getTree() throws ClientException {
+        return getCoreSession().getChild(doc.getRef(), Docs.TREE.docName());
+    }
+
+    public static DocumentModel getDefaultRoot(CoreSession coreSession) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof LabsSite)) {
+            return false;
+        }
+        return getDocument().getId()
+                .equals(((LabsSite) obj).getDocument()
+                        .getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getDocument().getId().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        String url = "";
+        try {
+            url = getURL();
+        } catch (ClientException e) {
+            url = "ClientException : Url not found";
+        }
+        return String.format("LabsSite at %s (url: %s)", doc.getPathAsString(), url);
     }
 
 }

@@ -1,0 +1,9 @@
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerImpl">
+
+  <implementation
+    class="com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerImpl" />
+
+  <service>
+    <provide interface="com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager" />
+  </service>
+</component>

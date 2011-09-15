@@ -1,6 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.repository;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 import org.nuxeo.ecm.core.api.Blob;

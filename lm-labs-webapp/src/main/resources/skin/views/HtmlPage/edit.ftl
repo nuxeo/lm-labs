@@ -10,10 +10,6 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script> 
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
 	</@block>
@@ -21,7 +17,6 @@
 	<@block name="css">
 	  <@superBlock/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-        <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/js/assets/prettify/prettify.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageHtml.css"/>
@@ -37,27 +32,7 @@
 	<@block name="content">	
 	
 	<script type="text/javascript">
-	var ckeditorconfig = {
-		filebrowserBrowseUrl : '${This.path}/displayBrowseTree',
-		filebrowserImageBrowseUrl : '${This.path}/displayBrowseTree',
-		filebrowserFlashBrowseUrl : '${This.path}/displayBrowseTree',
-		filebrowserUploadUrl : '${This.path}/displayBrowseTree',
-		filebrowserImageUploadUrl : '${This.path}/displayBrowseTree',
-		filebrowserFlashUploadUrl : '${This.path}/displayBrowseTree',
-		toolbar:
-		[
-		['Source','-','Preview','-'],
-		['Cut','Copy','Paste','PasteText','PasteFromWord'],
-		
-		['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
-		'/',
-		[ 'Bold','Italic','Strike','-','SelectAll','RemoveFormat'],
-		[ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar' ] ,'/',
-		['Format','Font','FontSize'],
-		['TextColor','BGColor'],
-		['Maximize', 'ShowBlocks','-']
-		]
-		};
+		<#include "views/common/ckeditor_config.ftl" />
 	</script>
 
   
@@ -65,8 +40,6 @@
 
 <#include "views/common/description_area.ftl">	
 	
-	
-	<#assign area_height=2 />
     <#include "views/common/comment_area.ftl">
 	    
 <div style="clear:both;"></div>    
@@ -143,6 +116,7 @@
                 <noscript>
                 	<a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
                 </noscript>
+                &nbsp; <!-- Needed to give an empty cell a content -->
               </div>
               </#list>
               

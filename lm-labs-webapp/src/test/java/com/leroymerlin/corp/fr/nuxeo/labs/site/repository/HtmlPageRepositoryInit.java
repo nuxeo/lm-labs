@@ -3,13 +3,9 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.repository;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.PathRef;
-import org.nuxeo.ecm.core.test.annotations.RepositoryInit;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 public class HtmlPageRepositoryInit extends OfmRepositoryInit {
 

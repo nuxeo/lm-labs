@@ -6,14 +6,11 @@
 	  <@superBlock/>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script> 
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
 	</@block>
 	
 	<@block name="css">
 	  <@superBlock/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-        <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
 	</@block>
 
 	<@block name="content">	

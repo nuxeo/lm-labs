@@ -1,7 +1,9 @@
 /**
- * 
+ *
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
+
+import java.util.List;
 
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -14,14 +16,25 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
  *
  */
 public interface LabsSite extends Page {
-    
+
     String getURL() throws ClientException;
-    
+
     void setURL(String pURL) throws ClientException;
-    
+
     DocumentModel getDocumentModel();
-    
+
     Blob getLogo() throws ClientException;
-    
+
     void setLogo(Blob pBlob) throws ClientException;
+
+
+    List<Page> getAllPages() throws ClientException;
+
+    /**
+     * Returns the base document of the tree
+     *
+     * @return
+     * @throws ClientException
+     */
+    DocumentModel getTree() throws ClientException;
 }

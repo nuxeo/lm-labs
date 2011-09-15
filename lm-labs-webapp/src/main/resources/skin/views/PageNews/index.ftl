@@ -7,8 +7,6 @@
 	  <@superBlock/>
 	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/PageNews.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
 	</@block>
 	
 	<@block name="css">
@@ -16,12 +14,11 @@
 	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
 	    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-		<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
 	</@block>
 	
 	<@block name="content">	
 			<div id="content" class="pageNews">
-				<#-- COMMENT AREA --> 
+				
       			<#include "views/common/comment_area.ftl" />
 				<#if isAuthorized>
 					<div id="linkAddNews" class="addNews"onClick="javascript:manageDisplayEdit();">+${Context.getMessage('label.labsNews.add.news')}</div>

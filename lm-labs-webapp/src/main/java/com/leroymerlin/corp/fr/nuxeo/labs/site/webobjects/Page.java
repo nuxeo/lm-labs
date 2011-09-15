@@ -15,7 +15,8 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.model.Template;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 
 public class Page extends DocumentObject {
 
@@ -31,10 +32,6 @@ public class Page extends DocumentObject {
     @Path("updateCommentaire")
     public Object doSetCommentaire(
             @FormParam("content") final String commentaire) {
-        if (StringUtils.isBlank(commentaire)) {
-            return Response.status(Status.NOT_MODIFIED).build();
-        }
-
         try {
             doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).setCommentaire(
                     commentaire);
@@ -64,7 +61,8 @@ public class Page extends DocumentObject {
     }
 
     public String getSiteUrlProp() throws PropertyException, ClientException {
-        return (String) LabsSiteUtils.getParentSite(doc).getPropertyValue(
+        SiteDocument sd = doc.getAdapter(SiteDocument.class);
+        return (String) sd.getSite().getDocument().getPropertyValue(
                 "webc:url");
     }
 }

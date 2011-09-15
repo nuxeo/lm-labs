@@ -20,6 +20,7 @@ import org.nuxeo.ecm.platform.query.api.PageProviderService;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
@@ -104,7 +105,7 @@ public final class LabsSiteWebAppUtils {
 
     /**
      * TODO unit tests
-     * 
+     *
      * @param doc
      * @return
      * @throws ClientException
@@ -125,7 +126,8 @@ public final class LabsSiteWebAppUtils {
                 DocumentModel pageDoc = parent.getCoreSession().getDocument(
                         parent.getParentRef());
                 url.append(buildPageEndUrl(pageDoc));
-                url.append("/doc/").append(doc.getId());
+                url.append("/").append(session.getParentDocument(doc.getRef()).getName());
+                url.append("/").append(doc.getName());
                 url.append("/@blob/preview");
             } else if (Docs.LABSNEWS.type().equals(doc.getType())) {
                 DocumentModel pageDoc = parent.getCoreSession().getDocument(
@@ -186,9 +188,12 @@ public final class LabsSiteWebAppUtils {
         PageProviderService ppService = Framework.getService(PageProviderService.class);
         List<SortInfo> sortInfos = null;
         Map<String, Serializable> props = new HashMap<String, Serializable>();
+
+        SiteDocument sd = doc.getAdapter(SiteDocument.class);
+
         props.put(
                 LatestUploadsPageProvider.PARENT_DOCUMENT_PROPERTY,
-                (Serializable) LabsSiteUtils.getSiteTree(LabsSiteUtils.getParentSite(doc)));
+                (Serializable) sd.getSite().getTree());
         @SuppressWarnings("unchecked")
         PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) ppService.getPageProvider(
                 LATEST_UPLOADS_PAGEPROVIDER, sortInfos, new Long(pageSize),
