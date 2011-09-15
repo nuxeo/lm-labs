@@ -1,3 +1,97 @@
 .pageList {
 	border: 1px solid #BBB;
 }
+#divFormManageList{
+	position: relative;	
+}
+#divListHeader{
+	width:245px;
+	border: none;
+}
+#divListHeader>ul{
+	left: 0px;
+	list-style: none outside none;
+}
+#divListHeader>ul>li{
+	padding-left: 5px;
+	line-height: 23px;
+}
+.actionOnHeader{
+	cursor: pointer;
+	position: relative;
+	left: -25px;
+	width: 240px;
+}
+.listHeaderTitle{
+	font-weight: bold;
+}
+.lineHeaderMoveUp{
+	cursor: pointer;
+	height: 100%;
+	position: absolute;
+	top: 3px;
+	width: 15px;
+	right: 45px;
+	background-image: url(../images/arrow-up.png);
+	background-repeat: no-repeat;
+}
+.lineHeaderMoveDown{
+	cursor: pointer;
+	height: 100%;
+	position: absolute;
+	top: 2px;
+	width: 15px;
+	right: 25px;
+	background-image: url(../images/arrow-down.png);
+	background-repeat: no-repeat;
+}
+
+.lineHeaderMoveDelete{
+	cursor: pointer;
+	height: 100%;
+	position: absolute;
+	top: 3px;
+	width: 15px;
+	right: 5px;
+	background-image: url(../images/x.gif);
+	background-repeat: no-repeat;
+}
+#divEditHeader{
+	float: right;
+	position: absolute;
+	width: 270px;
+	border: 3px solid #BBB;
+	margin-left: 0;
+}
+#divContainerEditHeader{
+	float: right;
+	position: absolute;
+	width: 270px;
+	border: none;
+	margin-left: 0;
+}
+.lineOptionsDelete{
+	cursor: pointer;
+	height: 100%;
+	position: absolute;
+	top: 26px;
+	width: 15px;
+	right: 14px;
+	background-image: url(../images/x.gif);
+	background-repeat: no-repeat;
+}
+.div_edit_one_option{
+	position: relative;	
+}
+.input_headerOption{
+	width: 180px;
+}
+.divActionManageList{
+	position: relative;
+}
+.lineHeaderSelected{
+	background-color: #BBB;
+}
+.titleEditBlocs{
+	text-align: center;
+}

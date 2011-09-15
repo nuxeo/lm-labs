@@ -3,23 +3,40 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.list.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hsqldb.lib.StringUtil;
+
 /**
  * @author fvandaele
  *
  */
-public class Header {
+public class Header implements Comparable<Header> {
     
+    private static final String IS_MALFORMED = "' is malformed.";
+
+    private static final String THE_FONT_CODE = "The font code '";
+
+    private static final String THE_FONT_CODE_DON_T_BE_NULL = "The font code don't be null.";
+
     private String name;
     
     private String type;
     
-    private int width;
+    private String width;
     
     private String fontName;
     
-    private int fontSize;
+    private String font;
+    
+    private String fontSize;
 
-    private int idHeader;
+    private int idHeader = -1;
+    
+    private int orderPosition = -1;
+
+    private List<String> selectlist;
 
     @Override
     public int hashCode() {
@@ -42,12 +59,17 @@ public class Header {
             return false;
         return true;
     }
-
-    public int getWidth() {
+    
+    @Override
+    public int compareTo(Header obj) {
+        return new Integer(getOrderPosition()).compareTo(new Integer(obj.getOrderPosition()));
+    }
+    
+    public String getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(String width) {
         this.width = width;
     }
 
@@ -83,12 +105,57 @@ public class Header {
         this.type = type;
     }
     
-    public int getFontSize() {
+    public String getFontSize() {
         return fontSize;
     }
 
-    public void setFontSize(int fontSize) {
+    public void setFontSize(String fontSize) {
         this.fontSize = fontSize;
     }
 
+    public List<String> getSelectlist() {
+        if (selectlist == null){ 
+            selectlist = new ArrayList<String>();
+        }
+        return selectlist;
+    }
+
+    public void setSelectlist(List<String> select) {
+        this.selectlist = select;
+    }
+
+    public String getFont() {
+        return font;
+    }
+
+    public void setFont(String font) {
+        if (StringUtil.isEmpty(font)){
+            throw new IllegalArgumentException(THE_FONT_CODE_DON_T_BE_NULL); 
+        }
+        this.font = font;
+        extractElementsOfFont();
+    }
+
+    public void extractElementsOfFont() {
+        String[] split = font.split("-");
+        if (split.length == 2){
+            this.fontName = split[0];
+            this.fontSize = split[1];
+        }
+        else{
+            throw new IllegalArgumentException(THE_FONT_CODE + font + IS_MALFORMED);
+        }
+    }
+    
+    public void createFont(){
+        font = fontName + '-' + fontSize;
+    }
+
+    public void setOrderPosition(int orderPosition) {
+        this.orderPosition = orderPosition;
+    }
+
+    public int getOrderPosition() {
+        return orderPosition;
+    }
 }

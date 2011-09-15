@@ -23,4 +23,10 @@ public interface PageList extends Page {
      */
     Set<Header> getHeaderSet() throws ClientException;
     
+    /**
+     * reset the list of header
+     * @throws ClientException
+     */
+    void resetHeaders() throws ClientException;
+    
 }

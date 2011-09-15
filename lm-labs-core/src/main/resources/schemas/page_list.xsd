@@ -22,14 +22,21 @@
 	<!-- One header; the type give the field of data -->
 	<xs:complexType name="header">
 		<xs:sequence>
-			<xs:element name="name" type="xs:string"></xs:element>
-			<xs:element name="type" type="xs:string"></xs:element>
-			<xs:element name="width" type="xs:int"></xs:element>
-			<xs:element name="fontName" type="xs:string"></xs:element>
-			<xs:element name="fontSize" type="xs:int"></xs:element>
-			<xs:element name="idHeader" type="xs:int"></xs:element>
-			<xs:element name="orderPosition" type="xs:int"></xs:element>
-			<xs:element name="selectlist" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="type" type="xs:string" />
+			<xs:element name="width" type="xs:string" />
+			<xs:element name="fontName" type="xs:string" />
+			<xs:element name="fontSize" type="xs:string" />
+			<xs:element name="idHeader" type="xs:int" />
+			<xs:element name="orderPosition" type="xs:int" />
+			<xs:element name="selectlist" type="tns:selectlist" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- list of option in select -->
+	<xs:complexType name="selectlist">
+		<xs:sequence>
+			<xs:element name="item" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 

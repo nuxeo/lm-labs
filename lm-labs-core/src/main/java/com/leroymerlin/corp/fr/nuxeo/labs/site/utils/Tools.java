@@ -3,7 +3,11 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.core.api.model.impl.ListProperty;
 import org.nuxeo.ecm.core.api.model.impl.primitives.LongProperty;
 import org.nuxeo.ecm.core.api.model.impl.primitives.StringProperty;
 
@@ -42,6 +46,21 @@ public class Tools {
     public static String getString(Object obj) throws PropertyException{
         if (obj != null){
             String value = ((StringProperty) obj).getValue(String.class);
+            return value;
+        }
+        return null;
+    }
+    
+    /**
+     * Get a string on the StringProperty
+     * @param obj
+     * @return a List Of String
+     * @throws PropertyException
+     */
+    public static List<String> getStringList(Object obj) throws PropertyException{
+        if (obj != null){
+            @SuppressWarnings("unchecked")
+            List<String> value = ((ListProperty) obj).getValue(ArrayList.class);
             return value;
         }
         return null;

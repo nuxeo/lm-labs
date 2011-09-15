@@ -11,11 +11,12 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
  */
 public enum PageListEntryType {
     
-    TEXT("text"),
-    DATE("date"),
-    CHECKBOX("checkbox"),
-    SELECT("select"),
-    URL("url");
+    TEXT("label.pageList.edit.editHeader.options.text"),
+    DATE("label.pageList.edit.editHeader.options.date"),
+    CHECKBOX("label.pageList.edit.editHeader.options.checkbox"),
+    //CHECKBOXSEVERAL("label.pageList.edit.editHeader.options.checkboxSeveral"),
+    SELECT("label.pageList.edit.editHeader.options.select"),
+    URL("label.pageList.edit.editHeader.options.url");
     
     private String i18n;
     
