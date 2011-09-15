@@ -42,7 +42,6 @@
         </@block>
     </head>
     <body>
-    <a href="${Context.modulePath}"><img style="position: fixed; top: 0; left: 0; border: 0;z-index: 20000;" src="${skinPath}/images/beta-ribbon.png" alt="Labs-beta"></a>
     <div id="FKtopContent">
     <#include "views/common/topbar.ftl" />
 
@@ -82,6 +81,8 @@
     <div id="FKfooter">
         <#include "views/common/footer.ftl">
     </div><!--FKfooter-->
-
+<div>
+&nbsp;
+</div>
     </body>
 </html>
