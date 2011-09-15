@@ -1,0 +1,12 @@
+#tooltip {
+    padding: 3px;
+    background: #FCFEB0;
+    border: 1px solid #eee;
+    text-align: center;
+    font-size: smaller;
+    font-weight: bold;
+}
+
+span.tip {
+    border-bottom: 1px solid #eee;
+}

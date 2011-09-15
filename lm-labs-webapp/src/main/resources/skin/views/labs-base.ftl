@@ -22,6 +22,7 @@
 	        <link rel="stylesheet/less" href="${skinPath}/less/bootstrap/bootstrap.less">
 			<script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
+			<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
         </@block>
 
         <@block name="scripts">
@@ -41,6 +42,7 @@
 			<script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
 			<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
 			<script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
+			<script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
         </@block>
     </head>
     <body>
