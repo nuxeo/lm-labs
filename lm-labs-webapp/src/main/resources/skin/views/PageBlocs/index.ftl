@@ -12,11 +12,6 @@
   </@block>
 
 
-      <@superBlock/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/page_blocs.css"/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-  </@block>
-
 
   <@block name="content">
 
