@@ -17,8 +17,8 @@ function topBarFullTextSearch() {
             <#if siteDoc??>
               <a href="${Context.modulePath}/${siteDoc.webcontainer.url}">${siteDoc.title}</a>
             <#else>
-        <a href="${Context.modulePath}">LABS</a>
-       </#if>
+              <a href="${Context.modulePath}">LABS</a>
+            </#if>
           </h3>
 
 
@@ -37,6 +37,7 @@ function topBarFullTextSearch() {
               <ul class="dropdown-menu">
                 <@block name="docactions"></@block>
                 <@block name="siteactions"></@block>
+
               <#if siteDoc?? && Session.hasPermission(siteDoc.ref, 'Everything') >
                 <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${siteDoc.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>

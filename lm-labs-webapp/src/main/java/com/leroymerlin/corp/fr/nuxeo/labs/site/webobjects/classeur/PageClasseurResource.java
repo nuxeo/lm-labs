@@ -51,7 +51,6 @@ public class PageClasseurResource extends Page {
     @Override
     public Response doPost() {
         FormData form = ctx.getForm();
-
         String folderTitle = form.getString("folderName");
         if (!StringUtils.isEmpty(folderTitle)) {
             try {
@@ -111,8 +110,8 @@ public class PageClasseurResource extends Page {
     }
 
 
-    
-    
+
+
     @Path(value = "{path}")
     @Override
     public Resource traverse(@PathParam("path") String path) {
@@ -123,7 +122,7 @@ public class PageClasseurResource extends Page {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        
+
     }
 
     public BlobHolder getBlobHolder(final DocumentModel document) {

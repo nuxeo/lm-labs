@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -46,7 +47,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 @WebObject(type = "sitesRoot")
@@ -153,31 +153,8 @@ public class SitesRoot extends ModuleRoot {
         return LabsSiteAdapter.getDefaultRoot(ctx.getCoreSession());
     }
 
-    public ArrayList<LabsSite> getLabsSites() throws ClientException {
-        final String logPrefix = "<getLabsSites> ";
-        ArrayList<LabsSite> result = new ArrayList<LabsSite>();
-        DocumentModelList listDoc = new DocumentModelListImpl();
-        Sorter sorter = null;
-        Filter filter = null;
-        boolean isAuthorized = isAuthorized();
-        if (isAuthorized) {
-            listDoc = ctx.getCoreSession()
-                    .getChildren(getDoc().getRef(),
-                            LabsSiteConstants.Docs.SITE.type(), null, null,
-                            sorter);
-        } else {
-            listDoc = ctx.getCoreSession()
-                    .getChildren(getDoc().getRef(),
-                            LabsSiteConstants.Docs.SITE.type(), null, filter,
-                            sorter);
-        }
-        LabsSite labssite = null;
-        for (DocumentModel doc1 : listDoc) {
-            log.debug(logPrefix + doc1.getName());
-            labssite = doc1.getAdapter(LabsSite.class);
-            result.add(labssite);
-        }
-        return result;
+    public List<LabsSite> getLabsSites() throws ClientException {
+        return getSiteManager().getAllSites(ctx.getCoreSession());
     }
 
     @POST
