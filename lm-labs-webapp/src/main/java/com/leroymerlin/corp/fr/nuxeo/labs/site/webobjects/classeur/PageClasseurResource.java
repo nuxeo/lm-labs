@@ -72,41 +72,7 @@ public class PageClasseurResource extends Page {
                     .build();
         }
 
-        // if (form.isMultipartContent()) {
-        // String desc = form.getString("description");
-        // Blob blob = form.getFirstBlob();
-        // if (blob == null) {
-        // throw new IllegalArgumentException(
-        // "Could not find any uploaded file");
-        // } else {
-        // blob.setFilename(StringUtils.deleteWhitespace(blob.getFilename()));
-        // try {
-        // blob.persist();
-        // CoreSession coreSession = ctx.getCoreSession();
-        // DocumentModel fileDoc = Framework.getService(
-        // FileManager.class)
-        // .createDocumentFromBlob(coreSession, blob,
-        // doc.getPathAsString(), false,
-        // blob.getFilename());
-        // if (!StringUtils.isEmpty(desc)) {
-        // fileDoc.setPropertyValue("dc:description", desc);
-        // fileDoc = getCoreSession().saveDocument(fileDoc);
-        // getCoreSession().save();
-        // }
-        // return Response.ok("Upload file ok", MediaType.TEXT_PLAIN)
-        // .build();
-        // } catch (Exception e) {
-        // return Response.serverError()
-        // .status(Status.FORBIDDEN)
-        // .entity(e.getMessage())
-        // .build();
-        // }
-        // }
-        // }
-        // return Response.serverError()
-        // .status(Status.FORBIDDEN)
-        // .entity("ERROR")
-        // .build();
+
     }
 
 
@@ -129,36 +95,6 @@ public class PageClasseurResource extends Page {
         return document.getAdapter(BlobHolder.class);
     }
 
-    // private DocumentModelList getChild(String docId) throws ClientException {
-    // StringBuilder sb = new StringBuilder("SELECT * From Document");
-    // sb.append(" WHERE ecm:path STARTSWITH '")
-    // .append(doc.getPathAsString())
-    // .append("'");
-    // sb.append(" AND ecm:uuid = '")
-    // .append(docId)
-    // .append("'");
-    // DocumentModelList list = getCoreSession().query(sb.toString());
-    // return list;
-    // }
-
-    // @Path("doc/{docId}")
-    // public Object doGetChild(@PathParam("docId") String docId) {
-    // final String logPrefix = "<doGetChild> ";
-    // LOG.debug(logPrefix + docId);
-    // DocumentModelList list;
-    // try {
-    // list = getChild(docId);
-    // if (list.isEmpty()) {
-    // return Response.status(Status.NOT_FOUND)
-    // .build();
-    // }
-    // return newObject("ClasseurElement", list.get(0));
-    // } catch (ClientException e) {
-    // LOG.error(e.getMessage());
-    // return Response.status(Status.FORBIDDEN)
-    // .build();
-    // }
-    // }
 
     @DELETE
     @Path("bulk")
