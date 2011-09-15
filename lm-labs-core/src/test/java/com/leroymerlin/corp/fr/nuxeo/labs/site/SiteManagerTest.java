@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
@@ -60,6 +61,29 @@ public class SiteManagerTest {
         sm.createSite(session, "Mon titre", "myurl");
     }
 
+    @Test
+    public void cantCreateASiteWithoutEitherTitleOrUrl() throws ClientException  {
+        try {
+            sm.createSite(session, "", "toto");
+            fail("May not be able to create a site without title");
+        } catch (SiteManagerException e) {
+            //This is ok
+        }
+
+        try {
+            sm.createSite(session, "", "");
+            fail("May not be able to create a site without url");
+        } catch (SiteManagerException e) {
+            //This is ok
+        }
+
+        try {
+            sm.createSite(session, "toto", "");
+            fail("May not be able to create a site without title and url");
+        } catch (SiteManagerException e) {
+            //This is ok
+        }
+    }
     @Test(expected=SiteManagerException.class)
     public void cantGetNonExistentSite() throws Exception {
         sm.getSite(session, "nonexistenturl");

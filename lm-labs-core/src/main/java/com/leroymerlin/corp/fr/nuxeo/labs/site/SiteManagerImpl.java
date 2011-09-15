@@ -3,7 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.mapping.Array;
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -27,10 +27,10 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
     @Override
     public LabsSite createSite(CoreSession session, String title, String url)
             throws ClientException, SiteManagerException {
-        if (siteExists(session, url)) {
-            throw new SiteManagerException(
-                    "label.sitemanager.error.site_already_exists");
-        }
+
+
+        validateSiteCreationRequest(session, title, url);
+
 
         DocumentModel sitesRoot = getSiteRoot(session);
         DocumentModel docLabsSite = session.createDocumentModel(
@@ -42,6 +42,26 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         labSite.setURL(url);
         docLabsSite = session.createDocument(docLabsSite);
         return docLabsSite.getAdapter(LabsSite.class);
+    }
+
+
+    private void validateSiteCreationRequest(CoreSession session, String title, String url)
+            throws ClientException, SiteManagerException {
+
+        if(StringUtils.isEmpty(title.trim())) {
+            throw new SiteManagerException(
+                    "label.sitemanager.error.title_cant_be_empty");
+        }
+
+        if(StringUtils.isEmpty(url.trim())) {
+            throw new SiteManagerException(
+                    "label.sitemanager.error.url_cant_be_empty");
+        }
+
+        if (siteExists(session, url)) {
+            throw new SiteManagerException(
+                    "label.sitemanager.error.site_already_exists");
+        }
     }
 
     private DocumentModel getSiteRoot(CoreSession session)
