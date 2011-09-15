@@ -4,7 +4,6 @@
     <head>
         <@block name="meta">
           <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-          <base href="${Context.modulePath}" />
         </@block>
 
         <title>
@@ -44,6 +43,20 @@
 
       <div id="masthead">
           <img src="${skinPath}/images/banniere.jpg" />
+      </div>
+
+      <div class="container">
+        <div class="row">
+           <div class="span16 columns">
+          <#assign messages = This.getMessages() />
+          <#list messages?keys as key >
+             <div class="alert-message ${key}">
+               <a class="close" href="#">x</a>
+               ${messages[key]}
+             </div>
+          </#list>
+          </div>
+        </div>
       </div>
 
       <div class="container">

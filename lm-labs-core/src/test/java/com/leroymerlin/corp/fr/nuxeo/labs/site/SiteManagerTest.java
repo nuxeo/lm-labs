@@ -110,4 +110,54 @@ public class SiteManagerTest {
         assertThat(sm.getAllSites(session).size(),is(2));
 
     }
+
+
+    @Test
+    public void iCanUpdateASite() throws Exception {
+        LabsSite site = sm.createSite(session, "Mon titre", "myurl");
+        site.setDescription("desc");
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        site.setTitle("Mon titre 2");
+        site.setDescription("desc2");
+        sm.updateSite(session,site);
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        assertThat(site.getTitle(),is("Mon titre 2"));
+        assertThat(site.getDescription(), is("desc2"));
+        assertThat(site.getURL(), is("myurl"));
+
+
+        site.setURL("myurl2");
+        sm.updateSite(session,site);
+        session.save();
+
+        site = sm.getSite(session, "myurl2");
+        assertThat(site.getURL(), is("myurl2"));
+
+
+
+    }
+
+    @Test
+    public void iCanUpdateJustTheTitle() throws Exception {
+
+    }
+
+    @Test(expected=SiteManagerException.class)
+    public void iCantUpdateASiteWithAnUrlOfAnotherSite() throws Exception {
+        sm.createSite(session, "Mon titre", "myurl");
+        LabsSite site = sm.createSite(session, "Mon titre", "myurl2");
+
+        session.save();
+
+        site.setURL("myurl");
+        sm.updateSite(session, site);
+        session.save();
+
+    }
+
+
 }

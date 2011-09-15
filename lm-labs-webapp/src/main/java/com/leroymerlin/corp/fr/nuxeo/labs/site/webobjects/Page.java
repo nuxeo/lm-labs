@@ -1,11 +1,14 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.rest.DocumentObject;
+import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Template;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
@@ -23,6 +27,8 @@ public class Page extends DocumentObject {
     private static final String BROWSE_TREE_VIEW = "views/common/browse_tree.ftl";
 
     private static final Log LOG = LogFactory.getLog(Page.class);
+
+    private static final String[] MESSAGES_TYPE = new String[] {"error","info","success","warning"};
 
     public com.leroymerlin.corp.fr.nuxeo.labs.site.Page getPage() {
         return doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class);
@@ -64,5 +70,23 @@ public class Page extends DocumentObject {
         SiteDocument sd = doc.getAdapter(SiteDocument.class);
         return (String) sd.getSite().getDocument().getPropertyValue(
                 "webc:url");
+    }
+
+
+    /**
+     * Returns a Map containing all "flash" messages
+     * @return
+     */
+    public Map<String,String> getMessages() {
+        Map<String,String> messages = new HashMap<String, String>();
+        FormData form = ctx.getForm();
+        for(String type : MESSAGES_TYPE) {
+            String message = form.getString("message_"+type);
+            if(StringUtils.isNotBlank(message)) {
+                messages.put(type, message);
+            }
+        }
+        return messages;
+
     }
 }

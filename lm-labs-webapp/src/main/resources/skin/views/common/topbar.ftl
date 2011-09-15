@@ -36,7 +36,11 @@ function topBarFullTextSearch() {
               <a href="#" class="dropdown-toggle">${Context.principal.firstName} ${Context.principal.lastName}</a>
               <ul class="dropdown-menu">
                 <@block name="docactions"></@block>
-                <@block name="siteactions"></@block>
+                <@block name="siteactions">
+                <#if site?? && Session.hasPermission(site.document.ref, "WRITE")>
+                <li><a href="${Context.modulePath}/${site.URL}/@views/edit">Administration</a></li>
+                </#if>
+                </@block>
 
               <#if siteDoc?? && Session.hasPermission(siteDoc.ref, 'Everything') >
                 <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${siteDoc.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
