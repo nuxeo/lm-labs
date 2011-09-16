@@ -20,4 +20,6 @@ public interface SiteManager {
     Boolean siteExists(CoreSession session, String url) throws ClientException;
 
     List<LabsSite> getAllSites(CoreSession session) throws ClientException;
+
+    void updateSite(CoreSession session, LabsSite site) throws ClientException, SiteManagerException;
 }

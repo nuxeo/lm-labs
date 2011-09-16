@@ -9,6 +9,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.DocumentRef;
+import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
@@ -149,6 +150,29 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
 
         }
         return sites;
+
+    }
+
+
+    @Override
+    public void updateSite(CoreSession session, LabsSite site) throws ClientException, SiteManagerException {
+        //Check if url change gets a collision on another site
+        if(hasChangedUrl(session,site) && siteExists(session, site.getURL())) {
+            throw new SiteManagerException("label.sitemanager.error.url_already_exists");
+        }
+
+        session.saveDocument(site.getDocument());
+
+
+    }
+
+
+    private boolean hasChangedUrl(CoreSession session, LabsSite site) throws ClientException {
+        // TODO Auto-generated method stub
+        DocumentModel originalDoc = session.getDocument(new IdRef(site.getDocument().getId()));
+        LabsSite origSite = originalDoc.getAdapter(LabsSite.class);
+
+        return !origSite.getURL().equals(site.getURL());
 
     }
 

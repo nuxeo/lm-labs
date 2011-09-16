@@ -4,7 +4,6 @@
     <head>
         <@block name="meta">
           <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-          <base href="${Context.modulePath}" />
         </@block>
 
         <title>
@@ -39,11 +38,26 @@
         </@block>
     </head>
     <body>
+    <a href="${Context.modulePath}"><img style="position: fixed; top: 0; left: 0; border: 0;z-index: 20000;" src="${skinPath}/images/beta-ribbon.png" alt="Labs-beta"></a>
     <div id="FKtopContent">
       <#include "views/common/topbar.ftl" />
 
       <div id="masthead">
           <img src="${skinPath}/images/banniere.jpg" />
+      </div>
+
+      <div class="container">
+        <div class="row">
+           <div class="span16 columns">
+          <#assign messages = This.getMessages() />
+          <#list messages?keys as key >
+             <div class="alert-message ${key}">
+               <a class="close" href="#">x</a>
+               ${messages[key]}
+             </div>
+          </#list>
+          </div>
+        </div>
       </div>
 
       <div class="container">
@@ -60,6 +74,8 @@
     <div id="FKfooter">
         <#include "views/common/footer.ftl">
     </div><!--FKfooter-->
-
+<div>
+&nbsp;
+</div>
     </body>
 </html>

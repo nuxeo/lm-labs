@@ -1,6 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -11,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -19,6 +22,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.platform.rendering.fm.FreemarkerEngine;
 import org.nuxeo.ecm.webengine.WebException;
+import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
@@ -42,6 +46,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 public class SitesRoot extends ModuleRoot {
 
     private static final Log log = LogFactory.getLog(SitesRoot.class);
+
+    private static final String[] MESSAGES_TYPE = new String[] {"error","info","success","warning"};
 
 
     /*
@@ -175,5 +181,22 @@ public class SitesRoot extends ModuleRoot {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
+    }
+
+    /**
+     * Returns a Map containing all "flash" messages
+     * @return
+     */
+    public Map<String,String> getMessages() {
+        Map<String,String> messages = new HashMap<String, String>();
+        FormData form = ctx.getForm();
+        for(String type : MESSAGES_TYPE) {
+            String message = form.getString("message_"+type);
+            if(StringUtils.isNotBlank(message)) {
+                messages.put(type, message);
+            }
+        }
+        return messages;
+
     }
 }

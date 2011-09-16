@@ -3,7 +3,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 import java.util.Date;
 
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,31 +13,30 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.DocumentRef;
-import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
-import org.nuxeo.ecm.webengine.model.Template;
+import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
+import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 @WebObject(type = "LabsSite")
 @Produces("text/html; charset=UTF-8")
-public class Site extends DocumentObject {
-
-    public static final String SITEMAP_VIEW = "sitemap";
-
-    public static final String SITEMAP_AS_LIST_VIEW = "sitemap_as_list";
+public class Site extends Page {
 
     private static final Log LOG = LogFactory.getLog(Site.class);
 
@@ -61,30 +59,52 @@ public class Site extends DocumentObject {
                 .setSharedVariable("site", site);
     }
 
-    @Deprecated
-    @Path("id/{idPage}")
-    public Object doGetPageId(@PathParam("idPage") final String idPage) {
-        DocumentRef docRef = new IdRef(idPage);
+    @POST
+    @Override
+    public Response doPost() {
+        FormData form = ctx.getForm();
+        String title = form.getString("title");
+        String url = form.getString("URL");
+        String description = form.getString("description");
+
         try {
-            DocumentModel destDoc = ctx.getCoreSession()
-                    .getDocument(docRef);
-            if (Docs.pageDocs()
-                    .contains(Docs.fromString(destDoc.getType()))) {
-                return newObject(destDoc.getType(), destDoc);
-            } else {
-                throw new WebException("Unsupported document type "
-                        + destDoc.getType());
-            }
+            site.setTitle(title);
+            site.setDescription(description);
+            site.setURL(url);
+
+            CoreSession session = ctx.getCoreSession();
+            getSiteManager().updateSite(session, site);
+            session.save();
+            return redirect(ctx.getModulePath()
+                    + "/"
+                    + site.getURL()
+                    + "/@views/edit?message_success=label.site.edit.site_updated");
+        } catch (SiteManagerException e) {
+            return redirect(getPath() + "/@views/edit?message_error="
+                    + e.getMessage());
         } catch (ClientException e) {
-            throw WebException.wrap("The document id='" + idPage
-                    + "' not exists", e);
+            throw WebException.wrap(e);
+        }
+
+    }
+
+    @Path("theme/{themeName}")
+    public Object doGetTheme(@PathParam("themeName") String themeName) {
+        try {
+            SiteTheme theme = site.getTheme();
+            return newObject("SiteTheme", site, theme);
+        } catch (ClientException e) {
+            throw WebResourceNotFoundException.wrap(e);
         }
     }
 
-    @GET
-    @Path("siteMap")
-    public Template doGoSiteMap() {
-        return getView(SITEMAP_VIEW);
+    private SiteManager getSiteManager() {
+        try {
+            return Framework.getService(SiteManager.class);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     @POST
@@ -150,10 +170,13 @@ public class Site extends DocumentObject {
                 result.append("' /></a></div>");
             }
         } else {
-            return Response.status(Status.NOT_FOUND).build();
+            return Response.status(Status.NOT_FOUND)
+                    .build();
         }
 
-        return Response.status(Status.OK).entity(result.toString()).build();
+        return Response.status(Status.OK)
+                .entity(result.toString())
+                .build();
     }
 
     @Override
