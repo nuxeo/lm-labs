@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -21,11 +22,13 @@ import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
+import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -72,7 +75,9 @@ public class Site extends Page {
             CoreSession session = ctx.getCoreSession();
             getSiteManager().updateSite(session, site);
             session.save();
-            return redirect(ctx.getModulePath() + "/" + site.getURL()
+            return redirect(ctx.getModulePath()
+                    + "/"
+                    + site.getURL()
                     + "/@views/edit?message_success=label.site.edit.site_updated");
         } catch (SiteManagerException e) {
             return redirect(getPath() + "/@views/edit?message_error="
@@ -81,6 +86,16 @@ public class Site extends Page {
             throw WebException.wrap(e);
         }
 
+    }
+
+    @Path("theme/{themeName}")
+    public Object doGetTheme(@PathParam("themeName") String themeName) {
+        try {
+            SiteTheme theme = site.getTheme();
+            return newObject("SiteTheme", site, theme);
+        } catch (ClientException e) {
+            throw WebResourceNotFoundException.wrap(e);
+        }
     }
 
     private SiteManager getSiteManager() {
