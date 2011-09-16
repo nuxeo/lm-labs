@@ -16,6 +16,7 @@ import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 /**
@@ -126,6 +127,30 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
             url = "ClientException : Url not found";
         }
         return String.format("LabsSite at %s (url: %s)", doc.getPathAsString(), url);
+    }
+
+    @Override
+    public List<SiteTheme> getThemes() throws ClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public SiteTheme getTheme(String themeName) throws ClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public SiteTheme getTheme() throws ClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setTheme(String themeName) throws ClientException {
+        // TODO Auto-generated method stub
+
     }
 
 }
