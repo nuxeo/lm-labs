@@ -8,7 +8,9 @@ import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.schema.FacetNames;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
@@ -26,6 +28,7 @@ public class LabsSiteWebAppUtilsTest {
     @Inject
     private CoreSession session;
 
+    @SuppressWarnings("serial")
     @Test
     public void canGetTreeview() throws ClientException {
         generateSite();
@@ -40,7 +43,11 @@ public class LabsSiteWebAppUtilsTest {
         final DocumentModel asset = session.getDocument(new PathRef(
                 site1.getPathAsString() + "/" + Docs.ASSETS.docName()));
 
-        treeview = LabsSiteWebAppUtils.getTreeview(asset, null, false, true);
+        treeview = LabsSiteWebAppUtils.getTreeview(asset, null, false, new Filter() {
+            @Override
+            public boolean accept(DocumentModel document) {
+                return document.getFacets().contains(FacetNames.FOLDERISH);
+            }});
         assertNotNull(treeview);
 
         // TODO test result with regex

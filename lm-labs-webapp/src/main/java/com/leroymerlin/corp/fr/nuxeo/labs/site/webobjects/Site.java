@@ -16,9 +16,11 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
+import org.nuxeo.ecm.core.schema.FacetNames;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -107,19 +109,25 @@ public class Site extends Page {
 
     }
 
+    @SuppressWarnings("serial")
     @POST
     @Path("treeview")
     public String doTreeview() {
         try {
 
             return LabsSiteWebAppUtils.getTreeview(site.getTree(), this, true,
-                    false);
+                    new Filter() {
+                        @Override
+                        public boolean accept(DocumentModel document) {
+                            return Docs.pageDocs().contains(Docs.fromString(document.getType()));
+                        }});
         } catch (Exception e) {
             LOG.error(e, e);
             throw WebException.wrap(e);
         }
     }
 
+    @SuppressWarnings("serial")
     @POST
     @Path("browseTree")
     public String doBrowseTree() {
@@ -127,9 +135,11 @@ public class Site extends Page {
             DocumentModel assetDoc = getCoreSession().getDocument(
                     new PathRef("/default-domain/sites/" + doc.getName() + "/"
                             + LabsSiteConstants.Docs.ASSETS.docName()));
-
-            return LabsSiteWebAppUtils.getTreeview(assetDoc, this, true, true);
-
+            return LabsSiteWebAppUtils.getTreeview(assetDoc, this, true, new Filter() {
+                @Override
+                public boolean accept(DocumentModel document) {
+                    return document.getFacets().contains(FacetNames.FOLDERISH);
+                }});
         } catch (Exception e) {
             LOG.error(e, e);
             throw WebException.wrap(e);
