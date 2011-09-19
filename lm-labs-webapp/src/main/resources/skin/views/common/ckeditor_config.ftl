@@ -12,7 +12,7 @@ toolbar:
 
 ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
 '/',
-[ 'Bold','Italic','Strike','-','SelectAll','RemoveFormat'],
+[ 'Bold','Italic','Underline','Strike','-','SelectAll','RemoveFormat'],
 [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar' ] ,'/',
 ['Format','Font','FontSize'],
 ['TextColor','BGColor'],
