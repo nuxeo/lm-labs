@@ -14,6 +14,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.DocumentRef;
+import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.SortInfo;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
@@ -36,7 +37,7 @@ public final class LabsSiteWebAppUtils {
     }
 
     public static String getTreeview(final DocumentModel parent, Resource site,
-            final Boolean enableBrowsingTree, final Boolean onlyFolder)
+            final Boolean enableBrowsingTree, final Filter filter)
             throws ClientException, IllegalArgumentException {
         if (parent == null) {
             throw new IllegalArgumentException(
@@ -46,12 +47,7 @@ public final class LabsSiteWebAppUtils {
         CoreSession session = parent.getCoreSession();
         DocumentModelList children = null;
 
-        if (onlyFolder) {
-            children = session.getChildren(parent.getRef(),
-                    LabsSiteConstants.Docs.FOLDER.type());
-        } else {
-            children = session.getChildren(parent.getRef());
-        }
+        children = session.getChildren(parent.getRef(), null, filter, null);
 
         StringBuilder result = new StringBuilder();
 
@@ -89,7 +85,7 @@ public final class LabsSiteWebAppUtils {
             if (session.hasChildren(doc.getRef())) {
                 result.append(",\"expanded\": true,\"children\":");
                 result.append(getTreeview(doc, site, enableBrowsingTree,
-                        onlyFolder));
+                        filter));
             }
             result.append("}");
             i++;
@@ -101,7 +97,7 @@ public final class LabsSiteWebAppUtils {
 
     public static String getTreeview(final DocumentModel parent, Resource site)
             throws ClientException, IllegalArgumentException {
-        return getTreeview(parent, site, true, false);
+        return getTreeview(parent, site, true, null);
     }
 
     /**
