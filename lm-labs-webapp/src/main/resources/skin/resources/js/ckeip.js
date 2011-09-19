@@ -12,12 +12,17 @@ $.fn.ckeip = function (options, callback) {
         data: {}, e_url: '',
         e_hover_color: '#eeeeee',
         ckeditor_config: '',
-        e_width: '50'
+        e_width: '50',
+        emptyedit_message: 'Double click to edit content'
     };
     var settings = $.extend({}, defaults, options);
 
     return this.each(function () {
         var eip_html = $(this).html();
+
+        if(eip_html == "") {
+          $(this).html(settings.emptyedit_message);
+        }
         var u_id = Math.floor(Math.random() * 99999999);
 
 
