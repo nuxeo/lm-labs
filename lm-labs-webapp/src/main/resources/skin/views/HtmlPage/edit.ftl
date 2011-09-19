@@ -38,7 +38,7 @@
 
        <div class="container">
 
-<#include "views/common/description_area.ftl">
+    <#include "views/common/description_area.ftl">
 
     <#include "views/common/comment_area.ftl">
 
