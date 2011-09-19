@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.remoting.samples.chat.exceptions.InvalidArgumentException;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -166,7 +167,7 @@ public final class LabsSiteWebAppUtils {
     private static String getHref(final String url, final String text) {
         StringBuilder result = new StringBuilder();
         result.append("<a href='");
-        result.append(url);
+        result.append(StringEscapeUtils.escapeXml(url));
         result.append("' onclick='window.open(this.href);return false;'>").append(
                 text).append("</a>");
         return result.toString();
