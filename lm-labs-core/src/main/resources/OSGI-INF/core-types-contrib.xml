@@ -1,148 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.site.core.types"
-	version="1.0">
-	<require>org.nuxeo.ecm.core.schema.TypeService</require>
-	<require>org.nuxeo.ecm.core.CoreExtensions</require>
-	<require>org.nuxeo.ecm.platform.picture.coreTypes</require>
+  version="1.0">
+  <require>org.nuxeo.ecm.core.schema.TypeService</require>
+  <require>org.nuxeo.ecm.core.CoreExtensions</require>
+  <require>org.nuxeo.ecm.platform.picture.coreTypes</require>
 
-	<extension target="org.nuxeo.ecm.core.schema.TypeService"
-		point="schema">
-		<schema name="page" prefix="pg" src="schemas/page.xsd" />
-		<schema name="page_news" prefix="pgn" src="schemas/page_news.xsd" />
-		<schema name="labsnews" prefix="ln" src="schemas/labsnews.xsd" />
-		<schema name="page_list" prefix="pgl" src="schemas/page_list.xsd" />
-		<schema name="page_list_entry" prefix="pglen" src="schemas/page_list_entry.xsd" />
-		<schema name="page_blocs" prefix="pgb" src="schemas/page_blocs.xsd" />
-		<schema name="external_url" prefix="exturl" src="schemas/external_url.xsd" />
-		<schema name="page_html" prefix="html" src="schemas/page_html.xsd" />
-		<!-- <schema name="theme" src="schemas/theme.xsd" /> -->
-	</extension>
+  <extension target="org.nuxeo.ecm.core.schema.TypeService"
+    point="schema">
+    <schema name="page" prefix="pg" src="schemas/page.xsd" />
+    <schema name="page_news" prefix="pgn" src="schemas/page_news.xsd" />
+    <schema name="labsnews" prefix="ln" src="schemas/labsnews.xsd" />
+    <schema name="page_list" prefix="pgl" src="schemas/page_list.xsd" />
+    <schema name="page_list_entry" prefix="pglen" src="schemas/page_list_entry.xsd" />
+    <schema name="page_blocs" prefix="pgb" src="schemas/page_blocs.xsd" />
+    <schema name="external_url" prefix="exturl" src="schemas/external_url.xsd" />
+    <schema name="page_html" prefix="html" src="schemas/page_html.xsd" />
+    <schema name="labssite" prefix="labssite" src="schemas/labssite.xsd" />
+    <schema name="site_theme" prefix="sitetheme" src="schemas/site_theme.xsd" /> -->
+  </extension>
 
-	<extension target="org.nuxeo.ecm.core.schema.TypeService"
-		point="doctype">
-		<documentation>The core universe types</documentation>
+  <extension target="org.nuxeo.ecm.core.schema.TypeService"
+    point="doctype">
+    <documentation>The core universe types</documentation>
 
-		<doctype name="SitesRoot" extends="Folder">
-			<facet name="SuperSpace" />
-			<subtypes>
-				<type>Site</type>
-			</subtypes>
-		</doctype>
+    <doctype name="SitesRoot" extends="Folder">
+      <facet name="SuperSpace" />
+      <subtypes>
+        <type>Site</type>
+      </subtypes>
+    </doctype>
 
-		<doctype name="Site" extends="Workspace">
-			<schema name="webcontainer" />
-			<subtypes>
-				<type>Tree</type>
-				<type>Assets</type>
-			</subtypes>
-		</doctype>
+    <doctype name="Site" extends="Workspace">
+      <schema name="webcontainer" />
+      <schema name="labssite" />
+      <subtypes>
+        <type>Tree</type>
+        <type>Assets</type>
+      </subtypes>
+    </doctype>
 
-		<doctype name="Tree" extends="OrderedFolder">
-			<subtypes>
-				<type>Page</type>
-				<type>PageBlocs</type>
-				<type>PageNews</type>
-				<type>PageClasseur</type>
-				<type>PageList</type>
-			</subtypes>
-		</doctype>
+    <doctype name="SiteTheme" extends="Folder">
+      <schema name="site_theme" />
+    </doctype>
 
-		<doctype name="Page" extends="OrderedFolder">
-			<schema name="page" />
-			<subtypes>
-				<type>Page</type>
-				<type>PageBlocs</type>
-				<type>PageNews</type>
-				<type>PageClasseur</type>
-				<type>PageList</type>
-			</subtypes>
-		</doctype>
+    <doctype name="Tree" extends="OrderedFolder">
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+      </subtypes>
+    </doctype>
 
-		<doctype name="ExternalURL" extends="Document">
-			<schema name="dublincore" />
-			<schema name="external_url" />
-		</doctype>
+    <doctype name="Page" extends="OrderedFolder">
+      <schema name="page" />
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+      </subtypes>
+    </doctype>
 
-		<doctype name="PageBlocs" extends="Page">
-			<schema name="file" />
-			<schema name="page_blocs" />
-			<subtypes>
-				<type>Page</type>
-				<type>PageBlocs</type>
-				<type>PageNews</type>
-				<type>PageClasseur</type>
-				<type>PageList</type>
-			</subtypes>
-		</doctype>
+    <doctype name="ExternalURL" extends="Document">
+      <schema name="dublincore" />
+      <schema name="external_url" />
+    </doctype>
 
-		<doctype name="PageNews" extends="Page">
-			<schema name="file" />
-			<schema name="page_news" />
-			<subtypes>
-				<type>LabsNews</type>
-			</subtypes>
-		</doctype>
+    <doctype name="PageBlocs" extends="Page">
+      <schema name="file" />
+      <schema name="page_blocs" />
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+      </subtypes>
+    </doctype>
 
-		<doctype name="LabsNews" extends="Document">
-			<schema name="dublincore" />
-			<schema name="common" />
-			<schema name="file" />
-			<schema name="labsnews" />
-		</doctype>
+    <doctype name="PageNews" extends="Page">
+      <schema name="file" />
+      <schema name="page_news" />
+      <subtypes>
+        <type>LabsNews</type>
+      </subtypes>
+    </doctype>
 
-		<doctype name="PageClasseur" extends="Page">
-				<type>Folder</type>
-				<type>Picture</type>
-				<!-- <type>Audio</type> -->
-				<!-- <type>Video</type> -->
-				<type>File</type>
-		</doctype>
+    <doctype name="LabsNews" extends="Document">
+      <schema name="dublincore" />
+      <schema name="common" />
+      <schema name="file" />
+      <schema name="labsnews" />
+    </doctype>
 
-		<doctype name="PageList" extends="Page">
-			<schema name="file" />
-			<schema name="page_list" />
-			<subtypes>
-				<type>page_list_entry</type>
-			</subtypes>
-		</doctype>
-		
-		<doctype name="PageListEntry" extends="Document">
-			<schema name="page_list_entry" />
-		</doctype>
+    <doctype name="PageClasseur" extends="Page">
+        <type>Folder</type>
+        <type>Picture</type>
+        <!-- <type>Audio</type> -->
+        <!-- <type>Video</type> -->
+        <type>File</type>
+    </doctype>
 
-		<doctype name="Assets" extends="Folder">
-			<subtypes>
-				<type>Folder</type>
-				<type>Picture</type>
-				<!-- <type>Audio</type> -->
-				<!-- <type>Video</type> -->
-				<type>File</type>
-			</subtypes>
-		</doctype>
-		
-		
-		
-		<doctype name="HtmlPage" extends="Page">
-			<schema name="page_html"/>
-		</doctype>
-		
+    <doctype name="PageList" extends="Page">
+      <schema name="file" />
+      <schema name="page_list" />
+      <subtypes>
+        <type>page_list_entry</type>
+      </subtypes>
+    </doctype>
 
-	</extension>
+    <doctype name="PageListEntry" extends="Document">
+      <schema name="page_list_entry" />
+    </doctype>
 
-	<extension target="org.nuxeo.ecm.core.search.service.SearchServiceImpl"
-		point="indexableDocType">
-		<indexableDocType indexAllSchemas="true" name="Site" />
-		<indexableDocType indexAllSchemas="true" name="Page" />
-		<indexableDocType indexAllSchemas="true" name="PageBlocs" />
-		<indexableDocType indexAllSchemas="true" name="PageNews" />
-		<indexableDocType indexAllSchemas="true" name="PageClasseur" />
-		<indexableDocType indexAllSchemas="true" name="PageList" />
-		<indexableDocType indexAllSchemas="true" name="LabsNews" />
-		<indexableDocType indexAllSchemas="true" name="ExternalURL" />
-		<indexableDocType indexAllSchemas="true" name="PageListEntry" />
-		<indexableDocType indexAllSchemas="true" name="HtmlPage" />
-	</extension>
+    <doctype name="Assets" extends="Folder">
+      <subtypes>
+        <type>Folder</type>
+        <type>Picture</type>
+        <!-- <type>Audio</type> -->
+        <!-- <type>Video</type> -->
+        <type>File</type>
+      </subtypes>
+    </doctype>
+
+
+
+    <doctype name="HtmlPage" extends="Page">
+      <schema name="page_html"/>
+    </doctype>
+
+
+  </extension>
+
+  <extension target="org.nuxeo.ecm.core.search.service.SearchServiceImpl"
+    point="indexableDocType">
+    <indexableDocType indexAllSchemas="true" name="Site" />
+    <indexableDocType indexAllSchemas="true" name="Page" />
+    <indexableDocType indexAllSchemas="true" name="PageBlocs" />
+    <indexableDocType indexAllSchemas="true" name="PageNews" />
+    <indexableDocType indexAllSchemas="true" name="PageClasseur" />
+    <indexableDocType indexAllSchemas="true" name="PageList" />
+    <indexableDocType indexAllSchemas="true" name="LabsNews" />
+    <indexableDocType indexAllSchemas="true" name="ExternalURL" />
+    <indexableDocType indexAllSchemas="true" name="PageListEntry" />
+    <indexableDocType indexAllSchemas="true" name="HtmlPage" />
+  </extension>
 
 </component>
- 

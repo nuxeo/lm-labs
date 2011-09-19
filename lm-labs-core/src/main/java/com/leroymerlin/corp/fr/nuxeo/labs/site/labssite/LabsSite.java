@@ -10,7 +10,6 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
 
 /**
  * @author fvandaele
@@ -18,17 +17,47 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
  */
 public interface LabsSite extends Page {
 
+    /**
+     * The last url part to get this site. This MUST be
+     * unique amongst all sites
+     * @return
+     * @throws ClientException
+     */
     String getURL() throws ClientException;
 
+    /**
+     * Set the url of the site. It SHOULD throw an exception
+     * if the URL is not unique
+     * @param pURL
+     * @throws ClientException
+     */
     void setURL(String pURL) throws ClientException;
 
+    /**
+     * The underlying Site document
+     * @return
+     */
     DocumentModel getDocumentModel();
 
+    /**
+     * Returns a Blob containing the logo of
+     * the site (not the banner : see ThemeManager)
+     * @return
+     * @throws ClientException
+     */
     Blob getLogo() throws ClientException;
+
 
     void setLogo(Blob pBlob) throws ClientException;
 
 
+    /**
+     * Returns all the page of the site. Pages are
+     * document that are renderable with a web
+     * view
+     * @return
+     * @throws ClientException
+     */
     List<Page> getAllPages() throws ClientException;
 
     /**
@@ -39,33 +68,11 @@ public interface LabsSite extends Page {
      */
     DocumentModel getTree() throws ClientException;
 
-
     /**
-     * Returns a list of available themes for this site
+     * Return the theme manager for this site
      * @return
      * @throws ClientException
      */
-    List<SiteTheme> getThemes() throws ClientException;
+    SiteThemeManager getSiteThemeManager() throws ClientException;
 
-    /**
-     * Returns a named theme of the site
-     * @param themeName
-     * @return
-     * @throws ClientException
-     */
-    SiteTheme getTheme(String themeName) throws ClientException;
-
-    /**
-     * Returns the current theme of the site
-     * @return
-     * @throws ClientException
-     */
-    SiteTheme getTheme() throws ClientException;
-
-    /**
-     * Sets the current theme
-     * @param themeName
-     * @throws ClientException
-     */
-    void setTheme(String themeName) throws ClientException;
 }

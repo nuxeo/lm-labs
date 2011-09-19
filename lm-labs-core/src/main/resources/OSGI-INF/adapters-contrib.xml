@@ -16,11 +16,11 @@
     <!-- News Document Adapter -->
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNewsAdapterFactory" />
-    
+
     <!-- PageList Document Adapter -->
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListAdapterFactory" />
-	
+
     <!-- PageListEntry Document Adapter -->
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListEntry"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListEntryAdapterFactory" />
@@ -34,6 +34,10 @@
 
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapterFactory" />
+
+
+    <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.SiteThemeAdapterFactory" />
 
   <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.Page"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.page.PageAdapterFactory" />

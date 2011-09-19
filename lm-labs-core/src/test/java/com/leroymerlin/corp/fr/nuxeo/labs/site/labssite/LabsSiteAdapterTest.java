@@ -57,17 +57,17 @@ public class LabsSiteAdapterTest {
     public void iCanCreateALabsSiteAdapter() throws Exception {
       //Use the session as a factory
         DocumentModel doc = session.createDocumentModel("/", "NameSite1",LABSSITE_TYPE);
-        
+
         LabsSite labssite = doc.getAdapter(LabsSite.class);
         assertThat(labssite,is(notNullValue()));
         labssite.setTitle("Le titre du site");
-        
+
         //Persist document in db
         doc = session.createDocument(doc);
-        
+
         //Commit
         session.save();
-        
+
         doc = session.getDocument(new PathRef("/NameSite1"));
         labssite = doc.getAdapter(LabsSite.class);
         assertThat(labssite,is(notNullValue()));
@@ -81,7 +81,7 @@ public class LabsSiteAdapterTest {
         DocumentModel doc = session.createDocumentModel("/", "nameSite1",LABSSITE_TYPE);
 
         doc.setPropertyValue("dc:creator", "creator");
-        
+
         LabsSite labssite = doc.getAdapter(LabsSite.class);
         assertThat(labssite,is(notNullValue()));
         labssite.setTitle("Le titre du site");
@@ -89,13 +89,13 @@ public class LabsSiteAdapterTest {
         labssite.setURL("URL");
         Blob blob = getTestBlob();
         labssite.setLogo(blob);
-        
+
         //Persist document in db
         doc = session.createDocument(doc);
-        
+
         //Commit
         session.save();
-        
+
         doc = session.getDocument(new PathRef("/nameSite1"));
         labssite = doc.getAdapter(LabsSite.class);
         assertThat(labssite,is(notNullValue()));
@@ -107,6 +107,7 @@ public class LabsSiteAdapterTest {
         assertEquals(labssite.getLogo().getLength(), blob.getLength());
 
     }
+
 
     private Blob getTestBlob() {
         String filename = "vision.jpg";

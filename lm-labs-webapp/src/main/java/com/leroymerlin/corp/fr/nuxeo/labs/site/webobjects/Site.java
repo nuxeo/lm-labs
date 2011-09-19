@@ -91,7 +91,7 @@ public class Site extends Page {
     @Path("theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
-            SiteTheme theme = site.getTheme();
+            SiteTheme theme = site.getSiteThemeManager().getTheme(themeName);
             return newObject("SiteTheme", site, theme);
         } catch (ClientException e) {
             throw WebResourceNotFoundException.wrap(e);
