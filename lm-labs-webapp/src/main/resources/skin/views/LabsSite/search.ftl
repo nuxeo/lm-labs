@@ -15,6 +15,9 @@ jQuery(document).ready(function() {
     	headers: {
     		0: {
     			sorter:false
+    		},
+    		5: {
+    			sorter:false
     		}
     	},
     	textExtraction: function(node) { 
@@ -32,7 +35,7 @@ jQuery(document).ready(function() {
 -->
 <table class="zebra-striped" id="resultsSearch" >
 	<thead>
-		<tr><th></th><th>Titre</th><th>Dernière Modification</th><th>Taille Fichier</th><th>Page</th></tr>
+		<tr><th></th><th>Titre</th><th>Dernière Modification</th><th>Taille Fichier</th><th>Page</th><th></th></tr>
 	</thead>
 	<tbody>
     <#list result as doc>
@@ -60,6 +63,11 @@ jQuery(document).ready(function() {
 	    <td class="colFilesize">${formattedFilesize}<span class="sortValue">${filesize?string.computer}</span></td>
 	    <#assign closestPage = This.getClosestPage(doc) />
 	    <td><a href="${This.URL}${This.getPageEndUrl(closestPage)}" target="_blank" >${closestPage.title}</a></td>
+        <#assign previewUrl = This.path + pageEndUrl(doc) />
+        <td>
+            <a href="${previewUrl}" target="_blank" class="btn">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
+            <a href="${previewUrl?split('/preview')[0]}" class="btn">${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
+        </td>
     </tr>
     </#list>
     </tbody>
