@@ -20,7 +20,8 @@
         <type>PageNews</type>
         <type>PageClasseur</type>
         <type>PageListe</type>
-        <!-- 
+        <type>HtmlPage</type>
+        <!--
         <condition>#{typeManager.getAllowedSubTypes(document.getType(), document).size() &gt; 0}</condition>
          -->
       </rule>
