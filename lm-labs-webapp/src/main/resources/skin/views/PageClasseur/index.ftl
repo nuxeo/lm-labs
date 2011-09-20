@@ -17,6 +17,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
   </@block>
 
   <@block name="content">

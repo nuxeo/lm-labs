@@ -1,13 +1,9 @@
 <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/searchpage.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
 <h1>Résultats de recherche</h1>
 
 <#if result?size &gt; 0>
 <div class="resultsSearchSubtitle">Affichage des résultats 1-${result?size} sur ${result?size} pour <span>${query?split('"')[1]}</span></div>
-<style>
-.sortValue {
-	display: none;
-}
-</style>
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	jQuery("#resultsSearch").tablesorter({ 
