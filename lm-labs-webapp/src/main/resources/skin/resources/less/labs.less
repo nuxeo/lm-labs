@@ -1,0 +1,46 @@
+
+@import "bootstrap/bootstrap.less";
+
+.bloc {
+  background-color: #fff;
+  margin-bottom: 10px;
+  margin-top:10px;
+  min-height: 40px;
+  border: 1px solid #eee;
+  border: 1px solid rgba(0,0,0,.05);
+  .border-radius(4px);
+  .box-shadow();
+
+  .header {
+    min-height:20px;
+    padding-left:1em;
+    .border-radius(4px 4px 0px 0px);
+    #gradient > .vertical-three-colors(#ffffff, #ffffff, 25%, darken(#ffffff, 10%));
+
+    a {
+      color: @gray;
+    }
+  }
+
+  &.welcome {
+    float:left;
+    margin-right:8px;
+  }
+
+}
+
+
+.sidebar {
+  #gradient > .vertical-three-colors(@green, @green, 25%, lighten(@green,80%));
+
+  min-height:400px;
+  padding-top:10px;
+  padding-bottom:10px;
+  .border-radius(4px);
+
+  > div {
+    margin-left:10px;
+    margin-right:10px;
+  }
+}
+
