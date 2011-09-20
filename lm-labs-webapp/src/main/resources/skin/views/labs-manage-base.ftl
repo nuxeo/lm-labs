@@ -46,7 +46,7 @@
           <img src="${skinPath}/images/banniere.jpg" />
       </div>
 
-      <div class="container">
+      <#-- <div class="container">
         <div class="row">
            <div class="span16 columns">
           <#assign messages = This.messages />
@@ -60,7 +60,7 @@
           </#if>
           </div>
         </div>
-      </div>
+      </div>  -->
 
       <div class="container">
         <@block name="content">
