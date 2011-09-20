@@ -1,5 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +28,7 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
+import org.nuxeo.ecm.webengine.model.exceptions.WebSecurityException;
 import org.nuxeo.ecm.webengine.model.impl.ModuleRoot;
 import org.nuxeo.runtime.api.Framework;
 
@@ -47,8 +51,8 @@ public class SitesRoot extends ModuleRoot {
 
     private static final Log log = LogFactory.getLog(SitesRoot.class);
 
-    private static final String[] MESSAGES_TYPE = new String[] {"error","info","success","warning"};
-
+    private static final String[] MESSAGES_TYPE = new String[] { "error",
+            "info", "success", "warning" };
 
     /*
      * (non-Javadoc)
@@ -93,12 +97,9 @@ public class SitesRoot extends ModuleRoot {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         } catch (SiteManagerException e) {
-            return Response.ok()
-                    .status(404)
-                    .build();
+            throw new WebResourceNotFoundException(e.getMessage(),e);
         }
     }
-
 
     public List<LabsSite> getLabsSites() throws ClientException {
         return getSiteManager().getAllSites(ctx.getCoreSession());
@@ -149,13 +150,26 @@ public class SitesRoot extends ModuleRoot {
             return Response.status(404)
                     .entity(getTemplate(fileName))
                     .build();
+        } else if (e instanceof WebSecurityException) {
+            return Response.status(401)
+                    .entity(getTemplate("error/error_401.ftl"))
+                    .type("text/html")
+                    .build();
         } else {
-            log.info("No error handling for class " + e.getClass()
-                    .getName());
-            log.error(e.getMessage(), e);
-            return super.handleError(e);
+
+            return Response.status(500)
+                    .entity(getTemplate("error/labserror_500.ftl").arg("trace",getStackTrace(e)))
+                    .type("text/html")
+                    .build();
         }
     }
+
+    private static String getStackTrace(Throwable aThrowable) {
+        final Writer result = new StringWriter();
+        final PrintWriter printWriter = new PrintWriter(result);
+        aThrowable.printStackTrace(printWriter);
+        return result.toString();
+      }
 
     /*
      * (non-Javadoc)
@@ -185,14 +199,15 @@ public class SitesRoot extends ModuleRoot {
 
     /**
      * Returns a Map containing all "flash" messages
+     *
      * @return
      */
-    public Map<String,String> getMessages() {
-        Map<String,String> messages = new HashMap<String, String>();
+    public Map<String, String> getMessages() {
+        Map<String, String> messages = new HashMap<String, String>();
         FormData form = ctx.getForm();
-        for(String type : MESSAGES_TYPE) {
-            String message = form.getString("message_"+type);
-            if(StringUtils.isNotBlank(message)) {
+        for (String type : MESSAGES_TYPE) {
+            String message = form.getString("message_" + type);
+            if (StringUtils.isNotBlank(message)) {
                 messages.put(type, message);
             }
         }
