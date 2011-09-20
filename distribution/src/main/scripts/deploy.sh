@@ -51,7 +51,7 @@ main() {
 
   scp $RPM_DIR/$RPM_FILE adminappli@$DEST_HOST:/tmp/
   ssh adminappli@$DEST_HOST <<EOT
-    rpm -Uvh /tmp/$RPM_FILE --nodeps
+    rpm -Uvh /tmp/$RPM_FILE --nodeps --force
     RESULT=$?
 	mv /tmp/$RPM_FILE /tmp/lm-labs.rpm
 EOT
