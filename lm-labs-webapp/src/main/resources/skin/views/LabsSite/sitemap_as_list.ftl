@@ -13,7 +13,7 @@
             <tr>
               <#assign doc=page.document />
               <td class="nameCol"><a href="${This.path}${pageEndUrl(doc)}">${doc.title}</a></td>
-              <td class="createdCol">${userFullName(doc.dublincore.creator)} (${doc.dublincore.created?string.medium}}</td>
+              <td class="createdCol">${userFullName(doc.dublincore.creator)} (${doc.dublincore.created?string.medium})</td>
               <td class="updatedCol">${userFullName(doc.dublincore.lastContributor)} (${doc.dublincore.modified?string.medium})</td>
             </tr>
           </#list>
