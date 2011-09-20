@@ -49,13 +49,15 @@
       <div class="container">
         <div class="row">
            <div class="span16 columns">
-          <#assign messages = This.getMessages() />
+          <#assign messages = This.messages />
+          <#if messages??>
           <#list messages?keys as key >
              <div class="alert-message ${key}">
                <a class="close" href="#">x</a>
                ${messages[key]}
              </div>
-          </#list>
+          </#list><
+          </#if>
           </div>
         </div>
       </div>

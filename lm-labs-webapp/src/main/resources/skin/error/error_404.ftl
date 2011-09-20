@@ -6,7 +6,6 @@
 </@block>
 
 
-
 <@block name="content">
   <div class="alert-message block-message error">
   <p><strong>La page recherchée n'existe pas</strong> Cela peut être du au fait que :

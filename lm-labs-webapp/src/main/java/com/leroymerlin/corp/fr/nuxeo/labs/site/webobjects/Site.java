@@ -96,7 +96,7 @@ public class Site extends Page {
             SiteTheme theme = site.getSiteThemeManager().getTheme(themeName);
             return newObject("SiteTheme", site, theme);
         } catch (ClientException e) {
-            throw WebResourceNotFoundException.wrap(e);
+            throw new WebResourceNotFoundException("Theme not found",e);
         }
     }
 
@@ -199,7 +199,7 @@ public class Site extends Page {
                     .getDocument(pathRef);
             return (DocumentObject) ctx.newObject(doc.getType(), doc);
         } catch (Exception e) {
-            throw WebException.wrap(e);
+            throw new WebResourceNotFoundException(e.getMessage(),e);
         }
     }
 

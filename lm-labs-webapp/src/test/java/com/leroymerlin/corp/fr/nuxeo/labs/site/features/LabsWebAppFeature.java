@@ -18,8 +18,11 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
         "org.nuxeo.ecm.platform.filemanager.core.listener",
         "org.nuxeo.ecm.platform.commandline.executor",
         "org.nuxeo.ecm.platform.query.api", "org.nuxeo.ecm.core.persistence",
-        "org.nuxeo.ecm.platform"
-
+        "org.nuxeo.ecm.platform",
+        "org.nuxeo.ecm.platform.types.api",
+        "org.nuxeo.ecm.platform.types.core",
+        "org.nuxeo.ecm.platform.mimetype.api",
+        "org.nuxeo.ecm.platform.mimetype.core"
 })
 public class LabsWebAppFeature extends SimpleFeature {
 
