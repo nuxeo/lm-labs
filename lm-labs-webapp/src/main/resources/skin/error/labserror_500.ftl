@@ -21,6 +21,5 @@
     <a class="btn small" href="#" onclick="$('#stacktrace').toggle();return false;">Détail de l'erreur</a>
   </div>
 </div>
-  <a href="
 </@block>
 </@extends>

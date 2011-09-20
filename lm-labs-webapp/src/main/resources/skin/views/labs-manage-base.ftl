@@ -56,7 +56,7 @@
                <a class="close" href="#">x</a>
                ${messages[key]}
              </div>
-          </#list><
+          </#list>
           </#if>
           </div>
         </div>
