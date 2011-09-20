@@ -4,6 +4,7 @@
     
     <@block name="scripts">
 	  	<@superBlock/>
+	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	jQuery.ajax({
