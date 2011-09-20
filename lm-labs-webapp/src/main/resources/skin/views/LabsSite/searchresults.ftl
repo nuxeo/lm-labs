@@ -9,7 +9,7 @@
 jQuery(document).ready(function() {
 	jQuery.ajax({
 		type: "GET",
-		url: '${This.path}' + '/@search?fullText=' + '${Context.request.getParameter('fullText')}',
+		url: '${This.path}' + '/@search?fullText=' + escape('${Context.request.getParameter('fullText')}'),
 		success: function(msg) {
 			jQuery('#search-result').replaceWith(msg);
 		},

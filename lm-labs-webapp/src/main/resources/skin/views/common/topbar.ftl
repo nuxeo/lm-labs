@@ -4,7 +4,7 @@
 <script type="text/javascript">
 function topBarFullTextSearch() {
   <#if siteDoc?? >
-  window.location.href = '${Context.modulePath}/${siteDoc.webcontainer.url}/@views/searchresults?fullText=' + jQuery('input[name=q]').val();
+  window.location.href = '${Context.modulePath}/${siteDoc.webcontainer.url}/@views/searchresults?fullText=' + escape(jQuery('input[name=q]').val());
   </#if>
 
 }
