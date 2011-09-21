@@ -11,58 +11,56 @@ public class MesSitesPage extends WebPage {
     
     private static final int WAITING_TIME = 10;
 
-    public SitesRootPage backToHomePage() {
-        return getPage(SitesRootPage.class);
-    }
-
-    public boolean containsSite(String title) {
-        List<WebElement> elements = findElements(By.className("titleLabsSite"));
-        for (WebElement element : elements) {
-            if (title.equals(element.getText())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     /* (non-Javadoc)
      * @see org.nuxeo.runtime.test.runner.web.WebPage#ensureLoaded()
      */
     @Override
     public WebPage ensureLoaded() {
-        this.waitUntilElementFound(By.id("MySites"), 10);
+        this.waitUntilElementFound(By.id("MySites"), WAITING_TIME);
         return this;
+    }
+    
+    public MesSitesPage backToHomePage() {
+        return getPage(MesSitesPage.class);
+    }
+
+    private String getSiteTdXpath(String title) {
+        return String.format("//table[@id='MySites']//tbody//tr//td[contains(text(), '%s')]", title);
+    }
+    
+    public boolean containsSite(String title) {
+        return hasElement(By.xpath(getSiteTdXpath(title)), WAITING_TIME);
+//        try {
+//            findElement(By.xpath(getSiteTdXpath(title)));
+//        } catch (Exception e) {
+//            return false;
+//        }
+//        return true;
     }
 
     public WelcomePage welcomePage(String title) {
-        List<WebElement> elements = findElements(By.className("titleLabsSite"));
-        for (WebElement element : elements) {
-            if (title.equals(element.getText())) {
-                element.click();
-                return getPage(WelcomePage.class);
-            }
-        }
-        return null;
+        WebElement bt = findElement(By.xpath(getSiteTdXpath(title) + "/ancestor::tr/td/a[contains(@class, 'btn')]"));
+        bt.click();
+        return getPage(WelcomePage.class);
     }
     
     public boolean canModify() {
-        try {
-            WebElement element = findElement(By.id("modifyLabsSite"), WAITING_TIME);
-            if (element != null) {
-                return true;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return false;
+        return hasElement(By.id("modifyLabsSite"), WAITING_TIME);
+//        try {
+//            WebElement element = findElement(By.id("modifyLabsSite"), WAITING_TIME);
+//            if (element != null) {
+//                return true;
+//            }
+//        } catch (Exception e) {
+//            return false;
+//        }
+//        return false;
     }
     
     public void clickModify() {
         try {
             WebElement element = findElement(By.id("modifyLabsSite"), WAITING_TIME);
-            if (element != null) {
-                element.click();
-            }
+            element.click();
         } catch (Exception e) {
         }
     }
@@ -137,4 +135,8 @@ public class MesSitesPage extends WebPage {
         }
     }
 
+    public LoginPage getLoginPage() {
+        return getPage(LoginPage.class);
+    }
+    
 }

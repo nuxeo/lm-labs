@@ -1,4 +1,4 @@
-<div class="bloc" >
+<div class="bloc" id="${pagesListId}" >
   <div class="header">${pagesListTile}</div>
   <ul class="unstyled">
   <#list pageProvider.setCurrentPage(0) as doc >

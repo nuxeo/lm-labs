@@ -49,7 +49,7 @@ public class LoginPage extends WebPage {
 
     public void ensureLogin(String username, String password) {
         login(username, password);
-        isAuthenticated(5);
+        isAuthenticated(10);
     }
 
     public void logout() {
@@ -62,12 +62,13 @@ public class LoginPage extends WebPage {
     }
 
     public boolean isAuthenticated(int timeoutInSeconds) {
-        try {
-            findElement(By.id("logout"), timeoutInSeconds);
-            return true;
-        } catch (WebDriverException e) {
-            return false;
-        }
+        return hasElement(By.id("logout"), timeoutInSeconds);
+//        try {
+//            findElement(By.id("logout"), timeoutInSeconds);
+//            return true;
+//        } catch (WebDriverException e) {
+//            return false;
+//        }
     }
 
     public boolean isNotAuthenticated(int timeoutInSeconds) {

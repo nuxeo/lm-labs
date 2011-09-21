@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -33,7 +34,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.AllDocTypeRepositoryInit;
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
 @Browser(type = BrowserFamily.FIREFOX)
-@HomePage(type = SitesRootPage.class, url = "http://localhost:8089/labssites")
+@HomePage(type = MesSitesPage.class, url = "http://localhost:8089/labssites")
 @RepositoryConfig(init = AllDocTypeRepositoryInit.class)
 @Jetty(port = 8089)
 @Deploy({ "com.leroymerlin.corp.fr.nuxeo.portal.user",
@@ -45,57 +46,51 @@ public class WelcomePageTest {
     private static final String URL_URL_MODIFY = "http://www.google.fr";
     private static final String URL_NAME = "yahoo";
     private static final String URL_NAME_MODIFY = "google";
-    @Inject SitesRootPage rootPage;
-
+    @Inject MesSitesPage mesSitesPage;
+    
     @Test
     public void pageIsReachable() throws Exception {
         ensureLoggedIn();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        assertTrue(mesSitesPage.containsSite("OFM"));
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        assertTrue(mesSitesPage.containsSite(AllDocTypeRepositoryInit.SITE_TITLE));
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertNotNull(welcomePage);
         assertTrue(welcomePage.hasSidebar());
-        rootPage.home();
+        mesSitesPage.home();
     }
-
+    
     @Ignore("welcome page should not have any blocs, welcome page is a work in progress.") @Test
     public void pageDoesNotHaveBlocs() throws Exception {
         ensureLoggedIn();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertNotNull(welcomePage);
         assertFalse(welcomePage.hasBlocs());
     }
 
     @Test
     public void pageHasSidebar() throws Exception {
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertTrue(welcomePage.hasSidebar());
     }
 
     @Test
     public void pageHasExternalURL() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertTrue(welcomePage.hasExternalURL());
     }
 
     @Test
     public void pageHasAddExternalURL() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertTrue(welcomePage.hasAddExternalURL());
     }
 
     @Test
     public void iAddExternalURL() throws Exception {
-        rootPage.home();
+        mesSitesPage.home();
 //        ensureLoggedIn();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         welcomePage.clickAddExternalURL();
         Tools.sleep(3000);
         welcomePage.setFieldsExternalURL(URL_NAME, URL_URL, URL_ORDER);
@@ -106,9 +101,8 @@ public class WelcomePageTest {
 
     @Test
     public void iModifyExternalURL() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         welcomePage.clickModifyExternalURL();
         Tools.sleep(3000);
         welcomePage.setFieldsExternalURL(URL_NAME_MODIFY, URL_URL_MODIFY, URL_ORDER);
@@ -119,9 +113,8 @@ public class WelcomePageTest {
 
     @Test
     public void iDeleteExternalURL() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         welcomePage.clickDeleteExternalURL();
         Tools.sleep(3000);
         assertFalse(welcomePage.hasMyExternalURL(URL_NAME_MODIFY, URL_URL_MODIFY));
@@ -129,34 +122,30 @@ public class WelcomePageTest {
 
     @Test
     public void iCanModifyBanner() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertTrue(welcomePage.canModifyBanner());
     }
 
     @Test
     public void iCanDeleteBanner() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertTrue(welcomePage.canDeleteBanner());
     }
 
     @Test
     public void iHaveADefaultBanner() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         Tools.sleep(3000);
         assertTrue(welcomePage.hasOKBanner(new Dimension(959, 79)));
     }
 
     @Test
     public void iModifyBanner() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertTrue(welcomePage.canModifyBanner());
         welcomePage.clickModifyBanner();
         welcomePage.setFieldsBanner(getTestFile());
@@ -167,42 +156,45 @@ public class WelcomePageTest {
 
     @Test
     public void iDeleteBanner() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertTrue(welcomePage.canDeleteBanner());
         welcomePage.clickDeleteBanner();
         Tools.sleep(3000);
         assertTrue(welcomePage.hasOKBanner(new Dimension(959, 79)));
     }
-
+    
     @Test
     public void iDontHaveAnyUpload() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertFalse(welcomePage.hasLatestUploads());
     }
-
+    
+    @Test
+    public void iHaveOneLatestUpload() throws Exception {
+        
+    }
+    
     @Test
     public void iCanSearchWelcomePage() throws Exception {
-        rootPage.home();
-        MesSitesPage mesSitesPage = rootPage.getMesSitesPage();
-        WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
+        mesSitesPage.home();
+        WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         SearchResultsPage searchResultsPage = welcomePage.search("Welcome");
         assertEquals(1, searchResultsPage.getNbrResults());
     }
-
+    
     private static File getTestFile() {
         return new File(
                 FileUtils.getResourcePathFromContext("testFiles/vision.jpg"));
     }
-
+    
     public void ensureLoggedIn() {
-        LoginPage login = rootPage.getLoginPage();
+        LoginPage login = mesSitesPage.getLoginPage();
         if(!login.isAuthenticated()) {
             login.ensureLogin("Administrator", "Administrator");
         }
+        mesSitesPage.home();
     }
 
 }

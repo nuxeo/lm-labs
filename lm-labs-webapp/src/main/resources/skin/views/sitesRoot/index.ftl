@@ -36,7 +36,7 @@
 
     <#assign sites = This.labsSites />
     <#if (sites?size > 0) >
-      <table class="zebra-striped">
+      <table class="zebra-striped" id="MySites" >
         <thead>
           <tr>
             <th>Nom du site</th>
