@@ -67,18 +67,16 @@ public class SitesRoot extends ModuleRoot {
         // WARNING : these are GLOBAL vars, try to avoid using this trick (DMR)
         RenderingEngine rendering = getContext().getEngine()
                 .getRendering();
-        if (rendering instanceof FreemarkerEngine) {
-            FreemarkerEngine fm = (FreemarkerEngine) rendering;
-            fm.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
-            fm.setSharedVariable("latestUploadsPageProvider",
-                    new LatestUploadsPageProviderTemplateMethod());
-            fm.setSharedVariable("userFullName",
-                    new UserFullNameTemplateMethod());
-            fm.setSharedVariable("dateInWords", new DateInWordsMethod());
-            fm.setSharedVariable("site", null);
+        rendering.setSharedVariable("bytesFormat",
+                new BytesFormatTemplateMethod());
+        rendering.setSharedVariable("latestUploadsPageProvider",
+                new LatestUploadsPageProviderTemplateMethod());
+        rendering.setSharedVariable("userFullName",
+                new UserFullNameTemplateMethod());
+        rendering.setSharedVariable("dateInWords", new DateInWordsMethod());
+        rendering.setSharedVariable("site", null);
 
-            fm.setSharedVariable("Common", new CommonHelper());
-        }
+        rendering.setSharedVariable("Common", new CommonHelper());
     }
 
     @GET
@@ -96,7 +94,7 @@ public class SitesRoot extends ModuleRoot {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         } catch (SiteManagerException e) {
-            throw new WebResourceNotFoundException(e.getMessage(),e);
+            throw new WebResourceNotFoundException(e.getMessage(), e);
         }
     }
 
@@ -157,7 +155,8 @@ public class SitesRoot extends ModuleRoot {
         } else {
 
             return Response.status(500)
-                    .entity(getTemplate("error/labserror_500.ftl").arg("trace",getStackTrace(e)))
+                    .entity(getTemplate("error/labserror_500.ftl").arg("trace",
+                            getStackTrace(e)))
                     .type("text/html")
                     .build();
         }
@@ -168,7 +167,7 @@ public class SitesRoot extends ModuleRoot {
         final PrintWriter printWriter = new PrintWriter(result);
         aThrowable.printStackTrace(printWriter);
         return result.toString();
-      }
+    }
 
     /*
      * (non-Javadoc)
@@ -183,7 +182,8 @@ public class SitesRoot extends ModuleRoot {
             SiteDocument sd = doc.getAdapter(SiteDocument.class);
             return new StringBuilder().append(getPath())
                     .append("/")
-                    .append(sd.getSite().getURL())
+                    .append(sd.getSite()
+                            .getURL())
                     .append(LabsSiteWebAppUtils.buildEndUrl(doc))
                     .toString();
         } catch (UnsupportedOperationException e) {
