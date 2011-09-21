@@ -35,9 +35,7 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.common.freemarker.BytesFormatTemplateMethod;
 import com.leroymerlin.common.freemarker.DateInWordsMethod;
 import com.leroymerlin.common.freemarker.UserFullNameTemplateMethod;
-import com.leroymerlin.corp.fr.nuxeo.freemarker.BreadcrumbsArrayTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
-import com.leroymerlin.corp.fr.nuxeo.freemarker.PageEndUrlTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
@@ -72,8 +70,6 @@ public class SitesRoot extends ModuleRoot {
         if (rendering instanceof FreemarkerEngine) {
             FreemarkerEngine fm = (FreemarkerEngine) rendering;
             fm.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
-            fm.setSharedVariable("breadcrumbsDocs",
-                    new BreadcrumbsArrayTemplateMethod());
             fm.setSharedVariable("latestUploadsPageProvider",
                     new LatestUploadsPageProviderTemplateMethod());
             fm.setSharedVariable("userFullName",
