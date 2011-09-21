@@ -306,7 +306,7 @@ public class WelcomePage extends WebPage {
     }
 
     public List<WebElement> getLatestUploads() {
-        return findElements(By.xpath("//div[contains(@class,'latestuploads')]/ul/li"));
+        return findElements(By.xpath("//div[@id,'latestuploads']/ul/li"));
     }
 
     public boolean hasLatestUploads() {
