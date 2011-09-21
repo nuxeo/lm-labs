@@ -42,6 +42,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 @WebObject(type = "sitesRoot")
@@ -73,13 +74,14 @@ public class SitesRoot extends ModuleRoot {
             fm.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
             fm.setSharedVariable("breadcrumbsDocs",
                     new BreadcrumbsArrayTemplateMethod());
-            fm.setSharedVariable("pageEndUrl", new PageEndUrlTemplateMethod());
             fm.setSharedVariable("latestUploadsPageProvider",
                     new LatestUploadsPageProviderTemplateMethod());
             fm.setSharedVariable("userFullName",
                     new UserFullNameTemplateMethod());
             fm.setSharedVariable("dateInWords", new DateInWordsMethod());
             fm.setSharedVariable("site", null);
+
+            fm.setSharedVariable("Common", new CommonHelper());
         }
     }
 

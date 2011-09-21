@@ -8,7 +8,7 @@
 
 
 <@block name="content">
-  <div class="alert-message block-message error">
+  <div class="alert-message block-message error no-fade">
   <p><strong>Un erreur innatendue est survenue</strong> Merci de contacter l'administrateur
 
   <div id="stacktrace" style="display:none">

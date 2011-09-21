@@ -54,13 +54,9 @@
     </div>
 
     <div class="container">
-      <#--
-
-      Désactivation pour le moment. les breadcrumb devrait être fait sur les
-      webobject et non sur les documents
       <@block name="breadcrumbs">
         <#include "views/common/breadcrumbs.ftl">
-      </@block> -->
+      </@block>
     </div>
 
     <div class="container">

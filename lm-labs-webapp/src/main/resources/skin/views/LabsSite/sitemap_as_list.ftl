@@ -1,28 +1,28 @@
 <@extends src="views/LabsSite/sitemap-base.ftl">
      <@block name="scripts">
-	  	<@superBlock/>
-	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+      <@superBlock/>
+      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-	jQuery("table[class*='zebra-striped']").tablesorter({ 
-    	sortList: [[1,0]],
-    	textExtraction: function(node) { 
-            // extract data from markup and return it  
-    		var sortValues = jQuery(node).find('span[class=sortValue]');
-    		if (sortValues.length > 0) {
-    			return sortValues[0].innerHTML;
-    		}
-            return node.innerHTML; 
+  jQuery("table[class*='zebra-striped']").tablesorter({
+      sortList: [[1,0]],
+      textExtraction: function(node) {
+            // extract data from markup and return it
+        var sortValues = jQuery(node).find('span[class=sortValue]');
+        if (sortValues.length > 0) {
+          return sortValues[0].innerHTML;
         }
-	});
+            return node.innerHTML;
+        }
+  });
 });
 </script>
      </@block>
 
     <@block name="css">
-		<@superBlock/>
-		<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
-	</@block>
+    <@superBlock/>
+    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
+  </@block>
 
      <@block name="sitemap-content">
         <table class="zebra-striped">
@@ -39,7 +39,7 @@ jQuery(document).ready(function() {
           <#list site.allPages as page>
             <tr>
               <#assign doc=page.document />
-              <td class="nameCol"><a href="${This.path}${pageEndUrl(doc)}">${doc.title}</a></td>
+              <td class="nameCol"><a href="${Context.modulePath}/${page.path}">${doc.title}</a></td>
               <td class="createdCol">${userFullName(doc.dublincore.creator)}</td><td class="createdCol">${doc.dublincore.created?string.medium}<span class="sortValue">${doc.dublincore.created?string("yyyyMMddHHmmss")}</span></td>
               <td class="updatedCol">${userFullName(doc.dublincore.lastContributor)}</td><td class="createdCol">${doc.dublincore.modified?string.medium}<span class="sortValue">${doc.dublincore.modified?string("yyyyMMddHHmmss")}</span></td>
             </tr>

@@ -41,12 +41,11 @@
             <td>${upload.title}</td>
             <#assign modifDate = upload.dublincore.modified?datetime >
             <td>${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</td>
-            <#assign closestPage = This.getClosestPage(upload) />
-            <td><a href="${This.URL}${This.getPageEndUrl(closestPage)}" target="_blank" >${closestPage.title}</a></td>
-            <#assign previewUrl = This.path + pageEndUrl(upload) />
+            <#assign sd = Common.siteDoc(upload) />
+            <td><a href="${Context.modulePath}/${sd.pagePath}">${sd.page.title}</a></td>
             <td>
-                <a href="${previewUrl}" target="_blank" class="btn">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
-                <a href="${previewUrl?split('/preview')[0]}" class="btn">${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
+                <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
+                <a href="${Context.modulePath}/${sd.resourcePath}/@blob" class="btn">${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
               </td>
           </tr>
           </#list>

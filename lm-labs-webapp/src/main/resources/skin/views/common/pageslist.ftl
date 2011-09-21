@@ -1,9 +1,10 @@
 <div class="bloc" >
   <div class="header">${pagesListTile}</div>
   <ul class="unstyled">
-  <#list pageProvider.setCurrentPage(0) as page >
+  <#list pageProvider.setCurrentPage(0) as doc >
     <li>
-      <a href="labssites/${This.siteUrlProp}${pageEndUrl(page)}" target="_blank" title="${page.title}" >${page.title}</a>
+      <#assign sd = Common.siteDoc(doc) />
+      <a href="${Context.modulePath}/${sd.pagePath}" title="${doc.title}" >${doc.title}</a>
     </li>
   </#list>
   </ul>
