@@ -19,7 +19,7 @@ import freemarker.template.TemplateModelException;
 public class BreadcrumbsArrayTemplateMethod implements TemplateMethodModelEx {
 
     private static final Log LOG = LogFactory.getLog(BreadcrumbsArrayTemplateMethod.class);
-    
+
     @SuppressWarnings("rawtypes")
     @Override
     public Object exec(List arguments) throws TemplateModelException {
@@ -28,6 +28,9 @@ public class BreadcrumbsArrayTemplateMethod implements TemplateMethodModelEx {
                     "BreadcrumbsArray takes only ONE parameter !");
         }
         DocumentTemplate a = (DocumentTemplate) arguments.get(0);
+        if(a == null) {
+            return new DocumentModelListImpl();
+        }
         DocumentModel document = a.getDocument();
         DocumentModelList list = new DocumentModelListImpl(2);
         try {

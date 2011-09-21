@@ -3,8 +3,8 @@
 </#if>
 <script type="text/javascript">
 function topBarFullTextSearch() {
-  <#if siteDoc?? >
-  window.location.href = '${Context.modulePath}/${siteDoc.webcontainer.url}/@views/searchresults?fullText=' + escape(jQuery('input[name=q]').val());
+  <#if site>
+  window.location.href = '${Context.modulePath}/${site.document.webcontainer.url}/@views/searchresults?fullText=' + escape(jQuery('input[name=q]').val());
   </#if>
 
 }
@@ -14,8 +14,8 @@ function topBarFullTextSearch() {
       <div class="topbar-inner">
         <div class="container">
           <h3>
-            <#if siteDoc??>
-              <a href="${Context.modulePath}/${siteDoc.webcontainer.url}">${siteDoc.title}</a>
+            <#if site??>
+              <a href="${Context.modulePath}/${site.document.webcontainer.url}">${site.title}</a>
             <#else>
               <a href="${Context.modulePath}">LABS</a>
             </#if>
@@ -23,7 +23,7 @@ function topBarFullTextSearch() {
 
 
           <ul class="nav secondary-nav">
-            <#if siteDoc?? >
+            <#if site?? >
             <li>
               <form onsubmit="topBarFullTextSearch();return false;" >
               <input class="normal" placeholder="${Context.getMessage('label.search')}" name="q"/>
@@ -42,8 +42,8 @@ function topBarFullTextSearch() {
                 </#if>
                 </@block>
 
-              <#if siteDoc?? && Session.hasPermission(siteDoc.ref, 'Everything') >
-                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${siteDoc.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
+              <#if site?? && Session.hasPermission(site.document.ref, 'Everything') >
+                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.document.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
                 <li><a id="logout" href="#">Déconnexion</a></li>

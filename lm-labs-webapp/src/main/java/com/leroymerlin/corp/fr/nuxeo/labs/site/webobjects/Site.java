@@ -32,6 +32,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
@@ -93,7 +94,13 @@ public class Site extends Page {
     @Path("theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
-            SiteTheme theme = site.getSiteThemeManager().getTheme(themeName);
+            SiteThemeManager tm = site.getSiteThemeManager();
+            SiteTheme theme = tm.getTheme(themeName);
+            if(theme==null) {
+                //This creates the default theme if not found
+                theme= tm.getTheme();
+            }
+
             return newObject("SiteTheme", site, theme);
         } catch (ClientException e) {
             throw new WebResourceNotFoundException("Theme not found",e);

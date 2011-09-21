@@ -9,7 +9,7 @@
     <div class="container">
       <ul class="pills">
         <li><a href="${This.path}/@views/edit">Général</a></li>
-        <li><a href="${This.path}/@views/edit_theme">Thème</a></li>
+        <li><a href="${This.path}/theme/${site.siteThemeManager.theme.name}">Thème</a></li>
         <li class="active"><a href="${This.path}/@views/edit_perms">Permissions</a></li>
       </ul>
 

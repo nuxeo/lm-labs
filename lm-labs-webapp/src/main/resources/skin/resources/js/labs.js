@@ -20,11 +20,11 @@ $(document).ready(function() {
 });
 
 function hideAlerts() {
-  $(".alert-message").each()
+  $(".alert-message").each(function()
   {
     if (!$(this).hasClass("no-fade")) {
       $(this).fadeOut();
     }
 
-  }
+  });
 }

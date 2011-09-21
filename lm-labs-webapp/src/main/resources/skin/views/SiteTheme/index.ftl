@@ -1,16 +1,13 @@
 <@extends src="/views/labs-base.ftl">
 
-  <@block name="breadcrumbs">
-    <a href="${This.getPath()}">${site.title}</a> > Administration
-  </@block>
 
 
   <@block name="content">
     <div class="container">
       <ul class="pills">
-        <li><a href="${This.path}/@views/edit">Général</a></li>
-        <li class="active"><a href="${This.path}/@views/edit_theme">Thème</a></li>
-        <li><a href="${This.path}/@views/edit_perms">Permissions</a></li>
+        <li><a href="${This.previous.path}/@views/edit">Général</a></li>
+        <li class="active"><a href="${This.path}">Thème</a></li>
+        <li><a href="${This.previous.path}/@views/edit_perms">Permissions</a></li>
       </ul>
 
 
@@ -24,7 +21,7 @@
 &nbsp;
           </div>
           <div class="span12 columns">
-            <form action="${This.path}" method="post">
+            <form action="${This.path}" method="post" enctype="multipart/form-data">
               <fieldset>
                 <legend>Uploadez un bandeau</legend>
                 <div class="clearfix">

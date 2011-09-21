@@ -73,12 +73,13 @@ public class SitesRoot extends ModuleRoot {
             fm.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
             fm.setSharedVariable("breadcrumbsDocs",
                     new BreadcrumbsArrayTemplateMethod());
-            fm.setSharedVariable("pageEndUrl", new PageEndUrlTemplateMethod());
+            //fm.setSharedVariable("pageEndUrl", new PageEndUrlTemplateMethod());
             fm.setSharedVariable("latestUploadsPageProvider",
                     new LatestUploadsPageProviderTemplateMethod());
             fm.setSharedVariable("userFullName",
                     new UserFullNameTemplateMethod());
             fm.setSharedVariable("dateInWords", new DateInWordsMethod());
+            fm.setSharedVariable("site", null);
         }
     }
 
