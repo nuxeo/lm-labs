@@ -1,6 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -25,7 +24,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageClasseurAddFolderPopup;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageClasseurPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageClasseurPageRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageClasseurPageRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
@@ -46,13 +45,13 @@ public class PageClasseurPageTest {
     private static final String FOLDER2_NAME = "folder 2";
     private static final String TEST_FILE_JPG = "testFiles/vision.jpg";
     @Inject SitesRootPage rootPage;
-    
+
     @Test
     public void pageIsReachable() throws Exception {
         PageClasseurPage pageClasseur = getPageClasseur();
         assertTrue(pageClasseur.isLoaded());
     }
-    
+
     @Test
     public void pageClasseurHasSubFolder() throws Exception {
         PageClasseurPage pageClasseur = getPageClasseur();
@@ -68,7 +67,7 @@ public class PageClasseurPageTest {
         assertTrue(pageClasseur.hasFolder(FOLDER2_NAME));
         assertEquals(2, pageClasseur.getFolderSections().size());
     }
-    
+
     @Test
     public void iCanDeleteFolder2() throws Exception {
         PageClasseurPage pageClasseur = getPageClasseur();
@@ -80,7 +79,7 @@ public class PageClasseurPageTest {
         assertFalse(pageClasseur.hasFolder(FOLDER2_NAME));
         assertEquals(1, pageClasseur.getFolderSections().size());
     }
-    
+
     @Test
     public void iCanAddFile() throws Exception {
         PageClasseurPage pageClasseur = getPageClasseur();
@@ -91,7 +90,7 @@ public class PageClasseurPageTest {
         assertTrue(pageClasseur.hasFile(PageClasseurPageRepositoryInit.FOLDER1_NAME, FileUtils.getFileName(TEST_FILE_JPG)));
         assertEquals(2, pageClasseur.getFiles(PageClasseurPageRepositoryInit.FOLDER1_NAME).size());
     }
-    
+
     @Test
     public void iCanDeleteFile() throws Exception {
         PageClasseurPage pageClasseur = getPageClasseur();
@@ -99,13 +98,13 @@ public class PageClasseurPageTest {
         assertFalse(pageClasseur.hasFile(PageClasseurPageRepositoryInit.FOLDER1_NAME, FileUtils.getFileName(TEST_FILE_JPG)));
         assertTrue(pageClasseur.hasFile(PageClasseurPageRepositoryInit.FOLDER1_NAME, PageClasseurPageRepositoryInit.FILE1_NAME));
         assertEquals(1, pageClasseur.getFiles(PageClasseurPageRepositoryInit.FOLDER1_NAME).size());
-        
+
         pageClasseur = pageClasseur.deleteFile(PageClasseurPageRepositoryInit.FOLDER1_NAME, PageClasseurPageRepositoryInit.FILE1_NAME);
         assertFalse(pageClasseur.hasFile(PageClasseurPageRepositoryInit.FOLDER1_NAME, FileUtils.getFileName(TEST_FILE_JPG)));
         assertFalse(pageClasseur.hasFile(PageClasseurPageRepositoryInit.FOLDER1_NAME, PageClasseurPageRepositoryInit.FILE1_NAME));
         assertEquals(0, pageClasseur.getFiles(PageClasseurPageRepositoryInit.FOLDER1_NAME).size());
     }
-    
+
     private PageClasseurPage getPageClasseur() {
         ensureLoggedIn();
         PageClasseurPage pageClasseur = rootPage.goToPageClasseur("http://localhost:8089/labssites" + "/" + PageClasseurPageRepositoryInit.SITE_URL, PageClasseurPageRepositoryInit.PAGE_CLASSEUR_TITLE);
@@ -118,9 +117,9 @@ public class PageClasseurPageTest {
             login.ensureLogin("Administrator", "Administrator");
         }
     }
-    
+
     private static File getTestFile(String fileName) {
         return new File(FileUtils.getResourcePathFromContext(fileName));
     }
-    
+
 }

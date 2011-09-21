@@ -20,7 +20,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.MesSitesPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.WelcomePage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.AllDocTypeRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.AllDocTypeRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features({ LabsWebAppFeature.class })

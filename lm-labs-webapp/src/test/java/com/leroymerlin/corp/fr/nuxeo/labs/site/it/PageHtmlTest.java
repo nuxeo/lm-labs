@@ -24,7 +24,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.it.pages.HtmlContentPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageHtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.HtmlPageRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.HtmlPageRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features({ LabsWebAppFeature.class })
@@ -112,12 +112,12 @@ public class PageHtmlTest {
                 .get(0);
         HtmlRowElt row = section.getRows()
                 .get(0);
-        
+
         HtmlContentElt content = row.getContents().get(0);
         HtmlContentPage contentPage = page.editContent(content);
-        
+
         page = contentPage.setContent("Contenu de test");
-        
+
         section = page.getSections().get(0);
         content = section.getRows().get(0).getContents().get(0);
         assertThat(content.getHtml(), is("Contenu de test"));

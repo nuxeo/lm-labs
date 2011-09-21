@@ -1,14 +1,16 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
+
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public abstract class AbstractPage implements Page {
 
     protected DocumentModel doc;
-
-
 
     @Override
     public DocumentModel getDocument() {
@@ -16,7 +18,8 @@ public abstract class AbstractPage implements Page {
     }
 
     @Override
-    public void setTitle(String title) throws PropertyException, ClientException, IllegalArgumentException {
+    public void setTitle(String title) throws PropertyException,
+            ClientException, IllegalArgumentException {
         if (title == null) {
             throw new IllegalArgumentException("title cannot be null.");
         }
@@ -29,11 +32,13 @@ public abstract class AbstractPage implements Page {
     }
 
     @Override
-    public void setDescription(String description) throws PropertyException, ClientException {
+    public void setDescription(String description) throws PropertyException,
+            ClientException {
         setDescription(doc, description);
     }
 
-    protected static void setDescription(DocumentModel document, String description) throws PropertyException, ClientException {
+    protected static void setDescription(DocumentModel document,
+            String description) throws PropertyException, ClientException {
         if (description == null) {
             return;
         }
@@ -46,11 +51,13 @@ public abstract class AbstractPage implements Page {
     }
 
     @Override
-    public void setCommentaire(String commentaire) throws PropertyException, ClientException {
+    public void setCommentaire(String commentaire) throws PropertyException,
+            ClientException {
         setCommentaire(doc, commentaire);
     }
 
-    protected static void setCommentaire(DocumentModel document, String commentaire) throws PropertyException, ClientException {
+    protected static void setCommentaire(DocumentModel document,
+            String commentaire) throws PropertyException, ClientException {
         if (commentaire == null) {
             return;
         }
@@ -60,6 +67,27 @@ public abstract class AbstractPage implements Page {
     @Override
     public String getCommentaire() throws PropertyException, ClientException {
         return (String) doc.getPropertyValue("pg:commentaire");
+    }
+
+    @Override
+    public String getPath() throws ClientException {
+        LabsSite site = getSite();
+        if (site == null) {
+            throw new IllegalArgumentException("This page is not in a LabsSite");
+        }
+        return site.getURL()  + doc.getPathAsString()
+                .replace(site.getTree()
+                        .getPathAsString(), "");
+    }
+
+    private LabsSite getSite() throws ClientException {
+        CoreSession session = doc.getCoreSession();
+        DocumentModel parentDoc = doc;
+        while (parentDoc != null && !parentDoc.getType()
+                .equals(Docs.SITE.type())) {
+            parentDoc = session.getDocument(parentDoc.getParentRef());
+        }
+        return parentDoc != null ? parentDoc.getAdapter(LabsSite.class) : null;
     }
 
 }

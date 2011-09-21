@@ -21,7 +21,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.MesSitesPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitemapPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.WelcomePage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.OfmRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.OfmRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features({ LabsWebAppFeature.class })

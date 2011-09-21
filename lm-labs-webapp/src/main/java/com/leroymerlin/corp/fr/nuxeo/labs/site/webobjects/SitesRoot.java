@@ -185,10 +185,7 @@ public class SitesRoot extends ModuleRoot {
             SiteDocument sd = doc.getAdapter(SiteDocument.class);
             return new StringBuilder().append(getPath())
                     .append("/")
-                    .append(sd.getSite()
-                            .getDocument()
-                            .getAdapter(LabsSite.class)
-                            .getURL())
+                    .append(sd.getSite().getURL())
                     .append(LabsSiteWebAppUtils.buildEndUrl(doc))
                     .toString();
         } catch (UnsupportedOperationException e) {

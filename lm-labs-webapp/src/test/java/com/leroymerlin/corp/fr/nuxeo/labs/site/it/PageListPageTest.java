@@ -17,8 +17,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageListPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.OfmRepositoryInit;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageListRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.OfmRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageListRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
@@ -37,26 +37,26 @@ public class PageListPageTest {
         PageListPage pageList = getPageList();
         assertTrue(pageList.isLoaded());
     }
-    
+
     @Test
     public void iCanAddLineEntry() throws Exception {
         PageListPage pageList = getPageList();
         assertTrue(pageList.canAddEntryLine());
     }
-    
+
     @Test
     public void iCanManageList() throws Exception {
         PageListPage pageList = getPageList();
         assertTrue(pageList.canDisplayManageList());
     }
-    
-    
+
+
     private PageListPage getPageList() {
         ensureLoggedIn();
         PageListPage pageList = rootPage.goToPageList("http://localhost:8089/labssites" + "/" + OfmRepositoryInit.SITE_URL, PageListRepositoryInit.PAGE_LIST_TITLE);
         return pageList;
     }
-    
+
     public void ensureLoggedIn() {
         LoginPage login = rootPage.getLoginPage();
         if(!login.isAuthenticated()) {

@@ -56,4 +56,15 @@ public class SiteDocumentAdapter implements SiteDocument {
                 + "' is not lacated in a site.");
     }
 
+    @Override
+    public String getPagePath() throws ClientException {
+        return getPage().getPath();
+    }
+
+    @Override
+    public String getResourcePath() throws ClientException {
+        LabsSite site = getSite();
+        return site.getURL() + doc.getPathAsString().replace(site.getTree().getPathAsString()  , "");
+    }
+
 }

@@ -26,4 +26,10 @@ public interface SiteDocument {
      */
     LabsSite getSite() throws ClientException;
 
+
+    String getPagePath() throws ClientException;
+
+    String getResourcePath() throws ClientException;
+
+
 }

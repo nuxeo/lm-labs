@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.repository;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.test;
 
 import java.util.Calendar;
 

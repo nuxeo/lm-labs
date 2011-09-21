@@ -20,4 +20,6 @@ public interface Page {
 
     public DocumentModel getDocument();
 
+    public String getPath() throws ClientException;
+
 }

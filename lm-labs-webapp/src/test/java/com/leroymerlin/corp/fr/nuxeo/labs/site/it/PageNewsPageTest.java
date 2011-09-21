@@ -19,7 +19,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.PageNewsPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.PageNewsRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageNewsRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
@@ -41,26 +41,26 @@ public class PageNewsPageTest {
         PageNewsPage pageNews = getPageNews();
         assertTrue(pageNews.isLoaded());
     }
-    
+
     @Test
     public void iCanAddNews() throws Exception {
         PageNewsPage pageNews = getPageNews();
         assertTrue(pageNews.canAddNews());
     }
-    
+
     @Test
     public void iCanModifyAndDeleteNews() throws Exception {
         PageNewsPage pageNews = getPageNews();
         assertTrue(pageNews.canModifyAndDeleteNews());
     }
-    
+
     @Test
     public void iCanModifyDescription() throws Exception {
         PageNewsPage pageNews = getPageNews();
         Tools.sleep(3000);
         assertTrue(pageNews.canModifyDescription());
     }
-    
+
     @Test
     public void deleteNews() throws Exception {
         //delete
@@ -71,7 +71,7 @@ public class PageNewsPageTest {
         Tools.sleep(3000);
         assertFalse(pageNews.containNews(PageNewsRepositoryInit.LABS_NEWS_TITLE));
     }
-    
+
     @Test
     public void addDNews() throws Exception {
         //add
@@ -85,7 +85,7 @@ public class PageNewsPageTest {
         Tools.sleep(3000);
         assertTrue(pageNews.canDisplayMyNews(TITRE_NEWS_ADD, CONTENT));
     }
-    
+
     @Test
     public void modifyNews() throws Exception {
         //modify
@@ -99,7 +99,7 @@ public class PageNewsPageTest {
         Tools.sleep(3000);
         assertTrue( pageNews.canDisplayMyNews(TITRE_NEWS_ADD + "ert", CONTENT + "ert"));
     }
-    
+
     @Test
     public void modifyDescriptionOfPage() throws Exception {
         PageNewsPage pageNews = getPageNews();
@@ -110,13 +110,13 @@ public class PageNewsPageTest {
         Tools.sleep(3000);
         assertTrue( pageNews.canDisplayMyDescription(DESCRIPTION));
     }
-    
+
     private PageNewsPage getPageNews() {
         ensureLoggedIn();
         PageNewsPage pageNews = rootPage.goToPageNews("http://localhost:8089/labssites" + "/" + PageNewsRepositoryInit.SITE_URL, PageNewsRepositoryInit.PAGE_NEWS_TITLE);
         return pageNews;
     }
-    
+
     public void ensureLoggedIn() {
         LoginPage login = rootPage.getLoginPage();
         if(!login.isAuthenticated()) {

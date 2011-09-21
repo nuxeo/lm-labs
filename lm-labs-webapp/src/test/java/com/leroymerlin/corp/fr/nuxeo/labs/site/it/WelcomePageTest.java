@@ -28,7 +28,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.MesSitesPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.WelcomePage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.repository.AllDocTypeRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.AllDocTypeRepositoryInit;
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
@@ -46,7 +46,7 @@ public class WelcomePageTest {
     private static final String URL_NAME = "yahoo";
     private static final String URL_NAME_MODIFY = "google";
     @Inject SitesRootPage rootPage;
-    
+
     @Test
     public void pageIsReachable() throws Exception {
         ensureLoggedIn();
@@ -57,7 +57,7 @@ public class WelcomePageTest {
         assertTrue(welcomePage.hasSidebar());
         rootPage.home();
     }
-    
+
     @Ignore("welcome page should not have any blocs, welcome page is a work in progress.") @Test
     public void pageDoesNotHaveBlocs() throws Exception {
         ensureLoggedIn();
@@ -175,7 +175,7 @@ public class WelcomePageTest {
         Tools.sleep(3000);
         assertTrue(welcomePage.hasOKBanner(new Dimension(959, 79)));
     }
-    
+
     @Test
     public void iDontHaveAnyUpload() throws Exception {
         rootPage.home();
@@ -183,7 +183,7 @@ public class WelcomePageTest {
         WelcomePage welcomePage = mesSitesPage.welcomePage("OFM");
         assertFalse(welcomePage.hasLatestUploads());
     }
-    
+
     @Test
     public void iCanSearchWelcomePage() throws Exception {
         rootPage.home();
@@ -192,12 +192,12 @@ public class WelcomePageTest {
         SearchResultsPage searchResultsPage = welcomePage.search("Welcome");
         assertEquals(1, searchResultsPage.getNbrResults());
     }
-    
+
     private static File getTestFile() {
         return new File(
                 FileUtils.getResourcePathFromContext("testFiles/vision.jpg"));
     }
-    
+
     public void ensureLoggedIn() {
         LoginPage login = rootPage.getLoginPage();
         if(!login.isAuthenticated()) {
