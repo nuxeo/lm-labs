@@ -74,7 +74,7 @@
         document.location.reload();
       },
       error: function(){
-        var url = "${Context.loginPath}";
+        var url = escape("${Context.loginPath}");
       document.location.href = url.split("@")[0];
       }
     });
