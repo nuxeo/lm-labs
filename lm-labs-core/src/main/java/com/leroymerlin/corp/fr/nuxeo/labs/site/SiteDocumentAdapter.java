@@ -3,6 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
@@ -65,6 +66,11 @@ public class SiteDocumentAdapter implements SiteDocument {
     public String getResourcePath() throws ClientException {
         LabsSite site = getSite();
         return site.getURL() + doc.getPathAsString().replace(site.getTree().getPathAsString()  , "");
+    }
+
+    @Override
+    public BlobHolder getBlobHolder() {
+        return doc.getAdapter(BlobHolder.class);
     }
 
 }

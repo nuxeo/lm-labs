@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 
@@ -30,6 +31,8 @@ public interface SiteDocument {
     String getPagePath() throws ClientException;
 
     String getResourcePath() throws ClientException;
+
+    BlobHolder getBlobHolder();
 
 
 }

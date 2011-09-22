@@ -51,6 +51,9 @@ public interface LabsSite extends Page {
     void setLogo(Blob pBlob) throws ClientException;
 
 
+    DocumentModel getIndexDocument() throws ClientException;
+
+
     /**
      * Returns all the page of the site. Pages are
      * document that are renderable with a web

@@ -133,6 +133,11 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
         return new SiteThemeManagerImpl(doc);
     }
 
+    @Override
+    public DocumentModel getIndexDocument() throws ClientException {
+        return getCoreSession().getChild(getTree().getRef(), Docs.WELCOME.docName());
+    }
+
 
 
 

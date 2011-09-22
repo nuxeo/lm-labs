@@ -43,7 +43,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PageListEntryType;
  */
 @WebObject(type = "PageList")
 @Produces("text/html; charset=UTF-8")
-public class PageList extends Page {
+public class PageList extends PageResource {
     
     private static final String IMPOSSIBLE_TO_SAVE_THE_HEADERS_LIST = "Impossible to save the headers list";
 

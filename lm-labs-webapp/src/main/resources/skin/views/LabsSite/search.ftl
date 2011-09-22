@@ -35,6 +35,7 @@ jQuery(document).ready(function() {
   </thead>
   <tbody>
     <#list result as doc>
+    <#assign sd = Common.siteDoc(doc) />
     <tr>
       <td class="colIcon"><img title="${doc.type}" alt="&gt;&gt;" <#if doc.schemas?seq_contains("common") >src="/nuxeo/${doc.common.icon}"</#if> /></td>
       <#assign breadcrumbs = breadcrumbsDocs(doc) />
@@ -49,15 +50,14 @@ jQuery(document).ready(function() {
       </#list>
         <td><a href="${Context.getUrlPath(doc)}" target="_blank" title="${breadcrumbsStr}" >${doc.dublincore.title}</a></td>
         <td>${userFullName(doc.dublincore.lastContributor)}</td>
-        <#assign holder = This.getBlobHolder(doc) />
         <#assign formattedFilesize = "(Pas de fichier)" />
         <#assign filesize = 0 />
-        <#if holder != null && holder.blob != null >
-           <#assign filesize = holder.blob.length />
-          <#assign formattedFilesize = bytesFormat(holder.blob.length, "K", "fr_FR") />
+        <#if sd.blobHolder?? && sd.blobHolder.blob != null >
+          <#assign filesize = sd.blobHolder.blob.length />
+          <#assign formattedFilesize = bytesFormat(filesize, "K", "fr_FR") />
         </#if>
       <td class="colFilesize">${formattedFilesize}<span class="sortValue">${filesize?string.computer}</span></td>
-      <#assign sd = Common.siteDoc(doc) />
+
       <td><a href="${Context.modulePath}/${sd.page.path}">${sd.page.title}</a></td>
         <td>
             <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>

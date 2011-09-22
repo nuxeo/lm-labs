@@ -13,10 +13,10 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 
 @WebObject(type = "HtmlPage")
-public class WebHtmlPage extends Page {
+public class WebHtmlPage extends PageResource {
 
     @Override
     public void initialize(Object... args) {

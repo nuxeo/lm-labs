@@ -29,7 +29,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
  */
 @WebObject(type = "PageNews")
 @Produces("text/html; charset=UTF-8")
-public class PageNews extends Page {
+public class PageNews extends PageResource {
     
     public static final String SITE_VIEW = "index";
 

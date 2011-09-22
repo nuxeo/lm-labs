@@ -18,7 +18,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 
 @WebObject(type = "SiteTheme")
 @Produces("text/html; charset=UTF-8")
-public class SiteThemeResource extends Page {
+public class SiteThemeResource extends PageResource {
 
     private LabsSite site;
     private SiteTheme theme;
