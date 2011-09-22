@@ -25,3 +25,9 @@
 		</#list>
 	</tbody>
 </table>
+<#if 0 < entriesLines?size>
+	<script type="text/javascript">
+		$("table#sortArray").tablesorter({ sortList: [[0]] });
+	
+	</script>
+</#if>

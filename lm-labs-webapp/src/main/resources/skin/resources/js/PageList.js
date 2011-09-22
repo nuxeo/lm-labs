@@ -1,6 +1,4 @@
 jQuery(document).ready(function() {
-	$("table#sortArray").tablesorter({ sortList: [[0]] });
-	
 	initModal();
 });
 
