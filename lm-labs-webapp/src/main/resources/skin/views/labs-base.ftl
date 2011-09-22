@@ -55,7 +55,7 @@
 
     <div class="container">
       <@block name="breadcrumbs">
-        <#include "views/common/breadcrumbs.ftl">
+        <#-- include "views/common/breadcrumbs.ftl" -->
       </@block>
     </div>
 
