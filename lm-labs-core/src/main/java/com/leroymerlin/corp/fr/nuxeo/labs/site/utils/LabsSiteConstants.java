@@ -13,7 +13,7 @@ public final class LabsSiteConstants {
         PAGENEWS("page_news", "pgn"),
         NEWS("labsnews", "ln"),
         PAGELIST("page_list", "pgl"),
-        PAGELIST_ENTRY("page_list_entry", "pglen"),
+        PAGELIST_LINE("page_list_line", "pgll"),
         PAGEBLOCS("page_blocs", "pgb"),
         EXTERNALURL("external_url", "exturl"),
         HTMLPAGE("page_html", "html");
@@ -51,7 +51,7 @@ public final class LabsSiteConstants {
         LABSNEWS("LabsNews", StringUtils.EMPTY),
         PAGECLASSEUR("PageClasseur", StringUtils.EMPTY),
         PAGELIST("PageList", StringUtils.EMPTY),
-        PAGELISTENTRY("PageListEntry", StringUtils.EMPTY),
+        PAGELIST_LINE("PageListLine", StringUtils.EMPTY),
         FOLDER("Folder", StringUtils.EMPTY),
         WELCOME(PAGEBLOCS.type(), "welcome"),
         HTMLPAGE("HtmlPage",StringUtils.EMPTY);

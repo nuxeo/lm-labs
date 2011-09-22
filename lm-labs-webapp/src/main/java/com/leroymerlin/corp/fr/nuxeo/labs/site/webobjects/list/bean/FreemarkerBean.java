@@ -1,12 +1,14 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.dto.Header;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 
-public class HeadersCollectionDto implements Serializable {
+public class FreemarkerBean implements Serializable {
 
     private static final long serialVersionUID = 6533954658975698868L;
     
@@ -17,16 +19,19 @@ public class HeadersCollectionDto implements Serializable {
     Set<Header> headersSet;
     
     List<String> headersNameList;
+    
+    Collection<EntriesLine> entriesLines;
 
-    public HeadersCollectionDto(String headersMapJS, String headersNameJS, Set<Header> headersSetList, List<String> headersNameList) {
+    public FreemarkerBean(String headersMapJS, String headersNameJS, Set<Header> headersSetList, List<String> headersNameList, Collection<EntriesLine> entriesLines) {
         this();
         this.headersMapJS = headersMapJS;
         this.headersNameJS = headersNameJS;
         this.headersSet = headersSetList;
         this.headersNameList = headersNameList;
+        this.entriesLines = entriesLines;
     }
 
-    private HeadersCollectionDto() {
+    private FreemarkerBean() {
         super();
     }
 
@@ -60,6 +65,14 @@ public class HeadersCollectionDto implements Serializable {
 
     public void setHeadersNameList(List<String> headersNameList) {
         this.headersNameList = headersNameList;
+    }
+
+    public Collection<EntriesLine> getEntriesLines() {
+        return entriesLines;
+    }
+
+    public void setEntriesLines(Collection<EntriesLine> entriesLines) {
+        this.entriesLines = entriesLines;
     }
 
 }

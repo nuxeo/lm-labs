@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean;
 
 /**
  * @author fvandaele
@@ -9,14 +9,14 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
  * Type of data in the page list
  *
  */
-public enum PageListColSize {
+public enum LabsFontSize {
 
     S_8PX(8),
     S_10PX(10);
     
     private int size;
     
-    PageListColSize(int size){
+    LabsFontSize(int size){
         this.size = size;
     }
     

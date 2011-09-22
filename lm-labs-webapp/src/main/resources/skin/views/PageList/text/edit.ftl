@@ -1,0 +1,1 @@
+<input id="${header.idHeader}" class="error" type="text" size="20" name="${header.idHeader}" value="<#if line != null && line.getEntryByIdHead(header.idHeader) != null>${line.getEntryByIdHead(header.idHeader).text}</#if>" />

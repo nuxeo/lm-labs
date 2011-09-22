@@ -1,4 +1,5 @@
-<div class="container" style="width: auto;">
+<h1>${Context.getMessage('label.pageList.edit.manage.title')}</h1>
+<div class="container" style="width: auto;height: 330px;">
 	<section id="grid-system">
 		<div class="row">
 			<div class="span8 columns">
@@ -27,7 +28,7 @@
 							<div class="clearfix">
 								<label for="headerType">${Context.getMessage('label.pageList.edit.editHeader.type')}</label>
 								<div class="input">
-									<select name="headerType" id="headerType" onChange="manageEditSelect();">
+									<select name="headerType" id="headerType" onChange="javascript:manageEditSelect();">
 					            		<#list This.getHeaderTypes() as type>
 					            			<option value="${type.name()}">${Context.getMessage(type.getI18n())}</option>
 					            		</#list>
@@ -66,6 +67,8 @@
 			</div>
 		</div>
 	</section>
+</div>
+<div  class="actions">
 	<button id="saveHeaderList" class="btn primary" onClick="javascript:saveHeaderList('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
 	<button id="cancel" class="btn" onClick="javascript:closeManageList();" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
 	<!--<br /><br />

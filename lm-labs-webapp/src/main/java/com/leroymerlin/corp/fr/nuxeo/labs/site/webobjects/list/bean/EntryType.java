@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean;
 
 /**
  * @author fvandaele
@@ -9,7 +9,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
  * Type of data in the page list
  *
  */
-public enum PageListEntryType {
+public enum EntryType {
     
     TEXT("label.pageList.edit.editHeader.options.text"),
     DATE("label.pageList.edit.editHeader.options.date"),
@@ -20,7 +20,7 @@ public enum PageListEntryType {
     
     private String i18n;
     
-    PageListEntryType(String i18n){
+    EntryType(String i18n){
         this.i18n = i18n;
     }
     

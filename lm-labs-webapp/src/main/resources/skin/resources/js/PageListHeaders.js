@@ -39,40 +39,23 @@ headersCollection.organizeOrderPosition = function(){
 }
 
 jQuery(document).ready(function() {
-	jQuery("#divManageList").dialog({
-		dialogClass : 'manage-list',
-		title : msg_title,
-		open : function() {
-			initFields();
-		},
+	jQuery("#divManageList").dialog2({
 		width : 550,
 		height : 400,
-		modal : true,
-		autoOpen : false,
-		closeOnEscape : true
+		showCloseHandle : false,
+		removeOnClose : true,
+		autoOpen : false
 	});
 });
 
-//jQuery(document).ready(function() {
-//	jQuery("#divManageList").dialog2({
-//		open : function() {
-//			initFields();
-//		},
-//		width : 550,
-//		height : 400,
-//		showCloseHandle : false,
-//		removeOnClose : true,
-//		autoOpen : false
-//	});
-//});
-
 function manageList() {
-	jQuery("#divManageList").dialog('open');
+	jQuery("#divManageList").dialog2('open');
+	initFields();
 }
 
 function closeManageList() {
+	jQuery("#divManageList").dialog2('close');
 	headersCollection.setCollection(eval( headersMapBase ), eval( '[' + headersNameBase  + ']'));
-	jQuery("#divManageList").dialog('close');
 }
 
 function initFields() {
@@ -147,23 +130,25 @@ function addOneOption() {
 function loadEditOptions() {
 	$("#div_edit_options").html("");
 	var selectlist = headersCollection.getSelectedItem().selectlist;
+	var hasOneOption = false;
 	for (var ii = 0; ii < selectlist.length; ii++){
 		if (selectlist[ii] != null){
 			loadOneOption(selectlist[ii], ii);
+			hasOneOption = true;
 		}
 	}
-	displayEditSelect();
+	if (hasOneOption){
+		displayEditSelect();
+	}
 }
 
 function loadOneOption(optionName, index) {
-	if (optionName != "") {
-		var str = '<div id="div_edit_one_option_' + index + '" class="div_edit_one_option">';
-		str = str + '	<label for="headerOption">' + label_options + '</label>';
-		str = str + '	<input type="text" class="input_headerOption" name="headerOption" id="headerOption' + index + '" onblur="javascript:changeValueOption(' + index + ')" value="' + optionName + '" />';
-		str = str + '	<span class="lineOptionsDelete" onClick="deleteOption(' + index + ');"></span>';
-		str = str + '</div>';
-		$("#div_edit_options").append(str);
-	}
+	var str = '<div id="div_edit_one_option_' + index + '" class="div_edit_one_option">';
+	str = str + '	<label for="headerOption">' + label_options + '</label>';
+	str = str + '	<input type="text" class="input_headerOption" name="headerOption" id="headerOption' + index + '" onblur="javascript:changeValueOption(' + index + ')" value="' + optionName.replace(/"/g, '&#34;') + '" />';
+	str = str + '	<span class="lineOptionsDelete" onClick="deleteOption(' + index + ');"></span>';
+	str = str + '</div>';
+	$("#div_edit_options").append(str);
 }
 
 function clearUlHeaders() {
@@ -210,6 +195,7 @@ function changeHeader(selected) {
 	$('#headerFont option[value=' + selectedItem.font + ']').attr( "selected", "selected");
 	$('#headerWidth option[value=' + selectedItem.width + ']').attr( "selected", "selected");
 	addClassLineheaderSelected();
+	manageEditSelect();
 	loadEditOptions();
 }
 

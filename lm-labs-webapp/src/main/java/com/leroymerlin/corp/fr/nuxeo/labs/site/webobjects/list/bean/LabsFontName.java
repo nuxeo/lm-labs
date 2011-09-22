@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean;
 
 /**
  * @author fvandaele

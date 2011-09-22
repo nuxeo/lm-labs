@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.leroymerlin.corp.fr.nuxeo.labs.site.list.dto;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean;
 
 import java.util.ArrayList;
 import java.util.List;

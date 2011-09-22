@@ -17,13 +17,15 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.dto.UrlType;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
 @RepositoryConfig(cleanup=Granularity.METHOD)
-public class PageListEntryAdapterTest {
+public class PageListLineAdapterTest {
     private static final boolean CHECKBOX = true;
     private static final Calendar CAL = Calendar.getInstance();
     private static final String TEXT = "text";
@@ -35,30 +37,39 @@ public class PageListEntryAdapterTest {
 
     @Test
     public void canCreateDataModel() throws Exception {
-        new PageListEntryAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE).create();
+        new PageListLineAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE).create();
         assertTrue(session.exists(new PathRef(PATH_SEPARATOR + DATA_TITLE)));
     }
 
     @Test
-    public void canCreateHeaderList() throws Exception {
-        PageListEntryAdapter.Model model = new PageListEntryAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE);
-        PageListEntry entry = model.getAdapter();
-        assertThat(entry,is(notNullValue()));
+    public void canAddLine() throws Exception {
+        PageListLineAdapter.Model model = new PageListLineAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE);
+        PageListLine lineAdapter = model.getAdapter();
+        assertThat(lineAdapter,is(notNullValue()));
         
+        Entry entry = new Entry();
         entry.setIdHeader(ID_HEADER);
         entry.setText(TEXT);
         entry.setDate(CAL);
         entry.setCheckbox(CHECKBOX);
         UrlType url = new UrlType("nameURL", "http://www.google.fr");
-        entry.setDataURL(url);
-        entry = model.create();
+        entry.setUrl(url);
+        
+        EntriesLine line = new EntriesLine();
+        line.getEntries().add(entry);
+        lineAdapter.setLine(line);
+        
+        lineAdapter = model.create();
+        line = lineAdapter.getLine();
+        assertThat(line.getEntries().size(), is(1));
+        entry = line.getEntries().get(0);
         
         assertTrue(session.exists(new PathRef(PATH_SEPARATOR + DATA_TITLE)));
         assertTrue(ID_HEADER == entry.getIdHeader());
         assertTrue(TEXT.equals(entry.getText()));
         assertTrue(CAL.equals(entry.getDate()));
-        assertTrue(CHECKBOX == entry.getCheckBox());
-        assertTrue(url.equals(entry.getDataURL()));
+        assertTrue(CHECKBOX == entry.isCheckbox());
+        assertTrue(url.equals(entry.getUrl()));
     }
 
 }

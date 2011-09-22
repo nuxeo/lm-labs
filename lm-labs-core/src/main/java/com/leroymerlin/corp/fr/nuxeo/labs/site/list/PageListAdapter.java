@@ -11,16 +11,21 @@ import java.util.TreeSet;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.dto.Header;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageListAdapter extends AbstractPage implements PageList {
 
+    private static final String LINE = "line";
     private static final String PGL_HEADERLIST = "pgl:headerlist";
     private static final String WIDTH = "width";
     private static final String ID_HEADER = "idHeader";
@@ -149,5 +154,61 @@ public class PageListAdapter extends AbstractPage implements PageList {
     public void resetHeaders() throws ClientException {
         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
         doc.getProperty(PGL_HEADERLIST).setValue(list);
+    }
+
+    @Override
+    public List<EntriesLine> getLines() throws ClientException {
+        DocumentModelList listDocLines = null;
+        List<EntriesLine> entriesLines = new ArrayList<EntriesLine>();
+        listDocLines = doc.getCoreSession().getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
+        for (DocumentModel docTmp: listDocLines){
+            EntriesLine line = docTmp.getAdapter(PageListLine.class).getLine();
+            line.setDocRef(docTmp.getRef());
+            entriesLines.add(line);
+        }
+        return entriesLines;
+    }
+
+    @Override
+    public void saveLine(EntriesLine pLine) throws ClientException {
+        CoreSession session = doc.getCoreSession();
+        DocumentModel lineDoc = null;
+        boolean isNew = pLine.getDocRef() == null;
+        if (isNew){
+            lineDoc = session.createDocumentModel(doc.getPathAsString(), LINE, LabsSiteConstants.Docs.PAGELIST_LINE.type());
+        }
+        else{
+            lineDoc = session.getDocument(pLine.getDocRef());
+        }
+        PageListLine line = lineDoc.getAdapter(PageListLine.class);
+        line.setLine(pLine);
+        if (isNew){
+            lineDoc = session.createDocument(lineDoc);
+        }
+        else{
+            lineDoc = session.saveDocument(lineDoc);
+        }
+        session.save();
+    }
+
+    @Override
+    public void removeLine(DocumentRef pRef) throws ClientException {
+        doc.getCoreSession().removeDocument(pRef);
+    }
+
+    @Override
+    public void clearLine(DocumentRef pRef) throws ClientException {
+        doc.getCoreSession().removeChildren(pRef);
+    }
+
+    @Override
+    public EntriesLine getLine(DocumentRef pRef) throws ClientException {
+        EntriesLine line = new EntriesLine();
+        line.setDocRef(pRef);
+        DocumentModel entryDoc = doc.getCoreSession().getDocument(pRef);
+        if (entryDoc != null){
+            line = entryDoc.getAdapter(PageListLine.class).getLine();
+        }
+        return line;
     }
 }

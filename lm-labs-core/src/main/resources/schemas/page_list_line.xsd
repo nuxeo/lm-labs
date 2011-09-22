@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list_line"
+	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list_line">
+	
+	<!-- list of entries -->
+	<xs:element name="entriesLine" type="tns:entriesLine" />
+	<xs:complexType name="entriesLine">
+		<xs:sequence>
+			<xs:element name="item" type="tns:entry" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- One entry -->
+	<xs:complexType name="entry">
+		<xs:sequence>
+			<xs:element name="idHeader" type="xs:int" />
+			<xs:element name="text" type="xs:string" />
+			<xs:element name="date" type="xs:date" />
+			<xs:element name="checkbox" type="xs:boolean" />
+			<xs:element name="dataURL" type="tns:urlType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- URL data type -->
+	<xs:complexType name="urlType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"></xs:element>
+			<xs:element name="url" type="xs:string"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

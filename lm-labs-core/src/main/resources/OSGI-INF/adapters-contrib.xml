@@ -21,9 +21,9 @@
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListAdapterFactory" />
 
-    <!-- PageListEntry Document Adapter -->
-    <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListEntry"
-      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListEntryAdapterFactory" />
+    <!-- PageListLine Document Adapter -->
+    <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLineAdapterFactory" />
 
     <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocsAdapterFactory" />
