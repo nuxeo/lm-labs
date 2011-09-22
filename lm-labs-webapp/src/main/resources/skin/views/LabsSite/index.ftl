@@ -4,10 +4,7 @@
 
   <@block name="css">
       <@superBlock/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/page_blocs.css"/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/searchbox.css"/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/sidebar.css"/>
   </@block>
 
 

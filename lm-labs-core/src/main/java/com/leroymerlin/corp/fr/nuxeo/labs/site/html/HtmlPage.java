@@ -3,24 +3,15 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.html;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.DocumentModel;
 
-public interface HtmlPage {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 
-	void setTitle(String string) throws ClientException;
+public interface HtmlPage extends Page {
 
-	void setDescription(String string) throws ClientException;
+    List<HtmlSection> getSections() throws ClientException;
 
-	String getTitle()  throws ClientException;
+    HtmlSection addSection() throws ClientException;
 
-	String getDescription() throws ClientException;
-
-	DocumentModel getDocument();
-
-	List<HtmlSection> getSections() throws ClientException;
-
-	HtmlSection addSection() throws ClientException;
-
-	HtmlSection section(int index) throws ClientException;
+    HtmlSection section(int index) throws ClientException;
 
 }

@@ -32,7 +32,12 @@ function topBarFullTextSearch() {
             <li class="dropdown	">
               <a href="#" class="dropdown-toggle">${Context.principal.firstName} ${Context.principal.lastName}</a>
               <ul class="dropdown-menu">
-                <@block name="docactions"></@block>
+                <@block name="docactions">
+                <#if site?? && Session.hasPermission(This.document.ref, "ADD_CHILDREN")>
+                <li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@views/manage">Ajouter du contenu</a></li>
+                </#if>
+                </@block>
+                <li class="divider"></li>
                 <@block name="siteactions">
                 <#if site?? && Session.hasPermission(site.document.ref, "WRITE")>
                 <li><a href="${Context.modulePath}/${site.URL}/@views/edit">Administration</a></li>

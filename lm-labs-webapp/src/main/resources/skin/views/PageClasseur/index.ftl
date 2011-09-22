@@ -7,16 +7,13 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
+
   </@block>
 
   <@block name="css">
     <@superBlock/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
   </@block>
 
@@ -52,14 +49,14 @@
         <div class="row">
 
           <div class="span16 columns">
-            <a href="#" dialog="#addfile_${folder.document.id}_modal" class="btn open-dialog" >Ajouter un fichier</a>
+            <a href="#" rel="addfile_${folder.document.id}_modal" class="btn open-dialog" >Ajouter un fichier</a>
 
 
           <!-- This button submits the hidden delete form -->
           <button type="submit" class="btn danger" onclick="$('#delete_${folder.document.id}').submit();return false;">${Context.getMessage('command.PageClasseur.deleteFolder')}</button>
 
 
-          <div id="addfile_${folder.document.id}_modal" class="dialog2">
+          <div id="addfile_${folder.document.id}_modal" >
               <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
               <form action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
                 <fieldset>

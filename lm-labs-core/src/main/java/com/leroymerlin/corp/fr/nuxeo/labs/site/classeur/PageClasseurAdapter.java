@@ -16,6 +16,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 
 public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
 
+
     public PageClasseurAdapter(DocumentModel doc) {
         this.doc = doc;
     }
@@ -26,7 +27,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
         /**
          * PageClasseur adapter = new PageClasseurAdapter.Model(session, "/",
          * "titre").desc("description").create();
-         * 
+         *
          * @param session
          * @param parentPath
          * @param title
@@ -41,7 +42,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
 
         /**
          * Sets dc:description.
-         * 
+         *
          * @param description
          * @return
          * @throws PropertyException
@@ -55,7 +56,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
 
         /**
          * Creates document model in repository.
-         * 
+         *
          * @return an adapter
          * @throws ClientException
          */
@@ -134,5 +135,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
         }
 
     }
+
+
 
 }

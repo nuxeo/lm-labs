@@ -23,6 +23,7 @@
           </div>
           <div class="span12 columns">
             <form action="${This.path}" method="post">
+              <input type="hidden" name="action" value="edit"/>
               <fieldset>
                 <legend>Mettez à jour les propriétés du site</legend>
                 <div class="clearfix">

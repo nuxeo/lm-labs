@@ -4,6 +4,9 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.core.schema.DocumentType;
+import org.nuxeo.ecm.core.schema.SchemaManager;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -89,5 +92,22 @@ public abstract class AbstractPage implements Page {
         }
         return parentDoc != null ? parentDoc.getAdapter(LabsSite.class) : null;
     }
+
+    protected String[] getAllowedSubtypes(DocumentModel doc) throws ClientException {
+        try {
+            SchemaManager sm = Framework.getService(SchemaManager.class);
+            DocumentType documentType = sm.getDocumentType(doc.getType());
+            return documentType.getChildrenTypes();
+        } catch (Exception e) {
+            throw ClientException.wrap(e);
+        }
+    }
+
+    @Override
+    public String[] getAllowedSubtypes() throws ClientException {
+        return getAllowedSubtypes(doc);
+    }
+
+
 
 }

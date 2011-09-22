@@ -138,6 +138,13 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
         return getCoreSession().getChild(getTree().getRef(), Docs.WELCOME.docName());
     }
 
+    @Override
+    public String[] getAllowedSubtypes() throws ClientException {
+        return getAllowedSubtypes(getTree());
+    }
+
+
+
 
 
 

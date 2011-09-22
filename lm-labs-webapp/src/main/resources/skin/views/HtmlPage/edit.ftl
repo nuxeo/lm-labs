@@ -54,12 +54,12 @@
 
 
         <div class="well editblock">
-          <a href="#" dialog="#editsection_${section_index}" class="btn open-dialog" >Modifier la section</a>
+          <a href="#" rel="editsection_${section_index}" class="btn open-dialog" >Modifier la section</a>
           <!-- This button submits the hidden delete form -->
           <button type="submit" class="btn danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
 
 
-          <div class="dialog2" id="editsection_${section_index}" >
+          <div id="editsection_${section_index}" >
           <h1>Modifier la section</h1>
       <form action="${This.path}/s/${section_index}" method="post">
       <input type="hidden" name="action" value="editsection"/>
@@ -169,9 +169,9 @@
 
 
     <#-- Add Section -->
-    <a id="addsectionlink" href="#" dialog="#addsection" class="btn open-dialog editblock" >Ajouter une section</a>
+    <a id="addsectionlink" href="#" rel="addsection" class="btn open-dialog editblock" >Ajouter une section</a>
 
-    <div id="addsection" class="dialog2">
+    <div id="addsection">
     <h1>Ajouter une section</h1>
     <form  id="addsectionfrm" action="${This.path}" method="post">
       <fieldset>

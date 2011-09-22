@@ -46,23 +46,16 @@
 
     <doctype name="Tree" extends="OrderedFolder">
       <subtypes>
-        <type>Page</type>
         <type>PageBlocs</type>
         <type>PageNews</type>
         <type>PageClasseur</type>
         <type>PageList</type>
+        <type>HtmlPage</type>
       </subtypes>
     </doctype>
 
     <doctype name="Page" extends="OrderedFolder">
       <schema name="page" />
-      <subtypes>
-        <type>Page</type>
-        <type>PageBlocs</type>
-        <type>PageNews</type>
-        <type>PageClasseur</type>
-        <type>PageList</type>
-      </subtypes>
     </doctype>
 
     <doctype name="ExternalURL" extends="Document">
@@ -74,11 +67,11 @@
       <schema name="file" />
       <schema name="page_blocs" />
       <subtypes>
-        <type>Page</type>
         <type>PageBlocs</type>
         <type>PageNews</type>
         <type>PageClasseur</type>
         <type>PageList</type>
+        <type>HtmlPage</type>
       </subtypes>
     </doctype>
 
@@ -131,6 +124,13 @@
 
     <doctype name="HtmlPage" extends="Page">
       <schema name="page_html"/>
+      <subtypes>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+        <type>HtmlPage</type>
+      </subtypes>
     </doctype>
 
 

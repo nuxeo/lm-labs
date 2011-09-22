@@ -22,4 +22,6 @@ public interface Page {
 
     public String getPath() throws ClientException;
 
+    public String[] getAllowedSubtypes() throws ClientException;
+
 }

@@ -17,7 +17,14 @@ $(document).ready(function() {
 
   setTimeout("hideAlerts()", 5000);
 
+
+  $(document).controls();
+
 });
+
+
+
+
 
 function hideAlerts() {
   $(".alert-message").each(function()

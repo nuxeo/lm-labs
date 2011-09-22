@@ -18,10 +18,12 @@ import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Template;
+import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 
+@WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
 
     private static final String BROWSE_TREE_VIEW = "views/common/browse_tree.ftl";
@@ -50,6 +52,10 @@ public class PageResource extends DocumentObject {
 
         return Response.ok()
                 .build();
+    }
+
+    public Page getPage() {
+        return doc.getAdapter(Page.class);
     }
 
     @Override
