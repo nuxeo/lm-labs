@@ -1,9 +1,6 @@
-<#if This.type.name != "sitesRoot" >
-  <#assign siteDoc = breadcrumbsDocs(This.document)?first />
-</#if>
 <script type="text/javascript">
 function topBarFullTextSearch() {
-  <#if site>
+  <#if site??>
   window.location.href = '${Context.modulePath}/${site.document.webcontainer.url}/@views/searchresults?fullText=' + escape(jQuery('input[name=q]').val());
   </#if>
 
