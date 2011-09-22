@@ -27,7 +27,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 
-@WebObject(type = "PageClasseur")
+@WebObject(type = "PageClasseur", superType = "LabsPage")
 public class PageClasseurResource extends PageResource {
 
     private static final Log LOG = LogFactory.getLog(PageClasseurResource.class);

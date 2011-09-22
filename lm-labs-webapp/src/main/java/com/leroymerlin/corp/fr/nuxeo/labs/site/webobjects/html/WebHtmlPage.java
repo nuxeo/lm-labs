@@ -15,7 +15,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 
-@WebObject(type = "HtmlPage")
+@WebObject(type = "HtmlPage", superType = "LabsPage")
 public class WebHtmlPage extends PageResource {
 
     @Override

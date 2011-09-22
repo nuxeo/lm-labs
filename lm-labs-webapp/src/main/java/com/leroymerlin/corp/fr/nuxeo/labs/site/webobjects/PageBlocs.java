@@ -40,7 +40,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
  * @author fvandaele
  *
  */
-@WebObject(type = "PageBlocs")
+@WebObject(type = "PageBlocs", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
 public class PageBlocs extends PageResource {
 
