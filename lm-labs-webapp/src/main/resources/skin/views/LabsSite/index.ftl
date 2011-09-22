@@ -24,9 +24,11 @@
 
         <div class="row">
           <div  class="span12 columns">
+            <#assign Document = site.indexDocument />
             <#include "views/common/description_area.ftl">
-            <#include "views/common/comment_area.ftl">
+              <#include "views/common/comment_area.ftl">
 
+      <#assign Document = site.document />
 
         <#------------------------------------maxNbLabsNews------------------------>
         <#assign maxNbLabsNews = 5 />
@@ -35,7 +37,7 @@
             <#if root.name != "welcome">
             <div id="bloc${root_index}" class="bloc welcome span6 column">
               <div class="header">
-                <a href="${This.previous.path}/${root.name}">${root.title}</a>
+                <a href="${This.path}/${root.name}">${root.title}</a>
               </div>
 
               <ul class="unstyled">
@@ -52,7 +54,7 @@
                     <#if child.type == 'Folder'>
                       <li>${child.title}</li>
                     <#else>
-                      <li><a href="${This.previous.path}/${root.name}/${child.name}">${child.title}</a></li>
+                      <li><a href="${This.path}/${root.name}/${child.name}">${child.title}</a></li>
                     </#if>
                   </#list>
                 </#if>

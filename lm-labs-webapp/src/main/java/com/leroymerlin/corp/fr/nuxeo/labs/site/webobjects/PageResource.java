@@ -1,7 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.FormParam;
@@ -20,28 +19,28 @@ import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Template;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 
-public class Page extends DocumentObject {
+public class PageResource extends DocumentObject {
 
     private static final String BROWSE_TREE_VIEW = "views/common/browse_tree.ftl";
 
-    private static final Log LOG = LogFactory.getLog(Page.class);
+    private static final Log LOG = LogFactory.getLog(PageResource.class);
 
-    private static final String[] MESSAGES_TYPE = new String[] {"error","info","success","warning"};
+    private static final String[] MESSAGES_TYPE = new String[] { "error",
+            "info", "success", "warning" };
 
-    public com.leroymerlin.corp.fr.nuxeo.labs.site.Page getPage() {
-        return doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class);
-    }
 
     @POST
     @Path("updateCommentaire")
     public Object doSetCommentaire(
             @FormParam("content") final String commentaire) {
         try {
-            doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.Page.class).setCommentaire(
+            Page page = getAdapter(Page.class);
+            page.setCommentaire(
                     commentaire);
-            getCoreSession().saveDocument(doc);
+            getCoreSession().saveDocument(page.getDocument());
             getCoreSession().save();
         } catch (PropertyException pe) {
             LOG.error("Unable to get property " + pe);
@@ -49,7 +48,14 @@ public class Page extends DocumentObject {
             LOG.error("Unable to get description " + ce);
         }
 
-        return Response.ok().build();
+        return Response.ok()
+                .build();
+    }
+
+    @Override
+    public <A> A getAdapter(Class<A> adapter) {
+        return doc.getAdapter(adapter) != null ? doc.getAdapter(adapter)
+                : super.getAdapter(adapter);
     }
 
     public String escapeJS(String pString) {
@@ -68,21 +74,22 @@ public class Page extends DocumentObject {
 
     public String getSiteUrlProp() throws PropertyException, ClientException {
         SiteDocument sd = doc.getAdapter(SiteDocument.class);
-        return (String) sd.getSite().getDocument().getPropertyValue(
-                "webc:url");
+        return (String) sd.getSite()
+                .getDocument()
+                .getPropertyValue("webc:url");
     }
-
 
     /**
      * Returns a Map containing all "flash" messages
+     *
      * @return
      */
-    public Map<String,String> getMessages() {
-        Map<String,String> messages = new HashMap<String, String>();
+    public Map<String, String> getMessages() {
+        Map<String, String> messages = new HashMap<String, String>();
         FormData form = ctx.getForm();
-        for(String type : MESSAGES_TYPE) {
-            String message = form.getString("message_"+type);
-            if(StringUtils.isNotBlank(message)) {
+        for (String type : MESSAGES_TYPE) {
+            String message = form.getString("message_" + type);
+            if (StringUtils.isNotBlank(message)) {
                 messages.put(type, message);
             }
         }
