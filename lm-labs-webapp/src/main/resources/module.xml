@@ -8,29 +8,29 @@
       <type>PageClasseur</type>
       <guard>Write</guard>
     </link>
-    
+
     <link id="deleteSelection">
       <category>BOTTOM_ACTIONS</category>
       <type>PageClasseur</type>
       <guard>Write</guard>
     </link>
-    
+
     <!-- Page description buttons -->
     <link id="PageDescriptionModifyBt">
       <category>PAGE_DESCRIPTION_BEFORE_BUTTONS</category>
-      <guard>permission=Write AND (type=PageClasseur OR type=PageBlocs)</guard>
+      <guard>permission=Write AND (type=PageClasseur OR type=PageBlocs OR type=HtmlPage)</guard>
     </link>
-    
+
     <link id="PageDescriptionSaveBt">
       <category>PAGE_DESCRIPTION_AFTER_BUTTONS</category>
-      <guard>permission=Write AND (type=PageClasseur OR type=PageBlocs)</guard>
+      <guard>permission=Write AND (type=PageClasseur OR type=PageBlocs OR type=HtmlPage)</guard>
     </link>
-    
+
     <link id="PageDescriptionCancelBt">
       <category>PAGE_DESCRIPTION_AFTER_BUTTONS</category>
-      <guard>permission=Write AND (type=PageClasseur OR type=PageBlocs)</guard>
+      <guard>permission=Write AND (type=PageClasseur OR type=PageBlocs OR type=HtmlPage)</guard>
     </link>
-    
+
   </links>
 
 </module>
