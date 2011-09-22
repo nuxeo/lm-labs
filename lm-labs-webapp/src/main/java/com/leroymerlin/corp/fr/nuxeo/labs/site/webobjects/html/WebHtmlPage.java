@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
+import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
@@ -30,9 +31,19 @@ public class WebHtmlPage extends PageResource {
     @POST
     @Override
     public Response doPost() {
+        FormData form = ctx.getForm();
 
+        if("addsection".equals(form.getString("action"))) {
+            return doAddSection(form);
+        }
+
+        return super.doPost();
+
+    }
+
+    private Response doAddSection(FormData form) {
         try {
-            FormData form = ctx.getForm();
+
             String title = form.getString("title");
             String description = form.getString("description");
 
@@ -44,10 +55,8 @@ public class WebHtmlPage extends PageResource {
 
             return redirect(getPath() + "/@views/edit");
         } catch (ClientException e) {
-            return Response.serverError()
-                    .build();
+            throw WebException.wrap(e);
         }
-
     }
 
     @Path("s/{index}")

@@ -174,6 +174,7 @@
     <div id="addsection">
     <h1>Ajouter une section</h1>
     <form  id="addsectionfrm" action="${This.path}" method="post">
+      <input type="hidden" name="action" value="addsection"/>
       <fieldset>
             <div class="clearfix">
               <label for="title">Titre</label>
