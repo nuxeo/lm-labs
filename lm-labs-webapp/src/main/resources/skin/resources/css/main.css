@@ -64,6 +64,7 @@ html>body {
 #FKfooter_logo_adeo {
   background: url(../images/theme/footer_adeo.png) no-repeat scroll 0 0
     transparent;
+  margin-right:10px;
   width: 160px;
   height: 28px;
   float: right;
