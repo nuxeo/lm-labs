@@ -18,7 +18,7 @@
     <@superBlock/>
     <#if isAuthorized>
       <li>
-        <a class="open-dialog" dialog="#divEditSite" href="#">${Context.getMessage('label.labssite.add.site')}</a>
+        <a class="open-dialog" rel="divEditSite" href="#">${Context.getMessage('label.labssite.add.site')}</a>
         <div id="divEditSite" class="dialog2" style="display:none;">
             <#include "/views/sitesRoot/addSite.ftl" />
         </div>
