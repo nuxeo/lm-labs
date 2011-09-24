@@ -21,16 +21,44 @@ public class OfmRepositoryInit implements RepositoryInit {
     @Override
     public void populate(CoreSession session) throws ClientException {
         try {
-            LabsSite site = getSiteManager().createSite(session, SITE_TITLE, SITE_URL);
+            LabsSite site = getSiteManager().createSite(session, SITE_TITLE,
+                    SITE_URL);
             ofm = site.getDocument();
+
+            DocumentModel assetsDoc = site.getAssetsDoc();
+            DocumentModel doc = session.createDocumentModel(
+                    assetsDoc.getPathAsString(), "folder1", "Folder");
+            doc.setPropertyValue("dc:title", "folder1");
+            session.createDocument(doc);
+
+            createChildFolder(session, assetsDoc, "folder", 3);
+
+            DocumentModel  folder1 = session.getChild(assetsDoc.getRef(), "folder1");
+            createChildFolder(session, folder1, "folder1_", 4);
+
+            DocumentModel  folder2 = session.getChild(assetsDoc.getRef(), "folder2");
+            createChildFolder(session, folder2, "folder2_", 3);
+
             session.save();
         } catch (SiteManagerException e) {
-            //Site already exists... do nothinf
+            // Site already exists... do nothinf
         }
 
     }
 
-    protected SiteManager getSiteManager()  {
+    private void createChildFolder(CoreSession session, DocumentModel parentDoc,
+            String prefix, int number) throws ClientException {
+        for (int i = 0; i < number; i++) {
+            String name = prefix + i;
+            DocumentModel doc = session.createDocumentModel(
+                    parentDoc.getPathAsString(), name, "Folder");
+            doc.setPropertyValue("dc:title", name);
+            session.createDocument(doc);
+        }
+
+    }
+
+    protected SiteManager getSiteManager() {
         try {
             return Framework.getService(SiteManager.class);
         } catch (Exception e) {

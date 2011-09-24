@@ -78,4 +78,10 @@ public interface LabsSite extends Page {
      */
     SiteThemeManager getSiteThemeManager() throws ClientException;
 
+    /**
+     * Returns the base document for assets management
+     * @return
+     */
+    DocumentModel getAssetsDoc() throws ClientException;
+
 }

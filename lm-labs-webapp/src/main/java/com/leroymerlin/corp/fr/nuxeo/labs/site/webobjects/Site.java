@@ -70,6 +70,7 @@ public class Site extends PageResource {
         ctx.getEngine()
                 .getRendering()
                 .setSharedVariable("site", site);
+        ctx.setProperty("site", site);
     }
 
     @POST

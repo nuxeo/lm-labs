@@ -1,10 +1,10 @@
 var ckeditorconfig = {
-filebrowserBrowseUrl : '${This.path}/displayBrowseTree',
-filebrowserImageBrowseUrl : '${This.path}/displayBrowseTree',
-filebrowserFlashBrowseUrl : '${This.path}/displayBrowseTree',
-filebrowserUploadUrl : '${This.path}/displayBrowseTree',
-filebrowserImageUploadUrl : '${This.path}/displayBrowseTree',
-filebrowserFlashUploadUrl : '${This.path}/displayBrowseTree',
+filebrowserBrowseUrl : '${This.path}/@assets',
+filebrowserImageBrowseUrl : '${This.path}/@assets',
+filebrowserFlashBrowseUrl : '${This.path}/@assets',
+filebrowserUploadUrl : '${This.path}/@assets',
+filebrowserImageUploadUrl : '${This.path}/@assets',
+filebrowserFlashUploadUrl : '${This.path}/@assets',
 toolbar:
 [
 ['Source','-','Preview','-'],

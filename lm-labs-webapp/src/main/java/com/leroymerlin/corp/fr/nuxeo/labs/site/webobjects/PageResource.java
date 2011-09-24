@@ -78,12 +78,6 @@ public class PageResource extends DocumentObject {
         return template;
     }
 
-    public String getSiteUrlProp() throws PropertyException, ClientException {
-        SiteDocument sd = doc.getAdapter(SiteDocument.class);
-        return (String) sd.getSite()
-                .getDocument()
-                .getPropertyValue("webc:url");
-    }
 
     /**
      * Returns a Map containing all "flash" messages
