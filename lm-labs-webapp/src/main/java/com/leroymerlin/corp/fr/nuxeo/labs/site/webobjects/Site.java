@@ -1,7 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -35,11 +35,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.filter.PageNewsFilter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.SiteThemeManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.PageNewsSorter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
@@ -191,19 +191,12 @@ public class Site extends PageResource {
 
     // /////////////// ALL CODE BELOW IS TO BE REFACTORED /////////////////
 
-    public ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews> getNews(
+    public List<LabsNews> getNews(
             String pRef) throws ClientException {
-        ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews> listNews = new ArrayList<com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews>();
         CoreSession session = getCoreSession();
-        DocumentModelList listDoc = session.getChildren(new IdRef(pRef),
-                LabsSiteConstants.Docs.LABSNEWS.type(), null,
-                new PageNewsFilter(Calendar.getInstance()),
-                new PageNewsSorter());
-        for (DocumentModel doc : listDoc) {
-            com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews news = doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews.class);
-            listNews.add(news);
-        }
-        return listNews;
+        DocumentModel pageNews = session.getDocument(new IdRef(pRef));
+        return pageNews.getAdapter(PageNews.class).getAllNews();
+
     }
 
     public ArrayList<ExternalURL> getExternalURLs() throws ClientException {

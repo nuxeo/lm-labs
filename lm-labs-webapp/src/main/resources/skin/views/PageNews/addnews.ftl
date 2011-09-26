@@ -18,28 +18,9 @@
 
   <@block name="content">
       <div id="content" class="container">
-
-        <#include "views/common/comment_area.ftl" />
-
         <#if isAuthorized>
-          <a class="btn" href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>
+            <#include "/views/PageNews/editNews.ftl" />
         </#if>
-
-        <#list pageNews.allNews as news>
-          <section>
-              <div class="page-header">
-                <h1><a href="${This.path}/${news.documentModel.name}">${news.title}</a> <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
-                <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
-              </div>
-
-
-              <div class="row">
-                <div class="span16 columns">
-                  ${news.content}
-                </div>
-              </div>
-            </section>
-        </#list>
       </div>
   </@block>
 </@extends>

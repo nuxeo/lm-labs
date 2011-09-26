@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.leroymerlin.corp.fr.nuxeo.labs.site.sort;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

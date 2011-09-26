@@ -15,23 +15,20 @@
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
   </@block>
-
+  <@block name="docactions">
+      <@superBlock/>
+         <#if isAuthorized>
+          <li><a href="${This.path}/@delete">${Context.getMessage('command.PageNews.delete')}</a></li>
+            <li><a href="${This.path}/@views/edit">${Context.getMessage('command.PageNews.modify')}</a></li>
+         </#if>
+  </@block>
   <@block name="content">
       <div id="content" class="container">
-
-        <#include "views/common/comment_area.ftl" />
-
-        <#if isAuthorized>
-          <a class="btn" href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>
-        </#if>
-
-        <#list pageNews.allNews as news>
           <section>
               <div class="page-header">
-                <h1><a href="${This.path}/${news.documentModel.name}">${news.title}</a> <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
+                <h1>${news.title} <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
                 <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
               </div>
-
 
               <div class="row">
                 <div class="span16 columns">
@@ -39,7 +36,6 @@
                 </div>
               </div>
             </section>
-        </#list>
       </div>
   </@block>
 </@extends>

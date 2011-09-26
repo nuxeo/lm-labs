@@ -3,11 +3,16 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.adapter.DocumentAdapterFactory;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+
 public class PageNewsAdapterFactory implements DocumentAdapterFactory {
 
     @Override
-    public Object getAdapter(DocumentModel arg0, Class<?> arg1) {
-        // TODO Auto-generated method stub
+    public Object getAdapter(DocumentModel doc, Class<?> arg1) {
+        if(LabsSiteConstants.Docs.PAGENEWS.type().equals(doc.getType())) {
+            return new PageNewsAdapter(doc);
+        }
+
         return null;
     }
 

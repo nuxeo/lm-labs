@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.leroymerlin.corp.fr.nuxeo.labs.site.filter;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

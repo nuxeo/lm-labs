@@ -288,6 +288,12 @@
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
+      <artifactId>lm-nuxeo-common-core
+      </artifactId>
+    </dependency>
   </dependencies>
 
 </project>
