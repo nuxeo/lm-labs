@@ -17,7 +17,14 @@
 
 function load(settings, root, child, container) {
   function createNode(parent) {
-    var current = $("<li/>").attr("id", this.id || "").html("<span>" + this.text + "</span>").appendTo(parent);
+  var html="";
+  if(this.href) {
+    html = "<a href=\"" + this.href + "\">" + this.text + "</a>";
+  } else {
+    html = this.text;
+  }
+
+    var current = $("<li/>").attr("id", this.id || "").html("<span>" + html + "</span>").appendTo(parent);
     if (this.classes) {
       current.children("span").addClass(this.classes);
     }

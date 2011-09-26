@@ -2,31 +2,28 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.rest.DocumentHelper;
 import org.nuxeo.ecm.core.rest.DocumentObject;
-import org.nuxeo.ecm.core.schema.FacetNames;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -43,22 +40,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.PageNewsSorter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 @WebObject(type = "LabsSite", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
 public class Site extends PageResource {
 
-    private static final Log LOG = LogFactory.getLog(Site.class);
-
-    private interface Query {
-        String TAG_VALUE = "%VALUE%";
-
-        String SELECT_PICTURE = "select * from Picture where ecm:parentId = '"
-                + TAG_VALUE + "'";
-    }
 
     private LabsSite site;
 
@@ -148,30 +136,30 @@ public class Site extends PageResource {
 
     }
 
-    @POST
+    @GET
     @Path("treeview")
-    public String doTreeview() {
-        try {
+    public Response doTreeview(@QueryParam("root") String root)
+            throws ClientException {
 
-            return LabsSiteWebAppUtils.getTreeview(site.getTree(), this, true,
-                    new Filter() {
-                        private static final long serialVersionUID = 1L;
+        LabsSite site = (LabsSite) ctx.getProperty("site");
 
-                        @Override
-                        public boolean accept(DocumentModel document) {
-                            return Docs.pageDocs()
-                                    .contains(
-                                            Docs.fromString(document.getType()));
-                        }
-                    });
-        } catch (Exception e) {
-            LOG.error(e, e);
-            throw WebException.wrap(e);
+        if (site != null) {
+            DocumentModel tree = site.getTree();
+            SiteDocumentTree siteTree = new SiteDocumentTree(ctx, tree);
+            String result = "";
+            if (root == null || "source".equals(root)) {
+                siteTree.enter(ctx, "");
+                result = siteTree.getTreeAsJSONArray(ctx);
+            } else {
+                result = siteTree.enter(ctx, root);
+            }
+            return Response.ok()
+                    .entity(result)
+                    .build();
         }
+        return null;
+
     }
-
-
-
 
     @Override
     public DocumentObject newDocument(String path) {
@@ -296,7 +284,5 @@ public class Site extends PageResource {
         return Response.noContent()
                 .build();
     }
-
-
 
 }

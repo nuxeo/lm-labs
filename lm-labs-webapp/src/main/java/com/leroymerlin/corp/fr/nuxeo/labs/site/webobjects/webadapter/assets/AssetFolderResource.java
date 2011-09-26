@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter.assets;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

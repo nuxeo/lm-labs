@@ -1,23 +1,4 @@
-/*
- * (C) Copyright 2006-2009 Nuxeo SAS (http://nuxeo.com/) and contributors.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl.html
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * Contributors:
- *     Nuxeo - initial API and implementation
- *
- * $Id$
- */
-
-package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.tree;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -29,18 +10,13 @@ import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.ui.tree.JSonTreeSerializer;
 import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-
-public class SiteTreeSerializer extends JSonTreeSerializer {
-
+public abstract class AbstractJSONSerializer extends JSonTreeSerializer{
     @Override
     public String getUrl(TreeItem item) {
         WebContext ctx = WebEngine.getActiveContext();
 
         try {
-            StringBuilder sb = new StringBuilder(ctx.getModulePath());
-            LabsSite site = (LabsSite) ctx.getProperty("site");
-            sb.append("/" + site.getURL() + "/@assets");
+            StringBuilder sb = new StringBuilder(getBasePath(ctx));
             sb.append(URIUtils.quoteURIPathComponent(item.getPath()
                     .toString(), false));
             return sb.toString();
@@ -48,6 +24,8 @@ public class SiteTreeSerializer extends JSonTreeSerializer {
             return "#";
         }
     }
+
+    protected abstract String getBasePath(WebContext ctx) throws ClientException;
 
     /**
      * You may override this method to change the output JSON.
@@ -70,5 +48,4 @@ public class SiteTreeSerializer extends JSonTreeSerializer {
         }
         return json;
     }
-
 }

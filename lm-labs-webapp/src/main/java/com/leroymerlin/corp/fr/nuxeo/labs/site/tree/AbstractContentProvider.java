@@ -1,23 +1,4 @@
-/*
- * (C) Copyright 2006-2009 Nuxeo SAS (http://nuxeo.com/) and contributors.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl.html
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * Contributors:
- *     Nuxeo - initial API and implementation
- *
- * $Id$
- */
-
-package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.tree;
 
 import java.util.List;
 import java.util.Vector;
@@ -26,18 +7,23 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentRef;
+import org.nuxeo.ecm.core.api.Filter;
+import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.webengine.ui.tree.document.DocumentContentProvider;
 
-/**
- * Implementation of provider for the tree.
- */
-public class SiteContentProvider extends DocumentContentProvider {
+public abstract class AbstractContentProvider extends DocumentContentProvider {
 
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
 
-    public SiteContentProvider(CoreSession session) {
+    public AbstractContentProvider(CoreSession session) {
         super(session);
     }
+
+    abstract public Filter getDocFilter();
 
     @Override
     public Object[] getChildren(Object obj) {
@@ -45,7 +31,7 @@ public class SiteContentProvider extends DocumentContentProvider {
         List<Object> v = new Vector<Object>();
         for (Object o : objects) {
             DocumentModel doc = (DocumentModel) o;
-            if(doc.isFolder()) {
+            if(getDocFilter().accept(doc)) {
                 v.add(doc);
             }
         }
@@ -68,8 +54,8 @@ public class SiteContentProvider extends DocumentContentProvider {
             DocumentModel doc = (DocumentModel) obj;
             CoreSession session = doc.getCoreSession();
             try {
-                return session.getChildren(doc.getRef(), "Folder")
-                        .size() > 0;
+                return session.getChildren(doc.getRef(), null, null,
+                        getDocFilter(), null).size() > 0;
             } catch (ClientException e) {
                 return false;
             }
@@ -77,5 +63,4 @@ public class SiteContentProvider extends DocumentContentProvider {
         return false;
 
     }
-
 }

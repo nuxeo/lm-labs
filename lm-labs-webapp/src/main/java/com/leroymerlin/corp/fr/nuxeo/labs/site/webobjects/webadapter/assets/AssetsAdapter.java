@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter.assets;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,6 +18,7 @@ import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.assets.AssetsDocumentTree;
 
 @WebAdapter(name = "assets", type = "assetsAdapter", targetType = "LabsSite")
 public class AssetsAdapter extends DefaultAdapter {
@@ -31,17 +32,17 @@ public class AssetsAdapter extends DefaultAdapter {
 
     @POST
     public Response doPost() throws ClientException {
-        AssetFolderResource resource = (AssetFolderResource) getAssetResource(getSite());
+        AssetFolderResource resource = getAssetResource(getSite());
         return resource.doPost();
     }
 
-    private Resource getAssetResource(LabsSite site) throws ClientException {
-        return ctx.newObject("AssetFolder", site.getAssetsDoc());
+    private AssetFolderResource getAssetResource(LabsSite site) throws ClientException {
+        return (AssetFolderResource) ctx.newObject("AssetFolder", site.getAssetsDoc());
     }
 
     @Path("{path}")
     public Object doTraverse(@PathParam("path") String path) throws ClientException {
-        AssetFolderResource res = (AssetFolderResource) getAssetResource(getSite());
+        AssetFolderResource res = getAssetResource(getSite());
         return res.traverse(path);
     }
 
@@ -57,7 +58,7 @@ public class AssetsAdapter extends DefaultAdapter {
 
         if (site != null) {
             DocumentModel assetsDoc = site.getAssetsDoc();
-            SiteDocumentTree tree = new SiteDocumentTree(ctx, assetsDoc);
+            AssetsDocumentTree tree = new AssetsDocumentTree(ctx, assetsDoc);
             String result = "";
             if (root == null || "source".equals(root)) {
                 tree.enter(ctx, "");
@@ -70,6 +71,13 @@ public class AssetsAdapter extends DefaultAdapter {
                     .build();
         }
         return null;
+    }
+
+    @GET
+    @Path("/@views/content")
+    public Template doGetRootContent() throws ClientException {
+        AssetFolderResource folder = getAssetResource(getSite());
+        return folder.getView("content");
     }
 
 }

@@ -106,27 +106,17 @@
 
    <script>
    var currentPath = "${This.path}";
- $(document).ready(function() {
-              $('#treenav').treeview({
-                url: "${Context.modulePath}/${site.URL}/@assets/json",
-                persist: "cookie",
-                control: "#navtreecontrol",
-                collapsed: true,
-                cookieId: "${site.document.id}-assets-navtree",
-                onLoad: function(nodeLoaded) {
-                   $("#treenav span").click(function(elt) {
-                       currentPath = "${Context.modulePath}/${site.URL}/@assets"+$(this).parent("li").attr("id");
-                       updateContent();
-                   })
-                }
+   $(document).ready(function() {
+     $('#treenav').treeview({
+       url: "${Context.modulePath}/${site.URL}/@assets/json",
+       persist: "cookie",
+       control: "#navtreecontrol",
+       collapsed: true,
+       cookieId: "${site.document.id}-assets-navtree"
+      }
+    );
+  });
 
-
-              });
-            });
-
-  function updateContent(path) {
-     $("#fileContent").load(currentPath+"/@views/content");
-  }
 
 
     function sendToCKEditor(href) {

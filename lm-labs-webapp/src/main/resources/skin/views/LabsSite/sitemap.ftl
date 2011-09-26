@@ -2,29 +2,23 @@
      <@block name="sitemap-content">
        <div id="treeviewControl">
           <a href="#" id="reduceLink">Tout réduire</a>
+          <a href="#" id="expandLink">Tout étendre</a>
         </div>
         <div>
         <ul id="tree">
-          <li class="hasChildren">
-            <span>Arborescence du site ${This.document.title}</span>
-            <ul>
-              <li><span class="placeholder">&nbsp;</span></li>
-            </ul>
-          </li>
         </ul>
-      </div>
+        </div>
 
         <script type="text/javascript">
         jQuery(document).ready( function() {
           jQuery("#tree").treeview({
             url: "${This.path}/treeview",
-            ajax: {
-              data: { },
-              type: "post"
-            },
-            control: "#treeviewControl"
+                persist: "cookie",
+                control: "#treeviewControl",
+                collapsed: false,
+                cookieId: "${site.document.id}-doctree-navtree"
           });
-          jQuery(".hitarea").click();
+
         });
         </script>
     </@block>
