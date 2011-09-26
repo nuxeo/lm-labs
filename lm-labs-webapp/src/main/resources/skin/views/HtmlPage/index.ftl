@@ -13,7 +13,6 @@
     <@superBlock/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/js/assets/prettify/prettify.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageHtml.css"/>
   </@block>
 
   <@block name="docactions">

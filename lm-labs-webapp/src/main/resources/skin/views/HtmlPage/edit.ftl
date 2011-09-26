@@ -4,12 +4,8 @@
 
   <@block name="scripts">
     <@superBlock/>
-
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
   </@block>
@@ -18,9 +14,6 @@
     <@superBlock/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/js/assets/prettify/prettify.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageHtml.css"/>
-
   </@block>
 
 
