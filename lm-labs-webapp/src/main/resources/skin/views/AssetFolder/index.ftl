@@ -20,7 +20,6 @@
       <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
 
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/browse_tree.css"/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
     </head>
     <body>
