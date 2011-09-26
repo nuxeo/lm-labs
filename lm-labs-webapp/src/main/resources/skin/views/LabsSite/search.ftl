@@ -38,17 +38,8 @@ jQuery(document).ready(function() {
     <#assign sd = Common.siteDoc(doc) />
     <tr>
       <td class="colIcon"><img title="${doc.type}" alt="&gt;&gt;" <#if doc.schemas?seq_contains("common") >src="/nuxeo/${doc.common.icon}"</#if> /></td>
-      <#assign breadcrumbs = breadcrumbsDocs(doc) />
-      <#assign breadcrumbsStr = "" />
-      <#list breadcrumbs as elem>
-        <#if elem.type != "SitesRoot" && elem.type != "Site" && elem.type != "Tree" >
-          <#assign breadcrumbsStr = breadcrumbsStr + elem.title />
-          <#if elem.id != breadcrumbs?last.id >
-            <#assign breadcrumbsStr = breadcrumbsStr + " &gt; " />
-          </#if>
-        </#if>
-      </#list>
-        <td><a href="${Context.getUrlPath(doc)}" target="_blank" title="${breadcrumbsStr}" >${doc.dublincore.title}</a></td>
+
+        <td><a href="${Context.modulePath}/${sd.resourcePath}" target="_blank">${doc.dublincore.title}</a></td>
         <td>${userFullName(doc.dublincore.lastContributor)}</td>
         <#assign formattedFilesize = "(Pas de fichier)" />
         <#assign filesize = 0 />
