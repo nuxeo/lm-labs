@@ -170,70 +170,8 @@ public class Site extends PageResource {
         }
     }
 
-    @SuppressWarnings("serial")
-    @POST
-    @Path("browseTree")
-    public String doBrowseTree() {
-        try {
-            DocumentModel assetDoc = getCoreSession().getDocument(
-                    new PathRef("/default-domain/sites/" + doc.getName() + "/"
-                            + LabsSiteConstants.Docs.ASSETS.docName()));
-            return LabsSiteWebAppUtils.getTreeview(assetDoc, this, true,
-                    new Filter() {
-                        @Override
-                        public boolean accept(DocumentModel document) {
-                            return document.getFacets()
-                                    .contains(FacetNames.FOLDERISH);
-                        }
-                    });
-        } catch (Exception e) {
-            LOG.error(e, e);
-            throw WebException.wrap(e);
-        }
-    }
 
-    @POST
-    @Path("getPictures")
-    public Object doGetPictures(@FormParam("docId") final String docId) {
-        String query = Query.SELECT_PICTURE.replace(Query.TAG_VALUE, docId);
-        DocumentModelList pictures = null;
-        StringBuilder result = null;
 
-        try {
-            pictures = getCoreSession().query(query);
-        } catch (ClientException e) {
-            LOG.error(e, e);
-            throw WebException.wrap(e);
-        }
-
-        if (pictures != null) {
-            result = new StringBuilder();
-            for (DocumentModel doc : pictures) {
-                StringBuilder imgSrc = new StringBuilder(
-                        "/nuxeo/nxpicsfile/default/");
-                imgSrc.append(doc.getRef()
-                        .toString());
-                imgSrc.append("/Thumbnail:content/");
-                imgSrc.append(new Date().getTime());
-
-                result.append("<div class='resourcesForCKEditor'><a id='");
-                result.append(docId);
-                result.append("' href='");
-                result.append(imgSrc.toString()
-                        .replace("/Thumbnail", "/Original"));
-                result.append("' onclick='sendToCKEditor(this.href);return false;'><img src='");
-                result.append(imgSrc);
-                result.append("' /></a></div>");
-            }
-        } else {
-            return Response.status(Status.NOT_FOUND)
-                    .build();
-        }
-
-        return Response.status(Status.OK)
-                .entity(result.toString())
-                .build();
-    }
 
     @Override
     public DocumentObject newDocument(String path) {
@@ -247,6 +185,20 @@ public class Site extends PageResource {
         } catch (Exception e) {
             throw new WebResourceNotFoundException(e.getMessage(), e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <A> A getAdapter(Class<A> adapter) {
+        if (adapter.equals(Page.class)) {
+            try {
+                return (A) site.getIndexDocument()
+                        .getAdapter(Page.class);
+            } catch (ClientException e) {
+
+            }
+        }
+        return super.getAdapter(adapter);
     }
 
     // /////////////// ALL CODE BELOW IS TO BE REFACTORED /////////////////
@@ -345,18 +297,6 @@ public class Site extends PageResource {
                 .build();
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public <A> A getAdapter(Class<A> adapter) {
-        if (adapter.equals(Page.class)) {
-            try {
-                return (A) site.getIndexDocument()
-                        .getAdapter(Page.class);
-            } catch (ClientException e) {
 
-            }
-        }
-        return super.getAdapter(adapter);
-    }
 
 }
