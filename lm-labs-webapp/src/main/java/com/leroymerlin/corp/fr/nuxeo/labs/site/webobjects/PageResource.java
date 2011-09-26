@@ -21,7 +21,6 @@ import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {

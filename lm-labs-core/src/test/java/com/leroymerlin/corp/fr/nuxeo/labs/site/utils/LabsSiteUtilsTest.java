@@ -17,8 +17,6 @@ import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
-import org.nuxeo.ecm.platform.usermanager.UserManager;
-import org.nuxeo.runtime.api.Framework;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
@@ -212,11 +210,5 @@ public final class LabsSiteUtilsTest {
                 .changeUser(session, username);
     }
 
-    private UserManager getUserManager() throws Exception {
-        UserManager userManager = Framework.getService(UserManager.class);
-        if (userManager == null) {
-            throw new Exception("unable to get userManager");
-        }
-        return userManager;
-    }
+
 }

@@ -3,8 +3,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.event;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -52,7 +50,7 @@ public class SiteCreationEventListenerTest {
                 + LabsSiteConstants.Docs.TREE.docName() + "/"
                 + LabsSiteConstants.Docs.WELCOME.docName())));
     }
-    
+
     @Test
     public void rightInheritanceIsBlocked() throws Exception {
         DocumentModel sitesRoot = session.getDocument(new PathRef(

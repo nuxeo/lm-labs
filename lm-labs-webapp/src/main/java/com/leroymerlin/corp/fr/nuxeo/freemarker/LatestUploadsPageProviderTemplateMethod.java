@@ -16,9 +16,9 @@ import freemarker.template.TemplateModelException;
 public class LatestUploadsPageProviderTemplateMethod implements TemplateMethodModelEx {
 
     private static final Log LOG = LogFactory.getLog(LatestUploadsPageProviderTemplateMethod.class);
-    
+
     @Override
-    public Object exec(List arguments) throws TemplateModelException {
+    public Object exec(@SuppressWarnings("rawtypes") List arguments) throws TemplateModelException {
         if (arguments.size() != 2) {
             throw new TemplateModelException(
                     "LatestUploads takes TWO parameters !");

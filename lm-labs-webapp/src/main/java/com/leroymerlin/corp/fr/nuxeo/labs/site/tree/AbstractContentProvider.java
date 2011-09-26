@@ -7,9 +7,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.Filter;
-import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.webengine.ui.tree.document.DocumentContentProvider;
 
 public abstract class AbstractContentProvider extends DocumentContentProvider {

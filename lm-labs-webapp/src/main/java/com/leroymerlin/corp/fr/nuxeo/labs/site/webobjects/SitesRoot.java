@@ -21,9 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
-import org.nuxeo.ecm.platform.rendering.fm.FreemarkerEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -36,12 +34,10 @@ import com.leroymerlin.common.freemarker.BytesFormatTemplateMethod;
 import com.leroymerlin.common.freemarker.DateInWordsMethod;
 import com.leroymerlin.common.freemarker.UserFullNameTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
@@ -169,29 +165,7 @@ public class SitesRoot extends ModuleRoot {
         return result.toString();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.nuxeo.ecm.webengine.model.impl.ModuleRoot#getLink(org.nuxeo.ecm.core
-     * .api.DocumentModel)
-     */
-    @Override
-    public String getLink(DocumentModel doc) {
-        try {
-            SiteDocument sd = doc.getAdapter(SiteDocument.class);
-            return new StringBuilder().append(getPath())
-                    .append("/")
-                    .append(sd.getSite()
-                            .getURL())
-                    .append(LabsSiteWebAppUtils.buildEndUrl(doc))
-                    .toString();
-        } catch (UnsupportedOperationException e) {
-            throw WebException.wrap(e);
-        } catch (ClientException e) {
-            throw WebException.wrap(e);
-        }
-    }
+
 
     /**
      * Returns a Map containing all "flash" messages

@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.page;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
-import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
@@ -29,11 +29,11 @@ public class PageAdapterTest {
     private static final String DESCRIPTION_1 = "Ma description";
 
     private static final String COMMENTAIRE = "Mon commentaire";
-    
+
     @Inject private CoreSession session;
 
     @Rule public ExpectedException thrown = ExpectedException.none();
-    
+
     @Test
     public void iCanGetGenericAdaptorForPageClasseur() throws Exception {
         DocumentModel pageClasseur = session.getDocument(new PathRef("/page_classeur"));
@@ -51,7 +51,7 @@ public class PageAdapterTest {
         assertNotNull(page.getTitle());
         assertEquals(TITRE_1, page.getTitle());
     }
-    
+
     @Test
     public void iCannotSetTitleToNull() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
@@ -61,7 +61,7 @@ public class PageAdapterTest {
         thrown.expect(IllegalArgumentException.class);
         page.setTitle(null);
     }
-    
+
     @Test
     public void iCanSetDescription() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
@@ -70,7 +70,7 @@ public class PageAdapterTest {
         page.setDescription(DESCRIPTION_1);
         assertEquals(DESCRIPTION_1, page.getDescription());
     }
-    
+
     @Test
     public void iCanSetCommentaire() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
@@ -79,5 +79,5 @@ public class PageAdapterTest {
         page.setCommentaire(COMMENTAIRE);
         assertEquals(COMMENTAIRE, page.getCommentaire());
     }
-    
+
 }

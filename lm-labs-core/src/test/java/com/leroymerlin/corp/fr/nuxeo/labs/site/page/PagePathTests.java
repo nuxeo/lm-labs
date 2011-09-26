@@ -1,5 +1,4 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.page;
-import static com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageClasseurPageRepositoryInit.FILE1_NAME;
 import static com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageClasseurPageRepositoryInit.FOLDER1_NAME;
 import static com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageClasseurPageRepositoryInit.PAGE_CLASSEUR_TITLE;
 import static org.hamcrest.CoreMatchers.is;

@@ -1,7 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.features;
 
-import javax.sql.DataSource;
-
 import org.nuxeo.ecm.webengine.test.WebEngineFeature;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
@@ -26,29 +24,10 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
 })
 public class LabsWebAppFeature extends SimpleFeature {
 
-    private static DataSource dataSource = null;
 
     @Override
     public void initialize(FeaturesRunner runner) {
 
-        // if (dataSource == null) {
-        // NamingContextFactory.setAsInitial();
-        //
-        // dataSource =
-        // PlatformFeature.createDataSource("jdbc:hsqldb:mem:directories");
-        // try {
-        // InitialContext initialCtx = new InitialContext();
-        // String dsName =
-        // DataSourceHelper.getDataSourceJNDIName("nxsqldirectory");
-        // try {
-        // initialCtx.lookup(dsName);
-        // } catch (NameNotFoundException e) {
-        // initialCtx.bind(dsName, dataSource);
-        // }
-        // } catch (NamingException e) {
-        // e.printStackTrace();
-        // }
-        // }
     }
 
 }

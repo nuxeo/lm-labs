@@ -1,6 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.it;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -27,7 +26,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.LoginPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.MesSitesPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.SitesRootPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.pages.WelcomePage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.AllDocTypeRepositoryInit;
 
@@ -47,7 +45,7 @@ public class WelcomePageTest {
     private static final String URL_NAME = "yahoo";
     private static final String URL_NAME_MODIFY = "google";
     @Inject MesSitesPage mesSitesPage;
-    
+
     @Test
     public void pageIsReachable() throws Exception {
         ensureLoggedIn();
@@ -57,7 +55,7 @@ public class WelcomePageTest {
         assertTrue(welcomePage.hasSidebar());
         mesSitesPage.home();
     }
-    
+
     @Ignore("welcome page should not have any blocs, welcome page is a work in progress.") @Test
     public void pageDoesNotHaveBlocs() throws Exception {
         ensureLoggedIn();
@@ -163,19 +161,19 @@ public class WelcomePageTest {
         Tools.sleep(3000);
         assertTrue(welcomePage.hasOKBanner(new Dimension(959, 79)));
     }
-    
+
     @Test
     public void iDontHaveAnyUpload() throws Exception {
         mesSitesPage.home();
         WelcomePage welcomePage = mesSitesPage.welcomePage(AllDocTypeRepositoryInit.SITE_TITLE);
         assertFalse(welcomePage.hasLatestUploads());
     }
-    
+
     @Test
     public void iHaveOneLatestUpload() throws Exception {
-        
+
     }
-    
+
     @Test
     public void iCanSearchWelcomePage() throws Exception {
         mesSitesPage.home();
@@ -183,12 +181,12 @@ public class WelcomePageTest {
         SearchResultsPage searchResultsPage = welcomePage.search("Welcome");
         assertEquals(1, searchResultsPage.getNbrResults());
     }
-    
+
     private static File getTestFile() {
         return new File(
                 FileUtils.getResourcePathFromContext("testFiles/vision.jpg"));
     }
-    
+
     public void ensureLoggedIn() {
         LoginPage login = mesSitesPage.getLoginPage();
         if(!login.isAuthenticated()) {

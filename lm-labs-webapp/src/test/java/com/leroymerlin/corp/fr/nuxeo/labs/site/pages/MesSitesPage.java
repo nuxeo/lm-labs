@@ -1,14 +1,12 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.pages;
 
-import java.util.List;
-
 import org.nuxeo.runtime.test.runner.web.WebPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 public class MesSitesPage extends WebPage {
-    
+
     private static final int WAITING_TIME = 10;
 
     /* (non-Javadoc)
@@ -19,7 +17,7 @@ public class MesSitesPage extends WebPage {
         this.waitUntilElementFound(By.id("MySites"), WAITING_TIME);
         return this;
     }
-    
+
     public MesSitesPage backToHomePage() {
         return getPage(MesSitesPage.class);
     }
@@ -27,7 +25,7 @@ public class MesSitesPage extends WebPage {
     private String getSiteTdXpath(String title) {
         return String.format("//table[@id='MySites']//tbody//tr//td[contains(text(), '%s')]", title);
     }
-    
+
     public boolean containsSite(String title) {
         return hasElement(By.xpath(getSiteTdXpath(title)), WAITING_TIME);
 //        try {
@@ -43,7 +41,7 @@ public class MesSitesPage extends WebPage {
         bt.click();
         return getPage(WelcomePage.class);
     }
-    
+
     public boolean canModify() {
         return hasElement(By.id("modifyLabsSite"), WAITING_TIME);
 //        try {
@@ -56,7 +54,7 @@ public class MesSitesPage extends WebPage {
 //        }
 //        return false;
     }
-    
+
     public void clickModify() {
         try {
             WebElement element = findElement(By.id("modifyLabsSite"), WAITING_TIME);
@@ -64,7 +62,7 @@ public class MesSitesPage extends WebPage {
         } catch (Exception e) {
         }
     }
-    
+
     public boolean canDelete() {
         try {
             WebElement element = findElement(By.id("deleteLabsSite"), WAITING_TIME);
@@ -76,7 +74,7 @@ public class MesSitesPage extends WebPage {
         }
         return false;
     }
-    
+
     public void clickDelete() {
         try {
             WebElement element = findElement(By.id("deleteLabsSite"), WAITING_TIME);
@@ -87,7 +85,7 @@ public class MesSitesPage extends WebPage {
         } catch (Exception e) {
         }
     }
-    
+
     public void setFields(String pTitle, String pURL, String pDescription) {
         try {
             WebElement element = findElement(By.id("labsSiteTitle"), WAITING_TIME);
@@ -108,7 +106,7 @@ public class MesSitesPage extends WebPage {
         } catch (Exception e) {
         }
     }
-    
+
     public void clickSubmit() {
         try {
             WebElement element = findElement(By.id("btSubmitLabsSite"), WAITING_TIME);
@@ -118,7 +116,7 @@ public class MesSitesPage extends WebPage {
         } catch (Exception e) {
         }
     }
-    
+
     public boolean hasModifiedLasSite(String pTitle, String pURL, String pDescription) {
         try {
             boolean hasTitle = false, hasURL = false;
@@ -138,5 +136,5 @@ public class MesSitesPage extends WebPage {
     public LoginPage getLoginPage() {
         return getPage(LoginPage.class);
     }
-    
+
 }
