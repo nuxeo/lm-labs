@@ -24,7 +24,7 @@
     </head>
     <body>
 
-
+  <div id="FKtopContent">
     <div class="container-fluid">
 
       <div class="sidebar">
@@ -47,10 +47,10 @@
 
       <div class="content">
         <div class="row">
-          <div id="fileContent" class="span14 columns well" style="min-height:300px;">
+          <div id="fileContent" class="span11 columns well" style="min-height:300px;">
             <#include "views/AssetFolder/content.ftl"/>
           </div>
-          <div class="span12 columns actions">
+          <div class="span9 columns actions">
             <a href="#" rel="addFileDialog" class="open-dialog btn">Ajouter un fichier</a>
             <a href="#" rel="addFolderDialog" class="open-dialog btn">Ajouter un répertoire</a>
           </div>
@@ -123,5 +123,6 @@
       window.close();
     }
     </script>
+  </div>
   </body>
 </html>
