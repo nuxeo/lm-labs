@@ -263,6 +263,11 @@
         <artifactId>nuxeo-webengine-base</artifactId>
         <version>${nuxeo.version}</version>
       </dependency>
+  	  <dependency>
+	    <groupId>org.nuxeo.ecm.webengine</groupId>
+	    <artifactId>nuxeo-webengine-ui</artifactId>
+	    <version>${nuxeo.version}</version>
+	  </dependency>
       <dependency>
         <groupId>org.nuxeo.ecm.webengine</groupId>
         <artifactId>nuxeo-webengine-sites</artifactId>
