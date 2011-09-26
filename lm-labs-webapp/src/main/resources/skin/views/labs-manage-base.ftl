@@ -15,7 +15,7 @@
           <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" />
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
-          <link rel="stylesheet/less" href="${skinPath}/less/bootstrap/bootstrap.less">
+          <link rel="stylesheet/less" href="${skinPath}/less/labs.less">
       <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
       <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
         </@block>
