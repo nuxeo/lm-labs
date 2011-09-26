@@ -4,6 +4,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -26,6 +27,12 @@ public class AssetsAdapter extends DefaultAdapter {
     public Template doGet() throws ClientException {
         Resource resource = getAssetResource(getSite());
         return resource.getView("index");
+    }
+
+    @POST
+    public Response doPost() throws ClientException {
+        AssetFolderResource resource = (AssetFolderResource) getAssetResource(getSite());
+        return resource.doPost();
     }
 
     private Resource getAssetResource(LabsSite site) throws ClientException {
