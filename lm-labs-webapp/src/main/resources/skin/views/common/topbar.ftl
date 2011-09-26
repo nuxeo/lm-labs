@@ -1,11 +1,3 @@
-<script type="text/javascript">
-function topBarFullTextSearch() {
-  <#if site??>
-  window.location.href = '${Context.modulePath}/${site.document.webcontainer.url}/@views/searchresults?fullText=' + escape(jQuery('input[name=q]').val());
-  </#if>
-
-}
-</script>
     <div class="topbar-wrapper" style="z-index: 5;">
     <div class="topbar">
       <div class="topbar-inner">
@@ -22,8 +14,8 @@ function topBarFullTextSearch() {
           <ul class="nav secondary-nav">
             <#if site?? >
             <li>
-              <form onsubmit="topBarFullTextSearch();return false;" >
-              <input class="normal" placeholder="${Context.getMessage('label.search')}" name="q"/>
+              <form action="${Context.modulePath}/${site.URL}/@search">
+              <input class="normal" placeholder="${Context.getMessage('label.search')}" name="fullText"/>
               </form>
             </li>
             </#if>
