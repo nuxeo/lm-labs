@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
@@ -29,6 +29,9 @@ public class PageNewsSorter implements Sorter {
         LabsNews news1 = pDoc1.getAdapter(LabsNews.class);
         LabsNews news2 = pDoc2.getAdapter(LabsNews.class);
         try {
+            if (news2.getStartPublication() == null){
+                return 0;
+            }
             return news2.getStartPublication().compareTo(news1.getStartPublication());
         } catch (ClientException e) {
             log.error(e.getMessage());
