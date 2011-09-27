@@ -15,20 +15,20 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
 
     static final String CREATOR = "dublincore:creator";
     static final String LAST_CONTRIBUTOR = "dublincore:lastContributor";
-    
+
     static final String START_PUBLICATION = "ln:startPublication";
     static final String END_PUBLICATION = "ln:endPublication";
     static final String ACCROCHE = "ln:accroche";
     static final String CONTENT = "ln:content";
     static final String NEWS_TEMPLATE = "ln:template";
-    
+
     private String lastContributorFullName = null;
-    
+
 
     public LabsNewsAdapter(DocumentModel doc) {
         this.doc = doc;
     }
-    
+
     @Override
     public Calendar getStartPublication() throws ClientException  {
         return (Calendar) doc.getPropertyValue(START_PUBLICATION);
@@ -72,7 +72,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
     public void setStartPublication(Calendar pStartPublication)
             throws ClientException {
         doc.setPropertyValue(START_PUBLICATION, pStartPublication);
-        
+
     }
 
     @Override
@@ -84,7 +84,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
     public void setEndPublication(Calendar pEndPublication)
             throws ClientException {
         doc.setPropertyValue(END_PUBLICATION, pEndPublication);
-        
+
     }
 
     @Override
@@ -100,7 +100,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
     public DocumentModel getDocumentModel() {
         return doc;
     }
-    
+
     public String getLastContributorFullName() throws Exception {
         if (StringUtils.isEmpty(lastContributorFullName)){
             UserManager userManager = Framework.getService(UserManager.class);
@@ -109,4 +109,6 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
         }
         return lastContributorFullName;
     }
+
+
 }

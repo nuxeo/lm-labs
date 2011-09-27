@@ -29,7 +29,7 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage {
                     .getPropertyValue("html:sections");
             sections = new ArrayList<HtmlSection>(sectionsMap.size());
             for (Map<String, Serializable> map : sectionsMap) {
-                sections.add(new HtmlSection(this, map));
+                sections.add(new HtmlSectionImpl(this, map));
             }
 
         }
@@ -40,7 +40,7 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage {
     @Override
     public HtmlSection addSection() throws ClientException {
         List<HtmlSection> sections = getSections();
-        HtmlSection returnedSection = new HtmlSection(this);
+        HtmlSection returnedSection = new HtmlSectionImpl(this);
         sections.add(returnedSection);
         update();
 
@@ -51,7 +51,8 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage {
         List<Map<String, Serializable>> sectionsMap = new ArrayList<Map<String, Serializable>>();
 
         for (HtmlSection section : sections) {
-            sectionsMap.add(section.toMap());
+            HtmlSectionImpl si = (HtmlSectionImpl) section;
+            sectionsMap.add(si.toMap());
         }
 
         doc.setPropertyValue("html:sections", (Serializable) sectionsMap);
@@ -65,7 +66,7 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage {
 
     public HtmlSection addSectionBefore(HtmlSection htmlSection) throws ClientException {
         List<HtmlSection> sections = getSections();
-        HtmlSection section = new HtmlSection(this);
+        HtmlSection section = new HtmlSectionImpl(this);
         sections.add(sections.indexOf(htmlSection), section);
         update();
         return section;
