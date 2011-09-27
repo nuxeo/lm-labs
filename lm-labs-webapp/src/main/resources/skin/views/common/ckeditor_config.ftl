@@ -1,4 +1,5 @@
 var ckeditorconfig = {
+extraPlugins : 'tableresize',
 filebrowserBrowseUrl : '${This.path}/@assets',
 filebrowserImageBrowseUrl : '${This.path}/@assets',
 filebrowserFlashBrowseUrl : '${This.path}/@assets',
@@ -7,7 +8,7 @@ filebrowserImageUploadUrl : '${This.path}/@assets',
 filebrowserFlashUploadUrl : '${This.path}/@assets',
 toolbar:
 [
-['Source','-','Preview','-'],
+['Source'],
 ['Cut','Copy','Paste','PasteText','PasteFromWord'],
 
 ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
