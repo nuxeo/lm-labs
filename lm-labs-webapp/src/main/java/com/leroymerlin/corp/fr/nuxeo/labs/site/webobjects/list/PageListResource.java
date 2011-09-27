@@ -121,6 +121,7 @@ public class PageListResource extends PageResource {
             pgl.resetHeaders();
             int position = 0;
             SortedSet<Header> setHeaders = getSetHeaders(map);
+            List<Header> headersToSave = new ArrayList<Header>();
             for (Header header : setHeaders) {              
                 if (!StringUtil.isEmpty(header.getName())){
                     header.setOrderPosition(position);
@@ -130,9 +131,10 @@ public class PageListResource extends PageResource {
                     if (selectlist != null && !selectlist.isEmpty()){
                         header.setSelectlist(reorganizeSelectlist(selectlist));
                     }
-                    pgl.addHeader(header);
+                    headersToSave.add(header);
                 }
             }
+            pgl.setHeaders(headersToSave);
             session.saveDocument(doc);
             session.save();
         } catch (ClientException e) {

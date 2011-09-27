@@ -87,6 +87,18 @@ public class PageListAdapter extends AbstractPage implements PageList {
         doc.getProperty(PGL_HEADERLIST).setValue(headerList);
     }
 
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#setHeaders(java.util.List)
+     */
+    @Override
+    public void setHeaders(List<Header> headersToSave) throws ClientException {
+        List<Map<String, Object>> listHeaders = new ArrayList<Map<String,Object>>();
+        for (Header head: headersToSave){
+            listHeaders.add(getHeaderMap(head));
+        }
+        doc.getProperty(PGL_HEADERLIST).setValue(listHeaders);
+    }
+
     /**
      * Get the map of header, the keys are the properties of header
      * @param pHead

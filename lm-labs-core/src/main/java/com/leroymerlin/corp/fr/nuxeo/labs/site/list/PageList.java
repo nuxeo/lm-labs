@@ -74,5 +74,12 @@ public interface PageList extends Page {
      * @throws ClientException
      */
     void clearLine(DocumentRef pRef) throws ClientException;
+
+    /**
+     * Set the list of header
+     * @param headersToSave
+     * @throws ClientException
+     */
+    void setHeaders(List<Header> headersToSave) throws ClientException;
     
 }
