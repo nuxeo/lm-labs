@@ -15,7 +15,8 @@
           data: {
             commentaire : jQuery("#commentField").html()
           },
-          ckeditor_config: ckeditorconfig
+          ckeditor_config: ckeditorconfig,
+          emptyedit_message: "${Context.getMessage('label.PageHtml.double_click_to_edit_content')}"
         });
       </script>
     </div>

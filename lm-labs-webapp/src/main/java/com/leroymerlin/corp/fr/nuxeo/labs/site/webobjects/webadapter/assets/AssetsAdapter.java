@@ -10,11 +10,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
+import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
@@ -22,6 +25,14 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.assets.AssetsDocumentTree;
 
 @WebAdapter(name = "assets", type = "assetsAdapter", targetType = "LabsSite")
 public class AssetsAdapter extends DefaultAdapter {
+
+    public AssetsAdapter() {
+        WebContext ctx = WebEngine.getActiveContext();
+        String parameter = ctx.getRequest().getParameter("CKEditorFuncNum");
+        if(StringUtils.isNotBlank(parameter)) {
+            ctx.getUserSession().put("CKEditorFuncNum", parameter);
+        }
+    }
 
 
     @GET

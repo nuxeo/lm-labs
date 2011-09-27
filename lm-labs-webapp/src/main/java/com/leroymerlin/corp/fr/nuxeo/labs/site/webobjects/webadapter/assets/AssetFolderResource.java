@@ -41,6 +41,10 @@ public class AssetFolderResource extends DocumentObject {
         }
     }
 
+    public String getCKEditorFuncNum() {
+        return (String) ctx.getUserSession().get("CKEditorFuncNum");
+    }
+
     @POST
     public Response doPost() {
         FormData form = ctx.getForm();

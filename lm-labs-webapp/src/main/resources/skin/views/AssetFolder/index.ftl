@@ -119,7 +119,7 @@
 
 
     function sendToCKEditor(href) {
-      window.opener.CKEDITOR.tools.callFunction('2', href);
+      window.opener.CKEDITOR.tools.callFunction(${This.getCKEditorFuncNum()}, href);
       window.close();
     }
     </script>
