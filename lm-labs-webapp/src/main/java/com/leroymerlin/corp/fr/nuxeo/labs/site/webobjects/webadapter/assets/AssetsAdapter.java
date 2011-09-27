@@ -30,7 +30,7 @@ public class AssetsAdapter extends DefaultAdapter {
         WebContext ctx = WebEngine.getActiveContext();
         String parameter = ctx.getRequest().getParameter("CKEditorFuncNum");
         if(StringUtils.isNotBlank(parameter)) {
-            ctx.getUserSession().put("CKEditorFuncNum", parameter);
+            ctx.getRequest().getSession().setAttribute("CKEditorFuncNum", parameter);
         }
     }
 
