@@ -158,10 +158,9 @@ public class PageListLineAdapter implements PageListLine {
         }
         return new UrlType((String)pMap.get(NAME), (String)pMap.get(URL));
     }
-
+    
     @Override
     public void removeLine() throws ClientException {
         doc.getCoreSession().removeDocument(doc.getRef());
     }
-
 }

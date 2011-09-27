@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.Calendar;
 
@@ -31,19 +32,19 @@ public class PageListLineAdapterTest {
     private static final String TEXT = "text";
     private static final int ID_HEADER = 1;
     private static final String PATH_SEPARATOR = "/";
-    private static final String DATA_TITLE = "data";
+    private static final String LINE_TITLE = "line";
     @Inject
     private CoreSession session;
 
     @Test
     public void canCreateDataModel() throws Exception {
-        new PageListLineAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE).create();
-        assertTrue(session.exists(new PathRef(PATH_SEPARATOR + DATA_TITLE)));
+        new PageListLineAdapter.Model(session, PATH_SEPARATOR, LINE_TITLE).create();
+        assertTrue(session.exists(new PathRef(PATH_SEPARATOR + LINE_TITLE)));
     }
 
     @Test
-    public void canAddLine() throws Exception {
-        PageListLineAdapter.Model model = new PageListLineAdapter.Model(session, PATH_SEPARATOR, DATA_TITLE);
+    public void canSetLineAndGetLine() throws Exception {
+        PageListLineAdapter.Model model = new PageListLineAdapter.Model(session, PATH_SEPARATOR, LINE_TITLE);
         PageListLine lineAdapter = model.getAdapter();
         assertThat(lineAdapter,is(notNullValue()));
         
@@ -64,7 +65,7 @@ public class PageListLineAdapterTest {
         assertThat(line.getEntries().size(), is(1));
         entry = line.getEntries().get(0);
         
-        assertTrue(session.exists(new PathRef(PATH_SEPARATOR + DATA_TITLE)));
+        assertTrue(session.exists(new PathRef(PATH_SEPARATOR + LINE_TITLE)));
         assertTrue(ID_HEADER == entry.getIdHeader());
         assertTrue(TEXT.equals(entry.getText()));
         assertTrue(CAL.equals(entry.getDate()));
@@ -72,4 +73,29 @@ public class PageListLineAdapterTest {
         assertTrue(url.equals(entry.getUrl()));
     }
 
+    @Test
+    public void canRemoveLine() throws Exception {
+        PageListLineAdapter.Model model = new PageListLineAdapter.Model(session, PATH_SEPARATOR, LINE_TITLE);
+        PageListLine lineAdapter = model.getAdapter();
+        assertThat(lineAdapter,is(notNullValue()));
+        
+        Entry entry = new Entry();
+        entry.setIdHeader(ID_HEADER);
+        entry.setText(TEXT);
+        entry.setDate(CAL);
+        entry.setCheckbox(CHECKBOX);
+        UrlType url = new UrlType("nameURL", "http://www.google.fr");
+        entry.setUrl(url);
+        
+        EntriesLine line = new EntriesLine();
+        line.getEntries().add(entry);
+        lineAdapter.setLine(line);
+        
+        lineAdapter = model.create();
+        
+        line = lineAdapter.getLine();
+        lineAdapter.removeLine();
+        
+        assertFalse(session.exists(new PathRef(PATH_SEPARATOR + LINE_TITLE)));
+    }
 }

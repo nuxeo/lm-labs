@@ -209,17 +209,12 @@ public class PageListAdapter extends AbstractPage implements PageList {
     }
 
     @Override
-    public void clearLine(DocumentRef pRef) throws ClientException {
-        doc.getCoreSession().removeChildren(pRef);
-    }
-
-    @Override
     public EntriesLine getLine(DocumentRef pRef) throws ClientException {
         EntriesLine line = new EntriesLine();
         line.setDocRef(pRef);
-        DocumentModel entryDoc = doc.getCoreSession().getDocument(pRef);
-        if (entryDoc != null){
-            line = entryDoc.getAdapter(PageListLine.class).getLine();
+        DocumentModel lineDoc = doc.getCoreSession().getDocument(pRef);
+        if (lineDoc != null){
+            line = lineDoc.getAdapter(PageListLine.class).getLine();
         }
         return line;
     }

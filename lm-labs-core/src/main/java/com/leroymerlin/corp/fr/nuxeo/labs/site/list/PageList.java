@@ -27,6 +27,13 @@ public interface PageList extends Page {
     void addHeader(Header pHead) throws ClientException;
 
     /**
+     * Set the list of header
+     * @param headersToSave
+     * @throws ClientException
+     */
+    void setHeaders(List<Header> headersToSave) throws ClientException;
+
+    /**
      * Get the set of header
      * @return the set of header
      * @throws ClientException
@@ -67,19 +74,5 @@ public interface PageList extends Page {
      * @throws ClientException
      */
     EntriesLine getLine(DocumentRef pRef) throws ClientException;
-    
-    /**
-     * Clear the entries in this PageListLine
-     * @param pRef
-     * @throws ClientException
-     */
-    void clearLine(DocumentRef pRef) throws ClientException;
-
-    /**
-     * Set the list of header
-     * @param headersToSave
-     * @throws ClientException
-     */
-    void setHeaders(List<Header> headersToSave) throws ClientException;
     
 }
