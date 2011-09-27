@@ -21,6 +21,7 @@
 	  <@superBlock/>
 	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
 	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageList.css"/>
+	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
 	</@block>
 	

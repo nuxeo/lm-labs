@@ -27,6 +27,15 @@
 </table>
 <#if 0 < bean.entriesLines?size>
 	<script type="text/javascript">
-		$("table#sortArray").tablesorter({});
+		$("table#sortArray").tablesorter({
+        textExtraction: function(node) {
+              // extract data from markup and return it
+	          var sortValues = jQuery(node).find('span[class=sortValue]');
+	          if (sortValues.length > 0) {
+	            return sortValues[0].innerHTML;
+	          }
+	              return node.innerHTML;
+	      }
+      });
 	</script>
 </#if>
