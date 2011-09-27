@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 
 public class PageListPage extends WebPage {
 
-    private static final int WAITING_TIME = 30;
+    private static final int WAITING_TIME = 5;
 
     @Override
     public WebPage ensureLoaded() {
@@ -16,7 +16,7 @@ public class PageListPage extends WebPage {
 
     public boolean isLoaded() {
         try {
-            WebElement element = findElement(By.className("pageList"), WAITING_TIME);
+            WebElement element = findElement(By.id("divActionManageList"), WAITING_TIME);
             if (element != null) {
                 return true;
             }
