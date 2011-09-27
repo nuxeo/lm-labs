@@ -13,10 +13,10 @@ public class HtmlSectionImpl implements HtmlSection {
     private static final String DESCRIPTION_KEY = "subtitle";
     private static final String TITLE_KEY = "title";
     private final Map<String, Serializable> innerMap;
-    private final HtmlPageImpl parent;
+    private final ChangeListener parent;
     private List<HtmlRow> rows;
 
-    public HtmlSectionImpl(HtmlPageImpl parent, Map<String, Serializable> map) {
+    public HtmlSectionImpl(ChangeListener parent, Map<String, Serializable> map) {
         this.parent = parent;
         if (map != null) {
             this.innerMap = map;
@@ -25,7 +25,7 @@ public class HtmlSectionImpl implements HtmlSection {
         }
     }
 
-    public HtmlSectionImpl(HtmlPageImpl parent) {
+    public HtmlSectionImpl(ChangeListener parent) {
         this.parent = parent;
         innerMap = new HashMap<String, Serializable>();
     }
@@ -36,13 +36,13 @@ public class HtmlSectionImpl implements HtmlSection {
 
     public void setTitle(String title) throws ClientException {
         innerMap.put(TITLE_KEY, title);
-        parent.update();
+        parent.onChange(this);
 
     }
 
     public void setDescription(String description) throws ClientException {
         innerMap.put(DESCRIPTION_KEY, description);
-        parent.update();
+        parent.onChange(this);
     }
 
     public String getTitle() {
@@ -59,7 +59,7 @@ public class HtmlSectionImpl implements HtmlSection {
         HtmlRow row = new HtmlRow(this);
         getRows().add(row);
         update();
-        parent.update();
+        parent.onChange(this);
         return row;
     }
 
@@ -69,7 +69,7 @@ public class HtmlSectionImpl implements HtmlSection {
             rowsMap.add((Serializable) row.toMap());
         }
         innerMap.put("rows", (Serializable) rowsMap);
-        parent.update();
+        parent.onChange(this);
     }
 
     public List<HtmlRow> getRows() {
@@ -96,11 +96,11 @@ public class HtmlSectionImpl implements HtmlSection {
     }
 
     public HtmlSection insertBefore() throws ClientException {
-        return parent.addSectionBefore(this);
+        return ((HtmlPageImpl)parent).addSectionBefore(this);
     }
 
     public void remove() throws ClientException {
-        parent.removeSection(this);
+        ((HtmlPageImpl)parent).removeSection(this);
 
     }
 
@@ -116,6 +116,12 @@ public class HtmlSectionImpl implements HtmlSection {
     public void remove(HtmlRow row) throws ClientException {
         getRows().remove(row);
         update();
+    }
+
+    @Override
+    public void onChange(Object obj) throws ClientException {
+        update();
+
     }
 
 }

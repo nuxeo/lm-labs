@@ -1,6 +1,10 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -10,8 +14,13 @@ import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.ChangeListener;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSectionImpl;
 
-public class LabsNewsAdapter extends AbstractPage implements LabsNews {
+public class LabsNewsAdapter extends AbstractPage implements LabsNews,
+        ChangeListener {
 
     static final String CREATOR = "dublincore:creator";
     static final String LAST_CONTRIBUTOR = "dublincore:lastContributor";
@@ -23,18 +32,19 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
     static final String NEWS_TEMPLATE = "ln:template";
 
     private String lastContributorFullName = null;
-
+    private HtmlSection section;
 
     public LabsNewsAdapter(DocumentModel doc) {
         this.doc = doc;
     }
 
     @Override
-    public Calendar getStartPublication() throws ClientException  {
+    public Calendar getStartPublication() throws ClientException {
         return (Calendar) doc.getPropertyValue(START_PUBLICATION);
     }
+
     @Override
-    public String getCreator() throws ClientException  {
+    public String getCreator() throws ClientException {
         return (String) doc.getPropertyValue(CREATOR);
     }
 
@@ -90,7 +100,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
     @Override
     public String getLastContributor() throws ClientException {
         String lastContributor = (String) doc.getPropertyValue(LAST_CONTRIBUTOR);
-        if (StringUtils.isEmpty(lastContributor)){
+        if (StringUtils.isEmpty(lastContributor)) {
             lastContributor = getCreator();
         }
         return lastContributor;
@@ -102,13 +112,91 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews {
     }
 
     public String getLastContributorFullName() throws Exception {
-        if (StringUtils.isEmpty(lastContributorFullName)){
+        if (StringUtils.isEmpty(lastContributorFullName)) {
             UserManager userManager = Framework.getService(UserManager.class);
             NuxeoPrincipal user = userManager.getPrincipal(getLastContributor());
-            lastContributorFullName = user.getFirstName() + " " + user.getLastName();
+            lastContributorFullName = user.getFirstName() + " "
+                    + user.getLastName();
         }
         return lastContributorFullName;
     }
 
+    @Override
+    public HtmlRow addRow() throws ClientException {
+        return getSection().addRow();
+    }
+
+    @Override
+    public List<HtmlRow> getRows() {
+        try {
+            return getSection().getRows();
+        } catch (Exception e) {
+            return new ArrayList<HtmlRow>();
+        }
+    }
+
+    private HtmlSection getSection() throws ClientException {
+        if (section == null) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Serializable>> sectionsMap = (List<Map<String, Serializable>>) doc.getPropertyValue("html:sections");
+            List<HtmlSection> sections = new ArrayList<HtmlSection>(
+                    sectionsMap.size());
+            for (Map<String, Serializable> map : sectionsMap) {
+                sections.add(new HtmlSectionImpl(this, map));
+            }
+            if (sections.size() > 0) {
+                return sections.get(0);
+            } else {
+                section = new HtmlSectionImpl(this);
+                section.setTitle(getTitle());
+            }
+
+        }
+        return section;
+
+    }
+
+    private void update() throws ClientException {
+        List<Map<String, Serializable>> sectionsMap = new ArrayList<Map<String, Serializable>>();
+        HtmlSectionImpl si = (HtmlSectionImpl) section;
+        sectionsMap.add(si.toMap());
+        doc.setPropertyValue("html:sections", (Serializable) sectionsMap);
+    }
+
+    @Override
+    public HtmlRow row(int index) {
+        try {
+            return getSection().row(index);
+        } catch (ClientException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public HtmlSection insertBefore() throws ClientException {
+        return this;
+    }
+
+    @Override
+    public void remove() throws ClientException {
+        // Do nothing
+    }
+
+    @Override
+    public HtmlRow insertBefore(HtmlRow htmlRow) throws ClientException {
+        return getSection().insertBefore(htmlRow);
+    }
+
+    @Override
+    public void remove(HtmlRow row) throws ClientException {
+        getSection().remove(row);
+
+    }
+
+    @Override
+    public void onChange(Object obj) throws ClientException {
+        update();
+
+    }
 
 }

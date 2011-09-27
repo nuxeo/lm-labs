@@ -8,11 +8,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 
 
-public interface LabsNews  {
-
-    String getTitle() throws ClientException;
-
-    void setTitle(String pTitle) throws ClientException;
+public interface LabsNews  extends HtmlSection {
 
     Calendar getStartPublication() throws ClientException;
 

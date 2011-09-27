@@ -88,21 +88,22 @@
       <schema name="common" />
       <schema name="file" />
       <schema name="labsnews" />
+      <schema name="page_html"/>
     </doctype>
 
-	<doctype name="PageList" extends="Page">
-		<schema name="file" />
-		<schema name="page_list" />
-		<subtypes>
-			<type>PageListLine</type>
-		</subtypes>
-	</doctype>
-	
-	<doctype name="PageListLine" extends="Folder">
-		<schema name="page_list_line" />
-	</doctype>
+  <doctype name="PageList" extends="Page">
+    <schema name="file" />
+    <schema name="page_list" />
+    <subtypes>
+      <type>PageListLine</type>
+    </subtypes>
+  </doctype>
 
-	<doctype name="PageClasseur" extends="Page">
+  <doctype name="PageListLine" extends="Folder">
+    <schema name="page_list_line" />
+  </doctype>
+
+  <doctype name="PageClasseur" extends="Page">
         <type>Folder</type>
         <type>Picture</type>
         <!-- <type>Audio</type> -->
@@ -110,7 +111,7 @@
         <type>File</type>
     </doctype>
 
-	<doctype name="Assets" extends="Folder">
+  <doctype name="Assets" extends="Folder">
       <subtypes>
         <type>Folder</type>
         <type>Picture</type>
@@ -151,4 +152,3 @@
   </extension>
 
 </component>
- 

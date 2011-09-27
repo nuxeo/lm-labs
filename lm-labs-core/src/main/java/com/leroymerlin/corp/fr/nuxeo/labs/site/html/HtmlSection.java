@@ -4,21 +4,19 @@ import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
 
-public interface HtmlSection {
+public interface HtmlSection extends ChangeListener {
 
     public void setTitle(String title) throws ClientException;
 
     public void setDescription(String description) throws ClientException;
 
-    public String getTitle();
+    public String getTitle() throws ClientException;
 
-    public String getDescription();
+    public String getDescription() throws ClientException;
 
     public HtmlRow addRow() throws ClientException;
 
     public List<HtmlRow> getRows();
-
-    public void update() throws ClientException;
 
     public HtmlRow row(int index);
 

@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertThat;
 
 import java.util.Calendar;
@@ -17,6 +18,7 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 @RunWith(FeaturesRunner.class)
@@ -53,17 +55,17 @@ public class NewsAdapterTest {
     public void iCanCreateANewsAdapter() throws Exception {
       //Use the session as a factory
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
-        
+
         LabsNews news = doc.getAdapter(LabsNews.class);
         assertThat(news,is(notNullValue()));
         news.setTitle("Le titre de la news");
-        
+
         //Persist document in db
         doc = session.createDocument(doc);
-        
+
         //Commit
         session.save();
-        
+
         doc = session.getDocument(new PathRef("/myNews"));
         news = doc.getAdapter(LabsNews.class);
         assertThat(news,is(notNullValue()));
@@ -77,7 +79,7 @@ public class NewsAdapterTest {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
 
         doc.setPropertyValue("dc:creator", "creator");
-        
+
         LabsNews news = doc.getAdapter(LabsNews.class);
         assertThat(news,is(notNullValue()));
         news.setTitle("Le titre de la news");
@@ -86,13 +88,13 @@ public class NewsAdapterTest {
         news.setStartPublication(Calendar.getInstance());
         news.setEndPublication(Calendar.getInstance());
         news.setNewsTemplate("newTemplate.temp");
-        
+
         //Persist document in db
         doc = session.createDocument(doc);
-        
+
         //Commit
         session.save();
-        
+
         doc = session.getDocument(new PathRef("/myNews"));
         news = doc.getAdapter(LabsNews.class);
         assertThat(news,is(notNullValue()));
@@ -104,6 +106,30 @@ public class NewsAdapterTest {
         assertThat(news.getAccroche(), is("Accroche"));
         assertThat(news.getContent(), is("Content"));
         assertThat(news.getNewsTemplate(), is("newTemplate.temp"));
+
+    }
+
+    @Test
+    public void iCanGetRowsForANews() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = doc.getAdapter(LabsNews.class);
+
+        assertThat(news.getRows().size(),is(0));
+
+        HtmlRow row = news.addRow();
+        row.addContent(4, "picture");
+        row.addContent(12, "content");
+
+        doc = session.createDocument(doc);
+
+
+        doc = session.getDocument(new PathRef("/myNews"));
+        news = doc.getAdapter(LabsNews.class);
+        assertThat(news.getRows().size(),is(1));
+        assertThat(news.row(0).content(0).getHtml(), is("picture"));
+        assertThat(news.row(0).content(1).getHtml(), is("content"));
+
+
 
     }
 }

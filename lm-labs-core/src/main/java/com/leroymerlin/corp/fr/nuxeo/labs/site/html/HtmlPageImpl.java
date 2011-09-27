@@ -10,7 +10,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 
-public class HtmlPageImpl extends AbstractPage implements HtmlPage {
+public class HtmlPageImpl extends AbstractPage implements HtmlPage, ChangeListener {
 
     public static final String DOCTYPE = "HtmlPage";
 
@@ -76,6 +76,12 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage {
 
     public void removeSection(HtmlSection htmlSection) throws ClientException {
         getSections().remove(htmlSection);
+        update();
+    }
+
+
+    @Override
+    public void onChange(Object obj) throws ClientException {
         update();
     }
 
