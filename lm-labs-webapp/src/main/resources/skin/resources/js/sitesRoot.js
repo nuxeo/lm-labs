@@ -3,6 +3,7 @@
 
 function sendForm(path, msgError){
   $("#form-labssite").validate();
+  alert('rttyt');
     var options = {
     beforeSubmit: function(){
       return $("#form-labssite").valid();

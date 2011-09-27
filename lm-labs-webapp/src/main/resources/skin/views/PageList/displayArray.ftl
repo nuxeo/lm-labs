@@ -1,15 +1,15 @@
 <table id="sortArray" class="zebra-striped">
 	<thead>
 		<tr>
-			<#list headersSet as header>
+			<#list bean.headersSet as header>
 				<th class="header headerSortDown">${header.name}</th>
 			</#list>
 		</tr>
 	</thead>
 	<tbody>
-		<#list entriesLines as entriesLine>
+		<#list bean.entriesLines as entriesLine>
 			<tr>
-				<#list headersSet as header>
+				<#list bean.headersSet as header>
 					<#if isAuthorized>
 						<td style="cursor: pointer;" onclick="javascript:modifyLine('${This.path}/line/${entriesLine.getDocRef().reference()}');">
 					<#else>
@@ -25,7 +25,7 @@
 		</#list>
 	</tbody>
 </table>
-<#if 0 < entriesLines?size>
+<#if 0 < bean.entriesLines?size>
 	<script type="text/javascript">
 		$("table#sortArray").tablesorter({});
 	</script>

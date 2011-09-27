@@ -4,9 +4,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +12,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -32,19 +28,14 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
-import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
-import org.nuxeo.ecm.platform.rendering.fm.FreemarkerEngine;
-import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.ColSize;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.EntryType;
@@ -60,12 +51,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontSize
 @WebObject(type = "PageList")
 @Produces("text/html; charset=UTF-8")
 public class PageListResource extends PageResource {
-    
-    private static final String IMPOSSIBLE_TO_DELETE_LINE_ID = "Impossible to delete line id:";
 
-    private static final String IMPOSSIBLE_TO_GET_LINE_ID = "Impossible to get line id:";
-
-    private static final String IMPOSSIBLE_TO_SAVE_LINE = "Impossible to save line";
 
     private static final String IMPOSSIBLE_TO_SAVE_THE_HEADERS_LIST = "Impossible to save the headers list";
 
@@ -80,35 +66,6 @@ public class PageListResource extends PageResource {
     private static final String BASE_KEY = "order_";
 
     private static final Log LOG = LogFactory.getLog(PageListResource.class);
-
-    private static final String DATE_FORMAT_STRING = "dd/MM/yyyy";
-    
-    
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.nuxeo.ecm.webengine.model.impl.AbstractResource#initialize(java.lang
-     * .Object[])
-     */
-    @Override
-    public void initialize(Object... args) {
-        super.initialize(args);
-        // Add global fm variables
-        // WARNING : these are GLOBAL vars, try to avoid using this trick (DMR)
-        RenderingEngine rendering = getContext().getEngine().getRendering();
-        if (rendering instanceof FreemarkerEngine) {
-            FreemarkerEngine fm = (FreemarkerEngine) rendering;
-            FreemarkerBean objectFreemarker = getFreemarkerBean();
-            fm.setSharedVariable("headersMapJS", objectFreemarker.getHeadersMapJS());
-            fm.setSharedVariable("headersNameJS", objectFreemarker.getHeadersNameJS());
-            fm.setSharedVariable("headersSet", objectFreemarker.getHeadersSet());
-            fm.setSharedVariable("headersNameList", objectFreemarker.getHeadersNameList());
-            fm.setSharedVariable("entriesLines", objectFreemarker.getEntriesLines());
-            fm.setSharedVariable("line", null);
-            fm.setSharedVariable("key", "");
-        }
-    }
 
     public String formatHTML(String pIn) {
         if (!StringUtils.isEmpty(pIn)) {
@@ -184,102 +141,17 @@ public class PageListResource extends PageResource {
         }
         return Response.noContent().build();
     }
-
-    @GET
-    @Path(value = "line/{id}")
-    public Object getLine(@PathParam("id") final String pId) {
-        EntriesLine line = null;
-        try {
-            DocumentModel docLine = getCoreSession().getDocument(new IdRef(pId));
-            PageListLine adapter = docLine.getAdapter(PageListLine.class);
-            line = adapter.getLine();
-        } catch (ClientException e) {
-            LOG.error(IMPOSSIBLE_TO_GET_LINE_ID + pId, e);
-        }
-        return getView("editLine").arg("line", line).arg("key", "/" + pId);
-    }
-
-    @DELETE
-    @Path(value = "saveline/{id}")
-    public Object deleteLine(@PathParam("id") final String pId) {
-        try {
-            doc.getAdapter(PageList.class).removeLine(new IdRef(pId));
-        } catch (Exception e) {
-            LOG.error(IMPOSSIBLE_TO_DELETE_LINE_ID + pId, e);
-        }
-        return redirect(this.getPath());
-    }
-
-    @POST
-    @Path(value = "saveline/{id}")
-    public Object saveLine(@PathParam("id") final String pId) {
-        return persistLine(pId);
-    }
-
-    @POST
-    @Path(value = "saveline")
-    public Object saveLine() {
-        return persistLine(null);
-    }
-
-    /**
-     * @param pId
-     * @return
-     */
-    private Object persistLine(final String pId) {
-        FormData form = ctx.getForm();
-        String value = null;
+    
+    @Path("line/{id}")
+    public Object saveLine(@PathParam("id") final String pId) throws ClientException {
+        DocumentModel docLine = getCoreSession().getDocument(new IdRef(pId));
+        return newObject(LabsSiteConstants.Docs.PAGELIST_LINE.type(), docLine, doc.getAdapter(PageList.class));
         
-        com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList pgl = doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList.class);
-        Set<Header> headerSet = null;
-        Entry entry = null;
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
-        EntriesLine entriesLine = new EntriesLine(); 
-        try {
-            if (!StringUtil.isEmpty(pId)){
-                entriesLine.setDocRef(new IdRef(pId));
-            }
-            headerSet = pgl.getHeaderSet();
-            for (Header head : headerSet){
-                value = form.getString(new Integer(head.getIdHeader()).toString());
-                entry = new Entry();
-                
-                switch(EntryType.valueOf(head.getType())){
-                case CHECKBOX:
-                    if ("on".equalsIgnoreCase(value)){
-                        entry.setCheckbox(true);
-                    }
-                    else{
-                        entry.setCheckbox(false);
-                    }
-                    break;
-                case DATE:
-                    if (!StringUtils.isEmpty(value.trim())){
-                        cal.setTimeInMillis((sdf.parse(value)).getTime());
-                        entry.setDate(cal);
-                    }
-                    break;
-                case SELECT:
-                    entry.setText(value);
-                    break;
-                case TEXT:
-                    entry.setText(value);
-                    break;
-                case URL:
-                    entry.setUrl(new UrlType(form.getString(head.getIdHeader() + "DisplayText"), value));
-                    break;
-                }
-                entry.setIdHeader(head.getIdHeader());
-                entriesLine.getEntries().add(entry);
-                LOG.debug(value);
-            }
-            pgl.saveLine(entriesLine);
-        } catch (Exception e) {
-            LOG.error(IMPOSSIBLE_TO_SAVE_LINE, e);
-            return Response.status(Status.PRECONDITION_FAILED).build();
-        }
-        return redirect(this.getPath());
+    }
+    
+    @Path(value="line")
+    public Object saveLine() throws ClientException {
+        return newObject(LabsSiteConstants.Docs.PAGELIST_LINE.type(), doc, doc.getAdapter(PageList.class));
     }
 
     /**
@@ -314,7 +186,7 @@ public class PageListResource extends PageResource {
      * Get the Bean of page list
      * @return the Bean of page list
      */
-    private FreemarkerBean getFreemarkerBean() {
+    public FreemarkerBean getFreemarkerBean() {
         Map<String, Header> mapHead = new HashMap<String, Header>();
         StringBuilder headersName = new StringBuilder();
         com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList pgl = doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList.class);
@@ -347,28 +219,4 @@ public class PageListResource extends PageResource {
         FreemarkerBean result = new FreemarkerBean(json, headersNameJS, headerSet, listHeadersName, entriesLines);
         return result;
     }
-
-   /* private List<EntriesLine> sortEntriesLine(Collection<EntriesLine> lines, Set<Header> headerSet) {
-        List<EntriesLine> result = new ArrayList<EntriesLine>(lines.size());
-        Map<Integer, Entry> mapByIdHead = null;
-        EntriesLine entriesLine = null;
-        for (EntriesLine map: lines){
-            mapByIdHead = buildMapByIdHead(map);
-            entriesLine = new EntriesLine();
-            for (Header head:headerSet){
-                entriesLine.getEntries().add(mapByIdHead.get(new Integer(head.getIdHeader())));
-            }
-            result.add(entriesLine);
-        }
-        return result;
-    }
-
-    private Map<Integer, Entry> buildMapByIdHead(EntriesLine map) {
-        Map<Integer, Entry> mapByIdHead = new HashMap<Integer, Entry>();
-        for (Entry entry:map.getEntries()){
-            mapByIdHead.put(new Integer(entry.getIdHeader()), entry);
-        }
-        return mapByIdHead;
-    }*/
-
 }

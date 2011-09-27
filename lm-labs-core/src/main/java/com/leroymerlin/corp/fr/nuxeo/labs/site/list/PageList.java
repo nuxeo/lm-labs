@@ -11,6 +11,10 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 
+/**
+ * @author fvandaele
+ *
+ */
 public interface PageList extends Page {
     
     DocumentModel getDocument();
@@ -35,14 +39,40 @@ public interface PageList extends Page {
      */
     void resetHeaders() throws ClientException;
     
+    /**
+     * Get a list of EntriesLines
+     * @return
+     * @throws ClientException
+     */
     List<EntriesLine> getLines() throws ClientException;
     
+    /**
+     * Save a EntriesLine
+     * @param pLine
+     * @throws ClientException
+     */
     void saveLine(EntriesLine pLine) throws ClientException;
     
+    /**
+     * Remove a PageListLine by this reference
+     * @param pRef
+     * @throws ClientException
+     */
     void removeLine(DocumentRef pRef) throws ClientException;
     
+    /**
+     * Get a EntriesLine by this reference
+     * @param pRef
+     * @return
+     * @throws ClientException
+     */
     EntriesLine getLine(DocumentRef pRef) throws ClientException;
     
+    /**
+     * Clear the entries in this PageListLine
+     * @param pRef
+     * @throws ClientException
+     */
     void clearLine(DocumentRef pRef) throws ClientException;
     
 }

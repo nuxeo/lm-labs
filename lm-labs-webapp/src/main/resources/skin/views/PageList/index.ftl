@@ -30,11 +30,12 @@
   			<#include "views/common/comment_area.ftl" />
 			<#if isAuthorized>
 				<div id="divActionManageList">
-					<button id="addLineEntry" class="btn" onClick="javascript:openEditLine();" title="${Context.getMessage('label.pageList.addLine')}">${Context.getMessage('label.pageList.addLine')}</button>
+					<button id="addLineEntry" class="btn" onClick="javascript:addLine();" title="${Context.getMessage('label.pageList.addLine')}">${Context.getMessage('label.pageList.addLine')}</button>
 					<a href="#" id="displayManageList" onClick="javascript:manageList();">${Context.getMessage('label.pageList.manageList')}</a>
 				</div>
 				
 			</#if>
+			<#assign bean = This.getFreemarkerBean() />
 			<#if isAuthorized>
 				<div id="divManageList" class=""dialog2" style="display: none;">
 					<#include "/views/PageList/editHeaders.ftl" />
@@ -61,10 +62,10 @@
 				var is_new = true;
 				
 				
-				var headersMapBase = '(${headersMapJS?js_string})';
-				var headersNameBase = '${headersNameJS?js_string}';
+				var headersMapBase = '(${bean.headersMapJS?js_string})';
+				var headersNameBase = '${bean.headersNameJS?js_string}';
 				
-				<#if 2 < headersMapJS?length >
+				<#if 2 < bean.headersMapJS?length >
 					headersCollection.setCollection(eval( headersMapBase ), eval( '[' + headersNameBase  + ']'));
 					is_new = false;
 				<#else>

@@ -1,8 +1,8 @@
 
 <div class="container" style="width: auto;">
-	<form method="post" name="form-editLine" id="form-editLine" action="${This.path}/saveline${key}">
+	<form method="post" name="form-editLine" id="form-editLine" action="${This.path}">
 		<fieldset>
-			<#list headersSet as header>
+			<#list bean.headersSet as header>
 				<div class="clearfix">
 					<label for="${header.idHeader}">${header.name}</label>
 						<div class="input">

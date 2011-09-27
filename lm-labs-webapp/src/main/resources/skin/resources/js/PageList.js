@@ -12,6 +12,11 @@ function initModal(){
 	});
 }
 
+function addLine() {
+	openEditLine();
+	$('#form-editLine').attr('action', $('#form-editLine').attr('action') + '/line');
+}
+
 function openEditLine() {
 	jQuery("#divEditLine").dialog2('open');
 	initFieldsLine();
@@ -37,8 +42,18 @@ function initEditLinesDates(){
 		});
 } 
 
-function saveLine() {
-	$('#form-editLine').submit();
+function saveLine(path) {
+	jQuery.ajax({
+		type: "POST",
+		url: $('#form-editLine').attr("action"),
+		data: $("#form-editLine").serialize(),
+		success: function(msg){
+			document.location.href=path;
+		},
+		error: function(msg){
+			alert( msg.responseText );
+		}
+	});
 }
 
 function deleteLine(path){
