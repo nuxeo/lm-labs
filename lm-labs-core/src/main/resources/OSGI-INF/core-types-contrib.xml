@@ -83,12 +83,14 @@
       </subtypes>
     </doctype>
 
-    <doctype name="LabsNews" extends="Document">
+    <doctype name="LabsNews" extends="Page">
       <schema name="dublincore" />
       <schema name="common" />
       <schema name="file" />
       <schema name="labsnews" />
       <schema name="page_html"/>
+      <subtypes>
+      </subtypes>
     </doctype>
 
   <doctype name="PageList" extends="Page">

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -17,10 +18,9 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 
-@WebObject(type = "LabsNews", superType="LabsPage")
+@WebObject(type = "LabsNews", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
 public class LabsNewsResource extends PageResource {
-
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat(
             "dd/MM/yyyy");
@@ -28,9 +28,10 @@ public class LabsNewsResource extends PageResource {
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        ctx.getEngine().getRendering().setSharedVariable("news", getLabsNews());
+        ctx.getEngine()
+                .getRendering()
+                .setSharedVariable("news", getLabsNews());
     }
-
 
     public LabsNews getLabsNews() {
         return doc.getAdapter(LabsNews.class);
@@ -38,7 +39,7 @@ public class LabsNewsResource extends PageResource {
 
     @POST
     @Override
-    public Response doPost(){
+    public Response doPost() {
         FormData form = ctx.getForm();
         CoreSession session = ctx.getCoreSession();
         try {
@@ -47,13 +48,19 @@ public class LabsNewsResource extends PageResource {
             session.saveDocument(news.getDocumentModel());
             session.save();
 
-            return redirect(getPath()+"?message_succes=label.news.news_updated");
+            return redirect(getPath()
+                    + "?message_succes=label.news.news_updated");
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
 
     }
 
+    @Path("s/{index}")
+    public Object doGetSection() {
+        // For the news there is only one section
+        return newObject("HtmlSection", doc, getLabsNews());
+    }
 
     static Calendar getDateFromStr(String strDate) {
         Calendar cal = Calendar.getInstance();
@@ -68,19 +75,16 @@ public class LabsNewsResource extends PageResource {
         return null;
     }
 
-
     static void fillNews(FormData form, LabsNews news) throws ClientException {
         String pTitle = form.getString("dc:title");
         String startDate = form.getString("newsStartPublication");
         String endDate = form.getString("newsEndPublication");
         String content = form.getString("newsContent");
 
-
         news.setTitle(pTitle);
         news.setStartPublication(getDateFromStr(startDate));
         news.setEndPublication(getDateFromStr(endDate));
         news.setContent(content);
-
 
     }
 

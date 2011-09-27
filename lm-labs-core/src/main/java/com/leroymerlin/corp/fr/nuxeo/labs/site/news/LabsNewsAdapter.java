@@ -145,7 +145,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
                 sections.add(new HtmlSectionImpl(this, map));
             }
             if (sections.size() > 0) {
-                return sections.get(0);
+                section = sections.get(0);
             } else {
                 section = new HtmlSectionImpl(this);
                 section.setTitle(getTitle());
@@ -158,7 +158,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     private void update() throws ClientException {
         List<Map<String, Serializable>> sectionsMap = new ArrayList<Map<String, Serializable>>();
-        HtmlSectionImpl si = (HtmlSectionImpl) section;
+        HtmlSectionImpl si = (HtmlSectionImpl) getSection();
         sectionsMap.add(si.toMap());
         doc.setPropertyValue("html:sections", (Serializable) sectionsMap);
     }

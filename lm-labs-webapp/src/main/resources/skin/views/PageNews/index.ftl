@@ -20,7 +20,7 @@
       <div id="content" class="container">
 
         <#include "views/common/comment_area.ftl" />
-
+    <div style="clear:both"></div>
         <#if isAuthorized>
           <a class="btn" href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>
         </#if>
@@ -33,11 +33,20 @@
               </div>
 
 
-              <div class="row">
-                <div class="span16 columns">
-                  ${news.content}
+              <#list news.rows as row>
+                <div class="row" id="row_s${news_index}_r${row_index}">
+                  <#list row.contents as content>
+                    <div class="span${content.colNumber} columns">
+                      <#if content.html == "">
+                        &nbsp;
+                      <#else>
+                        ${content.html}
+                      </#if>
+
+                    </div>
+                  </#list>
                 </div>
-              </div>
+              </#list>
             </section>
         </#list>
       </div>

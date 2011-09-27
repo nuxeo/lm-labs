@@ -18,9 +18,70 @@
 
   <@block name="content">
       <div id="content" class="container">
-        <#if isAuthorized>
-            <#include "/views/PageNews/editNews.ftl" />
-        </#if>
+
+
+
+<div id="editprops">
+<h1>Créer une news</h1>
+<form method="post" action="${This.path}" >
+  <fieldset>
+    <div class="clearfix">
+      <label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
+      <div class="input">
+        <input class="xlarge" name="dc:title">
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <label for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>&nbsp;:&nbsp;
+      <div class="input">
+        <input id="newsStartPublication" class="date-pick" name="newsStartPublication"  >
+        ${Context.getMessage('label.labsNews.edit.au')}
+        <input id="newsEndPublication"  class="date-pick" name="newsEndPublication">
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <label for="newsModel">${Context.getMessage('label.labsNews.edit.model')}</label>
+      <div class="input">
+        <label><input type="radio" name="newsModel"  value="1COL"> News simple</label>
+      </div>
+      <div class="input">
+        <label><input type="radio" name="newsModel" checked value="2COL"> News avec photo</label>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <label for="newsContent">${Context.getMessage('label.labsNews.edit.content')}</label>
+      <div class="input">
+        <textarea name="newsContent" class="ckedit"></textarea>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="actions">
+      <input type="submit" class="btn" value="${Context.getMessage('label.labsNews.edit.valid')}" />
+  </div	>
+  </fieldset>
+</form>
+
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+        initCheckeditor();
+      initEditDateNews();
+  });
+
+
+
+
+  </script>
+
       </div>
   </@block>
 </@extends>

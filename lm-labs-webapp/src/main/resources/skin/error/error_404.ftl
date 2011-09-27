@@ -7,7 +7,7 @@
 
 
 <@block name="content">
-  <div class="alert-message block-message error">
+  <div class="alert-message block-message error no-fade">
   <p><strong>La page recherchée n'existe pas</strong> Cela peut être du au fait que :
   <ul>
     <li>La page n'existe plus</li>

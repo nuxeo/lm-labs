@@ -8,7 +8,7 @@
 
 
 <@block name="content">
-  <div class="alert-message block-message error">
+  <div class="alert-message block-message error no-fade">
   <p><strong>Vous n'avez pas le droit d'effectuer cette action</strong> Cela peut être du au fait que :
   <ul>
     <li>L'administrateur du site ne vous a pas donné les bons droits</li>

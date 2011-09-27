@@ -129,6 +129,21 @@ public class NewsAdapterTest {
         assertThat(news.row(0).content(0).getHtml(), is("picture"));
         assertThat(news.row(0).content(1).getHtml(), is("content"));
 
+        row = news.addRow();
+        row.addContent(12, "content");
+        row.addContent(4, "picture");
+        doc = session.saveDocument(doc);
+
+
+        doc = session.getDocument(new PathRef("/myNews"));
+        news = doc.getAdapter(LabsNews.class);
+        assertThat(news.getRows().size(),is(2));
+        assertThat(news.row(0).content(0).getHtml(), is("picture"));
+        assertThat(news.row(0).content(1).getHtml(), is("content"));
+        assertThat(news.row(1).content(0).getHtml(), is("content"));
+        assertThat(news.row(1).content(1).getHtml(), is("picture"));
+
+
 
 
     }

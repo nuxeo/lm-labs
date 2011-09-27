@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -11,6 +13,7 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
+import com.leroymerlin.common.core.utils.Slugify;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
@@ -24,8 +27,10 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
     public LabsNews createNews( String pTitle)
             throws ClientException {
         CoreSession session = doc.getCoreSession();
+
+        String name = Slugify.slugify(pTitle);
         DocumentModel document = session
-                .createDocumentModel(doc.getPathAsString(), pTitle,
+                .createDocumentModel(doc.getPathAsString(), name,
                         LabsSiteConstants.Docs.LABSNEWS.type());
 
         document.setPropertyValue("dc:title", pTitle);
