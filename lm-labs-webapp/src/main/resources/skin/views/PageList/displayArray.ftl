@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 			<#list bean.headersSet as header>
-				<th class="header headerSortDown">${header.name}</th>
+				<th class="header headerSortDown" ${This.getLineStyle(header)} >${header.name}</th>
 			</#list>
 		</tr>
 	</thead>
@@ -10,11 +10,7 @@
 		<#list bean.entriesLines as entriesLine>
 			<tr>
 				<#list bean.headersSet as header>
-					<#if isAuthorized>
-						<td style="cursor: pointer;" onclick="javascript:modifyLine('${This.path}/line/${entriesLine.getDocRef().reference()}');">
-					<#else>
-						<td>
-					</#if>
+					<td ${This.getLineStyle(header)} ${This.getLineOnclick(entriesLine)}>
 						<#assign entry = entriesLine.getEntryByIdHead(header.idHeader) />
 						<#if entry != null>
 							<#include "/views/PageList/" + header.type?lower_case + "/display.ftl" />

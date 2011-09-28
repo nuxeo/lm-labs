@@ -108,6 +108,41 @@ public class PageListResource extends PageResource {
         }
         return width;
     }
+    
+    public String getDefault(){
+        return Header.DEFAULT;
+    }
+    
+    public String getLineStyle(Header pHead) throws ClientException{
+        StringBuilder style = new StringBuilder("style='");
+        boolean hasOneStyle = false;
+        if(!pHead.getWidth().equals(Header.DEFAULT)){
+            style.append("width: ").append(ColSize.valueOf(pHead.getWidth()).getSize()).append("px;");
+            hasOneStyle = true;
+        }
+        if(!pHead.getFont().equals(Header.DEFAULT)){
+            style.append("font-family: \"").append(getContext().getMessage(LabsFontName.valueOf(pHead.getFontName()).getI18n())).append("\";");
+            style.append("font-size: ").append(LabsFontSize.valueOf(pHead.getFontSize()).getSize()).append("px;");
+            hasOneStyle = true;
+        }
+        if (getCoreSession().hasPermission(doc.getRef(), "Write")){
+            style.append("cursor: pointer;");
+            hasOneStyle = true;
+        }
+        if (hasOneStyle){
+            style.append("' ");
+            return style.toString();
+        }
+        return "";
+    }
+    
+    public String getLineOnclick(EntriesLine pLine) throws ClientException{
+        StringBuilder onclick = new StringBuilder();
+        if(getCoreSession().hasPermission(doc.getRef(), "Write")){
+            onclick.append("onclick=\"javascript:modifyLine('").append(getPath()).append("/line/").append(pLine.getDocRef().reference()).append("');\" ");
+        }
+        return onclick.toString();
+    }
 
     @POST
     @Path(value = "saveheaders")

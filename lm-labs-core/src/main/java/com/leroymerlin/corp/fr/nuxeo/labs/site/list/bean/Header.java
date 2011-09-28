@@ -6,6 +6,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hsqldb.lib.StringUtil;
 
 /**
@@ -14,6 +15,8 @@ import org.hsqldb.lib.StringUtil;
  */
 public class Header implements Comparable<Header> {
     
+    public static final String DEFAULT = "default";
+
     private static final String IS_MALFORMED = "' is malformed.";
 
     private static final String THE_FONT_CODE = "The font code '";
@@ -137,18 +140,29 @@ public class Header implements Comparable<Header> {
     }
 
     public void extractElementsOfFont() {
-        String[] split = font.split("-");
-        if (split.length == 2){
-            this.fontName = split[0];
-            this.fontSize = split[1];
+        if (!font.contains(DEFAULT)){
+            String[] split = font.split("-");
+            if (split.length == 2){
+                this.fontName = split[0];
+                this.fontSize = split[1];
+            }
+            else{
+                throw new IllegalArgumentException(THE_FONT_CODE + font + IS_MALFORMED);
+            }
         }
         else{
-            throw new IllegalArgumentException(THE_FONT_CODE + font + IS_MALFORMED);
+            this.fontName = null;
+            this.fontSize = null;
         }
     }
     
     public void createFont(){
-        font = fontName + '-' + fontSize;
+        if (StringUtils.isEmpty(fontName) || StringUtils.isEmpty(fontSize)){
+            font = DEFAULT;
+        }
+        else{
+            font = fontName + '-' + fontSize;
+        }
     }
 
     public void setOrderPosition(int orderPosition) {

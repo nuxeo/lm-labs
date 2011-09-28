@@ -32,9 +32,10 @@
 			<#if isAuthorized>
 				<div id="divActionManageList">
 					<button id="addLineEntry" class="btn" onClick="javascript:addLine();" title="${Context.getMessage('label.pageList.addLine')}">${Context.getMessage('label.pageList.addLine')}</button>
-					<a href="#" id="displayManageList" onClick="javascript:manageList();">${Context.getMessage('label.pageList.manageList')}</a>
+					<#if Session.hasPermission(Document.ref, 'Everything')>
+						<a href="#" id="displayManageList" onClick="javascript:manageList();">${Context.getMessage('label.pageList.manageList')}</a>
+					</#if>
 				</div>
-				
 			</#if>
 			<#assign bean = This.getFreemarkerBean() />
 			<#if isAuthorized>

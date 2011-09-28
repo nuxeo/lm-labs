@@ -44,6 +44,7 @@
 								<label for="headerWidth">${Context.getMessage('label.pageList.edit.editHeader.width')}</label>
 					            <div class="input">
 					            	<select name="headerWidth" id="headerWidth" onChange="javascript:changeAllHeaderWidth();">
+					            		<option value="${This.getDefault()}">${Context.getMessage('label.pageList.edit.editHeader.default')}</option>
 					            		<#list This.getHeaderWidths() as size>
 					            			<option value="${size.name()}">${size.getSize()}</option>
 					            		</#list>
@@ -55,6 +56,7 @@
 								<label for="headerFont">${Context.getMessage('label.pageList.edit.editHeader.font')}</label>
 					            <div class="input">
 					            	<select name="headerFont" id="headerFont" onChange="javascript:changeAllHeaderFont();">
+					            		<option value="${This.getDefault()}">${Context.getMessage('label.pageList.edit.editHeader.default')}</option>
 					            		<#list This.getHeaderFonts() as font>
 					            			<option value="${font.fontName.name()}-${font.fontSize.name()}">${Context.getMessage(font.getNameI18n())}-${font.fontSize.size}</option>
 					            		</#list>
