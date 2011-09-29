@@ -83,7 +83,10 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
 
         List<Page> pages = new ArrayList<Page>();
         for (DocumentModel doc : docs) {
-            pages.add(doc.getAdapter(Page.class));
+            Page page = doc.getAdapter(Page.class);
+            if (page != null) {
+                pages.add(page);
+            }
         }
         return pages;
     }
@@ -114,7 +117,8 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
 
     @Override
     public int hashCode() {
-        return getDocument().getId().hashCode();
+        return getDocument().getId()
+                .hashCode();
     }
 
     @Override
@@ -125,7 +129,8 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
         } catch (ClientException e) {
             url = "ClientException : Url not found";
         }
-        return String.format("LabsSite at %s (url: %s)", doc.getPathAsString(), url);
+        return String.format("LabsSite at %s (url: %s)", doc.getPathAsString(),
+                url);
     }
 
     @Override
@@ -135,7 +140,8 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
 
     @Override
     public DocumentModel getIndexDocument() throws ClientException {
-        return getCoreSession().getChild(getTree().getRef(), Docs.WELCOME.docName());
+        return getCoreSession().getChild(getTree().getRef(),
+                Docs.WELCOME.docName());
     }
 
     @Override
@@ -147,11 +153,5 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
     public DocumentModel getAssetsDoc() throws ClientException {
         return getCoreSession().getChild(doc.getRef(), Docs.ASSETS.docName());
     }
-
-
-
-
-
-
 
 }
