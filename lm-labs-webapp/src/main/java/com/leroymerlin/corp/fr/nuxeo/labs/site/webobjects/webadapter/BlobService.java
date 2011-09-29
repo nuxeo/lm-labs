@@ -10,6 +10,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.logging.Log;
@@ -38,14 +39,17 @@ public class BlobService extends DefaultAdapter {
 
     @GET
     public Object doGet(@Context Request request) {
-        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
+        DocumentModel doc = this.getTarget()
+                .getAdapter(DocumentModel.class);
         return getBlob(doc, request, ContentDisposition.attachement);
     }
 
-    @GET @Path("preview")
+    @GET
+    @Path("preview")
     public Object getPreview() {
-        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        String previewURL = ctx.getBaseURL() + "/nuxeo/"  + getPreviewURL(doc);
+        DocumentModel doc = this.getTarget()
+                .getAdapter(DocumentModel.class);
+        String previewURL = ctx.getBaseURL() + "/nuxeo/" + getPreviewURL(doc);
         return this.redirect(previewURL);
     }
 
@@ -56,7 +60,8 @@ public class BlobService extends DefaultAdapter {
             HtmlPreviewAdapter previewAdapter = pam.getAdapter(doc);
             return previewAdapter.getFilePreviewURL();
         }
-        throw new IllegalStateException("No preview adapter available for " + doc.getPathAsString());
+        throw new IllegalStateException("No preview adapter available for "
+                + doc.getPathAsString());
 
     }
 
@@ -64,29 +69,36 @@ public class BlobService extends DefaultAdapter {
     @Path("html")
     @Deprecated
     public Object doGetView(@Context Request request) throws Exception {
-        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
+        DocumentModel doc = this.getTarget()
+                .getAdapter(DocumentModel.class);
         BlobHolder blobHolder = doc.getAdapter(BlobHolder.class);
         Blob blob = blobHolder.getBlob();
         ConversionService service = Framework.getService(ConversionService.class);
-        String converterName = service.getConverterName(blob.getMimeType(), "text/html");
+        String converterName = service.getConverterName(blob.getMimeType(),
+                "text/html");
         BlobHolder convert = service.convert(converterName, blobHolder, null);
-        return convert.getBlob().getString();
+        return convert.getBlob()
+                .getString();
     }
 
-    protected Object getBlob(DocumentModel doc, Request request, ContentDisposition disposition) {
+    protected Object getBlob(DocumentModel doc, Request request,
+            ContentDisposition disposition) {
         try {
-            Blob blob = doc.getAdapter(BlobHolder.class).getBlob();
-
+            Blob blob = doc.getAdapter(BlobHolder.class)
+                    .getBlob();
 
             EntityTag etag = null;
             try {
-                String digest = ((SQLBlob) blob).getDigest();
-                etag = new EntityTag(digest);
+                String digest = ((SQLBlob) blob).getBinary()
+                        .getDigest();
+                if (digest != null) {
+                    etag = new EntityTag(digest);
+                }
+
             } catch (ClassCastException e) {
-                //Rare case where we are not in VCS
+                // Rare case where we are not in VCS
                 etag = computeEntityTag(doc);
             }
-
 
             Response.ResponseBuilder rb = request.evaluatePreconditions(etag);
             if (rb != null) {
@@ -94,18 +106,27 @@ public class BlobService extends DefaultAdapter {
             }
             String mimeType = blob.getMimeType() == null ? "image/jpeg"
                     : blob.getMimeType();
-            String filename = blob.getFilename() == null ? "file" : blob.getFilename();
-            return Response.ok(blob)
-                    .header("Content-Disposition", disposition.name() + ";filename=\"" + filename + "\"")
-                    .type(mimeType)
-                    .tag(etag)
-                    .build();
+            String filename = blob.getFilename() == null ? "file"
+                    : blob.getFilename();
+
+            rb = Response.ok(blob)
+                    .header("Content-Disposition",
+                            disposition.name() + ";filename=\"" + filename
+                                    + "\"")
+                    .type(mimeType);
+
+            if (etag != null) {
+                rb.tag(etag);
+            }
+
+            return rb.build();
         } catch (NullPointerException e) {
             LOG.error(e, e);
         } catch (ClientException e) {
             LOG.error(e, e);
         }
-        return Response.status(Status.NOT_FOUND).build();
+        return Response.status(Status.NOT_FOUND)
+                .build();
     }
 
     protected EntityTag computeEntityTag(DocumentModel doc)
