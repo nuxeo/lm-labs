@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.list;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -269,5 +270,22 @@ public class PageListAdapterTest {
         assertThat(entryByIdHead, notNullValue());
         assertThat(entryByIdHead.getUrl(), notNullValue());
         assertThat(entryByIdHead.getUrl().getUrl(), is("http://www.google.fr4444"));
+    }
+    
+    @Test
+    public void canIsAllContibutorsDefault() throws Exception {
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList = model.create();
+        assertFalse(pageList.isAllCintibutors());
+    }
+    
+    @Test
+    public void canSetAndIsAllContibutors() throws Exception {
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList.setAllCintibutors(true);
+        pageList = model.create();
+        assertTrue(pageList.isAllCintibutors());
     }
 }

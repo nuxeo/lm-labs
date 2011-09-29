@@ -75,4 +75,8 @@ public interface PageList extends Page {
      */
     EntriesLine getLine(DocumentRef pRef) throws ClientException;
     
+    boolean isAllCintibutors() throws ClientException;
+    
+    void setAllCintibutors(boolean isAllContributors) throws ClientException;
+    
 }

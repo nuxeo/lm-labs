@@ -2,14 +2,8 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list"
 	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list">
 
-	<!-- list of data of datalistLine for the table -->
-	<xs:element name="dataRowOfLine" type="tns:dataRowOfLine" />
-	<xs:complexType name="dataRowOfLine">
-		<xs:sequence>
-			<xs:element name="allContributors" type="xs:boolean" minOccurs="1" maxOccurs="1" />
-			<xs:element name="allCanComment" type="xs:boolean" minOccurs="1" maxOccurs="1" />
-		</xs:sequence>
-	</xs:complexType>
+	<!-- Specifics parameters for the PageList -->
+	<xs:element name="allContributors" type="xs:boolean" default="false" />
 
 	<!-- list of header -->
 	<xs:element name="headerlist" type="tns:headerlist" />

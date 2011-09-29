@@ -26,7 +26,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 public class PageListAdapter extends AbstractPage implements PageList {
 
     private static final String LINE = "line";
-    private static final String PGL_HEADERLIST = "pgl:headerlist";
+    private static final String PGL_HEADERLIST = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":headerlist";
+    private static final String ALL_CONTRIBUTORS = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":allContributors";
     private static final String WIDTH = "width";
     private static final String ID_HEADER = "idHeader";
     private static final String FONT_SIZE = "fontSize";
@@ -217,5 +218,20 @@ public class PageListAdapter extends AbstractPage implements PageList {
             line = lineDoc.getAdapter(PageListLine.class).getLine();
         }
         return line;
+    }
+
+    @Override
+    public boolean isAllCintibutors() throws ClientException {
+        Serializable propertyValue = doc.getPropertyValue(ALL_CONTRIBUTORS);
+        if (propertyValue instanceof Boolean){
+            return ((Boolean)propertyValue).booleanValue();
+        }
+        return false;
+    }
+
+    @Override
+    public void setAllCintibutors(boolean isAllContributors) throws ClientException {
+        doc.setPropertyValue(ALL_CONTRIBUTORS, isAllContributors);
+        
     }
 }
