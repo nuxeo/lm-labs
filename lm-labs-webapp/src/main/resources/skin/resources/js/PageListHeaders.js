@@ -280,9 +280,8 @@ function saveHeaderList(url) {
 	jQuery.ajax({
 		type : "POST",
 		url : url + '/saveheaders',
-		data : 'headerList=' + JSON.stringify(headersCollection.getCollection()),
+		data : 'headerList=' + JSON.stringify(headersCollection.getCollection()) + "&allContributors=" + $('#allContibutors:checked').val(),
 		success : function(msg) {
-			alert(msg);
 			document.location.href = url + msg;
 		},
 		error : function(msg) {

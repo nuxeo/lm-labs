@@ -147,7 +147,7 @@ public class PageListResource extends PageResource {
 
     @POST
     @Path(value = "saveheaders")
-    public Response saveHeaders(@FormParam("headerList") String pJson) {
+    public Response saveHeaders(@FormParam("headerList") String pJson, @FormParam("allContributors") String pAllContributors) {
         CoreSession session = ctx.getCoreSession();
         Gson gson = new Gson();
         try {
@@ -170,6 +170,11 @@ public class PageListResource extends PageResource {
                     headersToSave.add(header);
                 }
             }
+            if ("on".equals(pAllContributors)){
+                pgl.setAllCintibutors(true);
+            }else{
+                pgl.setAllCintibutors(false);
+            }
             pgl.setHeaders(headersToSave);
             session.saveDocument(doc);
             session.save();
@@ -180,6 +185,10 @@ public class PageListResource extends PageResource {
         }
         return Response.ok("?message_success=label.pageList.header.headers_updated",
                 MediaType.TEXT_PLAIN).status(Status.CREATED).build();
+    }
+    
+    public boolean isAllContributors() throws ClientException{
+        return doc.getAdapter(PageList.class).isAllCintibutors();
     }
     
     @Path("line/{id}")

@@ -4,6 +4,10 @@
 		<h4>${Context.getMessage('label.pageList.edit.listHeader.title')}</h4>
 		<ul id="ul_action_on_header"></ul>
 		<a href="#" onClick="javascript:addOneHeader();">${Context.getMessage('label.pageList.edit.listHeader.addHeader')}</a>
+			<p style="vertical-align: middle">${Context.getMessage('label.pageList.edit.listHeader.allContributors')}&nbsp;&nbsp;:&nbsp;&nbsp;
+				<input id="allContibutors" type="checkbox" name="allContibutors" <#if This.allContributors >checked</#if> />
+			</p>
+		
 	</div>
 	<div class="content">
 		<h4 style="padding-left: 10px;" >${Context.getMessage('label.pageList.edit.listHeader.editHeader')}</h4>
