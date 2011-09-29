@@ -3,7 +3,27 @@
       <@superBlock/>
       <meta name="gwt:property" content="locale=fr">
       <link rel="search" type="application/opensearchdescription+xml" title="Intralm" href="${skinPath}/searchIntralm.xml">
-      <script>
+
+        <script type="text/javascript">
+    jQuery(document).ready(function() {
+      jQuery("#addGadgetButton").fancybox({
+        'width'				: '75%',
+        'height'			: '75%',
+        'autoScale'			: true,
+        'transitionIn'		: 'none',
+        'transitionOut'		: 'none',
+        'type'				: 'iframe',
+        'enableEscapeButton': true,
+        'centerOnScroll': true
+      });
+    });
+
+    function addGadget(name, url) {
+      jQuery.fancybox.close();
+      nuxeo.container.addGadget('wcopensocial', [{WC_GADGET_DEF_URL:url}, {WC_GADGET_NAME:name}]);
+    }
+
+
           var nuxeo = {
             baseURL:"${This.baseUrl}",
             container: {
@@ -32,13 +52,18 @@
       <script type="text/javascript" language="javascript" src="${Context.basePath}/gwt-container/gwtContainer/gwtContainer.nocache.js"></script>
     </@block>
 
+
+  <@block name="docactions">
+      <@superBlock/>
+      <#if Session.hasPermission(This.document.ref, "WRITE")>
+        <li><a href="#" onclick="nuxeo.container.openContainerBuilder();return false;">Mise en page</a></li>
+        <li><a id="addGadgetButton" href="${Context.basePath}/gadgets?language=fr" >Ajouter un gadget</a></li>
+      </#if>
+  </@block>
+
   <@block name="content">
     <div>
         <div id="contentContainer" style="min-height:300px;height:auto !important;height:300px;">
-          <a href="#" onclick="nuxeo.container.openContainerBuilder();return false;" class="btn">Mise en page</a>
-          <a href="#" onclick="nuxeo.container.addGadget('wchtml',undefined);return false;" class="btn">Ajouter HTML</a>
-          <a href="#" onclick="nuxeo.container.addGadget('wcpicture',undefined);return false;" class="btn">Ajouter Image</a>
-
           <div id="content">
                 <div id="gwtContainerDiv"></div>
           </div>

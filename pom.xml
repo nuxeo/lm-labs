@@ -608,6 +608,13 @@
         <version>${nuxeo.version}</version>
       </dependency>
 
+	 <dependency>
+	    <groupId>org.nuxeo.ecm.opensocial</groupId>
+	    <artifactId>nuxeo-opensocial-spaces</artifactId>
+	    <version>${nuxeo.version}</version>
+	  </dependency>
+
+
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>

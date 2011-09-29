@@ -20,7 +20,8 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
         "org.nuxeo.ecm.platform.types.api",
         "org.nuxeo.ecm.platform.types.core",
         "org.nuxeo.ecm.platform.mimetype.api",
-        "org.nuxeo.ecm.platform.mimetype.core"
+        "org.nuxeo.ecm.platform.mimetype.core",
+        "org.nuxeo.ecm.opensocial.spaces"
 })
 public class LabsWebAppFeature extends SimpleFeature {
 
