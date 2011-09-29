@@ -8,12 +8,12 @@
 	width:245px;
 	border: none;
 }
-#divListHeader>ul{
+#ul_action_on_header{
 	left: 0px;
-	list-style: none outside none;
+	list-style: none;
 }
-#divListHeader>ul>li{
-	padding-left: 5px;
+#ul_action_on_header>li{
+	padding-left: 3px;
 	line-height: 23px;
 }
 .actionOnHeader{

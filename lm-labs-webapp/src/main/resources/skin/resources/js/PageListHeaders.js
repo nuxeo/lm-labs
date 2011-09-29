@@ -40,8 +40,6 @@ headersCollection.organizeOrderPosition = function(){
 
 jQuery(document).ready(function() {
 	jQuery("#divManageList").dialog2({
-		width : 550,
-		height : 400,
 		showCloseHandle : false,
 		removeOnClose : true,
 		autoOpen : false

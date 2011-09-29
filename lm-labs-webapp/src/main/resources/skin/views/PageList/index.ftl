@@ -37,12 +37,13 @@
 					</#if>
 				</div>
 			</#if>
+			<div class="container">
 			<#assign bean = This.getFreemarkerBean() />
 			<#if isAuthorized>
-				<div id="divManageList" class=""dialog2" style="display: none;">
+				<div id="divManageList" class="dialog2" style="display: none;">
 					<#include "/views/PageList/editHeaders.ftl" />
 				</div>
-				<div id="divEditLine" class=""dialog2" style="display: none;">
+				<div id="divEditLine" class="dialog2" style="display: none;">
 					<h1>${Context.getMessage('label.pageList.edit.line.title')}</h1>
 					<#include "/views/PageList/editLine.ftl" />
 					<div id="divActionsLine"  class="actions">
