@@ -51,6 +51,7 @@
         <type>PageClasseur</type>
         <type>PageList</type>
         <type>HtmlPage</type>
+        <type>Space</type>
       </subtypes>
     </doctype>
 
@@ -72,6 +73,7 @@
         <type>PageClasseur</type>
         <type>PageList</type>
         <type>HtmlPage</type>
+        <type>Space</type>
       </subtypes>
     </doctype>
 
@@ -133,6 +135,7 @@
         <type>PageClasseur</type>
         <type>PageList</type>
         <type>HtmlPage</type>
+        <type>Space</type>
       </subtypes>
     </doctype>
 

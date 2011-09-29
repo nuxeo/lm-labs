@@ -25,7 +25,7 @@ jQuery(document).ready(function() {
   </@block>
 
      <@block name="sitemap-content">
-        <table class="zebra-striped">
+        <table class="zebra-striped bs">
             <thead>
             <tr>
               <th width="30%">Elément</th>
@@ -41,7 +41,8 @@ jQuery(document).ready(function() {
               <#assign doc=page.document />
               <td class="nameCol"><a href="${Context.modulePath}/${page.path}">${doc.title}</a></td>
               <td class="createdCol">${userFullName(doc.dublincore.creator)}</td><td class="createdCol">${doc.dublincore.created?string.medium}<span class="sortValue">${doc.dublincore.created?string("yyyyMMddHHmmss")}</span></td>
-              <td class="updatedCol">${userFullName(doc.dublincore.lastContributor)}</td><td class="createdCol">${doc.dublincore.modified?string.medium}<span class="sortValue">${doc.dublincore.modified?string("yyyyMMddHHmmss")}</span></td>
+              <#assign modified=doc.dublincore.modified.getTime()?datetime/>
+              <td class="updatedCol">${userFullName(doc.dublincore.lastContributor)}</td><td class="createdCol">${modified?string.medium}<span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span></td>
             </tr>
           </#list>
           </tbody>

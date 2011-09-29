@@ -20,6 +20,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.convert.api.ConversionService;
+import org.nuxeo.ecm.core.storage.sql.coremodel.SQLBlob;
 import org.nuxeo.ecm.platform.preview.adapter.PreviewAdapterManager;
 import org.nuxeo.ecm.platform.preview.api.HtmlPreviewAdapter;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
@@ -32,15 +33,15 @@ public class BlobService extends DefaultAdapter {
     private enum ContentDisposition {
         attachement, inline;
     }
-    
+
     private static final Log LOG = LogFactory.getLog(BlobService.class);
-    
+
     @GET
     public Object doGet(@Context Request request) {
         DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
         return getBlob(doc, request, ContentDisposition.attachement);
     }
-    
+
     @GET @Path("preview")
     public Object getPreview() {
         DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
@@ -56,9 +57,9 @@ public class BlobService extends DefaultAdapter {
             return previewAdapter.getFilePreviewURL();
         }
         throw new IllegalStateException("No preview adapter available for " + doc.getPathAsString());
-        
+
     }
-    
+
     @GET
     @Path("html")
     @Deprecated
@@ -71,26 +72,32 @@ public class BlobService extends DefaultAdapter {
         BlobHolder convert = service.convert(converterName, blobHolder, null);
         return convert.getBlob().getString();
     }
-    
+
     protected Object getBlob(DocumentModel doc, Request request, ContentDisposition disposition) {
         try {
             Blob blob = doc.getAdapter(BlobHolder.class).getBlob();
-            Calendar modified = (Calendar) doc.getPropertyValue("dc:modified");
-            EntityTag etag = computeEntityTag(doc);
-            Response.ResponseBuilder rb = request.evaluatePreconditions(
-                    modified.getTime(), etag);
+
+
+            EntityTag etag = null;
+            try {
+                String digest = ((SQLBlob) blob).getDigest();
+                etag = new EntityTag(digest);
+            } catch (ClassCastException e) {
+                //Rare case where we are not in VCS
+                etag = computeEntityTag(doc);
+            }
+
+
+            Response.ResponseBuilder rb = request.evaluatePreconditions(etag);
             if (rb != null) {
                 return rb.build();
             }
-            Calendar expire = Calendar.getInstance();
             String mimeType = blob.getMimeType() == null ? "image/jpeg"
                     : blob.getMimeType();
             String filename = blob.getFilename() == null ? "file" : blob.getFilename();
             return Response.ok(blob)
                     .header("Content-Disposition", disposition.name() + ";filename=\"" + filename + "\"")
                     .type(mimeType)
-                    .lastModified(modified.getTime())
-                    .expires(expire.getTime())
                     .tag(etag)
                     .build();
         } catch (NullPointerException e) {

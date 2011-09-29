@@ -139,7 +139,7 @@
 <#macro displayChildren folder recurse=false>
 
   <#if folder.files?size &gt; 0>
-  <table class="zebra-striped classeurFiles" >
+  <table class="zebra-striped classeurFiles bs" >
   <thead>
     <tr>
       <th>

@@ -25,7 +25,7 @@
       <@paging pageProvider=pp url=This.path+"/@views/latestuploads?page=" />
 
       <div class="latestuploads">
-        <table class="zebra-striped">
+        <table class="zebra-striped bs">
           <thead>
             <tr>
               <th>&nbsp;</th>

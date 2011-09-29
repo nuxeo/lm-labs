@@ -48,7 +48,7 @@
         </#if>
       </div>
     <#if result?size &gt; 0>
-      <table class="zebra-striped" id="resultsSearch" >
+      <table class="zebra-striped bs" id="resultsSearch" >
         <thead>
           <tr><th></th><th>Titre</th><th>Dernière Modification</th><th>Taille Fichier</th><th>Page</th><th></th></tr>
         </thead>
