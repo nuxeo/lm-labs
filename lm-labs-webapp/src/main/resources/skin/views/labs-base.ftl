@@ -68,7 +68,7 @@
         <#list messages?keys as key >
            <div class="alert-message ${key}">
              <a class="close" href="#">x</a>
-             ${messages[key]}
+             ${Context.getMessage(messages[key])}
            </div>
         </#list>
         </div>

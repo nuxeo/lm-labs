@@ -45,11 +45,11 @@
 				<div id="divEditLine" class=""dialog2" style="display: none;">
 					<h1>${Context.getMessage('label.pageList.edit.line.title')}</h1>
 					<#include "/views/PageList/editLine.ftl" />
-					<div  class="actions">
+					<div id="divActionsLine"  class="actions">
 						<button id="saveLine" class="btn primary" onClick="javascript:saveLine('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
-						<button id="cancel" class="btn" onClick="javascript:closeEditLine();" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
-						<button id="delete" class="btn" onClick="javascript:deleteLine('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.delete')}">${Context.getMessage('label.pageList.edit.manage.delete')}</button>
-						<!--<button id="StructureJsLine" class="btn info" onClick="javascript:alert(linesCollection.toString());" >line structure</button>-->
+						<button id="cancelLine" class="btn" onClick="javascript:closeEditLine();" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
+						<!--<button id="deleteLine" class="btn" onClick="javascript:if(confirm('${Context.getMessage('label.pageList.line_deleted.confirm')?js_string}')){deleteLine('${This.path}');}{return false;}" title="${Context.getMessage('label.pageList.edit.manage.delete')}">${Context.getMessage('label.pageList.edit.manage.delete')}</button>
+						<button id="StructureJsLine" class="btn info" onClick="javascript:alert(linesCollection.toString());" >line structure</button>-->
 					</div>
 				</div>
 			</#if>

@@ -49,7 +49,7 @@ public class LabsNewsResource extends PageResource {
             session.save();
 
             return redirect(getPath()
-                    + "?message_succes=label.news.news_updated");
+                    + "?message_success=label.news.news_updated");
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }

@@ -284,7 +284,8 @@ function saveHeaderList(url) {
 		url : url + '/saveheaders',
 		data : 'headerList=' + JSON.stringify(headersCollection.getCollection()),
 		success : function(msg) {
-			document.location.href = url;
+			alert(msg);
+			document.location.href = url + msg;
 		},
 		error : function(msg) {
 			alert('ERROR' + msg.responseText);

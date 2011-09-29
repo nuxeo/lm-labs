@@ -1,5 +1,9 @@
 <h1>${Context.getMessage('label.pageList.edit.manage.title')}</h1>
 <div class="container" style="width: auto;height: 330px;">
+	<!--<div id="error_mandatory" class="alert-message block-message error fade in" style="display: none;" data-alert="alert">
+		<a class="close" href="#">×</a>
+		<p>peermkljsdf mkljsdf </p>
+	</div>-->
 	<section id="grid-system">
 		<div class="row">
 			<div class="span8 columns">
@@ -73,6 +77,7 @@
 <div  class="actions">
 	<button id="saveHeaderList" class="btn primary" onClick="javascript:saveHeaderList('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
 	<button id="cancel" class="btn" onClick="javascript:closeManageList();" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
-	<!--<br /><br />
+	<!-<button id="error_mandatory" class="btn info" onClick="javascript:$('#error_mandatory').style='display: block;';" >error_mandatory</button>
+	-<br /><br />
 	<button id="StructureJsHeaders" class="btn info" onClick="javascript:alert(headersCollection.toString());" >StructureJsHeaders</button>-->
 </div>

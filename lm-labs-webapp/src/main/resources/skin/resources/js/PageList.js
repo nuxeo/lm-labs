@@ -14,6 +14,8 @@ function initModal(){
 
 function addLine() {
 	openEditLine();
+	$('#form-editLine').clearForm();
+	$("#divBtnDeleteLine").attr("style", "display:none;");
 	$('#form-editLine').attr('action', $('#form-editLine').attr('action') + '/line');
 }
 
@@ -48,7 +50,7 @@ function saveLine(path) {
 		url: $('#form-editLine').attr("action"),
 		data: $("#form-editLine").serialize(),
 		success: function(msg){
-			document.location.href=path;
+			document.location.href=path + msg;
 		},
 		error: function(msg){
 			alert( msg.responseText );
@@ -62,7 +64,7 @@ function deleteLine(path){
 		url: $('#form-editLine').attr("action"),
 		data: '',
 		success: function(msg){
-			document.location.href=path;
+			document.location.href=path + msg;
 		},
 		error: function(msg){
 			alert( msg.responseText );

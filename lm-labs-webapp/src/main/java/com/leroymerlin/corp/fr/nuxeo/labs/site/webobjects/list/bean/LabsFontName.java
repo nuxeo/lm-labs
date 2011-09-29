@@ -6,7 +6,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean;
 /**
  * @author fvandaele
  * 
- * Type of data in the page list
+ * Names of font
  *
  */
 public enum LabsFontName {

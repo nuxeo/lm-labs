@@ -17,6 +17,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -174,9 +175,11 @@ public class PageListResource extends PageResource {
             session.save();
         } catch (ClientException e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_THE_HEADERS_LIST, e);
-            return Response.status(Status.GONE).build();
+            return Response.ok("?message_error=label.pageList.header.headers_updated_error",
+                    MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         }
-        return Response.noContent().build();
+        return Response.ok("?message_success=label.pageList.header.headers_updated",
+                MediaType.TEXT_PLAIN).status(Status.CREATED).build();
     }
     
     @Path("line/{id}")

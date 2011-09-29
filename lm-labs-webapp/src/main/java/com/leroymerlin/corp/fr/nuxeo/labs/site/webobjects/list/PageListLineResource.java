@@ -11,6 +11,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -92,8 +93,11 @@ public class PageListLineResource extends DefaultObject {
             doc.getAdapter(PageListLine.class).removeLine();
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_DELETE_LINE_ID + doc.getRef().reference(), e);
+            return Response.ok("?message_error=label.pageList.line_deleted_error",
+                    MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         }
-        return redirect(this.getPrevious().getPath());
+        return Response.ok("?message_success=label.pageList.line_deleted",
+                MediaType.TEXT_PLAIN).status(Status.CREATED).build();
     }
 
     /**
@@ -149,13 +153,14 @@ public class PageListLineResource extends DefaultObject {
                 }
                 entry.setIdHeader(head.getIdHeader());
                 entriesLine.getEntries().add(entry);
-                LOG.debug(value);
             }
             parent.saveLine(entriesLine);
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_LINE, e);
-            return Response.status(Status.PRECONDITION_FAILED).build();
+            Response.ok("?message_error=label.pageList.line_updated_error",
+                    MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         }
-        return Response.ok().build();
+        return Response.ok("?message_success=label.pageList.line_updated",
+                MediaType.TEXT_PLAIN).status(Status.CREATED).build();
     }
 }
