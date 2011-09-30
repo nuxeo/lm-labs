@@ -83,10 +83,24 @@ public interface PageList extends Page {
     boolean isAllContributors() throws ClientException;
     
     /**
-     * Set if all the people are contributors for manage lines.
+     * Set true if all the people are contributors for manage lines else false.
      * @param isAllContributors
      * @throws ClientException
      */
     void setAllContributors(boolean isAllContributors) throws ClientException;
+
+    /**
+     * If the lines are commentable
+     * @return true if the lines are commentable else false
+     * @throws ClientException
+     */
+    boolean isCommentableLines() throws ClientException;
+
+    /**
+     * Set true if the lines are commentable else false.
+     * @param isAllCommentablesLines
+     * @throws ClientException
+     */
+    void setCommentableLines(boolean isAllCommentablesLines) throws ClientException;
     
 }

@@ -288,4 +288,21 @@ public class PageListAdapterTest {
         pageList = model.create();
         assertTrue(pageList.isAllContributors());
     }
+    
+    @Test
+    public void canIsAllCommentablesLinesDefault() throws Exception {
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList = model.create();
+        assertFalse(pageList.isCommentableLines());
+    }
+    
+    @Test
+    public void canSetAndIsAllCommentablesLines() throws Exception {
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList.setCommentableLines(true);
+        pageList = model.create();
+        assertTrue(pageList.isCommentableLines());
+    }
 }

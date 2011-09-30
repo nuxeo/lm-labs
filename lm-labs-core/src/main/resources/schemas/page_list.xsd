@@ -4,6 +4,7 @@
 
 	<!-- Specifics parameters for the PageList -->
 	<xs:element name="allContributors" type="xs:boolean" default="false" />
+	<xs:element name="commentableLines" type="xs:boolean" default="false" />
 
 	<!-- list of header -->
 	<xs:element name="headerlist" type="tns:headerlist" />

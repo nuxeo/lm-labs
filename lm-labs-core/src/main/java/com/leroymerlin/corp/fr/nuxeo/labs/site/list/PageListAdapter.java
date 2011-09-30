@@ -28,6 +28,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
     private static final String LINE = "line";
     private static final String PGL_HEADERLIST = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":headerlist";
     private static final String ALL_CONTRIBUTORS = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":allContributors";
+    private static final String COMMENTABLE_LINES = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":commentableLines";
     private static final String WIDTH = "width";
     private static final String ID_HEADER = "idHeader";
     private static final String FONT_SIZE = "fontSize";
@@ -253,6 +254,25 @@ public class PageListAdapter extends AbstractPage implements PageList {
     @Override
     public void setAllContributors(boolean isAllContributors) throws ClientException {
         doc.setPropertyValue(ALL_CONTRIBUTORS, isAllContributors);
-        
+    }
+
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#isCommentableLines()
+     */
+    @Override
+    public boolean isCommentableLines() throws ClientException {
+        Serializable propertyValue = doc.getPropertyValue(COMMENTABLE_LINES);
+        if (propertyValue instanceof Boolean){
+            return ((Boolean)propertyValue).booleanValue();
+        }
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#setCommentableLines(boolean)
+     */
+    @Override
+    public void setCommentableLines(boolean isAllCommentablesLines) throws ClientException {
+        doc.setPropertyValue(COMMENTABLE_LINES, isAllCommentablesLines);
     }
 }
