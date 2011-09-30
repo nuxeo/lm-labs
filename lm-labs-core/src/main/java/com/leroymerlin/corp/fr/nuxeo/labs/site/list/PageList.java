@@ -75,8 +75,18 @@ public interface PageList extends Page {
      */
     EntriesLine getLine(DocumentRef pRef) throws ClientException;
     
-    boolean isAllCintibutors() throws ClientException;
+    /**
+     * If all the people are contributors for manage lines.
+     * @return true if all the people are contributors for manage lines else false
+     * @throws ClientException
+     */
+    boolean isAllContributors() throws ClientException;
     
+    /**
+     * Set if all the people are contributors for manage lines.
+     * @param isAllContributors
+     * @throws ClientException
+     */
     void setAllContributors(boolean isAllContributors) throws ClientException;
     
 }

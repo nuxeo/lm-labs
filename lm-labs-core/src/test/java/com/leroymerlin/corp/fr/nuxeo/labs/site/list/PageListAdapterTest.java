@@ -277,7 +277,7 @@ public class PageListAdapterTest {
         PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
         PageList pageList = model.getAdapter();
         pageList = model.create();
-        assertFalse(pageList.isAllCintibutors());
+        assertFalse(pageList.isAllContributors());
     }
     
     @Test
@@ -286,6 +286,6 @@ public class PageListAdapterTest {
         PageList pageList = model.getAdapter();
         pageList.setAllContributors(true);
         pageList = model.create();
-        assertTrue(pageList.isAllCintibutors());
+        assertTrue(pageList.isAllContributors());
     }
 }

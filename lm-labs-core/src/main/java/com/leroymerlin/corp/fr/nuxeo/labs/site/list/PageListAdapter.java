@@ -163,12 +163,18 @@ public class PageListAdapter extends AbstractPage implements PageList {
         return header;
     }
 
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#resetHeaders()
+     */
     @Override
     public void resetHeaders() throws ClientException {
         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
         doc.getProperty(PGL_HEADERLIST).setValue(list);
     }
 
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#getLines()
+     */
     @Override
     public List<EntriesLine> getLines() throws ClientException {
         DocumentModelList listDocLines = null;
@@ -182,6 +188,9 @@ public class PageListAdapter extends AbstractPage implements PageList {
         return entriesLines;
     }
 
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#saveLine(com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine)
+     */
     @Override
     public void saveLine(EntriesLine pLine) throws ClientException {
         CoreSession session = doc.getCoreSession();
@@ -204,11 +213,17 @@ public class PageListAdapter extends AbstractPage implements PageList {
         session.save();
     }
 
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#removeLine(org.nuxeo.ecm.core.api.DocumentRef)
+     */
     @Override
     public void removeLine(DocumentRef pRef) throws ClientException {
         doc.getCoreSession().removeDocument(pRef);
     }
 
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#getLine(org.nuxeo.ecm.core.api.DocumentRef)
+     */
     @Override
     public EntriesLine getLine(DocumentRef pRef) throws ClientException {
         EntriesLine line = new EntriesLine();
@@ -220,8 +235,11 @@ public class PageListAdapter extends AbstractPage implements PageList {
         return line;
     }
 
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#isAllCintibutors()
+     */
     @Override
-    public boolean isAllCintibutors() throws ClientException {
+    public boolean isAllContributors() throws ClientException {
         Serializable propertyValue = doc.getPropertyValue(ALL_CONTRIBUTORS);
         if (propertyValue instanceof Boolean){
             return ((Boolean)propertyValue).booleanValue();
@@ -229,6 +247,9 @@ public class PageListAdapter extends AbstractPage implements PageList {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#setAllContributors(boolean)
+     */
     @Override
     public void setAllContributors(boolean isAllContributors) throws ClientException {
         doc.setPropertyValue(ALL_CONTRIBUTORS, isAllContributors);

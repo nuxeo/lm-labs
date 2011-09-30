@@ -150,7 +150,7 @@ public class PageListResource extends PageResource {
     public boolean isAuthorized() throws ClientException{
         if (this.allContributors == null){
             this.allContributors = false;
-            if (!doc.getAdapter(PageList.class).isAllCintibutors()){
+            if (!doc.getAdapter(PageList.class).isAllContributors()){
                 this.allContributors = getCoreSession().hasPermission(doc.getRef(), "Write");
             }
             else{
@@ -203,7 +203,7 @@ public class PageListResource extends PageResource {
     }
     
     public boolean isAllContributors() throws ClientException{
-        return doc.getAdapter(PageList.class).isAllCintibutors();
+        return doc.getAdapter(PageList.class).isAllContributors();
     }
     
     @Path("line/{id}")
