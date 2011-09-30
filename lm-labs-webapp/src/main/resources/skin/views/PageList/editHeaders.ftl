@@ -4,9 +4,15 @@
 		<h4>${Context.getMessage('label.pageList.edit.listHeader.title')}</h4>
 		<ul id="ul_action_on_header"></ul>
 		<a href="#" onClick="javascript:addOneHeader();">${Context.getMessage('label.pageList.edit.listHeader.addHeader')}</a>
-			<p style="vertical-align: middle">${Context.getMessage('label.pageList.edit.listHeader.allContributors')}&nbsp;&nbsp;:&nbsp;&nbsp;
-				<input id="allContibutors" type="checkbox" name="allContibutors" <#if This.allContributors >checked</#if> />
-			</p>
+		<form class="form">
+			<!--         AllContibutors      ------->
+			<div class="clearfix">
+				<label for="allContibutors" style="text-align: left;">${Context.getMessage('label.pageList.edit.listHeader.allContributors')}</label>
+				<div class="input">
+					<input style="margin-top: 8px;" id="allContibutors" type="checkbox" name="allContibutors" <#if This.allContributors >checked</#if> />
+				</div>
+			</div>
+		</form>
 		
 	</div>
 	<div class="content">
