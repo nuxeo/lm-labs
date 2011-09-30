@@ -162,7 +162,8 @@ public class PageListResource extends PageResource {
 
     @POST
     @Path(value = "saveheaders")
-    public Response saveHeaders(@FormParam("headerList") String pJson, @FormParam("allContributors") String pAllContributors) {
+    public Response saveHeaders(@FormParam("headerList") String pJson, 
+            @FormParam("allContributors") String pAllContributors, @FormParam("commentableLines") String pCommentableLines) {
         CoreSession session = ctx.getCoreSession();
         Gson gson = new Gson();
         try {
@@ -185,11 +186,8 @@ public class PageListResource extends PageResource {
                     headersToSave.add(header);
                 }
             }
-            if ("on".equals(pAllContributors)){
-                pgl.setAllContributors(true);
-            }else{
-                pgl.setAllContributors(false);
-            }
+            pgl.setAllContributors("on".equals(pAllContributors));
+            pgl.setCommentableLines("on".equals(pCommentableLines));
             pgl.setHeaders(headersToSave);
             session.saveDocument(doc);
             session.save();
@@ -204,6 +202,10 @@ public class PageListResource extends PageResource {
     
     public boolean isAllContributors() throws ClientException{
         return doc.getAdapter(PageList.class).isAllContributors();
+    }
+    
+    public boolean isCommentableLines() throws ClientException{
+        return doc.getAdapter(PageList.class).isCommentableLines();
     }
     
     @Path("line/{id}")

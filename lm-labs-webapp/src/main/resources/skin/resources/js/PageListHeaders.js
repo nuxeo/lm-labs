@@ -63,12 +63,17 @@ function initFields() {
 		headersCollection.setCollection(eval( headersMapBase ), eval( '[' + headersNameBase  + ']'));
 		loadHeaders();
 		changeHeader(headersCollection.getSelectedName());
-		if (allContributors){
-			$('#allContibutors').attr("checked", "");
-		}
-		else{
-			$('#allContibutors').removeAttr("checked", "");
-		}
+		setCheckbox(allContributors, 'allContributors');
+		setCheckbox(commentableLines, 'commentableLines');
+	}
+}
+
+function setCheckbox(isChecked, varName){
+	if (isChecked){
+		$('#' + varName).attr("checked", true);
+	}
+	else{
+		$('#' + varName).attr("checked", false);
 	}
 }
 
@@ -286,7 +291,7 @@ function saveHeaderList(url) {
 	jQuery.ajax({
 		type : "POST",
 		url : url + '/saveheaders',
-		data : 'headerList=' + JSON.stringify(headersCollection.getCollection()) + "&allContributors=" + $('#allContibutors:checked').val(),
+		data : 'headerList=' + JSON.stringify(headersCollection.getCollection()) + "&allContributors=" + $('#allContributors:checked').val() + "&commentableLines=" + $('#commentableLines:checked').val(),
 		success : function(msg) {
 			document.location.href = url + msg;
 		},

@@ -6,10 +6,17 @@
 		<a href="#" onClick="javascript:addOneHeader();">${Context.getMessage('label.pageList.edit.listHeader.addHeader')}</a>
 		<form class="form">
 			<!--         AllContibutors      ------->
-			<div class="clearfix">
-				<label for="allContibutors" style="text-align: left;">${Context.getMessage('label.pageList.edit.listHeader.allContributors')}</label>
+			<div class="clearfix" style="margin-bottom: 0px;">
+				<label for="allContributors" style="text-align: left;">${Context.getMessage('label.pageList.edit.listHeader.allContributors')}</label>
 				<div class="input">
-					<input style="margin-top: 8px;" id="allContibutors" type="checkbox" name="allContibutors" <#if This.allContributors >checked</#if> />
+					<input style="margin-top: 8px;" id="allContributors" type="checkbox" name="allContributors" <#if This.allContributors >checked="true"</#if> />
+				</div>
+			</div>
+			<!--         CommentableLines      ------->
+			<div class="clearfix">
+				<label for="commentableLines" style="text-align: left;">${Context.getMessage('label.pageList.edit.listHeader.commentableLines')}</label>
+				<div class="input">
+					<input style="margin-top: 8px;" id="commentableLines" type="checkbox" name="commentableLines" <#if This.commentableLines >checked="true"</#if> />
 				</div>
 			</div>
 		</form>

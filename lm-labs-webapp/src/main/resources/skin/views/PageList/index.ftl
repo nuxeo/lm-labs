@@ -67,6 +67,10 @@
 				<#if This.allContributors >
 				 	allContributors = true;
 				</#if>
+				var commentableLines = false;
+				<#if This.commentableLines >
+				 	commentableLines = true;
+				</#if>
 				
 				
 				var headersMapBase = '(${bean.headersMapJS?js_string})';
