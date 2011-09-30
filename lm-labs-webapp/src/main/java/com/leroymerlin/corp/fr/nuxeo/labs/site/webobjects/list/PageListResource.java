@@ -65,6 +65,8 @@ public class PageListResource extends PageResource {
     private static final String THE_HEADERS_TYPES_SHOULD_NOT_BE_EMPTY = "The headers types should not be empty.";
 
     private static final String BASE_KEY = "order_";
+    
+    private Boolean allContributors = null;
 
     private static final Log LOG = LogFactory.getLog(PageListResource.class);
 
@@ -126,7 +128,7 @@ public class PageListResource extends PageResource {
             style.append("font-size: ").append(LabsFontSize.valueOf(pHead.getFontSize()).getSize()).append("px;");
             hasOneStyle = true;
         }
-        if (getCoreSession().hasPermission(doc.getRef(), "Write")){
+        if (isAuthorized()){
             style.append("cursor: pointer;");
             hasOneStyle = true;
         }
@@ -139,10 +141,23 @@ public class PageListResource extends PageResource {
     
     public String getLineOnclick(EntriesLine pLine) throws ClientException{
         StringBuilder onclick = new StringBuilder();
-        if(getCoreSession().hasPermission(doc.getRef(), "Write")){
+        if(isAuthorized()){
             onclick.append("onclick=\"javascript:modifyLine('").append(getPath()).append("/line/").append(pLine.getDocRef().reference()).append("');\" ");
         }
         return onclick.toString();
+    }
+    
+    public boolean isAuthorized() throws ClientException{
+        if (this.allContributors == null){
+            this.allContributors = false;
+            if (!doc.getAdapter(PageList.class).isAllCintibutors()){
+                this.allContributors = getCoreSession().hasPermission(doc.getRef(), "Write");
+            }
+            else{
+                this.allContributors = true;
+            }
+        }
+        return this.allContributors;
     }
 
     @POST

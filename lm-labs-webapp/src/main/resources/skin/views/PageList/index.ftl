@@ -1,5 +1,5 @@
 <@extends src="/views/labs-base.ftl">
-	<#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
+	<#assign isAuthorized = This.isAuthorized()>
 	
 	<@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>
 	
