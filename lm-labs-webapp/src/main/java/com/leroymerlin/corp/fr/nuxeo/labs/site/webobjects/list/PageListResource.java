@@ -186,9 +186,9 @@ public class PageListResource extends PageResource {
                 }
             }
             if ("on".equals(pAllContributors)){
-                pgl.setAllCintibutors(true);
+                pgl.setAllContributors(true);
             }else{
-                pgl.setAllCintibutors(false);
+                pgl.setAllContributors(false);
             }
             pgl.setHeaders(headersToSave);
             session.saveDocument(doc);

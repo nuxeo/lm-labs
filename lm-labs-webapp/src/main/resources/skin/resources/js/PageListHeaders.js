@@ -63,6 +63,12 @@ function initFields() {
 		headersCollection.setCollection(eval( headersMapBase ), eval( '[' + headersNameBase  + ']'));
 		loadHeaders();
 		changeHeader(headersCollection.getSelectedName());
+		if (allContributors){
+			$('#allContibutors').attr("checked", "");
+		}
+		else{
+			$('#allContibutors').removeAttr("checked", "");
+		}
 	}
 }
 

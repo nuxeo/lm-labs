@@ -63,6 +63,10 @@
 				var label_options = "${Context.getMessage('label.pageList.edit.editHeader.options')}";
 				var label_delete_error = "${Context.getMessage('label.pageList.edit.manage.delete.error')}";
 				var is_new = true;
+				var allContributors = false;
+				<#if This.allContributors >
+				 	allContributors = true;
+				</#if>
 				
 				
 				var headersMapBase = '(${bean.headersMapJS?js_string})';

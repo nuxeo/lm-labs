@@ -230,7 +230,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
     }
 
     @Override
-    public void setAllCintibutors(boolean isAllContributors) throws ClientException {
+    public void setAllContributors(boolean isAllContributors) throws ClientException {
         doc.setPropertyValue(ALL_CONTRIBUTORS, isAllContributors);
         
     }

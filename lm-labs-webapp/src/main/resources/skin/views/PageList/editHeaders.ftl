@@ -13,7 +13,6 @@
 				</div>
 			</div>
 		</form>
-		
 	</div>
 	<div class="content">
 		<h4 style="padding-left: 10px;" >${Context.getMessage('label.pageList.edit.listHeader.editHeader')}</h4>

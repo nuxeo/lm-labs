@@ -77,6 +77,6 @@ public interface PageList extends Page {
     
     boolean isAllCintibutors() throws ClientException;
     
-    void setAllCintibutors(boolean isAllContributors) throws ClientException;
+    void setAllContributors(boolean isAllContributors) throws ClientException;
     
 }
