@@ -10,6 +10,7 @@ import java.util.Map;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
@@ -64,6 +65,15 @@ public class PageListLineAdapter implements PageListLine {
          */
         public PageListLine getAdapter() throws ClientException{
             return new PageListLineAdapter(this.doc);
+        }
+        
+        /**
+         * Getter an CommentableDocument
+         * @return an adapter
+         * @throws ClientException
+         */
+        public CommentableDocument getCommentableDocument() throws ClientException{
+            return doc.getAdapter(CommentableDocument.class);
         }
     }
     
@@ -159,8 +169,20 @@ public class PageListLineAdapter implements PageListLine {
         return new UrlType((String)pMap.get(NAME), (String)pMap.get(URL));
     }
     
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine#removeLine()
+     */
     @Override
     public void removeLine() throws ClientException {
         doc.getCoreSession().removeDocument(doc.getRef());
+    }
+
+    /* (non-Javadoc)
+     * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine#getComments()
+     */
+    @Override
+    public List<DocumentModel> getComments() throws ClientException {
+        return doc.getAdapter(CommentableDocument.class)
+        .getComments();
     }
 }

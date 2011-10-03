@@ -1,6 +1,9 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.list;
 
+import java.util.List;
+
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 
@@ -26,4 +29,11 @@ public interface PageListLine {
      * @throws ClientException
      */
     void removeLine() throws ClientException;
+    
+    /**
+     * Returns the comments on the line
+     * @return
+     * @throws ClientException
+     */
+    List<DocumentModel> getComments() throws ClientException;
 }

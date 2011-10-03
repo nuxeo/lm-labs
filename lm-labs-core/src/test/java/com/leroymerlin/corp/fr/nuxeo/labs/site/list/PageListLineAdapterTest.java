@@ -2,18 +2,25 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.list;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import java.util.Calendar;
+import java.util.Date;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
+import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
+import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
@@ -26,6 +33,15 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
 @RepositoryConfig(cleanup=Granularity.METHOD)
+@Deploy( { "org.nuxeo.ecm.relations.api", "org.nuxeo.ecm.relations",
+        "org.nuxeo.ecm.relations.core.listener",
+        "org.nuxeo.ecm.relations.jena",
+        "com.leroymerlin.labs.core.test:commentService-config-bundle.xml",
+        "com.leroymerlin.labs.core.test:relation-config-bundle.xml",
+        "org.nuxeo.ecm.platform.comment.api",
+        "org.nuxeo.ecm.platform.comment.core",
+        "org.nuxeo.ecm.platform.comment:OSGI-INF/comment-listener-contrib.xml",
+        "org.nuxeo.ecm.platform.comment:OSGI-INF/CommentService.xml"})
 public class PageListLineAdapterTest {
     private static final boolean CHECKBOX = true;
     private static final Calendar CAL = Calendar.getInstance();
@@ -97,5 +113,44 @@ public class PageListLineAdapterTest {
         lineAdapter.removeLine();
         
         assertFalse(session.exists(new PathRef(PATH_SEPARATOR + LINE_TITLE)));
+    }
+
+    @Test
+    public void canGetCommentAdapter() throws Exception {
+        PageListLineAdapter.Model model = new PageListLineAdapter.Model(session, PATH_SEPARATOR, LINE_TITLE);
+        model.create();
+        session.save();
+        CommentableDocument commentable = model.getCommentableDocument();
+        assertNotNull(commentable);
+        assertNotNull(commentable.getComments());
+    }
+
+    @Test
+    @Ignore("Exception in commentManager - the repositoryName is null !")
+    public void canAddAndGetComments() throws Exception {
+        PageListLineAdapter.Model model = new PageListLineAdapter.Model(session, PATH_SEPARATOR, LINE_TITLE);
+        model.create();
+        session.save();
+        CommentableDocument commentable = model.getCommentableDocument();
+        assertNotNull(commentable);
+        assertNotNull(commentable.getComments());
+        DocumentModel newComment = newComment("Un commentaire");
+        commentable.addComment(newComment);
+        session.save();
+        commentable = model.getCommentableDocument();
+        assertNotNull(commentable);
+        assertNotNull(commentable.getComments());
+        assertThat(commentable.getComments().size(), is(1));
+        assertThat((String)commentable.getComments().get(0).getPropertyValue("comment:text"), is("Un commentaire"));
+    }
+    
+    private DocumentModel newComment(String cText) throws ClientException {
+        DocumentModel comment = session.createDocumentModel("Comment");
+        comment.setPropertyValue("comment:author", session.getPrincipal()
+                .getName());
+        comment.setPropertyValue("comment:text", cText);
+        comment.setPropertyValue("comment:creationDate", new Date());
+        comment = session.createDocument(comment);
+        return comment;
     }
 }

@@ -105,6 +105,7 @@
 
   <doctype name="PageListLine" extends="Folder">
     <schema name="page_list_line" />
+    <facet name="Commentable" />
   </doctype>
 
   <doctype name="PageClasseur" extends="Page">

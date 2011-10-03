@@ -5,6 +5,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.DELETE;
@@ -20,6 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -71,6 +73,10 @@ public class PageListLineResource extends DefaultObject {
         if (args.length > 1) {
             parent = (PageList) args[1];
         }
+    }
+    
+    public List<DocumentModel> getComments() throws ClientException{
+        return doc.getAdapter(CommentableDocument.class).getComments();
     }
 
     @GET
