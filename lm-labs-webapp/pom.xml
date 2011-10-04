@@ -198,6 +198,20 @@
     </dependency>
 
     <dependency>
+      <groupId>org.nuxeo.ecm.opensocial</groupId>
+      <artifactId>nuxeo-opensocial-container</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.nuxeo.ecm.opensocial</groupId>
+      <artifactId>nuxeo-opensocial-features</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+
+
+    <dependency>
       <groupId>org.nuxeo.runtime</groupId>
       <artifactId>nuxeo-runtime-test</artifactId>
       <scope>test</scope>

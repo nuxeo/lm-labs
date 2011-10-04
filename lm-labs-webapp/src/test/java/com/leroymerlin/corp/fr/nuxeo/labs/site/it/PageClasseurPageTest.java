@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
-import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import org.nuxeo.runtime.test.runner.Jetty;
@@ -28,14 +27,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageClasseurPageRepositoryIn
 
 @RunWith(FeaturesRunner.class)
 @Features( { LabsWebAppFeature.class })
-@Deploy({
-    "org.nuxeo.ecm.platform.types.api",
-    "org.nuxeo.ecm.platform.types.core",
-    "org.nuxeo.ecm.platform.mimetype.api",
-    "org.nuxeo.ecm.platform.mimetype.core",
-    "org.nuxeo.ecm.platform.filemanager.api",
-    "org.nuxeo.ecm.platform.filemanager.core"
-})
 @Browser(type = BrowserFamily.FIREFOX)
 @HomePage(type = SitesRootPage.class, url = "http://localhost:8089/labssites")
 @RepositoryConfig(init = PageClasseurPageRepositoryInit.class)

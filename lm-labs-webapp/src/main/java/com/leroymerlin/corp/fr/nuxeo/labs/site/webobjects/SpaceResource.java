@@ -15,7 +15,12 @@ public class SpaceResource extends PageResource{
 
     public String getBaseUrl() {
         ServletRequest request = ctx.getRequest();
-        return VirtualHostHelper.getBaseURL(request);
+        String baseURL = VirtualHostHelper.getBaseURL(request);
+        if(baseURL.endsWith("//")) {
+            baseURL = baseURL.substring(0,baseURL.length() - 1);
+        }
+
+        return baseURL;
     }
 
 }

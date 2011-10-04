@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 public final class LabsSiteConstants {
-    
+
     public enum Schemas {
         PAGE("page", "pg"),
         PAGENEWS("page_news", "pgn"),
@@ -37,7 +37,7 @@ public final class LabsSiteConstants {
             return prefix;
         }
     }
-    
+
     public enum Docs {
         DEFAULT_DOMAIN("Domain", "default-domain"),
         SITESROOT("SitesRoot", "sites"),
@@ -54,8 +54,9 @@ public final class LabsSiteConstants {
         PAGELIST_LINE("PageListLine", StringUtils.EMPTY),
         FOLDER("Folder", StringUtils.EMPTY),
         WELCOME(PAGEBLOCS.type(), "welcome"),
-        HTMLPAGE("HtmlPage",StringUtils.EMPTY);
-        
+        HTMLPAGE("HtmlPage",StringUtils.EMPTY),
+        DASHBOARD("Space",StringUtils.EMPTY);
+
         private String docType;
         private String name;
 
@@ -64,12 +65,12 @@ public final class LabsSiteConstants {
             for (Docs op : values())
                 stringToEnum.put(op.type(), op);
         }
-        
+
         // Returns Operation for string, or null if string is invalid
         public static Docs fromString(String symbol) {
             return stringToEnum.get(symbol);
         }
-        
+
         private Docs(String docType, String name) {
             this.name = name;
             this.docType = docType;
@@ -88,12 +89,12 @@ public final class LabsSiteConstants {
         public String type() {
             return docType;
         }
-        
+
         public static EnumSet<Docs> pageDocs() {
             return EnumSet.of(HTMLPAGE, PAGE, PAGEBLOCS, PAGECLASSEUR, PAGELIST, PAGENEWS ,WELCOME);
         }
     }
-    
+
     private LabsSiteConstants() {}
 
 }

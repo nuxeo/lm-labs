@@ -27,7 +27,7 @@
           var nuxeo = {
             baseURL:"${This.baseUrl}",
             container: {
-              repositoryName: "default",
+              repositoryName: "${Session.repositoryName}",
               id:"${Document.id}",
               debug:false,
               builder: {
