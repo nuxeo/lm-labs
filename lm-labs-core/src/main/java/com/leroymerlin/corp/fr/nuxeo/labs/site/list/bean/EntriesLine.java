@@ -6,7 +6,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nuxeo.ecm.core.api.DocumentRef;
+import org.nuxeo.ecm.core.api.DocumentModel;
 
 
 /**
@@ -17,11 +17,11 @@ public class EntriesLine {
     
     private List<Entry> entries;
     
-    private DocumentRef docRef;
+    private DocumentModel docLine;
 
     public EntriesLine() {
         this.entries = new ArrayList<Entry>();
-        this.docRef = null;
+        this.docLine = null;
     }
 
     public List<Entry> getEntries() {
@@ -39,14 +39,6 @@ public class EntriesLine {
     public void addEntry(Entry pEntry){
         this.entries.add(pEntry);
     }
-
-    public DocumentRef getDocRef() {
-        return docRef;
-    }
-
-    public void setDocRef(DocumentRef docRef) {
-        this.docRef = docRef;
-    }
     
     public Entry getEntryByIdHead(int pIdHead){
         for (Entry entry:this.entries){
@@ -55,6 +47,14 @@ public class EntriesLine {
             }
         }
         return null;
+    }
+
+    public DocumentModel getDocLine() {
+        return docLine;
+    }
+
+    public void setDocLine(DocumentModel docLine) {
+        this.docLine = docLine;
     }
 
 }

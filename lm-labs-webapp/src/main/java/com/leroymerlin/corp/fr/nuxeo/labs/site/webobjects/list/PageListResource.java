@@ -142,7 +142,7 @@ public class PageListResource extends PageResource {
     public String getLineOnclick(EntriesLine pLine) throws ClientException{
         StringBuilder onclick = new StringBuilder();
         if(isAuthorized()){
-            onclick.append("onclick=\"javascript:modifyLine('").append(getPath()).append("/line/").append(pLine.getDocRef().reference()).append("');\" ");
+            onclick.append("onclick=\"javascript:modifyLine('").append(getPath()).append("/line/").append(pLine.getDocLine().getRef().reference()).append("');\" ");
         }
         return onclick.toString();
     }
@@ -211,13 +211,13 @@ public class PageListResource extends PageResource {
     @Path("line/{id}")
     public Object saveLine(@PathParam("id") final String pId) throws ClientException {
         DocumentModel docLine = getCoreSession().getDocument(new IdRef(pId));
-        return newObject(LabsSiteConstants.Docs.PAGELIST_LINE.type(), docLine, doc.getAdapter(PageList.class));
+        return newObject(LabsSiteConstants.Docs.PAGELIST_LINE.type(), docLine);
         
     }
     
     @Path(value="line")
     public Object saveLine() throws ClientException {
-        return newObject(LabsSiteConstants.Docs.PAGELIST_LINE.type(), doc, doc.getAdapter(PageList.class));
+        return newObject(LabsSiteConstants.Docs.PAGELIST_LINE.type(), doc);
     }
 
     /**

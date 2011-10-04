@@ -25,7 +25,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageListAdapter extends AbstractPage implements PageList {
 
-    private static final String LINE = "line";
+    public static final String LINE_TITTLE = "lineTitle";
     private static final String PGL_HEADERLIST = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":headerlist";
     private static final String ALL_CONTRIBUTORS = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":allContributors";
     private static final String COMMENTABLE_LINES = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":commentableLines";
@@ -183,7 +183,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         listDocLines = doc.getCoreSession().getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
         for (DocumentModel docTmp: listDocLines){
             EntriesLine line = docTmp.getAdapter(PageListLine.class).getLine();
-            line.setDocRef(docTmp.getRef());
+            line.setDocLine(docTmp);
             entriesLines.add(line);
         }
         return entriesLines;
@@ -196,12 +196,12 @@ public class PageListAdapter extends AbstractPage implements PageList {
     public void saveLine(EntriesLine pLine) throws ClientException {
         CoreSession session = doc.getCoreSession();
         DocumentModel lineDoc = null;
-        boolean isNew = pLine.getDocRef() == null;
+        boolean isNew = pLine.getDocLine() == null;
         if (isNew){
-            lineDoc = session.createDocumentModel(doc.getPathAsString(), LINE, LabsSiteConstants.Docs.PAGELIST_LINE.type());
+            lineDoc = session.createDocumentModel(doc.getPathAsString(), LINE_TITTLE, LabsSiteConstants.Docs.PAGELIST_LINE.type());
         }
         else{
-            lineDoc = session.getDocument(pLine.getDocRef());
+            lineDoc = pLine.getDocLine();
         }
         PageListLine line = lineDoc.getAdapter(PageListLine.class);
         line.setLine(pLine);
@@ -228,9 +228,9 @@ public class PageListAdapter extends AbstractPage implements PageList {
     @Override
     public EntriesLine getLine(DocumentRef pRef) throws ClientException {
         EntriesLine line = new EntriesLine();
-        line.setDocRef(pRef);
         DocumentModel lineDoc = doc.getCoreSession().getDocument(pRef);
         if (lineDoc != null){
+            line.setDocLine(lineDoc);
             line = lineDoc.getAdapter(PageListLine.class).getLine();
         }
         return line;

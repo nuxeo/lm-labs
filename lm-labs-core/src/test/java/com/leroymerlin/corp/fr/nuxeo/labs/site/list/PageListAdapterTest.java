@@ -173,7 +173,7 @@ public class PageListAdapterTest {
         assertThat(pageList.getLines().get(0).getEntries().get(0).getUrl(), notNullValue());
         assertThat(pageList.getLines().get(0).getEntries().get(0).getUrl().getName(), is("nameURL"));
         assertThat(pageList.getLines().get(0).getEntries().get(0).getUrl().getUrl(), is("http://www.google.fr"));
-        assertThat(pageList.getLines().get(0).getDocRef(), notNullValue());
+        assertThat(pageList.getLines().get(0).getDocLine(), notNullValue());
     }
     
     @Test
@@ -205,8 +205,8 @@ public class PageListAdapterTest {
         
         pageList.saveLine(line);
         assertThat(pageList.getLines().size(), is(1));
-        assertThat(pageList.getLines().get(0).getDocRef(), notNullValue());
-        pageList.removeLine(pageList.getLines().get(0).getDocRef());
+        assertThat(pageList.getLines().get(0).getDocLine(), notNullValue());
+        pageList.removeLine(pageList.getLines().get(0).getDocLine().getRef());
         assertThat(pageList.getLines().size(), is(0));
     }
     
@@ -238,7 +238,7 @@ public class PageListAdapterTest {
         line.getEntries().add(entry);
         
         pageList.saveLine(line);
-        EntriesLine line2 = pageList.getLine(pageList.getLines().get(0).getDocRef());
+        EntriesLine line2 = pageList.getLine(pageList.getLines().get(0).getDocLine().getRef());
         assertThat(line2, notNullValue());
         assertThat(line2.getEntries().size(), is(2));
     }

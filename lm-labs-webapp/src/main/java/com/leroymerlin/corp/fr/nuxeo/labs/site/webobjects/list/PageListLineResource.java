@@ -21,11 +21,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
-import org.nuxeo.ecm.webengine.model.impl.DefaultObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
@@ -43,7 +43,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBe
  */
 @WebObject(type = "PageListLine")
 @Produces("text/html; charset=UTF-8")
-public class PageListLineResource extends DefaultObject {
+public class PageListLineResource extends DocumentObject {
     
     private static final Log LOG = LogFactory.getLog(PageListLineResource.class);
     
@@ -57,21 +57,27 @@ public class PageListLineResource extends DefaultObject {
     
     private static final String EDIT_VIEW = "views/PageList/editLine.ftl";
     
-    private DocumentModel doc;
-    
     private PageList parent;
 
     @Override
-    protected void initialize(Object... args) {
-        if (args.length != 2) {
-            throw new WebException("Must give more 2 args");
+    public void initialize(Object... args) {
+        if (args.length != 1) {
+            throw new WebException("Must give 1 args");
         }
-
         if (args.length > 0) {
             doc = (DocumentModel) args[0];
-        }
-        if (args.length > 1) {
-            parent = (PageList) args[1];
+            if (LabsSiteConstants.Docs.PAGELIST_LINE.type().equals(doc.getType())){
+                try {
+                    DocumentModel docParent = doc.getCoreSession().getDocument(doc.getParentRef());
+                    parent = docParent.getAdapter(PageList.class);
+                } catch (ClientException e) {
+                    throw WebException.wrap(
+                            "Failed to get parent " + doc.getPathAsString(), e);
+                }
+            }
+            else{
+                parent = doc.getAdapter(PageList.class);
+            }
         }
     }
     
@@ -80,7 +86,8 @@ public class PageListLineResource extends DefaultObject {
     }
 
     @GET
-    public Object get() {
+    @Override
+    public Object doGet() {
         EntriesLine line = null;
         FreemarkerBean bean = null;
         try {
@@ -94,7 +101,8 @@ public class PageListLineResource extends DefaultObject {
     }
 
     @DELETE
-    public Object delete() {
+    @Override
+    public Response doDelete() {
         try {
             doc.getAdapter(PageListLine.class).removeLine();
         } catch (Exception e) {
@@ -111,7 +119,8 @@ public class PageListLineResource extends DefaultObject {
      * @return
      */
     @POST
-    public Object save() {
+    @Override
+    public Response doPost() {
         FormData form = ctx.getForm();
         String value = null;
         
@@ -122,7 +131,7 @@ public class PageListLineResource extends DefaultObject {
         EntriesLine entriesLine = new EntriesLine(); 
         try {
             if (LabsSiteConstants.Docs.PAGELIST_LINE.type().equals(doc.getType())){
-                entriesLine.setDocRef(doc.getRef());
+                entriesLine.setDocLine(doc);
             }
             headerSet = parent.getHeaderSet();
             for (Header head : headerSet){
