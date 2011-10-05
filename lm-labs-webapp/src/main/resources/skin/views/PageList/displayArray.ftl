@@ -20,7 +20,7 @@
           </td>
         </#list>
       <!-- Commentaires -->
-      <td class="labscomments_display" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/', '${entriesLine.docLine.id}');" alt="${Context.getMessage('label.comments.title')}"></td>
+      <td class="labscomments display" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/', '${entriesLine.docLine.id}');" alt="${Context.getMessage('label.comments.title')}"></td>
       </tr>
     </#list>
   </tbody>

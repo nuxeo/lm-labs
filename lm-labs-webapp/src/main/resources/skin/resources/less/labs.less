@@ -118,42 +118,45 @@ html>body {
   float: right;
 }
 
-.labscomments_display{
-  background-image: url(../images/comments.png);
-  background-repeat: no-repeat;
-  background-position:center;
-  cursor: pointer;
-  width: 15px;
-}
+.labscomments {
 
-.labscomments_delete{
-  background-image: url(../images/x.gif);
-  background-repeat: no-repeat;
-  background-position:center;
-  height: 100%;
-  position: absolute;
-  top: 0px;
-  width: 15px;
-  right: 5px;
-  cursor: pointer;
-}
-
-input[type="text"],
-textarea.labscomments {
-    width:520px;
-    height:75px;
+	&.text{
+    	width:520px;
+    	height:75px;
     }
 
-.labscomments_author {
-  color:grey;
-  font-style:italic;
-  padding-top:5px;
+	&.display{
+		background-image: url(../images/comments.png);
+		background-repeat: no-repeat;
+		background-position:center;
+		cursor: pointer;
+		width: 15px;
+	}
+
+	&.delete{
+	  background-image: url(../images/x.gif);
+	  background-repeat: no-repeat;
+	  background-position:center;
+	  height: 100%;
+	  position: absolute;
+	  top: 0px;
+	  width: 15px;
+	  right: 5px;
+	  cursor: pointer;
+	}
+	
+	&.author {
+	  color:grey;
+	  font-style:italic;
+	  padding-top:5px;
+	}
+	
+	&.by {
+	  display:inline-block;
+	  width:95%;
+	  color:black;
+	  font-style:italic;
+	}
 }
 
-.labscomments_by {
-  display:inline-block;
-  width:95%;
-  color:black;
-  font-style:italic;
-}
 

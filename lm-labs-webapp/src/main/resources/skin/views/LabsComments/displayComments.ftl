@@ -5,7 +5,7 @@
 			<form id="form-commentable" method="post" class="form" action="${This.path}/@comments">
 				<!--         Comment      ------->
 				<div class="clearfix" style="margin-bottom: 0px;margin-left: 0px;">
-					<textarea name="text" id="text" class="labscomments"></textarea>
+					<textarea name="text" id="text" class="labscomments text"></textarea>
 				</div>
 			</form>
 		<#else>

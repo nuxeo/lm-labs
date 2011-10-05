@@ -26,8 +26,10 @@ import org.nuxeo.runtime.api.Framework;
  * @author fvandaele
  *
  */
-@WebAdapter(name = "labscomments", type = "LabsComments", targetType = "Document", targetFacets = { "Commentable" })
+@WebAdapter(name = "labscomments", type = "LabsComments", targetFacets = { "Commentable" })
 public class LabsCommentsService extends CommentService {
+    
+    Map<String, String> mapUserName = new HashMap<String, String>();
 
     @Override
     protected void initialize(Object... args) {
@@ -50,34 +52,31 @@ public class LabsCommentsService extends CommentService {
     }
 
     private void loadFullName(List<DocumentModel> comments) throws Exception {
-        Map<String, String> map = new HashMap<String, String>();
+        mapUserName = new HashMap<String, String>();
         if (!comments.isEmpty()){
             UserManager userManager = Framework.getService(UserManager.class);
             String author = null;
             NuxeoPrincipal user = null;
             for(DocumentModel comment : comments){
                 author = (String)comment.getPropertyValue("comment:author");
-                if (!map.containsKey(author)){
+                if (!mapUserName.containsKey(author)){
                     user = userManager.getPrincipal(author);
                     if (user != null){
-                        map.put(author, user.getFirstName() + " " + user.getLastName());
+                        mapUserName.put(author, user.getFirstName() + " " + user.getLastName());
                     }
                     else{
-                        map.put(author, null);
-                    }
-                }
-            }
-            String newAuthor = null;
-            for(DocumentModel comment : comments){
-                author = (String)comment.getPropertyValue("comment:author");
-                if (map.containsKey(author)){
-                    newAuthor = map.get(author);
-                    if (newAuthor != null){
-                        comment.setPropertyValue("comment:author", newAuthor);
+                        mapUserName.put(author, author);
                     }
                 }
             }
         }
+    }
+    
+    public String getFullName(String pAuthor){
+        if (mapUserName.containsKey(pAuthor)){
+            return mapUserName.get(pAuthor);
+        }
+        return "";
     }
 
 }
