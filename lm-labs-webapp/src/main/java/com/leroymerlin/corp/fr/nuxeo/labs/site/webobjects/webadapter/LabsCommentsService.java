@@ -9,11 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.rest.CommentService;
 import org.nuxeo.ecm.core.rest.DocumentObject;
@@ -37,12 +34,11 @@ public class LabsCommentsService extends CommentService {
     }
     
     @GET
-    @Path("{id}")
-    public Object doGet(@PathParam("id") final String pId) {
+    public Object doGet() {
         List<DocumentModel> comments = new ArrayList<DocumentModel>();
         try{
             DocumentObject dobj = (DocumentObject) getTarget();
-            DocumentModel docLine = dobj.getCoreSession().getDocument(new IdRef(pId));
+            DocumentModel docLine = dobj.getDocument();
             comments = getCommentManager().getComments(docLine);
             loadFullName(comments);
         } catch (Exception e) {

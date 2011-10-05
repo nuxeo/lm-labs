@@ -22,7 +22,6 @@
 </div>
 <script type="text/javascript">
 	var urlActionBase = null;
-	var urlActionEnd = null;
 	
 	jQuery(document).ready(function(){
 			initModalComments('divCommentable');
@@ -36,9 +35,8 @@
 		});
 	}
 
-	function openComments(url, endUrl){
+	function openComments(url){
 		urlActionBase = url;
-		urlActionEnd = endUrl;
 		getComments();
 		jQuery("#divCommentable").dialog2('open');
 		jQuery("#form-commentable").clearForm();
@@ -80,7 +78,7 @@
 	function getComments() {
 		jQuery.ajax({
 			type : "GET",
-			url : urlActionBase + urlActionEnd,
+			url : urlActionBase,
 			data : '',
 			success : function(msg) {
 				jQuery("#divListComments")[0].innerHTML = msg;
