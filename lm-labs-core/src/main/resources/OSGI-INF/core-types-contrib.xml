@@ -57,6 +57,7 @@
 
     <doctype name="Page" extends="OrderedFolder">
       <schema name="page" />
+      <facet name="Commentable" />
     </doctype>
 
     <doctype name="ExternalURL" extends="Document">

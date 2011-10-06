@@ -20,28 +20,19 @@ import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
-import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsCommentFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
-@Features(SiteFeatures.class)
+@Features({SiteFeatures.class, LabsCommentFeature.class})
 @RepositoryConfig(cleanup=Granularity.METHOD)
-@Deploy( { "org.nuxeo.ecm.relations.api", "org.nuxeo.ecm.relations",
-        "org.nuxeo.ecm.relations.core.listener",
-        "org.nuxeo.ecm.relations.jena",
-        "com.leroymerlin.labs.core.test:commentService-config-bundle.xml",
-        "com.leroymerlin.labs.core.test:relation-config-bundle.xml",
-        "org.nuxeo.ecm.platform.comment.api",
-        "org.nuxeo.ecm.platform.comment.core",
-        "org.nuxeo.ecm.platform.comment:OSGI-INF/comment-listener-contrib.xml",
-        "org.nuxeo.ecm.platform.comment:OSGI-INF/CommentService.xml"})
 public class PageListLineAdapterTest {
     private static final boolean CHECKBOX = true;
     private static final Calendar CAL = Calendar.getInstance();
