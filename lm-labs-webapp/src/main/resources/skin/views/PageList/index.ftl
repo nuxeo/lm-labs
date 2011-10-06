@@ -85,5 +85,6 @@
 				</#if>
 			</script>
 		</div>
+		<hr />
 	</@block>
 </@extends>		

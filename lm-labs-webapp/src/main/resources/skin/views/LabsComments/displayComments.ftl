@@ -1,5 +1,5 @@
 <div id="divCommentable"  class="fixed-container dialog2" style="display: none;">
-	<h1>${Context.getMessage('label.comments.title')}</h1>
+	<h1 id="titleComments">${Context.getMessage('label.comments.title')}</h1>
 	<div class="fixed-container" style="">
 		<#if !Context.principal.anonymous>
 			<form id="form-commentable" method="post" class="form" action="${This.path}/@comments">
@@ -22,6 +22,7 @@
 </div>
 <script type="text/javascript">
 	var urlActionBase = null;
+	var titleComments = '${Context.getMessage('label.comments.title')?js_string}';
 	
 	jQuery(document).ready(function(){
 			initModalComments('divCommentable');
@@ -82,6 +83,7 @@
 			data : '',
 			success : function(msg) {
 				jQuery("#divListComments")[0].innerHTML = msg;
+				jQuery("#divCommentable").dialog2("options", {title: $('#divTitleComments')[0].innerHTML});
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);

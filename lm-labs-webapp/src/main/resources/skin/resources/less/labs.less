@@ -121,9 +121,22 @@ html>body {
 .labscomments {
 
 	&.text{
-    	width:520px;
+    	width:510px;
     	height:75px;
     }
+
+	&.comment{
+      display: block;
+	  padding: 5px;
+	  border: 1px dashed #CCC;
+	  padding: 5px 5px 0;
+    }
+    
+    &.comment > span{
+	  display: block;
+	  margin-bottom: 10px;
+	  color: black;
+	}
 
 	&.display{
 		background-image: url(../images/comments.png);
@@ -138,11 +151,13 @@ html>body {
 	  background-repeat: no-repeat;
 	  background-position:center;
 	  height: 100%;
-	  position: absolute;
+	  position: relative;
 	  top: 0px;
 	  width: 15px;
 	  right: 5px;
 	  cursor: pointer;
+	  float: right;
+	  margin-bottom: 0;
 	}
 	
 	&.author {
@@ -152,11 +167,41 @@ html>body {
 	}
 	
 	&.by {
-	  display:inline-block;
-	  width:95%;
-	  color:black;
-	  font-style:italic;
+	  font-size: 11px;
+  	  display: inline-block;
+  	  width: 100%;
 	}
+	
+	&.by > span {
+	  color: #ff9a00;
+	  font-weight: bold;
+	}
+	
+	&.footer {
+	  display: inline;
+	  font-size: 10px;
+  	  color: #797a7b;
+ 	  margin-top: 3px;
+ 	  margin-bottom:0;
+	}
+	
+	&.footer > span {
+	  
+	}
+}
+
+li.labscomments {
+	  position: relative;
+	  padding-left: 10px;
+	  padding-bottom: 15px;
+	}
+
+/*overload patterns.less by bootstrap*/
+.modal-body {
+  padding: 15px;
+  height: 400px;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 
 
