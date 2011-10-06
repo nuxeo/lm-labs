@@ -4,8 +4,10 @@
       <#list bean.headersSet as header>
         <th class="header headerSortDown" ${This.getLineStyle(header)} >${header.name}</th>
       </#list>
-      <!-- Commentaires -->
-      <th class="header">&nbsp;</th>
+      <#if This.isCommantableLines()>
+	      <!-- Commentaires -->
+	      <th class="header">&nbsp;</th>
+	     </#if>
     </tr>
   </thead>
   <tbody>
@@ -19,8 +21,10 @@
             </#if>
           </td>
         </#list>
-      <!-- Commentaires -->
-      <td class="labscomments display" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');" alt="${Context.getMessage('label.comments.title')}"></td>
+      	<#if This.isCommantableLines()>
+     		<!-- Commentaires -->
+      		<td class="labscomments display" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');" alt="${Context.getMessage('label.comments.title')}"></td>
+      	</#if>
       </tr>
     </#list>
   </tbody>

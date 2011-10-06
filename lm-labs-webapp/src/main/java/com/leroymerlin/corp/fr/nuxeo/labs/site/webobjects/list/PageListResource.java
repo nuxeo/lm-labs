@@ -67,6 +67,8 @@ public class PageListResource extends PageResource {
     private static final String BASE_KEY = "order_";
     
     private Boolean allContributors = null;
+    
+    private Boolean commentableLines = null;
 
     private static final Log LOG = LogFactory.getLog(PageListResource.class);
 
@@ -158,6 +160,16 @@ public class PageListResource extends PageResource {
             }
         }
         return this.allContributors;
+    }
+    
+    public boolean isCommantableLines() throws ClientException{
+        if (this.commentableLines == null){
+            this.commentableLines = false;
+            if (doc.getAdapter(PageList.class).isCommentableLines()){
+                this.commentableLines = true;
+            }
+        }
+        return this.commentableLines;
     }
 
     @POST
