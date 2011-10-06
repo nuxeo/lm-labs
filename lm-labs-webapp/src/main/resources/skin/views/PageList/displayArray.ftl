@@ -20,12 +20,12 @@
           </td>
         </#list>
       <!-- Commentaires -->
-      <td class="labscomments display" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/', '${entriesLine.docLine.id}');" alt="${Context.getMessage('label.comments.title')}"></td>
+      <td class="labscomments display" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');" alt="${Context.getMessage('label.comments.title')}"></td>
       </tr>
     </#list>
   </tbody>
 </table>
-<#include "/views/LabsComments/displayComments.ftl" />
+<#include "/views/LabsComments/displayModalComments.ftl" />
 <#if 0 < bean.entriesLines?size>
   <script type="text/javascript">
     $("table#sortArray").tablesorter({

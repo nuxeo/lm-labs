@@ -56,6 +56,7 @@
 			</#if>
 			<div id="divDisplayArray" class="container">
 				<#include "/views/PageList/displayArray.ftl" />
+				<#include "/views/LabsComments/displayComments.ftl" />
 			</div>
 			<script type="text/javascript">
 				var msg_title = "${Context.getMessage('label.pageList.edit.manage.title')}";

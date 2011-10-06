@@ -10,12 +10,14 @@ import java.util.Map;
 
 import javax.ws.rs.GET;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.rest.CommentService;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.ecm.webengine.WebException;
+import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.runtime.api.Framework;
 
@@ -44,7 +46,15 @@ public class LabsCommentsService extends CommentService {
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
-        return getView("index").arg("comments", comments);
+        Template view = getView("index").arg("comments", comments);
+        String isPage = ctx.getForm().getString("isPage");
+        if (!StringUtils.isEmpty(isPage) && "yes".equals(isPage)){
+            view.arg("deleteComment", "deleteCommentPage").arg("divTitleComments", "divTitleCommentsPage");
+        }
+        else{
+            view.arg("deleteComment", "deleteComment").arg("divTitleComments", "divTitleComments");
+        }
+        return view;
     }
 
     private void loadFullName(List<DocumentModel> comments) throws Exception {
