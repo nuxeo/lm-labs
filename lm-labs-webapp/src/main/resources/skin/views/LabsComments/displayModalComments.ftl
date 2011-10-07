@@ -30,6 +30,9 @@
 	
 	function initModalComments(name){
 		jQuery("#" + name).dialog2({
+			height : '400px',
+			overflowy : 'auto',
+			overflowx : 'hidden',
 			showCloseHandle : false,
 			removeOnClose : true,
 			autoOpen : false

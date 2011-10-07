@@ -2,10 +2,13 @@ jQuery(document).ready(function() {
 	initModal();
 });
 
+
 function initModal(){
 	jQuery("#divEditLine").dialog2({
-		width : 550,
-		height : 400,
+		width : '530px',
+		height : '400px',
+		overflowy : 'auto',
+		overflowx : 'hidden',
 		showCloseHandle : false,
 		removeOnClose : true,
 		autoOpen : false
