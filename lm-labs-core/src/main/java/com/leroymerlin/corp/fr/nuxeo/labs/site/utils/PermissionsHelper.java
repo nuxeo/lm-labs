@@ -81,7 +81,8 @@ public class PermissionsHelper {
                                     .getLastName();
                 }
             }
-        }
+        } 
+        //
         return displayName;
     }
 
