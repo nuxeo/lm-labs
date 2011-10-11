@@ -17,8 +17,8 @@ import org.nuxeo.runtime.model.DefaultComponent;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityData;
-import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
+import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 
 public class SiteManagerImpl extends DefaultComponent implements SiteManager {
 
@@ -42,6 +42,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         labSite.setTitle(title);
         labSite.setURL(url);
         docLabsSite = session.createDocument(docLabsSite);
+        SecurityDataHelper.blockInheritedSecurity(docLabsSite);
         return docLabsSite.getAdapter(LabsSite.class);
     }
 

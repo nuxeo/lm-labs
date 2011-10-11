@@ -7,9 +7,9 @@ import java.net.URL;
 
 import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.webengine.jaxrs.session.SessionFactory;
-import org.nuxeo.opensocial.service.api.OpenSocialService;
-import org.nuxeo.opensocial.servlet.AuthenticationFilterDelayer;
-import org.nuxeo.opensocial.servlet.ContextListenerDelayer;
+//import org.nuxeo.opensocial.service.api.OpenSocialService;
+//import org.nuxeo.opensocial.servlet.AuthenticationFilterDelayer;
+//import org.nuxeo.opensocial.servlet.ContextListenerDelayer;
 import org.nuxeo.runtime.api.Framework;
 import org.nuxeo.runtime.test.WorkingDirectoryConfigurator;
 import org.nuxeo.runtime.test.runner.Deploy;
@@ -83,10 +83,10 @@ public class OpenSocialFeature extends SimpleFeature implements
     public void frameworkEvent(FrameworkEvent event) {
         try {
             if (event.getType() == FrameworkEvent.STARTED) {
-                Framework.getService(OpenSocialService.class)
-                        .setupOpenSocial();
-                ContextListenerDelayer.activate(event);
-                AuthenticationFilterDelayer.activate(event);
+//                Framework.getService(OpenSocialService.class)
+//                        .setupOpenSocial();
+//                ContextListenerDelayer.activate(event);
+//                AuthenticationFilterDelayer.activate(event);
             }
         } catch (Exception e) {
             e.printStackTrace();
