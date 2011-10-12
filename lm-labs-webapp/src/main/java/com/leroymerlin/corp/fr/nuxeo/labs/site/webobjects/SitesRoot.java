@@ -3,6 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +17,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -34,6 +39,7 @@ import com.leroymerlin.common.freemarker.BytesFormatTemplateMethod;
 import com.leroymerlin.common.freemarker.DateInWordsMethod;
 import com.leroymerlin.common.freemarker.UserFullNameTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
@@ -79,7 +85,7 @@ public class SitesRoot extends ModuleRoot {
     public Object doGetDefaultView() {
         return getView("index");
     }
-
+    
     @Path("{url}")
     public Object doGetSite(@PathParam("url") final String pURL) {
         CoreSession session = getContext().getCoreSession();
@@ -90,6 +96,18 @@ public class SitesRoot extends ModuleRoot {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         } catch (SiteManagerException e) {
+            throw new WebResourceNotFoundException(e.getMessage(), e);
+        }
+    }
+
+    @Path("id/{id}")
+    public Object doGetPageById(@PathParam("id") String id) throws URIException, URISyntaxException {
+        CoreSession session = getContext().getCoreSession();
+        DocumentModel document;
+        try {
+            document = session.getDocument(new IdRef(id));
+            return (DocumentObject) ctx.newObject(document.getType(), document);
+        } catch (ClientException e) {
             throw new WebResourceNotFoundException(e.getMessage(), e);
         }
     }
@@ -183,5 +201,15 @@ public class SitesRoot extends ModuleRoot {
         }
         return messages;
 
+    }
+
+    @Override
+    public String getLink(DocumentModel document) {
+        SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
+        try {
+            return new StringBuilder().append(getPath()).append("/").append(siteDocument.getResourcePath()).toString();
+        } catch (ClientException e) {
+            return getPath();
+        }
     }
 }

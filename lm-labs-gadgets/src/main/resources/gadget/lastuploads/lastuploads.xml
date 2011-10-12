@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <ModulePrefs title="Last Uploaded Attachements"
+    description="Lists the last uploaded attachements"
+    author="vdutat" author_email="vincent.dutat@ext.leroymerlin.fr"
+    thumbnail="${clientSideBaseUrl}site/gadgets/lastuploads/last_uploads.png"
+    screenshot="${clientSideBaseUrl}site/gadgets/lastuploads/screenshot.png"
+    >
+    <Require feature="nuxeo" />
+    <Require feature="setprefs"/>
+    <#include "dynamic-translations.ftl"/>
+    <Require feature="dynamic-height" />
+    <#include "default-oauth-prefs.ftl"/>
+  </ModulePrefs>
+  <#include "context-prefs.ftl"/>
+  <Content type="html">
+
+<![CDATA[
+<html>
+  <head>
+
+  <link rel="stylesheet" type="text/css" href="${specDirectoryUrl}gadget-common.css"/>
+  <link rel="stylesheet" type="text/css" href="${specDirectoryUrl}documentlists.css"/>
+
+  <!-- insert JS Context -->
+  ${jsContext}
+
+  <script src="${specDirectoryUrl}default-automation-request.js"></script>
+  <script src="${specDirectoryUrl}default-documentlist-display.js"></script>
+  <script src="${specDirectoryUrl}context-management.js"></script>
+
+    <script type="text/javascript" language="javascript" src="lastuploads.js"></script>
+  <script type="text/javascript">
+    var prefs = new gadgets.Prefs();
+
+	var idGadget = gadgets.nuxeo.getGadgetId();
+	var labsSiteName = getSiteName(idGadget);
+    var requestScope = getTargetContextPath();
+    // configure Automation REST call
+    var NXRequestParams = {
+      operationId: 'LabsSite.LastUploads',
+      operationParams: {
+        pageSize: 5,
+        docId: idGadget
+      },
+      operationContext: {},
+      operationDocumentProperties: "uid,common,dublincore",
+      entityType: 'documents',
+      usePagination: false,
+      displayMethod: displayDocumentList,
+      displayColumns: [
+        {type: 'builtin', field: 'download', label: ' ', tooltip: '__MSG_label.gadget.download__'},
+        {type: 'builtin', field: 'icon', label: ' '},
+        {type: 'builtin', field: 'titleWithLabsLink', label: '__MSG_label.dublincore.title__', tooltip: '__MSG_label.gadget.preview__'},
+        {type: 'date', field: 'dc:modified', label: '__MSG_label.dublincore.modified__'},
+        {type: 'text', field: 'dc:creator', label: '__MSG_label.dublincore.creator__'}
+      ],
+      noEntryLabel: '__MSG_label.gadget.no.document__'
+    };
+
+    // execute automation request onload
+    gadgets.util.registerOnLoadHandler(function() {
+      initContextPathSettingsButton();
+      doAutomationRequest(NXRequestParams);
+    });
+  </script>
+
+  </head>
+   <body>
+   <div class="tools">
+     <#include "context-chooser-ui.ftl"/>
+   </div>
+   <div id="content">
+     <#include "default-documentlist-layout.ftl"/>
+     <#include "default-request-controls.ftl"/>
+   </div>
+  </body>
+</html>
+]]>
+  </Content>
+</Module>

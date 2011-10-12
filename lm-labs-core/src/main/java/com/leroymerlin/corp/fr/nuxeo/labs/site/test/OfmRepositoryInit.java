@@ -41,7 +41,7 @@ public class OfmRepositoryInit implements RepositoryInit {
 
             session.save();
         } catch (SiteManagerException e) {
-            // Site already exists... do nothinf
+            // Site already exists... do nothing
         }
 
     }

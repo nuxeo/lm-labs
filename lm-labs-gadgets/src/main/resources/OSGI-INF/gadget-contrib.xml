@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.gadgets" version="1.0">
+
+  <extension target="org.nuxeo.opensocial.gadgets.service" point="gadget">
+
+    <internalGadget name="lastuploads" disabled="false">
+      <mountPoint>/lastuploads</mountPoint>
+      <entryPoint>lastuploads.xml</entryPoint>
+      <category>Labs</category>
+      <icon>last_uploads.png.png</icon>
+    </internalGadget>
+
+  </extension>
+</component>
