@@ -176,6 +176,10 @@
       <artifactId>lm-labs-web</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.leroymerlin.labs</groupId>
+      <artifactId>lm-labs-gadgets</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
       <artifactId>nuxeo-platform-rating-core</artifactId>
     </dependency>
