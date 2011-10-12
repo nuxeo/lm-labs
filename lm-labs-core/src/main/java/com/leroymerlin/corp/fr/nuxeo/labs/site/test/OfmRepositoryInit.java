@@ -58,7 +58,7 @@ public class OfmRepositoryInit implements RepositoryInit {
 
     }
 
-    protected SiteManager getSiteManager() {
+    protected static SiteManager getSiteManager() {
         try {
             return Framework.getService(SiteManager.class);
         } catch (Exception e) {
