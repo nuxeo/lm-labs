@@ -232,6 +232,11 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
+        <groupId>com.leroymerlin.labs</groupId>
+        <artifactId>lm-labs-gadgets</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.nuxeo.ecm.core</groupId>
         <artifactId>nuxeo-core-api</artifactId>
         <version>${nuxeo.version}</version>
