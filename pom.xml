@@ -17,6 +17,7 @@
 
   <modules>
     <module>lm-labs-core</module>
+    <module>lm-labs-gadgets</module>
     <module>lm-labs-webapp</module>
     <module>lm-labs-web</module>
   </modules>
@@ -318,6 +319,19 @@
         <artifactId>nuxeo-platform-types-core</artifactId>
         <version>${nuxeo.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.nuxeo.ecm.automation</groupId>
+        <artifactId>nuxeo-automation-core</artifactId>
+        <version>${nuxeo.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.nuxeo.ecm.automation</groupId>
+        <artifactId>nuxeo-automation-features</artifactId>
+        <version>${nuxeo.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.nuxeo.ecm.platform</groupId>
         <artifactId>nuxeo-platform-test</artifactId>

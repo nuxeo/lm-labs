@@ -11,13 +11,12 @@
     </genericPageProvider>
 
 <!-- 
-    <coreQueryPageProvider name="latest_uploads">
+    <coreQueryPageProvider name="latest_uploads_nxql">
       <pattern quoteParameters="true" escapeParameters="true">
-        SELECT * FROM Document WHERE ecm:mixinType != 'HiddenInNavigation'
+        SELECT * FROM Document WHERE ecm:mixinType <> 'HiddenInNavigation'
         AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
         AND ecm:path STARTSWITH ?
       </pattern>
-      <!- sort column="dc:title" ascending="true" / sort by fulltext relevance ->
       <pageSize>5</pageSize>
       <sort column="dc:modified" ascending="false" />
     </coreQueryPageProvider>
