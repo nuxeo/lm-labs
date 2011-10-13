@@ -187,19 +187,19 @@
             }
             
             if (options.width) {
-                $(".modal", overlay).attr("style", $(".modal", overlay).attr("style") + "width: " + options.width + ";");
+                $(".modal", overlay).attr("style", $(".modal", overlay).attr("style") + ";width: " + options.width + ";");
             }
             
             if (options.height) {
-                $(".modal-body", overlay).attr("style", $(".modal-body", overlay).attr("style") + "height: " + options.height + ";");
+                $(".modal-body", overlay).attr("style", $(".modal-body", overlay).attr("style") + ";height: " + options.height + ";");
             }
             
             if (options.overflowy) {
-                $(".modal-body", overlay).attr("style", $(".modal-body", overlay).attr("style") + "overflow-y: " + options.overflowy + ";");
+                $(".modal-body", overlay).attr("style", $(".modal-body", overlay).attr("style") + ";overflow-y: " + options.overflowy + ";");
             }
             
             if (options.overflowx) {
-                $(".modal-body", overlay).attr("style", $(".modal-body", overlay).attr("style") + "overflow-x: " + options.overflowx + ";");
+                $(".modal-body", overlay).attr("style", $(".modal-body", overlay).attr("style") + ";overflow-x: " + options.overflowx + ";");
             }
             
             if (options.buttons) {

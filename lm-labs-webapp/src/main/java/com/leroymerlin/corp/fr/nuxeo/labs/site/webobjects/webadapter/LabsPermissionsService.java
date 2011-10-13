@@ -53,7 +53,7 @@ public class LabsPermissionsService extends DefaultAdapter {
         GRANT, REMOVE;
     }
     
-    public enum LabsRights {
+    public enum Rights {
         
         EVERYTHING("Everything"),
         WRITE("Write"),
@@ -61,7 +61,7 @@ public class LabsPermissionsService extends DefaultAdapter {
         
         private String right;
         
-        LabsRights(String right){
+        Rights(String right){
             this.right = right;
         }
         
@@ -94,7 +94,21 @@ public class LabsPermissionsService extends DefaultAdapter {
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
-        return getView("displayArray").arg("permissions", permissions);
+        List<LMPermission> permissionsAdmin = new ArrayList<LMPermission>();
+        List<LMPermission> permissionsWrite = new ArrayList<LMPermission>();
+        List<LMPermission> permissionsRead = new ArrayList<LMPermission>();
+        for(LMPermission perm:permissions){
+            if (Rights.EVERYTHING.right.equals(perm.getPermission())){
+                permissionsAdmin.add(perm);
+            }
+            else if(Rights.WRITE.right.equals(perm.getPermission())){
+                permissionsWrite.add(perm);
+            }
+            else if(Rights.READ.right.equals(perm.getPermission())){
+                permissionsRead.add(perm);
+            }
+        }
+        return getView("displayArray").arg("permissionsAdmin", permissionsAdmin).arg("permissionsWrite", permissionsWrite).arg("permissionsRead", permissionsRead);
     }
 
     /**
@@ -122,20 +136,6 @@ public class LabsPermissionsService extends DefaultAdapter {
             params.put("errorMessage", e.getMessage());
         }
         return getView("selectUsers").args(params);
-    }
-    
-    @GET
-    @Path("labsrights")
-    @Produces("plain/text")
-    public Object getLabsRigthts() {
-        List<Enum<LabsRights>> labsRights = new ArrayList<Enum<LabsRights>>();
-        for (Enum<LabsRights> labsRight : LabsRights.values()) {
-            labsRights.add(labsRight);
-        }
-        if (labsRights.isEmpty()){
-            throw new WebException(THE_RIGHT_LIST_DONT_BE_NULL);
-        }
-        return getView("selectRights").arg("rightSelectItems", labsRights);
     }
 
     @GET
@@ -171,7 +171,7 @@ public class LabsPermissionsService extends DefaultAdapter {
     private List<String> getListRights() {
         List<String> labsRightsString = new ArrayList<String>();
         
-        for (LabsRights labsRight : LabsRights.values()) {
+        for (Rights labsRight : Rights.values()) {
             labsRightsString.add(labsRight.getRight());
         }
         if (labsRightsString.isEmpty()){
