@@ -14,7 +14,7 @@
           <ul class="nav secondary-nav">
             <#if site?? >
             <li>
-              <form action="${Context.modulePath}/${site.URL}/@search">
+              <form accept-charset="ISO-8859-1" action="${Context.modulePath}/${site.URL}/@search">
               <input class="normal" placeholder="${Context.getMessage('label.search')}" name="fullText"/>
               </form>
             </li>
