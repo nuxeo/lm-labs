@@ -24,6 +24,8 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.GroupUserSuggest;
 
+
+//TODO move to lm-nuxeo-common and delete from lm-portal-common
 /**
  * @author <a href="mailto:vincent.dutat@ext.leroymerlin.fr">Vincent Dutat</a>
  *

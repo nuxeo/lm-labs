@@ -12,6 +12,8 @@ import org.nuxeo.ecm.core.api.security.impl.ACPImpl;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.common.core.security.SecurityDataConverter;
 
+
+//TODO move to lm-nuxeo-common and delete from lm-portal-common
 public class SecurityDataHelper {
 
     // Static class

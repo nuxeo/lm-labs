@@ -27,6 +27,7 @@ import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 
+//TODO move to lm-nuxeo-common and delete from lm-portal-common
 /**
  * 
  */
