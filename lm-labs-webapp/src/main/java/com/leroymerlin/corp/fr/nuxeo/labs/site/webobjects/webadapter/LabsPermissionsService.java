@@ -55,9 +55,9 @@ public class LabsPermissionsService extends DefaultAdapter {
     
     public enum Rights {
         
-        EVERYTHING("Everything"),
-        WRITE("Write"),
-        READ("Read");
+        EVERYTHING(SecurityConstants.EVERYTHING),
+        WRITE(SecurityConstants.READ_WRITE),
+        READ(SecurityConstants.READ);
         
         private String right;
         
