@@ -2,7 +2,7 @@
 
   <h1>${Document.dublincore.description}</h1>
 <#list This.getLinks("PAGE_DESCRIPTION_BEFORE_BUTTONS") as link>
-    <button class="btn small" id="${link.id}">${Context.getMessage('command.Page.' + link.id)}</button>
+    <button class="btn small editblock" id="${link.id}">${Context.getMessage('command.Page.' + link.id)}</button>
 </#list>
   <div id="pageDescriptionEditDiv" style="display:none;">
     <form id="pageDescriptionForm" action="${This.path}" method="POST" >

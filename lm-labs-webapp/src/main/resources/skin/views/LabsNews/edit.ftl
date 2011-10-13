@@ -27,7 +27,7 @@
     <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
   </div>
 
-  <a class="btn open-dialog" rel="editprops">Modifier les propriétés</a>
+  <a class="btn open-dialog editblock" rel="editprops">Modifier les propriétés</a>
 <div id="editprops">
 <h1>Editer les information de la news</h1>
 <form method="post" action="${This.path}" class="well">
@@ -121,10 +121,6 @@
       initEditDateNews();
   });
 </script>
-
-
-
-
 
       </div> <!-- /container -->
   </@block>

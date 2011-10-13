@@ -46,7 +46,7 @@
 
 
         <#if canWrite>
-        <div class="row">
+        <div class="row editblock">
 
           <div class="span16 columns">
             <a href="#" rel="addfile_${folder.document.id}_modal" class="btn open-dialog" >Ajouter un fichier</a>
@@ -98,7 +98,7 @@
   </#list>
   </#if>
 
-  <div id="classeurBottomActions">
+  <div id="classeurBottomActions" class="editblock">
     <#list This.getLinks("BOTTOM_ACTIONS") as link>
       <button class="btn" id="${link.id}">${Context.getMessage('command.' + Document.type + '.' + link.id)}</button>
     </#list>
@@ -142,7 +142,7 @@
   <table class="zebra-striped classeurFiles bs" >
   <thead>
     <tr>
-      <th>
+      <th class="editblock">
       <#if canWrite>
         <input type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
       </#if>
@@ -159,7 +159,7 @@
   <tbody>
   <#list folder.files as child>
   <tr class="main ${child.id}">
-    <td>
+    <td class="editblock">
     <#if child.facets?seq_contains("Folderish") == false >
       <#if canWrite>
         <input type="checkbox" name="checkoptions" value="${child.id}" />
@@ -180,7 +180,7 @@
       <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
       <td>
       <#if canWrite>
-            <button class="btn danger" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
+            <button class="btn danger editblock" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
       </#if>
         <a class="btn small" href="${This.path}/${folder.document.name}/${child.name}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
         <a class="btn small" href="${This.path}/${folder.document.name}/${child.name}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>

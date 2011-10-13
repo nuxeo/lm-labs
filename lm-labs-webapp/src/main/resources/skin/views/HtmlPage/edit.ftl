@@ -195,11 +195,5 @@
          </form>
          </div>
       </div>
-
-      <script type="text/javascript">
-        $(document).bind('keyup', 'e', function() {
-          $(".editblock").toggle();
-        });
-      </script>
   </@block>
 </@extends>

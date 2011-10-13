@@ -2,11 +2,14 @@
 
   <#if !Context.principal.isAnonymous() && canWrite>
     <div onmouseover="tooltip('${Context.getMessage('tooltip.ckeditor.inline')}');" onmouseout="exit();">
+      
       <div class="well">
-      <div id="commentField" formWysiwyg">${Document.page.commentaire}</div>
-      <div style="clear:both;"></div>
+      	<div id="commentField" formWysiwyg">${Document.page.commentaire}</div>
+      	<div style="clear:both;"></div>
       </div>
-
+      
+      
+		
       <script type="text/javascript">
         <#include "views/common/ckeditor_config.ftl" />
 

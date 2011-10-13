@@ -23,7 +23,9 @@ $(document).ready(function() {
 });
 
 
-
+$(document).bind('keyup', 'e', function() {
+	$(".editblock").toggle();
+});
 
 
 function hideAlerts() {
