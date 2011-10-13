@@ -17,6 +17,7 @@ function initModal(){
 
 function addLine() {
 	openEditLine();
+	jQuery("#divEditLine").dialog2("options", {title: title_add_line});
 	$('#form-editLine').clearForm();
 	$("#divBtnDeleteLine").attr("style", "display:none;");
 	$('#form-editLine').attr('action', $('#form-editLine').attr('action') + '/line');
@@ -83,6 +84,7 @@ function modifyLine(url){
 		success: function(msg){
 			$("#divEditLine")[0].innerHTML = msg;
 			openEditLine();
+			jQuery("#divEditLine").dialog2("options", {title: title_modify_line});
 		},
 		error: function(msg){
 			alert( msg.responseText );

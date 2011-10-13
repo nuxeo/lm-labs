@@ -50,7 +50,7 @@
 				<a href="#" rel="popover" data-content="${Context.getMessage('label.security.labs.permission.Write.description')}" data-original-title="${Context.getMessage('label.security.labs.permission.Write')}">Description</a>
 			</small>
 			<div style="text-align: right;margin-top: -37px;">
-				<button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'Write');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn " style="margin-left:20px;" >+</button>
+				<button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn " style="margin-left:20px;" >+</button>
 			</div>
 		</h4>
 	</div>

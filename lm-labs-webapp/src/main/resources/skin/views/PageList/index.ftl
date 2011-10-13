@@ -56,10 +56,14 @@
 			</#if>
 			<div id="divDisplayArray" class="container">
 				<#include "/views/PageList/displayArray.ftl" />
+				<!--<hr />
+				<a href="${This.path}/exportExcel" id="exportExcel">Export</a>-->
 				<#include "/views/LabsComments/displayComments.ftl" />
 			</div>
 			<script type="text/javascript">
 				var msg_title = "${Context.getMessage('label.pageList.edit.manage.title')}";
+				var title_add_line = "${Context.getMessage('label.pageList.edit.line.title.add')}";
+				var title_modify_line = "${Context.getMessage('label.pageList.edit.line.title.modify')}";
 				var label_newsHeader = "${Context.getMessage('label.pageList.edit.manage.newsHeader')}";
 				var label_options = "${Context.getMessage('label.pageList.edit.editHeader.options')}";
 				var label_delete_error = "${Context.getMessage('label.pageList.edit.manage.delete.error')}";
