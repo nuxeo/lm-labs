@@ -378,37 +378,41 @@ public class PageListAdapter extends AbstractPage implements PageList {
             for (Header head : headers) {
                 cell = row.createCell(numCell);
                 Entry entry = line.getEntryByIdHead(head.getIdHeader());
-                switch (EntryType.valueOf(head.getType())) {
-                case CHECKBOX:
-                    if (entry.isCheckbox()){
-                        cell.setCellValue("OUI");
-                    }
-                    else{
-                        cell.setCellValue("NON");
-                    }
-                    break;
-                case DATE:
-                    cell.setCellValue(sdf.format(entry.getDate().getTime()));
-                    break;
-                case SELECT:
-                    cell.setCellValue(entry.getText());
-                    break;
-                case TEXT:
-                    cell.setCellValue(entry.getText());
-                    break;
-                case URL:
-                    if (entry.getUrl() != null) {
-                        cell.setCellValue(entry.getUrl()
-                                .getUrl());
-                    } else {
+                if (entry != null){
+                    switch (EntryType.valueOf(head.getType())) {
+                    case CHECKBOX:
+                        if (entry.isCheckbox()){
+                            cell.setCellValue("OUI");
+                        }
+                        else{
+                            cell.setCellValue("NON");
+                        }
+                        break;
+                    case DATE:
+                        cell.setCellValue(sdf.format(entry.getDate().getTime()));
+                        break;
+                    case SELECT:
+                        cell.setCellValue(entry.getText());
+                        break;
+                    case TEXT:
+                        cell.setCellValue(entry.getText());
+                        break;
+                    case URL:
+                        if (entry.getUrl() != null) {
+                            cell.setCellValue(entry.getUrl()
+                                    .getUrl());
+                        } else {
+                            cell.setCellValue("");
+                        }
+                        break;
+                    default:
                         cell.setCellValue("");
+                        break;
                     }
-                    break;
-                default:
-                    cell.setCellValue("");
-                    break;
                 }
-
+                else{
+                    cell.setCellValue("");
+                }
                 numCell++;
             }
             numCell = 0;
