@@ -677,6 +677,12 @@
         <artifactId>gson</artifactId>
         <version>1.4</version>
       </dependency>
+      
+      <dependency>
+  		<groupId>org.apache.poi</groupId>
+  		<artifactId>poi</artifactId>
+  		<version>3.5-beta6</version>
+  	  </dependency>
 
     </dependencies>
   </dependencyManagement>

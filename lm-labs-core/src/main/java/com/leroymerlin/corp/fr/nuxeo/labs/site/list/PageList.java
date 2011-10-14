@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.list;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -102,5 +104,12 @@ public interface PageList extends Page {
      * @throws ClientException
      */
     void setCommentableLines(boolean isAllCommentablesLines) throws ClientException;
+    
+    /**
+     * Export excel of the pageList's data in pOut
+     * @param pOut
+     * @throws IOException
+     */
+    void exportExcel(OutputStream pOut)  throws ClientException, IOException ;
     
 }

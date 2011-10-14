@@ -3,6 +3,8 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,13 +15,16 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -39,7 +44,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.ColSize;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.EntryType;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBean;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontDto;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontName;
@@ -53,6 +58,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontSize
 @Produces("text/html; charset=UTF-8")
 public class PageListResource extends PageResource {
 
+
+    private static final String IMPOSSIBLE_TO_EXPORT_ARRAY_IN_EXCEL = "Impossible to export array in excel !";
 
     private static final String IMPOSSIBLE_TO_SAVE_THE_HEADERS_LIST = "Impossible to save the headers list";
 
@@ -267,7 +274,7 @@ public class PageListResource extends PageResource {
     public FreemarkerBean getFreemarkerBean() {
         Map<String, Header> mapHead = new HashMap<String, Header>();
         StringBuilder headersName = new StringBuilder();
-        com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList pgl = doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList.class);
+        PageList pgl = doc.getAdapter(PageList.class);
         List<String> listHeadersName = new ArrayList<String>();
         Set<Header> headerSet = null;
         List<EntriesLine> entriesLines = null;
@@ -296,5 +303,22 @@ public class PageListResource extends PageResource {
         }
         FreemarkerBean result = new FreemarkerBean(json, headersNameJS, headerSet, listHeadersName, entriesLines);
         return result;
+    }
+    
+    @GET
+    @Path(value="exportExcel/{fileName}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public StreamingOutput exportToExcel(){
+        final PageList pgl = doc.getAdapter(PageList.class);
+        return new StreamingOutput() {
+            public void write(OutputStream output) throws IOException, WebApplicationException {
+                try {
+                    pgl.exportExcel(output);
+                    } catch (Exception e) {
+                        LOG.error(IMPOSSIBLE_TO_EXPORT_ARRAY_IN_EXCEL, e);
+                        throw new WebApplicationException(e);
+                        }
+                    }
+            };
     }
 }

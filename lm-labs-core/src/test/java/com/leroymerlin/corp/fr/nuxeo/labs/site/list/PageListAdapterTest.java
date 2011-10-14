@@ -7,6 +7,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,6 +27,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
@@ -304,5 +307,120 @@ public class PageListAdapterTest {
         pageList.setCommentableLines(true);
         pageList = model.create();
         assertTrue(pageList.isCommentableLines());
+    }
+    
+    @Test
+    public void canExportExcel() throws Exception {
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList = model.create();
+        
+        pageList.setHeaders(createHeadersOnPageList());
+
+        pageList.saveLine(createLine("texte1"));
+        pageList.saveLine(createLine("texte2"));
+        pageList.saveLine(createLine("texte3"));
+        pageList.saveLine(createLine("texte4"));
+ 
+        File testFile = null;
+        //For local tests
+//        File testFile = new File("/home/fvandaele/exportTest.xls");
+        try {
+            testFile = File.createTempFile("exportTest", ".xls");
+//            testFile.createNewFile();
+            assertTrue(testFile.exists());
+            long size = testFile.length();
+            assertTrue(size == 0);
+            pageList.exportExcel(new FileOutputStream(testFile));
+            assertTrue(size != testFile.length());
+        }
+        finally{
+            if(testFile != null){
+                testFile.delete();
+            }
+        }
+    }
+
+    /**
+     * @return
+     */
+    private EntriesLine createLine(String pText) {
+        EntriesLine line = new EntriesLine();
+        
+        Entry entry = null;
+        UrlType url = null;
+        
+        //Create entry
+        entry = new Entry();
+        entry.setIdHeader(0);
+        entry.setText(pText);
+        line.getEntries().add(entry);
+        
+        entry = new Entry();
+        entry.setIdHeader(1);
+        entry.setDate(CAL);
+        line.getEntries().add(entry);
+        
+        entry = new Entry();
+        entry.setIdHeader(2);
+        entry.setCheckbox(CHECKBOX);
+        line.getEntries().add(entry);
+        
+        entry = new Entry();
+        entry.setIdHeader(3);
+        url = new UrlType("nameURL", "http://www.google.fr4444");
+        entry.setUrl(url);
+        line.getEntries().add(entry);
+        return line;
+    }
+
+    /**
+     * @param pageList
+     * @throws ClientException
+     */
+    private List<Header> createHeadersOnPageList() throws ClientException {
+        List<Header> headers = new ArrayList<Header>();
+        int idHead = 0;
+        Header head = new Header();
+        head.setName("du texte");
+        head.setType(EntryType.SELECT.name());
+        head.setFontName(FONT_NAME);
+        head.setFontSize(FONT_SIZE);
+        head.setIdHeader(idHead++);
+        head.setWidth(WIDTH);
+        head.setOrderPosition(idHead);
+        headers.add(head);
+        
+        head = new Header();
+        head.setName("de la date");
+        head.setType(EntryType.DATE.name());
+        head.setFontName(FONT_NAME);
+        head.setFontSize(FONT_SIZE);
+        head.setIdHeader(idHead++);
+        head.setWidth(WIDTH);
+        head.setOrderPosition(idHead);
+        headers.add(head);
+        
+        head = new Header();
+        head.setName("de la case à cocher");
+        head.setType(EntryType.CHECKBOX.name());
+        head.setFontName(FONT_NAME);
+        head.setFontSize(FONT_SIZE);
+        head.setIdHeader(idHead++);
+        head.setWidth(WIDTH);
+        head.setOrderPosition(idHead);
+        headers.add(head);
+        
+        head = new Header();
+        head.setName("de l'url");
+        head.setType(EntryType.URL.name());
+        head.setFontName(FONT_NAME);
+        head.setFontSize(FONT_SIZE);
+        head.setIdHeader(idHead++);
+        head.setWidth(WIDTH);
+        head.setOrderPosition(idHead);
+        headers.add(head);
+        
+        return headers;
     }
 }

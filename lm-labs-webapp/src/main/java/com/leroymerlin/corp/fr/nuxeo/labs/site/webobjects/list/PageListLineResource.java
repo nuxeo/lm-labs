@@ -34,7 +34,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.EntryType;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBean;
 
 /**
