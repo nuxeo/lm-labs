@@ -15,15 +15,16 @@ import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.runtime.model.DefaultComponent;
 
+import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 
 public class SiteManagerImpl extends DefaultComponent implements SiteManager {
 
     private static final PathRef SITES_ROOT_REF = new PathRef(
-            "/default-domain/sites");
+            "/" + Docs.DEFAULT_DOMAIN.docName() + "/" + Docs.SITESROOT.docName());
 
     @Override
     public LabsSite createSite(CoreSession session, String title, String url)
@@ -85,7 +86,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
             @Override
             public void run() throws ClientException {
                 DocumentModel sitesRoot = session.createDocumentModel(
-                        "/default-domain/", "sites", "SitesRoot");
+                        "/" + Docs.DEFAULT_DOMAIN.docName() + "/", Docs.SITESROOT.docName(), Docs.SITESROOT.type());
                 sitesRoot.setPropertyValue("dc:title", "Default root of sites");
                 sitesRoot = session.createDocument(sitesRoot);
 
