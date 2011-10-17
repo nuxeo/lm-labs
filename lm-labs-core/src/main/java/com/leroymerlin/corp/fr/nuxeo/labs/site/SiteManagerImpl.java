@@ -29,9 +29,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
     public LabsSite createSite(CoreSession session, String title, String url)
             throws ClientException, SiteManagerException {
 
-
         validateSiteCreationRequest(session, title, url);
-
 
         DocumentModel sitesRoot = getSiteRoot(session);
         DocumentModel docLabsSite = session.createDocumentModel(
@@ -42,7 +40,22 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         labSite.setTitle(title);
         labSite.setURL(url);
         docLabsSite = session.createDocument(docLabsSite);
-        SecurityDataHelper.blockInheritedSecurity(docLabsSite);
+        session.save();
+        final DocumentRef ref = docLabsSite.getRef();
+        final String user = session.getPrincipal().getName();
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(
+                session) {
+            @Override
+            public void run() throws ClientException {
+                DocumentModel docLabsSite2 = session.getDocument(ref);
+                SecurityData data = SecurityDataHelper.buildSecurityData(docLabsSite2);
+                data.addModifiablePrivilege(user, SecurityConstants.EVERYTHING, true);
+                data.setBlockRightInheritance(true, null);
+                SecurityDataHelper.updateSecurityOnDocument(docLabsSite2, data);
+                session.save();
+            }
+        };
+        runner.runUnrestricted();
         return docLabsSite.getAdapter(LabsSite.class);
     }
 
@@ -88,14 +101,6 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
                         "/default-domain/", "sites", "SitesRoot");
                 sitesRoot.setPropertyValue("dc:title", "Default root of sites");
                 sitesRoot = session.createDocument(sitesRoot);
-
-                SecurityData data = SecurityDataHelper.buildSecurityData(sitesRoot);
-                data.addModifiablePrivilege(SecurityConstants.EVERYONE,
-                        SecurityConstants.READ, true);
-                data.addModifiablePrivilege(SecurityConstants.EVERYONE,
-                        SecurityConstants.ADD_CHILDREN, true);
-                SecurityDataHelper.updateSecurityOnDocument(sitesRoot, data);
-                session.saveDocument(sitesRoot);
             }
         };
 
