@@ -23,7 +23,7 @@
         </#list>
       	<#if This.isCommantableLines()>
      		<!-- Commentaires -->
-      		<td class="labscomments display" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');" alt="${Context.getMessage('label.comments.title')}"></td>
+      		<td class="labscomments display" rel="twipsy" data-original-title="${entriesLine.nbComments}" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');" alt="${Context.getMessage('label.comments.title')}"></td>
       	</#if>
       </tr>
     </#list>
@@ -43,4 +43,13 @@
         }
       });
   </script>
+</#if>
+<#if This.isCommantableLines()>
+<script type="text/javascript">
+	$(function () {
+		$("td[rel=twipsy]")
+		.twipsy({live: true})
+		}
+	) 
+</script>
 </#if>

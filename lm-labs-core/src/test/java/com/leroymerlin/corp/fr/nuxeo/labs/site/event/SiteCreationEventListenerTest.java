@@ -9,7 +9,6 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.PathRef;
-import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
@@ -17,8 +16,6 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityData;
-import com.leroymerlin.corp.fr.nuxeo.portal.security.SecurityDataHelper;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -49,19 +46,6 @@ public class SiteCreationEventListenerTest {
         assertTrue(session.exists(new PathRef(site1.getPathAsString() + "/"
                 + LabsSiteConstants.Docs.TREE.docName() + "/"
                 + LabsSiteConstants.Docs.WELCOME.docName())));
-    }
-
-    @Test
-    public void rightInheritanceIsBlocked() throws Exception {
-        DocumentModel sitesRoot = session.getDocument(new PathRef(
-                "/default-domain/" + LabsSiteConstants.Docs.SITESROOT.docName()));
-        DocumentModel site = session.getChild(sitesRoot.getRef(), SiteFeatures.SITE_NAME);
-        assertNotNull(site);
-        SecurityData data = SecurityDataHelper.buildSecurityData(site);
-        assertTrue(data.getCurrentDocDeny().containsKey(SecurityConstants.EVERYONE));
-        assertTrue(data.getCurrentDocDeny().get(SecurityConstants.EVERYONE).contains(SecurityConstants.EVERYTHING));
-        assertTrue(data.getCurrentDocGrant().containsKey("Administrator"));
-        assertTrue(data.getCurrentDocGrant().get("Administrator").contains(SecurityConstants.EVERYTHING));
     }
 
     @Test

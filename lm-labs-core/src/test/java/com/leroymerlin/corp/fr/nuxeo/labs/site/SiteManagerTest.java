@@ -5,29 +5,41 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.local.LocalSession;
+import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
-@RepositoryConfig(cleanup=Granularity.METHOD, init=DefaultRepositoryInit.class)
+@RepositoryConfig(cleanup=Granularity.METHOD, init=DefaultRepositoryInit.class, user = "system")
 public class SiteManagerTest {
     @Inject
     SiteManager sm;
 
     @Inject
     CoreSession session;
+    
+    @Inject
+    protected FeaturesRunner featuresRunner;
 
 
     @Test
@@ -157,6 +169,36 @@ public class SiteManagerTest {
         sm.updateSite(session, site);
         session.save();
 
+    }
+    
+    @Test
+    public void iCreateSiteWithGoodsRights() throws Exception{
+        CoreSession sess = changeUser("CGM");
+        LabsSite site = sm.createSite(sess, "Mon titre", "myurl");
+        site.setDescription("desc");
+        sess.save();
+        SecurityData data = SecurityDataHelper.buildSecurityData(site.getDocument());
+        
+        assertThat(data.getCurrentDocGrant().size(), is(2));
+        List<String> CGM = data.getCurrentDocGrant().get("CGM");
+        assertThat(CGM, notNullValue());
+        assertThat(CGM.size(), is(1));
+        assertThat(CGM.get(0), is("Everything"));
+        
+        List<String> administrators = data.getCurrentDocGrant().get("administrators");
+        assertThat(administrators, notNullValue());
+        assertThat(administrators.size(), is(1));
+        assertThat(administrators.get(0), is("Everything"));
+    }
+    
+    
+    private CoreSession changeUser(String username) throws ClientException {
+        CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
+        Map<String, Serializable> ctx = new HashMap<String, Serializable>();
+        ctx.put("username", username);
+        CoreSession userSession = LocalSession.createInstance();
+        userSession.connect(coreFeature.getRepository().getName(), ctx);
+        return userSession;
     }
 
 

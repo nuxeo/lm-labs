@@ -56,9 +56,11 @@
 			</#if>
 			<div id="divDisplayArray" class="container">
 				<#include "/views/PageList/displayArray.ftl" />
-				<div class="container" style="text-align: right;">
-					<a href="${This.path}/exportExcel/export.xls"><img title="export excel" alt="export excel" src="/nuxeo/icons/xls.png" /></a>
-				</div>
+				<#if 0 < bean.entriesLines?size>
+					<div class="container" style="text-align: right;">
+						<a href="${This.path}/exportExcel/export.xls"><img title="export excel" alt="export excel" src="/nuxeo/icons/xls.png" /></a>
+					</div>
+				</#if>
 				<#include "/views/LabsComments/displayComments.ftl" />
 			</div>
 			<script type="text/javascript">

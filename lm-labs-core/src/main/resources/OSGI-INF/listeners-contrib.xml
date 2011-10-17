@@ -1,8 +1,6 @@
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.site.listener">
 
 	<extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
-		<listener name="labsSitePermissionsListener" async="false" postCommit="false"
-			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.SitePermissionsEventListener" priority="150" />
 		<listener name="labsSiteCreationListener" async="false" postCommit="false"
 			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.SiteCreationEventListener" priority="151" />
 	</extension>

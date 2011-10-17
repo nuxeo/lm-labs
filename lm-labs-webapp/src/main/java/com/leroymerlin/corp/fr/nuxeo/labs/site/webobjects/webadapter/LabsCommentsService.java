@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.ws.rs.GET;
 
 import org.apache.commons.lang.StringUtils;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.rest.CommentService;
@@ -29,6 +30,11 @@ import org.nuxeo.runtime.api.Framework;
 public class LabsCommentsService extends CommentService {
     
     Map<String, String> mapUserName = new HashMap<String, String>();
+    
+    @Override
+    protected void publishComment(CoreSession session, DocumentModel target, DocumentModel comment) throws Exception {
+        //do nothing
+    }
 
     @Override
     protected void initialize(Object... args) {
