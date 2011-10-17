@@ -49,6 +49,7 @@
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/gadgets.css">
 
       <script type="text/javascript" language="javascript" src="${Context.basePath}/gwt-container/gwtContainer/gwtContainer.nocache.js"></script>
+      <script type="text/javascript" language="javascript" src="/nuxeo/opensocial/gadgets/js/rpc:navigateto.js?c=1"></script>
     </@block>
 
 

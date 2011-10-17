@@ -34,7 +34,7 @@
     var prefs = new gadgets.Prefs();
 
 	var idGadget = gadgets.nuxeo.getGadgetId();
-	var labsSiteName = getSiteName(idGadget);
+	var labsSiteUrl = ""; 
     var requestScope = getTargetContextPath();
     // configure Automation REST call
     var NXRequestParams = {
@@ -57,11 +57,22 @@
       ],
       noEntryLabel: '__MSG_label.gadget.no.document__'
     };
+	var NXRequestParams2 = {
+		operationId : 'LabsSite.GetSiteUrlProp',
+		operationParams : {
+			docId : idGadget
+		},
+		operationContext : {},
+        detailsUrlTitle: '__MSG_label.gadget.details__',
+        labsSiteModulePath: 'site/labssites',
+		operationCallback : displayDetailsUrl
+	};
 
     // execute automation request onload
     gadgets.util.registerOnLoadHandler(function() {
       initContextPathSettingsButton();
       doAutomationRequest(NXRequestParams);
+      doAutomationRequest(NXRequestParams2);
     });
   </script>
 
@@ -73,6 +84,7 @@
    <div id="content">
      <#include "default-documentlist-layout.ftl"/>
      <#include "default-request-controls.ftl"/>
+     <#include "labs-bottom-layout.ftl"/>
    </div>
   </body>
 </html>
