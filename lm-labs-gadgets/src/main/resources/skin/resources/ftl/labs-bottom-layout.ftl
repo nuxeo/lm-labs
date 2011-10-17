@@ -1,0 +1,2 @@
+ <div id="nxBottomZone">
+ </div>

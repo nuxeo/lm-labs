@@ -27,7 +27,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageClasseurPageRepositoryIn
 @Features( { LabsWebAppFeature.class })
 @Deploy({ "org.nuxeo.ecm.automation.core" })
 @RepositoryConfig(init = PageClasseurPageRepositoryInit.class)
-public class GetSiteDocumentChainTest {
+public class GetSiteDocumentChainTest extends AbstractTestOperation {
 
     private static final String OPERATIONSCHAIN_LABS_SITE_GET_SITE_DOCUMENT = "LabsSite.GetSiteDocument";
 
@@ -68,12 +68,4 @@ public class GetSiteDocumentChainTest {
         assertEquals(site.getDocument().getId(), out.getId());
     }
     
-    protected SiteManager getSiteManager() {
-        try {
-            return Framework.getService(SiteManager.class);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
 }

@@ -4,11 +4,6 @@
 
   <@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
 
-  <@block name="css">
-    <@superBlock/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/latestuploads.css"/>
-  </@block>
-
   <@block name="content">
   <div class="container">
     <section>

@@ -32,7 +32,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageClasseurPageRepositoryIn
 })
 @RepositoryConfig(init = PageClasseurPageRepositoryInit.class)
 @Jetty(port=9090)
-public class LastUploadsOperationTest {
+public class LastUploadsOperationTest extends AbstractTestOperation {
 
     @Inject
     AutomationService service;
@@ -56,12 +56,4 @@ public class LastUploadsOperationTest {
         assertEquals(1, uploads.size());
     }
     
-    protected SiteManager getSiteManager() {
-        try {
-            return Framework.getService(SiteManager.class);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
 }

@@ -1,21 +1,27 @@
-function getSiteName(gadgetId) {
-	return "";
-//	console.log("gadgetId:" + gadgetId);
-	// does not work yet
-	var NXRequestParams = {
-		operationId : 'Chain.LabsSite.GetSiteDocument',
-		operationParams : {
-			value : gadgetId
-		},
-		operationContext : {},
-		operationCallback : setLabsSiteName
-	};
-	// execute automation request onload
-	gadgets.util.registerOnLoadHandler(function() {
-		doAutomationRequest(NXRequestParams);
-	});
+function htmlDetailsUrl(url, nxParams) {
+	var html = "";
+	var fullUrl = NXGadgetContext.clientSideBaseUrl + nxParams.labsSiteModulePath + "/" + url + "/@views/latestuploads?page=0";
+    if (nxParams.detailsUrlTitle) {
+    	html += "<a title=\"";
+    	html += nxParams.detailsUrlTitle;
+    	html += "\" href=\"";
+    	html += "#";
+    	html += "\" ";
+    	html += "onclick=\"containerNavigateTo('";
+    	html += fullUrl;
+    	html += "');\" ";
+    	html += "/>";
+    	html += nxParams.detailsUrlTitle;
+    	html += "</a>";
+    }
+	return html;
 }
 
-function setLabsSiteName(response, nxParams) {
-	console.log('LabsSite.GetSiteDocument returns :' + response.responseText);
+function displayDetailsUrl(response, nxParams) {
+	labsSiteUrl = response.data['string'];
+	_gel("nxBottomZone").innerHTML = htmlDetailsUrl(response.data['string'], nxParams);
+}
+
+function containerNavigateTo(url) {
+	gadgets.rpc.call("", "navigateTo", null, url);
 }

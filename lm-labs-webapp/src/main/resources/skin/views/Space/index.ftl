@@ -48,14 +48,14 @@
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/container.css">
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/gadgets.css">
 
-      <script type="text/javascript" language="javascript" src="/nuxeo/opensocial/gadgets/js/rpc:pubsub:lmselectvalue.js?c=1"></script>
       <script type="text/javascript" language="javascript" src="${Context.basePath}/gwt-container/gwtContainer/gwtContainer.nocache.js"></script>
+      <script type="text/javascript" language="javascript" src="/nuxeo/opensocial/gadgets/js/rpc:navigateto.js?c=1"></script>
     </@block>
 
 
   <@block name="docactions">
       <@superBlock/>
-      <#if Session.hasPermission(This.document.ref, "WRITE")>
+      <#if Session.hasPermission(This.document.ref, "Write")>
         <li><a href="#" onclick="nuxeo.container.openContainerBuilder();return false;">Mise en page</a></li>
         <li><a id="addGadgetButton" href="${Context.basePath}/gadgets?language=fr" >Ajouter un gadget</a></li>
       </#if>

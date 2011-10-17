@@ -11,7 +11,7 @@
         </title>
 
         <@block name="css">
-          <link rel="icon" tæype="image/x-icon" href="/nuxeo/img/logo.jpeg" />
+          <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
           <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" />
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
