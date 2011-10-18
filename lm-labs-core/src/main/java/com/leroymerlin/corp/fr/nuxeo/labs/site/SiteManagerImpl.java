@@ -146,7 +146,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
 
     @Override
     public List<LabsSite> getAllSites(CoreSession session) throws ClientException {
-        String query = String.format("SELECT * FROM %s", LabsSiteConstants.Docs.SITE.type());
+        String query = String.format("SELECT * FROM %s WHERE ecm:path STARTSWITH '%s'", LabsSiteConstants.Docs.SITE.type(), SITES_ROOT_REF.toString());
         DocumentModelList docs = session.query(query);
         List<LabsSite> sites = new ArrayList<LabsSite>();
         for(DocumentModel doc : docs) {
