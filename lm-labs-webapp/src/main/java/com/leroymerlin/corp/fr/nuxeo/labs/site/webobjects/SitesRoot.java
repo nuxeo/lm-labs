@@ -100,8 +100,15 @@ public class SitesRoot extends ModuleRoot {
         }
     }
 
+    /**
+     * Needed by OpenSocial gadgets.
+     * @param id
+     * @return
+     * @throws URIException
+     * @throws URISyntaxException
+     */
     @Path("id/{id}")
-    public Object doGetPageById(@PathParam("id") String id) throws URIException, URISyntaxException {
+    public Object doGetPageById(@PathParam("id") String id) {
         CoreSession session = getContext().getCoreSession();
         DocumentModel document;
         try {
