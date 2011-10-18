@@ -1,8 +1,15 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
@@ -54,7 +61,7 @@ public class SiteDocumentAdapter implements SiteDocument {
             }
         }
         throw new IllegalArgumentException("document '" + doc.getPathAsString()
-                + "' is not lacated in a site.");
+                + "' is not located in a site.");
     }
 
     @Override
@@ -71,6 +78,30 @@ public class SiteDocumentAdapter implements SiteDocument {
     @Override
     public BlobHolder getBlobHolder() {
         return doc.getAdapter(BlobHolder.class);
+    }
+
+    @Override
+    public Collection<Page> getChildrenPages() throws ClientException {
+        List<DocumentModel> children = getChildrenPageDocuments();
+        @SuppressWarnings("unchecked")
+        Collection<Page> adaptedCollection = CollectionUtils.transformedCollection(children, new Transformer() {
+
+            @Override
+            public Object transform(Object input) {
+                return ((DocumentModel) input).getAdapter(Page.class);
+            }});
+        return adaptedCollection;
+    }
+
+    @Override
+    public DocumentModelList getChildrenPageDocuments() throws ClientException {
+        @SuppressWarnings("serial")
+        DocumentModelList children = doc.getCoreSession().getChildren(doc.getRef(), null, new Filter() {
+            @Override
+            public boolean accept(DocumentModel document) {
+                return Docs.pageDocs().contains(Docs.fromString(document.getType()));
+            }}, null);
+        return children;
     }
 
 }

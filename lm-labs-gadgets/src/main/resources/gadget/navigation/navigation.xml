@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+	<ModulePrefs title="Navigation in Site Pages"
+		description="Lists the children pages of selected page" author="vdutat"
+		author_email="vincent.dutat@ext.leroymerlin.fr"
+		thumbnail="${clientSideBaseUrl}site/gadgets/navigation/navigation.png"
+		screenshot="${clientSideBaseUrl}site/gadgets/navigation/screenshot.png">
+		<Require feature="nuxeo" />
+		<Require feature="setprefs" />
+		<#include "dynamic-translations.ftl"/>
+		<Require feature="dynamic-height" />
+		<#include "default-oauth-prefs.ftl"/>
+	</ModulePrefs>
+	<#include "context-prefs.ftl"/>
+	<UserPref name="parentPage" display_name="parentPage"
+		datatype="hidden" default_value="/default-domain/sites/ofm/tree" /><!-- 
+		TODO better default value -->
+	<UserPref name="pageSize" display_name="nombre d'elements par page"
+		default_value="0" />
+	<Content type="html">
+
+<![CDATA[
+<html>
+  <head>
+
+  <link rel="stylesheet" type="text/css" href="${specDirectoryUrl}gadget-common.css"/>
+  <link rel="stylesheet" type="text/css" href="${specDirectoryUrl}documentlists.css"/>
+
+  <!-- insert JS Context -->
+  ${jsContext}
+
+  <script src="${specDirectoryUrl}default-automation-request.js"></script>
+  <script src="${specDirectoryUrl}default-documentlist-display.js"></script>
+  <script src="${specDirectoryUrl}context-management.js"></script>
+
+  <script type="text/javascript" language="javascript" src="navigation.js"></script>
+  <script type="text/javascript">
+    var prefs = new gadgets.Prefs();
+    //var parentPage = prefs.getString("parentPage");
+    //console.log('parentPage:' + parentPage);
+    var pageSize = prefs.getString("pageSize");
+    var idGadget = gadgets.nuxeo.getGadgetId();
+
+    // configure Automation REST call
+    var NXRequestParams = {
+      operationId: 'LabsSite.GetChildrenPages',
+      operationParams: {
+        pageSize: pageSize,
+        docPath: getParentPagePath()
+      },
+      operationContext: {},
+      operationDocumentProperties: "uid,dublincore",
+      entityType: 'documents',
+      usePagination: false,
+      displayMethod: displayDocumentList,
+      hideHeaders: true,
+      displayColumns: [
+        {type: 'builtin', field: 'titleWithLabsPageLink', label: '__MSG_label.dublincore.title__', labsSiteModulePath: 'site/labssites'}
+      ],
+      noEntryLabel: '__MSG_label.gadget.no.document__'
+    };
+    
+    /*
+	var NXRequestParams2 = {
+		operationId : 'LabsSite.GetSiteUrlProp',
+		operationParams : {
+			docId : idGadget
+		},
+		operationContext : {},
+        detailsUrlTitle: '__MSG_label.gadget.details__',
+        labsSiteModulePath: 'site/labssites',
+		operationCallback : setSiteUrl
+	};
+	*/
+
+    // execute automation request onload
+    gadgets.util.registerOnLoadHandler(function() {
+      initParentPagePathSettingsButton();
+      //doAutomationRequest(NXRequestParams2);
+      doAutomationRequest(NXRequestParams);
+    });
+  </script>
+
+  </head>
+   <body>
+   <div class="tools">
+     <#include "parent-page-chooser-layout.ftl"/>
+   </div>
+   <div id="content">
+     <#include "default-documentlist-layout.ftl"/>
+     <#include "default-request-controls.ftl"/>
+   </div>
+  </body>
+</html>
+]]>
+	</Content>
+</Module>

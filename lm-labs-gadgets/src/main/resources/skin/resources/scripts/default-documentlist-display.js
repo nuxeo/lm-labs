@@ -2,13 +2,15 @@
 function tableStart(jsonObject, nxParams) {
   var html = "";
   html += "<table class='dataList'>";
-  html += "  <thead>";
-  html += "    <tr>";
-  for (idx in nxParams.displayColumns) {
-      html += mkColHeader(nxParams.displayColumns[idx]);
+  if (!nxParams.hideHeaders) {
+	  html += "  <thead>";
+	  html += "    <tr>";
+	  for (idx in nxParams.displayColumns) {
+		  html += mkColHeader(nxParams.displayColumns[idx]);
+	  }
+	  html += "    </tr>";
+	  html += "  </thead>";
   }
-  html += "    </tr>";
-  html += "  </thead>";
   html += "  <tbody>";
   return html;
 }
@@ -19,7 +21,9 @@ function mkColHeader(colDef) {
         if (colDef.field == "icon" || colDef.field == "download") {
             html = "<th/>";
         }
-        else if (colDef.field == "titleWithLink" || colDef.field == "titleWithLabsLink") {
+        else if (colDef.field == "titleWithLink"
+        	|| colDef.field == "titleWithLabsLink"
+        	|| colDef.field == "titleWithLabsPageLink") {
             html = "<th> " + colDef.label + " </th>";
         }
     }
@@ -167,6 +171,24 @@ function mkCell(colDef, dashBoardItem) {
             html += dashBoardItem.title;
             html += "</a></td>";
         }
+        else if (colDef.field == "titleWithLabsPageLink") {
+        	var fullUrl = NXGadgetContext.clientSideBaseUrl + colDef.labsSiteModulePath + "/id/" + dashBoardItem.uid;
+            html += "<td><a title=\"";
+            if (colDef.tooltip) {
+            	html += colDef.tooltip;
+            } else {
+                html += dashBoardItem.title;
+            }
+            html += "\" href=\"";
+        	html += "#";
+        	html += "\" ";
+        	html += "onclick=\"containerNavigateTo('";
+        	html += fullUrl;
+        	html += "');\" ";
+        	html += "/>";
+            html += dashBoardItem.title;
+            html += "</a></td>";
+        }
         else if (colDef.field == "titleWithLabsLink") {
             html += "<td><a target = \"_blank\" title=\"";
             if (colDef.tooltip) {
@@ -223,4 +245,8 @@ function lastPage(nxParams) {
 function refresh(nxParams) {
     nxParams.refreshCB(nxParams);
     //doAutomationRequest(nxParams);
+}
+
+function containerNavigateTo(url) {
+	gadgets.rpc.call("", "navigateTo", null, url);
 }

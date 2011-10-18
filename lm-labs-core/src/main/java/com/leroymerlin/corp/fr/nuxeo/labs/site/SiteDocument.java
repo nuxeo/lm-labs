@@ -1,6 +1,9 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
+import java.util.Collection;
+
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
@@ -34,5 +37,17 @@ public interface SiteDocument {
 
     BlobHolder getBlobHolder();
 
+    /**
+     * TODO unit test.
+     * @return
+     * @throws ClientException
+     */
+    Collection<Page> getChildrenPages() throws ClientException;
 
+    /**
+     * TODO unit test.
+     * @return
+     * @throws ClientException
+     */
+    public DocumentModelList getChildrenPageDocuments() throws ClientException;
 }

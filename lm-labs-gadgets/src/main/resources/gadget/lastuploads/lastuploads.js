@@ -21,7 +21,3 @@ function displayDetailsUrl(response, nxParams) {
 	labsSiteUrl = response.data['string'];
 	_gel("nxBottomZone").innerHTML = htmlDetailsUrl(response.data['string'], nxParams);
 }
-
-function containerNavigateTo(url) {
-	gadgets.rpc.call("", "navigateTo", null, url);
-}

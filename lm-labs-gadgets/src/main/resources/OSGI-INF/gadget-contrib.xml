@@ -7,7 +7,14 @@
       <mountPoint>/lastuploads</mountPoint>
       <entryPoint>lastuploads.xml</entryPoint>
       <category>Labs</category>
-      <icon>last_uploads.png.png</icon>
+      <icon>last_uploads.png</icon>
+    </internalGadget>
+
+    <internalGadget name="navigation" disabled="false">
+      <mountPoint>/navigation</mountPoint>
+      <entryPoint>navigation.xml</entryPoint>
+      <category>Labs</category>
+      <icon>navigation.png</icon>
     </internalGadget>
 
   </extension>
