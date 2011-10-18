@@ -20,12 +20,13 @@ $(document).ready(function() {
 
   $(document).controls();
 
+  $(document).bind('keyup', 'e', function() {
+	  $(".editblock").toggle();
+  });
 });
 
 
-$(document).bind('keyup', 'e', function() {
-	$(".editblock").toggle();
-});
+
 
 
 function hideAlerts() {

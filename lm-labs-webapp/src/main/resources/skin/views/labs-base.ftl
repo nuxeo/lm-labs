@@ -42,6 +42,7 @@
           <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
           <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
           <script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
+		  <script type="text/javascript" src="/nuxeo/site/skin/labs/js/jquery/jquery.hotkeys.js"></script>
 
         </@block>
     </head>
