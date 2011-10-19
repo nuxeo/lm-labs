@@ -70,7 +70,6 @@
 
     // execute automation request onload
     gadgets.util.registerOnLoadHandler(function() {
-      initContextPathSettingsButton();
       doAutomationRequest(NXRequestParams);
       doAutomationRequest(NXRequestParams2);
     });
@@ -78,9 +77,6 @@
 
   </head>
    <body>
-   <div class="tools">
-     <#include "context-chooser-ui.ftl"/>
-   </div>
    <div id="content">
      <#include "default-documentlist-layout.ftl"/>
      <#include "default-request-controls.ftl"/>
