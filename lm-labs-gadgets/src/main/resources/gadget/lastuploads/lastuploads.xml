@@ -13,6 +13,11 @@
     <#include "default-oauth-prefs.ftl"/>
   </ModulePrefs>
   <#include "context-prefs.ftl"/>
+  <UserPref name="displayMode" display_name="__MSG_label.gadget.displayMode__"
+          default_value="STD"  datatype="enum" required="true">
+       <EnumValue value="STD" display_value="__MSG_label.gadget.stdMode__" />
+       <EnumValue value="COMPACT" display_value="__MSG_label.gadget.compactMode__" />
+  </UserPref>
   <Content type="html">
 
 <![CDATA[
@@ -34,6 +39,7 @@
     var prefs = new gadgets.Prefs();
 
 	var idGadget = gadgets.nuxeo.getGadgetId();
+    var displayMode = prefs.getString("displayMode");
 	var labsSiteUrl = ""; 
     var requestScope = getTargetContextPath();
     // configure Automation REST call
@@ -57,6 +63,13 @@
       ],
       noEntryLabel: '__MSG_label.gadget.no.document__'
     };
+    if ('COMPACT' == displayMode) {
+    	NXRequestParams.displayColumns = [
+        {type: 'builtin', field: 'icon', label: ' '},
+        {type: 'builtin', field: 'titleWithLabsLink', label: '__MSG_label.dublincore.title__', tooltip: '__MSG_label.gadget.preview__'}
+        ];
+        NXRequestParams.hideHeaders = true;
+    }
 	var NXRequestParams2 = {
 		operationId : 'LabsSite.GetSiteUrlProp',
 		operationParams : {
