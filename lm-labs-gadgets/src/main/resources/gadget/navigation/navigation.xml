@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
 	<ModulePrefs title="Navigation in Site Pages"
-		description="Lists the children pages of selected page" author="vdutat"
+		description="Lists the children pages of selected page" author="Vincent Dutat"
 		author_email="vincent.dutat@ext.leroymerlin.fr"
 		thumbnail="${clientSideBaseUrl}site/gadgets/navigation/navigation.png"
 		screenshot="${clientSideBaseUrl}site/gadgets/navigation/screenshot.png">

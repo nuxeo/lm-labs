@@ -2,7 +2,7 @@
 <Module>
   <ModulePrefs title="Last Uploaded Attachements"
     description="Lists the last uploaded attachements"
-    author="vdutat" author_email="vincent.dutat@ext.leroymerlin.fr"
+    author="Vincent Dutat" author_email="vincent.dutat@ext.leroymerlin.fr"
     thumbnail="${clientSideBaseUrl}site/gadgets/lastuploads/last_uploads.png"
     screenshot="${clientSideBaseUrl}site/gadgets/lastuploads/screenshot.png"
     >
