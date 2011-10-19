@@ -30,7 +30,7 @@
   ${jsContext}
 
   <script src="${specDirectoryUrl}default-automation-request.js"></script>
-  <script src="${specDirectoryUrl}default-documentlist-display.js"></script>
+  <script src="${specDirectoryUrl}labs-documentlist-display.js"></script>
   <script src="${specDirectoryUrl}context-management.js"></script>
 
   <script type="text/javascript" language="javascript" src="navigation.js"></script>
