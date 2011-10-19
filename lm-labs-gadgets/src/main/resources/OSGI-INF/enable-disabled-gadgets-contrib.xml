@@ -1,0 +1,36 @@
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.gadgets.override">
+
+  <require>com.leroymerlin.corp.fr.nuxeo.portal.gadget.config</require>
+  <require>com.leroymerlin.corp.fr.nuxeo.portal.gadgets.contrib</require>
+  <extension target="org.nuxeo.opensocial.gadgets.service" point="gadget">
+  
+     <internalGadget name="confluencefeed" disabled="false" />
+     
+     <!-- category Nuxeo -->
+     <internalGadget name="quicksearch" disabled="false" />
+     <internalGadget name="tasks" disabled="false" />
+     <internalGadget name="waitingfor" disabled="false" />
+     <internalGadget name="userworkspaces" disabled="false" />
+     <internalGadget name="userdocuments" disabled="false" />
+     <internalGadget name="usersites" disabled="false" />
+     <internalGadget name="nuxeoworkspaces" disabled="false" />
+     <internalGadget name="lastpublisheddocuments" disabled="false" />
+     <internalGadget name="lastdocuments" disabled="false" />
+     <internalGadget name="userdeleteddocuments" disabled="false" />
+     
+     <internalGadget name="richtext" disabled="false" />
+     <!-- 
+     <internalGadget name="wcpicture">
+       <category>gadget.category.media</category>
+       <icon>richtext_icon.png</icon>
+     </internalGadget>
+     
+     <internalGadget name="wchtml">
+       <category>gadget.category.utilities</category>
+       <icon>richtext_icon.png</icon>
+     </internalGadget>
+      -->
+     
+  </extension>
+  
+</component>
