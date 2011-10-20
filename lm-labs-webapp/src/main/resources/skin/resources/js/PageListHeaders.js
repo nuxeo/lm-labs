@@ -43,9 +43,10 @@ jQuery(document).ready(function() {
 		height : '320px',
 		overflowy : 'auto',
 		overflowx : 'hidden',
-		showCloseHandle : false,
-		removeOnClose : true,
-		autoOpen : false
+		autoOpen : false, 
+		closeOnOverlayClick : false, 
+		removeOnClose : true, 
+		showCloseHandle : true,
 	});
 });
 
@@ -83,6 +84,7 @@ function setCheckbox(isChecked, varName){
 function initNewHeader() {
 	$("#form-manageList").clearForm();
 	$("#headerName").val(label_newsHeader);
+	$("#headerName").val('toto');
 	$("#headerName").select();
 	$("#headerName").focus();
 	$('#headerType option[value=TEXT]').attr("selected", "selected");

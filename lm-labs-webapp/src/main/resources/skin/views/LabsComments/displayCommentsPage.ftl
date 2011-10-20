@@ -1,7 +1,7 @@
 <hr />
 <div id="divCommentablePage"  class="container" >
 	<center><h4 id="titleCommentsPage">${Context.getMessage('label.comments.title')}</h4></center>
-	<div id="divCommentableModal"  class="fixed-container dialog2" style="display: none;">
+	<div id="divEditCommentable"  class="fixed-container dialog2" style="display: none;">
 		<h1 id="titleComments">${Context.getMessage('label.comments.title')}</h1>
 		<div class="fixed-container" style="">
 			<form id="form-commentablePage" method="post" class="form" action="${This.path}/@comments">
@@ -16,30 +16,31 @@
 			<button class="btn" onClick="javascript:closeCommentsPage();" title="${Context.getMessage('label.comments.cancel')}">${Context.getMessage('label.comments.cancel')}</button>
 		</div>
 	</div>
-	<button class="btn primary" onClick="javascript:openCommentsPage();" title="Ajouter">Ajouter</button>
+	<a href="#" class="btn open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();">${Context.getMessage('command.Page.CommentAdd')}</a>
 	<div id="divListCommentsPage" class="container" style=""></div>
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-			initModalCommentsPage('divCommentableModal');
+			initCommentsPage('divEditCommentable');
 			getCommentsPage();
 		});
 	
-	function initModalCommentsPage(name){
+	function initCommentsPage(name){
 		jQuery("#" + name).dialog2({
-			showCloseHandle : false,
-			removeOnClose : true,
-			autoOpen : false
+			autoOpen : false, 
+        	closeOnOverlayClick : true, 
+        	removeOnClose : false, 
+        	showCloseHandle : true,
 		});
 	}
 
 	function openCommentsPage(){
-		jQuery("#divCommentableModal").dialog2('open');
+		jQuery("#divEditCommentable").dialog2('open');
 		jQuery("#form-commentablePage").clearForm();
 	}
 
 	function closeCommentsPage(){
-		jQuery("#divCommentableModal").dialog2('close');
+		jQuery("#divEditCommentable").dialog2('close');
 	}
 
 	function saveCommentPage(){

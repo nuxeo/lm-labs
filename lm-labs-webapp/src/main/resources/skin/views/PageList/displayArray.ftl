@@ -22,14 +22,22 @@
           </td>
         </#list>
       	<#if This.isCommantableLines()>
-     		<!-- Commentaires -->
-      		<td class="labscomments display" rel="twipsy" data-original-title="${entriesLine.nbComments}" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');" alt="${Context.getMessage('label.comments.title')}"></td>
+     		<!--  --------------------COMMENTS OF PAGE --------------->
+     		<#assign nbComments = entriesLine.nbComments/>
+     		<#if 0 < nbComments>
+      			<td style="vertical-align: middle;width: 15px;" rel="twipsy" data-original-title="${Context.getMessage('label.comments.nbComments', nbComments)}"  alt="${Context.getMessage('label.comments.title')}">
+      				<a href="#" class=" open-dialog" rel="divCommentable"" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
+      			</td>
+      		<#else>
+      			<td style="vertical-align: middle;width: 15px;" rel="twipsy" data-original-title="${Context.getMessage('label.comments.null.nbComments')}"  alt="${Context.getMessage('label.comments.title')}">
+      				<a href="#" class="labscomments noComments open-dialog" rel="divCommentable" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
+      			</td>
+      		</#if>
       	</#if>
       </tr>
     </#list>
   </tbody>
 </table>
-<#include "/views/LabsComments/displayModalComments.ftl" />
 <#if 0 < bean.entriesLines?size>
   <script type="text/javascript">
     $("table#sortArray").tablesorter({
@@ -47,9 +55,10 @@
 <#if This.isCommantableLines()>
 <script type="text/javascript">
 	$(function () {
-		$("td[rel=twipsy]")
-		.twipsy({live: true})
+		$("td[rel=twipsy]").twipsy({live: true})
 		}
 	) 
 </script>
 </#if>
+<!--  --------------------COMMENTS OF PAGE --------------->
+<#include "/views/LabsComments/displayCommentsPopup.ftl" />

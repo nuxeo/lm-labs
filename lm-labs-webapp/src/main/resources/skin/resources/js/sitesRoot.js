@@ -3,7 +3,6 @@
 
 function sendForm(path, msgError){
   $("#form-labssite").validate();
-  alert('rttyt');
     var options = {
     beforeSubmit: function(){
       return $("#form-labssite").valid();
@@ -11,8 +10,7 @@ function sendForm(path, msgError){
         success: function(responseText, statusText) {
           if (statusText == "notmodified"){
             $("#labsSiteURL").val($("#oldURL").val());
-        alert(msgError);
-        //alert("${Context.getMessage('label.labssites.edit.error')}");
+            alert(msgError);
           }else{
             document.location.href=path + '?homepage=display';
           }
@@ -28,8 +26,8 @@ jQuery(document).ready(function(){
 
   $(".dialog2").each(function() {
     $(this).dialog2({
-      showCloseHandle : false,
-      removeOnClose : true,
+      showCloseHandle : true,
+      removeOnClose : false,
       autoOpen : false
     });
   });

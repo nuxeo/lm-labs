@@ -222,10 +222,23 @@
                 }
             }
             
-            self.unbind("dialog2.closed", __removeDialog);
+            //New Code by fvandaele (for not executed the old code if option is not fixed)
+            if (typeof options.showCloseHandle == "boolean") {
+            	var closeHandleMode = "hide";
+            	if (options.showCloseHandle === true) {
+            		closeHandleMode = "show";
+            	}
+            	else{
+            		self.unbind("dialog2.closed", __removeDialog);
+            	}
+            	$(".modal-header .close", overlay)[closeHandleMode]();
+            }
+            
+            //Old code
+            /*self.unbind("dialog2.closed", __removeDialog);
             var closeHandleMode = options.showCloseHandle === false ? "hide" : "show";
             
-            $(".modal-header .close", overlay)[closeHandleMode]();
+            $(".modal-header .close", overlay)[closeHandleMode]();*/
             
             if (options.removeOnClose === true) {
                 self.bind("dialog2.closed", __removeDialog);
@@ -290,7 +303,7 @@
      */
     function checkCreateDialog(element, options) {
 
-        var selection = $(element);
+    	var selection = $(element);
         var dialog;
         
         var created = false;
@@ -481,7 +494,6 @@
                 if (a.attr("title")) {
                     options.title = a.attr("title");
                 }
-                
                 $.each($.fn.dialog2.defaults, function(key, value) {
                     if (a.attr(key)) {
                         options[key] = a.attr(key) == "true";

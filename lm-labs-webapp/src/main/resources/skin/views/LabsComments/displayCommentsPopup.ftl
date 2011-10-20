@@ -1,5 +1,7 @@
 <div id="divCommentable"  class="fixed-container dialog2" style="display: none;">
-	<h1 id="titleComments">${Context.getMessage('label.comments.title')}</h1>
+	<h1>
+		${Context.getMessage('label.comments.title')}
+	</h1>
 	<div class="fixed-container" style="">
 		<#if !Context.principal.anonymous>
 			<form id="form-commentable" method="post" class="form" action="${This.path}/@comments">
@@ -23,6 +25,7 @@
 <script type="text/javascript">
 	var urlActionBase = null;
 	var titleComments = '${Context.getMessage('label.comments.title')?js_string}';
+	var hasChangedCommentsPopup = false;
 	
 	jQuery(document).ready(function(){
 			initModalComments('divCommentable');
@@ -33,9 +36,10 @@
 			height : '400px',
 			overflowy : 'auto',
 			overflowx : 'hidden',
-			showCloseHandle : false,
-			removeOnClose : true,
-			autoOpen : false
+			autoOpen : false, 
+        	closeOnOverlayClick : false, 
+        	removeOnClose : false, 
+        	showCloseHandle : false,
 		});
 	}
 
@@ -44,10 +48,14 @@
 		getComments();
 		jQuery("#divCommentable").dialog2('open');
 		jQuery("#form-commentable").clearForm();
+		hasChangedCommentsPopup = false;
 	}
 
 	function closeComments(){
 		jQuery("#divCommentable").dialog2('close');
+		if (hasChangedCommentsPopup === true){
+			document.location.href='${This.path}';
+		}
 	}
 
 	function saveComment(){
@@ -56,6 +64,7 @@
 			url : urlActionBase,
 			data : jQuery("#form-commentable").serialize(),
 			success : function(msg) {
+				hasChangedCommentsPopup = true;
 				jQuery("#form-commentable").clearForm();
 				getComments();
 			},
@@ -71,6 +80,7 @@
 			url : url + '?property=' + id,
 			data : '',
 			success : function(msg) {
+				hasChangedCommentsPopup = true;
 				getComments();
 			},
 			error : function(msg) {

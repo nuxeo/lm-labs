@@ -9,9 +9,10 @@ function initModal(){
 		height : '400px',
 		overflowy : 'auto',
 		overflowx : 'hidden',
-		showCloseHandle : false,
-		removeOnClose : true,
-		autoOpen : false
+		autoOpen : false,
+		closeOnOverlayClick : true,
+		removeOnClose : false,
+		showCloseHandle : true,
 	});
 }
 
