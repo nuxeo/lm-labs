@@ -9,6 +9,7 @@ import org.nuxeo.ecm.core.schema.SchemaManager;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public abstract class AbstractPage implements Page {
@@ -108,6 +109,14 @@ public abstract class AbstractPage implements Page {
         return getAllowedSubtypes(doc);
     }
 
-
+    @Override
+    public void publish() throws ClientException{
+        doc.followTransition(LabsSiteConstants.State.PUBLISH.getTransition());
+    }
+    
+    @Override
+    public void draft() throws ClientException{
+        doc.followTransition(LabsSiteConstants.State.DRAFT.getTransition());
+    }
 
 }

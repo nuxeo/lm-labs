@@ -24,4 +24,7 @@ public interface Page {
 
     public String[] getAllowedSubtypes() throws ClientException;
 
+    void publish() throws ClientException;
+    
+    void draft() throws ClientException;
 }

@@ -1,15 +1,43 @@
 <?xml version="1.0"?>
 
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.site.lifecycles">
+    
+    <extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService"
+    point="lifecycle">
+    <lifecycle name="default" defaultInitial="draft">
+      <transitions>
+        <transition name="publish" destinationState="published">
+          <description>Publier la page</description>
+        </transition>
+        <transition name="draft" destinationState="draft">
+          <description>Brouillon de la page la page</description>
+        </transition>
+      </transitions>
+      <states>
+        <state name="draft" description="Brouillon" initial="true">
+          <transitions>
+            <transition>publish</transition>
+          </transitions>
+        </state>
+        <state name="published" description="Publiee">
+          <transitions>
+            <transition>draft</transition>
+          </transitions>
+        </state>
+      </states>
+    </lifecycle>
+  </extension>
 
   <extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService"
     point="types">
-
     <types>
+      <type name="Site">default</type>
       <type name="Page">default</type>
+      <type name="PageBlocs">default</type>
       <type name="PageNews">default</type>
       <type name="PageClasseur">default</type>
-      <type name="PageListe">default</type>
+      <type name="PageList">default</type>
+      <type name="HtmlPage">default</type>
     </types>
   </extension>
 

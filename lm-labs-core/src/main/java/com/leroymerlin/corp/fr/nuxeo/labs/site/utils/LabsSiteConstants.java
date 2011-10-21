@@ -94,6 +94,34 @@ public final class LabsSiteConstants {
             return EnumSet.of(HTMLPAGE, PAGE, PAGEBLOCS, PAGECLASSEUR, PAGELIST, PAGENEWS ,WELCOME);
         }
     }
+    
+    public enum State {
+        DRAFT("draft", "draft"),
+        PUBLISH("publish", "published");
+
+        private String transition;
+        private String state;
+
+        private State(String transition, String state) {
+            this.transition = transition;
+            this.state = state;
+        }
+
+        /**
+         * @return transition name
+         */
+        public String getTransition() {
+            return transition;
+        }
+
+        /**
+         * @return state name
+         */
+        public String getState() {
+            return state;
+        }
+
+    }
 
     private LabsSiteConstants() {}
 
