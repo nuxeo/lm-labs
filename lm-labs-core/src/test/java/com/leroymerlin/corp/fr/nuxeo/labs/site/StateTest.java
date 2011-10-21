@@ -167,4 +167,32 @@ public class StateTest {
         adapter.draft();
         assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
     }
+
+    @Test
+    public void iCantDisplayDraftedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = session.createDocumentModel(
+                site1.getPathAsString(), "page",
+                LabsSiteConstants.Docs.PAGELIST.type());
+        page = session.createDocument(page);
+        session.save();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        PageList adapter = page.getAdapter(PageList.class);
+        assertTrue(!adapter.isVisible());
+    }
+
+    @Test
+    public void iCanDisplayPublishedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = session.createDocumentModel(
+                site1.getPathAsString(), "page",
+                LabsSiteConstants.Docs.PAGELIST.type());
+        page = session.createDocument(page);
+        session.save();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        PageList adapter = page.getAdapter(PageList.class);
+        adapter.publish();
+        assertTrue(adapter.isVisible());
+    }
+    
 }

@@ -27,4 +27,6 @@ public interface Page {
     void publish() throws ClientException;
     
     void draft() throws ClientException;
+    
+    boolean isVisible() throws ClientException;
 }

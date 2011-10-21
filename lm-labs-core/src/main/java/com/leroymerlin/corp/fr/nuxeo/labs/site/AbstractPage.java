@@ -118,5 +118,10 @@ public abstract class AbstractPage implements Page {
     public void draft() throws ClientException{
         doc.followTransition(LabsSiteConstants.State.DRAFT.getTransition());
     }
+    
+    @Override
+    public boolean isVisible() throws ClientException{
+        return LabsSiteConstants.State.PUBLISH.getState().equals(doc.getCurrentLifeCycleState());
+    }
 
 }
