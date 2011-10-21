@@ -1,7 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;

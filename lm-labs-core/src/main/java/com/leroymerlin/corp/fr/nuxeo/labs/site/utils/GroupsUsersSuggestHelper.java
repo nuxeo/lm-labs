@@ -3,12 +3,9 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -146,27 +143,28 @@ public class GroupsUsersSuggestHelper {
      * @param filter
      * @throws ClientException
      */
-    private static List<GroupUserSuggest> searchGroups(UserManager userManager, Map<String, Serializable> filter) throws ClientException, SizeLimitExceededException {
-        final String logPrefix = "<searchGroups> ";
-        List<GroupUserSuggest> suggests = new ArrayList<GroupUserSuggest>();
-        HashSet<String> fulltext = new HashSet<String>();
-        if (!filter.isEmpty()) {
-            fulltext.addAll(filter.keySet());
-        }
-        for (DocumentModel group : userManager.searchGroups(
-                filter,
-//                new HashMap<String, Serializable>(),
-//              new HashSet<String>()
-                fulltext
-        )) {
-            suggests.add(new GroupUserSuggest((String) group.getProperty(userManager.getGroupSchemaName(), userManager.getGroupIdField()), ""));
-        }
-        if (log.isDebugEnabled()) {
-            log.debug(logPrefix + filter + " returns " + suggests.size() + " entries: " + suggests);
-        }
-        return suggests;
-    }
+//    private static List<GroupUserSuggest> searchGroups(UserManager userManager, Map<String, Serializable> filter) throws ClientException, SizeLimitExceededException {
+//        final String logPrefix = "<searchGroups> ";
+//        List<GroupUserSuggest> suggests = new ArrayList<GroupUserSuggest>();
+//        HashSet<String> fulltext = new HashSet<String>();
+//        if (!filter.isEmpty()) {
+//            fulltext.addAll(filter.keySet());
+//        }
+//        for (DocumentModel group : userManager.searchGroups(
+//                filter,
+////                new HashMap<String, Serializable>(),
+////              new HashSet<String>()
+//                fulltext
+//        )) {
+//            suggests.add(new GroupUserSuggest((String) group.getProperty(userManager.getGroupSchemaName(), userManager.getGroupIdField()), ""));
+//        }
+//        if (log.isDebugEnabled()) {
+//            log.debug(logPrefix + filter + " returns " + suggests.size() + " entries: " + suggests);
+//        }
+//        return suggests;
+//    }
 
+    @SuppressWarnings("deprecation")
     private static List<GroupUserSuggest> searchGroups(UserManager userManager, String pattern) throws ClientException, SizeLimitExceededException {
         final String logPrefix = "<searchGroups> ";
         List<GroupUserSuggest> suggests = new ArrayList<GroupUserSuggest>();
@@ -186,25 +184,25 @@ public class GroupsUsersSuggestHelper {
      * @param columns
      * @throws ClientException
      */
-    private static List<GroupUserSuggest> searchUsers(UserManager userManager, Map<String, Serializable> filter, final HashSet<String> columns) throws ClientException, SizeLimitExceededException {
-        final String logPrefix = "<searchUsers> ";
-        List<GroupUserSuggest> suggests = new ArrayList<GroupUserSuggest>();
-        for (DocumentModel principal : userManager.searchUsers(
-              filter,
-//                new HashMap<String, Serializable>(),
-                new HashSet<String>(filter.keySet())
-//                new HashSet<String>()
-                )) {
-            suggests.add(new GroupUserSuggest((String) principal.getProperty(userManager.getUserSchemaName(),"username"),
-                    principal.getProperty(userManager.getUserSchemaName(), "firstName")
-                    + " "
-                    + principal.getProperty(userManager.getUserSchemaName(), "lastName")));
-        }
-        if (log.isDebugEnabled()) {
-            log.debug(logPrefix + filter + " returns " + suggests.size() + " entries: " + suggests);
-        }
-        return suggests;
-    }
+//    private static List<GroupUserSuggest> searchUsers(UserManager userManager, Map<String, Serializable> filter, final HashSet<String> columns) throws ClientException, SizeLimitExceededException {
+//        final String logPrefix = "<searchUsers> ";
+//        List<GroupUserSuggest> suggests = new ArrayList<GroupUserSuggest>();
+//        for (DocumentModel principal : userManager.searchUsers(
+//              filter,
+////                new HashMap<String, Serializable>(),
+//                new HashSet<String>(filter.keySet())
+////                new HashSet<String>()
+//                )) {
+//            suggests.add(new GroupUserSuggest((String) principal.getProperty(userManager.getUserSchemaName(),"username"),
+//                    principal.getProperty(userManager.getUserSchemaName(), "firstName")
+//                    + " "
+//                    + principal.getProperty(userManager.getUserSchemaName(), "lastName")));
+//        }
+//        if (log.isDebugEnabled()) {
+//            log.debug(logPrefix + filter + " returns " + suggests.size() + " entries: " + suggests);
+//        }
+//        return suggests;
+//    }
     
     private static List<GroupUserSuggest> searchUsers(UserManager userManager, String pattern) throws ClientException, SizeLimitExceededException {
         final String logPrefix = "<searchUsers> ";

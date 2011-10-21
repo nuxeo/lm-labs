@@ -110,6 +110,6 @@ public interface PageList extends Page {
      * @param pOut
      * @throws IOException
      */
-    void exportExcel(OutputStream pOut)  throws ClientException, IOException ;
+    void exportExcel(OutputStream pOut) throws ClientException, IOException ;
     
 }
