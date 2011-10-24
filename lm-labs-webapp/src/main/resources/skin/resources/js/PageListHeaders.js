@@ -84,7 +84,6 @@ function setCheckbox(isChecked, varName){
 function initNewHeader() {
 	$("#form-manageList").clearForm();
 	$("#headerName").val(label_newsHeader);
-	$("#headerName").val('toto');
 	$("#headerName").select();
 	$("#headerName").focus();
 	$('#headerType option[value=TEXT]').attr("selected", "selected");
