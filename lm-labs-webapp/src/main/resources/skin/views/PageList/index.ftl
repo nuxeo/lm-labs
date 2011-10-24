@@ -24,7 +24,7 @@
 	</@block>
 	
 	<@block name="docactions">
-		<li></li>
+		<#include "views/common/page_actions.ftl" />
 	</@block>
 	
 	<@block name="content">	

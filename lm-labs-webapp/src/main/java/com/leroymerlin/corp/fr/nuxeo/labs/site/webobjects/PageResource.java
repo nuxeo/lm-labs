@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -55,6 +56,10 @@ public class PageResource extends DocumentObject {
 
     public Page getPage() {
         return doc.getAdapter(Page.class);
+    }
+
+    public Page getPage(DocumentModel pDoc) {
+        return pDoc.getAdapter(Page.class);
     }
 
     @Override

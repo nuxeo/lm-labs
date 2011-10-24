@@ -32,13 +32,13 @@
                 <li class="divider"></li>
                 <@block name="siteactions">
                 <#if site?? && Session.hasPermission(site.document.ref, "Everything")>
-                	<#if site.isVisible()>
-                		<li><a id="publishSite" href="#" onclick="javascript:draftSite();">${Context.getMessage('command.siteactions.draft')}</a></li>
+                	<#if site.visible>
+                		<li><a href="#" onclick="javascript:draftSite();">${Context.getMessage('command.siteactions.draft')}</a></li>
                 	<#else>
-                		<li><a id="draftSite" href="#" onclick="javascript:publishSite();">${Context.getMessage('command.siteactions.publish')}</a></li>
+                		<li><a href="#" onclick="javascript:publishSite();">${Context.getMessage('command.siteactions.publish')}</a></li>
                 	</#if>
                 	<!--   delete     -->
-                	<li><a id="deleteSite" href="#" onclick="javascript:deleteSite();">${Context.getMessage('command.siteactions.delete')}</a></li>
+                	<li><a href="#" onclick="javascript:deleteSite();">${Context.getMessage('command.siteactions.delete')}</a></li>
                 	<script type="text/javascript">
                 		function publishSite(){
                 			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouPublish')}")){
