@@ -100,7 +100,9 @@ public final class LabsSiteConstants {
     
     public enum State {
         DRAFT("draft", "draft"),
-        PUBLISH("publish", "published");
+        PUBLISH("publish", "published"),
+        DELETE("delete", "deleted"),
+        UNDELETE("undelete", null);
 
         private String transition;
         private String state;

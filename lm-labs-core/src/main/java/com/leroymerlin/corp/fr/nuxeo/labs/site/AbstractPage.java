@@ -124,4 +124,14 @@ public abstract class AbstractPage implements Page {
         return LabsSiteConstants.State.PUBLISH.getState().equals(doc.getCurrentLifeCycleState());
     }
 
+    @Override
+    public void delete() throws ClientException{
+        doc.followTransition(LabsSiteConstants.State.DELETE.getTransition());
+    }
+
+    @Override
+    public void undelete() throws ClientException{
+        doc.followTransition(LabsSiteConstants.State.UNDELETE.getTransition());
+    }
+
 }

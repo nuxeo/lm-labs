@@ -29,7 +29,6 @@ public class StateTest {
     public void iCreateSiteWithInitialState() throws Exception {
         DocumentModel site1 = createSite();
         assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
-
     }
 
     /**
@@ -73,11 +72,7 @@ public class StateTest {
     @Test
     public void iCreatePageListWithInitialState() throws Exception {
         DocumentModel site1 = createSite();
-        DocumentModel page = session.createDocumentModel(
-                site1.getPathAsString(), "page",
-                LabsSiteConstants.Docs.PAGELIST.type());
-        page = session.createDocument(page);
-        session.save();
+        DocumentModel page = createPageList(site1);
         assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
     }
 
@@ -128,11 +123,7 @@ public class StateTest {
     @Test
     public void iCanPublishAPage() throws Exception {
         DocumentModel site1 = createSite();
-        DocumentModel page = session.createDocumentModel(
-                site1.getPathAsString(), "page",
-                LabsSiteConstants.Docs.PAGELIST.type());
-        page = session.createDocument(page);
-        session.save();
+        DocumentModel page = createPageList(site1);
         assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
         PageList adapter = page.getAdapter(PageList.class);
         adapter.publish();
@@ -142,11 +133,7 @@ public class StateTest {
     @Test(expected=ClientException.class)
     public void iCantDraftADraftedPage() throws Exception {
         DocumentModel site1 = createSite();
-        DocumentModel page = session.createDocumentModel(
-                site1.getPathAsString(), "page",
-                LabsSiteConstants.Docs.PAGELIST.type());
-        page = session.createDocument(page);
-        session.save();
+        DocumentModel page = createPageList(site1);
         assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
         PageList adapter = page.getAdapter(PageList.class);
         adapter.draft();
@@ -155,11 +142,7 @@ public class StateTest {
     @Test
     public void iCanDraftAPublishedPage() throws Exception {
         DocumentModel site1 = createSite();
-        DocumentModel page = session.createDocumentModel(
-                site1.getPathAsString(), "page",
-                LabsSiteConstants.Docs.PAGELIST.type());
-        page = session.createDocument(page);
-        session.save();
+        DocumentModel page = createPageList(site1);
         assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
         PageList adapter = page.getAdapter(PageList.class);
         adapter.publish();
@@ -168,14 +151,24 @@ public class StateTest {
         assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
     }
 
-    @Test
-    public void iCantDisplayDraftedPage() throws Exception {
-        DocumentModel site1 = createSite();
+    /**
+     * @param site1
+     * @return
+     * @throws ClientException
+     */
+    private DocumentModel createPageList(DocumentModel site1) throws ClientException {
         DocumentModel page = session.createDocumentModel(
                 site1.getPathAsString(), "page",
                 LabsSiteConstants.Docs.PAGELIST.type());
         page = session.createDocument(page);
         session.save();
+        return page;
+    }
+
+    @Test
+    public void iCantDisplayDraftedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
         assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
         PageList adapter = page.getAdapter(PageList.class);
         assertTrue(!adapter.isVisible());
@@ -184,15 +177,222 @@ public class StateTest {
     @Test
     public void iCanDisplayPublishedPage() throws Exception {
         DocumentModel site1 = createSite();
-        DocumentModel page = session.createDocumentModel(
-                site1.getPathAsString(), "page",
-                LabsSiteConstants.Docs.PAGELIST.type());
-        page = session.createDocument(page);
-        session.save();
+        DocumentModel page = createPageList(site1);
         assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
         PageList adapter = page.getAdapter(PageList.class);
         adapter.publish();
         assertTrue(adapter.isVisible());
     }
+
+    @Test
+    public void iCanPublishADraftedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        site1.getAdapter(Page.class).publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(site1.getCurrentLifeCycleState()));
+        
+    }
+
+    @Test
+    public void iCanPDraftedAPublishedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        site1.getAdapter(Page.class).publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(site1.getCurrentLifeCycleState()));
+        site1.getAdapter(Page.class).draft();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        
+    }
+
+    @Test(expected=ClientException.class)
+    public void iCantPublishAPublishedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        site1.getAdapter(Page.class).publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(site1.getCurrentLifeCycleState()));
+        site1.getAdapter(Page.class).publish();
+        
+    }
+
+    @Test(expected=ClientException.class)
+    public void iCantDraftADraftedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        site1.getAdapter(Page.class).draft();
+        
+    }
+
+    @Test
+    public void iCanDisplayPublishedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        Page adapter = site1.getAdapter(Page.class);
+        adapter.publish();
+        assertTrue(adapter.isVisible());
+    }
+
+    @Test
+    public void iCantDisplayDraftedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        Page adapter = site1.getAdapter(Page.class);
+        assertTrue(!adapter.isVisible());
+    }
+
+    @Test
+    public void iCantDeleteADraftedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        Page adapter = site1.getAdapter(Page.class);
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(site1.getCurrentLifeCycleState()));
+    }
+
+    @Test
+    public void iCantDeleteAPublishedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        Page adapter = site1.getAdapter(Page.class);
+        adapter.publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(site1.getCurrentLifeCycleState()));
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(site1.getCurrentLifeCycleState()));
+    }
+
+    @Test(expected=ClientException.class)
+    public void iCantDeleteADeletedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        Page adapter = site1.getAdapter(Page.class);
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(site1.getCurrentLifeCycleState()));
+        adapter.delete();
+    }
+
+    @Test
+    public void iCanUndeleteADeletedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        Page adapter = site1.getAdapter(Page.class);
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(site1.getCurrentLifeCycleState()));
+        adapter.undelete();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+    }
+
+    @Test(expected=ClientException.class)
+    public void iCantUndeleteADraftedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        Page adapter = site1.getAdapter(Page.class);
+        adapter.undelete();
+    }
+
+    @Test(expected=ClientException.class)
+    public void iCantUndeleteAPublishedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        Page adapter = site1.getAdapter(Page.class);
+        adapter.publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(site1.getCurrentLifeCycleState()));
+        adapter.undelete();
+    }
+    
+    @Test
+    public void iCantDisplayADeletedSite() throws Exception {
+        DocumentModel site1 = createSite();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        Page adapter = site1.getAdapter(Page.class);
+        adapter.publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(site1.getCurrentLifeCycleState()));
+        assertTrue(adapter.isVisible());
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(site1.getCurrentLifeCycleState()));
+        assertTrue(!adapter.isVisible());
+    }
+    
+    
+    
+    
+
+    @Test
+    public void iCantDeleteADraftedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        Page adapter = page.getAdapter(Page.class);
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(page.getCurrentLifeCycleState()));
+    }
+
+    @Test
+    public void iCantDeleteAPublishedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        Page adapter = page.getAdapter(Page.class);
+        adapter.publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(page.getCurrentLifeCycleState()));
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(page.getCurrentLifeCycleState()));
+    }
+
+    @Test(expected=ClientException.class)
+    public void iCantDeleteADeletedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        Page adapter = page.getAdapter(Page.class);
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(page.getCurrentLifeCycleState()));
+        adapter.delete();
+    }
+
+    @Test
+    public void iCanUndeleteADeletedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        Page adapter = page.getAdapter(Page.class);
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(page.getCurrentLifeCycleState()));
+        adapter.undelete();
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+    }
+
+    @Test(expected=ClientException.class)
+    public void iCantUndeleteADraftedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        Page adapter = page.getAdapter(Page.class);
+        adapter.undelete();
+    }
+
+    @Test(expected=ClientException.class)
+    public void iCantUndeleteAPublishedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        Page adapter = page.getAdapter(Page.class);
+        adapter.publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(page.getCurrentLifeCycleState()));
+        adapter.undelete();
+    }
+    
+    @Test
+    public void iCantDisplayADeletedPage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        Page adapter = page.getAdapter(Page.class);
+        adapter.publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(page.getCurrentLifeCycleState()));
+        assertTrue(adapter.isVisible());
+        adapter.delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(page.getCurrentLifeCycleState()));
+        assertTrue(!adapter.isVisible());
+    }
+    
     
 }

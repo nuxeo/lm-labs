@@ -12,17 +12,30 @@
         <transition name="draft" destinationState="draft">
           <description>Brouillon de la page la page</description>
         </transition>
+        <transition destinationState="deleted" name="delete">
+            <description>Move document to trash (temporary delete)</description>
+        </transition>
+        <transition destinationState="draft" name="undelete">
+            <description>Recover the document from trash</description>
+        </transition>
       </transitions>
       <states>
         <state name="draft" description="Brouillon" initial="true">
           <transitions>
             <transition>publish</transition>
+            <transition>delete</transition>
           </transitions>
         </state>
         <state name="published" description="Publiee">
           <transitions>
             <transition>draft</transition>
+            <transition>delete</transition>
           </transitions>
+        </state>
+        <state description="Document is deleted" name="deleted">
+            <transitions>
+                <transition>undelete</transition>
+            </transitions>
         </state>
       </states>
     </lifecycle>

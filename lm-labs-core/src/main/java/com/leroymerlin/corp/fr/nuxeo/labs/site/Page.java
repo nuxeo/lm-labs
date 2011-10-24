@@ -29,4 +29,8 @@ public interface Page {
     void draft() throws ClientException;
     
     boolean isVisible() throws ClientException;
+    
+    void delete() throws ClientException;
+    
+    void undelete() throws ClientException;
 }
