@@ -135,7 +135,29 @@ public class LabsSiteAdapterTest {
         doc.setPropertyValue("dc:title", "le titre");
         doc = session.createDocument(doc);
         doc.getAdapter(LabsSite.class).publish();
-        session.save();
         assertTrue(doc.getAdapter(LabsSite.class).isVisible());
+    }
+
+    @Test()
+    public void iCanHaveDeletedTagADeletedSite() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
+        doc.setPropertyValue("dc:title", "le titre");
+        doc = session.createDocument(doc);
+        doc.getAdapter(LabsSite.class).delete();
+        assertTrue(doc.getAdapter(LabsSite.class).isDeleted());
+    }
+
+    @Test()
+    public void iCantHaveDeletedTagAOtherDeletedSite() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
+        doc.setPropertyValue("dc:title", "le titre");
+        doc = session.createDocument(doc);
+        assertTrue(!doc.getAdapter(LabsSite.class).isDeleted());
+        doc.getAdapter(LabsSite.class).publish();
+        assertTrue(!doc.getAdapter(LabsSite.class).isDeleted());
+        doc.getAdapter(LabsSite.class).delete();
+        assertTrue(doc.getAdapter(LabsSite.class).isDeleted());
+        doc.getAdapter(LabsSite.class).undelete();
+        assertTrue(!doc.getAdapter(LabsSite.class).isDeleted());
     }
 }

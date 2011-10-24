@@ -110,17 +110,6 @@ public class StateTest {
     }
 
     @Test
-    public void iCreateFolderWithoutInitialState() throws Exception {
-        DocumentModel site1 = createSite();
-        DocumentModel page = session.createDocumentModel(
-                site1.getPathAsString(), "page",
-                LabsSiteConstants.Docs.PAGELIST_LINE.type());
-        page = session.createDocument(page);
-        session.save();
-        assertTrue(!LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
-    }
-
-    @Test
     public void iCanPublishAPage() throws Exception {
         DocumentModel site1 = createSite();
         DocumentModel page = createPageList(site1);
@@ -394,5 +383,53 @@ public class StateTest {
         assertTrue(!adapter.isVisible());
     }
     
+    @Test
+    public void iRestaureOldStatePage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        Page adapter = page.getAdapter(Page.class);
+        adapter.publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(page.getCurrentLifeCycleState()));
+        assertTrue(adapter.isVisible());
+        //deleteSite
+        site1.getAdapter(Page.class).delete();
+        assertTrue(session.exists(page.getRef()));
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(page.getCurrentLifeCycleState()));
+    }
     
+    @Test
+    public void iPublishOnlyThisSiteAndNotThePage() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = createPageList(site1);
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        //publish
+        site1.getAdapter(Page.class).publish();
+        assertTrue(LabsSiteConstants.State.PUBLISH.getState().equals(site1.getCurrentLifeCycleState()));
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(page.getCurrentLifeCycleState()));
+    }
+    
+    @Test
+    public void iDeletePageListWithoutDeletePageListLine() throws Exception {
+        DocumentModel site1 = createSite();
+        DocumentModel page = session.createDocumentModel(
+                site1.getPathAsString(), "pageList",
+                LabsSiteConstants.Docs.PAGELIST.type());
+        page = session.createDocument(page);
+        DocumentModel line = session.createDocumentModel(
+                site1.getPathAsString(), "line",
+                LabsSiteConstants.Docs.PAGELIST_LINE.type());
+        line = session.createDocument(line);
+        session.save();
+        page.getAdapter(Page.class).delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(page.getCurrentLifeCycleState()));
+        assertTrue(session.exists(line.getRef()));
+        assertTrue(!LabsSiteConstants.State.DELETE.getState().equals(line.getCurrentLifeCycleState()));
+        assertTrue(LabsSiteConstants.State.DRAFT.getState().equals(site1.getCurrentLifeCycleState()));
+        site1.getAdapter(Page.class).delete();
+        assertTrue(LabsSiteConstants.State.DELETE.getState().equals(site1.getCurrentLifeCycleState()));
+        assertTrue(session.exists(line.getRef()));
+        assertTrue(!LabsSiteConstants.State.DELETE.getState().equals(line.getCurrentLifeCycleState()));
+    }
 }

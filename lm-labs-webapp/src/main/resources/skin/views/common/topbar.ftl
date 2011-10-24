@@ -37,13 +37,15 @@
                 	<#else>
                 		<li><a id="draftSite" href="#" onclick="javascript:publishSite();">${Context.getMessage('command.siteactions.publish')}</a></li>
                 	</#if>
+                	<!--   delete     -->
+                	<li><a id="deleteSite" href="#" onclick="javascript:deleteSite();">${Context.getMessage('command.siteactions.delete')}</a></li>
                 	<script type="text/javascript">
                 		function publishSite(){
                 			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouPublish')}")){
 	                			jQuery.ajax({
-									type: 'GET',
+									type: 'PUT',
 								    async: false,
-								    url: '${Context.modulePath}/${site.URL}/@labspublish/publishSite',
+								    url: '${Context.modulePath}/${site.URL}/@labspublish/publish',
 								    success: function(data) {
 								    	if (data == 'publish') {
 								          alert("${Context.getMessage('label.lifeCycle.site.hasPublished')}");
@@ -60,9 +62,9 @@
                 		function draftSite(){
                 			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDraft')}")){
 	                			jQuery.ajax({
-									type: 'GET',
+									type: 'PUT',
 								    async: false,
-								    url: '${Context.modulePath}/${site.URL}/@labspublish/draftSite',
+								    url: '${Context.modulePath}/${site.URL}/@labspublish/draft',
 								    success: function(data) {
 								    	if (data == 'draft') {
 								          alert("${Context.getMessage('label.lifeCycle.site.hasDrafted')}");
@@ -70,6 +72,25 @@
 								        }
 								        else {
 								          alert("${Context.getMessage('label.lifeCycle.site.hasNotDrafted')}");
+								        }
+								    }
+								});
+							}
+                		}
+                		
+                		function deleteSite(){
+                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
+	                			jQuery.ajax({
+									type: 'DELETE',
+								    async: false,
+								    url: '${Context.modulePath}/${site.URL}/@labspublish/delete',
+								    success: function(data) {
+								    	if (data == 'delete') {
+								          alert("${Context.getMessage('label.lifeCycle.site.hasDeleted')}");
+								          document.location.href = '${Context.modulePath}';
+								        }
+								        else {
+								          alert("${Context.getMessage('label.lifeCycle.site.hasNotDeleted')}");
 								        }
 								    }
 								});

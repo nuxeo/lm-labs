@@ -77,8 +77,38 @@ public class SitesRoot extends ModuleRoot {
         rendering.setSharedVariable("userFullName", new UserFullNameTemplateMethod());
         rendering.setSharedVariable("dateInWords", new DateInWordsMethod());
         rendering.setSharedVariable("site", null);
-
         rendering.setSharedVariable("Common", new CommonHelper());
+        List<LabsSite> undeletedLabsSites = new ArrayList<LabsSite>();
+        List<LabsSite> deletedLabsSites = new ArrayList<LabsSite>();
+        try {
+            List<LabsSite> labsSites = getLabsSites();
+            undeletedLabsSites = getLabsSitesUndeleted(labsSites);
+            deletedLabsSites = getLabsSitesDeleted(labsSites);
+        } catch (ClientException e) {
+            log.error("Impossible to get the sites!", e);
+        }
+        rendering.setSharedVariable("undeletedLabsSites", undeletedLabsSites);
+        rendering.setSharedVariable("deletedLabsSites", deletedLabsSites);
+    }
+    
+    private List<LabsSite> getLabsSitesUndeleted(List<LabsSite> pOrigin) throws ClientException{
+        List<LabsSite> result = new ArrayList<LabsSite>();
+        for(LabsSite labsSite:pOrigin){
+            if(!labsSite.isDeleted()){
+                result.add(labsSite);
+            }
+        }
+        return result;
+    }
+    
+    private List<LabsSite> getLabsSitesDeleted(List<LabsSite> pOrigin) throws ClientException{
+        List<LabsSite> result = new ArrayList<LabsSite>();
+        for(LabsSite labsSite:pOrigin){
+            if(labsSite.isDeleted()){
+                result.add(labsSite);
+            }
+        }
+        return result;
     }
 
     @GET
@@ -120,7 +150,7 @@ public class SitesRoot extends ModuleRoot {
         }
     }
 
-    public List<LabsSite> getLabsSites() throws ClientException {
+    private List<LabsSite> getLabsSites() throws ClientException {
         String user = null;
         if (((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous()) {
             user = SecurityConstants.EVERYONE;

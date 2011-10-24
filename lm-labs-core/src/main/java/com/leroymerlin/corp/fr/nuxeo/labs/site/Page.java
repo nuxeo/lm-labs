@@ -33,4 +33,6 @@ public interface Page {
     void delete() throws ClientException;
     
     void undelete() throws ClientException;
+    
+    boolean isDeleted() throws ClientException;
 }

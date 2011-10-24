@@ -34,25 +34,73 @@
       <h1>${Context.getMessage('label.labssite.list.sites.title')}</h1>
     </div>
 
-    <#assign sites = This.labsSites />
-    <#if (sites?size > 0) >
-      <table class="zebra-striped bs" id="MySites" >
-        <thead>
-          <tr>
-            <th>Nom du site</th>
-            <th>Responsable</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          <#list sites as site>
-            <tr>
-              <td>${site.title}</td>
-              <td>${site.document.creator}</td>
-              <td><a class="btn" href="${This.path}/${site.URL}">Voir</a></td>
-            </tr>
-          </#list>
-      </table>
+    <#if (deletedLabsSites?size > 0 || undeletedLabsSites?size > 0) >
+    	<#if (undeletedLabsSites?size > 0) >
+	      <table class="zebra-striped bs" id="MySites" >
+	        <thead>
+	          <tr>
+	            <th>Nom du site</th>
+	            <th>Responsable</th>
+	            <th style="width: 100px;">&nbsp;</th>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          <#list undeletedLabsSites as sit>
+	            <tr>
+	              <td>${sit.title}</td>
+	              <td>${sit.document.creator}</td>
+	              <td><a class="btn" href="${This.path}/${sit.URL}">Voir</a></td>
+	            </tr>
+	          </#list>
+	      </table>
+	    </#if>
+	    <#if (deletedLabsSites?size > 0) >
+	    	<!--   delete     -->
+	    	<section>
+				<div class="page-header">
+					<h4>${Context.getMessage('label.labssite.list.deleted.sites.title')}</h4>
+				</div>
+			      <table class="zebra-striped bs" id="MySites" >
+			        <thead>
+			          <tr>
+			            <th>Nom du site</th>
+			            <th>Responsable</th>
+			            <th style="width: 100px;">&nbsp;</th>
+			          </tr>
+			        </thead>
+			        <tbody>
+			          <#list deletedLabsSites as site>
+			            <tr>
+			              <td>${site.title}</td>
+			              <td>${site.document.creator}</td>
+			              <td>
+			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Context.modulePath}/${site.URL}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
+			              </td>
+			            </tr>
+			          </#list>
+			      </table>
+			</section>
+			<script type="text/javascript">
+				function undeleteSite(url){
+        			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouUndelete')}")){
+            			jQuery.ajax({
+							type: 'GET',
+						    async: false,
+						    url: url,
+						    success: function(data) {
+						    	if (data == 'undelete') {
+						          alert("${Context.getMessage('label.lifeCycle.site.hasUndeleted')}");
+						          document.location.href = '${Context.modulePath}';
+						        }
+						        else {
+						          alert("${Context.getMessage('label.lifeCycle.site.hasNotUndeleted')}");
+						        }
+						    }
+						});
+					}
+        		}
+			</script>
+	    </#if>
     <#else>
       Aucun site trouvé
     </#if>

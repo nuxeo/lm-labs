@@ -133,5 +133,10 @@ public abstract class AbstractPage implements Page {
     public void undelete() throws ClientException{
         doc.followTransition(LabsSiteConstants.State.UNDELETE.getTransition());
     }
+    
+    @Override
+    public boolean isDeleted() throws ClientException{
+        return LabsSiteConstants.State.DELETE.getState().equals(doc.getCurrentLifeCycleState());
+    }
 
 }
