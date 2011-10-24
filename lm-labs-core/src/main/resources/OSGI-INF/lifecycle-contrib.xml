@@ -4,7 +4,7 @@
     
     <extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService"
     point="lifecycle">
-    <lifecycle name="default" defaultInitial="draft">
+    <lifecycle name="labs" defaultInitial="draft">
       <transitions>
         <transition name="publish" destinationState="published">
           <description>Publier la page</description>
@@ -31,13 +31,13 @@
   <extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService"
     point="types">
     <types>
-      <type name="Site">default</type>
-      <type name="Page">default</type>
-      <type name="PageBlocs">default</type>
-      <type name="PageNews">default</type>
-      <type name="PageClasseur">default</type>
-      <type name="PageList">default</type>
-      <type name="HtmlPage">default</type>
+      <type name="Site">labs</type>
+      <type name="Page">labs</type>
+      <type name="PageBlocs">labs</type>
+      <type name="PageNews">labs</type>
+      <type name="PageClasseur">labs</type>
+      <type name="PageList">labs</type>
+      <type name="HtmlPage">labs</type>
     </types>
   </extension>
 

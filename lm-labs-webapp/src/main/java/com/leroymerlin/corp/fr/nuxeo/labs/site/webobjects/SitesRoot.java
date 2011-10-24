@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.WebException;
@@ -44,6 +46,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.portal.usermanager.LMNuxeoPrincipal;
 
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
@@ -52,12 +56,11 @@ public class SitesRoot extends ModuleRoot {
 
     private static final Log log = LogFactory.getLog(SitesRoot.class);
 
-    private static final String[] MESSAGES_TYPE = new String[] { "error",
-            "info", "success", "warning" };
+    private static final String[] MESSAGES_TYPE = new String[] { "error", "info", "success", "warning" };
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.nuxeo.ecm.webengine.model.impl.AbstractResource#initialize(java.lang
      * .Object[])
@@ -69,12 +72,9 @@ public class SitesRoot extends ModuleRoot {
         // WARNING : these are GLOBAL vars, try to avoid using this trick (DMR)
         RenderingEngine rendering = getContext().getEngine()
                 .getRendering();
-        rendering.setSharedVariable("bytesFormat",
-                new BytesFormatTemplateMethod());
-        rendering.setSharedVariable("latestUploadsPageProvider",
-                new LatestUploadsPageProviderTemplateMethod());
-        rendering.setSharedVariable("userFullName",
-                new UserFullNameTemplateMethod());
+        rendering.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
+        rendering.setSharedVariable("latestUploadsPageProvider", new LatestUploadsPageProviderTemplateMethod());
+        rendering.setSharedVariable("userFullName", new UserFullNameTemplateMethod());
         rendering.setSharedVariable("dateInWords", new DateInWordsMethod());
         rendering.setSharedVariable("site", null);
 
@@ -85,7 +85,7 @@ public class SitesRoot extends ModuleRoot {
     public Object doGetDefaultView() {
         return getView("index");
     }
-    
+
     @Path("{url}")
     public Object doGetSite(@PathParam("url") final String pURL) {
         CoreSession session = getContext().getCoreSession();
@@ -102,6 +102,7 @@ public class SitesRoot extends ModuleRoot {
 
     /**
      * Needed by OpenSocial gadgets.
+     * 
      * @param id
      * @return
      * @throws URIException
@@ -120,14 +121,30 @@ public class SitesRoot extends ModuleRoot {
     }
 
     public List<LabsSite> getLabsSites() throws ClientException {
-        return getSiteManager().getAllSites(ctx.getCoreSession());
+        String user = null;
+        if (((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous()) {
+            user = SecurityConstants.EVERYONE;
+        } else {
+            user = getContext().getPrincipal()
+                    .getName();
+        }
+        CoreSession coreSession = ctx.getCoreSession();
+        List<LabsSite> allSites = getSiteManager().getAllSites(coreSession);
+        List<LabsSite> newAllSites = new ArrayList<LabsSite>(allSites);
+        LabsSite site = null;
+        int size = allSites.size();
+        for (int i = 0; i < size; i++) {
+            site = allSites.get(i);
+            if (LabsSiteUtils.isOnlyRead(site.getDocument(), user) && !site.isVisible()) {
+                newAllSites.remove(i);
+            }
+        }
+        return newAllSites;
     }
 
     @POST
-    public Response doPost(@FormParam("labsSiteTitle") String pTitle,
-            @FormParam("labsSiteURL") String pURL,
-            @FormParam("labsSiteDescription") String pDescription,
-            @FormParam("labssiteId") String pId) {
+    public Response doPost(@FormParam("labsSiteTitle") String pTitle, @FormParam("labsSiteURL") String pURL,
+            @FormParam("labsSiteDescription") String pDescription, @FormParam("labssiteId") String pId) {
         CoreSession session = ctx.getCoreSession();
 
         SiteManager sm = getSiteManager();
@@ -155,7 +172,7 @@ public class SitesRoot extends ModuleRoot {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see
      * org.nuxeo.ecm.webengine.model.impl.ModuleRoot#handleError(javax.ws.rs
      * .WebApplicationException)
@@ -176,8 +193,7 @@ public class SitesRoot extends ModuleRoot {
         } else {
 
             return Response.status(500)
-                    .entity(getTemplate("error/labserror_500.ftl").arg("trace",
-                            getStackTrace(e)))
+                    .entity(getTemplate("error/labserror_500.ftl").arg("trace", getStackTrace(e)))
                     .type("text/html")
                     .build();
         }
@@ -190,11 +206,9 @@ public class SitesRoot extends ModuleRoot {
         return result.toString();
     }
 
-
-
     /**
      * Returns a Map containing all "flash" messages
-     *
+     * 
      * @return
      */
     public Map<String, String> getMessages() {
@@ -214,7 +228,10 @@ public class SitesRoot extends ModuleRoot {
     public String getLink(DocumentModel document) {
         SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
         try {
-            return new StringBuilder().append(getPath()).append("/").append(siteDocument.getResourcePath()).toString();
+            return new StringBuilder().append(getPath())
+                    .append("/")
+                    .append(siteDocument.getResourcePath())
+                    .toString();
         } catch (ClientException e) {
             return getPath();
         }

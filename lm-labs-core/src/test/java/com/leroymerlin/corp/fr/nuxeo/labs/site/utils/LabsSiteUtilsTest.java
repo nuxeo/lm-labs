@@ -14,6 +14,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
@@ -209,6 +210,24 @@ public final class LabsSiteUtilsTest {
                 .getRepositoryHandler()
                 .changeUser(session, username);
     }
-
-
+    
+    @Test 
+    public void isOnlyRead() throws Exception {
+        DocumentModel docu = session.createDocumentModel("/", "myfolder", "Folder");
+        docu = session.createDocument(docu);
+        session.save();
+        PermissionsHelper.addPermission(docu, SecurityConstants.READ, "toto", true);
+        assertTrue(PermissionsHelper.hasPermission(docu, SecurityConstants.READ, "toto"));
+        assertTrue(LabsSiteUtils.isOnlyRead(docu, "toto"));
+    }
+    
+    @Test 
+    public void isNotOnlyRead() throws Exception {
+        DocumentModel docu = session.createDocumentModel("/", "myfolder", "Folder");
+        docu = session.createDocument(docu);
+        session.save();
+        PermissionsHelper.addPermission(docu, SecurityConstants.READ_WRITE, "toto", true);
+        assertTrue(PermissionsHelper.hasPermission(docu, SecurityConstants.READ_WRITE, "toto"));
+        assertTrue(!LabsSiteUtils.isOnlyRead(docu, "toto"));
+    }
 }

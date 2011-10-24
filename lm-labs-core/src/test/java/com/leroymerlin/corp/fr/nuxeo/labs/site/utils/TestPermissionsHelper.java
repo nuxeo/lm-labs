@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -208,6 +209,23 @@ public class TestPermissionsHelper {
         for (LMPermission lmPermission : permissions) {
             log.debug("====" + lmPermission.getName() + "/" + lmPermission.getDisplayName() + "/" + lmPermission.getPermission());
         }
+    }
+    
+    @Test 
+    public void hasHigherOrEqualPermission() throws Exception {
+        DocumentModel docu = session.createDocumentModel("/", "myfolder", "Folder");
+        docu = session.createDocument(docu);
+        session.save();
+        
+        List<String> orderedPermissions = new ArrayList<String>();
+        orderedPermissions.add(SecurityConstants.EVERYTHING);
+        orderedPermissions.add(SecurityConstants.READ_WRITE);
+        orderedPermissions.add(SecurityConstants.READ);
+        PermissionsHelper helper = new PermissionsHelper(orderedPermissions);
+        PermissionsHelper.addPermission(docu, SecurityConstants.READ, "toto", true);
+        
+        assertTrue(PermissionsHelper.hasPermission(docu, SecurityConstants.READ, "toto"));
+        assertTrue(!helper.hasHigherOrEqualPermission(docu, SecurityConstants.READ_WRITE, "toto"));
     }
 
 }

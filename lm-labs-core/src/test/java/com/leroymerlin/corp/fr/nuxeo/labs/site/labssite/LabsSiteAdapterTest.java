@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -117,5 +118,24 @@ public class LabsSiteAdapterTest {
         blob.setMimeType("image/jpeg");
         blob.setFilename(filename);
         return blob;
+    }
+
+    @Test()
+    public void iCantDisplayADraftedSite() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
+        doc.setPropertyValue("dc:title", "le titre");
+        doc = session.createDocument(doc);
+        session.save();
+        assertTrue(!doc.getAdapter(LabsSite.class).isVisible());
+    }
+
+    @Test()
+    public void iCanDisplayAPublishedSite() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
+        doc.setPropertyValue("dc:title", "le titre");
+        doc = session.createDocument(doc);
+        doc.getAdapter(LabsSite.class).publish();
+        session.save();
+        assertTrue(doc.getAdapter(LabsSite.class).isVisible());
     }
 }

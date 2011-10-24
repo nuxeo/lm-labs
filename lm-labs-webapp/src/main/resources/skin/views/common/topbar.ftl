@@ -31,6 +31,52 @@
                 </@block>
                 <li class="divider"></li>
                 <@block name="siteactions">
+                <#if site?? && Session.hasPermission(site.document.ref, "Everything")>
+                	<#if site.isVisible()>
+                		<li><a id="publishSite" href="#" onclick="javascript:draftSite();">${Context.getMessage('command.siteactions.draft')}</a></li>
+                	<#else>
+                		<li><a id="draftSite" href="#" onclick="javascript:publishSite();">${Context.getMessage('command.siteactions.publish')}</a></li>
+                	</#if>
+                	<script type="text/javascript">
+                		function publishSite(){
+                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouPublish')}")){
+	                			jQuery.ajax({
+									type: 'GET',
+								    async: false,
+								    url: '${Context.modulePath}/${site.URL}/@labspublish/publishSite',
+								    success: function(data) {
+								    	if (data == 'publish') {
+								          alert("${Context.getMessage('label.lifeCycle.site.hasPublished')}");
+								          document.location.href = '${This.path}';
+								        }
+								        else {
+								          alert("${Context.getMessage('label.lifeCycle.site.hasNotPublished')}");
+								        }
+								    }
+								});
+							}
+                		}
+                		
+                		function draftSite(){
+                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDraft')}")){
+	                			jQuery.ajax({
+									type: 'GET',
+								    async: false,
+								    url: '${Context.modulePath}/${site.URL}/@labspublish/draftSite',
+								    success: function(data) {
+								    	if (data == 'draft') {
+								          alert("${Context.getMessage('label.lifeCycle.site.hasDrafted')}");
+								          document.location.href = '${This.path}';
+								        }
+								        else {
+								          alert("${Context.getMessage('label.lifeCycle.site.hasNotDrafted')}");
+								        }
+								    }
+								});
+							}
+                		}
+                	</script>
+                </#if>
                 <#if site?? && Session.hasPermission(site.document.ref, "WRITE")>
                 <li><a href="${Context.modulePath}/${site.URL}/@views/edit">Administration</a></li>
                 </#if>

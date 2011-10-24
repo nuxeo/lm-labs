@@ -1,10 +1,13 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
 public final class LabsSiteConstants {
 
@@ -121,6 +124,18 @@ public final class LabsSiteConstants {
             return state;
         }
 
+    }
+    
+    public static List<String> OREDERED_PERMISSONS;
+    
+    public static PermissionsHelper  PERMISSIONS_HELPER;
+
+    static{
+        OREDERED_PERMISSONS = new ArrayList<String>();
+        OREDERED_PERMISSONS.add(SecurityConstants.EVERYTHING);
+        OREDERED_PERMISSONS.add(SecurityConstants.READ_WRITE);
+        OREDERED_PERMISSONS.add(SecurityConstants.READ);
+        PERMISSIONS_HELPER = new PermissionsHelper(OREDERED_PERMISSONS);
     }
 
     private LabsSiteConstants() {}
