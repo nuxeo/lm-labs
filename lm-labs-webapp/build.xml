@@ -37,7 +37,6 @@
       <arg value="clean" />
       <arg value="install" />
       <arg value="-Dmaven.test.skip=true" />
-      <arg value="-o" />
     </exec>
   </target>
   <target name="install-windows" if="osfamily-windows">
