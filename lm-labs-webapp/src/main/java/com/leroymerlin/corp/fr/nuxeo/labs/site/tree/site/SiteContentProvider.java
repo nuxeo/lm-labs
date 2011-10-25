@@ -24,10 +24,13 @@ public class SiteContentProvider extends AbstractContentProvider {
 
         @Override
         public boolean accept(DocumentModel docModel) {
-            return docModel.getAdapter(Page.class) != null;
-
+            try {
+                return docModel.getAdapter(Page.class) != null && !LabsSiteConstants.State.DELETE.getState()
+                        .equals(docModel.getCurrentLifeCycleState());
+            } catch (ClientException e) {
+                return false;
+            }
         }
-
     }
 
     private static final Filter filter = new PageFilter();
@@ -45,18 +48,17 @@ public class SiteContentProvider extends AbstractContentProvider {
     public String getLabel(Object obj) {
 
         String result = super.getLabel(obj);
-        if (StringUtils.capitalize(LabsSiteConstants.Docs.TREE.docName()).equals(result)) {
-            DocumentModel doc= (DocumentModel) obj;
+        if (StringUtils.capitalize(LabsSiteConstants.Docs.TREE.docName())
+                .equals(result)) {
+            DocumentModel doc = (DocumentModel) obj;
             SiteDocument sd = doc.getAdapter(SiteDocument.class);
             try {
-                result = sd.getSite().getTitle();
+                result = sd.getSite()
+                        .getTitle();
             } catch (ClientException e) {
             }
         }
         return result;
     }
-
-
-
 
 }

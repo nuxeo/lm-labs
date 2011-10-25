@@ -188,6 +188,10 @@ public class Site extends PageResource {
         }
         return super.getAdapter(adapter);
     }
+    
+    public List<Page> getDeletedPage() throws ClientException{
+        return doc.getAdapter(LabsSite.class).getAllDeletedPages();
+    }
 
     // /////////////// ALL CODE BELOW IS TO BE REFACTORED /////////////////
 

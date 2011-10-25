@@ -17,7 +17,8 @@
 
   <@block name="docactions">
     <@superBlock/>
-    <li><a id="page_edit" href="${This.path}/@views/edit"/>Modifier la page</a></li>
+      <li><a id="page_edit" href="${This.path}/@views/edit"/>Modifier la page</a></li>
+      <#include "views/common/page_actions.ftl" />
   </@block>
 
   <@block name="content">

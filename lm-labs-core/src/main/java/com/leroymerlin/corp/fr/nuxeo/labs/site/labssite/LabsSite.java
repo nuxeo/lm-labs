@@ -84,4 +84,6 @@ public interface LabsSite extends Page {
      */
     DocumentModel getAssetsDoc() throws ClientException;
 
+    List<Page> getAllDeletedPages() throws ClientException;
+
 }

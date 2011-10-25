@@ -136,6 +136,59 @@ public final class LabsSiteUtilsTest {
     }
 
     @Test
+    public void canGetAllNotDeletedDoc() throws Exception {
+        generateSite();
+
+        final DocumentModel site1 = session.getDocument(new PathRef("/"
+                + Docs.DEFAULT_DOMAIN.docName() + "/"
+                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
+
+        LabsSite site  = site1.getAdapter(LabsSite.class);
+
+        List<Page> allPages = site.getAllPages();
+        assertNotNull(allPages);
+        assertTrue(allPages.size() == 7);
+        for (Page page:allPages){
+            assertTrue(!page.isDeleted());
+        }
+        allPages.get(6).delete();
+        allPages.get(5).delete();
+        session.save();
+        allPages = site.getAllPages();
+        assertTrue(allPages.size() == 5);
+        for (Page page:allPages){
+            assertTrue(!page.isDeleted());
+        }
+    }
+
+    @Test
+    public void canGetAllDeletedDoc() throws Exception {
+        generateSite();
+
+        final DocumentModel site1 = session.getDocument(new PathRef("/"
+                + Docs.DEFAULT_DOMAIN.docName() + "/"
+                + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
+
+        LabsSite site  = site1.getAdapter(LabsSite.class);
+
+        List<Page> allPages = site.getAllPages();
+        assertNotNull(allPages);
+        assertTrue(allPages.size() == 7);
+        for (Page page:allPages){
+            assertTrue(!page.isDeleted());
+        }
+        allPages.get(6).delete();
+        allPages.get(5).delete();
+        allPages.get(4).delete();
+        session.save();
+        allPages = site.getAllDeletedPages();
+        assertTrue(allPages.size() == 3);
+        for (Page page:allPages){
+            assertTrue(page.isDeleted());
+        }
+    }
+
+    @Test
     public void iCanGetParentSite() throws Exception {
 
         LabsSite site = sm.createSite(session, "Mon Site", "monsite");

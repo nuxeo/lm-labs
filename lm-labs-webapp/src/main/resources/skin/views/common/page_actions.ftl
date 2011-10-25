@@ -6,7 +6,7 @@
 		<li><a href="#" onclick="javascript:publishPage();">${Context.getMessage('command.docactions.publish')}</a></li>
 	</#if>
 	<!--   delete     -->
-	<!--<li><a href="#" onclick="javascript:deletePage();">${Context.getMessage('command.docactions.delete')}</a></li>-->
+	<li><a href="#" onclick="javascript:deletePage();">${Context.getMessage('command.docactions.delete')}</a></li>
 	<script type="text/javascript">
 		function publishPage(){
 			if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouPublish')}")){

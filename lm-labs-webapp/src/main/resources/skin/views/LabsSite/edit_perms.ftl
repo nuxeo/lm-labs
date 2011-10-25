@@ -16,7 +16,8 @@
       <ul class="pills">
         <li><a href="${This.path}/@views/edit">Général</a></li>
         <li><a href="${This.path}/theme/${site.siteThemeManager.theme.name}">Thème</a></li>
-        <li class="active"><a href="${This.path}/@labspermissions">Permissions</a></li>
+        <li class="active"><a href="#">Permissions</a></li>
+        <li><a href="${This.path}/@views/edit_trash">Poubelle</a></li>
       </ul>
 
       <section>

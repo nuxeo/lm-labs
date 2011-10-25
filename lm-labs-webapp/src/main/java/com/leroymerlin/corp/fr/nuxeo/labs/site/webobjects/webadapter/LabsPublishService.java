@@ -7,6 +7,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -14,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
@@ -97,6 +99,22 @@ public class LabsPublishService extends DefaultAdapter {
     public Object doUndelete() {
         DocumentModel document = getDocument();
         try {
+            if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
+                Page page = document.getAdapter(Page.class);
+                page.undelete();
+                return Response.ok(UNDELETE).build();
+            }
+        } catch (ClientException e) {
+            log.error(IMPOSSIBLE_TO_DELETE, e);
+        }
+        return Response.ok(NOT_DELETED).build();
+    }
+    
+    @GET
+    @Path("undelete/{ref}")
+    public Object doUndeleteRef(@PathParam("ref") final String ref) {
+        try {
+            DocumentModel document = getContext().getCoreSession().getDocument(new IdRef(ref));
             if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
                 Page page = document.getAdapter(Page.class);
                 page.undelete();
