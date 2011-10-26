@@ -35,4 +35,6 @@ public interface Page {
     void undelete() throws ClientException;
     
     boolean isDeleted() throws ClientException;
+    
+    boolean isAuthorized(String user, boolean isAnomymous) throws ClientException;
 }

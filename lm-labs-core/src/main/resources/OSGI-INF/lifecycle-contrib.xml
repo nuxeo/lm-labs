@@ -45,14 +45,14 @@
   <extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService"
     point="types">
     <types>
-      <type noRecursionForTransitions="delete" name="Site">labs</type>
-      <type noRecursionForTransitions="delete" name="Page">labs</type>
-      <type noRecursionForTransitions="delete" name="PageBlocs">labs</type>
-      <type noRecursionForTransitions="delete" name="PageNews">labs</type>
-      <type noRecursionForTransitions="delete" name="PageClasseur">labs</type>
-      <type noRecursionForTransitions="delete" name="PageList">labs</type>
-      <type noRecursionForTransitions="delete" name="HtmlPage">labs</type>
-      <type noRecursionForTransitions="delete" name="Space">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="Site">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="Page">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="PageBlocs">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="PageNews">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="PageClasseur">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="PageList">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="HtmlPage">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="Space">labs</type>
     </types>
   </extension>
 

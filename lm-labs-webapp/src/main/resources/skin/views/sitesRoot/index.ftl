@@ -74,7 +74,7 @@
 			              <td>${site.title}</td>
 			              <td>${site.document.creator}</td>
 			              <td>
-			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Context.modulePath}/${site.URL}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
+			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Context.modulePath}/@labspublish/undelete/${site.documentModel.ref}');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>
 			            </tr>
 			          </#list>

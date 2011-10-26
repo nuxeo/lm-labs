@@ -4,6 +4,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.schema.DocumentType;
 import org.nuxeo.ecm.core.schema.SchemaManager;
 import org.nuxeo.runtime.api.Framework;
@@ -11,6 +12,7 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 public abstract class AbstractPage implements Page {
 
@@ -137,6 +139,20 @@ public abstract class AbstractPage implements Page {
     @Override
     public boolean isDeleted() throws ClientException{
         return LabsSiteConstants.State.DELETE.getState().equals(doc.getCurrentLifeCycleState());
+    }
+    
+    @Override
+    public boolean isAuthorized(String pUser, boolean pIsAnonymous) throws ClientException{
+        String user = null;
+        if (pIsAnonymous) {
+            user = SecurityConstants.EVERYONE;
+        } else {
+            user = pUser;
+        }
+        if (LabsSiteUtils.isOnlyRead(doc, user)){
+            return doc.getAdapter(Page.class).isVisible();
+        }
+        return true;
     }
 
 }

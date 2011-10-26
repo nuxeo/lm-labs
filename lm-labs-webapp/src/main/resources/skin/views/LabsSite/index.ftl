@@ -31,7 +31,8 @@
         <#assign maxNbLabsNews = 5 />
 
           <#list Session.getChildren(site.tree.ref) as root>
-            <#if root.name != "welcome" && !This.getPage(root).deleted>
+          	<#assign page = This.getPage(root)/>
+            <#if root.name != "welcome" && page?? && page.isAuthorized(Context.principal.name, Context.principal.anonymous)>
 	            <div id="bloc${root_index}" class="bloc welcome span6 column">
 	              <div class="header">
 	                <a href="${This.path}/${root.name}">${root.title}</a>
