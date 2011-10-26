@@ -78,7 +78,7 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
     @Override
     public List<Page> getAllPages() throws ClientException {
         DocumentModelList docs = getCoreSession().query(
-                "SELECT * FROM Page where ecm:currentLifeCycleState <> 'deleted' AND ecm:path STARTSWITH '"
+                "SELECT * FROM Page, Space where ecm:currentLifeCycleState <> 'deleted' AND ecm:path STARTSWITH '"
                         + doc.getPathAsString() + "'");
 
         List<Page> pages = new ArrayList<Page>();
@@ -94,7 +94,7 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
     @Override
     public List<Page> getAllDeletedPages() throws ClientException {
         DocumentModelList docs = getCoreSession().query(
-                "SELECT * FROM Page where ecm:currentLifeCycleState = 'deleted' AND ecm:path STARTSWITH '"
+                "SELECT * FROM Page, Space where ecm:currentLifeCycleState = 'deleted' AND ecm:path STARTSWITH '"
                         + doc.getPathAsString() + "'");
 
         List<Page> pages = new ArrayList<Page>();

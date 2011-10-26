@@ -60,6 +60,7 @@
         <li><a id="addGadgetButton" href="${Context.basePath}/gadgets?language=fr" >Ajouter un gadget</a></li>
         <li><a id="addGadgetWcPictureButton" href="#" onclick="nuxeo.container.addGadget('wcpicture', undefined);" >Ajouter un gadget Image</a></li>
         <li><a id="addGadgetWcHtmlButton" href="#" onclick="nuxeo.container.addGadget('wchtml', undefined);" >Ajouter un gadget Texte Riche</a></li>
+        <#include "views/common/page_actions.ftl" />
       </#if>
   </@block>
 

@@ -9,6 +9,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
+import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
@@ -19,6 +20,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
+@Deploy("com.leroymerlin.labs.core.test")
 @RepositoryConfig(user="Administrator")
 public class StateTest {
 

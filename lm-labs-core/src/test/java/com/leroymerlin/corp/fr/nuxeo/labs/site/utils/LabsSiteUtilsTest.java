@@ -18,6 +18,7 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
+import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
@@ -33,6 +34,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 @RunWith(FeaturesRunner.class)
 @Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
+@Deploy("com.leroymerlin.labs.core.test")
 @RepositoryConfig(user = "Administrator",init=DefaultRepositoryInit.class, cleanup=Granularity.METHOD)
 public final class LabsSiteUtilsTest {
 

@@ -27,6 +27,8 @@ public class PageAdapterFactory implements DocumentAdapterFactory {
             return new PageListAdapter(doc);
         }else if (Docs.PAGENEWS.type().equals(doc.getType())) {
             return new PageNewsAdapter(doc);
+        } else if(Docs.DASHBOARD.type().equals(doc.getType())) {
+            return new PageAdapter(doc);
         } else if(doc.hasSchema("page")) {
             return new PageAdapter(doc);
         }
