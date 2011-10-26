@@ -7,15 +7,11 @@ import static org.nuxeo.ecm.webengine.WebEngine.SKIN_PATH_PREFIX_KEY;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Module;
@@ -26,7 +22,6 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html.RowTemplate;
 
 /**
@@ -106,17 +101,5 @@ public class PageNewsResource extends PageResource {
         }
     }
 
-    @Path(value = "news")
-    public Object doPostAddNews() throws ClientException {
-        return newObject(LabsSiteConstants.Docs.LABSNEWS.type(), doc);
-    }
-
-    @Path("news/{idNews}")
-    public Object doDeleteNews(@PathParam("idNews") final String pIdNews)
-            throws ClientException {
-        DocumentModel document = getCoreSession().getDocument(
-                new IdRef(pIdNews));
-        return newObject(LabsSiteConstants.Docs.LABSNEWS.type(), document);
-    }
 
 }
