@@ -44,45 +44,46 @@
       <section>
         <#assign deletedPages = This.getDeletedPage() />
         <div class="page-header">
-          <h3>${Context.getMessage('label.lifeCycle.trash.title')} (${deletedPages?size})</h3>
+          <h3>${Context.getMessage('label.lifeCycle.trash.title')} <#if (deletedPages?? && deletedPages?size > 0)>(${deletedPages?size})</#if></h3>
         </div>
-        
-        <table class="zebra-striped bs">
-            <thead>
-            <tr>
-              <th>${Context.getMessage('label.lifeCycle.trash.page')}</th>
-              <th>${Context.getMessage('label.lifeCycle.trash.createdBy')}</th>
-              <th>${Context.getMessage('label.lifeCycle.trash.the')}</th>
-              <th>${Context.getMessage('label.lifeCycle.trash.lastModifiedBy')}</th>
-              <th>${Context.getMessage('label.lifeCycle.trash.the')}</th>
-              <th>&nbsp;</th>
-            </tr>
-          </thead>
-          <tbody>
-          <#list deletedPages as deletedPage>
-            <tr>
-              <#assign doc=deletedPage.document />
-              <td>
-              	<a href="#" rel="popover" data-content="${deletedPage.description}" data-original-title="${Context.getMessage('label.description')}">${deletedPage.title} (${deletedPage.document.type})</a>
-              </td>
-              <td>${userFullName(doc.dublincore.creator)}</td>
-              <td>
-                ${doc.dublincore.created?string.medium}
-                <span class="sortValue">${doc.dublincore.created?string("yyyyMMddHHmmss")}</span>
-              </td>
-              <#assign modified=doc.dublincore.modified/>
-              <td>${userFullName(doc.dublincore.lastContributor)}</td>
-              <td>
-                ${modified?string.medium}
-                <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
-              </td>
-              <td>
-              	<a  href="#" class="btn" onclick="javascript:undeletePage('${deletedPage.document.ref}');">${Context.getMessage('command.docactions.undelete')}</a>
-              </td>
-            </tr>
-          </#list>
-          </tbody>
-        </table>
+        <#if (deletedPages?? && deletedPages?size > 0)>
+	        <table class="zebra-striped bs">
+	            <thead>
+	            <tr>
+	              <th>${Context.getMessage('label.lifeCycle.trash.page')}</th>
+	              <th>${Context.getMessage('label.lifeCycle.trash.createdBy')}</th>
+	              <th>${Context.getMessage('label.lifeCycle.trash.the')}</th>
+	              <th>${Context.getMessage('label.lifeCycle.trash.lastModifiedBy')}</th>
+	              <th>${Context.getMessage('label.lifeCycle.trash.the')}</th>
+	              <th>&nbsp;</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	          <#list deletedPages as deletedPage>
+	            <tr>
+	              <#assign doc=deletedPage.document />
+	              <td>
+	              	<a href="#" rel="popover" data-content="${deletedPage.description}" data-original-title="${Context.getMessage('label.description')}">${deletedPage.title} (${deletedPage.document.type})</a>
+	              </td>
+	              <td>${userFullName(doc.dublincore.creator)}</td>
+	              <td>
+	                ${doc.dublincore.created?string.medium}
+	                <span class="sortValue">${doc.dublincore.created?string("yyyyMMddHHmmss")}</span>
+	              </td>
+	              <#assign modified=doc.dublincore.modified/>
+	              <td>${userFullName(doc.dublincore.lastContributor)}</td>
+	              <td>
+	                ${modified?string.medium}
+	                <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
+	              </td>
+	              <td>
+	              	<a  href="#" class="btn" onclick="javascript:undeletePage('${deletedPage.document.ref}');">${Context.getMessage('command.docactions.undelete')}</a>
+	              </td>
+	            </tr>
+	          </#list>
+	          </tbody>
+	        </table>
+	      </#if>
       </section>
     </div>
     <script type="text/javascript">
