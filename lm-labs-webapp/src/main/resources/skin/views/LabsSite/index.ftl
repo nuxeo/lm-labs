@@ -23,7 +23,6 @@
           <div  class="span12 columns">
             <#assign Document = site.indexDocument />
             <#include "views/common/description_area.ftl">
-              <#include "views/common/comment_area.ftl">
 
       <#assign Document = site.document />
 

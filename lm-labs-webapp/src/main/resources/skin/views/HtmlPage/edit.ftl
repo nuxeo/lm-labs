@@ -34,8 +34,6 @@
 
     <#include "views/common/description_area.ftl">
 
-    <#include "views/common/comment_area.ftl">
-
 <div style="clear:both;"></div>
 
 

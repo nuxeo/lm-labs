@@ -57,25 +57,6 @@ public abstract class AbstractPage implements Page {
     }
 
     @Override
-    public void setCommentaire(String commentaire) throws PropertyException,
-            ClientException {
-        setCommentaire(doc, commentaire);
-    }
-
-    protected static void setCommentaire(DocumentModel document,
-            String commentaire) throws PropertyException, ClientException {
-        if (commentaire == null) {
-            return;
-        }
-        document.setPropertyValue("pg:commentaire", commentaire);
-    }
-
-    @Override
-    public String getCommentaire() throws PropertyException, ClientException {
-        return (String) doc.getPropertyValue("pg:commentaire");
-    }
-
-    @Override
     public String getPath() throws ClientException {
         LabsSite site = getSite();
         if (site == null) {

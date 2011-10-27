@@ -9,7 +9,6 @@
     <div id="content" class="container">
       <div class="row">
         <div class="span16 columns">
-        <#include "views/common/comment_area.ftl" />
 
         <div class="bloc">
           <div class="header">

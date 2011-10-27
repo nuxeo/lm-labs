@@ -29,8 +29,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurRepositoryIn
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
-@Features({SiteFeatures.class, LabsCommentFeature.class})
-@RepositoryConfig(init=PageClasseurRepositoryInit.class)
+@Features({ SiteFeatures.class, LabsCommentFeature.class })
+@RepositoryConfig(init = PageClasseurRepositoryInit.class)
 public class PageAdapterTest {
 
     private static final String TITRE_1 = "titre 1";
@@ -39,13 +39,16 @@ public class PageAdapterTest {
 
     private static final String COMMENTAIRE = "Mon commentaire";
 
-    @Inject private CoreSession session;
+    @Inject
+    private CoreSession session;
 
-    @Rule public ExpectedException thrown = ExpectedException.none();
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void iCanGetGenericAdaptorForPageClasseur() throws Exception {
-        DocumentModel pageClasseur = session.getDocument(new PathRef("/page_classeur"));
+        DocumentModel pageClasseur = session.getDocument(new PathRef(
+                "/page_classeur"));
         Page adapter = pageClasseur.getAdapter(Page.class);
         assertNotNull(adapter);
     }
@@ -81,15 +84,6 @@ public class PageAdapterTest {
     }
 
     @Test
-    public void iCanSetCommentaire() throws Exception {
-        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
-        assertNotNull(page);
-        page.setCommentaire(COMMENTAIRE);
-        assertEquals(COMMENTAIRE, page.getCommentaire());
-    }
-
-    @Test
     public void canGetCommentAdapter() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
         assertTrue(doc.hasFacet("Commentable"));
@@ -114,23 +108,23 @@ public class PageAdapterTest {
         commentable.addComment(newComment);
         session.save();
         doc = session.getDocument(new PathRef("/page_classeur"));
-        commentable =doc.getAdapter(CommentableDocument.class);
+        commentable = doc.getAdapter(CommentableDocument.class);
         assertNotNull(commentable);
         assertNotNull(commentable.getComments());
         assertThat(commentable.getComments().size(), is(1));
-        assertThat((String)commentable.getComments().get(0).getPropertyValue("comment:text"), is("Un commentaire"));
+        assertThat(
+                (String) commentable.getComments().get(0).getPropertyValue(
+                        "comment:text"), is("Un commentaire"));
     }
-    
+
     private DocumentModel newComment(String cText) throws ClientException {
         DocumentModel comment = session.createDocumentModel("Comment");
-        comment.setPropertyValue("comment:author", session.getPrincipal()
-                .getName());
+        comment.setPropertyValue("comment:author",
+                session.getPrincipal().getName());
         comment.setPropertyValue("comment:text", cText);
         comment.setPropertyValue("comment:creationDate", new Date());
         comment = session.createDocument(comment);
         return comment;
     }
-
-
 
 }

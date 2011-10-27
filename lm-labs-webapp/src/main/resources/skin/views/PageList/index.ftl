@@ -29,8 +29,6 @@
 	
 	<@block name="content">	
 		<div id="content" class="container">
-			<#-- COMMENT AREA --> 
-  			<#include "views/common/comment_area.ftl" />
 			<#if isAuthorized>
 				<div id="divActionManageList">
 					<a href="#" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine();">${Context.getMessage('label.pageList.addLine')}</a>

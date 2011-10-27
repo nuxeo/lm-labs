@@ -24,7 +24,6 @@
   <@block name="content">
       <div id="content" class="container">
 
-        <#include "views/common/comment_area.ftl" />
     <div style="clear:both"></div>
         <#if isAuthorized>
           <a class="btn" href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>

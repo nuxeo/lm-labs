@@ -5,7 +5,6 @@
         <th class="header headerSortDown" ${This.getLineStyle(header)} >${header.name}</th>
       </#list>
       <#if This.isCommantableLines()>
-	      <!-- Commentaires -->
 	      <th class="header">&nbsp;</th>
 	     </#if>
     </tr>
