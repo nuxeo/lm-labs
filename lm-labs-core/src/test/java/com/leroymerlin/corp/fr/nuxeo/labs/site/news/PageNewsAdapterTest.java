@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Test;
@@ -19,6 +20,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
 @RepositoryConfig(init=PageNewsRepositoryInit.class, cleanup=Granularity.METHOD)
@@ -74,6 +76,57 @@ public class PageNewsAdapterTest {
         session.save();
 
         List<LabsNews> allNews = pn.getAllNews();
+        assertThat(allNews.size(), is(3));
+
+    }
+
+    @Test
+    public void iCanRetrieveTopNews() throws Exception {
+        DocumentModel document = session.getDocument(new PathRef("/page_news"));
+        PageNews pn = document.getAdapter(PageNews.class);
+
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) -1);
+        cal2.set(Calendar.MONTH, cal2.get(Calendar.MONTH) + 1);
+        
+        LabsNews news = pn.createNews("Ma news");
+        news.setStartPublication(cal1);
+        news.setEndPublication(cal2);
+        session.saveDocument(news.getDocumentModel());
+        news = pn.createNews("Ma news2");
+        cal1 = Calendar.getInstance();
+        cal2 = Calendar.getInstance();
+        cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) - 2);
+        cal2.set(Calendar.MONTH, cal2.get(Calendar.MONTH) - 1);
+        news.setStartPublication(cal1);
+        news.setEndPublication(cal2);
+        session.saveDocument(news.getDocumentModel());
+        news = pn.createNews("Ma news3");
+        cal1 = Calendar.getInstance();
+        cal2 = Calendar.getInstance();
+        cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) - 1);
+        cal2.set(Calendar.MONTH, cal2.get(Calendar.MONTH) + 2);
+        news.setStartPublication(cal1);
+        news.setEndPublication(cal2);
+        session.saveDocument(news.getDocumentModel());
+        news = pn.createNews("Ma news4");
+        cal1 = Calendar.getInstance();
+        cal2 = Calendar.getInstance();
+        cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) - 1);
+        cal2.set(Calendar.MONTH, cal2.get(Calendar.MONTH) + 2);
+        news.setStartPublication(cal1);
+        news.setEndPublication(cal2);
+        session.saveDocument(news.getDocumentModel());
+        session.save();
+
+        List<LabsNews> allNews = pn.getTopNews(2);
+        assertThat(allNews.size(), is(2));
+        
+        allNews = pn.getTopNews(3);
+        assertThat(allNews.size(), is(3));
+        
+        allNews = pn.getTopNews(5);
         assertThat(allNews.size(), is(3));
 
     }

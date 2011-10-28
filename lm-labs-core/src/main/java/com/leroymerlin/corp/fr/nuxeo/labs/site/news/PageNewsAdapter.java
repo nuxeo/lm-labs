@@ -57,6 +57,25 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
       }
       return listNews;
     }
+    
+    public List<LabsNews> getTopNews(int pMaxNews) throws ClientException{
+        List<LabsNews> listNews = new ArrayList<LabsNews>();
+        DocumentModelList listDoc = null;
+        Sorter pageNewsSorter = new PageNewsSorter();
+        listDoc = getCoreSession().getChildren(doc.getRef(),
+                LabsSiteConstants.Docs.LABSNEWS.type(), null, 
+                new PageNewsFilter(Calendar.getInstance()), pageNewsSorter);
+        int nb = 0;
+        for (DocumentModel doc : listDoc) {
+            if (nb >= pMaxNews){
+                break;
+            }
+            LabsNews news = doc.getAdapter(LabsNews.class);
+            listNews.add(news);
+            nb ++;
+        }
+        return listNews;
+    }
 
     private CoreSession getCoreSession() {
         return doc.getCoreSession();

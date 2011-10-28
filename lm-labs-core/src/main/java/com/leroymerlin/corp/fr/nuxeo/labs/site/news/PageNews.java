@@ -11,5 +11,13 @@ public interface PageNews extends Page {
     LabsNews createNews(String pTitle) throws ClientException;
 
     List<LabsNews> getAllNews() throws ClientException;
+    
+    /**
+     * Get the lasted news
+     * @param pMaxNews number max of news
+     * @return the lasted news
+     * @throws ClientException
+     */
+    List<LabsNews> getTopNews(int pMaxNews) throws ClientException;
 
 }
