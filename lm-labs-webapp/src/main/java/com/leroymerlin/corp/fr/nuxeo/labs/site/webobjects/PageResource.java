@@ -3,8 +3,12 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -12,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
@@ -35,22 +40,29 @@ public class PageResource extends DocumentObject {
 
     private static final String[] MESSAGES_TYPE = new String[] { "error",
             "info", "success", "warning" };
-    
+
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        if (args != null && args.length > 0){
-            if (args[0] instanceof DocumentModel){
+        if (args != null && args.length > 0) {
+            if (args[0] instanceof DocumentModel) {
                 try {
-                    DocumentModel document = (DocumentModel)args[0];
+                    DocumentModel document = (DocumentModel) args[0];
                     Page page = document.getAdapter(Page.class);
-                    boolean authorized = page.isAuthorized(getContext().getPrincipal().getName(), ((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous());
+                    boolean authorized = page.isAuthorized(
+                            getContext().getPrincipal().getName(),
+                            ((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous());
                     authorized = authorized && !page.isDeleted();
-                    if (!authorized){
-                        throw new WebResourceNotFoundException(getContext().getPrincipal().getName() + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT);
+                    if (!authorized) {
+                        throw new WebResourceNotFoundException(
+                                getContext().getPrincipal().getName()
+                                        + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT);
                     }
                 } catch (ClientException e) {
-                    throw new WebResourceNotFoundException(getContext().getPrincipal().getName() + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT, e);
+                    throw new WebResourceNotFoundException(
+                            getContext().getPrincipal().getName()
+                                    + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT,
+                            e);
                 }
             }
         }
@@ -84,10 +96,22 @@ public class PageResource extends DocumentObject {
         return template;
     }
 
+    @POST
+    @Path("updateDescriptionCKEIP")
+    public Object updateDescription(@FormParam("content") String description) {
+        try {
+            doc.setPropertyValue("dc:description", description);
+            getCoreSession().saveDocument(doc);
+            getCoreSession().save();
+        } catch (Exception e) {
+            Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
+        return Response.status(Status.OK).build();
+    }
 
     /**
      * Returns a Map containing all "flash" messages
-     *
+     * 
      * @return
      */
     public Map<String, String> getMessages() {
@@ -104,7 +128,8 @@ public class PageResource extends DocumentObject {
     }
 
     @Override
-    public Resource initialize(WebContext ctx, ResourceType type, Object... args) {
+    public Resource initialize(WebContext ctx, ResourceType type,
+            Object... args) {
         // TODO Auto-generated method stub
         return super.initialize(ctx, type, args);
     }
