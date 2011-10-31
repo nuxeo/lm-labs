@@ -11,9 +11,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -40,8 +42,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractDocumentTree;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 @WebObject(type = "LabsSite", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
@@ -137,24 +142,39 @@ public class Site extends PageResource {
     }
 
     @GET
-    @Path("treeview")
-    public Response doTreeview(@QueryParam("root") String root)
+    @Path("@treeview")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response doTreeview(@QueryParam("root") String root, @QueryParam("view") String view, @QueryParam("id") String id)
             throws ClientException {
 
         LabsSite site = (LabsSite) ctx.getProperty("site");
 
         if (site != null) {
             DocumentModel tree = site.getTree();
-            SiteDocumentTree siteTree = new SiteDocumentTree(ctx, tree);
+            AbstractDocumentTree siteTree;
+            if ("admin".equals(view)) {
+                siteTree = new AdminSiteTree(ctx, tree);
+            } else {
+                siteTree = new SiteDocumentTree(ctx, tree);
+                
+            }
             String result = "";
             if (root == null || "source".equals(root)) {
-                siteTree.enter(ctx, "");
-                result = siteTree.getTreeAsJSONArray(ctx);
+                if (id != null && !"0".equals(id)) {
+                    DocumentModel document = tree.getCoreSession().getDocument(new IdRef(id));
+                    String entryPoint = StringUtils.substringAfter(document.getPathAsString(), 
+                            site.getDocument().getPathAsString() + "/" + Docs.TREE.docName());
+                    result = siteTree.enter(ctx, entryPoint);
+                } else {
+                    siteTree.enter(ctx, "");
+                    result = siteTree.getTreeAsJSONArray(ctx);
+                }
             } else {
                 result = siteTree.enter(ctx, root);
             }
             return Response.ok()
                     .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
                     .build();
         }
         return null;
