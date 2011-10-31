@@ -25,11 +25,6 @@
 
   <@block name="content">
 
-  <script type="text/javascript">
-    <#include "views/common/ckeditor_config.ftl" />
-  </script>
-
-
        <div class="container">
 
     <#include "views/common/description_area.ftl">
@@ -103,7 +98,7 @@
                   $('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
                     e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
                     ckeditor_config: ckeditorconfig,
-                    emptyedit_message: "${Context.getMessage('label.PageHtml.double_click_to_edit_content')}"
+                    emptyedit_message: "${Context.getMessage('label.ckeditor.double_click_to_edit_content')}"
                     });
                 </script>
                 <noscript>
