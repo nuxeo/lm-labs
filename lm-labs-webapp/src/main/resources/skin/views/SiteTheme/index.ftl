@@ -1,15 +1,19 @@
 <@extends src="/views/labs-base.ftl">
 
 
-
-  <@block name="content">
+  <@block name="tabs">
     <div class="container">
       <ul class="pills">
         <li><a href="${This.previous.path}/@views/edit">Général</a></li>
         <li class="active"><a href="${This.path}">Thème</a></li>
         <li><a href="${This.previous.path}/@views/edit_perms">Permissions</a></li>
-        <li><a href="${This.previous.path}/@views/edit_trash">Poubelle</a></li>
+        <li><a href="${This.previous.path}/@views/administer_pages">Gérer les Pages</a></li>
       </ul>
+    </div>
+  </@block>
+
+  <@block name="content">
+    <div class="container">
 
 
 

@@ -164,13 +164,17 @@ public class GroupsUsersSuggestHelper {
 //        return suggests;
 //    }
 
-    @SuppressWarnings("deprecation")
     private static List<GroupUserSuggest> searchGroups(UserManager userManager, String pattern) throws ClientException, SizeLimitExceededException {
         final String logPrefix = "<searchGroups> ";
         List<GroupUserSuggest> suggests = new ArrayList<GroupUserSuggest>();
         for (NuxeoGroup group : userManager.searchGroups(pattern)) {
             suggests.add(new GroupUserSuggest((String) group.getName(), ""));
         }
+        // TODO 5.4.3
+//        for (DocumentModel group : userManager.searchGroups(pattern)) {
+//            suggests.add(new GroupUserSuggest((String) group.getPropertyValue(userManager.getGroupIdField()), ""));
+//        }
+
         if (log.isDebugEnabled()) {
             log.debug(logPrefix + " returns " + suggests.size() + " entries: " + suggests);
         }
