@@ -76,6 +76,10 @@
       </div>
     </div>
 
+	 <script type="text/javascript">
+	    <#include "views/common/ckeditor_config.ftl" />
+	 </script>
+
     <@block name="content">
     </@block>
 
