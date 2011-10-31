@@ -11,6 +11,7 @@
         <li><a href="${This.path}/theme/${site.siteThemeManager.theme.name}">Thème</a></li>
         <li><a href="${This.path}/@views/edit_perms">Permissions</a></li>
         <li><a href="${This.path}/@views/administer_pages">Gérer les Pages</a></li>
+        <li><a href="${This.path}/@views/edit_trash">Poubelle</a></li>
       </ul>
     </div>
   </@block>
