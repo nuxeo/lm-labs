@@ -37,7 +37,11 @@
     <div id="content" class="container">
         <section>
           <div class="page-header">
-            <h1>PLAN DU SITE</h1>
+            <h1>PLAN DU SITE 
+          	<#if site?? && Session.hasPermission(site.document.ref, 'Everything') >
+          	<a href="${This.path}/@views/administer_pages"><button id="adminPagesBt" class="btn danger small">${Context.getMessage('command.sitemap.goToPageAdmin')}</button></a>
+          	</#if>
+          	</h1>
           </div>
           <div class="row">
           <div class="span16 columns">

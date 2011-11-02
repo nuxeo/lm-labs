@@ -99,10 +99,11 @@
                 	</script>
                 </#if>
                 <#if site?? && Session.hasPermission(site.document.ref, "WRITE")>
-                <li><a href="${Context.modulePath}/${site.URL}/@views/edit">Administration</a></li>
+                <li><a href="${Context.modulePath}/${site.URL}/@views/edit">${Context.getMessage('label.contextmenu.administration')}</a></li>
                 </#if>
                 </@block>
 
+              <li><a href="${Context.modulePath}/${site.URL}/@views/sitemap">${Context.getMessage('label.contextmenu.sitemap')}</a></li>
               <#if site?? && Session.hasPermission(site.document.ref, 'Everything') >
                 <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.document.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
