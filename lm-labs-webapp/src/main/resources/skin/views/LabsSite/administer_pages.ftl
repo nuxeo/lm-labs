@@ -16,6 +16,16 @@
 	<script type="text/javascript" >
 		jQuery().ready(function() {
 			jQuery("#jstree")
+			<#--
+			.bind("loaded.jstree", function (event, data) {
+				console.log("TREE IS LOADED");
+			})
+			-->
+			<#--
+			.bind("load_node.jstree", function (event, data) {
+				console.log(jQuery(data.rslt.obj).attr("id") + " node LOADED " + data.rslt.obj.data("lifecyclestate"));
+			})
+			-->
 			.jstree({
 				"core": {
 					"html_titles" : true,
@@ -146,11 +156,6 @@
 					}
 				} // function
 				} // contextmenu
-			})
-			.bind("loaded.jstree", function (event, data) {
-			<#--
-				alert("TREE IS LOADED");
-			-->
 			})
 			.bind("move_node.jstree", function (event, data) {
 				<#--
