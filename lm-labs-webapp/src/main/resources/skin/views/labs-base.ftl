@@ -76,7 +76,8 @@
       </div>
     </div>
     
-    <@block name="tabs" />
+    <@block name="tabs">
+    </@block>
 
 	 <script type="text/javascript">
 	    <#include "views/common/ckeditor_config.ftl" />

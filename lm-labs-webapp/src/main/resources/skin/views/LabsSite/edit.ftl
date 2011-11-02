@@ -5,15 +5,8 @@
   </@block>
 
   <@block name="tabs">
-    <div class="container">
-      <ul class="pills">
-        <li class="active"><a href="#">Général</a></li>
-        <li><a href="${This.path}/theme/${site.siteThemeManager.theme.name}">Thème</a></li>
-        <li><a href="${This.path}/@views/edit_perms">Permissions</a></li>
-        <li><a href="${This.path}/@views/administer_pages">Gérer les Pages</a></li>
-        <li><a href="${This.path}/@views/edit_trash">Poubelle</a></li>
-      </ul>
-    </div>
+    <#include "macros/admin_menu.ftl" />
+	<@adminMenu item="general"/>
   </@block>
 
   <@block name="content">
