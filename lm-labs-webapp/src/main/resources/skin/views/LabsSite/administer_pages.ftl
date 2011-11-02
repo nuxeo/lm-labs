@@ -18,6 +18,7 @@
 			jQuery("#jstree")
 			.jstree({
 				"core": {
+					"html_titles" : true,
 					"strings": { loading : "${Context.getMessage('label.admin.loading')} ..." }
 				},
 				"plugins" : [ "json_data", "themes", "ui", "types"
@@ -33,6 +34,9 @@
 								"view" : "admin",
 								"id" : n.attr ? n.attr("id") : 0
 							};
+						}
+						, success : function(data) {
+							return data;
 						}
 						//, "error" : function(jqXHR, textStatus, errorThrown) { alert("ERROR: " + jqXHR.status + ", " + jqXHR.statusText + ", " + textStatus + ", "+ errorThrown);}
 					}
