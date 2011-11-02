@@ -12,6 +12,7 @@ import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractJSONSerializer;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.SitesRoot;
 
 public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
 
@@ -33,6 +34,13 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
         attrs.put("id", ((DocumentModel) item.getObject()).getId());
         attrs.put("rel", ((DocumentModel) item.getObject()).getType());
         json.element("attr", (Object) attrs);
+        JSONObject metadata = new JSONObject();
+        try {
+            metadata.put("lifecyclestate", ((DocumentModel) item.getObject()).getCurrentLifeCycleState());
+        } catch (ClientException e) {
+            LOG.error("Unable to get current life cycle of document " + ((DocumentModel) item.getObject()).getPathAsString() + ": " + e.getCause());
+        }
+        json.element("metadata", (Object) metadata);
         if (item.isContainer()) {
             if (item.hasChildren()) {
                 json.element("children", children);
