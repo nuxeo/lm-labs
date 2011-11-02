@@ -3,6 +3,8 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.model.WebContext;
@@ -10,8 +12,11 @@ import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractJSONSerializer;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.SitesRoot;
 
 public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
+
+    private static final Log LOG = LogFactory.getLog(AdminSiteTreeSerializer.class);
 
     @Override
     protected String getBasePath(WebContext ctx) throws ClientException {
@@ -34,7 +39,11 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
                 json.element("children", children);
             }
         }
-        json.element("state", item.isExpanded() ? "open" : "closed");
+        if (!item.isContainer()) {
+            json.element("state", "open");
+        } else {
+            json.element("state", item.isExpanded() ? "open" : "closed");
+        }
         return json;
     }
 
