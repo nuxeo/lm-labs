@@ -35,9 +35,6 @@
 								"id" : n.attr ? n.attr("id") : 0
 							};
 						}
-						, success : function(data) {
-							return data;
-						}
 						//, "error" : function(jqXHR, textStatus, errorThrown) { alert("ERROR: " + jqXHR.status + ", " + jqXHR.statusText + ", " + textStatus + ", "+ errorThrown);}
 					}
 				},
