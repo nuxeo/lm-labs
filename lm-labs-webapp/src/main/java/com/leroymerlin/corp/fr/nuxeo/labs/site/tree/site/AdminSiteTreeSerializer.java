@@ -12,7 +12,6 @@ import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractJSONSerializer;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.SitesRoot;
 
 public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
 
