@@ -42,6 +42,8 @@
 					"valid_children" : [ "Tree" ],
 					"types" : {
 						"Tree" : {
+							"remove" : false,
+							"rename" : false,
 							"icon" : {
 								"image" : "/nuxeo/icons/site.jpeg"
 							}
