@@ -65,19 +65,8 @@
 									"label"				: "${Context.getMessage('command.admin.edit')}",
 									"action"			: false,
 									"submenu" : { 
-										"cut" : {
-											"separator_before"	: false,
-											"separator_after"	: false,
-											"label"				: "${Context.getMessage('command.admin.cut')}",
-											"action"			: function (obj) { this.cut(obj); }
-										},
-										"copy" : {
-											"separator_before"	: false,
-											"icon"				: false,
-											"separator_after"	: false,
-											"label"				: "${Context.getMessage('command.admin.copy')}",
-											"action"			: function (obj) { this.copy(obj); }
-										},
+										"cut" : false,
+										"copy" : false,
 										"paste" : {
 											"separator_before"	: false,
 											"icon"				: false,
