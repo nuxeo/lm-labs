@@ -33,15 +33,9 @@
 
 
   <@block name="content">
-    <div class="container">
-      <ul class="pills">
-        <li><a href="${This.path}/@views/edit">Général</a></li>
-        <li><a href="${This.path}/theme/${site.siteThemeManager.theme.name}">Thème</a></li>
-        <li><a href="${This.path}/@views/edit_perms">Permissions</a></li>
-        <li><a href="${This.path}/@views/administer_pages">Gérer les Pages</a></li>
-        <li class="active"><a href="#">Poubelle</a></li>
-      </ul>
-
+    <#include "macros/admin_menu.ftl" />
+	<@adminMenu item="trash"/>
+	<div class="container">
       <section>
         <#assign deletedPages = This.getDeletedPage() />
         <div class="page-header">
