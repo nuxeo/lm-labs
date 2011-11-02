@@ -56,7 +56,37 @@
 					"items" : function(node) { 
 						<#--console.log("node type: " + node.attr('rel'));-->
 						if (node.attr('rel') == 'Tree') {
-							return { create:false, rename:false, remove:false, ccp: false };
+							return { create:false, rename:false, remove:false,
+								"ccp" : {
+									"separator_before"	: true,
+									"icon"				: false,
+									"separator_after"	: false,
+									"label"				: "${Context.getMessage('command.admin.edit')}",
+									"action"			: false,
+									"submenu" : { 
+										"cut" : {
+											"separator_before"	: false,
+											"separator_after"	: false,
+											"label"				: "${Context.getMessage('command.admin.cut')}",
+											"action"			: function (obj) { this.cut(obj); }
+										},
+										"copy" : {
+											"separator_before"	: false,
+											"icon"				: false,
+											"separator_after"	: false,
+											"label"				: "${Context.getMessage('command.admin.copy')}",
+											"action"			: function (obj) { this.copy(obj); }
+										},
+										"paste" : {
+											"separator_before"	: false,
+											"icon"				: false,
+											"separator_after"	: false,
+											"label"				: "${Context.getMessage('command.admin.paste')}",
+											"action"			: function (obj) { this.paste(obj); }
+										}
+									}
+								}
+							};
 						}
 						return {
 						"create" : 
