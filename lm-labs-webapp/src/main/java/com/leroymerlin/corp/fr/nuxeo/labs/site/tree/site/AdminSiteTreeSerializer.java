@@ -12,7 +12,6 @@ import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractJSONSerializer;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.SitesRoot;
 
 public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
 
@@ -38,10 +37,6 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
             if (item.hasChildren()) {
                 json.element("children", children);
             }
-        }
-        if (!item.isContainer()) {
-            json.element("state", "open");
-        } else {
             json.element("state", item.isExpanded() ? "open" : "closed");
         }
         return json;
