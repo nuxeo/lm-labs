@@ -1,9 +1,13 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -14,8 +18,17 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import com.leroymerlin.common.core.utils.Slugify;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.sun.syndication.feed.synd.SyndContent;
+import com.sun.syndication.feed.synd.SyndContentImpl;
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndEntryImpl;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.feed.synd.SyndFeedImpl;
+import com.sun.syndication.io.SyndFeedOutput;
 
 public class PageNewsAdapter extends AbstractPage implements PageNews {
+
+    private static final String NO_RSS_WRITE = "No rss write";
 
     public PageNewsAdapter(DocumentModel doc) {
         this.doc = doc;
@@ -79,5 +92,73 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
 
     private CoreSession getCoreSession() {
         return doc.getCoreSession();
+    }
+
+    @Override
+    public SyndFeed buildRssLabsNews(List<LabsNews> pLabsNews, String pPathBase, String pDefaultDescription) throws ClientException {
+        String feedType = "rss_2.0";
+
+        final SyndFeed feed = new SyndFeedImpl();
+        feed.setFeedType(feedType);
+        
+        feed.setTitle(getTitle());
+        feed.setLink(pPathBase);
+        feed.setDescription(buildRssPageNewsDescription(pDefaultDescription));
+        feed.setEntries(createRssEntries(pLabsNews, pPathBase));
+        return feed;
+    }
+    
+    private String buildRssPageNewsDescription(String pDefaultDescription) throws ClientException {
+        String description = getDescription();
+        if (!StringUtils.isEmpty(description)){
+            return description;
+        }
+        else{
+            return pDefaultDescription; 
+        }
+    }
+    
+    private List<SyndEntry> createRssEntries(List<LabsNews> topNews, String pPathBase) throws ClientException {
+        List<SyndEntry> entries = new ArrayList<SyndEntry>();
+        SyndEntry entry;
+        for (LabsNews news:topNews){
+            entry = new SyndEntryImpl();
+            entry.setTitle(news.getTitle());
+            entry.setLink(pPathBase + "/" + news.getDocumentModel().getName());
+            entry.setPublishedDate(news.getStartPublication().getTime());
+            entry.setDescription(createRssNewsDescription(news));
+            entries.add(entry);
+        }
+        return entries;
+    }
+    
+    private SyndContent createRssNewsDescription(LabsNews news) throws ClientException {
+        SyndContent description;
+        description = new SyndContentImpl();
+        description.setType("text/html");
+        if (contentNewsIsInRow(news)){
+            description.setValue(news.getRows().get(0).content(0).getHtml());
+        }
+        else{
+            description.setValue(news.getContent());
+        }
+        return description;
+    }
+    
+    private boolean contentNewsIsInRow(LabsNews news) {
+        return news.getRows() != null && news.getRows().size() > 0 
+                && news.getRows().get(0) != null && news.getRows().get(0).content(0) != null 
+                && !StringUtils.isEmpty(news.getRows().get(0).content(0).getHtml());
+    }
+
+    @Override
+    public void writeRss(OutputStream pOutput, SyndFeed pFeed) throws ClientException {
+        Writer writer = new PrintWriter(pOutput);
+        SyndFeedOutput outputFeed = new SyndFeedOutput();
+        try {
+            outputFeed.output(pFeed,writer);
+        } catch (Exception e) {
+            throw new ClientException(NO_RSS_WRITE, e);
+        }
     }
 }
