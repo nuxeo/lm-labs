@@ -54,7 +54,7 @@
             </section>
         </#list>
         <hr />
-        <a href="${This.path}/@labsrss/topnews" target="_blank">Top news</a>
+        <a href="${This.path}/@labsrss/topnews" target="_blank"><img src="${skinPath}/images/iconRss.gif"/></a>
       </div>
   </@block>
 </@extends>
