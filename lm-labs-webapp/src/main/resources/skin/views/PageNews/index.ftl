@@ -53,6 +53,8 @@
               </#list>
             </section>
         </#list>
+        <hr />
+        <a href="${This.path}/@labsrss/topnews" target="_blank">Top news</a>
       </div>
   </@block>
 </@extends>

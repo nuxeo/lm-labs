@@ -283,6 +283,11 @@
       <classifier>jdk15</classifier>
     </dependency>
     
+     <dependency>
+       <groupId>rome</groupId>
+       <artifactId>rome</artifactId>
+     </dependency>
+    
   </dependencies>
 
 </project>
