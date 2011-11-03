@@ -10,8 +10,11 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractJSONSerializer;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
 
@@ -30,14 +33,29 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
         JSONObject json = new JSONObject();
         json.element("data", getText(item));
         JSONObject attrs = new JSONObject();
-        attrs.put("id", ((DocumentModel) item.getObject()).getId());
-        attrs.put("rel", ((DocumentModel) item.getObject()).getType());
+        DocumentModel doc = (DocumentModel) item.getObject();
+        attrs.put("id", doc.getId());
+        attrs.put("rel", doc.getType());
         json.element("attr", (Object) attrs);
         JSONObject metadata = new JSONObject();
         try {
-            metadata.put("lifecyclestate", ((DocumentModel) item.getObject()).getCurrentLifeCycleState());
+            metadata.put("lifecyclestate", doc.getCurrentLifeCycleState());
         } catch (ClientException e) {
-            LOG.error("Unable to get current life cycle of document " + ((DocumentModel) item.getObject()).getPathAsString() + ": " + e.getCause());
+            LOG.error("Unable to get current life cycle of document " + doc.getPathAsString() + ": " + e.getCause());
+        }
+        try {
+            SiteDocument siteAdapter = doc.getAdapter(SiteDocument.class);
+            if (siteAdapter != null) {
+                DocumentModel tree = siteAdapter.getSite().getTree();
+                if (doc.getAdapter(Page.class) == null || (Docs.WELCOME.docName().equals(doc.getName())
+                        && doc.getCoreSession().getParentDocumentRef(doc.getRef()).equals(tree.getRef()))) {
+                    metadata.put("url", siteAdapter.getSite().getURL());
+                } else {
+                    metadata.put("url", siteAdapter.getPagePath());
+                }
+            }
+        } catch (ClientException e) {
+            LOG.error("Unable to get URL of page " + doc.getPathAsString() + ": " + e.getCause());
         }
         json.element("metadata", (Object) metadata);
         if (item.isContainer()) {

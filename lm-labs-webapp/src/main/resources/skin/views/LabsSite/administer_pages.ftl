@@ -103,6 +103,14 @@
 					-->
 						false
 						,
+						"goto" : {
+							"separator_before"	: false,
+							"separator_after"	: false,
+							"label"				: "${Context.getMessage('command.admin.gotoPage')}",
+							"action"			: function (nodes) {
+								window.location = "${Context.modulePath}/" + this._get_node(nodes[0]).data("url");
+							}
+						},
 						"rename" : {
 							"separator_before"	: false,
 							"separator_after"	: false,
