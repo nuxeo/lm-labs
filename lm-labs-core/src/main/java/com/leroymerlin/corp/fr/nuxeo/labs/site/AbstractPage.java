@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
+import java.io.Serializable;
+
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -54,6 +56,20 @@ public abstract class AbstractPage implements Page {
     @Override
     public String getDescription() throws PropertyException, ClientException {
         return (String) doc.getPropertyValue("dc:description");
+    }
+
+    @Override
+    public void setCommentable(boolean isCommentable) throws ClientException {
+        doc.setPropertyValue("pg:commentable", isCommentable);
+    }
+
+    @Override
+    public boolean isCommentable() throws ClientException {
+        Serializable propertyValue = doc.getPropertyValue("pg:commentable");
+        if (propertyValue instanceof Boolean) {
+            return ((Boolean) propertyValue).booleanValue();
+        }
+        return false;
     }
 
     @Override

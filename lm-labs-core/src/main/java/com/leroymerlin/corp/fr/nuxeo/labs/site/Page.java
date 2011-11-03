@@ -33,4 +33,8 @@ public interface Page {
     boolean isDeleted() throws ClientException;
     
     boolean isAuthorized(String user, boolean isAnomymous) throws ClientException;
+    
+    boolean isCommentable() throws ClientException;
+    
+    void setCommentable(boolean isCommentable) throws ClientException;
 }
