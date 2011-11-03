@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.rest.DocumentObject;
@@ -153,6 +154,21 @@ public class PageResource extends DocumentObject {
             return redirect(getPath() + viewUrl + "?message_error=" + e.getMessage());
         }
         return redirect(getPath() + viewUrl + "?message_success=label.admin.page.copied");
+    }
+
+    @POST
+    @Path("@commentable")
+    public Response doCommentable(){
+        try {
+            boolean isChecked = "on".equalsIgnoreCase(ctx.getForm().getString("commentablePage"));
+            doc.getAdapter(Page.class).setCommentable(isChecked);
+            CoreSession session = getCoreSession();
+            session.saveDocument(doc);
+            session.save();
+        } catch (ClientException e) {
+            return redirect(getPath() + "?message_error=label.parameters.page.save.fail");
+        }
+        return redirect(getPath() + "?message_success=label.parameters.page.save.success");
     }
 
     /**

@@ -85,6 +85,11 @@
 
     <@block name="content">
     </@block>
+    
+    <#assign page = This.page/>
+	<#if page?? && page.commentable>
+		<#include "/views/LabsComments/displayCommentsPage.ftl" />
+	</#if>
 
     <div style="clear:both;"></div>
 
