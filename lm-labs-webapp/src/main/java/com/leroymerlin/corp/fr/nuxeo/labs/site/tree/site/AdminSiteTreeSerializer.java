@@ -51,7 +51,7 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
                         && doc.getCoreSession().getParentDocumentRef(doc.getRef()).equals(tree.getRef()))) {
                     metadata.put("url", siteAdapter.getSite().getURL());
                 } else {
-                    metadata.put("url", siteAdapter.getPagePath());
+                    metadata.put("url", siteAdapter.getResourcePath());
                 }
             }
         } catch (ClientException e) {
