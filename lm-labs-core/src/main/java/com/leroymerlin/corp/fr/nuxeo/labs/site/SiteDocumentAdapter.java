@@ -33,7 +33,7 @@ public class SiteDocumentAdapter implements SiteDocument {
             try {
                 parentDocument = doc.getCoreSession()
                         .getParentDocument(parentDocument.getRef());
-                if (parentDocument.hasSchema(Schemas.PAGE.getName())) {
+                if (parentDocument.hasSchema(Schemas.PAGE.getName()) && !LabsSiteConstants.Docs.SITE.type().equals(parentDocument.getType())) {
                     return parentDocument.getAdapter(Page.class);
                 }
             } catch (ClientException e) {
