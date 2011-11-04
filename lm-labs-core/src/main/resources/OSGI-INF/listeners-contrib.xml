@@ -1,6 +1,8 @@
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.site.listener">
 
 	<extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
+		<listener name="spaceCreationListener" async="false" postCommit="false"
+			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.SpaceCreationEventListener" priority="20" />
 		<listener name="labsSiteCreationListener" async="false" postCommit="false"
 			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.SiteCreationEventListener" priority="151" />
 	</extension>

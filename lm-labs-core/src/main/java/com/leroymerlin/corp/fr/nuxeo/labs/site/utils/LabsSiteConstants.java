@@ -11,6 +11,10 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
 public final class LabsSiteConstants {
 
+    public final class FacetNames {
+        public static final String LABSPAGE = "LabsPage";
+    }
+    
     public enum Schemas {
         PAGE("page", "pg"),
         PAGENEWS("page_news", "pgn"),
