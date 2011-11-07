@@ -84,8 +84,11 @@ public class NewsAdapterTest {
         news.setTitle("Le titre de la news");
         news.setAccroche("Accroche");
         news.setContent("Content");
-        news.setStartPublication(Calendar.getInstance());
-        news.setEndPublication(Calendar.getInstance());
+        Calendar start = Calendar.getInstance();
+        news.setStartPublication(start);
+        Calendar end = Calendar.getInstance();
+        end.add(Calendar.DATE, 1);
+        news.setEndPublication(end);
         news.setNewsTemplate("newTemplate.temp");
 
         //Persist document in db
@@ -101,11 +104,28 @@ public class NewsAdapterTest {
         assertThat(news.getCreator(), is(notNullValue()));
         assertThat(news.getLastContributor(), is(notNullValue()));
         assertThat(news.getStartPublication(), is(notNullValue()));
+        assertThat(news.getStartPublication().get(Calendar.DATE), is(start.get(Calendar.DATE)));
+        assertThat(news.getStartPublication().get(Calendar.MONTH), is(start.get(Calendar.MONTH)));
+        assertThat(news.getStartPublication().get(Calendar.YEAR), is(start.get(Calendar.YEAR)));
+        assertThat(news.getStartPublication().get(Calendar.HOUR_OF_DAY), is(0));
+        assertThat(news.getStartPublication().get(Calendar.MINUTE), is(0));
+        assertThat(news.getStartPublication().get(Calendar.SECOND), is(0));
+        assertThat(news.getStartPublication().get(Calendar.MILLISECOND), is(0));
+        
         assertThat(news.getEndPublication(), is(notNullValue()));
+        assertThat(news.getEndPublication().get(Calendar.DATE), is(end.get(Calendar.DATE)));
+        assertThat(news.getEndPublication().get(Calendar.MONTH), is(end.get(Calendar.MONTH)));
+        assertThat(news.getEndPublication().get(Calendar.YEAR), is(end.get(Calendar.YEAR)));
+        assertThat(news.getEndPublication().get(Calendar.HOUR_OF_DAY), is(23));
+        assertThat(news.getEndPublication().get(Calendar.MINUTE), is(59));
+        assertThat(news.getEndPublication().get(Calendar.SECOND), is(59));
+        assertThat(news.getEndPublication().get(Calendar.MILLISECOND), is(999));
+        
         assertThat(news.getAccroche(), is("Accroche"));
         assertThat(news.getContent(), is("Content"));
         assertThat(news.getNewsTemplate(), is("newTemplate.temp"));
 
+        
     }
 
     @Test

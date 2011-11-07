@@ -1,3 +1,37 @@
+<script type="text/javascript">
+function subscribePageNews(subscribe) {
+    		<#--
+	console.log("subscribePageNews " + subscribe);
+	        -->
+	jQuery.ajax({
+		type: 'POST',
+	    async: false,
+	    url: "${This.path}/@" + (subscribe ? 'subscribe' : 'unsubscribe'),
+	    success: function(data) {
+	    	if (subscribe) {
+    		<#--
+    		console.log("subscribe successful ");
+	        -->
+	    		jQuery('#subscribeBt').hide();
+	    		jQuery('#unsubscribeBt').show();
+	        }
+	        else {
+    		<#--
+    		console.log("unsubscribe successful ");
+	        -->
+	    		jQuery('#subscribeBt').show();
+	    		jQuery('#unsubscribeBt').hide();
+	        }
+	    },
+	    error: function() {
+    		<#-- TODO alert
+	    	console.log('subscribe failed.');
+	        -->
+	    }
+	});
+	return false;
+}
+</script>
     <div class="topbar-wrapper" style="z-index: 5;">
     <div class="topbar">
       <div class="topbar-inner">
@@ -27,6 +61,14 @@
                 <@block name="docactions">
                 <#if site?? && Session.hasPermission(This.document.ref, "ADD_CHILDREN")>
                 <li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@views/manage">Ajouter du contenu</a></li>
+                </#if>
+                <#if site??>
+                  <#if Document.type == "PageNews">
+                    <li>
+                      <a id="subscribeBt" <#if This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePageNews(true);">${Context.getMessage('command.contextmenu.PageNews.subscribe')}</a>
+                      <a id="unsubscribeBt" <#if !This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePageNews(false);">${Context.getMessage('command.contextmenu.PageNews.unsubscribe')}</a>
+                    </li>
+                  </#if>
                 </#if>
                 </@block>
                 <li class="divider"></li>

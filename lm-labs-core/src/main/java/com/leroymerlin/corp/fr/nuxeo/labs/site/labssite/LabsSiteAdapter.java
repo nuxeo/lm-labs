@@ -5,6 +5,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.Blob;
@@ -13,10 +14,12 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.core.query.sql.NXQL;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
 /**
  * @author fvandaele
@@ -89,6 +92,22 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
             }
         }
         return pages;
+    }
+
+    // TODO unit tests
+    @Override
+    public Collection<DocumentModel> getPages(Docs docType, State lifecycleState) throws ClientException {
+        if (docType == null) {
+            docType = Docs.PAGE;
+        }
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM ").append(docType.type()).append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH ").append("'").append(doc.getPathAsString()).append("'");
+        if (lifecycleState != null) {
+            query.append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(lifecycleState.getState()).append("'");
+        } else {
+            query.append(NXQL.ECM_LIFECYCLESTATE).append(" <> 'deleted'");
+        }
+        return getCoreSession().query(query.toString());
     }
 
     @Override

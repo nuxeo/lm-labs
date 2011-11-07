@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.schedule.publishedNews">
+  <extension target="org.nuxeo.ecm.platform.scheduler.core.service.SchedulerRegistryService"
+      point="schedule">
+    <schedule id="checkPublishedNews">
+      <username>Administrator</username>
+      <eventId>checkPublishedNewsToNotify</eventId>
+      <eventCategory>default</eventCategory>
+      <!-- Every day at 7am -->
+      <cronExpression>0 0 7 * * ?</cronExpression>
+      <!-- Every minute -->
+      <!--cronExpression>0 0/1 * * * ?</cronExpression-->
+    </schedule>
+  </extension>
+</component>

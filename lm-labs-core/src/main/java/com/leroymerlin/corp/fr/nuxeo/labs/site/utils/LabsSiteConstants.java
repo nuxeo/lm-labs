@@ -10,6 +10,15 @@ import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
 public final class LabsSiteConstants {
+    
+    public final class NotifNames {
+        public static final String NEWS_PUBLISHED = "News published";
+    }
+    
+    public final class EventNames {
+        public static final String NEWS_PUBLISHED_UNDER_PAGENEWS = "newsPublishedUnderPageNews";
+        public static final String CHECK_PUBLISHED_NEWS_TO_NOTIFY = "checkPublishedNewsToNotify";
+    }
 
     public final class FacetNames {
         public static final String LABSPAGE = "LabsPage";
@@ -60,9 +69,9 @@ public final class LabsSiteConstants {
         PAGELIST("PageList", StringUtils.EMPTY),
         PAGELIST_LINE("PageListLine", StringUtils.EMPTY),
         FOLDER("Folder", StringUtils.EMPTY),
-        WELCOME(PAGEBLOCS.type(), "welcome"),
         HTMLPAGE("HtmlPage",StringUtils.EMPTY),
-        DASHBOARD("Space",StringUtils.EMPTY);
+        DASHBOARD("Space",StringUtils.EMPTY),
+        WELCOME(PAGEBLOCS.type(), "welcome"); // TODO
 
         private String docType;
         private String name;
@@ -111,6 +120,16 @@ public final class LabsSiteConstants {
         private String transition;
         private String state;
 
+        private static final Map<String, State> stringToEnum = new HashMap<String, State>();
+        static { // Initialize map from constant name to enum constant
+            for (State op : values())
+                stringToEnum.put(op.getState(), op);
+        }
+
+        // Returns Operation for string, or null if string is invalid
+        public static State fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
         private State(String transition, String state) {
             this.transition = transition;
             this.state = state;

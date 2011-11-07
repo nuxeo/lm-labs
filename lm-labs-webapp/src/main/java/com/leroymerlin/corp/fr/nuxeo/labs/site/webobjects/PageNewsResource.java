@@ -5,13 +5,22 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import static org.nuxeo.ecm.webengine.WebEngine.SKIN_PATH_PREFIX_KEY;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.NuxeoPrincipal;
+import org.nuxeo.ecm.platform.notification.api.NotificationManager;
+import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Module;
@@ -22,6 +31,8 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.NotifNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html.RowTemplate;
 
 /**
@@ -31,6 +42,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html.RowTemplate;
 @WebObject(type = "PageNews", superType = "Page")
 @Produces("text/html; charset=UTF-8")
 public class PageNewsResource extends PageResource {
+
+    private static final Log LOG = LogFactory.getLog(PageNewsResource.class);
 
     @Override
     public void initialize(Object... args) {
@@ -82,6 +95,58 @@ public class PageNewsResource extends PageResource {
 
     }
 
+    @POST
+    @Path("@subscribe")
+    public Response doSubscribe() {
+        LOG.debug("@subscribe");
+        try {
+            if (!isSubscribed()) {
+                NotificationManager notificationService = Framework.getService(NotificationManager.class);
+                UserManager userManager = Framework.getService(UserManager.class);
+                notificationService.addSubscription(ctx.getPrincipal().getName(), EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS, doc, true, userManager.getPrincipal(ctx.getPrincipal().getName()), NotifNames.NEWS_PUBLISHED);
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            LOG.error(e, e);
+        }
+        return Response.noContent().build();
+    }
+
+    @POST
+    @Path("@unsubscribe")
+    public Response doUnsubscribe() {
+        LOG.debug("@unsubscribe");
+        try {
+            if (isSubscribed()) {
+                NotificationManager notificationService = Framework.getService(NotificationManager.class);
+                notificationService.removeSubscription(ctx.getPrincipal().getName(), NotifNames.NEWS_PUBLISHED, doc.getId());
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            LOG.error(e, e);
+        }
+        return Response.noContent().build();
+    }
+    
+    @GET
+    @Path("@subscribed")
+    public Response doSubscribed() {
+        return Response.ok().entity(isSubscribed()).build();
+    }
+    
+    public Boolean isSubscribed() {
+        try {
+            NotificationManager notificationService = Framework.getService(NotificationManager.class);
+            List<String> subscriptions = notificationService.getSubscriptionsForUserOnDocument(ctx.getPrincipal().getName(), doc.getId());
+            if (subscriptions.contains(EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS)) {
+                return true;
+            }
+        } catch (Exception e) {
+            LOG.error(e, e);
+        }
+        return false;
+    }
+    
     private String getSamplePictureHtml() {
 
         return "<img src=\"" + getSkinPath() + "/images/samplePicture.jpg\"/>";

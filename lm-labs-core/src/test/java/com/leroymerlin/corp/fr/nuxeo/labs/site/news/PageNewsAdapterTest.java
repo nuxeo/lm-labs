@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -78,6 +79,26 @@ public class PageNewsAdapterTest {
         List<LabsNews> allNews = pn.getAllNews();
         assertThat(allNews.size(), is(3));
 
+    }
+    
+    @Test
+    public void testContainsOnGetAllNews() throws Exception {
+        DocumentModel document = session.getDocument(new PathRef("/page_news"));
+        PageNews pn = document.getAdapter(PageNews.class);
+        LabsNews news = pn.createNews("Ma news");
+        session.saveDocument(news.getDocumentModel());
+        List<LabsNews> allNews = pn.getTopNews(Integer.MAX_VALUE);
+        assertFalse(allNews.contains(news));
+        
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) -1);
+        cal2.set(Calendar.MONTH, cal2.get(Calendar.MONTH) + 1);
+        news.setStartPublication(cal1);
+        news.setEndPublication(cal2);
+        session.saveDocument(news.getDocumentModel());
+        allNews = pn.getTopNews(Integer.MAX_VALUE);
+        assertTrue(allNews.contains(news));
     }
 
     @Test

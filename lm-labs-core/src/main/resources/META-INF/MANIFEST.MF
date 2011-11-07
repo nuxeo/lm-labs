@@ -10,5 +10,7 @@ Nuxeo-Component: OSGI-INF/core-types-contrib.xml,
  OSGI-INF/content-template-contrib.xml,
  OSGI-INF/listeners-contrib.xml,
  OSGI-INF/adapters-contrib.xml,
+ OSGI-INF/notification-contrib.xml,
+ OSGI-INF/schedule-contrib.xml,
  OSGI-INF/sitemanager-service.xml
  

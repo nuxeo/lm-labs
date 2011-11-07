@@ -3,6 +3,7 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.Blob;
@@ -10,6 +11,8 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
 /**
  * @author fvandaele
@@ -62,6 +65,14 @@ public interface LabsSite extends Page {
      * @throws ClientException
      */
     List<Page> getAllPages() throws ClientException;
+
+    /**
+     * @param docType
+     * @param lifecycleState can be <code>null</code>.
+     * @return
+     * @throws ClientException
+     */
+    Collection<DocumentModel> getPages(Docs docType, State lifecycleState) throws ClientException;
 
     /**
      * Returns the base document of the tree
