@@ -71,7 +71,7 @@ public final class LabsSiteConstants {
         FOLDER("Folder", StringUtils.EMPTY),
         HTMLPAGE("HtmlPage",StringUtils.EMPTY),
         DASHBOARD("Space",StringUtils.EMPTY),
-        WELCOME(DASHBOARD.type(), "welcome"); // TODO
+        WELCOME(PAGEBLOCS.type(), "welcome"); // TODO
 
         private String docType;
         private String name;
