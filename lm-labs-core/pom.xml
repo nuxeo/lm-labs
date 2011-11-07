@@ -311,6 +311,12 @@
       <groupId>org.apache.poi</groupId>
   	  <artifactId>poi</artifactId>
     </dependency>
+    
+     <dependency>
+       <groupId>rome</groupId>
+       <artifactId>rome</artifactId>
+     </dependency>
+     
   </dependencies>
 
 </project>

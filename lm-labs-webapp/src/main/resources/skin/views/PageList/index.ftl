@@ -61,7 +61,6 @@
 						<a href="${This.path}/exportExcel/export.xls"><img title="export excel" alt="export excel" src="/nuxeo/icons/xls.png" /></a>
 					</div>
 				</#if>
-				<#include "/views/LabsComments/displayCommentsPage.ftl" />
 			</div>
 			<script type="text/javascript">
 				var msg_title = "${Context.getMessage('label.pageList.edit.manage.title')}";

@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.page;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -36,8 +37,6 @@ public class PageAdapterTest {
     private static final String TITRE_1 = "titre 1";
 
     private static final String DESCRIPTION_1 = "Ma description";
-
-    private static final String COMMENTAIRE = "Mon commentaire";
 
     @Inject
     private CoreSession session;
@@ -125,6 +124,28 @@ public class PageAdapterTest {
         comment.setPropertyValue("comment:creationDate", new Date());
         comment = session.createDocument(comment);
         return comment;
+    }
+
+    @Test
+    public void iCanGetDefaultCommentable() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = doc.getAdapter(Page.class);
+        assertNotNull(page);
+        assertFalse(page.isCommentable());
+    }
+
+    @Test
+    public void iCanSetCommentable() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = doc.getAdapter(Page.class);
+        assertNotNull(page);
+        assertFalse(page.isCommentable());
+        page.setCommentable(true);
+        session.saveDocument(doc);
+        session.save();
+        doc = session.getDocument(doc.getRef());
+        page = doc.getAdapter(Page.class);
+        assertTrue(page.isCommentable());
     }
 
 }

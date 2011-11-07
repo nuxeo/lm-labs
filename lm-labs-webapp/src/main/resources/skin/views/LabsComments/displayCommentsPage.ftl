@@ -16,7 +16,9 @@
 			<button class="btn" onClick="javascript:closeCommentsPage();" title="${Context.getMessage('label.comments.cancel')}">${Context.getMessage('label.comments.cancel')}</button>
 		</div>
 	</div>
-	<a href="#" class="btn open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();">${Context.getMessage('command.Page.CommentAdd')}</a>
+	<#if !This.context.principal.anonymous>
+		<a href="#" class="btn open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();">${Context.getMessage('command.Page.CommentAdd')}</a>
+	</#if>
 	<div id="divListCommentsPage" class="container" style=""></div>
 </div>
 <script type="text/javascript">

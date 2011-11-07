@@ -3,14 +3,18 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
@@ -21,6 +25,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.sun.syndication.feed.synd.SyndFeed;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -106,6 +111,24 @@ public class PageNewsAdapterTest {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
         PageNews pn = document.getAdapter(PageNews.class);
 
+        createDatasTestForTopNews(pn);
+
+        List<LabsNews> allNews = pn.getTopNews(2);
+        assertThat(allNews.size(), is(2));
+        
+        allNews = pn.getTopNews(3);
+        assertThat(allNews.size(), is(3));
+        
+        allNews = pn.getTopNews(5);
+        assertThat(allNews.size(), is(3));
+
+    }
+
+    /**
+     * @param pn
+     * @throws ClientException
+     */
+    private void createDatasTestForTopNews(PageNews pn) throws ClientException {
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
         cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) -1);
@@ -150,5 +173,62 @@ public class PageNewsAdapterTest {
         allNews = pn.getTopNews(5);
         assertThat(allNews.size(), is(3));
 
+    }
+    @Test
+    public void iCanBuildRssTopNews() throws Exception {
+        DocumentModel document = session.getDocument(new PathRef("/page_news"));
+        PageNews pn = document.getAdapter(PageNews.class);
+
+        createDatasTestForTopNews(pn);
+        
+        List<LabsNews> allNews = pn.getTopNews(3);
+        assertThat(allNews.size(), is(3));
+        
+        SyndFeed feed = pn.buildRssLabsNews(allNews, "localhost:8080", "DefaultDescription");
+        assertNotNull(feed);
+        assertNotNull(feed.getDescription());
+        assertNotNull(feed.getEntries());
+
+        assertThat(feed.getEntries().size(), is(3));
+
+    }
+
+    @Test
+    public void iCanWriteRssTopNews() throws Exception {
+        DocumentModel document = session.getDocument(new PathRef("/page_news"));
+        PageNews pn = document.getAdapter(PageNews.class);
+        pn.setTitle("titre page News");
+
+        createDatasTestForTopNews(pn);
+        
+        List<LabsNews> allNews = pn.getTopNews(3);
+        assertThat(allNews.size(), is(3));
+        
+        SyndFeed feed = pn.buildRssLabsNews(allNews, "http://localhost:8080/", "DefaultDescription");
+        assertNotNull(feed);
+        assertNotNull(feed.getDescription());
+        assertNotNull(feed.getEntries());
+
+        assertThat(feed.getEntries().size(), is(3));
+        
+        File temp = null;
+        try {
+            temp = File.createTempFile("tempfile", ".tmp");
+            assertNotNull(temp);
+            assertThat(temp.length(), is(0l));
+            
+            FileOutputStream out = new FileOutputStream(temp);
+            pn.writeRss(out, feed);
+            out.close();
+            
+            assertTrue(temp.length() > 0);
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        finally{
+            if (temp != null && temp.exists()){
+                temp.delete();
+            }
+        }
     }
 }

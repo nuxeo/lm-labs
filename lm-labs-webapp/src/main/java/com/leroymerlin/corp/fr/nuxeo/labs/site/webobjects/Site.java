@@ -44,6 +44,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTree;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTreeAsset;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -52,7 +53,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 @Produces("text/html; charset=UTF-8")
 public class Site extends PageResource {
 
-
     private LabsSite site;
 
     @Override
@@ -60,9 +60,7 @@ public class Site extends PageResource {
         super.initialize(args);
         site = doc.getAdapter(LabsSite.class);
 
-        ctx.getEngine()
-                .getRendering()
-                .setSharedVariable("site", site);
+        ctx.getEngine().getRendering().setSharedVariable("site", site);
         ctx.setProperty("site", site);
     }
 
@@ -78,8 +76,7 @@ public class Site extends PageResource {
         try {
             DocumentModel tree = site.getTree();
 
-            String name = ctx.getForm()
-                    .getString("name");
+            String name = ctx.getForm().getString("name");
             DocumentModel newDoc = DocumentHelper.createDocument(ctx, tree,
                     name);
             String pathSegment = URIUtils.quoteURIPathComponent(
@@ -88,7 +85,6 @@ public class Site extends PageResource {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-
     }
 
     private Response updateSite(FormData form) {
@@ -144,26 +140,36 @@ public class Site extends PageResource {
     @GET
     @Path("@treeview")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response doTreeview(@QueryParam("root") String root, @QueryParam("view") String view, @QueryParam("id") String id)
+    public Response doTreeview(@QueryParam("root") String root,
+            @QueryParam("view") String view, @QueryParam("id") String id)
             throws ClientException {
 
         LabsSite site = (LabsSite) ctx.getProperty("site");
 
         if (site != null) {
-            DocumentModel tree = site.getTree();
+            DocumentModel tree = null;
             AbstractDocumentTree siteTree;
             if ("admin".equals(view)) {
+                tree = site.getTree();
                 siteTree = new AdminSiteTree(ctx, tree);
+            } else if ("admin_asset".equals(view)) {
+                tree = "0".equals(id) ? site.getAssetsDoc()
+                        : getCoreSession().getDocument(new IdRef(id));
+                siteTree = new AdminSiteTreeAsset(ctx, tree);
             } else {
+                tree = site.getTree();
                 siteTree = new SiteDocumentTree(ctx, tree);
-                
+
             }
             String result = "";
             if (root == null || "source".equals(root)) {
                 if (id != null && !"0".equals(id)) {
-                    DocumentModel document = tree.getCoreSession().getDocument(new IdRef(id));
-                    String entryPoint = StringUtils.substringAfter(document.getPathAsString(), 
-                            site.getDocument().getPathAsString() + "/" + Docs.TREE.docName());
+                    DocumentModel document = tree.getCoreSession().getDocument(
+                            new IdRef(id));
+                    String entryPoint = StringUtils.substringAfter(
+                            document.getPathAsString(),
+                            site.getDocument().getPathAsString() + "/"
+                                    + Docs.TREE.docName());
                     result = siteTree.enter(ctx, entryPoint);
                 } else {
                     siteTree.enter(ctx, "");
@@ -172,23 +178,18 @@ public class Site extends PageResource {
             } else {
                 result = siteTree.enter(ctx, root);
             }
-            return Response.ok()
-                    .entity(result)
-                    .type(MediaType.APPLICATION_JSON)
-                    .build();
+            return Response.ok().entity(result).type(MediaType.APPLICATION_JSON).build();
         }
         return null;
-
     }
 
     @Override
     public DocumentObject newDocument(String path) {
         try {
 
-            PathRef pathRef = new PathRef(site.getTree()
-                    .getPathAsString() + "/" + path);
-            DocumentModel doc = ctx.getCoreSession()
-                    .getDocument(pathRef);
+            PathRef pathRef = new PathRef(site.getTree().getPathAsString()
+                    + "/" + path);
+            DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
             return (DocumentObject) ctx.newObject(doc.getType(), doc);
         } catch (Exception e) {
             throw new WebResourceNotFoundException(e.getMessage(), e);
@@ -200,23 +201,21 @@ public class Site extends PageResource {
     public <A> A getAdapter(Class<A> adapter) {
         if (adapter.equals(Page.class)) {
             try {
-                return (A) site.getIndexDocument()
-                        .getAdapter(Page.class);
+                return (A) site.getIndexDocument().getAdapter(Page.class);
             } catch (ClientException e) {
 
             }
         }
         return super.getAdapter(adapter);
     }
-    
-    public List<Page> getDeletedPage() throws ClientException{
+
+    public List<Page> getDeletedPage() throws ClientException {
         return doc.getAdapter(LabsSite.class).getAllDeletedPages();
     }
 
     // /////////////// ALL CODE BELOW IS TO BE REFACTORED /////////////////
 
-    public List<LabsNews> getNews(
-            String pRef) throws ClientException {
+    public List<LabsNews> getNews(String pRef) throws ClientException {
         CoreSession session = getCoreSession();
         DocumentModel pageNews = session.getDocument(new IdRef(pRef));
         return pageNews.getAdapter(PageNews.class).getAllNews();
@@ -253,11 +252,9 @@ public class Site extends PageResource {
             extURL.setOrder(pOrder);
             session.createDocument(docExtURL);
             session.save();
-            return Response.status(Status.OK)
-                    .build();
+            return Response.status(Status.OK).build();
         } catch (ClientException e) {
-            return Response.status(Status.GONE)
-                    .build();
+            return Response.status(Status.GONE).build();
         }
     }
 
@@ -277,11 +274,9 @@ public class Site extends PageResource {
             extURL.setOrder(pOrder);
             session.saveDocument(docExtURL);
             session.save();
-            return Response.status(Status.OK)
-                    .build();
+            return Response.status(Status.OK).build();
         } catch (ClientException e) {
-            return Response.status(Status.GONE)
-                    .build();
+            return Response.status(Status.GONE).build();
         }
     }
 
@@ -295,11 +290,9 @@ public class Site extends PageResource {
             session.removeDocument(document.getRef());
             session.save();
         } catch (ClientException e) {
-            return Response.status(Status.GONE)
-                    .build();
+            return Response.status(Status.GONE).build();
         }
-        return Response.noContent()
-                .build();
+        return Response.noContent().build();
     }
 
 }

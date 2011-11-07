@@ -37,6 +37,7 @@
     <doctype name="Site" extends="Workspace">
       <schema name="webcontainer" />
       <schema name="labssite" />
+      <schema name="page" />
       <subtypes>
         <type>Tree</type>
         <type>Assets</type>

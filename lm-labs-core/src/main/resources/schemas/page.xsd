@@ -3,5 +3,7 @@
 	targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/page"
 	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/page">
 	
+	<xs:element name="commentable" type="xs:boolean" default="false" />
+	
 </xs:schema>
 

@@ -7,20 +7,20 @@ import org.nuxeo.ecm.webengine.ui.tree.JSonTreeSerializer;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractDocumentTree;
 
-public class SiteDocumentTree extends AbstractDocumentTree {
+public class AdminSiteTreeAsset extends AbstractDocumentTree {
 
-    public SiteDocumentTree(WebContext ctx, DocumentModel rootDoc) {
+    public AdminSiteTreeAsset(WebContext ctx, DocumentModel rootDoc) {
         super(ctx, rootDoc);
     }
 
     @Override
     protected ContentProvider getProvider(WebContext ctx) {
-        return new SiteContentProvider(ctx.getCoreSession(), false);
+        return new SiteContentProvider(ctx.getCoreSession(), true);
     }
 
     @Override
     protected JSonTreeSerializer getSerializer(WebContext ctx) {
-        return new SiteTreeSerializer();
+        return new AdminSiteTreeSerializer();
     }
 
 }

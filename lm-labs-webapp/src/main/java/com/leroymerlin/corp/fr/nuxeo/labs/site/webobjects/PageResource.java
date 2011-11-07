@@ -12,12 +12,10 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
-import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
@@ -28,6 +26,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.portal.usermanager.LMNuxeoPrincipal;
 
 @WebObject(type = "LabsPage")
@@ -38,7 +37,7 @@ public class PageResource extends DocumentObject {
 
     private static final String BROWSE_TREE_VIEW = "views/common/browse_tree.ftl";
 
-    private static final Log LOG = LogFactory.getLog(PageResource.class);
+//    private static final Log LOG = LogFactory.getLog(PageResource.class);
 
     private static final String[] MESSAGES_TYPE = new String[] { "error",
             "info", "success", "warning" };
@@ -51,15 +50,17 @@ public class PageResource extends DocumentObject {
             if (args[0] instanceof DocumentModel) {
                 try {
                     DocumentModel document = (DocumentModel) args[0];
-                    Page page = document.getAdapter(Page.class);
-                    boolean authorized = page.isAuthorized(
-                            getContext().getPrincipal().getName(),
-                            ((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous());
-                    authorized = authorized && !page.isDeleted();
-                    if (!authorized) {
-                        throw new WebResourceNotFoundException(
-                                getContext().getPrincipal().getName()
-                                        + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT);
+                    if(!LabsSiteConstants.Docs.LABSNEWS.type().equals(document.getType())){
+                        Page page = document.getAdapter(Page.class);
+                        boolean authorized = page.isAuthorized(
+                                getContext().getPrincipal().getName(),
+                                ((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous());
+                        authorized = authorized && !page.isDeleted();
+                        if (!authorized) {
+                            throw new WebResourceNotFoundException(
+                                    getContext().getPrincipal().getName()
+                                            + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT);
+                        }
                     }
                 } catch (ClientException e) {
                     throw new WebResourceNotFoundException(
@@ -153,6 +154,21 @@ public class PageResource extends DocumentObject {
             return redirect(getPath() + viewUrl + "?message_error=" + e.getMessage());
         }
         return redirect(getPath() + viewUrl + "?message_success=label.admin.page.copied");
+    }
+
+    @POST
+    @Path("@commentable")
+    public Response doCommentable(){
+        try {
+            boolean isChecked = "on".equalsIgnoreCase(ctx.getForm().getString("commentablePage"));
+            doc.getAdapter(Page.class).setCommentable(isChecked);
+            CoreSession session = getCoreSession();
+            session.saveDocument(doc);
+            session.save();
+        } catch (ClientException e) {
+            return redirect(getPath() + "?message_error=label.parameters.page.save.fail");
+        }
+        return redirect(getPath() + "?message_success=label.parameters.page.save.success");
     }
 
     /**
