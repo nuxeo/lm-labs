@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
 public final class LabsSiteConstants {
@@ -71,7 +70,7 @@ public final class LabsSiteConstants {
         FOLDER("Folder", StringUtils.EMPTY),
         HTMLPAGE("HtmlPage",StringUtils.EMPTY),
         DASHBOARD("Space",StringUtils.EMPTY),
-        WELCOME(PAGEBLOCS.type(), "welcome"); // TODO
+        WELCOME(DASHBOARD.type(), "welcome"); // TODO
 
         private String docType;
         private String name;
