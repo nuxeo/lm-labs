@@ -435,7 +435,7 @@
     $.fn.dialog2.defaults = {
         autoOpen: true, 
         closeOnOverlayClick: true, 
-        removeOnClose: true, 
+        removeOnClose: false, 
         showCloseHandle: true
     };
     
