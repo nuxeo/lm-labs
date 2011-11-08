@@ -446,10 +446,14 @@
         
         "en": {
             cancel: "Cancel"
+        }, 
+        
+        "fr": {
+            cancel: "Annuler"
         }
     };
     
-    var lang = $.fn.dialog2.localization["en"];
+    var lang = $.fn.dialog2.localization["fr"];
     
     $.fn.dialog2.localization.setDefault = function(key) {
         var localization = $.fn.dialog2.localization[key];
