@@ -4,7 +4,7 @@
   <#list pageProvider.setCurrentPage(0) as doc >
     <li>
       <#assign sd = Common.siteDoc(doc) />
-      <a href="${Context.modulePath}/${sd.pagePath}" title="${doc.title}" >${doc.title}</a>
+      <a href="${Context.modulePath}/${sd.parentPagePath}" title="${doc.title}" >${doc.title}</a>
     </li>
   </#list>
   </ul>

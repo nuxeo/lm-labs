@@ -151,6 +151,11 @@ public final class LabsSiteConstants {
 
     }
     
+    /*
+     * Define in the file 'lifecycle-contrib.xml'
+     */
+    public static String LIFE_CYCLE_LABS = "labs";
+    
     public static List<String> OREDERED_PERMISSONS;
     
     public static PermissionsHelper  PERMISSIONS_HELPER;

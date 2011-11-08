@@ -7,10 +7,7 @@ public class SiteDocumentAdapterFactory implements DocumentAdapterFactory{
 
     @Override
     public Object getAdapter(DocumentModel doc, Class<?> klass) {
-        if(doc != null) {
-            return new SiteDocumentAdapter(doc);
-        }
-        return null;
+        return new SiteDocumentAdapter(doc);
     }
 
 }

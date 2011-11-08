@@ -86,8 +86,8 @@
     <@block name="content">
     </@block>
     
-    <#assign page = This.page/>
-	<#if page?? && page.commentable>
+    <#assign pageCommentable = This.getPage()/>
+	<#if pageCommentable != null && pageCommentable.commentable>
 		<#include "/views/LabsComments/displayCommentsPage.ftl" />
 	</#if>
 

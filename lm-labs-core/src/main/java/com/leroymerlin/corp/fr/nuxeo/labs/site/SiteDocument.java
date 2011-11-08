@@ -21,7 +21,7 @@ public interface SiteDocument {
      * @return
      * @throws ClientException
      */
-    Page getPage() throws ClientException;
+    Page getParentPage() throws ClientException;
 
     /**
      * Return the parent site for this document
@@ -31,7 +31,7 @@ public interface SiteDocument {
     LabsSite getSite() throws ClientException;
 
 
-    String getPagePath() throws ClientException;
+    String getParentPagePath() throws ClientException;
 
     String getResourcePath() throws ClientException;
 

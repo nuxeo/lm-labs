@@ -25,6 +25,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.DefaultRepositoryInit;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
@@ -151,15 +152,15 @@ public final class LabsSiteUtilsTest {
         assertNotNull(allPages);
         assertTrue(allPages.size() == 7);
         for (Page page:allPages){
-            assertTrue(!page.isDeleted());
+            assertTrue(!page.getDocument().getAdapter(LabsPublisher.class).isDeleted());
         }
-        allPages.get(6).delete();
-        allPages.get(5).delete();
+        allPages.get(6).getDocument().getAdapter(LabsPublisher.class).delete();
+        allPages.get(5).getDocument().getAdapter(LabsPublisher.class).delete();
         session.save();
         allPages = site.getAllPages();
         assertTrue(allPages.size() == 5);
         for (Page page:allPages){
-            assertTrue(!page.isDeleted());
+            assertTrue(!page.getDocument().getAdapter(LabsPublisher.class).isDeleted());
         }
     }
 
@@ -177,16 +178,16 @@ public final class LabsSiteUtilsTest {
         assertNotNull(allPages);
         assertTrue(allPages.size() == 7);
         for (Page page:allPages){
-            assertTrue(!page.isDeleted());
+            assertTrue(!page.getDocument().getAdapter(LabsPublisher.class).isDeleted());
         }
-        allPages.get(6).delete();
-        allPages.get(5).delete();
-        allPages.get(4).delete();
+        allPages.get(6).getDocument().getAdapter(LabsPublisher.class).delete();
+        allPages.get(5).getDocument().getAdapter(LabsPublisher.class).delete();
+        allPages.get(4).getDocument().getAdapter(LabsPublisher.class).delete();
         session.save();
         allPages = site.getAllDeletedPages();
         assertTrue(allPages.size() == 3);
         for (Page page:allPages){
-            assertTrue(page.isDeleted());
+            assertTrue(page.getDocument().getAdapter(LabsPublisher.class).isDeleted());
         }
     }
 
@@ -236,7 +237,7 @@ public final class LabsSiteUtilsTest {
 
 
         sd = pageClasseur.getAdapter(SiteDocument.class);
-        assertThat(sd.getPage()
+        assertThat(sd.getParentPage()
                 .getDocument()
                 .getRef(), is(pageClasseur.getRef()));
 
@@ -244,7 +245,7 @@ public final class LabsSiteUtilsTest {
                 pageClasseur.getPathAsString(), "folder", "Folder");
         folder = session.createDocument(folder);
         sd = folder.getAdapter(SiteDocument.class);
-        assertThat(sd.getPage()
+        assertThat(sd.getParentPage()
                 .getDocument()
                 .getRef(), is(pageClasseur.getRef()));
 
@@ -252,7 +253,7 @@ public final class LabsSiteUtilsTest {
                 pageClasseur.getPathAsString(), "file", "File");
         file = session.createDocument(file);
         sd = file.getAdapter(SiteDocument.class);
-        assertThat(sd.getPage()
+        assertThat(sd.getParentPage()
                 .getDocument()
                 .getRef(), is(pageClasseur.getRef()));
     }

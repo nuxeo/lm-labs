@@ -6,7 +6,7 @@
   </#if>
   <#if resource.document??>
   	<#assign class = ""/>
-  	<#if (Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'Write')) && resource.page ?? && !resource.page.visible>
+  	<#if (Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'Write')) && !resource.visible>
   		<#assign class = "class='draft'"/>
   	</#if>
     <a href="${resource.path}" ${class}>${resource.document.title}</a> &gt;

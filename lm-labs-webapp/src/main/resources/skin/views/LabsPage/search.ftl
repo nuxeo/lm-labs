@@ -42,15 +42,22 @@
     <div class="container">
     <section>
       <div class="page-header">
-        <h1>Résultats de recherche</h1>
+        <h1>${Context.getMessage('label.search.title')}</h1>
         <#if result?size &gt; 0>
-          <small>Affichage des résultats 1-${result?size} sur ${result?size} pour <span>${query?split('"')[1]}</small>
+          <small>${Context.getMessage('label.search.displayResults', result?size, result?size)} <span>${query?split('"')[1]}</small>
         </#if>
       </div>
     <#if result?size &gt; 0>
       <table class="zebra-striped bs" id="resultsSearch" >
         <thead>
-          <tr><th></th><th>Titre</th><th>Dernière Modification</th><th>Taille Fichier</th><th>Page</th><th></th></tr>
+          <tr>
+          	<th></th>
+          	<th>${Context.getMessage('label.search.head.title')}</th>
+          	<th>${Context.getMessage('label.search.head.lastModification')}</th>
+          	<th>${Context.getMessage('label.search.head.size')}</th>
+          	<th>${Context.getMessage('label.search.head.page')}</th>
+          	<th></th>
+          </tr>
         </thead>
         <tbody>
           <#list result as doc>
@@ -58,9 +65,15 @@
             <tr>
               <td class="colIcon"><img title="${doc.type}" alt="&gt;&gt;" <#if doc.schemas?seq_contains("common") >src="/nuxeo/${doc.common.icon}"</#if> /></td>
 
-                <td><a href="${Context.modulePath}/${sd.resourcePath}" target="_blank">${doc.dublincore.title}</a></td>
+                <td>
+                	<#if (doc.dublincore.title?length > 0)>
+                		<a href="${Context.modulePath}/${sd.resourcePath}" target="_blank">${doc.dublincore.title}</a>
+                	<#else>
+              			(${Context.getMessage('label.search.result.noTitle')})
+              		</#if>
+                </td>
                 <td>${userFullName(doc.dublincore.lastContributor)}</td>
-                <#assign formattedFilesize = "(Pas de fichier)" />
+                <#assign formattedFilesize = "(" + Context.getMessage('label.search.result.noFile') + ")" />
                 <#assign filesize = 0 />
                 <#if sd.blobHolder?? && sd.blobHolder.blob != null >
                   <#assign filesize = sd.blobHolder.blob.length />
@@ -68,7 +81,9 @@
                 </#if>
               <td class="colFilesize">${formattedFilesize}<span class="sortValue">${filesize?string.computer}</span></td>
 
-              <td><a href="${Context.modulePath}/${sd.page.path}">${sd.page.title}</a></td>
+              <td>
+              	<a href="${Context.modulePath}/${sd.parentPage.path}">${sd.parentPage.title}</a>
+              </td>
                 <td>
                     <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
                     <a href="${Context.modulePath}/${sd.resourcePath}/@blob" class="btn">${Context.getMessage('command.LabsSite.latestuploads.download')}</a>

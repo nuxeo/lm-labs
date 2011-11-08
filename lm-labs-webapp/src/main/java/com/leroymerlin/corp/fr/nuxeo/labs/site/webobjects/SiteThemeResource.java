@@ -13,6 +13,7 @@ import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 
@@ -29,6 +30,16 @@ public class SiteThemeResource extends PageResource {
         site = (LabsSite) args[0];
         theme = (SiteTheme) args[1];
         doc = theme.getDocument();
+    }
+    
+    @Override
+    public boolean isVisible() throws ClientException{
+        return true;
+    }
+    
+    @Override
+    public Page getPage() throws ClientException{
+        return null;
     }
 
     @GET

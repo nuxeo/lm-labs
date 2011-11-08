@@ -59,7 +59,7 @@ public class PagePathTests {
         DocumentModel folder = session.getDocument(new PathRef(classeur.getDocument().getPathAsString() + "/" + FOLDER1_NAME ));
         SiteDocument sd = folder.getAdapter(SiteDocument.class);
 
-        assertThat(sd.getPagePath(), is("ofm/" + PAGE_CLASSEUR_TITLE));
+        assertThat(sd.getParentPagePath(), is("ofm/" + PAGE_CLASSEUR_TITLE));
         assertThat(sd.getResourcePath(), is("ofm/" + PAGE_CLASSEUR_TITLE + "/" + FOLDER1_NAME ) );
 
     }

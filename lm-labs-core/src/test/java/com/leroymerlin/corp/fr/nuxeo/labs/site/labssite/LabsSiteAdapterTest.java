@@ -23,6 +23,7 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 @RunWith(FeaturesRunner.class)
@@ -128,7 +129,7 @@ public class LabsSiteAdapterTest {
         doc.setPropertyValue("dc:title", "le titre");
         doc = session.createDocument(doc);
         session.save();
-        assertTrue(!doc.getAdapter(LabsSite.class).isVisible());
+        assertTrue(!doc.getAdapter(LabsPublisher.class).isVisible());
     }
 
     @Test()
@@ -136,8 +137,8 @@ public class LabsSiteAdapterTest {
         DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
         doc.setPropertyValue("dc:title", "le titre");
         doc = session.createDocument(doc);
-        doc.getAdapter(LabsSite.class).publish();
-        assertTrue(doc.getAdapter(LabsSite.class).isVisible());
+        doc.getAdapter(LabsPublisher.class).publish();
+        assertTrue(doc.getAdapter(LabsPublisher.class).isVisible());
     }
 
     @Test()
@@ -145,8 +146,8 @@ public class LabsSiteAdapterTest {
         DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
         doc.setPropertyValue("dc:title", "le titre");
         doc = session.createDocument(doc);
-        doc.getAdapter(LabsSite.class).delete();
-        assertTrue(doc.getAdapter(LabsSite.class).isDeleted());
+        doc.getAdapter(LabsPublisher.class).delete();
+        assertTrue(doc.getAdapter(LabsPublisher.class).isDeleted());
     }
 
     @Test()
@@ -154,12 +155,12 @@ public class LabsSiteAdapterTest {
         DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
         doc.setPropertyValue("dc:title", "le titre");
         doc = session.createDocument(doc);
-        assertTrue(!doc.getAdapter(LabsSite.class).isDeleted());
-        doc.getAdapter(LabsSite.class).publish();
-        assertTrue(!doc.getAdapter(LabsSite.class).isDeleted());
-        doc.getAdapter(LabsSite.class).delete();
-        assertTrue(doc.getAdapter(LabsSite.class).isDeleted());
-        doc.getAdapter(LabsSite.class).undelete();
-        assertTrue(!doc.getAdapter(LabsSite.class).isDeleted());
+        assertTrue(!doc.getAdapter(LabsPublisher.class).isDeleted());
+        doc.getAdapter(LabsPublisher.class).publish();
+        assertTrue(!doc.getAdapter(LabsPublisher.class).isDeleted());
+        doc.getAdapter(LabsPublisher.class).delete();
+        assertTrue(doc.getAdapter(LabsPublisher.class).isDeleted());
+        doc.getAdapter(LabsPublisher.class).undelete();
+        assertTrue(!doc.getAdapter(LabsPublisher.class).isDeleted());
     }
 }

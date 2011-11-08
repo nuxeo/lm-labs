@@ -20,7 +20,7 @@ import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 /**
@@ -52,8 +52,8 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         try {
             if (LabsSiteConstants.State.DRAFT.getState().equals(document.getCurrentLifeCycleState())){
-                Page page = document.getAdapter(Page.class);
-                page.publish();
+                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                publisherAdapter.publish();
                 return Response.ok(PUBLISH).build();
             }
         } catch (ClientException e) {
@@ -68,8 +68,8 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         try {
             if (LabsSiteConstants.State.PUBLISH.getState().equals(document.getCurrentLifeCycleState())){
-                Page page = document.getAdapter(Page.class);
-                page.draft();
+                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                publisherAdapter.draft();
                 return Response.ok(DRAFT).build();
             }
         } catch (ClientException e) {
@@ -84,8 +84,8 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         try {
             if (!LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                Page page = document.getAdapter(Page.class);
-                page.delete();
+                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                publisherAdapter.delete();
                 return Response.ok(DELETE).build();
             }
         } catch (ClientException e) {
@@ -100,8 +100,8 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         try {
             if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                Page page = document.getAdapter(Page.class);
-                page.undelete();
+                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                publisherAdapter.undelete();
                 return Response.ok(UNDELETE).build();
             }
         } catch (ClientException e) {
@@ -116,8 +116,8 @@ public class LabsPublishService extends DefaultAdapter {
         try {
             DocumentModel document = getContext().getCoreSession().getDocument(new IdRef(ref));
             if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                Page page = document.getAdapter(Page.class);
-                page.undelete();
+                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                publisherAdapter.undelete();
                 return Response.ok(UNDELETE).build();
             }
         } catch (ClientException e) {

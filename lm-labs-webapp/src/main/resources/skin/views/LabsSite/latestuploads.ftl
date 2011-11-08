@@ -37,7 +37,7 @@
             <#assign modifDate = upload.dublincore.modified?datetime >
             <td>${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</td>
             <#assign sd = Common.siteDoc(upload) />
-            <td><a href="${Context.modulePath}/${sd.pagePath}">${sd.page.title}</a></td>
+            <td><a href="${Context.modulePath}/${sd.parentPagePath}">${sd.parentPage.title}</a></td>
             <td>
                 <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
                 <a href="${Context.modulePath}/${sd.resourcePath}/@blob" class="btn">${Context.getMessage('command.LabsSite.latestuploads.download')}</a>

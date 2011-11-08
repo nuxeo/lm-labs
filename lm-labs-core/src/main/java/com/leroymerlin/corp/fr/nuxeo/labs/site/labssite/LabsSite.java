@@ -10,6 +10,7 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
@@ -18,7 +19,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
  * @author fvandaele
  *
  */
-public interface LabsSite extends Page {
+public interface LabsSite  extends LabsBase {
 
     /**
      * The last url part to get this site. This MUST be
@@ -35,12 +36,6 @@ public interface LabsSite extends Page {
      * @throws ClientException
      */
     void setURL(String pURL) throws ClientException;
-
-    /**
-     * The underlying Site document
-     * @return
-     */
-    DocumentModel getDocumentModel();
 
     /**
      * Returns a Blob containing the logo of

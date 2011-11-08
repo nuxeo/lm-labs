@@ -50,6 +50,9 @@
 
       <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPageAdapterFactory" />
+
+      <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.LabsPublisher"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.LabsPublisherAdapterFactory" />
   </extension>
 
 </component>

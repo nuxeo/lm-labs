@@ -33,7 +33,7 @@
     <a href="${e.getURL()}" style="word-wrap: break-word" target="_blank" title="${e.getURL()}">${e.name}</a>
     <#if Session.hasPermission(This.document.ref, 'Everything')>
       <div class="actionExternalURL">
-        <img onClick="javascript:modifyExternalURL('${This.escapeJS(e.name)}', '${e.getURL()}', '${e.order}', '${e.document.id}');" title="Modifier" alt="Modifier" src="${skinPath}/images/edit.gif" />
+        <img onClick="javascript:modifyExternalURL('${e.name?js_string}', '${e.getURL()}', '${e.order}', '${e.document.id}');" title="Modifier" alt="Modifier" src="${skinPath}/images/edit.gif" />
         <img onClick="javascript:deleteExternalURL('${This.path}/deleteExternalURL/${e.document.id}', '${This.path}');" title="Supprimer" alt="Supprimer" src="${skinPath}/images/x.gif" />
       </div>
     </#if>

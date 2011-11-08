@@ -26,7 +26,7 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public Page getPage() throws ClientException {
+    public Page getParentPage() throws ClientException {
         DocumentModel parentDocument = doc;
         while (!LabsSiteConstants.Docs.DEFAULT_DOMAIN.type()
                 .equals(parentDocument.getType())) {
@@ -65,8 +65,8 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public String getPagePath() throws ClientException {
-        return getPage().getPath();
+    public String getParentPagePath() throws ClientException {
+        return getParentPage().getPath();
     }
 
     @Override

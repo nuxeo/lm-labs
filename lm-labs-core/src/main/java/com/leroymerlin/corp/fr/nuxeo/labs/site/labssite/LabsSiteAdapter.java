@@ -16,7 +16,7 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
@@ -25,7 +25,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
  * @author fvandaele
  *
  */
-public class LabsSiteAdapter extends AbstractPage implements LabsSite {
+public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     static final String URL = "webcontainer:url";
 
@@ -33,11 +33,6 @@ public class LabsSiteAdapter extends AbstractPage implements LabsSite {
 
     public LabsSiteAdapter(DocumentModel doc) {
         this.doc = doc;
-    }
-
-    @Override
-    public DocumentModel getDocumentModel() {
-        return doc;
     }
 
     @Override
