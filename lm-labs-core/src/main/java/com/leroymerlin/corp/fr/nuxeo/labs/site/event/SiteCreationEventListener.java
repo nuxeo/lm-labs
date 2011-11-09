@@ -10,8 +10,12 @@ import org.nuxeo.ecm.core.api.event.DocumentEventTypes;
 import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
+import org.nuxeo.ecm.spaces.api.Space;
+import org.nuxeo.opensocial.container.shared.layout.api.LayoutHelper.Preset;
+import org.nuxeo.opensocial.container.shared.layout.enume.YUISideBarStyle;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public class SiteCreationEventListener implements EventListener {
 
@@ -55,7 +59,16 @@ public class SiteCreationEventListener implements EventListener {
             
             session.createDocument(tree);
             session.createDocument(assets);
-            session.createDocument(welcome);
+            welcome = session.createDocument(welcome);
+            /* TODO
+            if (Docs.DASHBOARD.type().equals(welcome.getType())) {
+                Space space = welcome.getAdapter(Space.class);
+                space.initLayout(Preset.X_3_HEADER_2COLS.getLayout());
+                space.getLayout().setSideBar(YUISideBarStyle.YUI_SB_LEFT_160PX);
+                welcome = session.saveDocument(welcome);
+                // TODO add gadgets
+            }
+            */
         }
     }
 
