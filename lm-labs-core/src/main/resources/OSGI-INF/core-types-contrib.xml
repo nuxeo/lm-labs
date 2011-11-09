@@ -18,6 +18,7 @@
     <schema name="page_html" prefix="html" src="schemas/page_html.xsd" />
     <schema name="labssite" prefix="labssite" src="schemas/labssite.xsd" />
     <schema name="site_theme" prefix="sitetheme" src="schemas/site_theme.xsd" /> -->
+    <schema name="mailnotif" prefix="mailnotif" src="schemas/mailnotif.xsd" /> -->
   </extension>
 
   <extension target="org.nuxeo.ecm.core.schema.TypeService"
@@ -25,6 +26,10 @@
     
     <facet name="LabsPage" >
       <schema name="page" />
+    </facet>
+
+    <facet name="MailNotification" >
+      <schema name="mailnotif" />
     </facet>
 
     <doctype name="SitesRoot" extends="Folder">

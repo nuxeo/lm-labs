@@ -1,24 +1,20 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.event.DocumentEventTypes;
 import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
-import org.nuxeo.ecm.core.event.EventProducer;
-import org.nuxeo.ecm.core.event.EventService;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
-import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
 public class NewsPublicationEventListener extends PageNewsNotifier implements EventListener {
@@ -31,15 +27,18 @@ public class NewsPublicationEventListener extends PageNewsNotifier implements Ev
             return;
         }
         String eventName = evt.getName();
+        LOG.debug("event: " + eventName);
+        if (!DocumentEventTypes.DOCUMENT_UPDATED.equals(eventName) && !DocumentEventTypes.DOCUMENT_CREATED.equals(eventName)) {
+            return;
+        }
         DocumentEventContext ctx = (DocumentEventContext) evt.getContext();
         DocumentModel doc = ctx.getSourceDocument();
         if (doc != null) {
-            LabsNews labsNews = doc.getAdapter(LabsNews.class);
-            if (labsNews == null) {
+            if (doc.getAdapter(MailNotification.class).isNotified()) {
                 return;
             }
-            LOG.debug("event: " + eventName);
-            if (!DocumentEventTypes.DOCUMENT_UPDATED.equals(eventName) && !DocumentEventTypes.DOCUMENT_CREATED.equals(eventName)) {
+            LabsNews labsNews = doc.getAdapter(LabsNews.class);
+            if (labsNews == null) {
                 return;
             }
             DocumentModel pageNewsDoc = ctx.getCoreSession().getDocument(doc.getParentRef());
@@ -50,7 +49,9 @@ public class NewsPublicationEventListener extends PageNewsNotifier implements Ev
             }
             try {
                 if (State.PUBLISH.getState().equals(pageNewsDoc.getCurrentLifeCycleState())) {
-                    fireEvent(pageNewsDoc);
+                    List<DocumentModel> newsDocs = new ArrayList<DocumentModel>();
+                    newsDocs.add(doc);
+                    fireEvent(pageNewsDoc, newsDocs);
                 }
             } catch (Exception e) {
                 throw new ClientException(e.getCause());

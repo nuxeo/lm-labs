@@ -4,7 +4,7 @@ function subscribePageNews(subscribe) {
 	console.log("subscribePageNews " + subscribe);
 	        -->
 	jQuery.ajax({
-		type: 'POST',
+		type: 'GET',
 	    async: false,
 	    url: "${This.path}/@" + (subscribe ? 'subscribe' : 'unsubscribe'),
 	    success: function(data) {

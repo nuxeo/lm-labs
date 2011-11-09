@@ -50,6 +50,10 @@
 
       <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPageAdapterFactory" />
+
+      <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.MailNotification"
+      factory="com.leroymerlin.corp.fr.nuxeo.labs.site.MailNotificationAdapterFactory" />
+
   </extension>
 
 </component>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/mailnotif"
+  xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/mailnotif">
+
+  <xs:element name="isnotified" type="xs:boolean" default="false"></xs:element>
+  <xs:element name="notified" type="xs:date"></xs:element>
+
+</xs:schema>
+

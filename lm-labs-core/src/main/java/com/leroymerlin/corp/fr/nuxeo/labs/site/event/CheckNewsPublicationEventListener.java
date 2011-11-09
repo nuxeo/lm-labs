@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -14,11 +16,13 @@ import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
 public class CheckNewsPublicationEventListener extends PageNewsNotifier implements EventListener {
@@ -41,8 +45,20 @@ public class CheckNewsPublicationEventListener extends PageNewsNotifier implemen
                 for (DocumentModel page : publishedPageNews) {
                     PageNews pageNews = page.getAdapter(PageNews.class);
                     Collection<DocumentModel> newsStartingOn = pageNews.getTopNewsStartingOn(today);
-                    if (!newsStartingOn.isEmpty()) {
-                        fireEvent(page);
+                    @SuppressWarnings("unchecked")
+                    Collection<DocumentModel> newsToNotify = CollectionUtils.select(newsStartingOn, new Predicate() {
+                        @Override
+                        public boolean evaluate(Object object) {
+                            MailNotification adapter = ((DocumentModel) object).getAdapter(MailNotification.class);
+                            try {
+                                return adapter == null && !adapter.isNotified();
+                            } catch (ClientException e) {
+                                LOG.error(e, e);
+                                return false;
+                            }
+                        }});
+                    if (!newsToNotify.isEmpty()) {
+                        fireEvent(page, (List<DocumentModel>) newsToNotify);
                     }
                 }
             }
