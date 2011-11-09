@@ -28,13 +28,13 @@ public class AssetFolderResource extends DocumentObject {
             PathRef pathRef = new PathRef(doc.getPath()
                     .append(path)
                     .toString());
-            DocumentModel doc = ctx.getCoreSession()
+            DocumentModel currentDoc = ctx.getCoreSession()
                     .getDocument(pathRef);
 
-            if (doc.isFolder()) {
-                return ctx.newObject("AssetFolder", doc);
+            if (currentDoc.isFolder()) {
+                return ctx.newObject("AssetFolder", currentDoc);
             } else {
-                return ctx.newObject(doc.getType(), doc);
+                return ctx.newObject(currentDoc.getType(), currentDoc);
             }
         } catch (Exception e) {
             throw WebException.wrap(e);
@@ -43,7 +43,6 @@ public class AssetFolderResource extends DocumentObject {
 
     public String getCKEditorFuncNum() {
         return (String) ctx.getRequest().getSession().getAttribute("CKEditorFuncNum");
-
     }
 
     @POST
@@ -69,7 +68,6 @@ public class AssetFolderResource extends DocumentObject {
         } else {
             return super.doPost();
         }
-
     }
 
     private DocumentModel  addFile(Blob blob) throws Exception {

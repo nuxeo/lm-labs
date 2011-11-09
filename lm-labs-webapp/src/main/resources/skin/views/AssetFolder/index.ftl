@@ -72,31 +72,9 @@
               </div>
             </form>
           </div>
-
-          <div id="addFileDialog">
-            <h1>Ajouter un Fichier</h1>
-            <form id="addFileForm" action="${This.path}" onSubmit="this.action=currentPath" method="post" enctype="multipart/form-data">
-              <fieldset>
-                <div class="clearfix">
-                        <label for="title">Choisir le fichier</label>
-                          <div class="input">
-                            <input type="file" name="file"/>
-                          </div>
-                        </div><!-- /clearfix -->
-
-                        <div class="clearfix">
-                        <label for="description">Description</label>
-                          <div class="input">
-                            <textarea name="dublincore:description"></textarea>
-                          </div>
-                        </div><!-- /clearfix -->
-
-              </fieldset>
-              <div class="actions">
-                <button type="submit" class="btn primary">Ajouter</button>
-              </div>
-            </form>
-          </div>
+			
+		 <#include "macros/add_file_dialog.ftl" />
+		 <@addFileDialog action="${This.path}" onSubmit="this.action=currentPath"/>
 
         </div>
       </div>
