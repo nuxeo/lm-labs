@@ -1,6 +1,6 @@
 <h1>Ajouter du contenu</h1>
 
-<form id="add_doc_form" action="${This.path}" method="post">
+<form id="add_doc_form" action="${This.path}/@addContent" method="post">
   <fieldset>
     <div class="clearfix">
       <label for="name">${Context.getMessage('label.title')}</label>

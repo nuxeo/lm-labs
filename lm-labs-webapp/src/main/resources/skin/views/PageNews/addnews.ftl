@@ -15,6 +15,9 @@
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
   </@block>
+  
+  <@block name="docactions">
+  </@block>
 
   <@block name="content">
       <div id="content" class="container">

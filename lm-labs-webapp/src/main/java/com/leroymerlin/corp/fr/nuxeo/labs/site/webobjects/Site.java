@@ -63,6 +63,25 @@ public class Site extends PageResource {
         ctx.getEngine().getRendering().setSharedVariable("site", site);
         ctx.setProperty("site", site);
     }
+    
+    @POST
+    @Path("@addContent")
+    @Override
+    public Response addContent() {
+        try {
+            DocumentModel tree = site.getTree();
+
+            String name = ctx.getForm().getString("name");
+            DocumentModel newDoc = DocumentHelper.createDocument(ctx, tree,
+                    name);
+            String pathSegment = URIUtils.quoteURIPathComponent(
+                    newDoc.getName(), true);
+            return redirect(getPath() + '/' + pathSegment);
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+
+    }
 
     @POST
     @Override

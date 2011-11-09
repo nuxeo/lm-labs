@@ -11,10 +11,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
+import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.rest.DocumentHelper;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
@@ -101,7 +103,7 @@ public class PageResource extends DocumentObject {
     }
     
     public boolean isAuthorizedToDisplay(String user, boolean isAnomymous, DocumentModel pDocument) throws ClientException{
-        return doc.getAdapter(Page.class) != null ? pDocument.getAdapter(Page.class).isAuthorizedToDisplay(user, isAnomymous) : false;
+        return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(Page.class).isAuthorizedToDisplay(user, isAnomymous) : false;
     }
     
     public boolean isVisible() throws ClientException{
@@ -199,6 +201,24 @@ public class PageResource extends DocumentObject {
             return redirect(getPath() + "?message_error=label.parameters.page.save.fail");
         }
         return redirect(getPath() + "?message_success=label.parameters.page.save.success");
+    }
+
+    @GET
+    @Path("@addContentView")
+    public Template addContentView(){
+        return getTemplate("views/LabsPage/manage.ftl");
+    }
+    
+    @POST
+    @Path("@addContent")
+    public Response addContent() {
+        String name = ctx.getForm().getString("name");
+        DocumentModel newDoc = DocumentHelper.createDocument(ctx, doc,
+                name);
+        String pathSegment = URIUtils.quoteURIPathComponent(
+                newDoc.getName(), true);
+        return redirect(getPath() + '/' + pathSegment);
+
     }
 
     /**

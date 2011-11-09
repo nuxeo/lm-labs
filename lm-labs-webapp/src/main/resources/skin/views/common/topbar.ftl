@@ -60,7 +60,7 @@ function subscribePageNews(subscribe) {
               <ul class="dropdown-menu">
                 <@block name="docactions">
                 <#if site?? && Session.hasPermission(This.document.ref, "ADD_CHILDREN")>
-                <li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@views/manage">Ajouter du contenu</a></li>
+                <li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView">Ajouter du contenu</a></li>
                 </#if>
                 <#if site??>
                   <#if Document.type == "PageNews">

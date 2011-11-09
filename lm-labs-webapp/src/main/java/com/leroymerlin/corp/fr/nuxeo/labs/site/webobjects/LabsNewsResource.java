@@ -36,6 +36,13 @@ public class LabsNewsResource extends PageResource {
     public LabsNews getLabsNews() {
         return doc.getAdapter(LabsNews.class);
     }
+    
+    
+    @Override
+    public boolean isVisible() throws ClientException {
+        return true;
+    }
+    
 
     @POST
     @Override

@@ -16,7 +16,6 @@
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
   </@block>
   <@block name="docactions">
-      <@superBlock/>
          <#if isAuthorized>
           <li><a href="${This.path}/@delete">${Context.getMessage('command.PageNews.delete')}</a></li>
             <li><a href="${This.path}/@views/edit">${Context.getMessage('command.PageNews.modify')}</a></li>

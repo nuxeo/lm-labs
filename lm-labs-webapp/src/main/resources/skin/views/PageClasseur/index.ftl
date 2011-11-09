@@ -18,6 +18,7 @@
   </@block>
   
   <@block name="docactions">
+		<@superBlock/>
 		<#include "views/common/page_actions.ftl" />
 	</@block>
 
