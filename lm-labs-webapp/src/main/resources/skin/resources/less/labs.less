@@ -203,9 +203,22 @@ li.labscomments {
 	  padding-left: 10px;
 	  padding-bottom: 15px;
 	}
-.draft{
-	color: grey;
-	font-style:italic;
+
+/*Override*/
+.breadcrumb {
+  a {
+  	color: @linkColor !important;
+  }
+  .active a {
+    color: @grayLight !important;
+    font-style:italic;
+  }
 }
 
-
+/*Override*/
+.topbar div > ul,
+.nav {
+  a {
+  	color: @grayLight;
+  	}
+}
