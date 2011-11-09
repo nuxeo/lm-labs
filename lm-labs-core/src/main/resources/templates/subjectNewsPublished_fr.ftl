@@ -1,0 +1,1 @@
+${newsTitlesList?size} nouvelle<#if newsTitlesList?size &gt; 1>s</#if> news dans la Page de News '${htmlEscape(docTitle)}'

@@ -18,6 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.platform.ec.notification.NotificationConstants;
 import org.nuxeo.ecm.platform.notification.api.NotificationManager;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.ecm.webengine.WebException;
@@ -30,7 +31,6 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.NotifNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html.RowTemplate;
 
@@ -94,7 +94,7 @@ public class PageNewsResource extends PageResource {
 
     }
 
-    @POST
+    @GET
     @Path("@subscribe")
     public Response doSubscribe() {
         LOG.debug("@subscribe");
@@ -102,7 +102,7 @@ public class PageNewsResource extends PageResource {
             if (!isSubscribed()) {
                 NotificationManager notificationService = Framework.getService(NotificationManager.class);
                 UserManager userManager = Framework.getService(UserManager.class);
-                notificationService.addSubscription(ctx.getPrincipal().getName(), EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS, doc, true, userManager.getPrincipal(ctx.getPrincipal().getName()), NotifNames.NEWS_PUBLISHED);
+                notificationService.addSubscription(NotificationConstants.USER_PREFIX + ctx.getPrincipal().getName(), NotifNames.NEWS_PUBLISHED, doc, true, userManager.getPrincipal(ctx.getPrincipal().getName()), NotifNames.NEWS_PUBLISHED);
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -111,15 +111,13 @@ public class PageNewsResource extends PageResource {
         return Response.noContent().build();
     }
 
-    @POST
+    @GET
     @Path("@unsubscribe")
     public Response doUnsubscribe() {
         LOG.debug("@unsubscribe");
         try {
-            if (isSubscribed()) {
-                NotificationManager notificationService = Framework.getService(NotificationManager.class);
-                notificationService.removeSubscription(ctx.getPrincipal().getName(), NotifNames.NEWS_PUBLISHED, doc.getId());
-            }
+            NotificationManager notificationService = Framework.getService(NotificationManager.class);
+            notificationService.removeSubscription(NotificationConstants.USER_PREFIX + ctx.getPrincipal().getName(), NotifNames.NEWS_PUBLISHED, doc.getId());
         } catch (Exception e) {
             // TODO Auto-generated catch block
             LOG.error(e, e);
@@ -130,14 +128,14 @@ public class PageNewsResource extends PageResource {
     @GET
     @Path("@subscribed")
     public Response doSubscribed() {
-        return Response.ok().entity(isSubscribed()).build();
+        return Response.ok().entity(isSubscribed().toString()).build();
     }
     
     public Boolean isSubscribed() {
         try {
             NotificationManager notificationService = Framework.getService(NotificationManager.class);
-            List<String> subscriptions = notificationService.getSubscriptionsForUserOnDocument(ctx.getPrincipal().getName(), doc.getId());
-            if (subscriptions.contains(EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS)) {
+            List<String> subscriptions = notificationService.getSubscriptionsForUserOnDocument(NotificationConstants.USER_PREFIX + ctx.getPrincipal().getName(), doc.getId());
+            if (subscriptions.contains(NotifNames.NEWS_PUBLISHED)) {
                 return true;
             }
         } catch (Exception e) {

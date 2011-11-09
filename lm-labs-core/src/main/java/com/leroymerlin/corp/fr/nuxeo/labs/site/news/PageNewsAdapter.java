@@ -1,9 +1,9 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
-import java.text.SimpleDateFormat;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -14,12 +14,14 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 
 import com.leroymerlin.common.core.utils.Slugify;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.sun.syndication.feed.synd.SyndContent;
@@ -179,6 +181,24 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
         } catch (Exception e) {
             throw new ClientException(NO_RSS_WRITE, e);
         }
+    }
+
+    // TODO unit tests
+    @Override
+    public List<DocumentModel> getNewsToNotify() throws ClientException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM Document WHERE ");
+        query.append(NXQL.ECM_PRIMARYTYPE).append(" = '").append(Docs.LABSNEWS.type()).append("'");
+        query.append(" AND ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(doc.getPathAsString()).append("'");
+        return doc.getCoreSession().query(query.toString(),new Filter() {
+            @Override
+            public boolean accept(DocumentModel document) {
+                try {
+                    return !document.getAdapter(MailNotification.class).isNotified();
+                } catch (ClientException e) {
+                    return false;
+                }
+            }});
     }
 
 }
