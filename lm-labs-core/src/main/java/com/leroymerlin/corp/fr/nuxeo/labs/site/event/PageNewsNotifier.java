@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.event.EventProducer;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
@@ -15,6 +17,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventName
 
 public abstract class PageNewsNotifier {
 
+    private static final Log LOG = LogFactory.getLog(PageNewsNotifier.class);
+
     protected void fireEvent(DocumentModel pageNews, List<DocumentModel> newsToNotify) throws Exception {
         EventProducer evtProducer = Framework.getService(EventProducer.class);
         DocumentEventContext ctx = new DocumentEventContext(pageNews.getCoreSession(), pageNews.getCoreSession().getPrincipal(), pageNews);
@@ -25,6 +29,10 @@ public abstract class PageNewsNotifier {
         List<String> titles = new ArrayList<String>();
         if (newsToNotify == null) {
             newsToNotify = adapter.getNewsToNotify();
+        }
+        if (newsToNotify.isEmpty()) {
+            LOG.warn("No news to notify for PageNews " + pageNews.getPathAsString());
+            return;
         }
         for (DocumentModel news : newsToNotify) {
             news.getAdapter(MailNotification.class).setAsNotified();

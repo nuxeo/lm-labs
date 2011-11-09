@@ -51,7 +51,7 @@ public class CheckNewsPublicationEventListener extends PageNewsNotifier implemen
                         public boolean evaluate(Object object) {
                             MailNotification adapter = ((DocumentModel) object).getAdapter(MailNotification.class);
                             try {
-                                return adapter == null && !adapter.isNotified();
+                                return !adapter.isNotified();
                             } catch (ClientException e) {
                                 LOG.error(e, e);
                                 return false;

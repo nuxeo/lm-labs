@@ -208,7 +208,26 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     public void onChange(Object obj) throws ClientException {
         this.doc.getAdapter(MailNotification.class).reset();
         update();
+        if (isParentPageNewsPublished()) {
+            Calendar now = Calendar.getInstance();
+            Calendar startPublication = getStartPublication();
+            if (startPublication != null && startPublication.before(now) && now.before(getEndPublication())) {
+                setStartPublication(now);
+            }
+        }
 
+    }
+
+    private boolean isParentPageNewsPublished() throws ClientException {
+        DocumentModel parentDocument;
+        parentDocument = doc.getCoreSession().getParentDocument(doc.getRef());
+        PageNews pageNews = parentDocument.getAdapter(PageNews.class);
+        if (pageNews != null) {
+            if (pageNews.isVisible()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
