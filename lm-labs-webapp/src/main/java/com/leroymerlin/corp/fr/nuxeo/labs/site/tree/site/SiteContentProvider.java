@@ -37,14 +37,14 @@ public class SiteContentProvider extends AbstractContentProvider {
         }
     }
 
-    private static final class FolderFilter implements Filter {
+    private static final class AssetFilter implements Filter {
 
         private static final long serialVersionUID = 1L;
 
         @Override
         public boolean accept(DocumentModel docModel) {
             try {
-                return (docModel.hasFacet(FacetNames.FOLDERISH) && !LabsSiteConstants.State.DELETE.getState().equals(
+                return (!LabsSiteConstants.State.DELETE.getState().equals(
                         docModel.getCurrentLifeCycleState()));
             } catch (ClientException e) {
                 return false;
@@ -54,7 +54,7 @@ public class SiteContentProvider extends AbstractContentProvider {
 
     private static final Filter pageFilter = new PageFilter();
 
-    private static final Filter folderFilter = new FolderFilter();
+    private static final Filter assetFilter = new AssetFilter();
 
     public SiteContentProvider(CoreSession session, boolean isLimitedToAsset) {
         super(session);
@@ -63,7 +63,7 @@ public class SiteContentProvider extends AbstractContentProvider {
 
     @Override
     public Filter getDocFilter() {
-        return isLimitedToAsset ? folderFilter : pageFilter;
+        return isLimitedToAsset ? assetFilter : pageFilter;
     }
 
     @Override

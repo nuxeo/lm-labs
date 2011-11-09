@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.Template;
@@ -29,11 +30,11 @@ public class AssetsAdapter extends DefaultAdapter {
     public AssetsAdapter() {
         WebContext ctx = WebEngine.getActiveContext();
         String parameter = ctx.getRequest().getParameter("CKEditorFuncNum");
-        if(StringUtils.isNotBlank(parameter)) {
-            ctx.getRequest().getSession().setAttribute("CKEditorFuncNum", parameter);
+        if (StringUtils.isNotBlank(parameter)) {
+            ctx.getRequest().getSession().setAttribute("CKEditorFuncNum",
+                    parameter);
         }
     }
-
 
     @GET
     public Template doGet() throws ClientException {
@@ -47,14 +48,28 @@ public class AssetsAdapter extends DefaultAdapter {
         return resource.doPost();
     }
 
-    private AssetFolderResource getAssetResource(LabsSite site) throws ClientException {
-        return (AssetFolderResource) ctx.newObject("AssetFolder", site.getAssetsDoc());
+    private AssetFolderResource getAssetResource(LabsSite site)
+            throws ClientException {
+        return (AssetFolderResource) ctx.newObject("AssetFolder",
+                site.getAssetsDoc());
     }
 
     @Path("{path}")
-    public Object doTraverse(@PathParam("path") String path) throws ClientException {
+    public Object doTraverse(@PathParam("path") String path)
+            throws ClientException {
         AssetFolderResource res = getAssetResource(getSite());
         return res.traverse(path);
+    }
+
+    @Path("id/{id}")
+    public Object doTraverseWithId(@PathParam("id") String id)
+            throws ClientException {
+        AssetFolderResource res = getAssetResource(getSite());
+        
+        String path = getContext().getCoreSession().getDocument(
+                new IdRef(id)).getPath().toString();
+        
+        return res.traverse(path.substring(path.indexOf("assets/")+7, path.length()));
     }
 
     private LabsSite getSite() {
@@ -77,9 +92,7 @@ public class AssetsAdapter extends DefaultAdapter {
             } else {
                 result = tree.enter(ctx, root);
             }
-            return Response.ok()
-                    .entity(result)
-                    .build();
+            return Response.ok().entity(result).build();
         }
         return null;
     }
