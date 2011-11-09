@@ -218,14 +218,17 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     }
 
-    private boolean isParentPageNewsPublished() throws ClientException {
+    private boolean isParentPageNewsPublished() {
         DocumentModel parentDocument;
-        parentDocument = doc.getCoreSession().getParentDocument(doc.getRef());
-        PageNews pageNews = parentDocument.getAdapter(PageNews.class);
-        if (pageNews != null) {
-            if (pageNews.isVisible()) {
-                return true;
+        try {
+            parentDocument = doc.getCoreSession().getParentDocument(doc.getRef());
+            PageNews pageNews = parentDocument.getAdapter(PageNews.class);
+            if (pageNews != null) {
+                if (pageNews.isVisible()) {
+                    return true;
+                }
             }
+        } catch (ClientException e) {
         }
         return false;
     }
