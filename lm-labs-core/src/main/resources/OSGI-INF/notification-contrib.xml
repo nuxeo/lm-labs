@@ -19,6 +19,9 @@
     <template name="newsPublished_en" src="templates/newsPublished_en.ftl" />
     <template name="subjectNewsPublished_fr" src="templates/subjectNewsPublished_fr.ftl" />
     <template name="subjectNewsPublished_en" src="templates/subjectNewsPublished_en.ftl" />
+    
+    <!-- extention of existing Nuxeo template -->
+    <template name="subscriptionsUpdated_fr" src="templates/subscriptionsUpdated_fr.ftl" />
 
   </extension>
 
