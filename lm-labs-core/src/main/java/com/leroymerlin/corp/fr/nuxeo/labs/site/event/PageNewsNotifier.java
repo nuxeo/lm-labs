@@ -27,7 +27,8 @@ public abstract class PageNewsNotifier {
         String loopbackurl = Framework.getProperty("nuxeo.loopback.url");
         ctx.setProperty("baseUrl", loopbackurl);
         PageNews adapter = pageNews.getAdapter(PageNews.class);
-        ctx.setProperty("site", (Serializable) pageNews.getAdapter(SiteDocument.class).getSite());
+        ctx.setProperty("siteUrl", (Serializable) pageNews.getAdapter(SiteDocument.class).getSite().getURL());
+        ctx.setProperty("siteTitle", (Serializable) pageNews.getAdapter(SiteDocument.class).getSite().getTitle());
         List<String> titles = new ArrayList<String>();
         if (newsToNotify == null) {
             newsToNotify = adapter.getNewsToNotify();
