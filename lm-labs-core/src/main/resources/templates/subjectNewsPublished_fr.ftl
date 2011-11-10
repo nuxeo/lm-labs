@@ -1,1 +1,1 @@
-${newsTitlesList?size} nouvelle<#if newsTitlesList?size &gt; 1>s</#if> news dans la Page de News '${htmlEscape(docTitle)}'
+${newsTitlesList?size} nouvelle<#if newsTitlesList?size &gt; 1>s</#if> actualité<#if newsTitlesList?size &gt; 1>s</#if> dans la Page d'actualités '${htmlEscape(docTitle)}'

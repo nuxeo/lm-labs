@@ -12,6 +12,7 @@ import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.MailNotification;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 
@@ -26,6 +27,7 @@ public abstract class PageNewsNotifier {
         String loopbackurl = Framework.getProperty("nuxeo.loopback.url");
         ctx.setProperty("baseUrl", loopbackurl);
         PageNews adapter = pageNews.getAdapter(PageNews.class);
+        ctx.setProperty("site", (Serializable) pageNews.getAdapter(SiteDocument.class).getSite());
         List<String> titles = new ArrayList<String>();
         if (newsToNotify == null) {
             newsToNotify = adapter.getNewsToNotify();
