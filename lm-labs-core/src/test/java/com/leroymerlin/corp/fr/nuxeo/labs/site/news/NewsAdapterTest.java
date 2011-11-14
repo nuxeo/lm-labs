@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 import java.util.Calendar;
@@ -124,6 +125,39 @@ public class NewsAdapterTest {
         assertThat(news.getAccroche(), is("Accroche"));
         assertThat(news.getContent(), is("Content"));
         assertThat(news.getNewsTemplate(), is("newTemplate.temp"));
+
+        
+    }
+
+    @Test
+    public void iCanSetPropertiesAEndPublicationNull() throws Exception {
+      //Use the session as a factory
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+
+        doc.setPropertyValue("dc:creator", "creator");
+
+        LabsNews news = doc.getAdapter(LabsNews.class);
+        assertThat(news,is(notNullValue()));
+        news.setTitle("Le titre de la news");
+        news.setAccroche("Accroche");
+        news.setContent("Content");
+        Calendar start = Calendar.getInstance();
+        news.setStartPublication(start);
+        news.setEndPublication(null);
+        news.setNewsTemplate("newTemplate.temp");
+
+        //Persist document in db
+        doc = session.createDocument(doc);
+
+        //Commit
+        session.save();
+
+        doc = session.getDocument(new PathRef("/myNews"));
+        news = doc.getAdapter(LabsNews.class);
+        assertThat(news,is(notNullValue()));
+        
+        assertNull(news.getEndPublication());
+
 
         
     }

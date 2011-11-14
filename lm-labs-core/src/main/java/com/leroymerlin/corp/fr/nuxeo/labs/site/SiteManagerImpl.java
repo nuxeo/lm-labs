@@ -66,17 +66,17 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
 
         if(StringUtils.isEmpty(title.trim())) {
             throw new SiteManagerException(
-                    "label.sitemanager.error.title_cant_be_empty");
+                    "label.labssites.edit.required.title");
         }
 
         if(StringUtils.isEmpty(url.trim())) {
             throw new SiteManagerException(
-                    "label.sitemanager.error.url_cant_be_empty");
+                    "label.labssites.edit.required.url");
         }
 
         if (siteExists(session, url)) {
             throw new SiteManagerException(
-                    "label.sitemanager.error.site_already_exists");
+                    "label.labssites.edit.error.url.exist");
         }
     }
 

@@ -44,23 +44,19 @@
           <img src="${skinPath}/images/banniere.jpg" />
       </div>
 
-      <#-- <div class="container">
-        <div class="row">
-           <div class="span16 columns">
-          <#assign messages = This.messages />
-          <#if messages??>
-          <#list messages?keys as key >
-             <div class="alert-message ${key}">
-               <a class="close" href="#">x</a>
-               ${messages[key]}
-             </div>
-          </#list>
-          </#if>
-          </div>
-        </div>
-      </div>  -->
 
       <div class="container">
+      	<div class="row">
+         <div class="span16 columns">
+	        <#assign messages = This.getMessages() />
+	        <#list messages?keys as key >
+	           <div class="alert-message ${key}">
+	             <a class="close" href="#">x</a>
+	             ${Context.getMessage(messages[key])}
+	           </div>
+	        </#list>
+	       </div>
+	     </div>
         <@block name="content">
         </@block>
       </div>

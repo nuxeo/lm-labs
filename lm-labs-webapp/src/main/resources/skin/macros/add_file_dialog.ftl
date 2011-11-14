@@ -6,7 +6,7 @@
 	        <div class="clearfix">
 	                <label for="title">Choisir le fichier</label>
 	                  <div class="input">
-	                    <input type="file" name="file"/>
+	                    <input type="file" name="file" class="required"/>
 	                  </div>
 	                </div><!-- /clearfix -->
 	
@@ -18,7 +18,7 @@
 	                </div><!-- /clearfix -->
 	      </fieldset>
 	      <div class="actions">
-	        <button type="submit" class="btn primary">Ajouter</button>
+	        <button type="submit" class="btn primary required-fields">Ajouter</button>
 	      </div>
 	  </form>
 	</div>

@@ -82,10 +82,12 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     @Override
     public void setStartPublication(Calendar pStartPublication)
             throws ClientException {
-        pStartPublication.set(Calendar.HOUR_OF_DAY, 0);
-        pStartPublication.set(Calendar.MINUTE, 0);
-        pStartPublication.set(Calendar.SECOND, 0);
-        pStartPublication.set(Calendar.MILLISECOND, 0);
+        if (pStartPublication != null){
+            pStartPublication.set(Calendar.HOUR_OF_DAY, 0);
+            pStartPublication.set(Calendar.MINUTE, 0);
+            pStartPublication.set(Calendar.SECOND, 0);
+            pStartPublication.set(Calendar.MILLISECOND, 0);
+        }
         doc.setPropertyValue(START_PUBLICATION, pStartPublication);
 
     }
@@ -98,12 +100,14 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     @Override
     public void setEndPublication(Calendar pEndPublication)
             throws ClientException {
-        pEndPublication.add(Calendar.DATE, 1);
-        pEndPublication.set(Calendar.HOUR_OF_DAY, 0);
-        pEndPublication.set(Calendar.MINUTE, 0);
-        pEndPublication.set(Calendar.SECOND, 0);
-        pEndPublication.set(Calendar.MILLISECOND, 0);
-        pEndPublication.add(Calendar.MILLISECOND, -1);
+        if (pEndPublication != null){
+            pEndPublication.add(Calendar.DATE, 1);
+            pEndPublication.set(Calendar.HOUR_OF_DAY, 0);
+            pEndPublication.set(Calendar.MINUTE, 0);
+            pEndPublication.set(Calendar.SECOND, 0);
+            pEndPublication.set(Calendar.MILLISECOND, 0);
+            pEndPublication.add(Calendar.MILLISECOND, -1);
+        }
         doc.setPropertyValue(END_PUBLICATION, pEndPublication);
 
     }

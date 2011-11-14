@@ -67,7 +67,7 @@
                   <div class="clearfix">
                         <label for="title">Choisir le fichier</label>
                           <div class="input">
-                            <input type="file" name="file"/>
+                            <input type="file" name="file" class="required"/>
                           </div>
                         </div><!-- /clearfix -->
 
@@ -82,7 +82,7 @@
 
 
               <div class="actions">
-                <button class="btn primary">Envoyer</button>
+                <button class="btn primary required-fields">Envoyer</button>
               </div>
               </form>
 
@@ -122,7 +122,7 @@
       <div class="clearfix">
           <label for="folderName">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
             <div class="input">
-              <input name="folderName"/>
+              <input name="folderName" class="required"/>
             </div>
           </div><!-- /clearfix -->
       </fieldset>
@@ -130,7 +130,7 @@
 
 
   <div class="actions">
-    <button class="btn primary">Envoyer</button>
+    <button class="btn primary required-fields">Envoyer</button>
   </div>
   </form>
 

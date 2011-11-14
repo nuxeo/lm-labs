@@ -13,16 +13,16 @@
     <div class="clearfix">
       <label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
       <div class="input">
-        <input class="xlarge" name="dc:title"  value="<#if news?? >${news.title}</#if>">
+        <input class="xlarge required" name="dc:title"  value="<#if news?? >${news.title}</#if>" />
       </div>
     </div>
 
     <div class="clearfix">
       <label for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>&nbsp;:&nbsp;
       <div class="input">
-        <input class="date-pick" name="newsStartPublication"  <#if news?? && news.startPublication!=null> value="${This.labsNews.startPublication.time?string('dd/MM/yyyy')}" </#if>">
+        <input type="text" class="date-pick required" name="newsStartPublication"  <#if news?? && news.startPublication!=null> value="${This.labsNews.startPublication.time?string('dd/MM/yyyy')}" </#if> />
         ${Context.getMessage('label.labsNews.edit.au')}
-        <input class="date-pick" name="newsEndPublication"  <#if news?? && news.endPublication!=null> value="${This.labsNews.endPublication.time?string('dd/MM/yyyy')}" </#if>">
+        <input class="date-pick" name="newsEndPublication"  <#if news?? && news.endPublication!=null> value="${This.labsNews.endPublication.time?string('dd/MM/yyyy')}" </#if> />
       </div>
     </div>
 

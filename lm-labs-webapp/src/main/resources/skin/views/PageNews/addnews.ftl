@@ -31,16 +31,16 @@
     <div class="clearfix">
       <label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
       <div class="input">
-        <input class="xlarge" name="dc:title">
+        <input type="text" class="xlarge required" required-error-text="${Context.getMessage('label.labsNews.edit.required.title')}" name="dc:title"/>
       </div>
     </div>
 
     <div class="clearfix">
       <label for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>&nbsp;:&nbsp;
       <div class="input">
-        <input id="newsStartPublication" class="date-pick" name="newsStartPublication"  >
+        <input id="newsStartPublication" class="date-pick required" required-error-text="${Context.getMessage('label.labsNews.edit.required.startPublication')}" name="newsStartPublication" />
         ${Context.getMessage('label.labsNews.edit.au')}
-        <input id="newsEndPublication"  class="date-pick" name="newsEndPublication">
+        <input id="newsEndPublication"  class="date-pick" name="newsEndPublication"/>
       </div>
     </div>
 
@@ -66,7 +66,7 @@
 
 
     <div class="actions">
-      <input type="submit" class="btn" value="${Context.getMessage('label.labsNews.edit.valid')}" />
+      <input type="submit" class="btn required-fields" value="${Context.getMessage('label.labsNews.edit.valid')}" />
   </div	>
   </fieldset>
 </form>

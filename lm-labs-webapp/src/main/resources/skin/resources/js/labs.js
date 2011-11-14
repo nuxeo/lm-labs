@@ -15,19 +15,55 @@ $(document).ready(function() {
     $(this).parent().fadeOut();
   });
 
-  setTimeout("hideAlerts()", 5000);
+  $(".required-fields").bind("click", function(event) {
+	  var form = null;
+	  /*get the form*/
+	  if($(this).attr("form-id")){
+		  form = $("#" + $(this).attr("form-id"));
+	  }
+	  else{
+		  form = $(this).parents().find("form");
+	  }
+	  var hasError = false;
+	  $(form).children().find(".required").each(function(i, element) {
+		    var elementInputClass = $(element).parents(".clearfix").children(".input");
+			if($(element) && $(element).val().length < 1){
+				if($(element).attr("required-error-text")){
+					if (elementInputClass.children("strong").html() == null){
+						elementInputClass.prepend("<strong>" + $(element).attr("required-error-text") + "</strong><br />");
+					}
+				}
+				else{
+					if (elementInputClass.children("strong").html() == null){
+						elementInputClass.prepend("<strong>Element obligatoire !</strong><br />");
+					}
+				}
+				$(element).parents(".clearfix").addClass("error");
+				hasError = true;
+			}
+			else{
+				$(element).parents(".clearfix").removeClass("error");
+				if (elementInputClass.children("strong").html() != null){
+					elementInputClass.children("strong").remove();
+				}
+			}
+		});
+	  if (hasError){
+		  event.preventDefault();
+	  }
+  });
 
+  setTimeout("hideAlerts()", 5000);
 
   $(document).controls();
 
+  // handling shorcut for mode previsualisation
   $(document).bind('keyup', 'e', function() {
 	  $(".editblock").toggle();
   });
+  
+  
 });
-
-
-
-
 
 function hideAlerts() {
   $(".alert-message").each(function()
