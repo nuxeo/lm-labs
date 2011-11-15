@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 
 public class HtmlPageImpl extends AbstractPage implements HtmlPage, ChangeListener {
+
+    private static final Log LOG = LogFactory.getLog(HtmlPageImpl.class);
 
     public static final String DOCTYPE = "HtmlPage";
 
@@ -82,7 +87,9 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage, ChangeListen
 
     @Override
     public void onChange(Object obj) throws ClientException {
+        LOG.debug("<onChange> " + obj);
         update();
+        this.doc.getAdapter(MailNotification.class).setAsToBeNotified();
     }
 
 

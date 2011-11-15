@@ -25,10 +25,10 @@ import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 
 @WebObject(type = "PageClasseur", superType = "LabsPage")
-public class PageClasseurResource extends PageResource {
+public class PageClasseurResource extends NotifiablePageResource {
 
     private static final Log LOG = LogFactory.getLog(PageClasseurResource.class);
     private PageClasseur classeur;
@@ -55,8 +55,7 @@ public class PageClasseurResource extends PageResource {
         if (!StringUtils.isEmpty(folderTitle)) {
             try {
                 classeur.addFolder(folderTitle);
-                ctx.getCoreSession()
-                        .save();
+                getCoreSession().save();
                 return redirect(getPath());
             } catch (ClientException e) {
                 return Response.serverError()
@@ -83,8 +82,8 @@ public class PageClasseurResource extends PageResource {
     public Resource traverse(@PathParam("path") String path) {
         try {
             PathRef pathRef = new PathRef(doc.getPath().append(path).toString());
-            DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
-            return newObject("PageClasseurFolder",doc);
+            DocumentModel folder = ctx.getCoreSession().getDocument(pathRef);
+            return newObject("PageClasseurFolder", folder, doc);
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }

@@ -3,7 +3,7 @@
   targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/mailnotif"
   xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/mailnotif">
 
-  <xs:element name="isnotified" type="xs:boolean" default="false"></xs:element>
+  <xs:element name="tonotify" type="xs:boolean" default="false"></xs:element>
   <xs:element name="notified" type="xs:date"></xs:element>
 
 </xs:schema>

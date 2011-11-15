@@ -6,9 +6,9 @@
 			<li>${htmlEscape(title)}</li>
 		</#list>
 		</ul>
-		<p><a href="${baseUrl}/site/labssites/${pageNewsUrl}">Cliquez ici pour accéder à la page d'actualités</a></p>
+		<p><a href="${baseUrl}/site/labssites/${pageUrl}">Cliquez ici pour accéder à la page d'actualités</a></p>
 		<p><a href="${baseUrl}/site/labssites/${siteUrl}">Cliquez ici pour accéder au site ${siteTitle}</a></p>
-		<p><a href="${baseUrl}/site/labssites/${pageNewsUrl}/@unsubscribe">Cliquez ici pour vous désabonner de la page d'actualités</a></p>
+		<p><a href="${baseUrl}/site/labssites/${pageUrl}/@unsubscribe">Cliquez ici pour vous désabonner de la page d'actualités</a></p>
 		
 	</body>
 </html>

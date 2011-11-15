@@ -11,11 +11,12 @@ import org.nuxeo.ecm.core.event.EventProducer;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 import org.nuxeo.runtime.api.Framework;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 
+@Deprecated
 public abstract class PageNewsNotifier {
 
     private static final Log LOG = LogFactory.getLog(PageNewsNotifier.class);
@@ -43,6 +44,7 @@ public abstract class PageNewsNotifier {
         }
         ctx.setProperty("newsTitlesList", (Serializable) titles);
         ctx.setProperty("pageNewsUrl", adapter.getPath());
+        LOG.debug("firing event " + EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS + " for " + pageNews.getPathAsString());
         evtProducer.fireEvent(ctx.newEvent(EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS));
         for (DocumentModel news : newsToNotify) {
             news = pageNews.getCoreSession().saveDocument(news);

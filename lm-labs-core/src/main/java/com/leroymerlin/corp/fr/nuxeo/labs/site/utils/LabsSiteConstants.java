@@ -13,11 +13,15 @@ public final class LabsSiteConstants {
     
     public final class NotifNames {
         public static final String NEWS_PUBLISHED = "News published";
+        public static final String PAGE_MODIFIED = "Page modified";
     }
     
     public final class EventNames {
         public static final String NEWS_PUBLISHED_UNDER_PAGENEWS = "newsPublishedUnderPageNews";
+        @Deprecated
         public static final String CHECK_PUBLISHED_NEWS_TO_NOTIFY = "checkPublishedNewsToNotify";
+        public static final String PAGE_MODIFIED = "pageModified";
+        public static final String CHECK_PAGES_TO_NOTIFY = "checkPagesToNotify";
     }
 
     public final class FacetNames {
@@ -107,7 +111,11 @@ public final class LabsSiteConstants {
         }
 
         public static EnumSet<Docs> pageDocs() {
-            return EnumSet.of(HTMLPAGE, PAGE, PAGEBLOCS, PAGECLASSEUR, PAGELIST, PAGENEWS ,WELCOME);
+            return EnumSet.of(HTMLPAGE, PAGE, DASHBOARD, PAGEBLOCS, PAGECLASSEUR, PAGELIST, PAGENEWS, WELCOME);
+        }
+
+        public static EnumSet<Docs> notifiableDocs() {
+            return EnumSet.of(HTMLPAGE, DASHBOARD, PAGECLASSEUR, PAGELIST, PAGENEWS);
         }
     }
     

@@ -4,6 +4,12 @@
   <extension target="org.nuxeo.ecm.platform.ec.notification.service.NotificationService"
     point="notifications">
 
+    <notification name="Page modified" channel="email" enabled="true" availableIn="SitesRoot"
+      autoSubscribed="false" template="pageModified" subjectTemplate="subjectPageModified"
+      label="label.noLabel">
+      <event name="pageModified"/>
+    </notification>
+
     <notification name="News published" channel="email" enabled="true" availableIn="SitesRoot"
       autoSubscribed="false" template="newsPublished" subjectTemplate="subjectNewsPublished"
       label="label.noLabel">
@@ -19,6 +25,10 @@
     <template name="newsPublished_en" src="templates/newsPublished_en.ftl" />
     <template name="subjectNewsPublished_fr" src="templates/subjectNewsPublished_fr.ftl" />
     <template name="subjectNewsPublished_en" src="templates/subjectNewsPublished_en.ftl" />
+    <template name="pageModified_fr" src="templates/pageModified_fr.ftl" />
+    <template name="pageModified_en" src="templates/pageModified_en.ftl" />
+    <template name="subjectPageModified_fr" src="templates/subjectPageModified_fr.ftl" />
+    <template name="subjectPageModified_en" src="templates/subjectPageModified_en.ftl" />
     
     <!-- extention of existing Nuxeo template -->
     <template name="subscriptionsUpdated_fr" src="templates/subscriptionsUpdated_fr.ftl" />

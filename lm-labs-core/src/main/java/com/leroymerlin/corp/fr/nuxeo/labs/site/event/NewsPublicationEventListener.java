@@ -12,11 +12,12 @@ import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
+@Deprecated
 public class NewsPublicationEventListener extends PageNewsNotifier implements EventListener {
 
     private static final Log LOG = LogFactory.getLog(NewsPublicationEventListener.class);
@@ -34,7 +35,7 @@ public class NewsPublicationEventListener extends PageNewsNotifier implements Ev
         DocumentEventContext ctx = (DocumentEventContext) evt.getContext();
         DocumentModel doc = ctx.getSourceDocument();
         if (doc != null) {
-            if (doc.getAdapter(MailNotification.class).isNotified()) {
+            if (!doc.getAdapter(MailNotification.class).isToBeNotified()) {
                 return;
             }
             LabsNews labsNews = doc.getAdapter(LabsNews.class);

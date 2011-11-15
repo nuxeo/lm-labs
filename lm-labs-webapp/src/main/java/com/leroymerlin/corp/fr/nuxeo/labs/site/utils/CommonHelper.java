@@ -1,11 +1,15 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public final class CommonHelper {
 
@@ -25,5 +29,13 @@ public final class CommonHelper {
             page = doc.getAdapter(Page.class);
         }
         return page;
+    }
+    
+    public static final List<String> getNotifiableTypes() {
+        List<String> list = new ArrayList<String>();
+        for (Docs doc : Docs.notifiableDocs()) {
+            list.add(doc.type());
+        }
+        return list;
     }
 }

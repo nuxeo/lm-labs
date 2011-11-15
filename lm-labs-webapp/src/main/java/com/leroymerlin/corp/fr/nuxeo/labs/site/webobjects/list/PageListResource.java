@@ -40,11 +40,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.ColSize;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBean;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontDto;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontName;
@@ -56,7 +56,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontSize
  */
 @WebObject(type = "PageList")
 @Produces("text/html; charset=UTF-8")
-public class PageListResource extends PageResource {
+public class PageListResource extends NotifiablePageResource {
 
 
     private static final String IMPOSSIBLE_TO_EXPORT_ARRAY_IN_EXCEL = "Impossible to export array in excel !";
@@ -208,8 +208,8 @@ public class PageListResource extends PageResource {
             pgl.setAllContributors("on".equals(pAllContributors));
             pgl.setCommentableLines("on".equals(pCommentableLines));
             pgl.setHeaders(headersToSave);
-            session.saveDocument(doc);
-            session.save();
+            getCoreSession().saveDocument(doc);
+            getCoreSession().save();
         } catch (ClientException e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_THE_HEADERS_LIST, e);
             return Response.ok("?message_error=label.pageList.header.headers_updated_error",
