@@ -2,25 +2,26 @@
 	<h1>
 		${Context.getMessage('label.comments.title')}
 	</h1>
-	<div class="fixed-container" style="">
-		<#if !Context.principal.anonymous>
-			<form id="form-commentable" method="post" class="form" action="${This.path}/@comments">
-				<!--         Comment      ------->
-				<div class="clearfix" style="margin-bottom: 0px;margin-left: 0px;">
-					<textarea name="text" id="text" class="labscomments text"></textarea>
-				</div>
-			</form>
-		<#else>
-				${Context.getMessage('label.comments.mandatory.connexion')}
-		</#if>
-		<div id="divListComments" class="fixed-container" style=""></div>
-	</div>
+
 	<#if !Context.principal.anonymous>
-		<div  class="actions">
-			<button class="btn primary" onClick="javascript:saveComment();" title="${Context.getMessage('label.comments.save')}">${Context.getMessage('label.comments.save')}</button>
-			<button class="btn" onClick="javascript:closeComments();" title="${Context.getMessage('label.comments.cancel')}">${Context.getMessage('label.comments.cancel')}</button>
-		</div>
+		<form id="form-commentable" method="post" class="form" onsubmit="javascript:saveComment();return false;">
+			<fieldset>
+				<!--         Comment      ------->
+				<div class="clearfix">
+					<div class="input" style="margin-bottom: 0px;margin-left: 0px;">
+						<textarea name="text" id="text" class="labscomments text required" required-error-text="${Context.getMessage('label.comments.required')}"></textarea>
+					</div>
+				</div>
+			<fieldset>
+			<div  class="actions">
+				<button class="btn primary required-fields" form-id="form-commentable" title="${Context.getMessage('label.comments.save')}">${Context.getMessage('label.comments.save')}</button>
+				<a href="#" class="btn" onClick="javascript:closeComments();" title="${Context.getMessage('label.comments.cancel')}">${Context.getMessage('label.comments.cancel')}</a>
+			</div>
+		</form>
+	<#else>
+			${Context.getMessage('label.comments.mandatory.connexion')}
 	</#if>
+	<div id="divListComments" class="fixed-container"  style="margin-bottom: 0px;margin-left: 0px;"></div>
 </div>
 <script type="text/javascript">
 	var urlActionBase = null;

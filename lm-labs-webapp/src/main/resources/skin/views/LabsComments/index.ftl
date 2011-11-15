@@ -1,6 +1,5 @@
-<br />
 <div class="fixed-container">
-	<ul style="list-style: none;margin-left: 10px;">
+	<ul style="list-style: none;margin-left: 0px;">
 		<#list comments?reverse as comment>
 			<li class="labscomments">
 

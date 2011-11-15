@@ -21,11 +21,11 @@
           </td>
         </#list>
       	<#if This.isCommantableLines()>
-     		<!--  --------------------COMMENTS OF PAGE --------------->
+     		<!--  --------------------COMMENTS OF LINE --------------->
      		<#assign nbComments = entriesLine.nbComments/>
      		<#if 0 < nbComments>
       			<td style="vertical-align: middle;width: 15px;" rel="twipsy" data-original-title="${Context.getMessage('label.comments.nbComments', nbComments)}"  alt="${Context.getMessage('label.comments.title')}">
-      				<a href="#" class=" open-dialog" rel="divCommentable"" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
+      				<a href="#" class="open-dialog" rel="divCommentable" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
       			</td>
       		<#else>
       			<td style="vertical-align: middle;width: 15px;" rel="twipsy" data-original-title="${Context.getMessage('label.comments.null.nbComments')}"  alt="${Context.getMessage('label.comments.title')}">
@@ -59,5 +59,5 @@
 	) 
 </script>
 </#if>
-<!--  --------------------COMMENTS OF PAGE --------------->
+<!--  --------------------COMMENTS OF LINE --------------->
 <#include "/views/LabsComments/displayCommentsPopup.ftl" />
