@@ -15,6 +15,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.query.sql.NXQL;
+import org.nuxeo.ecm.spaces.api.SpaceManager;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -92,11 +93,13 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     // TODO unit tests
     @Override
     public Collection<DocumentModel> getPages(Docs docType, State lifecycleState) throws ClientException {
-        if (docType == null) {
-            docType = Docs.PAGE;
+        String docTypeStr = Docs.PAGE.type() + ", " + Docs.DASHBOARD.type();
+        if (docType != null) {
+            docTypeStr = Docs.PAGE.type();
         }
         StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM ").append(docType.type()).append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH ").append("'").append(doc.getPathAsString()).append("'");
+        query.append("SELECT * FROM ").append(docTypeStr).append(" WHERE ")
+            .append(NXQL.ECM_PATH).append(" STARTSWITH ").append("'").append(doc.getPathAsString()).append("'");
         if (lifecycleState != null) {
             query.append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(lifecycleState.getState()).append("'");
         } else {

@@ -8,7 +8,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 
 @WebObject(type = "Space", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
-public class SpaceResource extends PageResource{
+public class SpaceResource extends NotifiablePageResource {
 
 
 

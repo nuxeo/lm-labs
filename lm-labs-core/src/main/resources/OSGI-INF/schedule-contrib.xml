@@ -2,9 +2,10 @@
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.schedule.publishedNews">
   <extension target="org.nuxeo.ecm.platform.scheduler.core.service.SchedulerRegistryService"
       point="schedule">
-    <schedule id="checkPublishedNews">
+      
+    <schedule id="checkPages">
       <username>Administrator</username>
-      <eventId>checkPublishedNewsToNotify</eventId>
+      <eventId>checkPagesToNotify</eventId>
       <eventCategory>default</eventCategory>
       <!-- Every day at 7am 
       <cronExpression>0 0 7 * * ?</cronExpression>
@@ -12,8 +13,10 @@
       <!-- TEST: Every minute
       <cronExpression>0 0/1 * * * ?</cronExpression>
        -->
-      <!-- GOOD ONE: Every 2 hours -->
-      <cronExpression>0 0 0/2 * * ?</cronExpression>
+      <!-- GOOD ONE: Every 2 hours
+       -->
+      <cronExpression>0 0 0/1 * * ?</cronExpression>
     </schedule>
+    
   </extension>
 </component>

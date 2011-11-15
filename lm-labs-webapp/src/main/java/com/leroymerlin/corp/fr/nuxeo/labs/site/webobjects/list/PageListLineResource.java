@@ -31,10 +31,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBean;
 
 /**
@@ -104,11 +105,19 @@ public class PageListLineResource extends DocumentObject {
     @Override
     public Response doDelete() {
         try {
-            doc.getAdapter(PageListLine.class).removeLine();
+            PageListLine pageListLine = doc.getAdapter(PageListLine.class);
+            pageListLine.removeLine();
+//            parent.onChange(pageListLine);
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_DELETE_LINE_ID + doc.getRef().reference(), e);
             return Response.ok("?message_error=label.pageList.line_deleted_error",
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
+        }
+        try {
+            parent.getDocument().getAdapter(MailNotification.class).setAsToBeNotified();
+            doc.getCoreSession().saveDocument(parent.getDocument());
+        } catch (ClientException e) {
+            LOG.error("Unable to set " + parent.getDocument().getPathAsString() + " as 'to be notified'.");
         }
         return Response.ok("?message_success=label.pageList.line_deleted",
                 MediaType.TEXT_PLAIN).status(Status.CREATED).build();

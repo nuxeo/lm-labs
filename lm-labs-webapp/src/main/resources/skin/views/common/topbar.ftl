@@ -1,7 +1,7 @@
 <script type="text/javascript">
-function subscribePageNews(subscribe) {
+function subscribePage(subscribe) {
     		<#--
-	console.log("subscribePageNews " + subscribe);
+	console.log("subscribePage " + subscribe);
 	        -->
 	jQuery.ajax({
 		type: 'GET',
@@ -60,13 +60,18 @@ function subscribePageNews(subscribe) {
               <ul class="dropdown-menu">
                 <@block name="docactions">
                 <#if site?? && Session.hasPermission(This.document.ref, "ADD_CHILDREN")>
-                <li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView">Ajouter du contenu</a></li>
+                <li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView">${Context.getMessage('command.docactions.addcontent')}</a></li>
                 </#if>
                 <#if site??>
                   <#if Document.type == "PageNews">
                     <li>
-                      <a id="subscribeBt" <#if This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePageNews(true);">${Context.getMessage('command.contextmenu.PageNews.subscribe')}</a>
-                      <a id="unsubscribeBt" <#if !This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePageNews(false);">${Context.getMessage('command.contextmenu.PageNews.unsubscribe')}</a>
+                      <a id="subscribeBt" <#if This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(true);">${Context.getMessage('command.contextmenu.PageNews.subscribe')}</a>
+                      <a id="unsubscribeBt" <#if !This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(false);">${Context.getMessage('command.contextmenu.PageNews.unsubscribe')}</a>
+                    </li>
+                  <#elseif Common.getNotifiableTypes()?seq_contains(Document.type)>
+                    <li>
+                      <a id="subscribeBt" <#if This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(true);">${Context.getMessage('command.contextmenu.Page.subscribe')}</a>
+                      <a id="unsubscribeBt" <#if !This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(false);">${Context.getMessage('command.contextmenu.Page.unsubscribe')}</a>
                     </li>
                   </#if>
                 </#if>
@@ -152,7 +157,7 @@ function subscribePageNews(subscribe) {
                 <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.document.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
-                <li><a id="logout" href="#">Déconnexion</a></li>
+                <li><a id="logout" href="#">${Context.getMessage('command.contextmenu.logout')}</a></li>
               </ul>
             </li>
             </#if>

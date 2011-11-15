@@ -1,14 +1,16 @@
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.site.listener">
 
 	<extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
+	
 		<listener name="spaceCreationListener" async="false" postCommit="false"
 			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.SpaceCreationEventListener" priority="20" />
 		<listener name="labsSiteCreationListener" async="false" postCommit="false"
 			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.SiteCreationEventListener" priority="151" />
-		<!--listener name="labsNewsCreationListener" async="false" postCommit="false"
-			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.NewsPublicationEventListener" priority="151" /-->
-		<listener name="checkNewsPublicationListener" async="false" postCommit="false"
-			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.CheckNewsPublicationEventListener" priority="150" />
+		<listener name="checkPagesToNotify" async="false" postCommit="false"
+			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.CheckPagesToNotify" priority="150" />
+		<listener name="pageModificationListener" async="false" postCommit="false"
+			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.PageModificationEventListener" priority="151" />
+			
 	</extension>
 
 </component>

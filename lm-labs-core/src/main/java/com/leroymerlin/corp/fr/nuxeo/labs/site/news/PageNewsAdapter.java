@@ -21,7 +21,7 @@ import org.nuxeo.ecm.core.query.sql.NXQL;
 
 import com.leroymerlin.common.core.utils.Slugify;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.MailNotification;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.sun.syndication.feed.synd.SyndContent;
@@ -194,7 +194,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
             @Override
             public boolean accept(DocumentModel document) {
                 try {
-                    return !document.getAdapter(MailNotification.class).isNotified();
+                    return document.getAdapter(MailNotification.class).isToBeNotified();
                 } catch (ClientException e) {
                     return false;
                 }

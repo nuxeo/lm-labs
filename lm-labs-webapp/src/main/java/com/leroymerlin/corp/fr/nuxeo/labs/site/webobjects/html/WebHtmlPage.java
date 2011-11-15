@@ -6,7 +6,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -14,10 +13,10 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 
 @WebObject(type = "HtmlPage", superType = "LabsPage")
-public class WebHtmlPage extends PageResource {
+public class WebHtmlPage extends NotifiablePageResource {
 
     @Override
     public void initialize(Object... args) {
@@ -71,9 +70,8 @@ public class WebHtmlPage extends PageResource {
     }
 
     private void saveDocument() throws ClientException {
-        CoreSession session = ctx.getCoreSession();
-        session.saveDocument(doc);
-        session.save();
+        getCoreSession().saveDocument(doc);
+        getCoreSession().save();
     }
 
     private HtmlPage getHtmlPage() {
