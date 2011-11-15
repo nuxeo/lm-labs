@@ -26,7 +26,7 @@
 
 <div id="editprops">
 <h1>Créer une news</h1>
-<form method="post" action="${This.path}" >
+<form method="post" action="${This.path}" id="form-add-news-pageNews" >
   <fieldset>
     <div class="clearfix">
       <label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
@@ -66,7 +66,7 @@
 
 
     <div class="actions">
-      <input type="submit" class="btn required-fields" value="${Context.getMessage('label.labsNews.edit.valid')}" />
+      <input type="submit" class="btn required-fields" form-id="form-add-news-pageNews" value="${Context.getMessage('label.labsNews.edit.valid')}" />
   </div	>
   </fieldset>
 </form>
@@ -87,4 +87,5 @@
 
       </div>
   </@block>
+  <@block name="pageCommentable"></@block>
 </@extends>

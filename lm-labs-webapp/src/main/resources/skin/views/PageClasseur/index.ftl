@@ -62,7 +62,7 @@
 
           <div id="addfile_${folder.document.id}_modal" >
               <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
-              <form action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
+              <form id="form-download-file" action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
                 <fieldset>
                   <div class="clearfix">
                         <label for="title">Choisir le fichier</label>
@@ -82,7 +82,7 @@
 
 
               <div class="actions">
-                <button class="btn primary required-fields">Envoyer</button>
+                <button class="btn primary required-fields" form-id="form-download-file">Envoyer</button>
               </div>
               </form>
 
@@ -117,7 +117,7 @@
 <div id="div-addfolder" style="display: none;" >
     <h1>${Context.getMessage('label.PageClasseur.form.folder.title')}</h1>
 
-  <form class="ajax" action="${This.path}" method="post" enctype="multipart/form-data">
+  <form class="ajax" id="form-folder" action="${This.path}" method="post" enctype="multipart/form-data">
       <fieldset>
       <div class="clearfix">
           <label for="folderName">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
@@ -130,7 +130,7 @@
 
 
   <div class="actions">
-    <button class="btn primary required-fields">Envoyer</button>
+    <button class="btn primary required-fields" form-id="form-folder">Envoyer</button>
   </div>
   </form>
 

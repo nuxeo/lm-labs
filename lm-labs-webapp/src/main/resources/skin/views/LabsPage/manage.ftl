@@ -5,7 +5,7 @@
     <div class="clearfix">
       <label for="name">${Context.getMessage('label.title')}</label>
       <div class="input">
-        <input name="name"/>
+        <input name="name" class="required"/>
       </div>
     </div><!-- /clearfix -->
     <div class="clearfix">
@@ -21,7 +21,7 @@
       <label for="doctype">${Context.getMessage('label.doctype')}</label>
         <#list page.allowedSubtypes as type>
           <div class="input">
-            <label><input type="radio" name="doctype" value="${type}"> ${Context.getMessage('label.doctype.'+type)}</label>
+            <label><input type="radio" name="doctype" value="${type}" checked> ${Context.getMessage('label.doctype.'+type)}</label>
           </div>
         </#list>
     </div><!-- /clearfix -->
@@ -29,7 +29,10 @@
   </fieldset>
 
   <div class="actions">
-    <btn type="input" class="btn primary" href="${This.path}" onclick="$('#add_doc_form').submit();">Créer</a>
+    <button class="btn primary required-fields" form-id="add_doc_form">Créer</button>
   </div>
-
 </form>
+
+<script type="text/javascript">
+	initRequiredFields();
+</script>
