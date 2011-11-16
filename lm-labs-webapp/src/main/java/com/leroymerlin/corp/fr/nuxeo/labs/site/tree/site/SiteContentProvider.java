@@ -44,8 +44,9 @@ public class SiteContentProvider extends AbstractContentProvider {
         @Override
         public boolean accept(DocumentModel docModel) {
             try {
-                return (!LabsSiteConstants.State.DELETE.getState().equals(
-                        docModel.getCurrentLifeCycleState()));
+                return /*((docModel.getAdapter(Page.class) != null) || (docModel.hasFacet(FacetNames.FOLDERISH)))
+                        &&*/ !LabsSiteConstants.State.DELETE.getState().equals(
+                                docModel.getCurrentLifeCycleState());
             } catch (ClientException e) {
                 return false;
             }

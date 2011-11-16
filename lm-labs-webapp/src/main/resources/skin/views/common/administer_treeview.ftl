@@ -32,24 +32,6 @@
 			function customMenu(node) {
 				<#-- ALL ITEM MENU -->
 				var items = {
-					"ccp_tree" : {
-						"separator_before"	: true,
-						"icon"				: false,
-						"separator_after"	: false,
-						"label"				: "${Context.getMessage('command.admin.edit')}",
-						"action"			: false,
-						"submenu" : { 
-							"cut" : false,
-							"copy" : false,
-							"paste" : {
-								"separator_before"	: false,
-								"icon"				: false,
-								"separator_after"	: false,
-								"label"				: "${Context.getMessage('command.admin.paste')}",
-								"action"			: function (obj) { this.paste(obj); }
-							}
-						}
-					},
 					"create" : {
 		                "separator_before"  : false,
 		                "separator_after"   : true,
@@ -75,6 +57,24 @@
 			                }
 		                }
 		            },
+					"ccp_tree" : {
+						"separator_before"	: true,
+						"icon"				: false,
+						"separator_after"	: false,
+						"label"				: "${Context.getMessage('command.admin.edit')}",
+						"action"			: false,
+						"submenu" : { 
+							"cut" : false,
+							"copy" : false,
+							"paste" : {
+								"separator_before"	: false,
+								"icon"				: false,
+								"separator_after"	: false,
+								"label"				: "${Context.getMessage('command.admin.paste')}",
+								"action"			: function (obj) { this.paste(obj); }
+							}
+						}
+					},
 		            "goto" : {
 						"separator_before"	: false,
 						"separator_after"	: false,
@@ -141,11 +141,13 @@
 				
 				<#-- selected item we want -->
 				if(jQuery(node).attr('rel') == 'Tree' || jQuery(node).attr('rel') == 'Assets') {
-					delete items.create;
 					delete items.goto;
 					delete items.rename;
 					delete items.remove;
 					delete items.ccp;
+					<#if adminTreeviewType=="Pages">
+						delete items.create;
+					</#if>
 				} else if(jQuery(node).attr('rel') == 'Folder') {
 					delete items.ccp_tree;
 					<#if adminTreeviewType=="Assets">
@@ -162,9 +164,11 @@
 			}
 		
 			jQuery("#jstree")
-			<#--.bind("loaded.jstree", function (event, data) {
-				//console.log("TREE IS LOADED");
-			})-->
+			<#if adminTreeviewType=="Assets">
+			.bind("loaded.jstree", function (event, data) {
+				loadPictures(jQuery("li[rel=Assets]").attr("id"));
+			})
+			</#if>
 			<#--
 			.bind("load_node.jstree", function (event, data) {
 				console.log(jQuery(data.rslt.obj).attr("id") + " node LOADED " + data.rslt.obj.data("lifecyclestate"));
@@ -336,6 +340,14 @@
 			        }
 				});
 			})
+			.bind("select_node.jstree", function (e, data) {
+				rel = $(data.rslt.obj).attr("rel");
+				if(rel=='Assets' || rel=='Folder') {
+					loadPictures($(data.rslt.obj).attr("id"));
+				} else if(rel=='Picture') {
+					jQuery("#contentAdminPictures").html("<img src='${This.path}/@assets/id/"+$(data.rslt.obj).attr("id")+"/@blob' />");
+				}					
+			})
 			;
 		})
 	</script>
@@ -385,6 +397,25 @@
 				</div>
 			</section>
 		</div>
+		
+		<#if adminTreeviewType=="Assets">
+		    <div id="fileContent" class="span11 columns well" style="min-height:300px;">
+		        <#include "views/AssetFolder/content_admin.ftl"/>
+		    </div>
+			<#-- load picture in terms of treeview's node -->
+			<script type="text/javascript">
+				function loadPictures(id){
+				    jQuery.ajax({
+				      type: 'GET',
+				      async: false,
+				      url: '${This.path}' + '/@assets/id/'+id+'/@views/content_admin',
+				      success: function(data) {
+				      	jQuery("#contentAdminPictures").html(data);
+				      }
+				    });
+				}
+			</script>
+		</#if>
 	</@block>
 	
 </@extends>

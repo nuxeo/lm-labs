@@ -15,7 +15,6 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.webengine.WebEngine;
-import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.WebContext;
@@ -38,7 +37,7 @@ public class AssetsAdapter extends DefaultAdapter {
 
     @GET
     public Template doGet() throws ClientException {
-        Resource resource = getAssetResource(getSite());
+        AssetFolderResource resource = getAssetResource(getSite());
         return resource.getView("index");
     }
 
@@ -65,11 +64,17 @@ public class AssetsAdapter extends DefaultAdapter {
     public Object doTraverseWithId(@PathParam("id") String id)
             throws ClientException {
         AssetFolderResource res = getAssetResource(getSite());
-        
-        String path = getContext().getCoreSession().getDocument(
-                new IdRef(id)).getPath().toString();
-        
-        return res.traverse(path.substring(path.indexOf("assets/")+7, path.length()));
+
+        String path = getContext().getCoreSession().getDocument(new IdRef(id)).getPath().toString();
+
+        if (path.endsWith("assets")) {
+            path = "";
+        } else {
+            path = path.substring(path.indexOf("assets/") + 7, path.length());
+        }
+
+        return res.traverse(path);
+
     }
 
     private LabsSite getSite() {
