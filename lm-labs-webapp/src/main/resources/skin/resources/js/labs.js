@@ -41,16 +41,16 @@ function initRequiredFields(){
 		  }
 		  var hasError = false;
 		  $(form).children().find(".required").each(function(i, element) {
-			    var elementInputClass = $(element).parents(".clearfix").children(".input");
+			    var elementInputClass = $(element).parents(".clearfix");
 				if($(element) && $(element).val().length < 1){
 					if($(element).attr("required-error-text")){
-						if (elementInputClass.children("strong").html() == null){
-							elementInputClass.prepend("<strong>" + $(element).attr("required-error-text") + "</strong><br />");
+						if (elementInputClass.children("span").html() == null){
+							elementInputClass.prepend("<span class='help-inline'><strong>" + $(element).attr("required-error-text") + "</strong></span><br />");
 						}
 					}
 					else{
-						if (elementInputClass.children("strong").html() == null){
-							elementInputClass.prepend("<strong>Element obligatoire !</strong><br />");
+						if (elementInputClass.children("span").html() == null){
+							elementInputClass.prepend("<span class='help-inline'><strong>Element obligatoire !</strong></span><br />");
 						}
 					}
 					$(element).parents(".clearfix").addClass("error");
@@ -58,8 +58,8 @@ function initRequiredFields(){
 				}
 				else{
 					$(element).parents(".clearfix").removeClass("error");
-					if (elementInputClass.children("strong").html() != null){
-						elementInputClass.children("strong").remove();
+					if (elementInputClass.children("span").html() != null){
+						elementInputClass.children("span").remove();
 					}
 				}
 			});
