@@ -4,6 +4,8 @@
   xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/site_theme">
 
   <xs:element name="theme_name" type="xs:string" default="default"></xs:element>
+  
+  <xs:element name="homePageRef" type="xs:string"></xs:element>
 
 </xs:schema>
 
