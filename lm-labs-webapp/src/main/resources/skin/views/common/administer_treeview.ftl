@@ -345,7 +345,7 @@
 				if(rel=='Assets' || rel=='Folder') {
 					loadPictures($(data.rslt.obj).attr("id"));
 				} else if(rel=='Picture') {
-					jQuery("#contentAdminPictures").html("<img src='${This.path}/@assets/id/"+$(data.rslt.obj).attr("id")+"/@blob' />");
+					jQuery("#contentAdminPictures").html("<img src='${This.path}/@assets/id/"+$(data.rslt.obj).attr("id")+"/@blob' width="120" />");
 				}					
 			})
 			;
