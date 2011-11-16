@@ -10,12 +10,8 @@ import org.nuxeo.ecm.core.api.event.DocumentEventTypes;
 import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
-import org.nuxeo.ecm.spaces.api.Space;
-import org.nuxeo.opensocial.container.shared.layout.api.LayoutHelper.Preset;
-import org.nuxeo.opensocial.container.shared.layout.enume.YUISideBarStyle;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public class SiteCreationEventListener implements EventListener {
 

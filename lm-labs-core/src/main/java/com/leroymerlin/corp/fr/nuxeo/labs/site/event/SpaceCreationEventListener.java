@@ -34,6 +34,7 @@ public class SpaceCreationEventListener implements EventListener {
                 return;
             }
             doc.addFacet(FacetNames.LABSPAGE);
+            doc.addFacet(org.nuxeo.ecm.core.schema.FacetNames.COMMENTABLE);
         }
     }
 
