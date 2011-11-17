@@ -18,7 +18,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
  * @author fvandaele
  *
  */
-public interface PageList extends Page, ChangeListener {
+public interface PageList extends Page {
     
     DocumentModel getDocument();
 

@@ -16,6 +16,7 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageNotificationService;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
@@ -29,16 +30,13 @@ public class CheckPagesToNotify implements EventListener {
             return;
         }
         try {
+            PageNotificationService notificationService = Framework.getService(PageNotificationService.class);
             RepositoryManager repositoryManager = Framework.getService(RepositoryManager.class);
             CoreSession session = repositoryManager.getDefaultRepository().open();
             SiteManager siteManager = Framework.getService(SiteManager.class);
             List<LabsSite> sites = siteManager.getAllSites(session);
             for (LabsSite site : sites) {
-                Collection<DocumentModel> publishedPages = (List<DocumentModel>) site.getPages(null, State.PUBLISH);
-                for (DocumentModel page : publishedPages) {
-                    MailNotification adapter = page.getAdapter(MailNotification.class);
-                    adapter.fireNotificationEvent();
-                }
+                notificationService.notifyPagesOfSite(site.getDocument());
             }
         } catch (Exception e) {
             LOG.error(e, e);

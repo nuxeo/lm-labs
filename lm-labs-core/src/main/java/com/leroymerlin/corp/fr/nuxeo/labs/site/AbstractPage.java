@@ -5,10 +5,8 @@ import java.io.Serializable;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public abstract class AbstractPage extends AbstractLabsBase implements Page {
@@ -16,14 +14,6 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     @Override
     public void setCommentable(boolean isCommentable) throws ClientException {
         doc.setPropertyValue("pg:commentable", isCommentable);
-        doc.getAdapter(MailNotification.class).setAsToBeNotified();
-    }
-
-    @Override
-    public void setTitle(String title) throws PropertyException,
-            ClientException, IllegalArgumentException {
-        super.setTitle(title);
-        doc.getAdapter(MailNotification.class).setAsToBeNotified();
     }
 
     @Override

@@ -9,8 +9,6 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 import org.nuxeo.runtime.api.Framework;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
-
 public class PageClasseurFolderImpl implements PageClasseurFolder {
 
     private final DocumentModel doc;
@@ -54,9 +52,8 @@ public class PageClasseurFolderImpl implements PageClasseurFolder {
                         StringEscapeUtils.escapeHtml(blob.getFilename()));
         if (!StringUtils.isEmpty(description)) {
             fileDoc.setPropertyValue("dc:description", description);
+            fileDoc = doc.getCoreSession().saveDocument(fileDoc);
         }
-        fileDoc.getAdapter(MailNotification.class).setAsToBeNotified();
-        fileDoc = doc.getCoreSession().saveDocument(fileDoc);
         return fileDoc;
     }
 
@@ -79,17 +76,12 @@ public class PageClasseurFolderImpl implements PageClasseurFolder {
 
     @Override
     public void removeFile(String filename) throws ClientException {
-        boolean removed = false;
         DocumentModelList files = getFiles();
         for(DocumentModel doc : files) {
             if(filename.equals(doc.getTitle())) {
                 doc.getCoreSession().removeDocument(doc.getRef());
-                removed = true;
                 break;
             }
-        }
-        if (removed) {
-            doc.getAdapter(MailNotification.class).setAsToBeNotified();
         }
     }
 

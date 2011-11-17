@@ -17,7 +17,6 @@ import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 
 @WebObject(type = "LabsNews", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
@@ -53,7 +52,6 @@ public class LabsNewsResource extends PageResource {
         try {
             LabsNews news = doc.getAdapter(LabsNews.class);
             fillNews(form, news);
-            news.getDocumentModel().getAdapter(MailNotification.class).setAsToBeNotified();
             session.saveDocument(news.getDocumentModel());
             session.save();
 

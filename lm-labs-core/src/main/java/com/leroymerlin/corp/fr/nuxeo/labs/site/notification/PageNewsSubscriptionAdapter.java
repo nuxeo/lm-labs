@@ -1,6 +1,12 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.notification;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.nuxeo.ecm.core.api.DocumentModel;
+
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.NotifNames;
 
 public class PageNewsSubscriptionAdapter extends PageSubscriptionAdapter {
 
@@ -9,8 +15,11 @@ public class PageNewsSubscriptionAdapter extends PageSubscriptionAdapter {
     }
 
     @Override
-    public String getNotificationName() {
-        return "News published";
+    public List<String> getNotificationNames() {
+        return new ArrayList<String>(
+                Arrays.asList(
+                        NotifNames.NEWS_PUBLISHED
+                        ));
     }
 
 }

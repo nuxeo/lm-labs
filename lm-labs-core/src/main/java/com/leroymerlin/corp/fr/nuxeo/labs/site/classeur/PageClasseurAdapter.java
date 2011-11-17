@@ -13,7 +13,6 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 
 public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
 
@@ -107,8 +106,6 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
                     doc.getPathAsString(), title, "Folder");
             folder.setPropertyValue("dc:title", title);
             folder = session.createDocument(folder);
-            folder.getAdapter(MailNotification.class).setAsToBeNotified();
-            folder = session.saveDocument(folder);
             return new PageClasseurFolderImpl(folder);
         }
         return null;
@@ -132,8 +129,6 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
         PageClasseurFolder folder = getFolder(title);
         if (folder != null) {
             doc.getCoreSession().removeDocument(folder.getDocument().getRef());
-            doc.getAdapter(MailNotification.class).setAsToBeNotified();
-            doc = doc.getCoreSession().saveDocument(doc);
         }
 
     }

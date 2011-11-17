@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -34,14 +32,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageListAdapter extends AbstractPage implements PageList {
-
-    private static final Log LOG = LogFactory.getLog(PageListAdapter.class);
 
     public static final String LINE_TITTLE = "lineTitle";
     private static final String PGL_HEADERLIST = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":headerlist";
@@ -116,7 +111,6 @@ public class PageListAdapter extends AbstractPage implements PageList {
         headerList.add(map);
         doc.getProperty(PGL_HEADERLIST)
                 .setValue(headerList);
-//        onChange(pHead);
     }
 
     /*
@@ -134,7 +128,6 @@ public class PageListAdapter extends AbstractPage implements PageList {
         }
         doc.getProperty(PGL_HEADERLIST)
                 .setValue(listHeaders);
-//        onChange(headersToSave);
     }
 
     /**
@@ -215,7 +208,6 @@ public class PageListAdapter extends AbstractPage implements PageList {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         doc.getProperty(PGL_HEADERLIST)
                 .setValue(list);
-//        onChange(doc.getProperty(PGL_HEADERLIST));
     }
 
     /*
@@ -256,9 +248,6 @@ public class PageListAdapter extends AbstractPage implements PageList {
         }
         PageListLine line = lineDoc.getAdapter(PageListLine.class);
         line.setLine(pLine);
-        // I don't want real-time notification, pageLists' modifications will be notified by a scheduled event listener.
-//        onChange(pLine);
-        lineDoc.getAdapter(MailNotification.class).setAsToBeNotified();
         if (isNew) {
             lineDoc = session.createDocument(lineDoc);
         } else {
@@ -277,9 +266,6 @@ public class PageListAdapter extends AbstractPage implements PageList {
     @Override
     public void removeLine(DocumentRef pRef) throws ClientException {
         doc.getCoreSession().removeDocument(pRef);
-        // I don't want real-time notification, pageLists' modifications will be notified by a scheduled event listener.
-//        onChange(pRef);
-        doc.getAdapter(MailNotification.class).setAsToBeNotified();
     }
 
     /*
@@ -327,7 +313,6 @@ public class PageListAdapter extends AbstractPage implements PageList {
     @Override
     public void setAllContributors(boolean isAllContributors) throws ClientException {
         doc.setPropertyValue(ALL_CONTRIBUTORS, isAllContributors);
-//        onChange(doc.getProperty(ALL_CONTRIBUTORS));
     }
 
     /*
@@ -356,7 +341,6 @@ public class PageListAdapter extends AbstractPage implements PageList {
     @Override
     public void setCommentableLines(boolean isAllCommentablesLines) throws ClientException {
         doc.setPropertyValue(COMMENTABLE_LINES, isAllCommentablesLines);
-//        onChange(doc.getProperty(COMMENTABLE_LINES));
     }
 
     /* (non-Javadoc)
@@ -434,15 +418,6 @@ public class PageListAdapter extends AbstractPage implements PageList {
             numRow++;
         }
         wb.write(pOut);
-    }
-
-    @Override
-    public void onChange(Object obj) throws ClientException {
-        // This is for real-time notification of pageLists' modifications
-        LOG.debug("<onChange> " + obj);
-        // but I don't want any real-time notifications
-//        doc.getAdapter(MailNotification.class).setAsToBeNotified();
-//        doc = doc.getCoreSession().saveDocument(doc);
     }
 
 }

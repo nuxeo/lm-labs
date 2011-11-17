@@ -11,15 +11,12 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 
-@Deprecated
 public class PageNotifier {
 
     private static final Log LOG = LogFactory.getLog(PageNotifier.class);
 
-    protected void fireEvent(DocumentModel doc) throws Exception {
+    protected void fireEvent(DocumentModel doc, String eventName) throws Exception {
         DocumentEventContext ctx = new DocumentEventContext(doc.getCoreSession(), doc.getCoreSession().getPrincipal(), doc);
         ctx.setProperty("PageId", doc.getId());
         String loopbackurl = Framework.getProperty("nuxeo.loopback.url");
@@ -27,12 +24,9 @@ public class PageNotifier {
         ctx.setProperty("siteUrl", (Serializable) doc.getAdapter(SiteDocument.class).getSite().getURL());
         ctx.setProperty("siteTitle", (Serializable) doc.getAdapter(SiteDocument.class).getSite().getTitle());
         ctx.setProperty("pageUrl", doc.getAdapter(Page.class).getPath());
-        LOG.debug("firing event " + EventNames.PAGE_MODIFIED + " for " + doc.getPathAsString());
+        LOG.debug("firing event " + eventName + " for " + doc.getPathAsString());
         EventProducer evtProducer = Framework.getService(EventProducer.class);
-        evtProducer.fireEvent(ctx.newEvent(EventNames.PAGE_MODIFIED));
-        doc.getAdapter(MailNotification.class).setAsNotified();
-        doc = doc.getCoreSession().saveDocument(doc);
-        
+        evtProducer.fireEvent(ctx.newEvent(eventName));
     }
 
 }

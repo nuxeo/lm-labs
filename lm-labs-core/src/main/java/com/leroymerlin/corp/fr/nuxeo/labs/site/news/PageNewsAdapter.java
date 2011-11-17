@@ -183,22 +183,4 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
         }
     }
 
-    // TODO unit tests
-    @Override
-    public List<DocumentModel> getNewsToNotify() throws ClientException {
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM Document WHERE ");
-        query.append(NXQL.ECM_PRIMARYTYPE).append(" = '").append(Docs.LABSNEWS.type()).append("'");
-        query.append(" AND ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(doc.getPathAsString()).append("'");
-        return doc.getCoreSession().query(query.toString(),new Filter() {
-            @Override
-            public boolean accept(DocumentModel document) {
-                try {
-                    return document.getAdapter(MailNotification.class).isToBeNotified();
-                } catch (ClientException e) {
-                    return false;
-                }
-            }});
-    }
-
 }

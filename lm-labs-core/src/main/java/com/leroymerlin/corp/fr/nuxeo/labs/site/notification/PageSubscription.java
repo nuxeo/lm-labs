@@ -1,8 +1,10 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.notification;
 
+import java.util.List;
+
 public interface PageSubscription {
 
-    String getNotificationName();
+    List<String> getNotificationNames();
 
     /**
      * @param principal user ID

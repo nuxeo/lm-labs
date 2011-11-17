@@ -13,9 +13,9 @@
       <!-- TEST: Every minute
       <cronExpression>0 0/1 * * * ?</cronExpression>
        -->
-      <!-- GOOD ONE: Every 2 hours
+      <!-- GOOD ONE: Every 30 minutes
        -->
-      <cronExpression>0 0 0/1 * * ?</cronExpression>
+      <cronExpression>0 0/30 * * * ?</cronExpression>
     </schedule>
     
   </extension>

@@ -8,8 +8,8 @@
 			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.SiteCreationEventListener" priority="151" />
 		<listener name="checkPagesToNotify" async="false" postCommit="false"
 			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.CheckPagesToNotify" priority="150" />
-		<listener name="pageModificationListener" async="false" postCommit="false"
-			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.PageModificationEventListener" priority="151" />
+		<listener name="pageActivitiesListener" async="false" postCommit="false"
+			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.PageActivitiesEventListener" priority="151" />
 			
 	</extension>
 

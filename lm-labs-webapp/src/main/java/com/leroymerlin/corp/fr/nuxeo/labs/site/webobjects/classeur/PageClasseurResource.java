@@ -83,7 +83,7 @@ public class PageClasseurResource extends NotifiablePageResource {
         try {
             PathRef pathRef = new PathRef(doc.getPath().append(path).toString());
             DocumentModel folder = ctx.getCoreSession().getDocument(pathRef);
-            return newObject("PageClasseurFolder", folder, doc);
+            return newObject("PageClasseurFolder", folder);
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }

@@ -18,7 +18,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.ChangeListener;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSectionImpl;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 
 public class LabsNewsAdapter extends AbstractPage implements LabsNews,
         ChangeListener {
@@ -210,7 +209,6 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     @Override
     public void onChange(Object obj) throws ClientException {
-        this.doc.getAdapter(MailNotification.class).setAsToBeNotified();
         update();
         if (isParentPageNewsPublished()) {
             Calendar now = Calendar.getInstance();

@@ -39,5 +39,4 @@ public interface PageNews extends Page {
     
     void writeRss(OutputStream pOutput, SyndFeed pFeed) throws ClientException;
 
-    List<DocumentModel> getNewsToNotify() throws ClientException;
 }

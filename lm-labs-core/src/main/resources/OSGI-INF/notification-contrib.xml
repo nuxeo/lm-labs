@@ -10,6 +10,12 @@
       <event name="pageModified"/>
     </notification>
 
+    <notification name="Page removed" channel="email" enabled="true" availableIn="SitesRoot"
+      autoSubscribed="false" template="pageRemoved" subjectTemplate="subjectPageModified"
+      label="label.noLabel">
+      <event name="pageRemoved"/>
+    </notification>
+
     <notification name="News published" channel="email" enabled="true" availableIn="SitesRoot"
       autoSubscribed="false" template="newsPublished" subjectTemplate="subjectNewsPublished"
       label="label.noLabel">
@@ -27,6 +33,8 @@
     <template name="subjectNewsPublished_en" src="templates/subjectNewsPublished_en.ftl" />
     <template name="pageModified_fr" src="templates/pageModified_fr.ftl" />
     <template name="pageModified_en" src="templates/pageModified_en.ftl" />
+    <template name="pageRemoved_fr" src="templates/pageRemoved_fr.ftl" />
+    <template name="pageRemoved_en" src="templates/pageRemoved_en.ftl" />
     <template name="subjectPageModified_fr" src="templates/subjectPageModified_fr.ftl" />
     <template name="subjectPageModified_en" src="templates/subjectPageModified_en.ftl" />
     

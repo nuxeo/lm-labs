@@ -149,8 +149,6 @@
       </subtypes>
     </doctype>
 
-
-
     <doctype name="HtmlPage" extends="Page">
       <schema name="page_html"/>
       <subtypes>
@@ -162,6 +160,9 @@
       </subtypes>
     </doctype>
 
+    <doctype name="NotificationActivities" extends="HiddenFolder">
+      <schema name="mailnotif" />
+    </doctype>
 
   </extension>
 

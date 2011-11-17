@@ -14,6 +14,7 @@ public final class LabsSiteConstants {
     public final class NotifNames {
         public static final String NEWS_PUBLISHED = "News published";
         public static final String PAGE_MODIFIED = "Page modified";
+        public static final String PAGE_REMOVED = "Page removed";
     }
     
     public final class EventNames {
@@ -22,6 +23,7 @@ public final class LabsSiteConstants {
         public static final String CHECK_PUBLISHED_NEWS_TO_NOTIFY = "checkPublishedNewsToNotify";
         public static final String PAGE_MODIFIED = "pageModified";
         public static final String CHECK_PAGES_TO_NOTIFY = "checkPagesToNotify";
+        public static final String PAGE_REMOVED = "pageRemoved";
     }
 
     public final class FacetNames {
@@ -75,6 +77,7 @@ public final class LabsSiteConstants {
         FOLDER("Folder", StringUtils.EMPTY),
         HTMLPAGE("HtmlPage",StringUtils.EMPTY),
         DASHBOARD("Space",StringUtils.EMPTY),
+        NOTIFACTIVITIES("NotificationActivities", "notifActivities"),
         WELCOME(PAGEBLOCS.type(), "welcome"); // TODO
 
         private String docType;
