@@ -10,8 +10,7 @@ toolbar:
 [
 ['Source'],
 ['Cut','Copy','Paste','PasteText','PasteFromWord'],
-
-['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+['NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Outdent','Indent','Blockquote'],
 '/',
 [ 'Bold','Italic','Underline','Strike','-','SelectAll','RemoveFormat'],
 [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar' ] ,'/',
