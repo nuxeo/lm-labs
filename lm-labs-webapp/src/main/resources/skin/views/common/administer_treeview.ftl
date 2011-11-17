@@ -20,6 +20,7 @@
 		jQuery().ready(function() {
 			jQuery('#addFileForm').ajaxForm(function() { 
 				jQuery("#addFileDialog").dialog2('close');
+                loadPictures(jQuery("li[rel=Assets]").attr("id"));
                 jQuery("#jstree").jstree("refresh");
             }); 
 			jQuery("#addFileDialog").dialog2({
@@ -275,6 +276,7 @@
 				if (confirm("${Context.getMessage('label.admin.page.deleteConfirm')}")) {
 					data.rslt.obj.each(function () {
 						if (jQuery(this).attr('rel') != 'Tree') {
+							rel = $(data.rslt.obj).attr("rel");
 							jQuery.ajax({
 								async : false,
 								type: 'GET',
@@ -282,6 +284,7 @@
 								success : function (r) {
 									if(!r.status) {
 										data.inst.refresh();
+										loadPictures($(data.rslt.parent).attr("id"));
 									}
 								}
 								, error : function (r, responseData) {

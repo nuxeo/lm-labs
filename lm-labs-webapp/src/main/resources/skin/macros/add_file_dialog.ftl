@@ -1,6 +1,6 @@
 <#macro addFileDialog action onSubmit>
 	<div id="addFileDialog">
-	    <h1>Ajouter un FichierTOTO</h1>
+	    <h1>Ajouter un Fichier</h1>
 	   	<form id="addFileForm" action="${action}" onSubmit="${onSubmit}" method="post" enctype="multipart/form-data">
 	      <fieldset>
 	        <div class="clearfix">
