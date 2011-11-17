@@ -170,7 +170,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public LabsThemeManager getSiteThemeManager() throws ClientException {
+    public LabsThemeManager getThemeManager() throws ClientException {
         return new LabsThemeManagerImpl(doc);
     }
 

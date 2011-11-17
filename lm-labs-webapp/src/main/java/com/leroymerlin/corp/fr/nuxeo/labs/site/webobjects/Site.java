@@ -134,14 +134,14 @@ public class Site extends PageResource {
     @Path("theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
-            LabsThemeManager tm = site.getSiteThemeManager();
+            LabsThemeManager tm = site.getThemeManager();
             LabsTheme theme = tm.getTheme(themeName);
             if (theme == null) {
                 // This creates the default theme if not found
                 theme = tm.getTheme();
             }
 
-            return newObject("SiteTheme", site, theme);
+            return newObject(Docs.LABSTHEME.type(), site, theme);
         } catch (ClientException e) {
             throw new WebResourceNotFoundException("Theme not found", e);
         }

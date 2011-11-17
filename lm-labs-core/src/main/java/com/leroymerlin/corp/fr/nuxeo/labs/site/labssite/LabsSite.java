@@ -83,7 +83,7 @@ public interface LabsSite  extends LabsBase {
      * @return
      * @throws ClientException
      */
-    LabsThemeManager getSiteThemeManager() throws ClientException;
+    LabsThemeManager getThemeManager() throws ClientException;
 
     /**
      * Returns the base document for assets management
