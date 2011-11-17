@@ -14,14 +14,12 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 
 import com.leroymerlin.common.core.utils.Slugify;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.sun.syndication.feed.synd.SyndContent;

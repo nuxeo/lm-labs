@@ -3,7 +3,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.event;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -169,6 +168,7 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
 //        return true;
     }
 
+    @Deprecated
     private boolean MarkParent(DocumentModel doc) throws ClientException {
         Page page = getPage(doc);
         if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
@@ -180,6 +180,7 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
         return true;
     }
 
+    @Deprecated
     private boolean MarkParentPage(DocumentModel doc) throws ClientException {
         Page page = getPage(doc);
         if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
