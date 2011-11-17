@@ -26,17 +26,21 @@ public final class LabsSiteConstants {
 
     public final class FacetNames {
         public static final String LABSPAGE = "LabsPage";
+        public static final String LABSTEMPLATE = "LabsTemplate";
+        public static final String LABSTHEME = "LabsTheme";
     }
     
     public enum Schemas {
         PAGE("page", "pg"),
         PAGENEWS("page_news", "pgn"),
-        NEWS("labsnews", "ln"),
+        LABSNEWS("labsnews", "ln"),
         PAGELIST("page_list", "pgl"),
         PAGELIST_LINE("page_list_line", "pgll"),
         PAGEBLOCS("page_blocs", "pgb"),
+        PAGEHTML("page_html", "html"),
         EXTERNALURL("external_url", "exturl"),
-        HTMLPAGE("page_html", "html");
+        LABSTEMPLATE("labstemplate", "labstemplate"),
+        LABSTHEME("labstheme", "labstheme");
 
         private String name;
         private String prefix;
@@ -75,6 +79,7 @@ public final class LabsSiteConstants {
         FOLDER("Folder", StringUtils.EMPTY),
         HTMLPAGE("HtmlPage",StringUtils.EMPTY),
         DASHBOARD("Space",StringUtils.EMPTY),
+        LABSTHEME("LabsTheme",StringUtils.EMPTY),
         WELCOME(PAGEBLOCS.type(), "welcome"); // TODO
 
         private String docType;
@@ -155,6 +160,67 @@ public final class LabsSiteConstants {
          */
         public String getState() {
             return state;
+        }
+
+    }
+    
+    public enum Template {
+        TEMPLATE1("Modèle Suplain Chain", "templateSuplainChain");
+
+        private String name;
+        private String template;
+
+        private static final Map<String, Template> stringToEnum = new HashMap<String, Template>();
+        static {
+            for (Template op : values())
+                stringToEnum.put(op.getName(), op);
+        }
+
+        public static Template fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
+        private Template(String name, String template) {
+            this.name = name;
+            this.template = template;
+        }
+
+        public String getTemplate() {
+            return template;
+        }
+
+       public String getName() {
+            return name;
+        }
+
+    }
+    
+    public enum Theme {
+        DEFAULT("Thème Suplain Chain", "themeSuplainChain"),
+        THEME1("Thème Suplain Chain", "themeSuplainChain");
+
+        private String name;
+        private String css;
+
+        private static final Map<String, Theme> stringToEnum = new HashMap<String, Theme>();
+        static {
+            for (Theme op : values())
+                stringToEnum.put(op.getName(), op);
+        }
+
+        public static Theme fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
+        private Theme(String name, String css) {
+            this.name = name;
+            this.css = css;
+        }
+
+        public String getCss() {
+            return css;
+        }
+
+       public String getName() {
+            return name;
         }
 
     }

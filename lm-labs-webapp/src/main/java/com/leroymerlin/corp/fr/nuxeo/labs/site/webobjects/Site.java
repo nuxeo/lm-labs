@@ -35,10 +35,10 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.SiteThemeManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
@@ -134,8 +134,8 @@ public class Site extends PageResource {
     @Path("theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
-            SiteThemeManager tm = site.getSiteThemeManager();
-            SiteTheme theme = tm.getTheme(themeName);
+            LabsThemeManager tm = site.getSiteThemeManager();
+            LabsTheme theme = tm.getTheme(themeName);
             if (theme == null) {
                 // This creates the default theme if not found
                 theme = tm.getTheme();

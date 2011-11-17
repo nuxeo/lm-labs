@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.theme;
 
 import java.io.Serializable;
 
@@ -6,11 +6,13 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
-public class SiteThemeAdapter implements SiteTheme {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
+
+public class LabsThemeAdapter implements LabsTheme {
 
     private final DocumentModel doc;
 
-    public SiteThemeAdapter(DocumentModel doc) {
+    public LabsThemeAdapter(DocumentModel doc) {
         this.doc = doc;
     }
 
@@ -25,12 +27,12 @@ public class SiteThemeAdapter implements SiteTheme {
 
     @Override
     public Blob getBanner() throws ClientException {
-        return (Blob) doc.getPropertyValue("site_theme:banner");
+        return (Blob) doc.getPropertyValue(Schemas.LABSTHEME.prefix() + ":banner");
     }
 
     @Override
     public void setBanner(Blob blob) throws ClientException {
-        doc.setPropertyValue("site_theme:banner", (Serializable) blob);
+        doc.setPropertyValue(Schemas.LABSTHEME.prefix() + ":banner", (Serializable) blob);
     }
 
 }
