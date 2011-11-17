@@ -14,44 +14,8 @@ $(document).ready(function() {
   $(".alter-message, .close").click(function(e) {
     $(this).parent().fadeOut();
   });
-
-  $(".required-fields").bind("click", function(event) {
-	  var form = null;
-	  /*get the form*/
-	  if($(this).attr("form-id")){
-		  form = $("#" + $(this).attr("form-id"));
-	  }
-	  else{
-		  form = $(this).parents().find("form");
-	  }
-	  var hasError = false;
-	  $(form).children().find(".required").each(function(i, element) {
-		    var elementInputClass = $(element).parents(".clearfix").children(".input");
-			if($(element) && $(element).val().length < 1){
-				if($(element).attr("required-error-text")){
-					if (elementInputClass.children("strong").html() == null){
-						elementInputClass.prepend("<strong>" + $(element).attr("required-error-text") + "</strong><br />");
-					}
-				}
-				else{
-					if (elementInputClass.children("strong").html() == null){
-						elementInputClass.prepend("<strong>Element obligatoire !</strong><br />");
-					}
-				}
-				$(element).parents(".clearfix").addClass("error");
-				hasError = true;
-			}
-			else{
-				$(element).parents(".clearfix").removeClass("error");
-				if (elementInputClass.children("strong").html() != null){
-					elementInputClass.children("strong").remove();
-				}
-			}
-		});
-	  if (hasError){
-		  event.preventDefault();
-	  }
-  });
+  
+  initRequiredFields();
 
   setTimeout("hideAlerts()", 5000);
 
@@ -64,6 +28,46 @@ $(document).ready(function() {
   
   
 });
+
+function initRequiredFields(){
+	$(".required-fields").bind("click", function(event) {
+		  var form = null;
+		  /*get the form*/
+		  if($(this).attr("form-id")){
+			  form = $("#" + $(this).attr("form-id"));
+		  }
+		  else{
+			  alert("Vous devez définir un attribut form-id sur l'élément .required, correspondant à l'identifiant du formulaire");
+		  }
+		  var hasError = false;
+		  $(form).children().find(".required").each(function(i, element) {
+			    var elementInputClass = $(element).parents(".clearfix");
+				if($(element) && $(element).val().length < 1){
+					if($(element).attr("required-error-text")){
+						if (elementInputClass.children("span").html() == null){
+							elementInputClass.prepend("<span class='help-inline'><strong>" + $(element).attr("required-error-text") + "</strong></span><br />");
+						}
+					}
+					else{
+						if (elementInputClass.children("span").html() == null){
+							elementInputClass.prepend("<span class='help-inline'><strong>Element obligatoire !</strong></span><br />");
+						}
+					}
+					$(element).parents(".clearfix").addClass("error");
+					hasError = true;
+				}
+				else{
+					$(element).parents(".clearfix").removeClass("error");
+					if (elementInputClass.children("span").html() != null){
+						elementInputClass.children("span").remove();
+					}
+				}
+			});
+		  if (hasError){
+			  event.preventDefault();
+		  }
+	  });
+}
 
 function hideAlerts() {
   $(".alert-message").each(function()

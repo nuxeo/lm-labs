@@ -18,7 +18,7 @@
 	                </div><!-- /clearfix -->
 	      </fieldset>
 	      <div class="actions">
-	        <button type="submit" class="btn primary required-fields">Ajouter</button>
+	        <button type="submit" class="btn primary required-fields" form-id="addFileForm">Ajouter</button>
 	      </div>
 	  </form>
 	</div>

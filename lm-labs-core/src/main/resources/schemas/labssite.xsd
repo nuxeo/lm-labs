@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/site_theme"
-  xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/site_theme">
+  targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/labssite"
+  xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/labssite">
 
   <xs:element name="theme_name" type="xs:string" default="default"></xs:element>
+  
+  <xs:element name="homePageRef" type="xs:string"></xs:element>
 
 </xs:schema>
 

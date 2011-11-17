@@ -26,7 +26,7 @@ import org.nuxeo.runtime.api.Framework;
  * @author fvandaele
  *
  */
-@WebAdapter(name = "labscomments", type = "LabsComments", targetFacets = { "Commentable" })
+@WebAdapter(name = "labscomments", type = "LabsComments")
 public class LabsCommentsService extends CommentService {
     
     Map<String, String> mapUserName = new HashMap<String, String>();

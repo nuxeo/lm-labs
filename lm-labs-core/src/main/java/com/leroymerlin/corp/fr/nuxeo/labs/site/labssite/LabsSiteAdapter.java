@@ -15,10 +15,11 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.query.sql.NXQL;
-import org.nuxeo.ecm.spaces.api.SpaceManager;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsThemeManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsThemeManagerImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
@@ -27,6 +28,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
  *
  */
 public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
+
+    private static final String HOME_PAGE_REF = "labssite:homePageRef";
 
     static final String URL = "webcontainer:url";
 
@@ -167,8 +170,8 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public SiteThemeManager getSiteThemeManager() throws ClientException {
-        return new SiteThemeManagerImpl(doc);
+    public LabsThemeManager getSiteThemeManager() throws ClientException {
+        return new LabsThemeManagerImpl(doc);
     }
 
     @Override
@@ -185,6 +188,16 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     @Override
     public DocumentModel getAssetsDoc() throws ClientException {
         return getCoreSession().getChild(doc.getRef(), Docs.ASSETS.docName());
+    }
+
+    @Override
+    public void setHomePageRef(String homePageRef) throws ClientException {
+        doc.setPropertyValue(HOME_PAGE_REF, homePageRef);
+    }
+
+    @Override
+    public String getHomePageRef() throws ClientException {
+        return (String) doc.getPropertyValue(HOME_PAGE_REF);
     }
 
 }

@@ -6,14 +6,13 @@
   <@block name="scripts">
     <@superBlock/>
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/PageNews.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/PageNews.js"></script>
   </@block>
 
   <@block name="css">
     <@superBlock/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
+      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
   </@block>
   
   <@block name="docactions">
@@ -26,7 +25,7 @@
 
 <div id="editprops">
 <h1>Créer une news</h1>
-<form method="post" action="${This.path}" >
+<form method="post" action="${This.path}" id="form-add-news-pageNews" >
   <fieldset>
     <div class="clearfix">
       <label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
@@ -54,19 +53,8 @@
       </div>
     </div>
 
-    <div class="clearfix">
-      <label for="newsContent">${Context.getMessage('label.labsNews.edit.content')}</label>
-      <div class="input">
-        <textarea name="newsContent" class="ckedit"></textarea>
-      </div>
-    </div>
-
-
-
-
-
     <div class="actions">
-      <input type="submit" class="btn required-fields" value="${Context.getMessage('label.labsNews.edit.valid')}" />
+      <input type="submit" class="btn required-fields" form-id="form-add-news-pageNews" value="${Context.getMessage('label.labsNews.edit.valid')}" />
   </div	>
   </fieldset>
 </form>
@@ -76,7 +64,6 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-        initCheckeditor();
       initEditDateNews();
   });
 
@@ -87,4 +74,5 @@
 
       </div>
   </@block>
+  <@block name="pageCommentable"></@block>
 </@extends>

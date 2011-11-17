@@ -10,8 +10,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.webengine.WebException;
@@ -34,7 +32,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html.RowTemplate;
 @Produces("text/html; charset=UTF-8")
 public class PageNewsResource extends NotifiablePageResource {
 
-    private static final Log LOG = LogFactory.getLog(PageNewsResource.class);
+    //private static final Log LOG = LogFactory.getLog(PageNewsResource.class);
 
     @Override
     public void initialize(Object... args) {

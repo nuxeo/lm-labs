@@ -13,7 +13,7 @@
 				</div>
 			</fieldset>
 			<div  class="actions">
-				<button class="btn primary required-fields" title="${Context.getMessage('label.comments.save')}">${Context.getMessage('label.comments.save')}</button>
+				<button class="btn primary required-fields" form-id="form-commentablePage" title="${Context.getMessage('label.comments.save')}">${Context.getMessage('label.comments.save')}</button>
 			</div>
 		</form>
 	</div>

@@ -13,6 +13,8 @@
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
   </@block>
+  
+  <@block name="docactions"></@block>
 
   <@block name="content">
 

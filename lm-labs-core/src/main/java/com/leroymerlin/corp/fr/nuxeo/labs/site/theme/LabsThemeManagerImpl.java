@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.theme;
 
 import java.util.List;
 
@@ -8,13 +8,14 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.PathRef;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
-public class SiteThemeManagerImpl implements SiteThemeManager {
+public class LabsThemeManagerImpl implements LabsThemeManager {
 
     private final DocumentModel parentSiteDoc;
 
-    public SiteThemeManagerImpl(DocumentModel doc) {
+    public LabsThemeManagerImpl(DocumentModel doc) {
         this.parentSiteDoc = doc;
     }
 
@@ -43,14 +44,14 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
 
 
     @Override
-    public SiteTheme getTheme(String themeName) throws ClientException {
+    public LabsTheme getTheme(String themeName) throws ClientException {
         CoreSession session = parentSiteDoc.getCoreSession();
 
         DocumentRef themeRef = new PathRef(getRootOfThemes().getPathAsString()
                 + "/" + themeName);
         if (session.exists(themeRef)) {
             return session.getDocument(themeRef)
-                    .getAdapter(SiteTheme.class);
+                    .getAdapter(LabsTheme.class);
         } else {
             return null;
         }
@@ -58,9 +59,9 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
     }
 
     @Override
-    public SiteTheme getTheme() throws ClientException {
+    public LabsTheme getTheme() throws ClientException {
         String themeName = (String) parentSiteDoc.getPropertyValue("labssite:theme_name");
-        SiteTheme theme = getTheme(themeName);
+        LabsTheme theme = getTheme(themeName);
 
         if (theme == null) {
             theme = createTheme(themeName);
@@ -68,13 +69,13 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
         return theme;
     }
 
-    private SiteTheme createTheme(String themeName) throws ClientException {
+    private LabsTheme createTheme(String themeName) throws ClientException {
         CoreSession session = parentSiteDoc.getCoreSession();
         DocumentModel themeDoc = session.createDocumentModel(
-                getRootOfThemes().getPathAsString(), themeName, "SiteTheme");
+                getRootOfThemes().getPathAsString(), themeName, Docs.LABSTHEME.type());
         themeDoc = session.createDocument(themeDoc);
         session.save();
-        return themeDoc.getAdapter(SiteTheme.class);
+        return themeDoc.getAdapter(LabsTheme.class);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
     }
 
     @Override
-    public List<SiteTheme> getThemes() throws ClientException {
+    public List<LabsTheme> getThemes() throws ClientException {
         // TODO Auto-generated method stub
         return null;
     }

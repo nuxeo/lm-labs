@@ -12,6 +12,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
@@ -82,7 +83,7 @@ public interface LabsSite  extends LabsBase {
      * @return
      * @throws ClientException
      */
-    SiteThemeManager getSiteThemeManager() throws ClientException;
+    LabsThemeManager getSiteThemeManager() throws ClientException;
 
     /**
      * Returns the base document for assets management
@@ -91,5 +92,9 @@ public interface LabsSite  extends LabsBase {
     DocumentModel getAssetsDoc() throws ClientException;
 
     List<Page> getAllDeletedPages() throws ClientException;
+
+    void setHomePageRef(String homePageRef) throws ClientException;
+
+    String getHomePageRef() throws ClientException;
 
 }

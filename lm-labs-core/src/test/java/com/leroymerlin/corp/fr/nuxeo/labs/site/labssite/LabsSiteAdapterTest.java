@@ -163,4 +163,30 @@ public class LabsSiteAdapterTest {
         doc.getAdapter(LabsPublisher.class).undelete();
         assertTrue(!doc.getAdapter(LabsPublisher.class).isDeleted());
     }
+
+    @Test()
+    public void iCanGetHomePageRef() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
+        doc.setPropertyValue("dc:title", "le titre");
+        doc.setPropertyValue("labssite:homePageRef", "123456");
+        doc = session.createDocument(doc);
+        
+        LabsSite labsSite = doc.getAdapter(LabsSite.class);
+        assertTrue(labsSite.getHomePageRef().equals("123456"));
+    }
+
+    @Test()
+    public void iCanSetHomePageRef() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
+        doc.setPropertyValue("dc:title", "le titre");
+        doc = session.createDocument(doc);
+        LabsSite labsSite = doc.getAdapter(LabsSite.class);
+        labsSite.setHomePageRef("123456");
+        doc = session.saveDocument(doc);
+        session.save();
+        
+        doc = session.getDocument(new PathRef("/NameSite1"));
+        labsSite = doc.getAdapter(LabsSite.class);
+        assertTrue(labsSite.getHomePageRef().equals("123456"));
+    }
 }

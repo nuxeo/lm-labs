@@ -26,7 +26,7 @@
     </div><!-- /clearfix -->
   </fieldset>
   <div class="actions">
-    <button class="btn primary required-fields">${Context.getMessage('label.labssites.edit.valid')}</button>
+    <button class="btn primary required-fields" form-id="form-labssite">${Context.getMessage('label.labssites.edit.valid')}</button>
   </div>
 </form>
 

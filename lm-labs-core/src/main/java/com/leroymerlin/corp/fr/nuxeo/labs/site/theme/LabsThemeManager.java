@@ -1,18 +1,18 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.theme;
 
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsTheme;
 
-public interface SiteThemeManager {
+public interface LabsThemeManager {
     /**
      * Returns a list of available themes for this site
      * @return
      * @throws ClientException
      */
-    List<SiteTheme> getThemes() throws ClientException;
+    List<LabsTheme> getThemes() throws ClientException;
 
     /**
      * Returns a named theme of the site
@@ -20,14 +20,14 @@ public interface SiteThemeManager {
      * @return
      * @throws ClientException
      */
-    SiteTheme getTheme(String themeName) throws ClientException;
+    LabsTheme getTheme(String themeName) throws ClientException;
 
     /**
      * Returns the current theme of the site
      * @return
      * @throws ClientException
      */
-    SiteTheme getTheme() throws ClientException;
+    LabsTheme getTheme() throws ClientException;
 
     /**
      * Sets the current theme

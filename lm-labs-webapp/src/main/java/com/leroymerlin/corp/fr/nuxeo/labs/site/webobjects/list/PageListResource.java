@@ -208,8 +208,8 @@ public class PageListResource extends NotifiablePageResource {
             pgl.setAllContributors("on".equals(pAllContributors));
             pgl.setCommentableLines("on".equals(pCommentableLines));
             pgl.setHeaders(headersToSave);
-            getCoreSession().saveDocument(doc);
-            getCoreSession().save();
+            session.saveDocument(doc);
+            session.save();
         } catch (ClientException e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_THE_HEADERS_LIST, e);
             return Response.ok("?message_error=label.pageList.header.headers_updated_error",

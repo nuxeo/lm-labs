@@ -86,10 +86,12 @@
     <@block name="content">
     </@block>
     
-    <#assign pageCommentable = This.getPage()/>
-	<#if pageCommentable != null && pageCommentable.commentable>
-		<#include "/views/LabsComments/displayCommentsPage.ftl" />
-	</#if>
+    <@block name="pageCommentable">
+	    <#assign pageCommentable = This.getPage()/>
+		<#if pageCommentable != null && pageCommentable.commentable>
+			<#include "/views/LabsComments/displayCommentsPage.ftl" />
+		</#if>
+	</@block>
 
     <div style="clear:both;"></div>
 

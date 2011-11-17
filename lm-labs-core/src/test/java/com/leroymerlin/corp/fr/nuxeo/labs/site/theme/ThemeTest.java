@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.theme;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -21,8 +21,9 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
 @RepositoryConfig(cleanup=Granularity.METHOD, init=DefaultRepositoryInit.class)
@@ -49,16 +50,16 @@ public class ThemeTest {
 
     @Test
     public void canGetSiteTheme() throws Exception {
-        SiteThemeManager tm = site.getSiteThemeManager();
-        SiteTheme theme = tm.getTheme();
+        LabsThemeManager tm = site.getSiteThemeManager();
+        LabsTheme theme = tm.getTheme();
         assertThat(theme,is(notNullValue()));
         assertThat(theme.getName(),is("default"));
     }
 
     @Test
     public void cantSetAndGetBannerFromTheme() throws Exception {
-        SiteThemeManager tm = site.getSiteThemeManager();
-        SiteTheme theme = tm.getTheme();
+        LabsThemeManager tm = site.getSiteThemeManager();
+        LabsTheme theme = tm.getTheme();
         theme.setBanner(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();
@@ -74,8 +75,8 @@ public class ThemeTest {
 
     @Test
     public void canGetThemeByName() throws Exception {
-        SiteThemeManager tm = site.getSiteThemeManager();
-        SiteTheme theme = tm.getTheme();
+        LabsThemeManager tm = site.getSiteThemeManager();
+        LabsTheme theme = tm.getTheme();
         theme.setBanner(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();

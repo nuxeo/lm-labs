@@ -41,4 +41,22 @@ public class SpaceCreationEventListenerTest {
         page = session.createDocument(page);
         assertTrue(page.hasSchema(Schemas.PAGE.getName()));
     }
+    
+    @Test
+    public void spaceDocumentHasFacetCommentable() throws Exception {
+        DocumentModel sitesRoot = session.getDocument(new PathRef("/"
+                + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName() + "/"
+                + LabsSiteConstants.Docs.SITESROOT.docName()));
+        DocumentModel site1 = session.createDocumentModel(
+                sitesRoot.getPathAsString(), SiteFeatures.SITE_NAME,
+                LabsSiteConstants.Docs.SITE.type());
+        site1 = session.createDocument(site1);
+        DocumentModel tree = session.getDocument(new PathRef(site1.getPathAsString() + "/"
+                + LabsSiteConstants.Docs.TREE.docName()));
+        DocumentModel page = session.createDocumentModel(
+                tree.getPathAsString(), "Dashboard",
+                LabsSiteConstants.Docs.DASHBOARD.type());
+        page = session.createDocument(page);
+        assertTrue(page.hasFacet(org.nuxeo.ecm.core.schema.FacetNames.COMMENTABLE));
+    }
 }
