@@ -12,12 +12,14 @@
       <#-- SIDEBAR AREA -->
       <div class="container-fluid">
 
+
       <div id="sidebar" class="sidebar">
         <#include "views/common/sidebar_area.ftl" />
       </div>
 
 
       <div class="content">
+		<#include "views/common/topnavigation_area.ftl" />
 
         <div class="row">
           <div  class="span12 columns">
