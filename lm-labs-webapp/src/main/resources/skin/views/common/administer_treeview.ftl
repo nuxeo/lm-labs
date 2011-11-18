@@ -50,6 +50,7 @@
 		                "separator_after"   : true,
 		                "label"             : "${Context.getMessage('command.admin.create')}",
 		                "action"            : false,
+		                "icon"              : "/nuxeo/icons/action_add.gif",
 		                "submenu" :{
 		                    "create_file" : {
 		                        "seperator_before" : false,
@@ -72,6 +73,7 @@
 		            },
 					"ccp_tree" : {
 						"separator_before"	: true,
+						"icon"				: "/nuxeo/icons/clipboard.gif",
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.edit')}",
 						"action"			: false,
@@ -90,6 +92,7 @@
 		            "goto" : {
 						"separator_before"	: false,
 						"separator_after"	: false,
+						"icon"              : "/nuxeo/icons/contextuallink.png",
 						"label"				: "${Context.getMessage('command.admin.gotoPage')}",
 						"action"			: function (nodes) {
 							window.location = "${Context.modulePath}/" + this._get_node(nodes[0]).data("url");
@@ -98,11 +101,13 @@
 					"rename" : {
 						"separator_before"	: false,
 						"separator_after"	: false,
+		                "icon"              : "/nuxeo/icons/rename.png",
 						"label"				: "${Context.getMessage('command.admin.rename')}",
 						"action"			: function (obj) { this.rename(obj); }
 					},
 					"markasdeleted" : {
 						"separator_before"	: false,
+						"icon"				: "/nuxeo/icons/action_delete_mini.png",
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.markAsDeleted')}",
 						"action"			: function (nodes) {
@@ -120,6 +125,7 @@
 					},
 					"remove" : {
 						"separator_before"	: false,
+						"icon"				: "/nuxeo/icons/action_delete.gif",
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.delete')}",
 						"action"			: function (obj) {
@@ -145,12 +151,14 @@
 							},
 							"copy" : {
 								"separator_before"	: false,
+								"icon"				: "/nuxeo/icons/action_clipboard_copy.gif",
 								"separator_after"	: false,
 								"label"				: "${Context.getMessage('command.admin.copy')}",
 								"action"			: function (obj) { this.copy(obj); }
 							},
 							"paste" : {
 								"separator_before"	: false,
+								"icon"				: "/nuxeo/icons/action_paste_all.gif",
 								"separator_after"	: false,
 								"label"				: "${Context.getMessage('command.admin.paste')}",
 								"action"			: function (obj) { this.paste(obj); }
