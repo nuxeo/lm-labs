@@ -98,7 +98,7 @@ public abstract class AbstractLabsBase  implements LabsBase{
             NuxeoPrincipal principal = userManager.getPrincipal(userName);
             return doc.getCoreSession().hasPermission(principal, doc.getRef(), SecurityConstants.EVERYTHING);
         } catch (Exception e) {
-            throw ClientException.wrap(e);
+            return false;
         }
     }
 
