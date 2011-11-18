@@ -34,11 +34,11 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsThemeManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
@@ -134,14 +134,14 @@ public class Site extends PageResource {
     @Path("theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
-            LabsThemeManager tm = site.getThemeManager();
-            LabsTheme theme = tm.getTheme(themeName);
+            SiteThemeManager tm = site.getThemeManager();
+            SiteTheme theme = tm.getTheme(themeName);
             if (theme == null) {
                 // This creates the default theme if not found
                 theme = tm.getTheme();
             }
 
-            return newObject(Docs.LABSTHEME.type(), site, theme);
+            return newObject(Docs.SITETHEME.type(), site, theme);
         } catch (ClientException e) {
             throw new WebResourceNotFoundException("Theme not found", e);
         }

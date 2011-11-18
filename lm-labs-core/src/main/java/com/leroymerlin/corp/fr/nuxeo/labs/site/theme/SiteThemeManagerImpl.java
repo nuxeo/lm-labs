@@ -8,14 +8,15 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.PathRef;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
-public class LabsThemeManagerImpl implements LabsThemeManager {
+public class SiteThemeManagerImpl implements SiteThemeManager {
 
     private final DocumentModel parentSiteDoc;
 
-    public LabsThemeManagerImpl(DocumentModel doc) {
+    public SiteThemeManagerImpl(DocumentModel doc) {
         this.parentSiteDoc = doc;
     }
 
@@ -44,14 +45,14 @@ public class LabsThemeManagerImpl implements LabsThemeManager {
 
 
     @Override
-    public LabsTheme getTheme(String themeName) throws ClientException {
+    public SiteTheme getTheme(String themeName) throws ClientException {
         CoreSession session = parentSiteDoc.getCoreSession();
 
         DocumentRef themeRef = new PathRef(getRootOfThemes().getPathAsString()
                 + "/" + themeName);
         if (session.exists(themeRef)) {
             return session.getDocument(themeRef)
-                    .getAdapter(LabsTheme.class);
+                    .getAdapter(SiteTheme.class);
         } else {
             return null;
         }
@@ -59,9 +60,9 @@ public class LabsThemeManagerImpl implements LabsThemeManager {
     }
 
     @Override
-    public LabsTheme getTheme() throws ClientException {
-        String themeName = (String) parentSiteDoc.getPropertyValue("labssite:theme_name");
-        LabsTheme theme = getTheme(themeName);
+    public SiteTheme getTheme() throws ClientException {
+        String themeName = (String) parentSiteDoc.getPropertyValue(Schemas.LABSSITE.prefix() + ":theme_name");
+        SiteTheme theme = getTheme(themeName);
 
         if (theme == null) {
             theme = createTheme(themeName);
@@ -69,13 +70,13 @@ public class LabsThemeManagerImpl implements LabsThemeManager {
         return theme;
     }
 
-    private LabsTheme createTheme(String themeName) throws ClientException {
+    private SiteTheme createTheme(String themeName) throws ClientException {
         CoreSession session = parentSiteDoc.getCoreSession();
         DocumentModel themeDoc = session.createDocumentModel(
-                getRootOfThemes().getPathAsString(), themeName, Docs.LABSTHEME.type());
+                getRootOfThemes().getPathAsString(), themeName, Docs.SITETHEME.type());
         themeDoc = session.createDocument(themeDoc);
         session.save();
-        return themeDoc.getAdapter(LabsTheme.class);
+        return themeDoc.getAdapter(SiteTheme.class);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class LabsThemeManagerImpl implements LabsThemeManager {
     }
 
     @Override
-    public List<LabsTheme> getThemes() throws ClientException {
+    public List<SiteTheme> getThemes() throws ClientException {
         // TODO Auto-generated method stub
         return null;
     }

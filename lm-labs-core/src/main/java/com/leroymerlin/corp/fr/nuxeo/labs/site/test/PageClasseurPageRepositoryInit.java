@@ -7,10 +7,10 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 

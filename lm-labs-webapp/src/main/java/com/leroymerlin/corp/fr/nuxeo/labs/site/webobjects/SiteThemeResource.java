@@ -14,7 +14,7 @@ import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 
 @WebObject(type = "SiteTheme")
@@ -22,13 +22,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 public class SiteThemeResource extends PageResource {
 
     private LabsSite site;
-    private LabsTheme theme;
+    private SiteTheme theme;
 
     @Override
     public void initialize(Object... args) {
         assert args != null && args.length == 2;
         site = (LabsSite) args[0];
-        theme = (LabsTheme) args[1];
+        theme = (SiteTheme) args[1];
         doc = theme.getDocument();
     }
     

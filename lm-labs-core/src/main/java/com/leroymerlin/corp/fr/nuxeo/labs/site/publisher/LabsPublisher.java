@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.publisher;
 
 import org.nuxeo.ecm.core.api.ClientException;
 

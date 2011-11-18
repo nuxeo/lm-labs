@@ -5,12 +5,12 @@ import org.nuxeo.ecm.core.api.adapter.DocumentAdapterFactory;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
-public class LabsThemeAdapterFactory implements DocumentAdapterFactory {
+public class SiteThemeAdapterFactory implements DocumentAdapterFactory {
 
     @Override
     public Object getAdapter(DocumentModel doc, Class<?> itf) {
-        if(Docs.LABSTHEME.type().equals(doc.getType())) {
-            return new LabsThemeAdapter(doc);
+        if(Docs.SITETHEME.type().equals(doc.getType())) {
+            return new SiteThemeAdapter(doc);
         }
         return null;
     }

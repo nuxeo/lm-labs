@@ -50,16 +50,16 @@ public class ThemeTest {
 
     @Test
     public void canGetTheme() throws Exception {
-        LabsThemeManager tm = site.getThemeManager();
-        LabsTheme theme = tm.getTheme();
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
         assertThat(theme,is(notNullValue()));
         assertThat(theme.getName(),is("default"));
     }
 
     @Test
     public void cantSetAndGetBannerFromTheme() throws Exception {
-        LabsThemeManager tm = site.getThemeManager();
-        LabsTheme theme = tm.getTheme();
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
         theme.setBanner(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();
@@ -75,8 +75,8 @@ public class ThemeTest {
 
     @Test
     public void canGetThemeByName() throws Exception {
-        LabsThemeManager tm = site.getThemeManager();
-        LabsTheme theme = tm.getTheme();
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
         theme.setBanner(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();

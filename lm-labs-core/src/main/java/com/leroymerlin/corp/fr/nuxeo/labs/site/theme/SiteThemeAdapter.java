@@ -8,11 +8,11 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
-public class LabsThemeAdapter implements LabsTheme {
+public class SiteThemeAdapter implements SiteTheme {
 
     private final DocumentModel doc;
 
-    public LabsThemeAdapter(DocumentModel doc) {
+    public SiteThemeAdapter(DocumentModel doc) {
         this.doc = doc;
     }
 
@@ -27,12 +27,12 @@ public class LabsThemeAdapter implements LabsTheme {
 
     @Override
     public Blob getBanner() throws ClientException {
-        return (Blob) doc.getPropertyValue(Schemas.LABSTHEME.prefix() + ":banner");
+        return (Blob) doc.getPropertyValue(Schemas.SITETHEME.prefix() + ":banner");
     }
 
     @Override
     public void setBanner(Blob blob) throws ClientException {
-        doc.setPropertyValue(Schemas.LABSTHEME.prefix() + ":banner", (Serializable) blob);
+        doc.setPropertyValue(Schemas.SITETHEME.prefix() + ":banner", (Serializable) blob);
     }
 
 }

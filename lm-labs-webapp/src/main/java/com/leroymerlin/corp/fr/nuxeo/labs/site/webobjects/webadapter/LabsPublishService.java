@@ -20,7 +20,7 @@ import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsPublisher;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 /**
