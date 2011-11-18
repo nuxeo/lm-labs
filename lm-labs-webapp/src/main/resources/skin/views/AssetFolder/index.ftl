@@ -12,6 +12,7 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
         <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
 
 
 
@@ -23,6 +24,8 @@
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
     </head>
     <body>
+	<#-- timeout -->
+    <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
 
   <div id="FKtopContent">
     <div class="container-fluid">

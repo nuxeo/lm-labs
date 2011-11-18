@@ -43,10 +43,14 @@
           <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
           <script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
 
         </@block>
     </head>
     <body>
+	<#-- timeout -->
+    <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
+    
     <div id="FKtopContent">
     <#include "views/common/topbar.ftl" />
 

@@ -56,7 +56,8 @@ public class SitesRoot extends ModuleRoot {
 
     private static final Log log = LogFactory.getLog(SitesRoot.class);
 
-    private static final String[] MESSAGES_TYPE = new String[] { "error", "info", "success", "warning" };
+    private static final String[] MESSAGES_TYPE = new String[] { "error",
+            "info", "success", "warning" };
 
     /*
      * (non-Javadoc)
@@ -70,11 +71,13 @@ public class SitesRoot extends ModuleRoot {
         super.initialize(args);
         // Add global fm variables
         // WARNING : these are GLOBAL vars, try to avoid using this trick (DMR)
-        RenderingEngine rendering = getContext().getEngine()
-                .getRendering();
-        rendering.setSharedVariable("bytesFormat", new BytesFormatTemplateMethod());
-        rendering.setSharedVariable("latestUploadsPageProvider", new LatestUploadsPageProviderTemplateMethod());
-        rendering.setSharedVariable("userFullName", new UserFullNameTemplateMethod());
+        RenderingEngine rendering = getContext().getEngine().getRendering();
+        rendering.setSharedVariable("bytesFormat",
+                new BytesFormatTemplateMethod());
+        rendering.setSharedVariable("latestUploadsPageProvider",
+                new LatestUploadsPageProviderTemplateMethod());
+        rendering.setSharedVariable("userFullName",
+                new UserFullNameTemplateMethod());
         rendering.setSharedVariable("dateInWords", new DateInWordsMethod());
         rendering.setSharedVariable("site", null);
         rendering.setSharedVariable("Common", new CommonHelper());
@@ -89,22 +92,27 @@ public class SitesRoot extends ModuleRoot {
         }
         rendering.setSharedVariable("undeletedLabsSites", undeletedLabsSites);
         rendering.setSharedVariable("deletedLabsSites", deletedLabsSites);
+        rendering.setSharedVariable(
+                "serverTimeout",
+                String.valueOf(getContext().getRequest().getSession().getMaxInactiveInterval()));
     }
-    
-    private List<LabsSite> getLabsSitesUndeleted(List<LabsSite> pOrigin) throws ClientException{
+
+    private List<LabsSite> getLabsSitesUndeleted(List<LabsSite> pOrigin)
+            throws ClientException {
         List<LabsSite> result = new ArrayList<LabsSite>();
-        for(LabsSite labsSite:pOrigin){
-            if(!labsSite.isDeleted()){
+        for (LabsSite labsSite : pOrigin) {
+            if (!labsSite.isDeleted()) {
                 result.add(labsSite);
             }
         }
         return result;
     }
-    
-    private List<LabsSite> getLabsSitesDeleted(List<LabsSite> pOrigin) throws ClientException{
+
+    private List<LabsSite> getLabsSitesDeleted(List<LabsSite> pOrigin)
+            throws ClientException {
         List<LabsSite> result = new ArrayList<LabsSite>();
-        for(LabsSite labsSite:pOrigin){
-            if(labsSite.isDeleted()){
+        for (LabsSite labsSite : pOrigin) {
+            if (labsSite.isDeleted()) {
                 result.add(labsSite);
             }
         }
@@ -155,8 +163,7 @@ public class SitesRoot extends ModuleRoot {
         if (((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous()) {
             user = SecurityConstants.EVERYONE;
         } else {
-            user = getContext().getPrincipal()
-                    .getName();
+            user = getContext().getPrincipal().getName();
         }
         CoreSession coreSession = ctx.getCoreSession();
         List<LabsSite> newAllSites = new ArrayList<LabsSite>();
@@ -169,8 +176,10 @@ public class SitesRoot extends ModuleRoot {
     }
 
     @POST
-    public Response doPost(@FormParam("labsSiteTitle") String pTitle, @FormParam("labsSiteURL") String pURL,
-            @FormParam("labsSiteDescription") String pDescription, @FormParam("labssiteId") String pId) {
+    public Response doPost(@FormParam("labsSiteTitle") String pTitle,
+            @FormParam("labsSiteURL") String pURL,
+            @FormParam("labsSiteDescription") String pDescription,
+            @FormParam("labssiteId") String pId) {
         CoreSession session = ctx.getCoreSession();
 
         SiteManager sm = getSiteManager();
@@ -208,20 +217,15 @@ public class SitesRoot extends ModuleRoot {
         if (e instanceof WebResourceNotFoundException) {
             String fileName = "error/error_404.ftl";
             log.debug(fileName);
-            return Response.status(404)
-                    .entity(getTemplate(fileName))
-                    .build();
+            return Response.status(404).entity(getTemplate(fileName)).build();
         } else if (e instanceof WebSecurityException) {
-            return Response.status(401)
-                    .entity(getTemplate("error/error_401.ftl"))
-                    .type("text/html")
-                    .build();
+            return Response.status(401).entity(
+                    getTemplate("error/error_401.ftl")).type("text/html").build();
         } else {
 
-            return Response.status(500)
-                    .entity(getTemplate("error/labserror_500.ftl").arg("trace", getStackTrace(e)))
-                    .type("text/html")
-                    .build();
+            return Response.status(500).entity(
+                    getTemplate("error/labserror_500.ftl").arg("trace",
+                            getStackTrace(e))).type("text/html").build();
         }
     }
 
@@ -254,10 +258,8 @@ public class SitesRoot extends ModuleRoot {
     public String getLink(DocumentModel document) {
         SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
         try {
-            return new StringBuilder().append(getPath())
-                    .append("/")
-                    .append(siteDocument.getResourcePath())
-                    .toString();
+            return new StringBuilder().append(getPath()).append("/").append(
+                    siteDocument.getResourcePath()).toString();
         } catch (ClientException e) {
             return getPath();
         }
