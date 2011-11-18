@@ -42,7 +42,7 @@ public final class LabsSiteConstants {
         PAGEHTML("page_html", "html"),
         EXTERNALURL("external_url", "exturl"),
         LABSTEMPLATE("labstemplate", "labstemplate"),
-        LABSSITE("labsite", "labssite"),
+        LABSSITE("labssite", "labssite"),
         SITETHEME("sitetheme", "sitetheme");
 
         private String name;
