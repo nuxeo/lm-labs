@@ -23,4 +23,6 @@ public interface LabsBase {
     boolean isDeleted() throws ClientException;
     
     boolean isVisible() throws ClientException;
+    
+    boolean isAdministrator(String userName) throws ClientException;
 }

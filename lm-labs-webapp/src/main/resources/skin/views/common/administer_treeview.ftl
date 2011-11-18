@@ -30,6 +30,18 @@
 				showCloseHandle : true,
 			});
 			
+			function labsPublish(operation, url, node) {
+				alert("labsPublish " + operation + " " + "${Context.modulePath}/" + url);
+    			jQuery.ajax({
+					type: 'PUT',
+				    async: false,
+				    url: '${Context.modulePath}/' + url + '/@labspublish/' + operation,
+				    success: function(data) {
+				    	jQuery("#jstree").jstree("refresh");
+				    }
+				});
+			}
+			
 			function customMenu(node) {
 				<#-- ALL ITEM MENU -->
 				var items = {
@@ -60,7 +72,6 @@
 		            },
 					"ccp_tree" : {
 						"separator_before"	: true,
-						"icon"				: false,
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.edit')}",
 						"action"			: false,
@@ -90,9 +101,25 @@
 						"label"				: "${Context.getMessage('command.admin.rename')}",
 						"action"			: function (obj) { this.rename(obj); }
 					},
-					"remove" : {
+					"markasdeleted" : {
+						"separator_before"	: false,
+						"separator_after"	: false,
+						"label"				: "${Context.getMessage('command.admin.markAsDeleted')}",
+						"action"			: function (nodes) {
+							labsPublish("delete", this._get_node(nodes[0]).data("url"), this._get_node(nodes[0]));
+						}
+					},
+					"undelete" : {
 						"separator_before"	: false,
 						"icon"				: false,
+						"separator_after"	: false,
+						"label"				: "${Context.getMessage('command.admin.undelete')}",
+						"action"			: function (nodes) {
+							labsPublish("undelete", this._get_node(nodes[0]).data("url"), this._get_node(nodes[0]));
+						}
+					},
+					"remove" : {
+						"separator_before"	: false,
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.delete')}",
 						"action"			: function (obj) {
@@ -118,14 +145,12 @@
 							},
 							"copy" : {
 								"separator_before"	: false,
-								"icon"				: false,
 								"separator_after"	: false,
 								"label"				: "${Context.getMessage('command.admin.copy')}",
 								"action"			: function (obj) { this.copy(obj); }
 							},
 							"paste" : {
 								"separator_before"	: false,
-								"icon"				: false,
 								"separator_after"	: false,
 								"label"				: "${Context.getMessage('command.admin.paste')}",
 								"action"			: function (obj) { this.paste(obj); }
@@ -140,11 +165,15 @@
 					delete items.rename;
 					delete items.remove;
 					delete items.ccp;
+					delete items..markasdeleted;
+					delete items.undelete;
 					<#if adminTreeviewType=="Pages">
 						delete items.create;
 					</#if>
 				} else if(jQuery(node).attr('rel') == 'Folder') {
 					delete items.ccp_tree;
+					delete items..markasdeleted;
+					delete items.undelete;
 					<#if adminTreeviewType=="Assets">
 						delete items.goto;
 					</#if>
@@ -152,7 +181,18 @@
 					delete items.ccp_tree;
 					delete items.create;
 					<#if adminTreeviewType=="Assets">
+						delete items..markasdeleted;
+						delete items.undelete;
 						delete items.goto;
+					<#else>
+						if(jQuery(node).data('lifecyclestate') == 'undefined') {
+							delete items.markasdeleted;
+							delete items.undelete;
+						} else if(jQuery(node).data('lifecyclestate') == 'deleted') {
+							delete items.markasdeleted;
+						} else {
+							delete items.undelete;
+						}
 					</#if>
 				}
 				return items;

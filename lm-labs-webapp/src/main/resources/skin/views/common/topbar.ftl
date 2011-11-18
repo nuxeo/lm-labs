@@ -128,7 +128,7 @@ function subscribePage(subscribe) {
                 		function deleteSite(){
                 			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
 	                			jQuery.ajax({
-									type: 'DELETE',
+									type: 'PUT',
 								    async: false,
 								    url: '${Context.modulePath}/${site.URL}/@labspublish/delete',
 								    success: function(data) {

@@ -30,7 +30,9 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.portal.usermanager.LMNuxeoPrincipal;
 
 @WebObject(type = "LabsPage")
@@ -68,7 +70,10 @@ public class PageResource extends DocumentObject {
      */
     private void authorize(String userName, DocumentModel document) {
         try {
-            if(!LabsSiteConstants.Docs.LABSNEWS.type().equals(document.getType())){
+            if (CommonHelper.siteDoc(doc).getSite().isAdministrator(ctx.getPrincipal().getName())) {
+                return;
+            }
+            if(!Docs.LABSNEWS.type().equals(document.getType())){
                 boolean authorized = labsBaseAdapter.isAuthorizedToDisplay(
                         userName,((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous());
                 authorized = authorized && !labsBaseAdapter.isDeleted();

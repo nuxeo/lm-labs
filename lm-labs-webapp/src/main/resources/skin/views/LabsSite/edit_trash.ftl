@@ -85,7 +85,7 @@
 		function undeletePage(ref){
 			if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouUndelete')}")){
     			jQuery.ajax({
-					type: 'GET',
+					type: 'PUT',
 				    async: false,
 				    url: '${This.path}/@labspublish/undelete/' + ref,
 				    success: function(data) {

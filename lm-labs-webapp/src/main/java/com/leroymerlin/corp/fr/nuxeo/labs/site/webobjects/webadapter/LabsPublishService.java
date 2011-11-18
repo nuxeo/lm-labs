@@ -78,7 +78,7 @@ public class LabsPublishService extends DefaultAdapter {
         return Response.ok(NOT_DRAFT).build();
     }
     
-    @DELETE
+    @PUT
     @Path("delete")
     public Object doDelete() {
         DocumentModel document = getDocument();
@@ -94,7 +94,7 @@ public class LabsPublishService extends DefaultAdapter {
         return Response.ok(NOT_DELETED).build();
     }
     
-    @GET
+    @PUT
     @Path("undelete")
     public Object doUndelete() {
         DocumentModel document = getDocument();
@@ -110,7 +110,7 @@ public class LabsPublishService extends DefaultAdapter {
         return Response.ok(NOT_DELETED).build();
     }
     
-    @GET
+    @PUT
     @Path("undelete/{ref}")
     public Object doUndeleteRef(@PathParam("ref") final String ref) {
         try {

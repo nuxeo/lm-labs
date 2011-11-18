@@ -15,7 +15,7 @@ public class AdminSiteTree extends AbstractDocumentTree {
 
     @Override
     protected ContentProvider getProvider(WebContext ctx) {
-        return new SiteContentProvider(ctx.getCoreSession(), false);
+        return new AdminSiteContentProvider(ctx.getCoreSession());
     }
 
     @Override

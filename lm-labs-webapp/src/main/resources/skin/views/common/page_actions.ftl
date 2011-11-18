@@ -79,7 +79,7 @@
 		function deletePage(){
 			if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouDelete')}")){
     			jQuery.ajax({
-					type: 'DELETE',
+					type: 'PUT',
 				    async: false,
 				    url: '${This.path}/@labspublish/delete',
 				    success: function(data) {

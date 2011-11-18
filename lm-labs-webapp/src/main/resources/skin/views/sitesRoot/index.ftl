@@ -84,7 +84,7 @@
 				function undeleteSite(url){
         			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouUndelete')}")){
             			jQuery.ajax({
-							type: 'GET',
+							type: 'PUT',
 						    async: false,
 						    url: url,
 						    success: function(data) {
