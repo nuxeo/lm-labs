@@ -49,23 +49,23 @@ public class ThemeTest {
 
 
     @Test
-    public void canGetSiteTheme() throws Exception {
-        LabsThemeManager tm = site.getSiteThemeManager();
-        LabsTheme theme = tm.getTheme();
+    public void canGetTheme() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
         assertThat(theme,is(notNullValue()));
         assertThat(theme.getName(),is("default"));
     }
 
     @Test
     public void cantSetAndGetBannerFromTheme() throws Exception {
-        LabsThemeManager tm = site.getSiteThemeManager();
-        LabsTheme theme = tm.getTheme();
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
         theme.setBanner(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
-        tm = site.getSiteThemeManager();
+        tm = site.getThemeManager();
         theme = tm.getTheme();
         Blob blob = theme.getBanner();
         assertThat(blob,is(notNullValue()));
@@ -75,14 +75,14 @@ public class ThemeTest {
 
     @Test
     public void canGetThemeByName() throws Exception {
-        LabsThemeManager tm = site.getSiteThemeManager();
-        LabsTheme theme = tm.getTheme();
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
         theme.setBanner(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
-        tm = site.getSiteThemeManager();
+        tm = site.getThemeManager();
         theme = tm.getTheme("default");
 
         assertThat(theme,is(notNullValue()));

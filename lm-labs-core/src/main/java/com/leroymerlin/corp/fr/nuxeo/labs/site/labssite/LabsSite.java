@@ -12,7 +12,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsThemeManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
@@ -83,7 +83,7 @@ public interface LabsSite  extends LabsBase {
      * @return
      * @throws ClientException
      */
-    LabsThemeManager getSiteThemeManager() throws ClientException;
+    SiteThemeManager getThemeManager() throws ClientException;
 
     /**
      * Returns the base document for assets management

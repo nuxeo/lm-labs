@@ -42,7 +42,8 @@ public final class LabsSiteConstants {
         PAGEHTML("page_html", "html"),
         EXTERNALURL("external_url", "exturl"),
         LABSTEMPLATE("labstemplate", "labstemplate"),
-        LABSTHEME("labstheme", "labstheme");
+        LABSSITE("labsite", "labssite"),
+        SITETHEME("sitetheme", "sitetheme");
 
         private String name;
         private String prefix;
@@ -82,7 +83,7 @@ public final class LabsSiteConstants {
         HTMLPAGE("HtmlPage",StringUtils.EMPTY),
         DASHBOARD("Space",StringUtils.EMPTY),
         NOTIFACTIVITIES("NotificationActivities", "notifActivities"),
-        LABSTHEME("LabsTheme",StringUtils.EMPTY),
+        SITETHEME("SiteTheme",StringUtils.EMPTY),
         WELCOME(PAGEBLOCS.type(), "welcome"); // TODO
 
         private String docType;

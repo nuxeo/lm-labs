@@ -7,7 +7,7 @@ import org.nuxeo.ecm.core.test.annotations.RepositoryInit;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 
 public class OfmRepositoryInit implements RepositoryInit {

@@ -18,8 +18,8 @@ import org.nuxeo.ecm.core.query.sql.NXQL;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsThemeManager;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.LabsThemeManagerImpl;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManagerImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
@@ -170,8 +170,8 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public LabsThemeManager getSiteThemeManager() throws ClientException {
-        return new LabsThemeManagerImpl(doc);
+    public SiteThemeManager getThemeManager() throws ClientException {
+        return new SiteThemeManagerImpl(doc);
     }
 
     @Override
