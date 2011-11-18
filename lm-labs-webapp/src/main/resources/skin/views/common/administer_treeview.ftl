@@ -96,16 +96,10 @@
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.delete')}",
 						"action"			: function (obj) {
-							<#if adminTreeviewType=="Assets">
-								if (confirm("${Context.getMessage('label.admin.asset.deleteConfirm')}")) {
-							<#else>
-								if (confirm("${Context.getMessage('label.admin.page.deleteConfirm')}")) {
-							</#if>
-								if(this.is_selected(obj)) {
-									this.remove();
-								} else {
-									this.remove(obj);
-								}
+							if(this.is_selected(obj)) {
+								this.remove();
+							} else {
+								this.remove(obj);
 							}
 						}
 					},
@@ -273,7 +267,11 @@
 				});
 			})
 			.bind("remove.jstree", function (e, data) {
+			<#if adminTreeviewType=="Assets">
+				if (confirm("${Context.getMessage('label.admin.asset.deleteConfirm')}")) {
+			<#else>
 				if (confirm("${Context.getMessage('label.admin.page.deleteConfirm')}")) {
+			</#if>
 					data.rslt.obj.each(function () {
 						if (jQuery(this).attr('rel') != 'Tree') {
 							rel = $(data.rslt.obj).attr("rel");
