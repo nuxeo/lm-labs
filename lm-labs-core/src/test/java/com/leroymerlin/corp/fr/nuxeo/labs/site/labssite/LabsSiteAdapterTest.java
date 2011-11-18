@@ -2,9 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 
@@ -55,6 +53,15 @@ public class LabsSiteAdapterTest {
         assertThat(doc, is(notNullValue()));
         assertThat(doc.getTitle(), is("le titre"));
 
+    }
+
+    @Test
+    public void testIsAdministrator() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
+        doc = session.createDocument(doc);
+        LabsSite labssite = doc.getAdapter(LabsSite.class);
+        assertTrue(labssite.isAdministrator("Administrator"));
+        assertFalse(labssite.isAdministrator("CGM"));
     }
 
     @Test
