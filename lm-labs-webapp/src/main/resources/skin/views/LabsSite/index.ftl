@@ -33,7 +33,7 @@
 
           <#list Session.getChildren(site.tree.ref) as root>
             <#if root.name != "welcome" && This.isAuthorizedToDisplay(Context.principal.name, Context.principal.anonymous, root)>
-	            <div id="bloc${root_index}" class="bloc welcome span6 column">
+	            <div id="bloc${root_index}" class="bloc welcome span5 column">
 	              <div class="header">
 	                <a href="${This.path}/${root.name}">${root.title}</a>
 	              </div>
