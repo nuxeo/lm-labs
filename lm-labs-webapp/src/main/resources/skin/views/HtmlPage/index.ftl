@@ -22,6 +22,7 @@
   </@block>
 
   <@block name="content">
+		<#include "views/common/topnavigation_area.ftl" />
        <div class="container">
 
     <h1>${page.title}</h1>

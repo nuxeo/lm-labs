@@ -29,6 +29,7 @@
 	</@block>
 	
 	<@block name="content">	
+		<#include "views/common/topnavigation_area.ftl" />
 		<div id="content" class="container">
 			<#if isAuthorized>
 				<div id="divActionManageList">
