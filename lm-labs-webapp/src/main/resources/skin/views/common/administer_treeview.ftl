@@ -432,7 +432,11 @@
 					<p>
 					${Context.getMessage(i18nPfx + 'intro')}<br/>
 					<#list ["drag", "ctrldrag", "f2", "leftclick", "rightclick"] as fn>
-						<strong>${Context.getMessage(i18nPfx + 'functions.' + fn)}</strong> ${Context.getMessage(i18nPfx + 'functions.' + fn + '.text')}<br/>
+						<#if adminTreeviewType=="Assets">
+							<strong>${Context.getMessage(i18nPfx + 'functions.' + fn + '.asset')}</strong> ${Context.getMessage(i18nPfx + 'functions.' + fn + '.text' + '.asset')}<br/>
+						<#else>
+							<strong>${Context.getMessage(i18nPfx + 'functions.' + fn)}</strong> ${Context.getMessage(i18nPfx + 'functions.' + fn + '.text')}<br/>
+						</#if>
 					</#list>
 					</p>
 				</div>
