@@ -1,19 +1,34 @@
-<#function isCurrentPage url>
-	<#assign longUrl = Context.modulePath + "/" + url />
-	<#if This.path == longUrl>
+<#function isCurrentPage id>
+	<#if id == Document.id >
 		<#return true>
 	</#if>
+	<#assign ancestors = Session.getParentDocuments(Document.ref) />
+	<#list ancestors?reverse as page>
+		<#if page.type == "Tree">
+			<#break>
+		</#if>
+		<#if id == page.id >
+			<#return true>
+		</#if>
+	</#list>
 	<#return false>
 </#function>
 
 <div id="topPagesNavigation" >
 	<ul class="tabs">
-		<li class="<#if isCurrentPage(site.URL) >active</#if>" ><a href="${site.URL}">Accueil</a></li>
 		<#list Common.siteDoc(site.tree).getChildrenPages() as child >
+			<#assign url = Context.modulePath + "/" + Common.siteDoc(child).resourcePath />
+			<#assign isActiveTab = isCurrentPage(child.id) />
 			<#if site.indexDocument.id != child.id >
-				<#assign childUrl = Common.siteDoc(child).resourcePath >
-			<li class="<#if isCurrentPage(childUrl) >active</#if>"><a href="${childUrl}">${child.title}</a></li>
+				<#assign title = child.title />
+			<#else>
+				<#assign url = Context.modulePath + "/" + site.URL />
+				<#assign title = Context.getMessage('label.homePage') />
+				<#if This.path == url>
+					<#assign isActiveTab = true />
+				</#if>
 			</#if>
+			<li class="<#if isActiveTab >active</#if>"><a href="${url}">${title}</a></li>
 		</#list>
 	</ul>
 </div>
