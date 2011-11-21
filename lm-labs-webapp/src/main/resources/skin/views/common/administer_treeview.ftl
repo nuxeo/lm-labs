@@ -173,14 +173,14 @@
 					delete items.rename;
 					delete items.remove;
 					delete items.ccp;
-					delete items..markasdeleted;
+					delete items.markasdeleted;
 					delete items.undelete;
 					<#if adminTreeviewType=="Pages">
 						delete items.create;
 					</#if>
 				} else if(jQuery(node).attr('rel') == 'Folder') {
 					delete items.ccp_tree;
-					delete items..markasdeleted;
+					delete items.markasdeleted;
 					delete items.undelete;
 					<#if adminTreeviewType=="Assets">
 						delete items.goto;
@@ -189,7 +189,7 @@
 					delete items.ccp_tree;
 					delete items.create;
 					<#if adminTreeviewType=="Assets">
-						delete items..markasdeleted;
+						delete items.markasdeleted;
 						delete items.undelete;
 						delete items.goto;
 					<#else>
