@@ -7,6 +7,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.event.DocumentEventTypes;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
@@ -45,17 +46,13 @@ public class SiteCreationEventListener implements EventListener {
                     doc.getPathAsString(), LabsSiteConstants.Docs.ASSETS.docName(),
                     LabsSiteConstants.Docs.ASSETS.type());
             LOG.debug("Creating welcome page ...");
-            DocumentModel welcome = session.createDocumentModel(
-                    doc.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName(),
-                    LabsSiteConstants.Docs.WELCOME.docName(), LabsSiteConstants.Docs.WELCOME.type());
             
             tree.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.TREE.docName()));
             assets.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.ASSETS.docName()));
-            welcome.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.WELCOME.docName()));
             
             session.createDocument(tree);
             session.createDocument(assets);
-            welcome = session.createDocument(welcome);
+            createWelcomePage(doc, session);
             /* TODO
             if (Docs.DASHBOARD.type().equals(welcome.getType())) {
                 Space space = welcome.getAdapter(Space.class);
@@ -66,6 +63,20 @@ public class SiteCreationEventListener implements EventListener {
             }
             */
         }
+    }
+
+    /**
+     * @param doc
+     * @param session
+     * @throws ClientException
+     * @throws PropertyException
+     */
+    private void createWelcomePage(DocumentModel doc, CoreSession session) throws ClientException, PropertyException {
+        DocumentModel welcome = session.createDocumentModel(
+                doc.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName(),
+                LabsSiteConstants.Docs.WELCOME.docName(), LabsSiteConstants.Docs.WELCOME.type());
+        welcome.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.WELCOME.docName()));
+        welcome = session.createDocument(welcome);
     }
 
 }

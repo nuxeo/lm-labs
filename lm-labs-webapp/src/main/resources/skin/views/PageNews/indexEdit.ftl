@@ -1,4 +1,4 @@
-<@extends src="/views/labs-base.ftl">
+<@extends src="/views/templates/" + This.page.template.templateName + ".ftl">
   <#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
 
   <@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>

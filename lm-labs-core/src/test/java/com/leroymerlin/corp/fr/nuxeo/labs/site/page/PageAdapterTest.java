@@ -148,4 +148,11 @@ public class PageAdapterTest {
         assertTrue(page.isCommentable());
     }
 
+//    @Test
+//    public void iCanGetDefaultTheme() throws Exception {
+//        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+//        Page page = doc.getAdapter(Page.class);
+//        assertFalse(page.getTheme().equals("default"));
+//    }
+
 }

@@ -10,7 +10,10 @@ import org.nuxeo.ecm.core.schema.SchemaManager;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 public abstract class AbstractLabsBase  implements LabsBase{
@@ -89,6 +92,24 @@ public abstract class AbstractLabsBase  implements LabsBase{
     @Override
     public boolean isVisible() throws ClientException {
         return doc.getAdapter(LabsPublisher.class).isVisible();
+    }
+
+    @Override
+    public LabsTemplate getTemplate() throws ClientException {
+        //le type site a le schema labstemplate
+        if (doc.hasSchema(Schemas.LABSTEMPLATE.getName())){
+            return doc.getAdapter(LabsTemplate.class);
+        }
+        else{
+            return doc.getAdapter(SiteDocument.class).getSite().getTemplate();
+        }
+    }
+
+    @Override
+    public void addFacetTemplate() {
+        if (!doc.hasSchema(Schemas.LABSTEMPLATE.getName())){
+            doc.addFacet(FacetNames.LABSTEMPLATE);
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-<@extends src="/views/labs-base.ftl">
+<@extends src="/views/templates/" + This.page.template.templateName + ".ftl">
 
   <@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>
   <@block name="docactions">
@@ -13,6 +13,8 @@
         <div class="bloc">
           <div class="header">
             ${Document.dublincore.description}
+            <br>toto
+            ${"/views/templates/" + This.page.template.templateName + ".ftl"}
           </div>
             <ul class="unstyled">
               <#list Session.getChildren(This.document.ref) as child>

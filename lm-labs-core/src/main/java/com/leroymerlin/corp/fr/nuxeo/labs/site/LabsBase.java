@@ -4,6 +4,8 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
+
 public interface LabsBase {
 
     public void setTitle(String title) throws PropertyException, ClientException, IllegalArgumentException;
@@ -23,6 +25,10 @@ public interface LabsBase {
     boolean isDeleted() throws ClientException;
     
     boolean isVisible() throws ClientException;
+
+    LabsTemplate getTemplate() throws ClientException;
+
+    void addFacetTemplate();
     
     boolean isAdministrator(String userName) throws ClientException;
 }

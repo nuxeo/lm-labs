@@ -1,4 +1,4 @@
-<@extends src="/views/labs-base.ftl">
+<@extends src="/views/templates/labs-base.ftl">
 
 <@block name="scripts">
     <@superBlock/>

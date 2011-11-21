@@ -29,10 +29,6 @@
       <schema name="page" />
     </facet>
     
-    <facet name="SiteTheme" >
-      <schema name="sitetheme" />
-    </facet>
-    
     <facet name="LabsTemplate" >
       <schema name="labstemplate" />
     </facet>
@@ -52,6 +48,7 @@
       <schema name="webcontainer" />
       <schema name="labssite" />
       <schema name="page" />
+      <schema name="labstemplate" />
       <subtypes>
         <type>Tree</type>
         <type>Assets</type>

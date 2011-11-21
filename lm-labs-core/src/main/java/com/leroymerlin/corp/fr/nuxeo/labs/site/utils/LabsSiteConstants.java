@@ -169,22 +169,23 @@ public final class LabsSiteConstants {
     }
     
     public enum Template {
-        TEMPLATE1("Modèle Suplain Chain", "templateSuplainChain");
+        DEFAULT("template.name.default", "labs-base"),
+        TEMPLATE1("template.name.supplychain", "supplyChain");
 
-        private String name;
+        private String i18n;
         private String template;
 
         private static final Map<String, Template> stringToEnum = new HashMap<String, Template>();
         static {
             for (Template op : values())
-                stringToEnum.put(op.getName(), op);
+                stringToEnum.put(op.getI18n(), op);
         }
 
         public static Template fromString(String symbol) {
             return stringToEnum.get(symbol);
         }
-        private Template(String name, String template) {
-            this.name = name;
+        private Template(String i18n, String template) {
+            this.i18n = i18n;
             this.template = template;
         }
 
@@ -192,15 +193,15 @@ public final class LabsSiteConstants {
             return template;
         }
 
-       public String getName() {
-            return name;
+       public String getI18n() {
+            return i18n;
         }
 
     }
     
     public enum Theme {
-        DEFAULT("Thème Suplain Chain", "themeSuplainChain"),
-        THEME1("Thème Suplain Chain", "themeSuplainChain");
+        DEFAULT("theme.name.default", "labs-base"),
+        THEME1("theme.name.supplychain", "supplyChain");
 
         private String name;
         private String css;

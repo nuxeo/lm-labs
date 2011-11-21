@@ -1,5 +1,5 @@
 <h1>${Context.getMessage('label.parameters.page.title')}</h1>
-<div id="divEditParametersPageForm" class="container-fluid">
+<div id="divEditParametersPageForm">
 	<form id="form_editParameters" action="${This.path}/@commentable" method="post">
 		<div class="clearfix">
 			<div class="input">
