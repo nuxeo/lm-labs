@@ -9,6 +9,7 @@ import java.util.List;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -96,5 +97,11 @@ public interface LabsSite  extends LabsBase {
     void setHomePageRef(String homePageRef) throws ClientException;
 
     String getHomePageRef() throws ClientException;
+    
+    /**
+     * @return
+     * @throws ClientException
+     */
+    DocumentModelList getLastUpdatedDocs() throws ClientException;
 
 }

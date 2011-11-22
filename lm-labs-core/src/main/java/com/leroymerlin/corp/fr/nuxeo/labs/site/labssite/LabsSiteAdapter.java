@@ -25,9 +25,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
 /**
  * @author fvandaele
- *
+ * 
  */
 public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
+
+    public static final int NB_LAST_UPDATED_DOCS = 20;
 
     private static final String HOME_PAGE_REF = "labssite:homePageRef";
 
@@ -95,16 +97,19 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     // TODO unit tests
     @Override
-    public Collection<DocumentModel> getPages(Docs docType, State lifecycleState) throws ClientException {
+    public Collection<DocumentModel> getPages(Docs docType, State lifecycleState)
+            throws ClientException {
         String docTypeStr = Docs.PAGE.type() + ", " + Docs.DASHBOARD.type();
         if (docType != null) {
             docTypeStr = Docs.PAGE.type();
         }
         StringBuilder query = new StringBuilder();
-        query.append("SELECT * FROM ").append(docTypeStr).append(" WHERE ")
-            .append(NXQL.ECM_PATH).append(" STARTSWITH ").append("'").append(doc.getPathAsString()).append("'");
+        query.append("SELECT * FROM ").append(docTypeStr).append(" WHERE ").append(
+                NXQL.ECM_PATH).append(" STARTSWITH ").append("'").append(
+                doc.getPathAsString()).append("'");
         if (lifecycleState != null) {
-            query.append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(lifecycleState.getState()).append("'");
+            query.append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(
+                    lifecycleState.getState()).append("'");
         } else {
             query.append(NXQL.ECM_LIFECYCLESTATE).append(" <> 'deleted'");
         }
@@ -146,15 +151,13 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         if (!(obj instanceof LabsSite)) {
             return false;
         }
-        return getDocument().getId()
-                .equals(((LabsSite) obj).getDocument()
-                        .getId());
+        return getDocument().getId().equals(
+                ((LabsSite) obj).getDocument().getId());
     }
 
     @Override
     public int hashCode() {
-        return getDocument().getId()
-                .hashCode();
+        return getDocument().getId().hashCode();
     }
 
     @Override
@@ -198,6 +201,19 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     @Override
     public String getHomePageRef() throws ClientException {
         return (String) doc.getPropertyValue(HOME_PAGE_REF);
+    }
+
+    @Override
+    public DocumentModelList getLastUpdatedDocs() throws ClientException {
+        StringBuilder query = new StringBuilder("SELECT * FROM Document");
+        query.append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(
+                doc.getPathAsString()).append("'");
+        query.append(" AND ecm:isCheckedInVersion = 0");
+        query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
+        query.append(" ORDER BY dc:modified DESC");
+
+        return getCoreSession().query(query.toString(),
+                NB_LAST_UPDATED_DOCS);
     }
 
 }
