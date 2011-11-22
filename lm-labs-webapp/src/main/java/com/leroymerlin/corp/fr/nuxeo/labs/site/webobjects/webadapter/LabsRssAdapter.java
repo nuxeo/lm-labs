@@ -40,8 +40,8 @@ public class LabsRssAdapter extends DefaultAdapter {
     @Produces("application/rss+xml")
     public StreamingOutput getFeed() {
         LabsSite site = (LabsSite) getContext().getProperty("site");
-        String rssTitle = ctx.getMessage("label.recent_message.title");
-        String rssDesc = ctx.getMessage("label.recent_message.desc");
+        String rssTitle = ctx.getMessage("label.last_message.rss.title");
+        String rssDesc = ctx.getMessage("label.last_message.rss.desc");
         String basePath = ""; // FIXME when IHM is OK
         try {
             DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs();
