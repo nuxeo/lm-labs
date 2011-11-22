@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -18,6 +19,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.rest.DocumentHelper;
 import org.nuxeo.ecm.core.rest.DocumentObject;
+import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.ResourceType;
@@ -28,6 +30,7 @@ import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
@@ -225,6 +228,22 @@ public class PageResource extends DocumentObject {
         return redirect(getPath() + '/' + pathSegment);
 
     }
+    
+    @PUT
+    @Path("@setHome")
+    public Response setAsHomePage() {
+        LabsSite site;
+        try {
+            site = doc.getAdapter(SiteDocument.class).getSite();
+            if (site.isAdministrator(ctx.getPrincipal().getName())) {
+                site.setHomePageRef(doc.getId());
+                doc.getCoreSession().saveDocument(site.getDocument());
+            }
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        return Response.noContent().build();
+    }
 
     /**
      * Returns a Map containing all "flash" messages
@@ -250,4 +269,5 @@ public class PageResource extends DocumentObject {
         // TODO Auto-generated method stub
         return super.initialize(ctx, type, args);
     }
+
 }

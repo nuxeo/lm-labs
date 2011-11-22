@@ -20,19 +20,11 @@
 		<#assign topPages = Common.getTopNavigationPages(site.tree, Context.principal.name) />
 		<#if topPages?size &gt; 0 >
 			<#list topPages as child >
-					<#assign pageDoc = child.document />
-					<#assign url = Context.modulePath + "/" + Common.siteDoc(pageDoc).resourcePath />
-					<#assign isActiveTab = isCurrentPage(pageDoc.id) />
-					<#if site.indexDocument.id != pageDoc.id >
-						<#assign title = pageDoc.title />
-					<#else>
-						<#assign url = Context.modulePath + "/" + site.URL />
-						<#assign title = Context.getMessage('label.homePage') />
-						<#if This.path == url>
-							<#assign isActiveTab = true />
-						</#if>
-					</#if>
-					<li class="<#if isActiveTab >active</#if>"><a href="${url}">${title}<@pageStatusLabel child /></a></li>
+				<#assign pageDoc = child.document />
+				<#assign url = Context.modulePath + "/" + Common.siteDoc(pageDoc).resourcePath />
+				<#assign isActiveTab = isCurrentPage(pageDoc.id) />
+				<#assign title = pageDoc.title />
+				<li class="<#if isActiveTab >active</#if>"><a href="${url}">${title}<@pageStatusLabel child /></a></li>
 			</#list>
 		<#else>
 			<#assign url = Context.modulePath + "/" + site.URL />

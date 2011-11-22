@@ -46,12 +46,16 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
         try {
             SiteDocument siteAdapter = doc.getAdapter(SiteDocument.class);
             if (siteAdapter != null) {
-                DocumentModel tree = siteAdapter.getSite().getTree();
+                LabsSite site = siteAdapter.getSite();
+                DocumentModel tree = site.getTree();
                 if (doc.getAdapter(Page.class) == null || (Docs.WELCOME.docName().equals(doc.getName())
                         && doc.getCoreSession().getParentDocumentRef(doc.getRef()).equals(tree.getRef()))) {
                     metadata.put("url", siteAdapter.getSite().getURL());
                 } else {
                     metadata.put("url", siteAdapter.getResourcePath());
+                }
+                if (site.getHomePageRef().equals(doc.getId())) {
+                    metadata.put("ishomepage", "true");
                 }
             }
         } catch (ClientException e) {

@@ -11,6 +11,8 @@ import org.nuxeo.ecm.core.event.Event;
 import org.nuxeo.ecm.core.event.EventListener;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 public class SiteCreationEventListener implements EventListener {
@@ -56,6 +58,8 @@ public class SiteCreationEventListener implements EventListener {
             session.createDocument(tree);
             session.createDocument(assets);
             welcome = session.createDocument(welcome);
+            LabsSite site = doc.getAdapter(LabsSite.class);
+            site.setHomePageRef(welcome.getAdapter(Page.class).getDocument().getId());
             /* TODO
             if (Docs.DASHBOARD.type().equals(welcome.getType())) {
                 Space space = welcome.getAdapter(Space.class);
