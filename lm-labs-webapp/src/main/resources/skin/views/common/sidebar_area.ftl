@@ -1,3 +1,5 @@
+    <#-- LAST MESSAGE AREA --> 
+    <#include "views/common/last_message_area.ftl" />
     <#-- SITEMAP AREA --> 
     <#include "views/common/sitemap_area.ftl" />
     <#-- EXTERNAL URL AREA --> 
