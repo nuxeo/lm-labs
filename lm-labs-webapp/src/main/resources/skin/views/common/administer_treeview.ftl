@@ -31,11 +31,21 @@
 			});
 			
 			function labsPublish(operation, url, node) {
-				alert("labsPublish " + operation + " " + "${Context.modulePath}/" + url);
     			jQuery.ajax({
 					type: 'PUT',
 				    async: false,
 				    url: '${Context.modulePath}/' + url + '/@labspublish/' + operation,
+				    success: function(data) {
+				    	jQuery("#jstree").jstree("refresh");
+				    }
+				});
+			}
+			
+			function setAsHome(url, node) {
+    			jQuery.ajax({
+					type: 'PUT',
+				    async: false,
+				    url: '${Context.modulePath}/' + url + '/@setHome',
 				    success: function(data) {
 				    	jQuery("#jstree").jstree("refresh");
 				    }
@@ -104,6 +114,15 @@
 		                "icon"              : "/nuxeo/icons/rename.png",
 						"label"				: "${Context.getMessage('command.admin.rename')}",
 						"action"			: function (obj) { this.rename(obj); }
+					},
+					"home" : {
+						"separator_before"	: false,
+						"separator_after"	: false,
+		                "icon"              : false,
+						"label"				: "${Context.getMessage('command.admin.setAsHomePage')}",
+						"action"			: function (nodes) {
+							setAsHome(this._get_node(nodes[0]).data("url"), this._get_node(nodes[0]));
+						}
 					},
 					"markasdeleted" : {
 						"separator_before"	: false,
@@ -175,6 +194,7 @@
 					delete items.ccp;
 					delete items.markasdeleted;
 					delete items.undelete;
+					delete items.home;
 					<#if adminTreeviewType=="Pages">
 						delete items.create;
 					</#if>
@@ -182,6 +202,7 @@
 					delete items.ccp_tree;
 					delete items.markasdeleted;
 					delete items.undelete;
+					delete items.home;
 					<#if adminTreeviewType=="Assets">
 						delete items.goto;
 					</#if>
@@ -192,14 +213,20 @@
 						delete items.markasdeleted;
 						delete items.undelete;
 						delete items.goto;
+						delete items.home;
 					<#else>
 						if(jQuery(node).data('lifecyclestate') == 'undefined') {
 							delete items.markasdeleted;
 							delete items.undelete;
+							delete items.home;
 						} else if(jQuery(node).data('lifecyclestate') == 'deleted') {
 							delete items.markasdeleted;
+							delete items.home;
 						} else {
 							delete items.undelete;
+						}
+						if(jQuery(node).data('ishomepage') == 'true') {
+							delete items.home;
 						}
 					</#if>
 				}
@@ -221,6 +248,9 @@
 				"core": {
 					"html_titles" : true,
 					"strings": { loading : "${Context.getMessage('label.admin.loading')} ..." }
+					<#if adminTreeviewType == "Pages">
+					, "initially_open" : "${Common.siteDoc(Document).site.indexDocument.id}"
+					</#if>
 				},
 				"plugins" : [ "json_data", "themes", "ui", "types"
 				<#if canManage >

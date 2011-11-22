@@ -81,20 +81,27 @@ public class SitesRoot extends ModuleRoot {
         rendering.setSharedVariable("dateInWords", new DateInWordsMethod());
         rendering.setSharedVariable("site", null);
         rendering.setSharedVariable("Common", new CommonHelper());
-        List<LabsSite> undeletedLabsSites = new ArrayList<LabsSite>();
-        List<LabsSite> deletedLabsSites = new ArrayList<LabsSite>();
-        try {
-            List<LabsSite> labsSites = getLabsSites();
-            undeletedLabsSites = getLabsSitesUndeleted(labsSites);
-            deletedLabsSites = getLabsSitesDeleted(labsSites);
-        } catch (ClientException e) {
-            log.error("Impossible to get the sites!", e);
-        }
-        rendering.setSharedVariable("undeletedLabsSites", undeletedLabsSites);
-        rendering.setSharedVariable("deletedLabsSites", deletedLabsSites);
         rendering.setSharedVariable(
                 "serverTimeout",
                 String.valueOf(getContext().getRequest().getSession().getMaxInactiveInterval()));
+    }
+    
+    public List<LabsSite> getUndeletedLabsSites() {
+        try {
+            return getLabsSitesUndeleted(getLabsSites());
+        } catch (ClientException e) {
+            log.error("Impossible to get the sites!", e);
+            return new ArrayList<LabsSite>();
+        }
+    }
+
+    public List<LabsSite> getDeletedLabsSites() {
+        try {
+            return getLabsSitesDeleted(getLabsSites());
+        } catch (ClientException e) {
+            log.error("Impossible to get the sites!", e);
+            return new ArrayList<LabsSite>();
+        }
     }
 
     private List<LabsSite> getLabsSitesUndeleted(List<LabsSite> pOrigin)

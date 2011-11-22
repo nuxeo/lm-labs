@@ -1,8 +1,11 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
@@ -37,5 +40,27 @@ public final class CommonHelper {
             list.add(doc.type());
         }
         return list;
+    }
+    
+    public static final List<Page> getTopNavigationPages(DocumentModel siteDoc, String userName) throws ClientException {
+        List<Page> pages = new ArrayList<Page>();
+        LabsSite site = siteDoc(siteDoc).getSite();
+        Collection<Page> allTopPages = siteDoc(site.getTree()).getChildrenPages();
+        if (!site.isAdministrator(userName)) {
+            pages.addAll(CollectionUtils.select(allTopPages, new Predicate() {
+                @Override
+                public boolean evaluate(Object input) {
+                    Page page = (Page) input;
+                    try {
+                        return (page.isVisible() && !page.isDeleted());
+                    } catch (ClientException e) {
+                        return false;
+                    }
+                }}));
+        } else {
+            pages.addAll(allTopPages);
+        }
+        return pages;
+        
     }
 }

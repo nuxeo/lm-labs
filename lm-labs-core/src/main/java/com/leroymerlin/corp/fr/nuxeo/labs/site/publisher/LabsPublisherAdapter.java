@@ -43,4 +43,9 @@ public class LabsPublisherAdapter implements LabsPublisher {
         return LabsSiteConstants.State.DELETE.getState().equals(doc.getCurrentLifeCycleState());
     }
 
+    @Override
+    public boolean isDraft() throws ClientException {
+        return LabsSiteConstants.State.DRAFT.getState().equals(doc.getCurrentLifeCycleState());
+    }
+
 }

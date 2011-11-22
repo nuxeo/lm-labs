@@ -12,6 +12,13 @@
 	<div id="divEditParametersPage" style="display: none;">
 		<#include "views/common/page_parameters.ftl" />
 	</div>
+	<li>
+		<#if Common.siteDoc(Document).site.indexDocument.id == page.document.id>
+		<span>${Context.getMessage('label.docactions.homePage')}</span>
+		<#else>
+		<a href="#" onclick="javascript:setAsHomePage();" >${Context.getMessage('command.docactions.homePage')}</a>
+		</#if>
+	</li>
 	<script type="text/javascript">
 		jQuery(document).ready(function() {
 			jQuery("#divEditParametersPage").dialog2({
@@ -23,6 +30,17 @@
 		});
 		
 		var divEditParametersPageForm;
+		
+		function setAsHomePage() {
+			jQuery.ajax({
+				type: 'PUT',
+			    async: false,
+			    url: '${This.path}/@setHome',
+			    success: function(data) {
+			    	document.location.href = '${This.path}';
+			    }
+			});
+		}
 		
 		function openParametersPage(){
 			jQuery("#divEditParametersPage").dialog2('open');

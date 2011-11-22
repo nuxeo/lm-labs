@@ -8,18 +8,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
+import org.nuxeo.ecm.webengine.WebException;
+import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManagerImpl;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
@@ -179,8 +186,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     @Override
     public DocumentModel getIndexDocument() throws ClientException {
-        return getCoreSession().getChild(getTree().getRef(),
-                Docs.WELCOME.docName());
+        return getCoreSession().getDocument(new IdRef(getHomePageRef()));
     }
 
     @Override
@@ -200,7 +206,31 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     @Override
     public String getHomePageRef() throws ClientException {
-        return (String) doc.getPropertyValue(HOME_PAGE_REF);
+        // return (String) doc.getPropertyValue(HOME_PAGE_REF);
+        try {
+            String ref = (String) doc.getPropertyValue(HOME_PAGE_REF);
+            // TODO this is temporary
+            if (StringUtils.isEmpty(ref)) {
+                return getWelcomePageId();
+            }
+            return ref;
+        } catch (Exception e) {
+            // TODO this is temporary
+            return getWelcomePageId();
+        }
+    }
+
+    private String getWelcomePageId() throws ClientException {
+        if (doc.getCoreSession().hasPermission(doc.getRef(), SecurityConstants.WRITE)) {
+            PathRef ref = new PathRef(doc.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName(),
+                    LabsSiteConstants.Docs.WELCOME.docName());
+            DocumentModel welcome = doc.getCoreSession().getDocument(ref);
+            setHomePageRef(welcome.getId());
+            doc.getCoreSession().saveDocument(doc);
+            doc.getCoreSession().save();
+            return (String) doc.getPropertyValue(HOME_PAGE_REF);
+        }
+        throw WebException.wrap(new WebResourceNotFoundException("home page not set."));
     }
 
     @Override

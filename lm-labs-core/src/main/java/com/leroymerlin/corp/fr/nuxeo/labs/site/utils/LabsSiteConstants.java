@@ -42,7 +42,7 @@ public final class LabsSiteConstants {
         PAGEHTML("page_html", "html"),
         EXTERNALURL("external_url", "exturl"),
         LABSTEMPLATE("labstemplate", "labstemplate"),
-        LABSSITE("labsite", "labssite"),
+        LABSSITE("labssite", "labssite"),
         SITETHEME("sitetheme", "sitetheme");
 
         private String name;
@@ -84,7 +84,7 @@ public final class LabsSiteConstants {
         DASHBOARD("Space",StringUtils.EMPTY),
         NOTIFACTIVITIES("NotificationActivities", "notifActivities"),
         SITETHEME("SiteTheme",StringUtils.EMPTY),
-        WELCOME(PAGEBLOCS.type(), "welcome"); // TODO
+        WELCOME(HTMLPAGE.type(), "welcome"); // TODO
 
         private String docType;
         private String name;
@@ -92,7 +92,9 @@ public final class LabsSiteConstants {
         private static final Map<String, Docs> stringToEnum = new HashMap<String, Docs>();
         static { // Initialize map from constant name to enum constant
             for (Docs op : values())
-                stringToEnum.put(op.type(), op);
+                if (op != WELCOME) {
+                    stringToEnum.put(op.type(), op);
+                }
         }
 
         // Returns Operation for string, or null if string is invalid

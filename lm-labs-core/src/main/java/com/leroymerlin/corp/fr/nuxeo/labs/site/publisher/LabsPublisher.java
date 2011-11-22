@@ -21,4 +21,6 @@ public interface LabsPublisher {
     void undelete() throws ClientException;
     
     boolean isDeleted() throws ClientException;
+    
+    boolean isDraft() throws ClientException;
 }

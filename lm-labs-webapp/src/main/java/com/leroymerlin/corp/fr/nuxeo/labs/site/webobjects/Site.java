@@ -33,6 +33,7 @@ import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
@@ -54,6 +55,19 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 public class Site extends PageResource {
 
     private LabsSite site;
+
+    @Override
+    public Object doGet() {
+        try {
+            return redirect(getPath() + '/' + URIUtils.quoteURIPathComponent(
+                    (new org.nuxeo.common.utils.Path(
+                            site.getIndexDocument().getAdapter(SiteDocument.class).getResourcePath())
+                    .removeFirstSegments(1)).toString(), false)
+            );
+        } catch (ClientException e) {
+            return super.doGet();
+        }
+    }
 
     @Override
     public void initialize(Object... args) {

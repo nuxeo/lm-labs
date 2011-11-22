@@ -1,10 +1,9 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Transformer;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -82,15 +81,14 @@ public class SiteDocumentAdapter implements SiteDocument {
 
     @Override
     public Collection<Page> getChildrenPages() throws ClientException {
-        List<DocumentModel> children = getChildrenPageDocuments();
-        @SuppressWarnings("unchecked")
-        Collection<Page> adaptedCollection = CollectionUtils.transformedCollection(children, new Transformer() {
-
-            @Override
-            public Object transform(Object input) {
-                return ((DocumentModel) input).getAdapter(Page.class);
-            }});
-        return adaptedCollection;
+        List<Page> pages = new ArrayList<Page>();
+        for (DocumentModel child : getChildrenPageDocuments()) {
+            Page adapter = child.getAdapter(Page.class);
+            if (adapter != null) {
+                pages.add(adapter);
+            }
+        }
+        return pages;
     }
 
     @Override

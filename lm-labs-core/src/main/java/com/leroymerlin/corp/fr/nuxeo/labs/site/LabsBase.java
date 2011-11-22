@@ -30,5 +30,7 @@ public interface LabsBase {
 
     void addFacetTemplate();
     
+    boolean isDraft() throws ClientException;
+    
     boolean isAdministrator(String userName) throws ClientException;
 }

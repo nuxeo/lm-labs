@@ -95,6 +95,11 @@ public abstract class AbstractLabsBase  implements LabsBase{
     }
 
     @Override
+    public boolean isDraft() throws ClientException {
+        return doc.getAdapter(LabsPublisher.class).isDraft();
+    }
+
+    @Override
     public LabsTemplate getTemplate() throws ClientException {
         //le type site a le schema labstemplate
         if (doc.hasSchema(Schemas.LABSTEMPLATE.getName())){
