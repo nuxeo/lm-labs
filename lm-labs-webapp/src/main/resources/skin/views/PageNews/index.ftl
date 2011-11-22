@@ -22,6 +22,7 @@
   </@block>
 
   <@block name="content">
+		<#include "views/common/topnavigation_area.ftl" />
       <div id="content" class="container">
 
     <div style="clear:both"></div>
