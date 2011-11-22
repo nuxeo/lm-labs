@@ -49,5 +49,5 @@ public interface SiteDocument {
      * @return
      * @throws ClientException
      */
-    public DocumentModelList getChildrenPageDocuments() throws ClientException;
+    DocumentModelList getChildrenPageDocuments() throws ClientException;
 }
