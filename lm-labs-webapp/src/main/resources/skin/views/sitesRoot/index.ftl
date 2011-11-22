@@ -34,6 +34,8 @@
       <h1>${Context.getMessage('label.labssite.list.sites.title')}</h1>
     </div>
 
+	<#assign deletedLabsSites = This.deletedLabsSites />
+	<#assign undeletedLabsSites = This.undeletedLabsSites />
     <#if (deletedLabsSites?size > 0 || undeletedLabsSites?size > 0) >
     	<#if (undeletedLabsSites?size > 0) >
 	      <table class="zebra-striped bs" id="MySites" >
@@ -69,12 +71,12 @@
 			          </tr>
 			        </thead>
 			        <tbody>
-			          <#list deletedLabsSites as site>
+			          <#list deletedLabsSites as deletedSite>
 			            <tr>
-			              <td>${site.title}</td>
-			              <td>${site.document.creator}</td>
+			              <td>${deletedSite.title}</td>
+			              <td>${deletedSite.document.creator}</td>
 			              <td>
-			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Context.modulePath}/@labspublish/undelete/${site.documentModel.ref}');">${Context.getMessage('command.siteactions.undelete')}</a>
+			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Context.modulePath}/@labspublish/undelete/${deletedSite.document.ref}');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>
 			            </tr>
 			          </#list>
