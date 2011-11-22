@@ -24,5 +24,7 @@ public interface LabsBase {
     
     boolean isVisible() throws ClientException;
     
+    boolean isDraft() throws ClientException;
+    
     boolean isAdministrator(String userName) throws ClientException;
 }

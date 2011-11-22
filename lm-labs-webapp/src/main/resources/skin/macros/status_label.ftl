@@ -1,7 +1,7 @@
 <#macro pageStatusLabel pageAdapter>
-	<#if !pageAdapter.isVisible() >
+	<#if pageAdapter.draft >
 		&nbsp;<span class="label success">${Context.getMessage('label.draft')}</span>
-	<#elseif pageAdapter.isDeleted() >
+	<#elseif pageAdapter.deleted >
 		&nbsp;<span class="label warning">${Context.getMessage('label.deleted')}</span>
 	</#if>
 </#macro>

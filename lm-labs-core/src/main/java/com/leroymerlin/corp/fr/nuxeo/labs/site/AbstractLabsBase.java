@@ -92,6 +92,11 @@ public abstract class AbstractLabsBase  implements LabsBase{
     }
 
     @Override
+    public boolean isDraft() throws ClientException {
+        return doc.getAdapter(LabsPublisher.class).isDraft();
+    }
+
+    @Override
     public boolean isAdministrator(String userName) throws ClientException {
         try {
             UserManager userManager = Framework.getService(UserManager.class);
