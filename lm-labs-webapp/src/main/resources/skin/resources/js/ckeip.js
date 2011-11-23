@@ -62,7 +62,12 @@ $.fn.ckeip = function (options, callback) {
             }, function (response) {
                 if (typeof callback == "function") callback(response);
 
-                $(original_html).html(ckeip_html);
+	            if(ckeip_html=='') {
+	            	$(original_html).html(settings.emptyedit_message);
+	            } else {
+	                $(original_html).html(ckeip_html);
+	            }
+	            
                 $('#ckeip_' + u_id + '').hide();
                 $(original_html).fadeIn();
 
