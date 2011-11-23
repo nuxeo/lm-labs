@@ -1,36 +1,4 @@
 <script type="text/javascript">
-function subscribePage(subscribe) {
-    		<#--
-	console.log("subscribePage " + subscribe);
-	        -->
-	jQuery.ajax({
-		type: 'GET',
-	    async: false,
-	    url: "${This.path}/@" + (subscribe ? 'subscribe' : 'unsubscribe'),
-	    success: function(data) {
-	    	if (subscribe) {
-    		<#--
-    		console.log("subscribe successful ");
-	        -->
-	    		jQuery('#subscribeBt').hide();
-	    		jQuery('#unsubscribeBt').show();
-	        }
-	        else {
-    		<#--
-    		console.log("unsubscribe successful ");
-	        -->
-	    		jQuery('#subscribeBt').show();
-	    		jQuery('#unsubscribeBt').hide();
-	        }
-	    },
-	    error: function() {
-    		<#-- TODO alert
-	    	console.log('subscribe failed.');
-	        -->
-	    }
-	});
-	return false;
-}
 </script>
     <div class="topbar-wrapper" style="z-index: 5;">
     <div class="topbar">
@@ -61,19 +29,6 @@ function subscribePage(subscribe) {
                 <@block name="docactions">
                 <#if site?? && Session.hasPermission(This.document.ref, "ADD_CHILDREN")>
                 <li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView">${Context.getMessage('command.docactions.addcontent')}</a></li>
-                </#if>
-                <#if site??>
-                  <#if Document.type == "PageNews">
-                    <li>
-                      <a id="subscribeBt" <#if This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(true);">${Context.getMessage('command.contextmenu.PageNews.subscribe')}</a>
-                      <a id="unsubscribeBt" <#if !This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(false);">${Context.getMessage('command.contextmenu.PageNews.unsubscribe')}</a>
-                    </li>
-                  <#elseif Common.getNotifiableTypes()?seq_contains(Document.type)>
-                    <li>
-                      <a id="subscribeBt" <#if This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(true);">${Context.getMessage('command.contextmenu.Page.subscribe')}</a>
-                      <a id="unsubscribeBt" <#if !This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(false);">${Context.getMessage('command.contextmenu.Page.unsubscribe')}</a>
-                    </li>
-                  </#if>
                 </#if>
                 </@block>
                 <li class="divider"></li>
