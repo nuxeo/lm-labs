@@ -47,44 +47,33 @@ public class SiteCreationEventListener implements EventListener {
             DocumentModel assets = session.createDocumentModel(
                     doc.getPathAsString(), LabsSiteConstants.Docs.ASSETS.docName(),
                     LabsSiteConstants.Docs.ASSETS.type());
-            LOG.debug("Creating welcome page ...");
-            DocumentModel welcome = session.createDocumentModel(
-                    doc.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName(),
-                    LabsSiteConstants.Docs.WELCOME.docName(), LabsSiteConstants.Docs.WELCOME.type());
             
             tree.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.TREE.docName()));
             assets.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.ASSETS.docName()));
-            welcome.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.WELCOME.docName()));
             
             session.createDocument(tree);
             session.createDocument(assets);
-            welcome = session.createDocument(welcome);
-            LabsSite site = doc.getAdapter(LabsSite.class);
-            site.setHomePageRef(welcome.getAdapter(Page.class).getDocument().getId());
-            /* TODO
-            if (Docs.DASHBOARD.type().equals(welcome.getType())) {
-                Space space = welcome.getAdapter(Space.class);
-                space.initLayout(Preset.X_3_HEADER_2COLS.getLayout());
-                space.getLayout().setSideBar(YUISideBarStyle.YUI_SB_LEFT_160PX);
-                welcome = session.saveDocument(welcome);
-                // TODO add gadgets
-            }
-            */
+            createWelcomePage(doc, session);
         }
     }
 
     /**
-     * @param doc
-     * @param session
+     * @param doc site's {@link DocumentModel}
+     * @param session Core session
+     * @return welcome page's {@link DocumentModel}
      * @throws ClientException
-     * @throws PropertyException
      */
-    private void createWelcomePage(DocumentModel doc, CoreSession session) throws ClientException, PropertyException {
+    private DocumentModel createWelcomePage(DocumentModel doc, CoreSession session) throws ClientException {
+        LOG.debug("Creating welcome page ...");
         DocumentModel welcome = session.createDocumentModel(
                 doc.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName(),
                 LabsSiteConstants.Docs.WELCOME.docName(), LabsSiteConstants.Docs.WELCOME.type());
         welcome.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.WELCOME.docName()));
         welcome = session.createDocument(welcome);
+        LabsSite site = doc.getAdapter(LabsSite.class);
+        site.setHomePageRef(welcome.getAdapter(Page.class).getDocument().getId());
+        doc = session.saveDocument(doc);
+        return welcome;
     }
 
 }
