@@ -150,7 +150,7 @@ function deletePage(){
 		</div>
 		<li>
 			<#if Common.siteDoc(Document).site.indexDocument.id == page.document.id>
-			<span>${Context.getMessage('label.docactions.homePage')}</span>
+			<span>&nbsp;&nbsp;${Context.getMessage('label.docactions.homePage')}</span>
 			<#else>
 			<a href="#" onclick="javascript:setAsHomePage();" >${Context.getMessage('command.docactions.homePage')}</a>
 			</#if>
