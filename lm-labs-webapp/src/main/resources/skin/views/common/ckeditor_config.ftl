@@ -1,11 +1,11 @@
 var ckeditorconfig = {
 extraPlugins : 'tableresize',
-filebrowserBrowseUrl : '${This.path}/@assets',
-filebrowserImageBrowseUrl : '${This.path}/@assets',
-filebrowserFlashBrowseUrl : '${This.path}/@assets',
-filebrowserUploadUrl : '${This.path}/@assets',
-filebrowserImageUploadUrl : '${This.path}/@assets',
-filebrowserFlashUploadUrl : '${This.path}/@assets',
+filebrowserBrowseUrl : '${Context.modulePath}/${site.URL}/@assets',
+filebrowserImageBrowseUrl : '${Context.modulePath}/${site.URL}/@assets',
+filebrowserFlashBrowseUrl : '${Context.modulePath}/${site.URL}/@assets',
+filebrowserUploadUrl : '${Context.modulePath}/${site.URL}/@assets',
+filebrowserImageUploadUrl : '${Context.modulePath}/${site.URL}/@assets',
+filebrowserFlashUploadUrl : '${Context.modulePath}/${site.URL}/@assets',
 toolbar:
 [
 ['Source'],
