@@ -6,7 +6,11 @@
 		  </#if>
 		  <#if resource.document??>
 		  	<#assign class = ""/>
-		    <li><a href="${resource.path}">${resource.document.title}<#if resource.document.type != "Site" ><@pageStatusLabel resource.page /></#if></a> <span class="divider">&gt;</span></li>
+		    <li><a href="${resource.path}">${resource.document.title}
+		    <#if resource.document.type != "Site" && resource.document.type != "SiteTheme">
+	    		<@pageStatusLabel resource.page />
+		    </#if>
+		    </a> <span class="divider">&gt;</span></li>
 		  </#if>
 		
 		</#macro>
