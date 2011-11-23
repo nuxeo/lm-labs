@@ -38,7 +38,7 @@
 	</#if>
 	<script type="text/javascript" src="${skinPath}/js/jstree/jquery.jstree.js"></script>
 	<script type="text/javascript">
-		var homePageId = '${homepageDoc.id}';
+		var homePageId = '<#if adminTreeviewType == "Pages">${homepageDoc.id}</#if>';
 		
 		jQuery().ready(function() {
 			jQuery('#addFileForm').ajaxForm(function() { 
@@ -331,7 +331,7 @@
 							},
 							"Picture" : {
 								"icon" : {
-									"image" : "/nuxeo/icons/page_text.gif"
+									"image" : "/nuxeo/icons/picture.gif"
 								}
 							}
 						<#else>
