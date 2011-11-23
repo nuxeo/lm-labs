@@ -45,7 +45,7 @@
       <#include "views/common/topbar.ftl" />
 
       <div id="masthead">
-          <img src="${skinPath}/images/banniere.jpg" />
+          <img src="${skinPath}/images/default_banner.png" />
       </div>
 
 
