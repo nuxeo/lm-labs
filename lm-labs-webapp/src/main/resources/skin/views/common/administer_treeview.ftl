@@ -18,6 +18,8 @@
 	</#if>
 	<script type="text/javascript" src="${skinPath}/js/jstree/jquery.jstree.js"></script>
 	<script type="text/javascript">
+		var homePageId = '${Common.siteDoc(Document).site.indexDocument.id}';
+		
 		jQuery().ready(function() {
 			jQuery('#addFileForm').ajaxForm(function() { 
 				jQuery("#addFileDialog").dialog2('close');
@@ -30,6 +32,10 @@
 				removeOnClose : false,
 				showCloseHandle : true,
 			});
+			
+			function changeIconOfHomePage() {
+				jQuery('li#' + homePageId + ' > a > ins.jstree-icon:eq(0)').css('background-image', 'url(/nuxeo/icons/home.gif)');
+			}
 			
 			function labsPublish(operation, url, node) {
     			jQuery.ajax({
@@ -48,6 +54,7 @@
 				    async: false,
 				    url: '${Context.modulePath}/' + url + '/@setHome',
 				    success: function(data) {
+				    	homePageId = jQuery(node).attr('id');
 				    	jQuery("#jstree").jstree("refresh");
 				    }
 				});
@@ -119,7 +126,7 @@
 					"home" : {
 						"separator_before"	: false,
 						"separator_after"	: false,
-		                "icon"              : false,
+		                "icon"              : "/nuxeo/icons/home.gif",
 						"label"				: "${Context.getMessage('command.admin.setAsHomePage')}",
 						"action"			: function (nodes) {
 							setAsHome(this._get_node(nodes[0]).data("url"), this._get_node(nodes[0]));
@@ -127,7 +134,7 @@
 					},
 					"markasdeleted" : {
 						"separator_before"	: false,
-						"icon"				: "/nuxeo/icons/action_delete_mini.png",
+						"icon"				: "/nuxeo/icons/bin_closed.png",
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.markAsDeleted')}",
 						"action"			: function (nodes) {
@@ -235,16 +242,26 @@
 			}
 		
 			jQuery("#jstree")
-			<#if adminTreeviewType=="Assets">
 			.bind("loaded.jstree", function (event, data) {
+			<#if adminTreeviewType=="Assets">
 				loadPictures(jQuery("li[rel=Assets]").attr("id"));
-			})
+			<#else>
+				changeIconOfHomePage();
 			</#if>
+			})
 			<#--
 			.bind("load_node.jstree", function (event, data) {
-				console.log(jQuery(data.rslt.obj).attr("id") + " node LOADED " + data.rslt.obj.data("lifecyclestate"));
+				//console.log(jQuery(data.rslt.obj).attr("id") + " node LOADED " + data.rslt.obj.data("lifecyclestate"));
 			})
 			-->
+			<#if adminTreeviewType=="Pages">
+			.bind("before.jstree", function (e, data) {
+				//console.log('before.jstree ' + data.func + ' ' + data.args.length);
+				if(data.func === "reload_nodes") {
+					changeIconOfHomePage();
+				}
+			})
+			</#if>
 			.jstree({
 				"core": {
 					"html_titles" : true,
