@@ -376,8 +376,8 @@
 										<#--
 										console.log("refresh parent of " + data.rslt.oc);
 										-->
-										data.inst.refresh(data.inst._get_parent(data.rslt.oc));
 									}
+									data.inst.refresh(data.inst._get_parent(data.rslt.oc));
 						        }
 							}
 						});
