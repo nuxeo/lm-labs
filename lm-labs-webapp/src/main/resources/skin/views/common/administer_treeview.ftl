@@ -10,6 +10,7 @@
 	}
 	</style>
 	</@block>
+	
 	<@block name="scripts">
 	<@superBlock/>
 	<#if adminTreeviewType=="Assets">
@@ -431,6 +432,10 @@
 		})
 	</script>
 	</@block>
+
+  <@block name="breadcrumbs">
+    <#include "views/common/breadcrumbs_siteadmin.ftl" >
+  </@block>
 
   <@block name="tabs">
 	<#include "macros/admin_menu.ftl" />

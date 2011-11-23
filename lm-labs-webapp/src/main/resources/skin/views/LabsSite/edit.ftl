@@ -1,7 +1,7 @@
 <@extends src="/views/templates/labs-base.ftl">
 
   <@block name="breadcrumbs">
-    <a href="${This.getPath()}">${site.title}</a> > Administration
+    <#include "views/common/breadcrumbs_siteadmin.ftl" >
   </@block>
 
   <@block name="tabs">
