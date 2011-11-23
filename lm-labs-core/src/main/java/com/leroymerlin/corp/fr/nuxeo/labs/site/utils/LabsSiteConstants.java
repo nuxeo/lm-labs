@@ -84,7 +84,7 @@ public final class LabsSiteConstants {
         DASHBOARD("Space",StringUtils.EMPTY),
         NOTIFACTIVITIES("NotificationActivities", "notifActivities"),
         SITETHEME("SiteTheme",StringUtils.EMPTY),
-        WELCOME(HTMLPAGE.type(), "welcome"); // TODO
+        WELCOME(HTMLPAGE.type(), "Accueil"); // TODO
 
         private String docType;
         private String name;
