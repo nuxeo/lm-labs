@@ -31,6 +31,10 @@ public class PageUtilsService extends DefaultAdapter {
         DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
         DocumentModel source = doc.getCoreSession().getDocument(
                 new IdRef(sourceId));
+        DocumentModel sourceParent = doc.getCoreSession().getParentDocument(source.getRef());
+        if (sourceParent.getId().equals(destinationId)) {
+            return Response.noContent().build();
+        }
         DocumentModel destination = doc.getCoreSession().getDocument(
                 new IdRef(destinationId));
         String viewUrl = "";
@@ -48,7 +52,7 @@ public class PageUtilsService extends DefaultAdapter {
         }
         try {
             DocumentModel move = doc.getCoreSession().move(source.getRef(),
-                    destination.getRef(), null);
+                    destination.getRef(), source.getTitle());
             doc.getCoreSession().save();
             if (BooleanUtils.toBoolean(redirect)) {
                 return redirect(getPath() + viewUrl
