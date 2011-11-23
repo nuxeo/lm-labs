@@ -35,7 +35,7 @@
                 <div class="clearfix">
                   <label for="labsSiteURL">${Context.getMessage('label.labssite.edit.url')}</label>
                   <div class="input">
-                    ${Context.modulePath}/<input class="required" name="URL" value="${site.URL}"/>
+                    ${Context.modulePath}/<input class="required" name="URL" value="${site.URL}" disabled="true" />
                     <span class="help-block">C'est par ce lien que le site sera accessible</span>
                   </div>
                 </div><!-- /clearfix -->
