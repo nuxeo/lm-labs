@@ -1,5 +1,25 @@
 <@extends src="/views/templates/" + This.page.template.templateName + ".ftl">
 
+<#if adminTreeviewType == "Pages" >
+	<#assign homepageDoc = Common.siteDoc(Document).site.indexDocument />
+	<#assign parents = Session.getParentDocuments(homepageDoc.ref) />
+	<#assign ids = [] />
+	<#list parents?reverse as parent>
+		<#if parent.type == "Tree" >
+			<#break>
+		</#if>
+		<#assign ids = ids + [ parent.id ] />
+	</#list>
+	<#assign parentIds = "[" />
+	<#list ids as id >
+		<#if id_index &gt; 0 >
+			<#assign parentIds = parentIds + "," />
+		</#if>
+		<#assign parentIds = parentIds + "'#" + id + "'" />
+	</#list>
+	<#assign parentIds = parentIds + "]" />
+</#if>
+
 <#assign canManage = Session.hasPermission(Document.ref, 'Everything') />
 
 	<@block name="css">
@@ -18,7 +38,7 @@
 	</#if>
 	<script type="text/javascript" src="${skinPath}/js/jstree/jquery.jstree.js"></script>
 	<script type="text/javascript">
-		var homePageId = '${Common.siteDoc(Document).site.indexDocument.id}';
+		var homePageId = '${homepageDoc.id}';
 		
 		jQuery().ready(function() {
 			jQuery('#addFileForm').ajaxForm(function() { 
@@ -33,6 +53,7 @@
 				showCloseHandle : true,
 			});
 			
+<#if adminTreeviewType == "Pages" >
 			function changeIconOfHomePage() {
 				jQuery('li#' + homePageId + ' > a > ins.jstree-icon:eq(0)').css('background-image', 'url(/nuxeo/icons/home.gif)');
 			}
@@ -59,6 +80,7 @@
 				    }
 				});
 			}
+</#if>
 			
 			function customMenu(node) {
 				<#-- ALL ITEM MENU -->
@@ -256,8 +278,8 @@
 			-->
 			<#if adminTreeviewType=="Pages">
 			.bind("before.jstree", function (e, data) {
-				//console.log('before.jstree ' + data.func + ' ' + data.args.length);
 				if(data.func === "reload_nodes") {
+					//console.log('before.jstree ' + data.func + ' ' + data.args.length);
 					changeIconOfHomePage();
 				}
 			})
@@ -267,7 +289,7 @@
 					"html_titles" : true,
 					"strings": { loading : "${Context.getMessage('label.admin.loading')} ..." }
 					<#if adminTreeviewType == "Pages">
-					, "initially_open" : "${Common.siteDoc(Document).site.indexDocument.id}"
+					, "initially_open" : ${parentIds}
 					</#if>
 				},
 				"plugins" : [ "json_data", "themes", "ui", "types"
