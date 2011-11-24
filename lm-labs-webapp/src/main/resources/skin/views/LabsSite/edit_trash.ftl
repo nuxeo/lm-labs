@@ -1,3 +1,4 @@
+<#if site?? && Session.hasPermission(site.document.ref, "Everything")>
 <@extends src="/views/templates/labs-base.ftl">
 
 <@block name="scripts">
@@ -112,3 +113,6 @@
 	</script>
   </@block>
 </@extends>
+<#else>
+	<#include "error/error_404.ftl" >
+</#if>
