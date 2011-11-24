@@ -5,22 +5,13 @@
 	<#include "views/common/page_actions.ftl" />
   </@block>
   <@block name="content">
+		<#include "views/common/topnavigation_area.ftl" />
 
     <div id="content" class="container">
       <div class="row">
-        <div class="span16 columns">
 
-        <div class="bloc">
-          <div class="header">
-          	${Document.dublincore.description}
-          </div>
-            <ul class="unstyled">
-              <#list Session.getChildren(This.document.ref) as child>
-                <li><a href="${This.path}/${child.name}">${child.title}</a></li>
-              </#list>
-            </ul>
-        </div>
-      </div>
+	<#include "views/common/children_area.ftl" />
+		<@children_block Document "span16" />
     </div>
   </@block>
 </@extends>
