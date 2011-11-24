@@ -81,7 +81,13 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
 
     @Override
     public void setTheme(String themeName) throws ClientException {
-        // TODO Auto-generated method stub
+        if (getTheme(themeName) == null){
+            createTheme(themeName);
+        }
+        parentSiteDoc.setPropertyValue(Schemas.LABSSITE.prefix() + ":theme_name", themeName);
+        CoreSession session = parentSiteDoc.getCoreSession();
+        session.saveDocument(parentSiteDoc);
+        session.save();
     }
 
     @Override

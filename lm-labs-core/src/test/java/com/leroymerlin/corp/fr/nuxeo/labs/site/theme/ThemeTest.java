@@ -7,7 +7,6 @@ import static org.junit.Assert.assertThat;
 import java.io.File;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
@@ -49,15 +48,15 @@ public class ThemeTest {
     }
 
 
-    @Ignore("temporarily") @Test
+    @Test
     public void canGetTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
         SiteTheme theme = tm.getTheme();
         assertThat(theme,is(notNullValue()));
-        assertThat(theme.getName(),is("default"));
+        assertThat(theme.getName(),is("labs"));
     }
 
-    @Ignore("temporarily") @Test
+    @Test
     public void cantSetAndGetBannerFromTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
         SiteTheme theme = tm.getTheme();
@@ -74,7 +73,7 @@ public class ThemeTest {
 
     }
 
-    @Ignore("temporarily") @Test
+    @Test
     public void canGetThemeByName() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
         SiteTheme theme = tm.getTheme();
@@ -84,15 +83,23 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme("default");
+        theme = tm.getTheme("labs");
 
         assertThat(theme,is(notNullValue()));
         Blob blob = theme.getBanner();
         assertThat(blob.getLength() > 0 , is(true));
 
     }
-
-
+    
+    @Test
+    public void canSetTheme() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
+        assertThat(theme,is(notNullValue()));
+        assertThat(theme.getName(),is("supplyChain"));
+    }
 
     private Blob getTestBlob() {
         String filename = "vision.jpg";

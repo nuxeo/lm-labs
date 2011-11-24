@@ -45,6 +45,8 @@ public class PageResource extends DocumentObject {
     public static final String COPYOF_PREFIX = "Copie de ";
 
     private static final String BROWSE_TREE_VIEW = "views/common/browse_tree.ftl";
+    
+    private static final String GENERATED_LESS_TEMPLATE = "resources/less/generatedLess.ftl";
 
 //    private static final Log LOG = LogFactory.getLog(PageResource.class);
 
@@ -125,6 +127,19 @@ public class PageResource extends DocumentObject {
         else{
             return (Page) labsBaseAdapter;
         }
+    }
+    
+    @GET
+    @Path(value="generated.less")
+    public Object getGeneratedLess(){
+        String themeName = "";
+        try {
+            LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
+            themeName = site.getThemeManager().getTheme().getName();
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName);
     }
 
     @Override

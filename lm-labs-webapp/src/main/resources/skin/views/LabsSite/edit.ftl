@@ -1,5 +1,5 @@
 <#if site?? && Session.hasPermission(site.document.ref, "Everything")>
-<@extends src="/views/templates/labs-base.ftl">
+<@extends src="/views/labs-admin-base.ftl">
 
   <@block name="breadcrumbs">
     <#include "views/common/breadcrumbs_siteadmin.ftl" >

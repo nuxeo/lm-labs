@@ -1,0 +1,9 @@
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager">
+
+  <implementation
+    class="com.leroymerlin.corp.fr.nuxeo.labs.site.services.impl.LabsThemeManagerImpl" />
+
+  <service>
+    <provide interface="com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager" />
+  </service>
+</component>

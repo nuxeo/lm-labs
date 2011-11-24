@@ -1,4 +1,4 @@
-<@extends src="/views/templates/" + This.page.template.templateName + ".ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
 	
 	<@block name="title">${This.document.title}</@block>
      

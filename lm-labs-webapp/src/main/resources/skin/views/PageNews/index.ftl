@@ -1,4 +1,4 @@
-<@extends src="/views/templates/" + This.page.template.templateName + ".ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
   <#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
 
   <@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>
@@ -22,7 +22,6 @@
   </@block>
 
   <@block name="content">
-		<#include "views/common/topnavigation_area.ftl" />
       <div id="content" class="container">
 
     <div style="clear:both"></div>

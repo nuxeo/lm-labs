@@ -71,7 +71,6 @@ public class SiteCreationEventListener implements EventListener {
         welcome = session.createDocument(welcome);
         LabsSite site = doc.getAdapter(LabsSite.class);
         site.setHomePageRef(welcome.getAdapter(Page.class).getDocument().getId());
-        doc = session.saveDocument(doc);
         return welcome;
     }
 

@@ -1,11 +1,10 @@
-<@extends src="/views/templates/" + This.page.template.templateName + ".ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
 
   <@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>
   <@block name="docactions">
 	<#include "views/common/page_actions.ftl" />
   </@block>
   <@block name="content">
-		<#include "views/common/topnavigation_area.ftl" />
 
     <div id="content" class="container">
       <div class="row">
@@ -13,9 +12,7 @@
 
         <div class="bloc">
           <div class="header">
-            ${Document.dublincore.description}
-            <br>toto
-            ${"/views/templates/" + This.page.template.templateName + ".ftl"}
+          	${Document.dublincore.description}
           </div>
             <ul class="unstyled">
               <#list Session.getChildren(This.document.ref) as child>

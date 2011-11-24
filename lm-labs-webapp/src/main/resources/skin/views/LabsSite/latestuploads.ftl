@@ -1,4 +1,4 @@
-<@extends src="/views/templates/labs-base.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
 <#include "views/common/paging.ftl" />
 <#assign nbrElemPerPage = 20 />
 

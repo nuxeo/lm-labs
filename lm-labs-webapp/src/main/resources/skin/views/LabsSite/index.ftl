@@ -1,4 +1,4 @@
-<@extends src="/views/templates/" + This.page.template.templateName + ".ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
 
   <@block name="title">${Context.module.name} - ${This.document.type} ${This.document.title}</@block>
 
@@ -19,7 +19,6 @@
 
 
       <div class="content">
-		<#include "views/common/topnavigation_area.ftl" />
 
         <div class="row">
           <div  class="span12 columns">

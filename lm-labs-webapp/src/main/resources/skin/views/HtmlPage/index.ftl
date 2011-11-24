@@ -1,4 +1,4 @@
-<@extends src="/views/templates/" + This.page.template.templateName + ".ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
 
   <@block name="title">${This.document.title}</@block>
 
@@ -22,7 +22,6 @@
   </@block>
 
   <@block name="content">
-		<#include "views/common/topnavigation_area.ftl" />
        <div class="container">
 
     <h1>${page.title}</h1>

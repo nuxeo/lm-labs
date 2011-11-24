@@ -3,8 +3,6 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;

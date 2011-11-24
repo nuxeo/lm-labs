@@ -1,4 +1,4 @@
-<@extends src="/views/templates/" + This.page.template.templateName + ".ftl">
+<@extends src="/views/labs-admin-base.ftl">
 
 <#if adminTreeviewType == "Pages" >
 	<#assign homepageDoc = Common.siteDoc(Document).site.indexDocument />

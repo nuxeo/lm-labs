@@ -18,15 +18,19 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 @WebObject(type = "SiteTheme")
 @Produces("text/html; charset=UTF-8")
 public class SiteThemeResource extends PageResource {
+
+    private static final String THE_THEMES_SHOULD_NOT_BE_EMPTY = "The themes should not be empty !";
 
     private static final String THE_TEMPLATES_SHOULD_NOT_BE_EMPTY = "The templates should not be empty !";
 
@@ -53,15 +57,41 @@ public class SiteThemeResource extends PageResource {
         return null;
     }
 
-    public List<Enum<LabsSiteConstants.Template>> getTemplates() {
-        List<Enum<LabsSiteConstants.Template>> entriesTemplate = new ArrayList<Enum<LabsSiteConstants.Template>>();
-        for (Enum<LabsSiteConstants.Template> template : LabsSiteConstants.Template.values()) {
-            entriesTemplate.add(template);
+    public List<String> getTemplates(){
+        LabsThemeManager themeService = getThemeService();
+        List<String> entriesTemplate = new ArrayList<String>();
+        if (themeService != null){
+            entriesTemplate = themeService.getTemplateList(getModule().getRoot().getAbsolutePath());
         }
         if (entriesTemplate.isEmpty()){
-            LOG.error(THE_TEMPLATES_SHOULD_NOT_BE_EMPTY);
+            LOG.error(THE_THEMES_SHOULD_NOT_BE_EMPTY);
+            LOG.error("Verify the package " + LabsSiteWebAppUtils.DIRECTORY_THEME);
         }
         return entriesTemplate;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private LabsThemeManager getThemeService() {
+        try {
+            return Framework.getService(LabsThemeManager.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public List<String> getThemes() {
+        LabsThemeManager themeService = getThemeService();
+        List<String> entriesTheme = new ArrayList<String>();
+        if (themeService != null){
+            entriesTheme = themeService.getThemeList(getModule().getRoot().getAbsolutePath());
+        }
+        if (entriesTheme.isEmpty()){
+            LOG.error(THE_TEMPLATES_SHOULD_NOT_BE_EMPTY);
+            LOG.error("Verify the package " + LabsSiteWebAppUtils.DIRECTORY_TEMPLATE);
+        }
+        return entriesTheme;
     }
 
     @GET
@@ -80,29 +110,42 @@ public class SiteThemeResource extends PageResource {
                 session.saveDocument(site.getDocument());
                 session.save();
                 return redirect(getPath()
-                        + "?message_success=label.theme.banner_updated");
+                        + "?message_success=label.labssites.banner_updated");
             } catch (ClientException e) {
                 throw WebException.wrap(e);
             }
         }
         return redirect(getPath()
-                + "?message_warning=label.theme.nothing_changed");
+                + "?message_warning=label.labssites.banner_nothing_changed");
     }
 
     @POST
     @Path(value="template")
     public Response doPostTemplate() {
         FormData form = ctx.getForm();
-            try {
-                CoreSession session = ctx.getCoreSession();
-                site.getTemplate().setTemplateName(form.getString("template"));
-                session.saveDocument(site.getDocument());
-                session.save();
-                return redirect(getPath()
-                        + "?message_success=label.template.updated");
-            } catch (ClientException e) {
-                throw WebException.wrap(e);
-            }
+        try {
+            CoreSession session = ctx.getCoreSession();
+            site.getTemplate().setTemplateName(form.getString("template"));
+            session.saveDocument(site.getDocument());
+            session.save();
+            return redirect(getPath()
+                    + "?message_success=label.labssites.template.updated");
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+    }
+
+    @POST
+    @Path(value="theme")
+    public Response doPostTheme() {
+        FormData form = ctx.getForm();
+        try {
+            site.getThemeManager().setTheme(form.getString("theme"));
+            return redirect(getPath()
+                    + "?message_success=label.labssites.theme.updated");
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
     }
 
 }

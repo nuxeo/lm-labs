@@ -170,68 +170,6 @@ public final class LabsSiteConstants {
 
     }
     
-    public enum Template {
-        DEFAULT("template.name.default", "labs-base"),
-        TEMPLATE1("template.name.supplychain", "supplyChain");
-
-        private String i18n;
-        private String template;
-
-        private static final Map<String, Template> stringToEnum = new HashMap<String, Template>();
-        static {
-            for (Template op : values())
-                stringToEnum.put(op.getI18n(), op);
-        }
-
-        public static Template fromString(String symbol) {
-            return stringToEnum.get(symbol);
-        }
-        private Template(String i18n, String template) {
-            this.i18n = i18n;
-            this.template = template;
-        }
-
-        public String getTemplate() {
-            return template;
-        }
-
-       public String getI18n() {
-            return i18n;
-        }
-
-    }
-    
-    public enum Theme {
-        DEFAULT("theme.name.default", "labs-base"),
-        THEME1("theme.name.supplychain", "supplyChain");
-
-        private String name;
-        private String css;
-
-        private static final Map<String, Theme> stringToEnum = new HashMap<String, Theme>();
-        static {
-            for (Theme op : values())
-                stringToEnum.put(op.getName(), op);
-        }
-
-        public static Theme fromString(String symbol) {
-            return stringToEnum.get(symbol);
-        }
-        private Theme(String name, String css) {
-            this.name = name;
-            this.css = css;
-        }
-
-        public String getCss() {
-            return css;
-        }
-
-       public String getName() {
-            return name;
-        }
-
-    }
-    
     /*
      * Define in the file 'lifecycle-contrib.xml'
      */
