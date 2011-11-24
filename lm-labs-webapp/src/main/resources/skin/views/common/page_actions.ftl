@@ -133,6 +133,7 @@ function deletePage(){
 		<#else>
 			${Context.getMessage('command.contextmenu.Page.unsubscribe')}
 		</#if>
+		</a>
 	</li>
 	</#if>
 	<#if Session.hasPermission(This.document.ref, "Everything")>
