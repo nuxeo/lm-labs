@@ -9,21 +9,9 @@
 
     <div id="content" class="container">
       <div class="row">
-        <div class="span16 columns">
 
-        <div class="bloc">
-          <div class="header">
-            ${Document.dublincore.description}
-            <br>toto
-            ${"/views/templates/" + This.page.template.templateName + ".ftl"}
-          </div>
-            <ul class="unstyled">
-              <#list Session.getChildren(This.document.ref) as child>
-                <li><a href="${This.path}/${child.name}">${child.title}</a></li>
-              </#list>
-            </ul>
-        </div>
-      </div>
+	<#include "views/common/children_area.ftl" />
+		<@children_block Document "span16" />
     </div>
   </@block>
 </@extends>
