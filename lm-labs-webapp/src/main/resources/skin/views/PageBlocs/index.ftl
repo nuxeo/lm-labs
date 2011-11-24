@@ -12,8 +12,6 @@
         <div class="span16 columns">
 
 	<#include "views/common/children_area.ftl" />
-		<@children_block Document "1" />
-		<#--
         <div class="bloc">
           <div class="header">
             ${Document.dublincore.description}
@@ -26,7 +24,6 @@
               </#list>
             </ul>
         </div>
-        -->
       </div>
     </div>
   </@block>
