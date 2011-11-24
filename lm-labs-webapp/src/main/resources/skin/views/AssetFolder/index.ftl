@@ -3,7 +3,7 @@
 <html lang="fr">
     <head>
       <title></title>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.min.js"></script>
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>

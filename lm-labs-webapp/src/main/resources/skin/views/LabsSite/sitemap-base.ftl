@@ -8,7 +8,7 @@
             <script type="text/javascript" src="${skinPath}/js/assets/html5.js"></script>
           <![endif]-->
 
-          <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.5.1.min.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.min.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.js"></script>
