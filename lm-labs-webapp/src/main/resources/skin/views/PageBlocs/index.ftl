@@ -11,7 +11,6 @@
       <div class="row">
         <div class="span16 columns">
 
-	<#include "views/common/children_area.ftl" />
         <div class="bloc">
           <div class="header">
             ${Document.dublincore.description}
