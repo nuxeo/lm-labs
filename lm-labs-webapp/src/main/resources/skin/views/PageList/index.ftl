@@ -31,6 +31,9 @@
 	<@block name="content">	
 		<#include "views/common/topnavigation_area.ftl" />
 		<div id="content" class="container">
+  <div class="page-header">
+    <h1><span title="${Document.dublincore.description}" >${Document.dublincore.title}</span></h1>
+  </div>
 			<#if isAuthorized>
 				<div id="divActionManageList">
 					<a href="#" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine();">${Context.getMessage('label.pageList.addLine')}</a>
