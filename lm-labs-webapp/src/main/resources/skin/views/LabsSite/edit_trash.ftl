@@ -59,7 +59,7 @@
 	            <tr>
 	              <#assign doc=deletedPage.document />
 	              <td>
-	              	<a href="#" rel="popover" data-content="${deletedPage.description}" data-original-title="${Context.getMessage('label.description')}">${deletedPage.title} (${deletedPage.document.type})</a>
+	              	<a href="#" rel="popover" data-content='${deletedPage.description}' data-original-title="${Context.getMessage('label.description')}">${deletedPage.title} (${deletedPage.document.type})</a>
 	              </td>
 	              <td>${userFullName(doc.dublincore.creator)}</td>
 	              <td>
