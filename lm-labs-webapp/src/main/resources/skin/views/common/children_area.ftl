@@ -1,3 +1,12 @@
+<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery(function () {
+			jQuery("a[rel=popover]").popover({offset: 10, html:true});
+		});
+	});
+</script>
 <#macro children_block parentDoc spanClass="span5" uniqueId="1" >
     <#if This.isAuthorizedToDisplay(Context.principal.name, Context.principal.anonymous, parentDoc)>
         <div id="bloc${parentDoc.id}_${uniqueId}" class="bloc ${spanClass} column">
@@ -20,7 +29,10 @@
                   <#if child.type == 'Folder'>
                     <li>${child.title}</li>
                   <#else>
-                    	<li><a href="${Context.modulePath}/${Common.siteDoc(child).resourcePath}">${child.title}</a></li>
+                	<li><a href="${Context.modulePath}/${Common.siteDoc(child).resourcePath}"
+                	  rel="popover" data-content="${child.dublincore.description?html}"
+                	  data-original-title="${Context.getMessage('label.description')}"
+                	>${child.title}</a></li>
                   </#if>
                 </#if>
               </#list>
