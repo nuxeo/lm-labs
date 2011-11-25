@@ -15,7 +15,8 @@
 	<#return false>
 </#function>
 
-<div id="topPagesNavigation" >
+
+<div class="span12" >
 	<ul class="tabs">
 		<#assign topPages = Common.getTopNavigationPages(site.tree, Context.principal.name) />
 		<#if topPages?size &gt; 0 >
@@ -24,11 +25,17 @@
 				<#assign url = Context.modulePath + "/" + Common.siteDoc(pageDoc).resourcePath />
 				<#assign isActiveTab = isCurrentPage(pageDoc.id) />
 				<#assign title = pageDoc.title />
-				<li class="<#if isActiveTab >active</#if>"><a href="${url}">${title}<@pageStatusLabel child /></a></li>
+				<li class="<#if isActiveTab >active</#if>">
+					<a href="${url}"><h5>${title}<@pageStatusLabel child /></h5></a>
+					<#if isActiveTab >
+						<div class="star"></div>
+					</#if>
+				</li>
 			</#list>
 		<#else>
 			<#assign url = Context.modulePath + "/" + site.URL />
-			<li class="active"><a href="${url}">${Context.getMessage('label.homePage')}</a></li>
+			<li class="active"><a href="${url}"><h5>${Context.getMessage('label.homePage')}</h5></a></li>
 		</#if> 
 	</ul>
 </div>
+

@@ -3,7 +3,7 @@
     <div class="topbar-wrapper" style="z-index: 5;">
     <div class="topbar">
       <div class="topbar-inner">
-        <div class="container">
+        <div class="container-fluid">
           <h3>
             <#if site??>
               <a href="${Context.modulePath}/${site.document.webcontainer.url}">${site.title}</a>

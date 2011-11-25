@@ -1,3 +1,129 @@
 @import "../labs/specific.less";
 
-@basefont:          24px;
+@basefont:          13px;
+
+@baseFontFamily:	Arial;
+
+@gray:#676D71;
+
+/*Specific*/
+@bgcolortabs: #BB6C1A;
+
+.container {
+	width: auto;
+}
+
+html>body {
+  background-image: url(images/bg-brown.gif);
+  font-family: @baseFontFamily;
+}
+
+.tabs > li > a{
+	padding-top: 1px;
+	border: 0px;
+	.border-radius(4px 4px 4px 4px);
+	&:hover {
+        text-decoration: none;
+        /*background-color: #dfb97b;*/
+        background-color: lighten(@bgcolortabs, 35%);
+        border-color: none;
+		padding-bottom: 2px;
+		> h5 {
+			color: @white;
+		}
+      }
+     > h5{
+     	line-height: 22px;
+     }
+}
+.tabs > li.active > a{
+	 color: @white;
+     background-color: @bgcolortabs;
+     border-bottom-color: none;
+     padding-bottom: 0;
+     
+     > h5{
+     color: @white;
+     }
+}
+
+.tabs {
+	border-bottom: none;
+}
+
+
+.topbar {
+ /* width:auto;*/
+ 	/*margin-top: 15px;*/
+ 	position: relative;
+ 	vertical-align: top;
+ 	input {
+    	background-color: @white;
+    	color: @black;
+    	
+    	&:-moz-placeholder {
+	      color: @gray;
+	    }
+	    &::-webkit-input-placeholder {
+	      color: @gray;
+	    }
+    }
+ }
+ 
+.context{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+ 
+.tabs > li.active > div.star{
+
+		width:0; 
+		height:0; 
+		border-left: 5px solid transparent; 
+		border-right: 5px solid transparent; 
+		border-top: 5px solid @bgcolortabs; 
+		border-bottom: 0; 
+		position: absolute; 
+		bottom: -5px; 
+		left: 40%;
+}
+ 
+h5 {
+  font-size: 12px;
+  color: #676D71;
+}
+
+#sidebar {
+  #gradient > .vertical-three-colors(@white, @white, 25%, lighten(@white,80%));
+}
+
+.topbar-inner,
+.topbar .fill {
+  background-image: url(images/bg-grey.gif);
+}
+
+#FKtopContent{
+	position: relative;
+	margin-bottom: 0;
+	
+	.top{
+		background-image: url(images/bg-ocre.gif);
+		height: 50px;
+		margin-top: -18px;
+		text-align: right;
+		padding-top: 20px;
+		padding-right: 15px;
+	}
+	
+	.bottom{
+		background-image: url(images/bg-ocre.gif);
+		width: 100%;
+		height: 80px;
+		margin-top: -18px;
+	}
+}
+
+
+
+
+

@@ -49,65 +49,72 @@
         </@block>
     </head>
     <body>
-	<#-- timeout -->
-    <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
-    
-    <div id="FKtopContent">
-    <#include "views/common/topbar.ftl" />
-
-    <div id="masthead">
-    <@block name="banner">
-      <#include "views/common/banner.ftl" />
-    </@block>
-    </div>
-
-    <div class="container">
-      <@block name="breadcrumbs">
-        <#include "views/common/breadcrumbs.ftl" >
-      </@block>
-    </div>
-
-    <div class="container">
-      <div class="row">
-         <div class="span16 columns">
-	        <#assign messages = This.getMessages() />
-	        <#list messages?keys as key >
-	           <div class="alert-message ${key}">
-	             <a class="close" href="#">x</a>
-	             ${Context.getMessage(messages[key])}
-	           </div>
-	        </#list>
-        </div>
-      </div>
-      <#include "views/common/topnavigation_area.ftl" />
-    </div>
-    
-    <@block name="tabs">
-    </@block>
-
-	 <script type="text/javascript">
-	    <#include "views/common/ckeditor_config.ftl" />
-	 </script>
-
-    <@block name="content">
-    </@block>
-    
-    <@block name="pageCommentable">
-	    <#assign pageCommentable = This.getPage()/>
-		<#if pageCommentable != null && pageCommentable.commentable>
-			<#include "/views/LabsComments/displayCommentsPage.ftl" />
-		</#if>
-	</@block>
-
-    <div style="clear:both;"></div>
-
-    </div><!--FKtopContent-->
-
-    <div id="FKfooter">
-        <#include "views/common/footer.ftl">
-    </div><!--FKfooter-->
-<div>
-&nbsp;
-</div>
+    	<div class="context">
+			<#-- timeout -->
+		    <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
+		    
+		    
+		    <div id="FKtopContent">
+				
+				<#include "views/common/topbar.ftl" />
+			
+		    	<div class="top">
+		    		<#include "views/common/sitemap_area.ftl" />
+		    	</div>			
+				
+			    <div class="container">
+			      <div class="row">
+			         <div class="span16 columns">
+				        <#assign messages = This.getMessages() />
+				        <#list messages?keys as key >
+				           <div class="alert-message ${key}">
+				             <a class="close" href="#">x</a>
+				             ${Context.getMessage(messages[key])}
+				           </div>
+				        </#list>
+			        </div>
+			      </div>
+			    </div>
+				
+				 <script type="text/javascript">
+				    <#include "views/common/ckeditor_config.ftl" />
+				 </script>
+				
+			      <div class="container-fluid">
+				    <div id="sidebar" class="sidebar">
+				        <#include "views/TemplatesBase/supplyChain/sidebar.ftl" />
+				    </div>
+				    <div class="container">
+				    	<#include "views/common/topnavigation_area.ftl" />
+				    	<div class="span12">
+					      <@block name="breadcrumbs">
+					        <#include "views/common/breadcrumbs.ftl" >
+					      </@block>
+					    </div>
+				    	<div class="span12">
+				    		<@block name="content"></@block>
+				    	</div>
+				    	<br>
+				    	<div class="span12">
+					    	<@block name="pageCommentable">
+							    <#assign pageCommentable = This.getPage()/>
+								<#if pageCommentable != null && pageCommentable.commentable>
+									<#include "/views/LabsComments/displayCommentsPage.ftl" />
+								</#if>
+							</@block>
+						</div>
+				    </div>   	
+			    </div>
+			    
+			</div>
+			    
+			<div style="clear:both;"></div>
+			    
+		    <!--FKtopContent-->
+		
+		    <div id="FKfooter">
+		        <#include "views/common/footer.ftl">
+		    </div><!--FKfooter-->
+		</div>
     </body>
 </html>
