@@ -35,14 +35,14 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTreeAsset;
@@ -59,11 +59,13 @@ public class Site extends PageResource {
     @Override
     public Object doGet() {
         try {
-            return redirect(getPath() + '/' + URIUtils.quoteURIPathComponent(
-                    (new org.nuxeo.common.utils.Path(
-                            site.getIndexDocument().getAdapter(SiteDocument.class).getResourcePath())
-                    .removeFirstSegments(1)).toString(), false)
-            );
+            return redirect(getPath()
+                    + '/'
+                    + URIUtils.quoteURIPathComponent(
+                            (new org.nuxeo.common.utils.Path(
+                                    site.getIndexDocument().getAdapter(
+                                            SiteDocument.class).getResourcePath()).removeFirstSegments(1)).toString(),
+                            false));
         } catch (ClientException e) {
             return super.doGet();
         }
@@ -77,7 +79,7 @@ public class Site extends PageResource {
         ctx.getEngine().getRendering().setSharedVariable("site", site);
         ctx.setProperty("site", site);
     }
-    
+
     @POST
     @Path("@addContent")
     @Override

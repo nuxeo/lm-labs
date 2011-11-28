@@ -67,10 +67,6 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-      $.validator.messages.required = "${Context.getMessage('label.externalURL.edit.required')}";
-  });
-
 function deleteExternalURL(url, path){
   jQuery.ajax({
     type: "DELETE",
