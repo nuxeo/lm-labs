@@ -4,9 +4,10 @@
   xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/labstheme">
 
   <xs:include schemaLocation="core-types.xsd" />
-  <xs:element name="name" type="xs:string"></xs:element>
-
-
   <xs:element name="banner" type="tns:content"/>
+  <xs:element name="logo" type="tns:content"/>
+  <xs:element name="logo_posx" type="xs:integer" default="0" />
+  <xs:element name="logo_posy" type="xs:integer" default="0" />
+  <xs:element name="logo_resize_ratio" type="xs:integer" default="100" /> <!-- percentage -->
 </xs:schema>
 

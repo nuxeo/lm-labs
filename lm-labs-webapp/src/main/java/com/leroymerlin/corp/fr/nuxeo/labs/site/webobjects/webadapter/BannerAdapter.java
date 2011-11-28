@@ -74,14 +74,14 @@ public class BannerAdapter extends DefaultAdapter {
     public String getPathFoBanner() throws ClientException{
         DocumentModel document = getDocumentSite();
         LabsSite labssite = document.getAdapter(LabsSite.class);
-        if (labssite.getLogo() != null && !StringUtils.isEmpty(labssite.getLogo().getFilename())){
-            return document.getPath() + "/" + labssite.getLogo().getFilename();
+        if (labssite.getBanner() != null && !StringUtils.isEmpty(labssite.getBanner().getFilename())){
+            return document.getPath() + "/" + labssite.getBanner().getFilename();
         }
         return null;
     }
 
     private static Response getImgResponse(DocumentModel document) throws ClientException {
-        Blob blob = document.getAdapter(LabsSite.class).getLogo();
+        Blob blob = document.getAdapter(LabsSite.class).getBanner();
         if (blob != null){
             return Response.ok().entity(blob).type(blob.getMimeType()).build();
         }
@@ -101,14 +101,14 @@ public class BannerAdapter extends DefaultAdapter {
     public Object getBanner() throws ClientException{
         DocumentModel doc = getDocumentSite();
         LabsSite labssite = doc.getAdapter(LabsSite.class);
-        return labssite.getLogo();
+        return labssite.getBanner();
     }
 
     @DELETE
     public Response deleteImgBanner() throws ClientException{
         DocumentModel document = getDocumentSite();
         if (document != null){
-            document.getAdapter(LabsSite.class).setLogo(null);
+            document.getAdapter(LabsSite.class).setBanner(null);
             CoreSession session = ctx.getCoreSession();
             session.saveDocument(document);
             session.save();
@@ -130,7 +130,7 @@ public class BannerAdapter extends DefaultAdapter {
                     LabsSite labssite = docu.getAdapter(LabsSite.class);
                     CoreSession session = ctx.getCoreSession();
                     blob.persist();
-                    labssite.setLogo(blob);
+                    labssite.setBanner(blob);
                     session.saveDocument(docu);
                     session.save();
                     return Response.ok("Upload file ok", MediaType.TEXT_PLAIN).build();

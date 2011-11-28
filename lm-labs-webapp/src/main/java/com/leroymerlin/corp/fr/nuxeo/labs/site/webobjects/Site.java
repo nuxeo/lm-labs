@@ -145,7 +145,7 @@ public class Site extends PageResource {
         }
     }
 
-    @Path("theme/{themeName}")
+    @Path("@theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
             SiteThemeManager tm = site.getThemeManager();

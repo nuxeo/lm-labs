@@ -109,7 +109,7 @@ public class LabsSiteAdapterTest {
         labssite.setDescription("Description");
         labssite.setURL("URL");
         Blob blob = getTestBlob();
-        labssite.setLogo(blob);
+        labssite.setBanner(blob);
 
         // Persist document in db
         doc = session.createDocument(doc);
@@ -123,9 +123,9 @@ public class LabsSiteAdapterTest {
         assertThat(labssite.getTitle(), is("Le titre du site"));
         assertThat(labssite.getDescription(), is("Description"));
         assertThat(labssite.getURL(), is("URL"));
-        assertThat(labssite.getLogo(), is(notNullValue()));
-        assertEquals(labssite.getLogo().getFilename(), blob.getFilename());
-        assertEquals(labssite.getLogo().getLength(), blob.getLength());
+        assertThat(labssite.getBanner(), is(notNullValue()));
+        assertEquals(labssite.getBanner().getFilename(), blob.getFilename());
+        assertEquals(labssite.getBanner().getLength(), blob.getLength());
 
     }
 

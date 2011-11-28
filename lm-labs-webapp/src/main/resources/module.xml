@@ -31,6 +31,16 @@
       <guard>permission=Write AND (type=Site OR PageClasseur OR type=PageBlocs OR type=HtmlPage)</guard>
     </link>
 
+	<!-- TODO -->
+    <link id="SiteAdminAssets" path="/@views/administer_assets">
+      <type>Site</type>
+      <guard>Everything</guard>
+      <!-- 
+      <guard>permission=Everything AND type=Site</guard>
+       -->
+      <category>SITE_ADMINISTRATION_TABS</category>
+    </link>
+
   </links>
 
 </module>
