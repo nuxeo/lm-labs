@@ -1,0 +1,6 @@
+
+<div id="labssite-logo">
+    <img style="position:absolute;left:${site.themeManager.theme.logoPosX}px;top:${site.themeManager.theme.logoPosY}px;z-index:9999;" 
+    src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/logo" id="logoImgId"/>
+</div>
+

@@ -56,6 +56,9 @@
     <#include "views/common/topbar.ftl" />
 
     <div id="masthead">
+    <@block name="logo">
+      <#include "views/common/logo.ftl" />
+    </@block>
     <@block name="banner">
       <#include "views/common/banner.ftl" />
     </@block>

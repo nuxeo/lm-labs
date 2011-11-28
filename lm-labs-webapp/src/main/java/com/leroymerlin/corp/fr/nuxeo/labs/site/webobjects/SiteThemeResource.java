@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
@@ -105,18 +106,18 @@ public class SiteThemeResource extends PageResource {
         if (form.isMultipartContent()) {
             Blob blob = form.getFirstBlob();
             try {
-                site.setLogo(blob);
+                site.setBanner(blob);
                 CoreSession session = ctx.getCoreSession();
                 session.saveDocument(site.getDocument());
                 session.save();
                 return redirect(getPath()
-                        + "?message_success=label.labssites.banner_updated");
+                        + "?message_success=label.labssites.banner.updated");
             } catch (ClientException e) {
                 throw WebException.wrap(e);
             }
         }
         return redirect(getPath()
-                + "?message_warning=label.labssites.banner_nothing_changed");
+                + "?message_warning=label.labssites.banner.nothing_changed");
     }
 
     @POST
@@ -146,6 +147,68 @@ public class SiteThemeResource extends PageResource {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
+    }
+
+    @POST
+    @Path(value="logoParameters")
+    public Response doPostLogoPosition() {
+        boolean modified = false;
+        FormData form = ctx.getForm();
+        String posx = form.getString("logo_posx");
+        String posy = form.getString("logo_posy");
+        String ratio = form.getString("resize_ratio");
+        try {
+            if (StringUtils.isNotBlank(posx) && StringUtils.isNumeric(posx)) {
+                theme.setLogoPosX(Integer.parseInt(posx));
+                modified = true;
+            }
+            if (StringUtils.isNotBlank(posy) && StringUtils.isNumeric(posy)) {
+                theme.setLogoPosY(Integer.parseInt(posy));
+                modified = true;
+            }
+            if (StringUtils.isNotBlank(ratio) && StringUtils.isNumeric(ratio)) {
+                theme.setLogoResizeRatio(Integer.parseInt(ratio));
+                modified = true;
+            }
+            if (modified) {
+                CoreSession session = ctx.getCoreSession();
+                session.saveDocument(theme.getDocument());
+                session.save();
+                return redirect(getPath() + "?message_success=label.labssites.logo_parameters.updated");
+            }
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        return redirect(getPath() + "?message_warning=label.labssites.logo_parameters.nothing_changed");
+    }
+
+    @POST
+    @Path(value="logo")
+    public Response doPostLogo() {
+        FormData form = ctx.getForm();
+        if (form.isMultipartContent()) {
+            Blob blob = form.getFirstBlob();
+            try {
+                theme.setLogo(blob);
+                CoreSession session = ctx.getCoreSession();
+                session.saveDocument(theme.getDocument());
+                session.save();
+                return redirect(getPath() + "?message_success=label.labssites.logo.updated");
+            } catch (ClientException e) {
+                throw WebException.wrap(e);
+            }
+        }
+        return redirect(getPath() + "?message_warning=label.labssites.logo.nothing_changed");
+    }
+
+    @GET
+    @Path(value="logo")
+    public Response getImgLogo() throws ClientException {
+        Blob blob = theme.getLogo();
+        if (blob == null) {
+            return null;
+        }
+        return Response.ok().entity(blob).type(blob.getMimeType()).build();
     }
 
 }

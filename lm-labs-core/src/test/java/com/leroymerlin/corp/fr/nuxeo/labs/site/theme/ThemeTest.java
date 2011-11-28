@@ -15,6 +15,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
+import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
@@ -26,6 +27,12 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
+@Deploy({
+    "org.nuxeo.ecm.platform.picture.api",
+    "org.nuxeo.ecm.platform.picture.convert",
+    "org.nuxeo.ecm.platform.filemanager.core.listener",
+    "org.nuxeo.ecm.platform.commandline.executor"
+})
 @RepositoryConfig(cleanup=Granularity.METHOD, init=DefaultRepositoryInit.class)
 public class ThemeTest {
     @Inject
@@ -71,6 +78,72 @@ public class ThemeTest {
         assertThat(blob,is(notNullValue()));
         assertThat(blob.getLength() > 0 , is(true));
 
+    }
+
+    @Test
+    public void cantSetAndGetLogoFromTheme() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
+        theme.setLogo(getTestBlob());
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        Blob blob = theme.getLogo();
+        assertThat(blob,is(notNullValue()));
+        assertThat(blob.getLength() > 0 , is(true));
+    }
+
+    @Test
+    public void cantSetAndGetResizedLogoFromTheme() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
+        theme.setLogo(getTestBlob());
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        Blob blob = theme.getLogo();
+        assertThat(blob,is(notNullValue()));
+        assertThat(blob.getLength() > 0 , is(true));
+        
+        long originalSize = blob.getLength();
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        theme.setLogoResizeRatio(50);
+        session.saveDocument(theme.getDocument());
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        blob = theme.getLogo();
+        assertThat(blob,is(notNullValue()));
+        assertThat(blob.getLength() > 0 , is(true));
+        assertThat(blob.getLength() < originalSize , is(true));
+    }
+
+    @Test
+    public void cantSetAndGetLogoParametersFromTheme() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
+        assertThat(theme.getLogoPosX() , is(0));
+        assertThat(theme.getLogoPosY() , is(0));
+        assertThat(theme.getLogoResizeRatio() , is(100));
+        theme.setLogoPosX(1);
+        theme.setLogoPosY(2);
+        theme.setLogoResizeRatio(50);
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        assertThat(theme.getLogoPosX() , is(1));
+        assertThat(theme.getLogoPosY() , is(2));
+        assertThat(theme.getLogoResizeRatio() , is(50));
     }
 
     @Test

@@ -73,12 +73,12 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public Blob getLogo() throws ClientException {
+    public Blob getBanner() throws ClientException {
         return (Blob) doc.getPropertyValue(BANNER);
     }
 
     @Override
-    public void setLogo(Blob pBlob) throws ClientException {
+    public void setBanner(Blob pBlob) throws ClientException {
         if (pBlob == null) {
             doc.setPropertyValue(BANNER, null);
         } else {
