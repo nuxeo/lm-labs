@@ -46,11 +46,16 @@ public final class CommonHelper {
         List<Page> pages = new ArrayList<Page>();
         LabsSite site = siteDoc(siteDoc).getSite();
         Collection<Page> allTopPages = siteDoc(site.getTree()).getChildrenPages();
+        final DocumentModel homePageDoc = site.getIndexDocument();
+        pages.add(homePageDoc.getAdapter(Page.class));
         if (!site.isAdministrator(userName)) {
             pages.addAll(CollectionUtils.select(allTopPages, new Predicate() {
                 @Override
                 public boolean evaluate(Object input) {
                     Page page = (Page) input;
+                    if (page.getDocument().getId().equals(homePageDoc.getId())) {
+                        return false;
+                    }
                     try {
                         return (page.isVisible() && !page.isDeleted());
                     } catch (ClientException e) {

@@ -15,18 +15,21 @@
 	<#return false>
 </#function>
 
-
+<style>
+</style>
 <div class="span12" >
-	<ul class="tabs">
+	<ul class="tabs topnavpages">
 		<#assign topPages = Common.getTopNavigationPages(site.tree, Context.principal.name) />
 		<#if topPages?size &gt; 0 >
+			<#assign homePageId = Common.siteDoc((topPages?first).document).site.indexDocument.id />
 			<#list topPages as child >
 				<#assign pageDoc = child.document />
 				<#assign url = Context.modulePath + "/" + Common.siteDoc(pageDoc).resourcePath />
 				<#assign isActiveTab = isCurrentPage(pageDoc.id) />
 				<#assign title = pageDoc.title />
 				<li class="<#if isActiveTab >active</#if>">
-					<a href="${url}"><h5>${title}<@pageStatusLabel child /></h5></a>
+					<a href="${url}"><h5 class="<#if homePageId == pageDoc.id >homepage</#if>" >
+					${title}<@pageStatusLabel child /></h5></a>
 					<#if isActiveTab >
 						<div class="star"></div>
 					</#if>
