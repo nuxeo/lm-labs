@@ -9,22 +9,35 @@
 </script>
 <#macro children_block parentDoc spanClass="span5" uniqueId="1" >
     <#if This.isAuthorizedToDisplay(Context.principal.name, Context.principal.anonymous, parentDoc)>
+    	<#assign childrenNbr = 0 />
+    	<#if parentDoc.type == 'PageNews'>
+	    	<#assign children = This.getNews(parentDoc.ref) />
+	    	<#assign childrenNbr = children?size />
+    	<#else>
+	    	<#assign children = Session.getChildren(parentDoc.ref) />
+	    	<#list children as child>
+	    		<#if !child.facets?seq_contains("HiddenInNavigation") >
+	    			<#assign childrenNbr = childrenNbr + 1 />
+	    		</#if>
+	    	</#list>
+    	</#if>
+    	<#if childrenNbr &gt; 0 >
         <div id="bloc${parentDoc.id}_${uniqueId}" class="bloc ${spanClass} column">
           <div class="header">
-            <a href="${Context.modulePath}/${Common.siteDoc(parentDoc).resourcePath}">${parentDoc.title}</a>
+            <a href="${Context.modulePath}/${Common.siteDoc(parentDoc).resourcePath}">Sous-pages de ${parentDoc.title}</a>
           </div>
 
           <ul class="unstyled">
             <#if parentDoc.type == 'PageNews'>
               <#assign nbNews = 0 />
-              <#list This.getNews(parentDoc.ref) as child>
+              <#list children as child>
                 <#if nbNews < maxNbLabsNews >
                   <li>${child.title}</li>
                 </#if>
                 <#assign nbNews = nbNews + 1 />
               </#list>
             <#else>
-              <#list Session.getChildren(parentDoc.ref) as child>
+              <#list children as child>
                 <#if !child.facets?seq_contains("HiddenInNavigation") >
                   <#if child.type == 'Folder'>
                     <li>${child.title}</li>
@@ -39,5 +52,6 @@
             </#if>
           </ul>
         </div> <!-- bloc -->
+    	</#if>
     </#if>
 </#macro>

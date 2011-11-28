@@ -94,6 +94,8 @@
 
     <@block name="content">
     </@block>
+	<#include "views/common/children_area.ftl" />
+		<@children_block Document "span5" />
     
     <@block name="pageCommentable">
 	    <#assign pageCommentable = This.getPage()/>
