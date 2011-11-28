@@ -67,37 +67,6 @@ public class SiteThemeAdapter implements SiteTheme {
     @Override
     public Blob getLogo() throws ClientException {
         Blob blob = (Blob) doc.getPropertyValue(PROPERTY_LOGO_BLOB);
-        int logoResizeRatio = getLogoResizeRatio();
-        if (logoResizeRatio != 100) {
-            ImagingService imagingService = null;
-            try {
-                imagingService = Framework.getService(ImagingService.class);
-            } catch (Exception e1) {
-                LOG.error("Unable to get Imaging Service.");
-            }
-            if (imagingService == null) {
-                return blob;
-            }
-            final ImageInfo imageInfo = imagingService.getImageInfo(blob);
-            if (imageInfo == null) {
-                LOG.error("image infos are null");
-                return blob;
-            }
-            final Map<String, Serializable> options = new HashMap<String, Serializable>();
-            options.put(OPTION_RESIZE_WIDTH, (imageInfo.getWidth() * logoResizeRatio / 100));
-            options.put(OPTION_RESIZE_HEIGHT, (imageInfo.getHeight() * logoResizeRatio / 100));
-            BlobHolder bh = new SimpleBlobHolder(blob);
-            try {
-                ConversionService conversionService = Framework.getService(ConversionService.class);
-                bh = conversionService.convert(OPERATION_RESIZE, bh, options);
-                final Blob modifiedBlob = bh.getBlob();
-                if (modifiedBlob != null) {
-                    blob = modifiedBlob;
-                }
-            } catch (Exception e) {
-                LOG.error("Unable to get Conversion Service.");
-            }
-        }
         return blob;
     }
 
@@ -135,6 +104,28 @@ public class SiteThemeAdapter implements SiteTheme {
     @Override
     public void setLogoResizeRatio(int pos) throws ClientException {
         doc.setPropertyValue(PROPERTY_LOGO_RESIZE_RATIO, new Long(pos));
+    }
+
+    @Override
+    public int getLogoWidth() throws ClientException {
+        Blob blob = (Blob) doc.getPropertyValue(PROPERTY_LOGO_BLOB);
+        int logoResizeRatio = getLogoResizeRatio();
+        ImagingService imagingService = null;
+        try {
+            imagingService = Framework.getService(ImagingService.class);
+            if (imagingService == null) {
+                return 0;
+            }
+            final ImageInfo imageInfo = imagingService.getImageInfo(blob);
+            if (imageInfo == null) {
+                LOG.error("image infos are null");
+                return 0;
+            }
+            return (imageInfo.getWidth() * logoResizeRatio / 100);
+        } catch (Exception e1) {
+            LOG.error("Unable to get Imaging Service.");
+        }
+        return 0;
     }
 
 }

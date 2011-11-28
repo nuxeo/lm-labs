@@ -22,6 +22,8 @@ public interface SiteTheme {
 
     void setLogoResizeRatio(int pos) throws ClientException;
 
+    int getLogoWidth() throws ClientException;
+
     Blob getBanner() throws ClientException;
     
     void setBanner(Blob blob) throws ClientException;
