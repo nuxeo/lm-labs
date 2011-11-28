@@ -56,6 +56,7 @@
 		    
 		    <div id="FKtopContent">
 				
+				<#include "views/common/logo.ftl" />
 				<#include "views/common/topbar.ftl" />
 			
 		    	<div class="top">
