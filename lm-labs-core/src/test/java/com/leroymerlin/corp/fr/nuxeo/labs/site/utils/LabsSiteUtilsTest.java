@@ -6,7 +6,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +17,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.local.LocalSession;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
@@ -260,20 +264,24 @@ public final class LabsSiteUtilsTest {
 
 
 
-    protected void changeUser(String username) throws ClientException {
+    private CoreSession changeUser(String username) throws ClientException {
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
-        session = coreFeature.getRepository()
-                .getRepositoryHandler()
-                .changeUser(session, username);
+        Map<String, Serializable> ctx = new HashMap<String, Serializable>();
+        ctx.put("username", username);
+        CoreSession userSession = LocalSession.createInstance();
+        userSession.connect(coreFeature.getRepository().getName(), ctx);
+        return userSession;
     }
     
     @Test 
     public void isOnlyRead() throws Exception {
         DocumentModel docu = session.createDocumentModel("/", "myfolder", "Folder");
         docu = session.createDocument(docu);
-        session.save();
         PermissionsHelper.addPermission(docu, SecurityConstants.READ, "toto", true);
+        session.save();
         assertTrue(PermissionsHelper.hasPermission(docu, SecurityConstants.READ, "toto"));
+        CoreSession sessionToto = changeUser("toto");
+        docu = sessionToto.getDocument(docu.getRef());
         assertTrue(LabsSiteUtils.isOnlyRead(docu, "toto"));
     }
     
@@ -281,9 +289,11 @@ public final class LabsSiteUtilsTest {
     public void isNotOnlyRead() throws Exception {
         DocumentModel docu = session.createDocumentModel("/", "myfolder", "Folder");
         docu = session.createDocument(docu);
-        session.save();
         PermissionsHelper.addPermission(docu, SecurityConstants.READ_WRITE, "toto", true);
+        session.save();
         assertTrue(PermissionsHelper.hasPermission(docu, SecurityConstants.READ_WRITE, "toto"));
+        CoreSession sessionToto = changeUser("toto");
+        docu = sessionToto.getDocument(docu.getRef());
         assertTrue(!LabsSiteUtils.isOnlyRead(docu, "toto"));
     }
 }

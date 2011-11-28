@@ -92,21 +92,18 @@
 				    <div id="sidebar" class="sidebar">
 				        <#include "views/TemplatesBase/supplyChain/sidebar.ftl" />
 				    </div>
-				    <div class="container">
+				    <div class="content">
 				    	<#include "views/common/topnavigation_area.ftl" />
-				    	<div class="span12">
+				    	<div class="span16">
 					      <@block name="breadcrumbs">
 					        <#include "views/common/breadcrumbs.ftl" >
 					      </@block>
 					    </div>
-				    	<div class="span12">
+				    	<div class="span16">
 				    		<@block name="content"></@block>
 				    	</div>
 				    	<br>
-						<#include "views/common/children_area.ftl" />
-						<@children_block Document "span5" />
-				    	<br>
-				    	<div class="span12">
+				    	<div class="span16">
 					    	<@block name="pageCommentable">
 							    <#assign pageCommentable = This.getPage()/>
 								<#if pageCommentable != null && pageCommentable.commentable>

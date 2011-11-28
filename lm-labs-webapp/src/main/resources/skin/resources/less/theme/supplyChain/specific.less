@@ -2,20 +2,24 @@
 
 @basefont:          13px;
 
-@baseFontFamily:	Arial;
+@baseFontFamily:"Trebuchet MS", "Helvetica", "Verdana", "Arial", "Sans-serif";
 
 @gray:#676D71;
+
+@gridColumnWidth:   30px;
+@gridGutterWidth:   14px;
 
 /*Specific*/
 @bgcolortabs: #BB6C1A;
 
 .container {
-	width: auto;
+	//width: auto;
 }
 
 html>body {
   background-image: url(images/bg-brown.gif);
   font-family: @baseFontFamily;
+  color: #595959;
 }
 
 .tabs > li > a{
@@ -24,7 +28,6 @@ html>body {
 	.border-radius(4px 4px 4px 4px);
 	&:hover {
         text-decoration: none;
-        /*background-color: #dfb97b;*/
         background-color: lighten(@bgcolortabs, 35%);
         border-color: none;
 		padding-bottom: 2px;
@@ -49,12 +52,12 @@ html>body {
 
 .tabs {
 	border-bottom: none;
+	margin-bottom: 2px;
 }
 
 
 .topbar {
- /* width:auto;*/
- 	/*margin-top: 15px;*/
+  	width:auto;
  	position: relative;
  	vertical-align: top;
  	input {
@@ -71,8 +74,8 @@ html>body {
  }
  
 .context{
-	padding-top: 20px;
-	padding-bottom: 20px;
+	/*padding-top: 20px;
+	padding-bottom: 20px;*/
 }
  
 .tabs > li.active > div.star{
@@ -88,8 +91,24 @@ html>body {
 		left: 40%;
 }
  
+ 
+h1 {
+  font-size: @basefont + 9;
+  color: #BB6C1A;
+} 
+
+h2 {
+  font-size: @basefont + 8;
+  color: #676D71;
+} 
+
 h5 {
-  font-size: 12px;
+  font-size: @basefont;
+  color: #676D71;
+}
+
+h6 {
+  font-size: @basefont - 2;
   color: #676D71;
 }
 
@@ -103,8 +122,8 @@ h5 {
 }
 
 #FKtopContent{
-	position: relative;
-	margin-bottom: 0;
+	/*position: relative;
+	margin-bottom: 0;*/
 	
 	.top{
 		background-image: url(images/bg-ocre.gif);
@@ -122,6 +141,29 @@ h5 {
 		margin-top: -18px;
 	}
 }
+
+.breadcrumb {
+	background-color: @white;
+	#gradient > .vertical(@white, @white);
+	border: none;
+}
+
+.btn {
+  padding: 2px 8px 3px;
+  color: @white;
+  border: 1px solid #ccc;
+  #gradient > .vertical-three-colors(@gray, @gray, 25%, darken(@gray, 10%));
+  text-shadow: 0 0px 0px rgba(255,255,255,.75);
+  
+  .border-radius(11px);
+  
+
+	&.primary {
+	    color: @white;
+	    .gradientBar(@gray, @gray)
+	  }
+  
+ }
 
 
 

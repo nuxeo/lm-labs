@@ -1,5 +1,5 @@
 <div id="siteMap" >
-  <a href="${This.path}/@views/sitemap" class="linkButton">
+  <a href="${Context.modulePath}/${site.document.webcontainer.url}/@views/sitemap" class="linkButton">
     <button class="siteMapButton btn primary">Plan du Site</button>
   </a>
 </div>

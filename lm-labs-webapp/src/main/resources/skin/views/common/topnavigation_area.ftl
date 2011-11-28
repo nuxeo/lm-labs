@@ -15,9 +15,8 @@
 	<#return false>
 </#function>
 
-<style>
-</style>
-<div class="span12" >
+
+<div class="span16" >
 	<ul class="tabs topnavpages">
 		<#assign topPages = Common.getTopNavigationPages(site.tree, Context.principal.name) />
 		<#if topPages?size &gt; 0 >

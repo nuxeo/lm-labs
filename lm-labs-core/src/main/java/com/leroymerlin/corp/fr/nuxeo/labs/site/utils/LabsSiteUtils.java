@@ -23,8 +23,10 @@ public final class LabsSiteUtils {
     public static boolean isOnlyRead(final DocumentModel doc, final String user){
         boolean result = false;
         try {
-            result = !LabsSiteConstants.PERMISSIONS_HELPER.hasHigherOrEqualPermission(doc, SecurityConstants.READ_WRITE, user);
-            result = result && PermissionsHelper.hasPermission(doc, SecurityConstants.READ, user);
+            result = !doc.getCoreSession().hasPermission(doc.getRef(), SecurityConstants.READ_WRITE);
+            if (result){
+                result = doc.getCoreSession().hasPermission(doc.getRef(), SecurityConstants.READ);
+            }
         } catch (Exception e) {
             log.error(IMPOSSIBLE_TO_VERIFY_THE_PERMISSION, e);
             result = false;
