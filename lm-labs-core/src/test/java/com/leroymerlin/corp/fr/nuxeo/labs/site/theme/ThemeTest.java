@@ -111,7 +111,7 @@ public class ThemeTest {
         assertThat(blob,is(notNullValue()));
         assertThat(blob.getLength() > 0 , is(true));
         
-        long originalSize = blob.getLength();
+        int width = theme.getLogoWidth();
         tm = site.getThemeManager();
         theme = tm.getTheme();
         theme.setLogoResizeRatio(50);
@@ -119,10 +119,7 @@ public class ThemeTest {
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
         theme = tm.getTheme();
-        blob = theme.getLogo();
-        assertThat(blob,is(notNullValue()));
-        assertThat(blob.getLength() > 0 , is(true));
-        assertThat(blob.getLength() < originalSize , is(true));
+        assertThat(theme.getLogoWidth() , is(width/2));
     }
 
     @Test
