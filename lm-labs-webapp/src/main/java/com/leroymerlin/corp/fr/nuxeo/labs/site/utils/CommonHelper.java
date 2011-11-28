@@ -47,8 +47,11 @@ public final class CommonHelper {
         LabsSite site = siteDoc(siteDoc).getSite();
         Collection<Page> allTopPages = siteDoc(site.getTree()).getChildrenPages();
         final DocumentModel homePageDoc = site.getIndexDocument();
-        pages.add(homePageDoc.getAdapter(Page.class));
+        Page homePage = homePageDoc.getAdapter(Page.class);
         if (!site.isAdministrator(userName)) {
+            if (homePage.isVisible() && !homePage.isDeleted()) {
+                pages.add(homePage);
+            }
             pages.addAll(CollectionUtils.select(allTopPages, new Predicate() {
                 @Override
                 public boolean evaluate(Object input) {
@@ -63,7 +66,16 @@ public final class CommonHelper {
                     }
                 }}));
         } else {
-            pages.addAll(allTopPages);
+            pages.add(homePage);
+            pages.addAll(CollectionUtils.select(allTopPages, new Predicate() {
+                @Override
+                public boolean evaluate(Object input) {
+                    Page page = (Page) input;
+                    if (page.getDocument().getId().equals(homePageDoc.getId())) {
+                        return false;
+                    }
+                    return true;
+                }}));
         }
         return pages;
         
