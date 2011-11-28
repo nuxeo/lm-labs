@@ -8,9 +8,6 @@
 
     <div id="content" class="container">
       <div class="row">
-
-	<#include "views/common/children_area.ftl" />
-		<@children_block Document "span16" />
     </div>
   </@block>
 </@extends>
