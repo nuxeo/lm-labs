@@ -58,11 +58,18 @@
               <fieldset>
                 <legend>${Context.getMessage('label.labssites.logo.title.legend')}</legend>
                 <div class="clearfix">
+                  <#assign logoWidth = site.themeManager.theme.logoWidth />
+                  <#if logoWidth &gt; 0 >
+                  <div style="float: right; margin-right: 50px;" >
+                    <img title="${Context.getMessage('label.labssites.logo.delete.title')}" style="width:60px;cursor:pointer;" onclick="if (confirm('${Context.getMessage('label.labssites.logo.delete.confirm')}')) jQuery.ajax({url:'${This.path}/logo', type:'DELETE', success:function() {window.location.reload();}});"
+    src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/logo"/>
+                  </div>
+                  </#if>
                   <label for="logo">${Context.getMessage('label.labssites.logo.file')}</label>
                   <div class="input">
                     <input class="required" name="logo" type="file" enctype="multipart/form-data"/>
                     <span class="help-block">${Context.getMessage('label.labssites.logo.help.block')}</span>
-                   </div>
+                  </div>
                 </div><!-- /clearfix -->
               </fieldset>
               <div class="actions">

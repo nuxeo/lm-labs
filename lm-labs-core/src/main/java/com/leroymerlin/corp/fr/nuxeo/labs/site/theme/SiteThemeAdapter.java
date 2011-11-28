@@ -109,6 +109,9 @@ public class SiteThemeAdapter implements SiteTheme {
     @Override
     public int getLogoWidth() throws ClientException {
         Blob blob = (Blob) doc.getPropertyValue(PROPERTY_LOGO_BLOB);
+        if (blob == null) {
+            return 0;
+        }
         int logoResizeRatio = getLogoResizeRatio();
         ImagingService imagingService = null;
         try {

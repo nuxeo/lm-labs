@@ -3,6 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -200,7 +201,21 @@ public class SiteThemeResource extends PageResource {
         }
         return redirect(getPath() + "?message_warning=label.labssites.logo.nothing_changed");
     }
-
+    
+    @DELETE
+    @Path(value="logo")
+    public Response doDeleteLogo() {
+        try {
+            theme.setLogo(null);
+            CoreSession session = ctx.getCoreSession();
+            session.saveDocument(theme.getDocument());
+            session.save();
+            return redirect(getPath() + "?message_success=label.labssites.logo.updated");
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+    }
+    
     @GET
     @Path(value="logo")
     public Response getImgLogo() throws ClientException {
