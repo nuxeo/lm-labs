@@ -7,7 +7,6 @@
         </@block>
 
         <title>
-        	coco
             <@block name="title">Supply Chain</@block>
         </title>
 
