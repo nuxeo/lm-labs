@@ -5,12 +5,12 @@
 		    <@breadcrumb resource.previous/>
 		  </#if>
 		  <#if resource.document??>
-		  	<#assign class = ""/>
-		    <li><a href="${resource.path}">${resource.document.title}
+		    <li<#if resource.document.id == Document.id> class="active"</#if>><a href="${resource.path}">${resource.document.title}
+		    </a>
 		    <#if resource.document.type != "Site" && resource.document.type != "SiteTheme" && resource.document.id == Document.id>
 	    		<@pageStatusLabel resource.page />
 		    </#if>
-		    </a> <span class="divider">/</span></li>
+		    <span class="divider">/</span></li>
 		  </#if>
 		
 		</#macro>
