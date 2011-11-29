@@ -10,7 +10,9 @@
 		    <#if resource.document.type != "Site" && resource.document.type != "SiteTheme" && resource.document.id == Document.id>
 	    		<@pageStatusLabel resource.page />
 		    </#if>
+		    <#if resource.document.id != Document.id>
 		    <span class="divider">/</span></li>
+		    </#if>
 		  </#if>
 		
 		</#macro>
