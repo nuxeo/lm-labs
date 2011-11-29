@@ -220,26 +220,26 @@ public class LabsSiteAdapterTest {
         site = session.createDocument(site);
         // folder 1
         DocumentModel folder = session.createDocumentModel(
-                site.getPathAsString(), "folder", "Folder");
+                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "folder", "Folder");
         folder = session.createDocument(folder);
         // folder 2
         DocumentModel folder2 = session.createDocumentModel(
-                site.getPathAsString(), "folder2", "Folder");
+                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "folder2", "Folder");
         folder = session.createDocument(folder2);
         session.save();
 
         LabsSite labsSite = site.getAdapter(LabsSite.class);
         DocumentModelList lastUpdatedDocs = labsSite.getLastUpdatedDocs();
         assertNotNull(lastUpdatedDocs);
-        assertEquals(lastUpdatedDocs.size(), 5);
+        assertEquals(lastUpdatedDocs.size(), 3);
         
         // folder 3
         DocumentModel folder3 = session.createDocumentModel(
-                site.getPathAsString(), "folder3", "Folder");
+                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "folder3", "Folder");
         folder = session.createDocument(folder3);
         session.save();
         
         lastUpdatedDocs = labsSite.getLastUpdatedDocs();
-        assertEquals(lastUpdatedDocs.size(), 6);
+        assertEquals(lastUpdatedDocs.size(), 4);
     }
 }

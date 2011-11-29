@@ -78,3 +78,21 @@ function hideAlerts() {
 
   });
 }
+
+function EllipsisText() {
+  this.init = doEllipsisText;
+}
+
+function doEllipsisText() {
+	jQuery('.ellipsisText').each(
+      function() {
+        jQuery(this).html('<span class="ellipsis_text">' + jQuery(this).html() + '</span>');
+        var option = jQuery(this).attr('ellipsisTextOptions');
+        if (option) {
+          jQuery(this).ThreeDots(eval('(' + option + ')'));
+        } else {
+          jQuery(this).ThreeDots();
+        }
+      }
+    );
+}

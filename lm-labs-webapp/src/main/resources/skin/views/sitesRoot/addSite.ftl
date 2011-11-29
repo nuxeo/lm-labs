@@ -29,9 +29,3 @@
     <button class="btn primary required-fields" form-id="form-labssite">${Context.getMessage('label.labssites.edit.valid')}</button>
   </div>
 </form>
-
-<script type="text/javascript">
-  $(document).ready(function() {
-      $.validator.messages.required = "${Context.getMessage('label.labssites.edit.required')}";
-  });
-</script>

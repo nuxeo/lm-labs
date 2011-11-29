@@ -20,6 +20,7 @@
           <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
+          <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/pagination.css"/>
         </@block>
 
         <@block name="scripts">
@@ -43,7 +44,14 @@
           <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
           <script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.pagination.js"></script>
           <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.ThreeDots.min.js"></script>
+          <script type="text/javascript">
+            jQuery(document).ready(function() {
+			  new EllipsisText().init();
+		    });
+		  </script>
 
         </@block>
     </head>
@@ -88,20 +96,30 @@
 	 <script type="text/javascript">
 	    <#include "views/common/ckeditor_config.ftl" />
 	 </script>
+	 
+	 <div class="container-fluid">
 
-    <@block name="content">
-    </@block>
+		<@block name="sidebar">
+		 	<div class="sidebar"> 
+		    	<#include "views/common/sidebar_area.ftl" />
+		    </div>
+	    </@block>
+	
+	    <@block name="content">
+	    </@block>
+	    
+	    <@block name="pageCommentable">
+		    <#assign pageCommentable = This.getPage()/>
+			<#if pageCommentable != null && pageCommentable.commentable>
+				<#include "/views/LabsComments/displayCommentsPage.ftl" />
+			</#if>
+		</@block>
+	
+	    <div style="clear:both;"></div>
+	
+	    </div><!--FKtopContent-->
     
-    <@block name="pageCommentable">
-	    <#assign pageCommentable = This.getPage()/>
-		<#if pageCommentable != null && pageCommentable.commentable>
-			<#include "/views/LabsComments/displayCommentsPage.ftl" />
-		</#if>
-	</@block>
-
-    <div style="clear:both;"></div>
-
-    </div><!--FKtopContent-->
+    </div><!--container-fluid-->
 
     <div id="FKfooter">
         <#include "views/common/footer.ftl">

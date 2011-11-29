@@ -1,12 +1,14 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.webengine.model.WebContext;
 
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndContentImpl;
@@ -23,28 +25,35 @@ public final class SyndicationUtils {
     }
 
     public static SyndFeed buildRss(final DocumentModelList docList,
-            final String rssTitle, final String rssDesc, final String basePath)
-            throws ClientException {
+            final String rssTitle, final String rssDesc,
+            final WebContext context) throws ClientException {
         final SyndFeed feed = new SyndFeedImpl();
         feed.setFeedType(FEED_TYPE);
         feed.setTitle(rssTitle);
-        // FIXME field it when IHM is developped
-        feed.setLink("LIEN A DETERMINER");
+        feed.setLink(StringUtils.EMPTY);
         feed.setDescription(rssDesc);
-        feed.setEntries(createRssEntries(docList, basePath));
+        feed.setEntries(createRssEntries(docList, context));
         return feed;
     }
 
     private static List<SyndEntry> createRssEntries(
-            final DocumentModelList docList, final String basePath)
+            final DocumentModelList docList, final WebContext context)
             throws ClientException {
         List<SyndEntry> entries = new ArrayList<SyndEntry>();
         SyndEntry entry;
+
         for (DocumentModel doc : docList) {
             entry = new SyndEntryImpl();
             entry.setTitle(doc.getTitle());
-            entry.setLink(basePath + "/" + doc.getName());
-            entry.setPublishedDate(new Date()); // FIXME
+
+            if (doc.isFolder()) {
+                entry.setLink(context.getBaseURL() + context.getUrlPath(doc));
+            } else {
+                entry.setLink(context.getBaseURL()
+                        + context.getUrlPath(context.getCoreSession().getParentDocument(
+                                doc.getRef())));
+            }
+            entry.setPublishedDate(((GregorianCalendar) doc.getPropertyValue("dc:modified")).getTime());
             entry.setDescription(createRssDescription((String) doc.getPropertyValue("dc:description")));
             entries.add(entry);
         }

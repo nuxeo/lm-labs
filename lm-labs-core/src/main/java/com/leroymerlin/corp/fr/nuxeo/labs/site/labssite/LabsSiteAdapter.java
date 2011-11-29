@@ -221,8 +221,10 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     private String getWelcomePageId() throws ClientException {
-        if (doc.getCoreSession().hasPermission(doc.getRef(), SecurityConstants.WRITE)) {
-            PathRef ref = new PathRef(doc.getPathAsString() + "/" + LabsSiteConstants.Docs.TREE.docName(),
+        if (doc.getCoreSession().hasPermission(doc.getRef(),
+                SecurityConstants.WRITE)) {
+            PathRef ref = new PathRef(doc.getPathAsString() + "/"
+                    + LabsSiteConstants.Docs.TREE.docName(),
                     LabsSiteConstants.Docs.WELCOME.docName());
             DocumentModel welcome = doc.getCoreSession().getDocument(ref);
             setHomePageRef(welcome.getId());
@@ -230,20 +232,21 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             doc.getCoreSession().save();
             return (String) doc.getPropertyValue(HOME_PAGE_REF);
         }
-        throw WebException.wrap(new WebResourceNotFoundException("home page not set."));
+        throw WebException.wrap(new WebResourceNotFoundException(
+                "home page not set."));
     }
 
     @Override
     public DocumentModelList getLastUpdatedDocs() throws ClientException {
         StringBuilder query = new StringBuilder("SELECT * FROM Document");
         query.append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(
-                doc.getPathAsString()).append("'");
+                doc.getPathAsString()).append("/").append(
+                LabsSiteConstants.Docs.TREE.docName()).append("'");
         query.append(" AND ecm:isCheckedInVersion = 0");
         query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
         query.append(" ORDER BY dc:modified DESC");
 
-        return getCoreSession().query(query.toString(),
-                NB_LAST_UPDATED_DOCS);
+        return getCoreSession().query(query.toString(), NB_LAST_UPDATED_DOCS);
     }
 
 }
