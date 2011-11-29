@@ -10,7 +10,7 @@
 		    <#if resource.document.type != "Site" && resource.document.type != "SiteTheme">
 	    		<@pageStatusLabel resource.page />
 		    </#if>
-		    </a> <span class="divider">&gt;</span></li>
+		    </a> <span class="divider">/</span></li>
 		  </#if>
 		
 		</#macro>
