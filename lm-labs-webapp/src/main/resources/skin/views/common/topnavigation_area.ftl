@@ -1,4 +1,3 @@
-<#include "macros/status_label.ftl" />
 <#function isCurrentPage id>
 	<#if id == Document.id >
 		<#return true>
@@ -28,7 +27,7 @@
 				<#assign title = pageDoc.title />
 				<li class="<#if isActiveTab >active</#if>">
 					<a href="${url}"><h5 class="<#if homePageId == pageDoc.id >homepage</#if>" >
-					${title}<@pageStatusLabel child /></h5></a>
+					${title}</h5></a>
 					<#if isActiveTab >
 						<div class="star"></div>
 					</#if>
