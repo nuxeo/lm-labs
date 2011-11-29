@@ -28,6 +28,10 @@ html>body {
   font-family: @baseFontFamily;
   color: @baseFontColor;
 }
+
+a{outline: none;}
+:focus{-moz-outline-style: none;}
+
 .tabs {
 	border-bottom: none;
 	margin-bottom: 2px;
@@ -99,10 +103,13 @@ html>body {
     h3{
     	margin-left: 10px;
     }
+    a{outline: none;}
+	:focus{-moz-outline-style: none;}
  }
  
 .topbar-inner, .topbar-wrapper {
   background-image: url(images/bg-grey.gif);
+  
 }
 
 .context{
@@ -232,7 +239,7 @@ h6 {
 	}
 }
 
-.marylinBrowRow{
+.marylinBrownRow{
 	background-image: url(images/bg-ocre.gif);
 	background-repeat: repeat;
 }
