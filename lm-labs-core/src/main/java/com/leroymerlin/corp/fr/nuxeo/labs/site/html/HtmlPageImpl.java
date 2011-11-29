@@ -11,7 +11,8 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
-public class HtmlPageImpl extends AbstractPage implements HtmlPage, ChangeListener {
+public class HtmlPageImpl extends AbstractPage implements HtmlPage,
+        ChangeListener {
 
     public static final String DOCTYPE = Docs.HTMLPAGE.type();
 
@@ -21,13 +22,11 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage, ChangeListen
         this.doc = doc;
     }
 
-
     @Override
     public List<HtmlSection> getSections() throws ClientException {
         if (sections == null) {
             @SuppressWarnings("unchecked")
-            List<Map<String, Serializable>> sectionsMap = (List<Map<String, Serializable>>) doc
-                    .getPropertyValue("html:sections");
+            List<Map<String, Serializable>> sectionsMap = (List<Map<String, Serializable>>) doc.getPropertyValue("html:sections");
             sections = new ArrayList<HtmlSection>(sectionsMap.size());
             for (Map<String, Serializable> map : sectionsMap) {
                 sections.add(new HtmlSectionImpl(this, map));
@@ -40,9 +39,18 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage, ChangeListen
 
     @Override
     public HtmlSection addSection() throws ClientException {
+        return addSection(getSections().size());
+    }
+
+    @Override
+    public HtmlSection addSection(int index) throws ClientException {
+        if (index < 0 || index > getSections().size()) {
+            return null;
+        }
+
         List<HtmlSection> sections = getSections();
         HtmlSection returnedSection = new HtmlSectionImpl(this);
-        sections.add(returnedSection);
+        sections.add(index, returnedSection);
         update();
 
         return returnedSection;
@@ -65,13 +73,13 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage, ChangeListen
         return getSections().get(index);
     }
 
-    public HtmlSection addSectionBefore(HtmlSection htmlSection) throws ClientException {
+    public HtmlSection addSectionBefore(HtmlSection htmlSection)
+            throws ClientException {
         List<HtmlSection> sections = getSections();
         HtmlSection section = new HtmlSectionImpl(this);
         sections.add(sections.indexOf(htmlSection), section);
         update();
         return section;
-
 
     }
 
@@ -80,11 +88,9 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage, ChangeListen
         update();
     }
 
-
     @Override
     public void onChange(Object obj) throws ClientException {
         update();
     }
-
 
 }
