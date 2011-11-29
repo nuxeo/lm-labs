@@ -7,7 +7,7 @@
 		  <#if resource.document??>
 		  	<#assign class = ""/>
 		    <li><a href="${resource.path}">${resource.document.title}
-		    <#if resource.document.type != "Site" && resource.document.type != "SiteTheme">
+		    <#if resource.document.type != "Site" && resource.document.type != "SiteTheme" && resource.document.id == Document.id>
 	    		<@pageStatusLabel resource.page />
 		    </#if>
 		    </a> <span class="divider">&gt;</span></li>
