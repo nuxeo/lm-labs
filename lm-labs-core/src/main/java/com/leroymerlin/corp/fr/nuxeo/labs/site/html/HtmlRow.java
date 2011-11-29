@@ -10,9 +10,11 @@ import org.nuxeo.ecm.core.api.ClientException;
 
 public class HtmlRow {
 
+    private static final String CSS_PROPERTY_NAME = "cssclass";
     private final HtmlSection parentSection;
     private Map<String, Serializable> rowMap = new HashMap<String, Serializable>();
     private List<HtmlContent> contents;
+    private String cssClass;
 
     public HtmlRow(HtmlSection parentSection) {
         this.parentSection = parentSection;
@@ -21,11 +23,18 @@ public class HtmlRow {
     public HtmlRow(HtmlSection htmlSection, Map<String, Serializable> rowMap) {
         this.parentSection = htmlSection;
         this.rowMap = rowMap;
+        this.cssClass = (String) (rowMap.containsKey(CSS_PROPERTY_NAME) ? rowMap.get(CSS_PROPERTY_NAME) : null);
+    }
+
+    public HtmlRow(HtmlSectionImpl htmlSection, String cssClass) {
+        this.parentSection = htmlSection;
+        this.cssClass = cssClass;
     }
 
     public Map<String, Serializable> toMap() {
         Map<String, Serializable> result = new HashMap<String, Serializable>();
         result.put("contents", (Serializable) contentsToListOfMap());
+        result.put(CSS_PROPERTY_NAME, cssClass);
         return result;
     }
 
@@ -86,6 +95,10 @@ public class HtmlRow {
     public void update() throws ClientException {
         parentSection.onChange(this);
 
+    }
+
+    public String getCssClass() {
+        return cssClass;
     }
 
 }

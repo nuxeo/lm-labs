@@ -124,4 +124,14 @@ public class HtmlSectionImpl implements HtmlSection {
 
     }
 
+    @Override
+    public HtmlRow addRow(String cssClass) throws ClientException {
+
+            HtmlRow row = new HtmlRow(this,cssClass);
+            getRows().add(row);
+            update();
+            parent.onChange(this);
+            return row;
+    }
+
 }

@@ -28,4 +28,6 @@ public interface HtmlSection extends ChangeListener {
 
     public void remove(HtmlRow row) throws ClientException;
 
+    public HtmlRow addRow(String cssClass) throws ClientException;
+
 }

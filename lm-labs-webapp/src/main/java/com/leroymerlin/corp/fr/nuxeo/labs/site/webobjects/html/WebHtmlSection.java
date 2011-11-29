@@ -50,7 +50,8 @@ public class WebHtmlSection extends DocumentObject {
             String action = form.getString("action");
 
             if ("addrow".equals(action)) {
-                HtmlRow row = section.addRow();
+                String cssClass = form.getString("cssClass");
+                HtmlRow row = section.addRow(cssClass);
                 String rowTemplate = form.getString("rowTemplate");
                 RowTemplate.initRow(row, RowTemplate.fromString(rowTemplate));
             } else if ("editsection".equals(action)) {

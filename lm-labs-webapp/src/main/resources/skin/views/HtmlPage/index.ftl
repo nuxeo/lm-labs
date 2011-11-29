@@ -34,7 +34,7 @@
         </div>
 
         <#list section.rows as row>
-          <div class="row" id="row_s${section_index}_r${row_index}">
+          <div class="row<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
               <#list row.contents as content>
                 <div class="span${content.colNumber} columns">
                 <#if content.html == "">

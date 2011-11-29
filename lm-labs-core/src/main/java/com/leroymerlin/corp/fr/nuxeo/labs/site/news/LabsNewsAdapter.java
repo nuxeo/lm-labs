@@ -240,4 +240,9 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
         return this.doc.getId().equals(((LabsNews) obj).getDocumentModel().getId());
     }
 
+    @Override
+    public HtmlRow addRow(String cssClass) throws ClientException {
+        return getSection().addRow(cssClass);
+    }
+
 }

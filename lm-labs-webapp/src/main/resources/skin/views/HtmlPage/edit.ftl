@@ -19,7 +19,7 @@
 
   <@block name="docactions">
       <@superBlock/>
-   	  <li><a id="page_view" href="${This.path}">Voir la page</a></li>
+       <li><a id="page_view" href="${This.path}">Voir la page</a></li>
       <#include "views/common/page_actions.ftl" />
   </@block>
 
@@ -90,7 +90,7 @@
 
 
         <#list section.rows as row>
-          <div class="row" id="row_s${section_index}_r${row_index}">
+          <div class="row<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
               <#list row.contents as content>
               <div class="span${content.colNumber} columns">
                 <div id="s_${section_index}_r_${row_index}_c_${content_index}">${content.html}</div>
@@ -135,6 +135,7 @@
                     <option value="3COL">3 colonnes (33/33/33)</option>
                     <option value="4COL">4 colonnes (25/25/25/25)</option>
                 </select>
+                Classe CSS : <input class="medium" name="cssClass" />
                 <button type="submit" class="btn small primary">Ajouter</button>
                 <span class="help-block">
                     Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
