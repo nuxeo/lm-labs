@@ -62,8 +62,7 @@
 		    
 			<#include "views/common/topbar.ftl" />
 		    
-		    <div id="FKtopContent">
-				
+		    <div id="FKtopContent" style="position:relative;" >
 				<#include "views/common/logo.ftl" />
 			
 		    	<div class="top">

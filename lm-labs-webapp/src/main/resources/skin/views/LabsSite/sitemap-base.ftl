@@ -22,10 +22,18 @@
           <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
           <script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
 
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.sortable.js"></script>
+	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
+	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
+	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
+	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.sortable.js"></script>
+	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.pagination.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
+	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.ThreeDots.min.js"></script>
+	      <script type="text/javascript">
+	        jQuery(document).ready(function() {
+			  new EllipsisText().init();
+		    });
+		  </script>
    </@block>
 
    <@block name="css">
@@ -34,6 +42,8 @@
   </@block>
 
   <@block name="content">
+  	<#-- timeout -->
+	<input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
     <div id="content" class="container">
         <section>
           <div class="page-header">
