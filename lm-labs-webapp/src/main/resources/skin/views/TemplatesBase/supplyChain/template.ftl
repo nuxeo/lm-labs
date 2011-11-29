@@ -60,11 +60,11 @@
 			<#-- timeout -->
 		    <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
 		    
+			<#include "views/common/topbar.ftl" />
 		    
 		    <div id="FKtopContent">
 				
 				<#include "views/common/logo.ftl" />
-				<#include "views/common/topbar.ftl" />
 			
 		    	<div class="top">
 		    		<#include "views/common/sitemap_area.ftl" />
@@ -92,7 +92,7 @@
 				    <div id="sidebar" class="sidebar">
 				        <#include "views/TemplatesBase/supplyChain/sidebar.ftl" />
 				    </div>
-				    <div class="content">
+				    <div class="body">
 				    	<#include "views/common/topnavigation_area.ftl" />
 				    	<div class="span16">
 					      <@block name="breadcrumbs">
@@ -120,9 +120,9 @@
 			    
 		    <!--FKtopContent-->
 		
-		    <div id="FKfooter">
-		        <#include "views/common/footer.ftl">
-		    </div><!--FKfooter-->
 		</div>
+	    <div id="FKfooter">
+	        <#include "views/common/footer.ftl">
+	    </div><!--FKfooter-->
     </body>
 </html>

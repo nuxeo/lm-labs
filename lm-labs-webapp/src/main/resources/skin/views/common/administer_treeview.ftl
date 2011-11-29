@@ -490,23 +490,29 @@
 			    //else get parent
 			    else var id = data.rslt.parent.attr("id").replace("node_","");
 			    
-   			   jQuery.ajax({
-					async : false,
-					type: 'POST',
-					url: "${This.path}/@pageUtils/addFolder",
-					data : {
-						"title" : data.rslt.name,
-						"doctype" : data.args[1],
-						"destination" : id
-					},
-					success : function (r) {
-			        	$(data.rslt.obj).attr("id", "node_" + r.id);
-			        	jQuery("#jstree").jstree("refresh");
-			        },
-			        error : function (r) {
-			            $.jstree.rollback(data.rlbk);
-			        }
-				});
+			   if(data.rslt.name!='New node') {
+	   			   jQuery.ajax({
+						async : false,
+						type: 'POST',
+						url: "${This.path}/@pageUtils/addFolder",
+						data : {
+							"title" : data.rslt.name,
+							"doctype" : data.args[1],
+							"destination" : id
+						},
+						success : function (r) {
+				        	$(data.rslt.obj).attr("id", "node_" + r.id);
+				        	jQuery("#jstree").jstree("refresh");
+				        },
+				        error : function (r) {
+				            $.jstree.rollback(data.rlbk);
+				        }
+					});
+			   } else {
+			   	alert("${Context.getMessage('label.admin.asset.dirTitleRequire')}");
+			   	jQuery("#jstree").jstree("refresh");
+			   }
+			    
 			})
 			.bind("select_node.jstree", function (e, data) {
 				rel = $(data.rslt.obj).attr("rel");

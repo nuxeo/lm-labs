@@ -241,5 +241,15 @@ public class LabsSiteAdapterTest {
         
         lastUpdatedDocs = labsSite.getLastUpdatedDocs();
         assertEquals(lastUpdatedDocs.size(), 4);
+        
+        // hidden document
+        DocumentModel hiddenFolder = session.createDocumentModel(
+                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "hiddenFolder", "HiddenFolder");
+        folder = session.createDocument(hiddenFolder);
+        session.save();
+        
+        lastUpdatedDocs = labsSite.getLastUpdatedDocs();
+        assertEquals(lastUpdatedDocs.size(), 4);
+        
     }
 }

@@ -6,20 +6,30 @@
 
 @gray:#676D71;
 
-@gridColumnWidth:   30px;
+@gridColumnWidth:   32px;
 @gridGutterWidth:   14px;
 
 /*Specific*/
 @bgcolortabs: #BB6C1A;
 
+@sidebarWidth:   180px;
+
 .container {
 	//width: auto;
+}
+
+html {
+  background-image: url(images/bg-brown.gif);
 }
 
 html>body {
   background-image: url(images/bg-brown.gif);
   font-family: @baseFontFamily;
   color: #595959;
+}
+.tabs {
+	border-bottom: none;
+	margin-bottom: 2px;
 }
 
 .tabs > li > a{
@@ -30,7 +40,7 @@ html>body {
         text-decoration: none;
         background-color: lighten(@bgcolortabs, 35%);
         border-color: none;
-		padding-bottom: 2px;
+		padding-bottom: 0px;
 		> h5 {
 			color: @white;
 		}
@@ -40,24 +50,37 @@ html>body {
      }
 }
 .tabs > li.active > a{
+	 padding-top: 1px;
+	 border: 0px;
 	 color: @white;
      background-color: @bgcolortabs;
-     border-bottom-color: none;
-     padding-bottom: 0;
+     border-color: none;
+     padding-bottom: 0px;
+     
+     .border-radius(4px 4px 4px 4px);
      
      > h5{
      color: @white;
      }
 }
 
-.tabs {
-	border-bottom: none;
-	margin-bottom: 2px;
+
+
+.tabs > li.active > div.star{
+
+		width:0; 
+		height:0; 
+		border-left: 5px solid transparent; 
+		border-right: 5px solid transparent; 
+		border-top: 5px solid @bgcolortabs; 
+		border-bottom: 0; 
+		position: absolute; 
+		bottom: -4px; 
+		left: 40%;
 }
-
-
 .topbar {
-  	width:auto;
+  	width: 980px;
+  	margin: auto;
  	position: relative;
  	vertical-align: top;
  	input {
@@ -73,23 +96,15 @@ html>body {
     }
  }
  
+.topbar-inner, .topbar-wrapper {
+  background-image: url(images/bg-grey.gif);
+}
+
 .context{
 	/*padding-top: 20px;
 	padding-bottom: 20px;*/
 }
  
-.tabs > li.active > div.star{
-
-		width:0; 
-		height:0; 
-		border-left: 5px solid transparent; 
-		border-right: 5px solid transparent; 
-		border-top: 5px solid @bgcolortabs; 
-		border-bottom: 0; 
-		position: absolute; 
-		bottom: -5px; 
-		left: 40%;
-}
  
  
 h1 {
@@ -114,17 +129,32 @@ h6 {
 
 #sidebar {
   #gradient > .vertical-three-colors(@white, @white, 25%, lighten(@white,80%));
+  >div{
+  	margin-left: 10px;
+  	margin-right: 0px;
+  }
 }
 
-.topbar-inner,
-.topbar .fill {
-  background-image: url(images/bg-grey.gif);
+.container-fluid {
+  position: relative;
+  /*in-width: @siteWidth - @sidebarWidth;*/
+  padding-left: 0px;
+  padding-right: 0px;
+  > .sidebar {
+    	width: 20%;
+  	}
+  > .body {
+  	float: right;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 79%;
+  }
 }
+
 
 #FKtopContent{
-	/*position: relative;
-	margin-bottom: 0;*/
-	
+	margin-top: 12px;
+	margin-bottom: 5px;
 	.top{
 		background-image: url(images/bg-ocre.gif);
 		height: 50px;
@@ -164,6 +194,10 @@ h6 {
 	  }
   
  }
+
+[class*="span"] {
+	margin-left: 5px;
+}
 
 
 
