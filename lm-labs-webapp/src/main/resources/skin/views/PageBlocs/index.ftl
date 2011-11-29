@@ -7,7 +7,7 @@
   <@block name="content">
 
     <div id="content" class="container">
-      <div class="row">/div>
+      <div class="row">
     </div>
   </@block>
 </@extends>
