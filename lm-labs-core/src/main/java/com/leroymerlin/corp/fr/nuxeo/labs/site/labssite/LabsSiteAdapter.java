@@ -244,6 +244,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                 LabsSiteConstants.Docs.TREE.docName()).append("'");
         query.append(" AND ecm:isCheckedInVersion = 0");
         query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
+        query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(" <> 'HiddenInNavigation'");
         query.append(" ORDER BY dc:modified DESC");
 
         return getCoreSession().query(query.toString(), NB_LAST_UPDATED_DOCS);
