@@ -13,6 +13,7 @@ toolbar:
 ['NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Outdent','Indent','Blockquote'],
 '/',
 [ 'Bold','Italic','Underline','Strike','-','SelectAll','RemoveFormat'],
+['Link','Unlink'],
 [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar' ] ,'/',
 ['Format','Font','FontSize'],
 ['TextColor','BGColor'],
