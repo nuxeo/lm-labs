@@ -6,14 +6,20 @@
 
 @gray:#676D71;
 
-@gridColumnWidth:   30px;
+@gridColumnWidth:   32px;
 @gridGutterWidth:   14px;
 
 /*Specific*/
 @bgcolortabs: #BB6C1A;
 
+@sidebarWidth:   180px;
+
 .container {
 	//width: auto;
+}
+
+html {
+  background-image: url(images/bg-brown.gif);
 }
 
 html>body {
@@ -69,11 +75,12 @@ html>body {
 		border-top: 5px solid @bgcolortabs; 
 		border-bottom: 0; 
 		position: absolute; 
-		bottom: -5px; 
+		bottom: -4px; 
 		left: 40%;
 }
 .topbar {
-  	width:auto;
+  	width: 980px;
+  	margin: auto;
  	position: relative;
  	vertical-align: top;
  	input {
@@ -89,6 +96,10 @@ html>body {
     }
  }
  
+.topbar-inner, .topbar-wrapper {
+  background-image: url(images/bg-grey.gif);
+}
+
 .context{
 	/*padding-top: 20px;
 	padding-bottom: 20px;*/
@@ -118,17 +129,32 @@ h6 {
 
 #sidebar {
   #gradient > .vertical-three-colors(@white, @white, 25%, lighten(@white,80%));
+  >div{
+  	margin-left: 10px;
+  	margin-right: 0px;
+  }
 }
 
-.topbar-inner,
-.topbar .fill {
-  background-image: url(images/bg-grey.gif);
+.container-fluid {
+  position: relative;
+  /*in-width: @siteWidth - @sidebarWidth;*/
+  padding-left: 0px;
+  padding-right: 0px;
+  > .sidebar {
+    	width: 20%;
+  	}
+  > .body {
+  	float: right;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 79%;
+  }
 }
+
 
 #FKtopContent{
-	/*position: relative;
-	margin-bottom: 0;*/
-	
+	margin-top: 12px;
+	margin-bottom: 5px;
 	.top{
 		background-image: url(images/bg-ocre.gif);
 		height: 50px;
@@ -168,6 +194,10 @@ h6 {
 	  }
   
  }
+
+[class*="span"] {
+	margin-left: 5px;
+}
 
 
 
