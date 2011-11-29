@@ -241,15 +241,46 @@ public class LabsSiteAdapterTest {
         
         lastUpdatedDocs = labsSite.getLastUpdatedDocs();
         assertEquals(lastUpdatedDocs.size(), 4);
-        
+    }
+    
+    @Ignore
+    @Test
+    public void iCanGetLastUpdatedDocsWithoutHiddenFolder() throws Exception {
+        // site
+        DocumentModel site = session.createDocumentModel("/", "NameSite1",
+                LABSSITE_TYPE);
+        site = session.createDocument(site);
+        // folder 1
+        DocumentModel folder = session.createDocumentModel(
+                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "folder", "Folder");
+        folder = session.createDocument(folder);
+        // folder 2
+        DocumentModel folder2 = session.createDocumentModel(
+                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "folder2", "Folder");
+        folder = session.createDocument(folder2);
+        session.save();
+
+        LabsSite labsSite = site.getAdapter(LabsSite.class);
+        DocumentModelList lastUpdatedDocs = labsSite.getLastUpdatedDocs();
+        assertNotNull(lastUpdatedDocs);
+        assertEquals(lastUpdatedDocs.size(), 3);
+
+        // folder 3
+        DocumentModel folder3 = session.createDocumentModel(
+                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "folder3", "Folder");
+        folder = session.createDocument(folder3);
+        session.save();
+
+        lastUpdatedDocs = labsSite.getLastUpdatedDocs();
+        assertEquals(lastUpdatedDocs.size(), 4);
+
         // hidden document
         DocumentModel hiddenFolder = session.createDocumentModel(
                 site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "hiddenFolder", "HiddenFolder");
         folder = session.createDocument(hiddenFolder);
         session.save();
-        
+
         lastUpdatedDocs = labsSite.getLastUpdatedDocs();
         assertEquals(lastUpdatedDocs.size(), 4);
-        
     }
 }
