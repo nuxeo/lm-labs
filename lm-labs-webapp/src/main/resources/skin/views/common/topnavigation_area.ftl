@@ -19,11 +19,18 @@
 	<ul class="tabs topnavpages">
 		<#assign topPages = Common.getTopNavigationPages(site.tree, Context.principal.name) />
 		<#if topPages?size &gt; 0 >
+			<#assign tabActivated = false />
 			<#assign homePageId = Common.siteDoc((topPages?first).document).site.indexDocument.id />
 			<#list topPages as child >
+				<#assign isActiveTab = false />
 				<#assign pageDoc = child.document />
 				<#assign url = Context.modulePath + "/" + Common.siteDoc(pageDoc).resourcePath />
-				<#assign isActiveTab = isCurrentPage(pageDoc.id) />
+				<#if !tabActivated >
+					<#assign isActiveTab = isCurrentPage(pageDoc.id) />
+					<#if isActiveTab >
+						<#assign tabActivated = isActiveTab />
+					</#if>
+				</#if>
 				<#assign title = pageDoc.title />
 				<li class="<#if isActiveTab >active</#if>">
 					<a href="${url}"><h5 class="<#if homePageId == pageDoc.id >homepage</#if>" >
