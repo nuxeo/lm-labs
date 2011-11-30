@@ -76,12 +76,18 @@
 			}
 			
 			function addNodesStatusLabels(data) {
+			<#--
 				//console.log('<addNodesStatusLabels> ' + data.inst);
+			-->
 				jQuery.each(data.args, function (i, node) {
+				<#--
 					//console.log(i + '+++' + jQuery(node).html());
+				-->
 					data.inst._get_children(node)
 					jQuery.each(data.inst._get_children(node), function (index, subnode) {
+					<#--
 						//console.log('  ' + index + '+++' + jQuery(subnode).children('a').html());
+					-->
 						appenStatusLabel(
 							jQuery(subnode).children('a:first'),
 							data.inst._get_node(subnode).data("lifecyclestate")
@@ -91,12 +97,16 @@
 			}
 			
 			function addStatusLabels(data) {
+			<#--
 				//console.log('<addStatusLabels> ' + data.inst);
+			-->
 				hrefs = jQuery('div.jstree li > a');
 				jQuery.each(hrefs, function(i, href) {
+				<#--
 					//console.log(i + '---' + jQuery(href).html());
 					//console.log(i + '---' + data.inst._get_node(jQuery(href).parent()).data("lifecyclestate"));
 					//console.log(i + '---' + getLabelHtml(data.inst._get_node(jQuery(href).parent()).data("lifecyclestate")));
+				-->
 					appenStatusLabel(
 						href,
 						data.inst._get_node(jQuery(href).parent()).data("lifecyclestate")
@@ -325,9 +335,12 @@
 			-->
 			<#if adminTreeviewType=="Pages">
 			.bind("before.jstree", function (e, data) {
-				//console.log('before.jstree ' + data.func + ' ' + data.args.length);
+				<#--
+				console.log('before.jstree ' + data.func + ' ' + data.args.length);
+				-->
 				if(data.func === "reload_nodes") {
 					changeIconOfHomePage();
+					addStatusLabels(data);
 				} else if(data.func === "after_open") {
 					addNodesStatusLabels(data);
 				}
