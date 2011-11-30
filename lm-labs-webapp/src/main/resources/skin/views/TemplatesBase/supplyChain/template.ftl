@@ -64,7 +64,7 @@
 		    
 		    <div id="FKtopContent" style="position:relative;" >
 				<#include "views/common/logo.ftl" />
-			
+				<div class="topJagged">&nbsp;</div>
 		    	<div class="top">
 		    		<#include "views/common/sitemap_area.ftl" />
 		    	</div>			
@@ -122,6 +122,8 @@
 		</div>
 	    <div id="FKfooter">
 	        <#include "views/common/footer.ftl">
+		    
 	    </div><!--FKfooter-->
+	    <div class="bottomJagged">&nbsp;</div>
     </body>
 </html>
