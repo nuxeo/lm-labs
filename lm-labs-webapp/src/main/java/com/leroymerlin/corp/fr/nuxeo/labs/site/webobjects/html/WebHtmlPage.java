@@ -5,6 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.WebException;
@@ -22,8 +23,7 @@ public class WebHtmlPage extends NotifiablePageResource {
     public void initialize(Object... args) {
         super.initialize(args);
 
-        RenderingEngine rendering = ctx.getEngine()
-                .getRendering();
+        RenderingEngine rendering = ctx.getEngine().getRendering();
         rendering.setSharedVariable("page", getHtmlPage());
     }
 
@@ -32,7 +32,7 @@ public class WebHtmlPage extends NotifiablePageResource {
     public Response doPost() {
         FormData form = ctx.getForm();
 
-        if("addsection".equals(form.getString("action"))) {
+        if ("addsection".equals(form.getString("action"))) {
             return doAddSection(form);
         }
 
@@ -42,18 +42,30 @@ public class WebHtmlPage extends NotifiablePageResource {
 
     private Response doAddSection(FormData form) {
         try {
-
             String title = form.getString("title");
             String description = form.getString("description");
+            String index = form.getString("index");
 
-            HtmlSection section = getHtmlPage().addSection();
+            int indexNb = -1;
+            if (StringUtils.isNotBlank(index)) {
+                indexNb = Integer.parseInt(index);
+            }
+
+            HtmlSection section = null;
+            if(indexNb != -1) {
+                section = getHtmlPage().addSection(indexNb);
+            } else {
+                section = getHtmlPage().addSection();
+            }
+
             section.setTitle(title);
             section.setDescription(description);
-
             saveDocument();
 
             return redirect(getPath() + "/@views/edit");
         } catch (ClientException e) {
+            throw WebException.wrap(e);
+        } catch (NumberFormatException e) {
             throw WebException.wrap(e);
         }
     }
@@ -64,8 +76,7 @@ public class WebHtmlPage extends NotifiablePageResource {
             HtmlSection section = getHtmlPage().section(sectionIndex);
             return newObject("HtmlSection", doc, section);
         } catch (ClientException e) {
-            return Response.serverError()
-                    .build();
+            return Response.serverError().build();
         }
     }
 

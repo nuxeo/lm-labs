@@ -182,6 +182,24 @@
                 </span>
               </div>
             </div><!-- /clearfix -->
+            
+            <div class="clearfix">
+              	  <label for="index">Position</label>
+	              <div class="input">
+	              	<select name="index">
+	              		<#assign index=0 />
+	              		<#list page.sections as section>
+		              		<option class="large" id="sectionIndex" value="${index}">${index+1}</option>
+	              			<#assign index=index+1/>
+	              		</#list>
+	              		<option class="large" id="sectionIndex" value="${page.sections?size}" selected="selected">Dernière</option>
+	              	</select>
+	              	<span class="help-block">
+	                  Position de la section
+	                </span>
+	              </div>
+            </div><!-- /clearfix -->
+              
             <div class="actions">
               <button type="submit" class="btn small primary">Ajouter</button>&nbsp;
             </div>

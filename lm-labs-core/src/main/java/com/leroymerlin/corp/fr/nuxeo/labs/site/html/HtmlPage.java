@@ -11,7 +11,8 @@ public interface HtmlPage extends Page {
     List<HtmlSection> getSections() throws ClientException;
 
     HtmlSection addSection() throws ClientException;
+    
+    HtmlSection addSection(int index) throws ClientException;
 
     HtmlSection section(int index) throws ClientException;
-
 }
