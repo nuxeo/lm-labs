@@ -12,6 +12,7 @@
 /*Specific*/
 @bgcolortabs: #BB6C1A;
 @baseFontColor: #595959;
+@baseFontColorTitle: #676D71;
 
 @sidebarWidth:   180px;
 
@@ -127,22 +128,22 @@ a:hover {
  
 h1 {
   font-size: @basefont + 9;
-  color: #BB6C1A;
+  color: @bgcolortabs;
 } 
 
 h2 {
   font-size: @basefont + 8;
-  color: #676D71;
+  color: @baseFontColorTitle;
 } 
 
 h5 {
   font-size: @basefont;
-  color: #676D71;
+  color: @baseFontColorTitle;
 }
 
 h6 {
   font-size: @basefont - 2;
-  color: #676D71;
+  color: @baseFontColorTitle;
 }
 
 #sidebar {
@@ -173,11 +174,12 @@ h6 {
 #FKtopContent{
 	margin-top: 0px;
 	margin-bottom: 5px;
+	.box-shadow(0px 0px 0em #555);
 	.top{
 		background-image: url(images/bg-ocre.gif);
 		height: 30px;
 		text-align: right;
-		padding-top: 8px;
+		padding-top: 5px;
 		padding-right: 15px;
 	}
 	
@@ -380,9 +382,10 @@ li.active > a > h5.homepage{
 }
 
 .topJagged {
-	width: 100%;
+	margin: auto;
+	width: 980px;
 	background-image: url(images/bg-topocre.png);
-	height: 4px;
+	height: 6px;
 }
 
 .bottomJagged {
@@ -395,6 +398,38 @@ li.active > a > h5.homepage{
 
 #FKfooter {
 	background: @white;
+	color: @gray;
+}
+
+.bloc {
+  /*background-color: #fff;*/
+  margin-bottom: 10px;
+  min-height: 40px;
+  border: 0px 0px 0px 0px;
+  padding:5px;
+  .border-radius(0);
+  .box-shadow(0 0 0 @white);
+
+  .header {
+  	font-size: @basefont + 2;
+    margin:-5px -5px 0px -5px;
+    color: @bgcolortabs;
+    min-height:20px;
+    padding-left: 0px;
+    border: 0px;
+    .border-radius(0);
+    #gradient > .vertical-three-colors(@white,@white, 25%, @white);
+
+    a {
+      color: @gray;
+    }
+  }
+
+  &.welcome {
+    float:left;
+    margin-right:8px;
+  }
+
 }
 
 

@@ -15,12 +15,12 @@
           <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" /><#-- TODO still needed ?? -->
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/><#-- TODO still needed ?? -->
-          <link rel="stylesheet/less" href="${This.path}/generated.less">
-          <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
           <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/pagination.css"/>
+          <link rel="stylesheet/less" href="${This.path}/generated.less"/>
+          <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
         </@block>
 
         <@block name="scripts">
@@ -61,10 +61,11 @@
 		    <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
 		    
 			<#include "views/common/topbar.ftl" />
-		    
+			
+			<div class="topJagged">&nbsp;</div>
+					    
 		    <div id="FKtopContent" style="position:relative;" >
 				<#include "views/common/logo.ftl" />
-				<div class="topJagged">&nbsp;</div>
 		    	<div class="top">
 		    		<#include "views/common/sitemap_area.ftl" />
 		    	</div>			
@@ -121,7 +122,7 @@
 		
 		</div>
 	    <div id="FKfooter">
-	        <#include "views/common/footer.ftl">
+	        &nbsp;&nbsp;<#include "views/common/footer.ftl">
 		    
 	    </div><!--FKfooter-->
 	    <div class="bottomJagged">&nbsp;</div>
