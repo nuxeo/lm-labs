@@ -9,7 +9,7 @@
 		    </a>
     		<@pageStatusLabel resource />
 		    <#if resource.document.id != Document.id>
-		    <span class="divider">/</span></li>
+		    <span class="divider"></span></li>
 		    </#if>
 		  </#if>
 		
