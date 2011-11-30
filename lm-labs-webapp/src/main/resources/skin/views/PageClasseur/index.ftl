@@ -145,18 +145,18 @@
   <table class="zebra-striped classeurFiles bs" >
   <thead>
     <tr>
-      <th class="editblock">
+      <th class="header editblock" style="min-width: 25px">
       <#if canWrite>
         <input type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
       </#if>
       </th>
-      <th>&nbsp;</th>
-      <th>${Context.getMessage('label.PageClasseur.tableheader.filename')}</th>
-      <th>${Context.getMessage('label.PageClasseur.tableheader.size')}</th>
+      <th class="header" first-child>&nbsp;</th>
+      <th class="header">${Context.getMessage('label.PageClasseur.tableheader.filename')}</th>
+      <th class="header" style="min-width: 42px">${Context.getMessage('label.PageClasseur.tableheader.size')}</th>
       <#-- <th>${Context.getMessage('label.PageClasseur.tableheader.version')}</th> -->
-      <th>${Context.getMessage('label.PageClasseur.tableheader.modified')}</th>
-      <th>${Context.getMessage('label.PageClasseur.tableheader.creator')}</th>
-      <th>&nbsp;</th>
+      <th class="header">${Context.getMessage('label.PageClasseur.tableheader.modified')}</th>
+      <th class="header">${Context.getMessage('label.PageClasseur.tableheader.creator')}</th>
+      <th class="header" style="width: 55px;">&nbsp;</th>
     </tr>
   </thead>
   <tbody>
@@ -184,9 +184,10 @@
       <td>
       <#if canWrite>
             <button class="btn danger editblock" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
+            <span class="editblock"><br /></span>
       </#if>
-        <a class="btn small" href="${This.path}/${folder.document.name}/${child.name}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
-        <a class="btn small" href="${This.path}/${folder.document.name}/${child.name}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
+        <a class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${child.name}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
+        <a class="btn small classeurDownload" href="${This.path}/${folder.document.name}/${child.name}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
         </td>
 
           <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${child.name}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">

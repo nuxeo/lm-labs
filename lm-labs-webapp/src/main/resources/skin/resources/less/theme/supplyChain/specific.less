@@ -6,7 +6,7 @@
 
 @gray:#676D71;
 
-@gridColumnWidth:   32px;
+@gridColumnWidth:   34px;
 @gridGutterWidth:   14px;
 
 /*Specific*/
@@ -199,8 +199,8 @@ h6 {
 		text-decoration: none;
 	}
 	.active a {
-    font-weight: bold;
-    font-style: normal;
+    	font-weight: bold;
+    	font-style: normal;
   }
 }
 
@@ -218,6 +218,40 @@ h6 {
 	    color: @white;
 	    .gradientBar(@gray, @gray)
 	  }
+	  
+	 &.classeurDisplay{
+			font-size: 0;
+			display: block;
+			background: none;
+			background-image: url(images/classeurDisplay.png);
+			width: 22px;
+			height: 23px;
+			float: left;
+			border: 0 none;
+			.border-radius(0px);
+			margin-right: 10px;
+			&.small {
+				font-size: 0;
+				padding: 0;
+			}
+		}
+	
+	&.classeurDownload{
+		font-size: 0;
+		display: block;
+		background: none;
+		background-image: url(images/classeurDownload.png);
+		width: 22px;
+		height: 23px;
+		float: left;
+		border: 0 none;
+		.border-radius(0px);
+		&.small {
+			font-size: 0;
+			padding: 0;
+		}
+		
+	}
   
  }
 
@@ -234,7 +268,7 @@ h6 {
 		list-style: none;
 		background-image: url(images/li.png);
 		background-repeat: no-repeat;
-		background-position: left center;
+		background-position: left 10%;
 		text-indent: 25px;
 	}
 }
@@ -242,6 +276,94 @@ h6 {
 .marylinBrownRow{
 	background-image: url(images/bg-ocre.gif);
 	background-repeat: repeat;
+}
+
+table.bs {
+  width: 100%;
+  margin-bottom: @baseline;
+  padding: 0;
+  border: 0px 0px 0px 0px;
+  border-collapse: separate; // Done so we can round those corners!
+  *border-collapse: collapse; /* IE7, collapse table to remove spacing */
+  font-size: @basefont;
+  /*.border-radius(4px);*/
+  .border-radius(10px);
+  th, td {
+    padding: 5px 5px 4px;
+    line-height: @baseline;
+    text-align: left;
+  }
+  th {
+    padding-top: 9px;
+    font-weight: bold;
+    vertical-align: middle;
+    border-bottom: 0px;
+  }
+  td {
+    vertical-align: top;
+  }
+  th + th,
+  td + td {
+    border-left: 0px;
+  }
+  tr + tr td {
+    border-top: 0px;
+  }
+  /*tbody tr:first-child td:first-child {
+    .border-radius(10px 0 0 0);
+  }
+  tbody tr:first-child td:last-child {
+    .border-radius(0 10px 0 0);
+  }
+  tbody tr:last-child td:first-child {
+    .border-radius(0 0 0 10px);
+  }
+  tbody tr:last-child td:last-child {
+    .border-radius(0 0 10px 0);
+  }
+  thead tr th:first-child {
+    .border-radius(10px 0 0 10px);
+  }
+  thead tr th[first-child] {
+    		.border-radius(10px 0 0 10px);
+    	}
+  thead tr th:last-child {
+    .border-radius(10 0 0 10px);
+  }*/
+}
+
+table {
+	border: 0px 0px 0px 0px;
+	border-color: @grayLight;
+	background-color: lighten(@grayLight,15%);
+	.header {
+		background-color: @grayLight;
+	}
+	// Style the sorted column headers (THs)
+  	.headerSortUp,
+  	.headerSortDown {
+    	background-color: darken(@grayLight,10%);
+  	}
+}
+
+div.classeur{
+	margin: 0px;
+	>section.Folder {
+		background-color: lighten(@grayLight,15%);
+		padding: 3px;
+		margin-bottom: 10px;
+		>div.page-header {
+			margin-bottom: 1px;
+			border-bottom: 0px;
+			.box-shadow(none);
+			>h1 {
+				line-height: 30px;
+				margin-left: 4px;
+				color: @gray;
+				margin-bottom: 0px;
+			}
+		}
+	}
 }
 
 
