@@ -42,6 +42,14 @@ public final class CommonHelper {
         return list;
     }
     
+    public static final List<String> getLabsLifeCycleTypes() {
+        List<String> list = new ArrayList<String>();
+        for (Docs doc : Docs.labsLifeCycleDocs()) {
+            list.add(doc.type());
+        }
+        return list;
+    }
+    
     public static final List<Page> getTopNavigationPages(DocumentModel siteDoc, String userName) throws ClientException {
         List<Page> pages = new ArrayList<Page>();
         LabsSite site = siteDoc(siteDoc).getSite();

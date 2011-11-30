@@ -128,6 +128,10 @@ public final class LabsSiteConstants {
         public static EnumSet<Docs> notifiableDocs() {
             return EnumSet.of(HTMLPAGE, DASHBOARD, PAGECLASSEUR, PAGELIST, PAGENEWS);
         }
+
+        public static EnumSet<Docs> labsLifeCycleDocs() {
+            return EnumSet.of(SITE, PAGE, PAGEBLOCS, PAGENEWS, PAGECLASSEUR, PAGELIST, HTMLPAGE, DASHBOARD);
+        }
     }
     
     public enum State {
