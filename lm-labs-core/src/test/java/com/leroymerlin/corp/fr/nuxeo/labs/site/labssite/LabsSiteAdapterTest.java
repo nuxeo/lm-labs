@@ -104,19 +104,17 @@ public class LabsSiteAdapterTest {
                 LABSSITE_TYPE);
 
         doc.setPropertyValue("dc:creator", "creator");
+        doc = session.createDocument(doc);
 
         LabsSite labssite = doc.getAdapter(LabsSite.class);
         assertThat(labssite, is(notNullValue()));
         labssite.setTitle("Le titre du site");
         labssite.setDescription("Description");
         labssite.setURL("URL");
+        doc = session.saveDocument(doc);
         Blob blob = getTestBlob();
         labssite.setBanner(blob);
 
-        // Persist document in db
-        doc = session.createDocument(doc);
-
-        // Commit
         session.save();
 
         doc = session.getDocument(new PathRef("/nameSite1"));

@@ -15,7 +15,6 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
@@ -43,21 +42,17 @@ public interface LabsSite  extends LabsBase {
     void setURL(String pURL) throws ClientException;
 
     /**
-     * @deprecated use {@link SiteTheme} adpater instead
      * Returns a Blob containing the banner of the site
      * @return
      * @throws ClientException
      */
-    @Deprecated
     Blob getBanner() throws ClientException;
 
 
     /**
-     * @deprecated use {@link SiteTheme} adpater instead
      * @param pBlob
      * @throws ClientException
      */
-    @Deprecated
     void setBanner(Blob pBlob) throws ClientException;
 
 
