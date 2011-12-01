@@ -433,3 +433,74 @@ li.active > a > h5.homepage{
 }
 
 
+.lastMessage {
+
+	height:200px;
+	.itemList {
+		height:155px;
+
+	}
+	.item {
+		cursor:pointer;
+		border-radius:10px;
+		margin-top:10px;
+	}
+	.item:hover {
+		text-decoration:underline; 
+	}
+	.browseLastMsg {
+		float:right;
+	}
+	.browseLastMsg .prev {
+		display: block;
+		float:left;
+		border: 0px;
+		margin-right: 2px;
+    	padding: 0px;
+    	font-size: 0;
+		background-image: url(images/precedent.png);
+		background-repeat: no-repeat;
+		width:22px;
+		height: 22px;
+	}
+	.browseLastMsg .next {
+		display: block;
+		float:right;
+		border: 0px;
+		margin-right: 0px;
+    	padding: 0px ;
+    	font-size: 0;
+    	background-image: url(images/suivant.png);
+    	background-repeat: no-repeat;
+		width:22px;
+		height: 22px;
+	}
+	.browseLastMsg .prev:hover {
+		background-color:@white;
+	}
+	.browseLastMsg .next:hover {
+		background-color:@white;
+		.opacity(50);
+	}
+	.browseLastMsg .current:hover {
+		background-color:@white;
+	}
+	.date {
+		text-decoration:underline; 
+	}
+	.title {
+		font-size: 14px;
+    	font-weight:bold;
+	}
+	.desc {
+		font-style:italic;
+	}
+	a {
+		color: #404040;
+	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	    font-size: 13px;
+	    font-weight: normal;
+	    line-height: 18px;
+	}
+}
+
