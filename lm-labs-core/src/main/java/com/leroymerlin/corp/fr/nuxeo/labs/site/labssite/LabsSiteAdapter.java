@@ -24,6 +24,8 @@ import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManagerImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
@@ -248,6 +250,22 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         query.append(" ORDER BY dc:modified DESC");
 
         return getCoreSession().query(query.toString(), NB_LAST_UPDATED_DOCS);
+    }
+
+    @Override
+    public ArrayList<ExternalURL> getExternalURLs() throws ClientException {
+        ArrayList<ExternalURL> listExtURL = new ArrayList<ExternalURL>();
+        if (getCoreSession().exists(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()))) {
+            DocumentModel folder = getCoreSession().getDocument(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()));
+            DocumentModelList listDoc = doc.getCoreSession().getChildren(folder.getRef(),
+                    LabsSiteConstants.Docs.EXTERNAL_URL.type(), null, null,
+                    new ExternalURLSorter());
+            for (DocumentModel urlDoc : listDoc) {
+                ExternalURL extURL = urlDoc.getAdapter(ExternalURL.class);
+                listExtURL.add(extURL);
+            }
+        }
+        return listExtURL;
     }
 
 }
