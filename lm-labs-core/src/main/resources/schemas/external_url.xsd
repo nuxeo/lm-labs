@@ -5,6 +5,5 @@
   	
   	<xs:element name="name" type="xs:string"></xs:element>
   	<xs:element name="url" type="xs:string"></xs:element>
-  	<xs:element name="order" type="xs:int"></xs:element>
   	
 </xs:schema>
