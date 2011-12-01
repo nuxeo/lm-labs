@@ -268,4 +268,22 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         return listExtURL;
     }
 
+    @Override
+    public ExternalURL createExternalURL(String title) throws ClientException {
+        DocumentModel folder;
+        if (!getCoreSession().exists(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()))) {
+            folder = getCoreSession().createDocumentModel(doc.getPathAsString(), Docs.EXTERNAL_URLS.docName(), Docs.EXTERNAL_URLS.type());
+            folder = getCoreSession().createDocument(folder);
+        } else {
+            folder = getCoreSession().getDocument(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()));
+        }
+        DocumentModel docExtURL = getCoreSession().createDocumentModel(
+                folder.getPathAsString(), title,
+                LabsSiteConstants.Docs.EXTERNAL_URL.type());
+        ExternalURL extURL = docExtURL.getAdapter(ExternalURL.class);
+        extURL.setName(title);
+        getCoreSession().createDocument(docExtURL);
+        return extURL;
+    }
+
 }

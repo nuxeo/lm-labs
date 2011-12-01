@@ -41,7 +41,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTreeAsset;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 @WebObject(type = "LabsSite", superType = "LabsPage")
@@ -260,21 +259,9 @@ public class Site extends PageResource {
         String pURL = ctx.getForm().getString("exturl:url");
         CoreSession session = ctx.getCoreSession();
         try {
-            DocumentModel folder;
-            if (!getCoreSession().exists(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()))) {
-                folder = getCoreSession().createDocumentModel(doc.getPathAsString(), Docs.EXTERNAL_URLS.docName(), Docs.EXTERNAL_URLS.type());
-                folder = getCoreSession().createDocument(folder);
-            } else {
-                folder = getCoreSession().getDocument(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()));
-            }
-            DocumentModel docExtURL = session.createDocumentModel(
-                    folder.getPathAsString(), pName,
-                    LabsSiteConstants.Docs.EXTERNAL_URL.type());
-            ExternalURL extURL = docExtURL.getAdapter(ExternalURL.class);
-            extURL.setName(pName);
+            ExternalURL extURL = site.createExternalURL(pName);
             extURL.setURL(pURL);
-            //extURL.setOrder(pOrder);
-            session.createDocument(docExtURL);
+            session.saveDocument(extURL.getDocument());
             session.save();
             return Response.status(Status.OK).build();
         } catch (ClientException e) {

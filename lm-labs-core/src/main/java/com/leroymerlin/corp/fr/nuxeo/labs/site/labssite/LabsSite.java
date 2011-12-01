@@ -115,5 +115,7 @@ public interface LabsSite  extends LabsBase {
     DocumentModelList getLastUpdatedDocs() throws ClientException;
 
     ArrayList<ExternalURL> getExternalURLs() throws ClientException;
+    
+    ExternalURL createExternalURL(String title) throws ClientException;
 
 }

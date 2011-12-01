@@ -9,6 +9,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,6 +28,7 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
@@ -250,5 +252,20 @@ public class LabsSiteAdapterTest {
 
         lastUpdatedDocs = labsSite.getLastUpdatedDocs();
         assertEquals(4, lastUpdatedDocs.size());
+    }
+    
+    @Test
+    public void iCanGetExternalURLs() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1",
+                LABSSITE_TYPE);
+        doc.setPropertyValue("dc:title", "le titre");
+        doc = session.createDocument(doc);
+        LabsSite labsSite = doc.getAdapter(LabsSite.class);
+        assertTrue(labsSite.getExternalURLs().isEmpty());
+        labsSite.createExternalURL("b").setURL("www.b.org");
+        labsSite.createExternalURL("a").setURL("www.a.org");
+        ArrayList<ExternalURL> list = labsSite.getExternalURLs();
+        assertEquals(2, list.size());
+        assertEquals("a", list.get(0).getName());
     }
 }
