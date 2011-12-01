@@ -1,10 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,10 +17,8 @@ import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
-import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.rest.DocumentHelper;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
@@ -40,7 +35,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractDocumentTree;
@@ -146,7 +140,7 @@ public class Site extends PageResource {
             throw WebException.wrap(e);
         }
     }
-
+    
     @Path("@theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
@@ -248,43 +242,38 @@ public class Site extends PageResource {
         return doc.getAdapter(LabsSite.class).getAllDeletedPages();
     }
 
-    // /////////////// ALL CODE BELOW IS TO BE REFACTORED /////////////////
-
-    public List<LabsNews> getNews(String pRef) throws ClientException {
-        CoreSession session = getCoreSession();
-        DocumentModel pageNews = session.getDocument(new IdRef(pRef));
-        return pageNews.getAdapter(PageNews.class).getAllNews();
-
-    }
-
-    public ArrayList<ExternalURL> getExternalURLs() throws ClientException {
-        ArrayList<ExternalURL> listExtURL = new ArrayList<ExternalURL>();
-        DocumentModelList listDoc = null;
-        Sorter extURLSorter = new ExternalURLSorter();
-        listDoc = getCoreSession().getChildren(doc.getRef(),
-                LabsSiteConstants.Docs.EXTERNAL_URL.type(), null, null,
-                extURLSorter);
-        for (DocumentModel doc : listDoc) {
-            ExternalURL extURL = doc.getAdapter(ExternalURL.class);
-            listExtURL.add(extURL);
+    @Path("@externalURL/{idExt}")
+    public Object doExternalUrl(@PathParam("idExt") final String pId) {
+        try {
+            DocumentModel docExtURL = getCoreSession().getDocument(new IdRef(pId));
+            return newObject("ExternalUrl", docExtURL);
+        } catch (ClientException e) {
+            throw new WebResourceNotFoundException("External URL not found", e);
         }
-        return listExtURL;
+        
     }
 
     @POST
-    @Path(value = "persistExternalURL")
-    public Object addExternalURL(@FormParam("extUrlName") String pName,
-            @FormParam("extURLURL") String pURL,
-            @FormParam("extURLOrder") int pOrder) {
+    @Path(value = "@externalURL")
+    public Object addExternalURL() {
+        String pName = ctx.getForm().getString("exturl:name");
+        String pURL = ctx.getForm().getString("exturl:url");
         CoreSession session = ctx.getCoreSession();
         try {
+            DocumentModel folder;
+            if (!getCoreSession().exists(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()))) {
+                folder = getCoreSession().createDocumentModel(doc.getPathAsString(), Docs.EXTERNAL_URLS.docName(), Docs.EXTERNAL_URLS.type());
+                folder = getCoreSession().createDocument(folder);
+            } else {
+                folder = getCoreSession().getDocument(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()));
+            }
             DocumentModel docExtURL = session.createDocumentModel(
-                    doc.getPathAsString(), pName,
+                    folder.getPathAsString(), pName,
                     LabsSiteConstants.Docs.EXTERNAL_URL.type());
             ExternalURL extURL = docExtURL.getAdapter(ExternalURL.class);
             extURL.setName(pName);
             extURL.setURL(pURL);
-            extURL.setOrder(pOrder);
+            //extURL.setOrder(pOrder);
             session.createDocument(docExtURL);
             session.save();
             return Response.status(Status.OK).build();
@@ -293,41 +282,12 @@ public class Site extends PageResource {
         }
     }
 
-    @POST
-    @Path(value = "persistExternalURL/{idExt}")
-    public Object modifyExternalURL(@FormParam("extUrlName") String pName,
-            @FormParam("extURLURL") String pURL,
-            @FormParam("extURLOrder") int pOrder,
-            @PathParam("idExt") final String pId) {
-        CoreSession session = ctx.getCoreSession();
+    // /////////////// ALL CODE BELOW IS TO BE REFACTORED /////////////////
 
-        try {
-            DocumentModel docExtURL = session.getDocument(new IdRef(pId));
-            ExternalURL extURL = docExtURL.getAdapter(ExternalURL.class);
-            extURL.setName(pName);
-            extURL.setURL(pURL);
-            extURL.setOrder(pOrder);
-            session.saveDocument(docExtURL);
-            session.save();
-            return Response.status(Status.OK).build();
-        } catch (ClientException e) {
-            return Response.status(Status.GONE).build();
-        }
-    }
-
-    @DELETE
-    @Path("deleteExternalURL/{idExt}")
-    public Object doDeleteNews(@PathParam("idExt") final String pId)
-            throws ClientException {
-        CoreSession session = ctx.getCoreSession();
-        DocumentModel document = session.getDocument(new IdRef(pId));
-        try {
-            session.removeDocument(document.getRef());
-            session.save();
-        } catch (ClientException e) {
-            return Response.status(Status.GONE).build();
-        }
-        return Response.noContent().build();
+    public List<LabsNews> getNews(String pRef) throws ClientException {
+        CoreSession session = getCoreSession();
+        DocumentModel pageNews = session.getDocument(new IdRef(pRef));
+        return pageNews.getAdapter(PageNews.class).getAllNews();
     }
 
 }
