@@ -3,7 +3,6 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +25,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManagerImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
@@ -43,8 +43,6 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     private static final String HOME_PAGE_REF = "labssite:homePageRef";
 
     static final String URL = "webcontainer:url";
-
-    static final String BANNER = "webcontainer:logo";
 
     public LabsSiteAdapter(DocumentModel doc) {
         this.doc = doc;
@@ -76,15 +74,18 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     @Override
     public Blob getBanner() throws ClientException {
-        return (Blob) doc.getPropertyValue(BANNER);
+        return doc.getAdapter(LabsSite.class).getThemeManager().getTheme().getBanner();
     }
 
     @Override
     public void setBanner(Blob pBlob) throws ClientException {
+        SiteTheme theme = doc.getAdapter(LabsSite.class).getThemeManager().getTheme();
         if (pBlob == null) {
-            doc.setPropertyValue(BANNER, null);
+            theme.setBanner(null);
+            doc.getCoreSession().saveDocument(theme.getDocument());
         } else {
-            doc.setPropertyValue(BANNER, (Serializable) pBlob);
+            theme.setBanner(pBlob);
+            doc.getCoreSession().saveDocument(theme.getDocument());
         }
     }
 

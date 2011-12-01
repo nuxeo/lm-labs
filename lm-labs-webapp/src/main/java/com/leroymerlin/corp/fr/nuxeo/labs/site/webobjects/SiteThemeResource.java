@@ -109,7 +109,6 @@ public class SiteThemeResource extends PageResource {
             try {
                 site.setBanner(blob);
                 CoreSession session = ctx.getCoreSession();
-                session.saveDocument(site.getDocument());
                 session.save();
                 return redirect(getPath()
                         + "?message_success=label.labssites.banner.updated");
