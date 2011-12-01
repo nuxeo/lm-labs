@@ -22,8 +22,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 @RepositoryConfig(cleanup = Granularity.METHOD)
 public class ExternalURLAdapterTest {
 
-    private static final int ORDER = 1;
-
     private static final String URL = "URL";
 
     private static final String NAME = "name";
@@ -91,7 +89,7 @@ public class ExternalURLAdapterTest {
         ext_url = doc.getAdapter(ExternalURL.class);
         assertThat(ext_url,is(notNullValue()));
         assertThat(ext_url.getName(), is(NAME));
-        assertThat(ext_url.getURL(), is(URL));
+        assertThat(ext_url.getURL(), is("http://" + URL));
 
     }
 }

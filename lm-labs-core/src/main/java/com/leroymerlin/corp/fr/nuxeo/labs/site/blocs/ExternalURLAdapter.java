@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.blocs;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
@@ -31,12 +32,21 @@ public class ExternalURLAdapter implements ExternalURL {
 
     @Override
     public void setURL(String pURL) throws ClientException {
-        doc.setPropertyValue(URL, pURL);
+        doc.setPropertyValue(URL, formatURL(pURL));
     }
 
     @Override
     public DocumentModel getDocument() {
         return doc;
+    }
+
+    private String formatURL(String url) {
+        url = StringUtils.trim(url);
+        if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("ftp://") || url.startsWith("ftps://")) {
+            return url;
+        } else {
+            return "http://" + url;
+        }
     }
 
 }

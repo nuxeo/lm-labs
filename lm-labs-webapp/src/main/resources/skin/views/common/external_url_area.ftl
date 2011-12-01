@@ -93,6 +93,7 @@ function deleteExternalURL(url, path) {
 
 function initFieldsExternalURL() {
   jQuery("#form-externalURL").clearForm();
+  jQuery('input[name="exturl:url"]').val('http://');
   jQuery("#form-externalURL div.clearfix.error").removeClass("error");
 }
 
