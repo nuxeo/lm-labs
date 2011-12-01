@@ -14,10 +14,7 @@
         <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
         <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
 
-
-
-
-      <link rel="stylesheet/less" href="${skinPath}/less/labs.less">
+	  <link rel="stylesheet/less" href="${Context.modulePath}/${site.URL}/generated.less">
       <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
 
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
