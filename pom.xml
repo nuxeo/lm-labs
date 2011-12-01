@@ -33,7 +33,7 @@
 
   <properties>
     <nuxeo.version>5.4.2-HF06</nuxeo.version>
-    <lm.nuxeo.version>3.3-SNAPSHOT</lm.nuxeo.version>
+    <lm.nuxeo.version>3.3.0</lm.nuxeo.version>
   </properties>
 
   <ciManagement>
