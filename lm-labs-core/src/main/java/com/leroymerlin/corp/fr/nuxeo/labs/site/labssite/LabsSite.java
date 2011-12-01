@@ -3,6 +3,7 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -111,5 +113,7 @@ public interface LabsSite  extends LabsBase {
      * @throws ClientException
      */
     DocumentModelList getLastUpdatedDocs() throws ClientException;
+
+    ArrayList<ExternalURL> getExternalURLs() throws ClientException;
 
 }
