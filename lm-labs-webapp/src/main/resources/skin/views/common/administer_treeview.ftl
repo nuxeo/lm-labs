@@ -50,7 +50,7 @@
 				autoOpen : false,
 				closeOnOverlayClick : true,
 				removeOnClose : false,
-				showCloseHandle : true,
+				showCloseHandle : true
 			});
 			
 <#if adminTreeviewType == "Pages" >
