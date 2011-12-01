@@ -21,9 +21,5 @@ public interface ExternalURL{
     
     void setURL(String pURL) throws ClientException;
     
-    int getOrder() throws ClientException;
-    
-    void setOrder(int pOrder) throws ClientException;
-    
     DocumentModel getDocument();
 }
