@@ -106,25 +106,6 @@ function modifyExternalURL(name, url, order, id){
   jQuery('#form-externalURL').attr("action", jQuery('#form-externalURL').attr("action") + "/" + id + "/@put");
 }
 
-function formatUrl(url) {
-  url = jQuery.trim(url);
-  if (url.toLowerCase().indexOf("http://") == 0) {
-    return(url);
-  } else if (url.toLowerCase().indexOf("ftp") == 0) {
-	    if (url.toLowerCase().indexOf("ftp://") == 0) {
-	      return(url);
-	    } else {
-	      return("http://" + url);
-	    }
-  } else if(url.toLowerCase().indexOf("https://") == 0) {
-  		return url;
-  }	else if (url.length > 0) {
-    	return("http://" + url);
-  } else {
-    return "";
-  }
-}
-
 jQuery(document).ready(function(){
 	jQuery('#form-externalURL').ajaxForm(function() { 
 		jQuery("#div_persistExternalURL").dialog2('close');
