@@ -29,7 +29,7 @@ public class ExternalURLSorter implements Sorter {
         ExternalURL ext1 = pDoc1.getAdapter(ExternalURL.class);
         ExternalURL ext2 = pDoc2.getAdapter(ExternalURL.class);
         try {
-            return new Integer(ext2.getOrder()).compareTo(new Integer(ext1.getOrder()));
+            return new Integer(ext2.getName()).compareTo(new Integer(ext1.getName()));
         } catch (ClientException e) {
             log.error(e.getMessage());
         }

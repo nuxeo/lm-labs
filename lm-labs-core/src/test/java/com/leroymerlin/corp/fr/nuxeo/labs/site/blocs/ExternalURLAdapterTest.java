@@ -80,7 +80,6 @@ public class ExternalURLAdapterTest {
         assertThat(ext_url,is(notNullValue()));
         ext_url.setName(NAME);
         ext_url.setURL(URL);
-        ext_url.setOrder(ORDER);
         
         //Persist document in db
         doc = session.createDocument(doc);
@@ -93,7 +92,6 @@ public class ExternalURLAdapterTest {
         assertThat(ext_url,is(notNullValue()));
         assertThat(ext_url.getName(), is(NAME));
         assertThat(ext_url.getURL(), is(URL));
-        assertThat(ext_url.getOrder(), is(ORDER));
 
     }
 }
