@@ -12,6 +12,7 @@
 
 <script type="text/javascript">
 var last_messages = new Array(); 
+var mois = new Array("janv.","f&eacute;v.","mars","avr.","mai","juin","juil.","ao&ucirc;t","sept.","oct.","nov.","déc.");
 
 $(".itemList").ready(function() {  
   $.ajax({  
@@ -67,10 +68,15 @@ function loadContents(page_index, jq){
     // Prevent click eventpropagation
     return false;
 }  
-function dateAsString(date) {
+/*function dateAsString(date) {
 	dateObj = new Date(date);
 	Date.prototype.toDateString = function () {return isNaN (this) ? 'NaN' : [this.getDate() > 9 ? this.getDate() : '0' + this.getDate(), this.getMonth() > 8 ? this.getMonth() + 1 : '0' + (this.getMonth() + 1), this.getFullYear()].join('/')}
 	Date.prototype.toHourString = function () {return isNaN (this) ? 'NaN' : [this.getHours() > 9 ? this.getHours() : '0' + this.getHours(), this.getMinutes() > 9 ? this.getMinutes() : '0' + this.getMinutes(), this.getSeconds() > 9 ? this.getSeconds() : '0' + this.getSeconds()].join(':')}
 	return dateObj.toDateString() + ' - ' + dateObj.toHourString();
+}*/
+function dateAsString(date) {
+	dateObj = new Date(date);
+	Date.prototype.toDateString = function () {return isNaN (this) ? 'NaN' : [this.getDate() > 9 ? this.getDate() : '0' + this.getDate(), mois[this.getMonth()], this.getFullYear()].join(' ')}
+	return dateObj.toDateString();
 }
 </script>
