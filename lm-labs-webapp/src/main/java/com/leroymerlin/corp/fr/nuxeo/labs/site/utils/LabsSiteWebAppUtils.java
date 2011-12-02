@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.SortInfo;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
@@ -21,8 +22,8 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
 public final class LabsSiteWebAppUtils {
 
@@ -38,13 +39,17 @@ public final class LabsSiteWebAppUtils {
     }
 
 
-    public static boolean canGetPreview(final DocumentModel doc)
+    public static boolean canGetPreview(final DocumentModel doc, boolean isAdmin)
             throws ClientException {
         DocumentModel parent = doc.getCoreSession().getParentDocument(
                 doc.getRef());
-        return Docs.FOLDER.type().equals(parent.getType())
-                && parent.getCoreSession().getDocument(parent.getParentRef()).hasSchema(
-                        Schemas.PAGE.getName())
+        DocumentModel grandParent = doc.getCoreSession().getDocument(parent.getParentRef());
+        LabsPublisher publisher = grandParent.getAdapter(LabsPublisher.class);
+        boolean filter = isAdmin || (publisher != null && publisher.isVisible());
+        return publisher != null
+                && Docs.FOLDER.type().equals(parent.getType())
+                && Docs.pageDocs().contains(Docs.fromString(grandParent.getType()))
+                && filter
                 && doc.getAdapter(BlobHolder.class) != null;
     }
 

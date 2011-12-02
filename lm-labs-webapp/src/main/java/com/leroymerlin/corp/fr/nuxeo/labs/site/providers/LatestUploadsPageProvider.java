@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.Filter;
+import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.platform.query.api.AbstractPageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 
@@ -36,18 +37,16 @@ public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentMode
             StringBuilder query = new StringBuilder();
             try {
                 SiteDocument sd = doc.getAdapter(SiteDocument.class);
-
+                final boolean isAdmin = sd.getSite().isAdministrator(doc.getCoreSession().getPrincipal().getName());
                 query.append("SELECT * FROM Document WHERE ")
-                .append("ecm:currentLifeCycleState <> 'deleted'")
-                .append(" AND ")
-                .append("ecm:path STARTSWITH '" + sd.getSite().getTree().getPathAsString() + "'")
+                .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite().getTree().getPathAsString() + "'")
                 .append(" ORDER BY " + UPLOADS_SORT_FIELD + " DESC");
                 @SuppressWarnings("serial")
                 List<DocumentModel> documents = doc.getCoreSession().query(query.toString(), new Filter() {
                     @Override
                     public boolean accept(DocumentModel arg0) {
                         try {
-                            return LabsSiteWebAppUtils.canGetPreview(arg0);
+                            return LabsSiteWebAppUtils.canGetPreview(arg0, isAdmin);
                         } catch (ClientException e) {
                             LOG.error(e, e);
                         }
