@@ -8,6 +8,7 @@ import org.nuxeo.ecm.core.api.Filter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractContentProvider;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
@@ -27,7 +28,11 @@ public class SiteContentProvider extends AbstractContentProvider {
         @Override
         public boolean accept(DocumentModel docModel) {
             try {
-                return (docModel.getAdapter(Page.class) != null)
+                boolean isAdmin = docModel.getAdapter(SiteDocument.class).getSite().isAdministrator(docModel.getCoreSession().getPrincipal().getName());
+                LabsPublisher publisher = docModel.getAdapter(LabsPublisher.class);
+                boolean filter = isAdmin || (publisher != null && publisher.isVisible());
+                return docModel.getAdapter(Page.class) != null
+                        && filter
                         && !LabsSiteConstants.State.DELETE.getState().equals(
                                 docModel.getCurrentLifeCycleState());
             } catch (ClientException e) {
