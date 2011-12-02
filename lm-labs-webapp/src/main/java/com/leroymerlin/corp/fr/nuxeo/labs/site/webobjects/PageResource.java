@@ -36,7 +36,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
-import com.leroymerlin.corp.fr.nuxeo.portal.usermanager.LMNuxeoPrincipal;
 
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
@@ -79,8 +78,7 @@ public class PageResource extends DocumentObject {
                 return;
             }
             if(!Docs.LABSNEWS.type().equals(document.getType())){
-                boolean authorized = labsBaseAdapter.isAuthorizedToDisplay(
-                        userName,((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous());
+                boolean authorized = labsBaseAdapter.isAuthorizedToDisplay();
                 authorized = authorized && !labsBaseAdapter.isDeleted();
                 if (!authorized) {
                     throw new WebResourceNotFoundException(
@@ -108,12 +106,12 @@ public class PageResource extends DocumentObject {
         }
     }
     
-    public boolean isAuthorizedToDisplay(String user, boolean isAnomymous) throws ClientException{
-        return labsBaseAdapter.isAuthorizedToDisplay(user, isAnomymous);
+    public boolean isAuthorizedToDisplay() throws ClientException{
+        return labsBaseAdapter.isAuthorizedToDisplay();
     }
     
-    public boolean isAuthorizedToDisplay(String user, boolean isAnomymous, DocumentModel pDocument) throws ClientException{
-        return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(Page.class).isAuthorizedToDisplay(user, isAnomymous) : false;
+    public boolean isAuthorizedToDisplay(DocumentModel pDocument) throws ClientException{
+        return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(Page.class).isAuthorizedToDisplay() : false;
     }
     
     public boolean isVisible() throws ClientException{

@@ -30,7 +30,7 @@
         <#assign maxNbLabsNews = 5 />
 
           <#list Session.getChildren(site.tree.ref) as root>
-            <#if root.name != "welcome" && This.isAuthorizedToDisplay(Context.principal.name, Context.principal.anonymous, root)>
+            <#if root.name != "welcome" && This.isAuthorizedToDisplay(root)>
 	            <div id="bloc${root_index}" class="bloc welcome span5 column">
 	              <div class="header">
 	                <a href="${This.path}/${root.name}">${root.title}</a>

@@ -166,16 +166,10 @@ public class SitesRoot extends ModuleRoot {
     }
 
     private List<LabsSite> getLabsSites() throws ClientException {
-        String user = null;
-        if (((LMNuxeoPrincipal) ctx.getPrincipal()).isAnonymous()) {
-            user = SecurityConstants.EVERYONE;
-        } else {
-            user = getContext().getPrincipal().getName();
-        }
         CoreSession coreSession = ctx.getCoreSession();
         List<LabsSite> newAllSites = new ArrayList<LabsSite>();
         for (LabsSite site : getSiteManager().getAllSites(coreSession)) {
-            if (!(LabsSiteUtils.isOnlyRead(site.getDocument(), user) && !site.isVisible())) {
+            if (!LabsSiteUtils.isOnlyRead(site.getDocument()) && !site.isVisible()) {
                 newAllSites.add(site);
             }
         }

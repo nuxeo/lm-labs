@@ -20,7 +20,7 @@ public interface LabsBase {
 
     public String[] getAllowedSubtypes() throws ClientException;
     
-    boolean isAuthorizedToDisplay(String user, boolean isAnomymous) throws ClientException;
+    boolean isAuthorizedToDisplay() throws ClientException;
     
     boolean isDeleted() throws ClientException;
     

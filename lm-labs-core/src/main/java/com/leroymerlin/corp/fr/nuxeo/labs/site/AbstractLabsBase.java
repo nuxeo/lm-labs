@@ -71,14 +71,8 @@ public abstract class AbstractLabsBase  implements LabsBase{
     }
     
     @Override
-    public boolean isAuthorizedToDisplay(String pUser, boolean pIsAnonymous) throws ClientException{
-        String user = null;
-        if (pIsAnonymous) {
-            user = SecurityConstants.EVERYONE;
-        } else {
-            user = pUser;
-        }
-        if (LabsSiteUtils.isOnlyRead(doc, user)){
+    public boolean isAuthorizedToDisplay() throws ClientException{
+        if (LabsSiteUtils.isOnlyRead(doc)){
             return doc.getAdapter(LabsPublisher.class).isVisible();
         }
         return true;

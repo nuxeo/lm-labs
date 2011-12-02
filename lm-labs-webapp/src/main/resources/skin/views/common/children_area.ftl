@@ -9,7 +9,7 @@
 </script>
 <#macro children_block parentDoc spanClass="span5" uniqueId="1" >
 	<#if parentDoc.id != Document.id || (parentDoc.id == Document.id && parentDoc.type != 'PageNews')  >
-	<#if This.isAuthorizedToDisplay(Context.principal.name, Context.principal.anonymous, parentDoc)>
+	<#if This.isAuthorizedToDisplay(parentDoc)>
     	<#assign childrenNbr = 0 />
     	<#if parentDoc.type == 'PageNews'>
 	    	<#assign children = This.getNews(parentDoc.ref) />

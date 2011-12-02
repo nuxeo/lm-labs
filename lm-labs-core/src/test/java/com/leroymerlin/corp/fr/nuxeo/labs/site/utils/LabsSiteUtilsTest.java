@@ -282,7 +282,7 @@ public final class LabsSiteUtilsTest {
         assertTrue(PermissionsHelper.hasPermission(docu, SecurityConstants.READ, "toto"));
         CoreSession sessionToto = changeUser("toto");
         docu = sessionToto.getDocument(docu.getRef());
-        assertTrue(LabsSiteUtils.isOnlyRead(docu, "toto"));
+        assertTrue(LabsSiteUtils.isOnlyRead(docu));
     }
     
     @Test 
@@ -294,6 +294,6 @@ public final class LabsSiteUtilsTest {
         assertTrue(PermissionsHelper.hasPermission(docu, SecurityConstants.READ_WRITE, "toto"));
         CoreSession sessionToto = changeUser("toto");
         docu = sessionToto.getDocument(docu.getRef());
-        assertTrue(!LabsSiteUtils.isOnlyRead(docu, "toto"));
+        assertTrue(!LabsSiteUtils.isOnlyRead(docu));
     }
 }

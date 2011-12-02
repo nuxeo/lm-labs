@@ -17,10 +17,9 @@ public final class LabsSiteUtils {
     /**
      * Return true if the user/group has only permissions 'Read'
      * @param doc
-     * @param user
      * @return true if the user/group has only permissions 'Read'
      */
-    public static boolean isOnlyRead(final DocumentModel doc, final String user){
+    public static boolean isOnlyRead(final DocumentModel doc){
         boolean result = false;
         try {
             result = !doc.getCoreSession().hasPermission(doc.getRef(), SecurityConstants.READ_WRITE);
