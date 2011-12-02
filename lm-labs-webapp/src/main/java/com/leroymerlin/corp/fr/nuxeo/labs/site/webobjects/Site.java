@@ -119,19 +119,32 @@ public class Site extends PageResource {
         String title = form.getString("title");
         String url = form.getString("URL");
         String description = form.getString("description");
-
+        boolean modified = false;
         try {
-            site.setTitle(title);
-            site.setDescription(description);
-            site.setURL(url);
-
-            CoreSession session = ctx.getCoreSession();
-            getSiteManager().updateSite(session, site);
-            session.save();
+            if (!StringUtils.isEmpty(title)) {
+                site.setTitle(title);
+                modified = true;
+            }
+            if (!StringUtils.isEmpty(description)) {
+                site.setDescription(description);
+                modified = true;
+            }
+            if (!StringUtils.isEmpty(url)) {
+                site.setURL(url);
+                modified = true;
+            }
+            String msgLabel = "label.labssites.edit.noop";
+            if (modified) {
+                CoreSession session = ctx.getCoreSession();
+                getSiteManager().updateSite(session, site);
+                session.save();
+                msgLabel = "label.labssites.edit.site.updated";
+            }
             return redirect(ctx.getModulePath()
                     + "/"
                     + site.getURL()
-                    + "/@views/edit?message_success=label.site.edit.site_updated");
+                    + "/@views/edit?message_success="
+                    + msgLabel);
         } catch (SiteManagerException e) {
             return redirect(getPath() + "/@views/edit?message_error="
                     + e.getMessage());
