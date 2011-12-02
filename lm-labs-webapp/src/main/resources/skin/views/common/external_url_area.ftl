@@ -1,31 +1,4 @@
-<style>
-label.error { float: none; color: red; font-size:12px; padding-left: .5em;  }
-.actionExternalURL {
-    text-align: right;
-}
-.actionExternalURL>IMG {
-    cursor:pointer;
-}
-#div_externalURL ul {
-    margin: 0 0 0 0.5em;
-}
-#div_externalURL ul li {
-    display: block;
-    text-decoration: none;
-    height: 1.5em;
-}
-.actionExternalURL {
-    float: right;
-}
-.actionExternalURL img {
-    float: left;
-}
-.actionExternalURL.actionAdd {
-    width: 100%;
-}
-</style>
-
-<div  class="bloc" >
+<div id="div_externalURL" class="bloc" >
     <div class="header">${Context.getMessage('label.externalURL.title')}</div>
     <ul class="unstyled">
      <#list Common.siteDoc(Document).site.externalURLs as e >
