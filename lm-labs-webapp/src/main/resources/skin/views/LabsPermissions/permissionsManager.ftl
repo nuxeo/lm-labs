@@ -19,8 +19,8 @@ function initModalLabsPermissions(){
 		height : '250px',
 		overflowy : 'auto',
 		overflowx : 'hidden',
-		showCloseHandle : false,
-		removeOnClose : true,
+		showCloseHandle : true,
+		removeOnClose : false,
 		autoOpen : false
 	});
 }
