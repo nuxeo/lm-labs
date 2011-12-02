@@ -12,6 +12,7 @@
 
 <script type="text/javascript">
 var last_messages = new Array(); 
+var mois = new Array("janv.","f&eacute;v.","mars","avr.","mai","juin","juil.","ao&ucirc;t","sept.","oct.","nov.","déc.");
 
 $(".itemList").ready(function() {  
   $.ajax({  
@@ -58,6 +59,10 @@ function loadContents(page_index, jq){
 		newcontent += '<div class="title ellipsisText" ellipsisTextOptions="{ max_rows:1 }">' + last_messages[i][1] + '</div>';
 		newcontent += '<div class="desc ellipsisText" ellipsisTextOptions="{ max_rows:2 }">' + desc + '</div>';
 		newcontent += '</div></a>';
+		if (i < max_elem - 1){
+			newcontent += '<hr style="margin:0;">';
+		}
+
     }
     
     // Replace old content with new content
@@ -67,10 +72,15 @@ function loadContents(page_index, jq){
     // Prevent click eventpropagation
     return false;
 }  
-function dateAsString(date) {
+/*function dateAsString(date) {
 	dateObj = new Date(date);
 	Date.prototype.toDateString = function () {return isNaN (this) ? 'NaN' : [this.getDate() > 9 ? this.getDate() : '0' + this.getDate(), this.getMonth() > 8 ? this.getMonth() + 1 : '0' + (this.getMonth() + 1), this.getFullYear()].join('/')}
 	Date.prototype.toHourString = function () {return isNaN (this) ? 'NaN' : [this.getHours() > 9 ? this.getHours() : '0' + this.getHours(), this.getMinutes() > 9 ? this.getMinutes() : '0' + this.getMinutes(), this.getSeconds() > 9 ? this.getSeconds() : '0' + this.getSeconds()].join(':')}
 	return dateObj.toDateString() + ' - ' + dateObj.toHourString();
+}*/
+function dateAsString(date) {
+	dateObj = new Date(date);
+	Date.prototype.toDateString = function () {return isNaN (this) ? 'NaN' : [this.getDate() > 9 ? this.getDate() : '0' + this.getDate(), mois[this.getMonth()], this.getFullYear()].join(' ')}
+	return dateObj.toDateString();
 }
 </script>

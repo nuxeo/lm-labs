@@ -249,4 +249,10 @@ jQuery(document).ready(function(){
   function closeDropzone() {
     jQuery('.dropzoneContainer').html("");
   }
+	
+	$('#form-folder').ajaxForm({ 
+        success: function() { 
+            location.reload();
+        } 
+    }); 
 });

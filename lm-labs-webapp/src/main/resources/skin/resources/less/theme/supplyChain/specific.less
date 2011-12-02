@@ -89,7 +89,7 @@ a:hover {
 		border-bottom: 0; 
 		position: absolute; 
 		bottom: -4px; 
-		left: 40%;
+		left: 46%;
 }
 .topbar {
   	width: 980px;
@@ -277,6 +277,7 @@ h6 {
 		background-repeat: no-repeat;
 		background-position: left 10%;
 		text-indent: 25px;
+		background-position-y: 2px;
 	}
 }
 
@@ -485,7 +486,12 @@ li.active > a > h5.homepage{
 		background-color:@white;
 	}
 	.date {
-		text-decoration:underline; 
+		text-decoration:underline;
+		list-style: none;
+		background-image: url(images/horloge.png);
+		background-repeat: no-repeat;
+		background-position: left 10%;
+		text-indent: 22px;
 	}
 	.title {
 		font-size: 14px;
@@ -496,7 +502,7 @@ li.active > a > h5.homepage{
 	}
 	a {
 		color: #404040;
-	    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	    /*font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;*/
 	    font-size: 13px;
 	    font-weight: normal;
 	    line-height: 18px;
@@ -505,4 +511,29 @@ li.active > a > h5.homepage{
 		.opacity(50);
 	}
 }
+
+.sidebarSeparator{
+	background-image: url(images/sidebarSeparateur.png);
+	background-repeat: no-repeat;
+
+}
+
+#div_externalURL ul {
+	 margin-bottom: 5px;
+	 li {
+	    list-style: none;
+		background-image: url(images/pointeurGris.png);
+		background-repeat: no-repeat;
+		background-position: left 10%;
+		text-indent: 17px;
+		border-bottom: 1px solid @grayLight;
+		margin-bottom: 5px;
+		background-position-y: 2px;
+	}
+}
+
+.actionExternalURL {
+    text-indent: 0px;
+}
+
 
