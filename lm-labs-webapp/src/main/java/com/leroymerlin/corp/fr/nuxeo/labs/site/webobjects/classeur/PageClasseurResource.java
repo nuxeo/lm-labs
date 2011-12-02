@@ -31,15 +31,14 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource
 public class PageClasseurResource extends NotifiablePageResource {
 
     private static final Log LOG = LogFactory.getLog(PageClasseurResource.class);
+
     private PageClasseur classeur;
 
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
         classeur = doc.getAdapter(PageClasseur.class);
-        ctx.getEngine()
-                .getRendering()
-                .setSharedVariable("classeur", classeur);
+        ctx.getEngine().getRendering().setSharedVariable("classeur", classeur);
     }
 
     @GET
@@ -56,26 +55,18 @@ public class PageClasseurResource extends NotifiablePageResource {
             try {
                 classeur.addFolder(folderTitle);
                 getCoreSession().save();
-                return redirect(getPath());
+                return Response.status(Status.OK).build();
             } catch (ClientException e) {
-                return Response.serverError()
-                        .status(Status.FORBIDDEN)
-                        .entity(e.getMessage())
-                        .build();
+                return Response.serverError().status(Status.FORBIDDEN).entity(
+                        e.getMessage()).build();
             }
 
         } else {
-            return Response.serverError()
-                    .status(Status.FORBIDDEN)
-                    .entity("Folder name is empty")
-                    .build();
+            return Response.serverError().status(Status.FORBIDDEN).entity(
+                    "Folder name is empty").build();
         }
 
-
     }
-
-
-
 
     @Path(value = "{path}")
     @Override
@@ -93,7 +84,6 @@ public class PageClasseurResource extends NotifiablePageResource {
     public BlobHolder getBlobHolder(final DocumentModel document) {
         return document.getAdapter(BlobHolder.class);
     }
-
 
     @DELETE
     @Path("bulk")
@@ -115,13 +105,10 @@ public class PageClasseurResource extends NotifiablePageResource {
             }
         } catch (ClientException e) {
             LOG.error(e.getMessage());
-            return Response.serverError()
-                    .status(Status.NOT_MODIFIED)
-                    .entity(e.getMessage())
-                    .build();
+            return Response.serverError().status(Status.NOT_MODIFIED).entity(
+                    e.getMessage()).build();
         }
-        return Response.status(Status.NO_CONTENT)
-                .build();
+        return Response.status(Status.NO_CONTENT).build();
     }
 
 }
