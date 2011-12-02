@@ -59,6 +59,10 @@ function loadContents(page_index, jq){
 		newcontent += '<div class="title ellipsisText" ellipsisTextOptions="{ max_rows:1 }">' + last_messages[i][1] + '</div>';
 		newcontent += '<div class="desc ellipsisText" ellipsisTextOptions="{ max_rows:2 }">' + desc + '</div>';
 		newcontent += '</div></a>';
+		if (i < max_elem - 1){
+			newcontent += '<hr style="margin:0;">';
+		}
+
     }
     
     // Replace old content with new content

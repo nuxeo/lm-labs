@@ -277,6 +277,7 @@ h6 {
 		background-repeat: no-repeat;
 		background-position: left 10%;
 		text-indent: 25px;
+		background-position-y: 2px;
 	}
 }
 
@@ -517,12 +518,18 @@ li.active > a > h5.homepage{
 
 }
 
-#div_externalURL ul li {
-    list-style: none;
-	background-image: url(images/pointeurGris.png);
-	background-repeat: no-repeat;
-	background-position: left 10%;
-	text-indent: 17px;
+#div_externalURL ul {
+	 margin-bottom: 5px;
+	 li {
+	    list-style: none;
+		background-image: url(images/pointeurGris.png);
+		background-repeat: no-repeat;
+		background-position: left 10%;
+		text-indent: 17px;
+		border-bottom: 1px solid @grayLight;
+		margin-bottom: 5px;
+		background-position-y: 2px;
+	}
 }
 
 .actionExternalURL {
