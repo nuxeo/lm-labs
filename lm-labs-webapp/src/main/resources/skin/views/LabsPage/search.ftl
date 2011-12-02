@@ -75,7 +75,9 @@
                 <td>${userFullName(doc.dublincore.lastContributor)}</td>
                 <#assign formattedFilesize = "(" + Context.getMessage('label.search.result.noFile') + ")" />
                 <#assign filesize = 0 />
+                <#assign hasFile = false />
                 <#if sd.blobHolder?? && sd.blobHolder.blob != null >
+                  <#assign hasFile = true />
                   <#assign filesize = sd.blobHolder.blob.length />
                   <#assign formattedFilesize = bytesFormat(filesize, "K", "fr_FR") />
                 </#if>
@@ -85,8 +87,18 @@
               	<a href="${Context.modulePath}/${sd.parentPage.path}">${sd.parentPage.title}</a>
               </td>
                 <td>
-                    <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
-                    <a href="${Context.modulePath}/${sd.resourcePath}/@blob" class="btn">${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
+                  <#if !hasFile>
+                  <a disabled="disabled" href="#" class="btn disabled">
+                  <#else>
+                  <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">
+                  </#if>
+                  ${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
+                  <#if !hasFile>
+                  <a disabled="disabled" href="#" class="btn disabled">
+                  <#else>
+                  <a href="${Context.modulePath}/${sd.resourcePath}/@blob" target="_blank" class="btn">
+                  </#if>
+                  ${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
                 </td>
             </tr>
           </#list>
