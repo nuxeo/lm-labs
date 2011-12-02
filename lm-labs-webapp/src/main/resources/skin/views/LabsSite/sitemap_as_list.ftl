@@ -37,6 +37,8 @@ jQuery(document).ready(function() {
           </thead>
           <tbody>
           <#list site.allPages as page>
+            <#assign isAdmin = site.isAdministrator(Context.principal.name) />
+            <#if isAdmin || (!site.isAdministrator(Context.principal.name) && page.visible) > 
             <tr>
               <#assign doc=page.document />
               <td class="nameCol"><a href="${Context.modulePath}/${page.path}">${doc.title}</a></td>
@@ -52,6 +54,7 @@ jQuery(document).ready(function() {
                 <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
               </td>
             </tr>
+            </#if>
           </#list>
           </tbody>
       </table>
