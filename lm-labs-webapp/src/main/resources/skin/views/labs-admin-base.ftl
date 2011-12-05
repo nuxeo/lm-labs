@@ -47,8 +47,13 @@
           <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
 
         </@block>
+        <style>
+        	.container {
+	    		width: 960px;
+	    	}
+        </style>
     </head>
-    <body>
+    <body>  
 	<#-- timeout -->
     <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
     
@@ -71,7 +76,7 @@
 
     <div class="container">
       <div class="row">
-         <div class="span16 columns">
+
         <#assign messages = This.getMessages() />
         <#list messages?keys as key >
            <div class="alert-message ${key}">
@@ -79,7 +84,7 @@
              ${Context.getMessage(messages[key])}
            </div>
         </#list>
-        </div>
+
       </div>
     </div>
     
