@@ -70,7 +70,7 @@
     </@block>
     </div>
 
-    <div class="container">
+    <div class="container" style="width: 960px;">
       <@block name="breadcrumbs">
         <#include "views/common/breadcrumbs.ftl" >
       </@block>

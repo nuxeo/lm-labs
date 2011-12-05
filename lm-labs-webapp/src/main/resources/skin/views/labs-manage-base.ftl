@@ -49,7 +49,7 @@
       </div>
 
 
-      <div class="container">
+      <div class="container" style="width: 960px;">
       	<div class="row">
          <div class="span16 columns">
 	        <#assign messages = This.getMessages() />

@@ -3,20 +3,21 @@
     <ul class="unstyled">
 	     <#list Common.siteDoc(Document).site.externalURLs as e >
 	       <li>
-	    <a href="${e.getURL()}" style="word-wrap: break-word" target="_blank" title="${e.getURL()}">${e.name}</a>
-	    <#if Session.hasPermission(This.document.ref, 'Everything')>
-	      <div class="actionExternalURL editblock">
-	        <img onClick="javascript:modifyExternalURL('${e.name?js_string}', '${e.getURL()}', '0', '${e.document.id}');" title="Modifier" alt="Modifier" src="${skinPath}/images/edit.gif" />
-	        <img onClick="javascript:deleteExternalURL('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@externalURL/${e.document.id}', '${This.path}');" title="Supprimer" alt="Supprimer" src="${skinPath}/images/x.gif" />
-	      </div>
-	    </#if>
-	    </li>
-	  </#list>
+			    <a href="${e.getURL()}" style="word-wrap: break-word" target="_blank" title="${e.getURL()}">${e.name}</a>
+			    <#if Session.hasPermission(This.document.ref, 'Everything')>
+			      <div class="actionExternalURL editblock">
+			        <img onClick="javascript:modifyExternalURL('${e.name?js_string}', '${e.getURL()}', '0', '${e.document.id}');" title="Modifier" alt="Modifier" src="${skinPath}/images/edit.gif" />
+			        <img onClick="javascript:deleteExternalURL('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@externalURL/${e.document.id}', '${This.path}');" title="Supprimer" alt="Supprimer" src="${skinPath}/images/x.gif" />
+			      </div>
+			    </#if>
+		    </li>
+	  	</#list>
     </ul>
 	  <#if Session.hasPermission(This.document.ref, 'Everything')>
 	    <div class="actionExternalURL actionAdd editblock">
 	    	<img class="actionExternalURL" title="Ajouter" alt="Ajouter" src="${skinPath}/images/add.png" />
 	    </div>
+	  	<br />
 	  </#if>
 </div>
 

@@ -1,6 +1,10 @@
 @import "../../bootstrap/bootstrap.less";
 
+@gridColumnWidth:   34px;
+@gridGutterWidth:   14px;
+
 .bloc {
+  word-wrap: break-word;
   background-color: #fff;
   margin-bottom: 10px;
   min-height: 40px;
@@ -30,19 +34,6 @@
 }
 
 
-#sidebar {
-  #gradient > .vertical-three-colors(@green, @green, 25%, lighten(@green,80%));
-
-  /*min-height:400px;*/
-  padding-top:10px;
-  padding-bottom:10px;
-  .border-radius(4px);
-
-  > div {
-    margin-left:10px;
-    margin-right:10px;
-  }
-}
 
 
 
@@ -304,4 +295,36 @@ li.labscomments {
 }
 .actionExternalURL.actionAdd {
     width: 100%;
+}
+
+.container-fluid {
+	padding-left: 10px;
+    padding-right: 10px;
+    > .sidebar {
+  	  width: 180px;
+    }
+    > .container {
+  	  position: relative;
+      float: right;
+      width: 760px;
+    }
+}
+
+/*.container{
+	width: auto;
+	margin-left: 10px;
+	margin-right: 5px;
+}*/
+
+#div_externalURL{
+	> ul {
+		margin-bottom: 2px;
+		> li {
+			word-wrap: break-word;
+		}
+	}
+}
+
+.topbar{
+	width: 980px;
 }
