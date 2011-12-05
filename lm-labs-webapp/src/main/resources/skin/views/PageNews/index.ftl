@@ -33,7 +33,7 @@
           <section>
               <div class="page-header">
                 <h1><a href="${This.path}/${news.documentModel.name}">${news.title}</a> <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
-                <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
+                <p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small></p>
               </div>
 
 
