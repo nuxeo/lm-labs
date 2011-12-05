@@ -6,3 +6,5 @@
     <#include "views/common/external_url_area.ftl" />
     <#-- LASTEST UPLOADS AREA --> 
     <#include "views/common/latestuploads_area.ftl" />
+    <#include "views/common/children_area.ftl" />
+    
