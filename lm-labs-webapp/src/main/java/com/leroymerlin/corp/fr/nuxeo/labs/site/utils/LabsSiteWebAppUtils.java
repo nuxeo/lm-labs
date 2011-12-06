@@ -11,7 +11,6 @@ import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.SortInfo;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
@@ -26,6 +25,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public final class LabsSiteWebAppUtils {
+
+    public static final String DEFAULT_BANNER = "/images/default_banner.png";
 
     private static final String LATEST_UPLOADS_PAGEPROVIDER = "latest_uploads";
 
@@ -95,5 +96,10 @@ public final class LabsSiteWebAppUtils {
             return ctx.getBasePath() + "/" + module.getName();
         }
     }
+    
+    public static String getPathDefaultBanner(Module module, WebContext ctx) {
+        return getSkinPathPrefix(module, ctx) + DEFAULT_BANNER;
+    }
+    
 
 }

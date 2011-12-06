@@ -1,6 +1,11 @@
 <#if site?? && Session.hasPermission(site.document.ref, "Everything")>
 <@extends src="/views/labs-admin-base.ftl">
 
+	<@block name="scripts">
+	    <@superBlock/>
+	    <script type="text/javascript" src="${skinPath}/js/siteTheme.js"></script>
+	</@block>
+
 
   <@block name="tabs">
     <#include "macros/admin_menu.ftl" />
@@ -24,7 +29,7 @@
 &nbsp;
           </div>
           <div class="span12 columns">
-            <form action="${This.path}" method="post" enctype="multipart/form-data" id="form-banner">
+            <form action="${This.path}/banner" method="post" enctype="multipart/form-data" id="form-banner">
               <fieldset>
                 <legend>${Context.getMessage('label.labssites.banner.title.legend')}</legend>
                 <div class="clearfix">
@@ -38,11 +43,14 @@
                               </fieldset>
               <div class="actions">
                 <button class="btn primary required-fields" form-id="form-banner">${Context.getMessage('label.labssites.banner.edit.download')}</button>
+            	 <a class="btn" onClick="javascript:deleteBanner('${This.path}/banner', '${This.path}');">${Context.getMessage('label.labssites.banner.delete')}</a>
               </div>
             </form>
           </div>
         </div>
       </section>
+      
+      
       
 		<!------------------    LOGO   ------------------------->
       <section>

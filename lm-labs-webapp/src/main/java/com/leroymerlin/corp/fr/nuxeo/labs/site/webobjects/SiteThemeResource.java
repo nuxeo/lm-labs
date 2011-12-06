@@ -8,7 +8,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -23,6 +25,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
@@ -102,7 +105,8 @@ public class SiteThemeResource extends PageResource {
     }
 
     @POST
-    public Response doPost() {
+    @Path(value="banner")
+    public Response doPostBanner() {
         FormData form = ctx.getForm();
         if (form.isMultipartContent()) {
             Blob blob = form.getFirstBlob();
@@ -118,6 +122,36 @@ public class SiteThemeResource extends PageResource {
         }
         return redirect(getPath()
                 + "?message_warning=label.labssites.banner.nothing_changed");
+    }
+
+    @DELETE
+    @Path(value="banner")
+    public Response doDeleteBanner() {
+        try {
+            site.setBanner(null);
+            CoreSession session = ctx.getCoreSession();
+            session.save();
+            return Response.ok("?message_success=label.labssites.banner.deleted",
+                    MediaType.TEXT_PLAIN).status(Status.CREATED).build();
+        } catch (ClientException e) {
+            LOG.error(e);
+            return Response.ok("?message_warning=label.labssites.banner.notDeleted",
+                    MediaType.TEXT_PLAIN).status(Status.CREATED).build();
+        }
+    }
+    
+    @GET
+    @Path("banner")
+    public Response getImgBanner() throws ClientException {
+        Response response = null;
+        Blob blob = doc.getAdapter(SiteDocument.class).getSite().getThemeManager().getTheme().getBanner();
+        if (blob != null) {
+            response = Response.ok().entity(blob).type(blob.getMimeType()).build();
+        }
+        if (response == null){
+            response = redirect(LabsSiteWebAppUtils.getPathDefaultBanner(getModule(), ctx));
+        }
+        return response;
     }
 
     @POST
