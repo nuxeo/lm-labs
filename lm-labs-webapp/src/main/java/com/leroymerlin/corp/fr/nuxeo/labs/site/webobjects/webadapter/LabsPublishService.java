@@ -3,7 +3,10 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
+import java.util.List;
+
 import javax.ws.rs.PUT;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -12,12 +15,15 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
@@ -29,6 +35,9 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 @Produces("text/html; charset=UTF-8")
 public class LabsPublishService extends DefaultAdapter {
     
+    private static final String NOT_BE_EMPTY = "notBeEmpty";
+    private static final String IMPOSSIBLE_TO_BE_EMPTY_TRASH = "Impossible to be empty trash !";
+    private static final String BE_EMPTY = "beEmpty";
     private static final String IMPOSSIBLE_TO_DRAFT = "Impossible to draft!";
     private static final String IMPOSSIBLE_TO_PUBLISH = "Impossible to publish!";
     private static final String PUBLISH = "publish";
@@ -122,6 +131,24 @@ public class LabsPublishService extends DefaultAdapter {
             log.error(IMPOSSIBLE_TO_DELETE, e);
         }
         return Response.ok(NOT_DELETED).build();
+    }
+    
+    @DELETE
+    @Path("emptyTrash")
+    public Object doEmptyTrash() {
+        DocumentModel document = getDocument();
+        CoreSession session = document.getCoreSession();
+        try {
+            List<Page> deletedPages = document.getAdapter(SiteDocument.class).getSite().getAllDeletedPages();
+            for(Page page:deletedPages){
+                session.removeDocument(page.getDocument().getRef());
+            }
+            session.save();
+            return Response.ok(BE_EMPTY).build();
+        } catch (ClientException e) {
+            log.error(IMPOSSIBLE_TO_BE_EMPTY_TRASH, e);
+        }
+        return Response.ok(NOT_BE_EMPTY).build();
     }
     
     /**

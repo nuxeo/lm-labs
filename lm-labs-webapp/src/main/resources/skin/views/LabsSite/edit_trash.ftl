@@ -40,7 +40,12 @@
       <section>
         <#assign deletedPages = This.getDeletedPage() />
         <div class="page-header">
-          <h3>${Context.getMessage('label.lifeCycle.trash.title')} <#if (deletedPages?? && deletedPages?size > 0)>(${deletedPages?size})</#if></h3>
+          <h3>
+          	${Context.getMessage('label.lifeCycle.trash.title')} <#if (deletedPages?? && deletedPages?size > 0)>(${deletedPages?size})</#if>
+          	<div style="text-align: right;margin-top: -37px;">
+				<button onClick="beEmptyTrash();" title="${Context.getMessage('label.lifeCycle.page.emptyTrash')}" class="btn" style="margin-left:20px;" >${Context.getMessage('label.lifeCycle.page.emptyTrash')}</button>
+			</div>
+          </h3>
         </div>
         <#if (deletedPages?? && deletedPages?size > 0)>
 	        <table class="zebra-striped bs">
@@ -92,10 +97,28 @@
 				    success: function(data) {
 				    	if (data == 'undelete') {
 				          alert("${Context.getMessage('label.lifeCycle.page.hasUndeleted')}");
-				          document.location.href = '${This.path}';
+				          document.location.href = '${This.path}/@views/edit_trash';
 				        }
 				        else {
 				          alert("${Context.getMessage('label.lifeCycle.page.hasNotUndeleted')}");
+				        }
+				    }
+				});
+			}
+		}
+		function beEmptyTrash(){
+			if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouBeEmptyTrash')}")){
+    			jQuery.ajax({
+					type: 'DELETE',
+				    async: false,
+				    url: '${This.path}/@labspublish/emptyTrash',
+				    success: function(data) {
+				    	if (data == 'beEmpty') {
+				          alert("${Context.getMessage('label.lifeCycle.page.beEmpty')}");
+				          document.location.href = '${This.path}/@views/edit_trash';
+				        }
+				        else {
+				          alert("${Context.getMessage('label.lifeCycle.page.notBeEmpty')}");
 				        }
 				    }
 				});
