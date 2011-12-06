@@ -1,4 +1,7 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+
+	<@block name="title">${site.title}-${This.document.title}</@block>
+
   <@block name="scripts">
       <@superBlock/>
       <meta name="gwt:property" content="locale=fr">
