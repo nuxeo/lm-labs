@@ -119,6 +119,16 @@ a:hover {
   
 }
 
+.pills .active a {
+	background: @bgcolortabs;	
+}
+
+.pills a {	
+	&:hover {
+        background: lighten(@bgcolortabs, 35%);
+    }
+}
+
 .context{
 	/*padding-top: 20px;
 	padding-bottom: 20px;*/
