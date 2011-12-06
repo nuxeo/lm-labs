@@ -7,7 +7,7 @@
         </@block>
 
         <title>
-            <@block name="title">Labs</@block>
+            <@block name="title">${site.title} - Administration</@block>
         </title>
 
         <@block name="css">
