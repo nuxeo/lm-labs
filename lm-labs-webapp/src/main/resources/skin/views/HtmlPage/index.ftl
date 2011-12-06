@@ -17,7 +17,9 @@
 
   <@block name="docactions">
     <@superBlock/>
+      <#if Session.hasPermission(Document.ref, "Write")>
       <li><a id="page_edit" href="${This.path}/@views/edit"/>Modifier la page</a></li>
+      </#if>
       <#include "views/common/page_actions.ftl" />
   </@block>
 
