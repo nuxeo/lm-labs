@@ -99,6 +99,7 @@
                   <div class="input">
                     <select name="rowTemplate">
                       <option value="1COL">1 colonne</option>
+                    <option value="2COL_5050">2 colonnes (50/50)</option>
                     <option value="2COL_2575">2 colonnes (25/75)</option>
                     <option value="2COL_7525">2 colonnes (75/25)</option>
                     <option value="3COL">3 colonnes (33/33/33)</option>

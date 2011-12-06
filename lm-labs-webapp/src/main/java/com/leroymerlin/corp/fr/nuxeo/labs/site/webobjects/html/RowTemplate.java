@@ -9,7 +9,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 
 public enum RowTemplate {
-	R1COL("1COL"), R2COL_2575("2COL_2575"), R2COL_7525("2COL_7525"), R3COL(
+	R1COL("1COL"), R2COL_5050("2COL_5050"), R2COL_2575("2COL_2575"), R2COL_7525("2COL_7525"), R3COL(
 			"3COL"), R4COL("4COL");
 
 	private final String value;
@@ -43,6 +43,10 @@ public enum RowTemplate {
 		
 		switch (template) {
 
+		case R2COL_5050:
+            row.addContent(8, NO_CONTENT);
+            row.addContent(8, NO_CONTENT);
+            break;
 		case R2COL_2575:
 			row.addContent(4, NO_CONTENT);
 			row.addContent(12, NO_CONTENT);
