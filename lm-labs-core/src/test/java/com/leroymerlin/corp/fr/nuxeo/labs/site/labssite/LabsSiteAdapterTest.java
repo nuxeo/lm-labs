@@ -8,19 +8,26 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreInstance;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
-import org.nuxeo.ecm.core.test.annotations.BackendType;
+import org.nuxeo.ecm.core.api.local.LocalSession;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Deploy;
@@ -28,22 +35,29 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 
 @RunWith(FeaturesRunner.class)
-@Features(com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures.class)
+@Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
 @Deploy("com.leroymerlin.labs.core.test")
-@RepositoryConfig(cleanup = Granularity.METHOD, type = BackendType.H2)
+@RepositoryConfig(cleanup = Granularity.METHOD)
 public class LabsSiteAdapterTest {
 
     private static final String LABSSITE_TYPE = LabsSiteConstants.Docs.SITE.type();
+    private final String USERNAME1 = "CGM";
 
     @Inject
     private CoreSession session;
 
+    @Inject
+    protected FeaturesRunner featuresRunner;
+    
     @Test
     public void iCanCreateALabsSiteDocument() throws Exception {
         // Use the session as a factory
@@ -185,6 +199,7 @@ public class LabsSiteAdapterTest {
         assertTrue(!doc.getAdapter(LabsPublisher.class).isDeleted());
     }
 
+    // TODO
     @Ignore("temporarily") @Test()
     public void iCanGetHomePageRef() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "NameSite1",
@@ -194,9 +209,10 @@ public class LabsSiteAdapterTest {
         doc = session.createDocument(doc);
 
         LabsSite labsSite = doc.getAdapter(LabsSite.class);
-        assertTrue(labsSite.getHomePageRef().equals("123456"));
+        assertEquals("123456", labsSite.getHomePageRef());
     }
 
+    // TODO
     @Ignore("temporarily") @Test()
     public void iCanSetHomePageRef() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "NameSite1",
@@ -219,6 +235,10 @@ public class LabsSiteAdapterTest {
         DocumentModel site = session.createDocumentModel("/", "NameSite1",
                 LABSSITE_TYPE);
         site = session.createDocument(site);
+        session.save();
+        PermissionsHelper.addPermission(site, SecurityConstants.READ, USERNAME1, true);
+        assertTrue(PermissionsHelper.hasPermission(site, SecurityConstants.READ, USERNAME1));
+        session.save();
         DocumentModel page = session.createDocumentModel(
                 site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "page1", Docs.PAGECLASSEUR.type());
         page = session.createDocument(page);
@@ -233,15 +253,26 @@ public class LabsSiteAdapterTest {
         session.save();
         LabsSite labsSite = site.getAdapter(LabsSite.class);
         DocumentModelList lastUpdatedDocs = labsSite.getLastUpdatedDocs();
-        // TODO create docs with another user
-//        assertEquals(0, lastUpdatedDocs.size());
-//        
-//        LabsPublisher publisher = page.getAdapter(LabsPublisher.class);
-//        publisher.publish();
-//        page = session.saveDocument(page);
-//        lastUpdatedDocs = labsSite.getLastUpdatedDocs();
-        assertEquals(4, lastUpdatedDocs.size());
 
+        CoreSession userSession = changeUser(USERNAME1);
+        DocumentModel userSite = userSession.getDocument(new PathRef("/NameSite1"));
+        LabsSite userLabsSite = userSite.getAdapter(LabsSite.class);
+        lastUpdatedDocs = userLabsSite.getLastUpdatedDocs();
+        assertEquals(0, lastUpdatedDocs.size());
+        CoreInstance.getInstance().close(userSession);
+        
+        LabsPublisher publisher = page.getAdapter(LabsPublisher.class);
+        publisher.publish();
+        page = session.saveDocument(page);
+        session.save();
+        userSession = changeUser(USERNAME1);
+        userSite = userSession.getDocument(new PathRef("/NameSite1"));
+        userLabsSite = userSite.getAdapter(LabsSite.class);
+        lastUpdatedDocs = userLabsSite.getLastUpdatedDocs();
+        assertEquals(3, lastUpdatedDocs.size());
+        CoreInstance.getInstance().close(userSession);
+
+        lastUpdatedDocs = labsSite.getLastUpdatedDocs();
         // folder 3
         DocumentModel folder3 = session.createDocumentModel(
                 page.getPathAsString(), "folder3", "Folder");
@@ -274,5 +305,14 @@ public class LabsSiteAdapterTest {
         ArrayList<ExternalURL> list = labsSite.getExternalURLs();
         assertEquals(2, list.size());
         assertEquals("a", list.get(0).getName());
+    }
+    
+    private CoreSession changeUser(String username) throws ClientException {
+        CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
+        Map<String, Serializable> ctx = new HashMap<String, Serializable>();
+        ctx.put("username", username);
+        CoreSession userSession = LocalSession.createInstance();
+        userSession.connect(coreFeature.getRepository().getName(), ctx);
+        return userSession;
     }
 }
