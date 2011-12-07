@@ -21,7 +21,7 @@
               </form>
             </li>
             </#if>
-            <li><#include "common/login.ftl" /></li>
+            <li><#include "common/labsLogin.ftl" /></li>
             <#if Context.principal.isAnonymous() == false>
             <li class="dropdown	">
               <a href="#" class="dropdown-toggle">${Context.principal.firstName} ${Context.principal.lastName}</a>
