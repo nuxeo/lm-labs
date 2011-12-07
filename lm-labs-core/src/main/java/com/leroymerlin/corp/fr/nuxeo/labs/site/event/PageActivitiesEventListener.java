@@ -111,7 +111,7 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
                 // should not happen
             }
             if (!processed) {
-                LOG.warn("event " + eventName + " on " + doc.getPathAsString() + " not processed.");
+//                LOG.warn("event " + eventName + " on " + doc.getPathAsString() + " not processed.");
             } else {
                 LOG.debug("event " + eventName + " on " + doc.getPathAsString() + " processed.");
             }
