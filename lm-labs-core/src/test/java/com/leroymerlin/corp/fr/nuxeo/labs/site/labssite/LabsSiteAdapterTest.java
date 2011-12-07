@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -21,6 +20,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
+import org.nuxeo.ecm.core.test.annotations.BackendType;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.runtime.test.runner.Deploy;
@@ -31,11 +31,12 @@ import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 @RunWith(FeaturesRunner.class)
 @Features(com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures.class)
 @Deploy("com.leroymerlin.labs.core.test")
-@RepositoryConfig(cleanup = Granularity.METHOD)
+@RepositoryConfig(cleanup = Granularity.METHOD, type = BackendType.H2)
 public class LabsSiteAdapterTest {
 
     private static final String LABSSITE_TYPE = LabsSiteConstants.Docs.SITE.type();
@@ -218,38 +219,46 @@ public class LabsSiteAdapterTest {
         DocumentModel site = session.createDocumentModel("/", "NameSite1",
                 LABSSITE_TYPE);
         site = session.createDocument(site);
+        DocumentModel page = session.createDocumentModel(
+                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "page1", Docs.PAGECLASSEUR.type());
+        page = session.createDocument(page);
         // folder 1
         DocumentModel folder = session.createDocumentModel(
-                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "folder", "Folder");
+                page.getPathAsString(), "folder", "Folder");
         folder = session.createDocument(folder);
         // folder 2
         DocumentModel folder2 = session.createDocumentModel(
-                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "folder2", "Folder");
-        folder = session.createDocument(folder2);
+                page.getPathAsString(), "folder2", "Folder");
+        folder2 = session.createDocument(folder2);
         session.save();
-
         LabsSite labsSite = site.getAdapter(LabsSite.class);
         DocumentModelList lastUpdatedDocs = labsSite.getLastUpdatedDocs();
-        assertNotNull(lastUpdatedDocs);
-        assertEquals(3, lastUpdatedDocs.size());
+        // TODO create docs with another user
+//        assertEquals(0, lastUpdatedDocs.size());
+//        
+//        LabsPublisher publisher = page.getAdapter(LabsPublisher.class);
+//        publisher.publish();
+//        page = session.saveDocument(page);
+//        lastUpdatedDocs = labsSite.getLastUpdatedDocs();
+        assertEquals(4, lastUpdatedDocs.size());
 
         // folder 3
         DocumentModel folder3 = session.createDocumentModel(
-                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "folder3", "Folder");
+                page.getPathAsString(), "folder3", "Folder");
         folder = session.createDocument(folder3);
         session.save();
 
         lastUpdatedDocs = labsSite.getLastUpdatedDocs();
-        assertEquals(4, lastUpdatedDocs.size());
+        assertEquals(5, lastUpdatedDocs.size());
 
         // hidden document
         DocumentModel hiddenFolder = session.createDocumentModel(
-                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "hiddenFolder", "HiddenFolder");
+                page.getPathAsString(), "hiddenFolder", "HiddenFolder");
         folder = session.createDocument(hiddenFolder);
         session.save();
 
         lastUpdatedDocs = labsSite.getLastUpdatedDocs();
-        assertEquals(4, lastUpdatedDocs.size());
+        assertEquals(5, lastUpdatedDocs.size());
     }
     
     @Test

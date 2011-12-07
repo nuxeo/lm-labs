@@ -9,13 +9,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.platform.query.api.AbstractPageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.filter.PageClasseurDocsFilter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentModel> implements PageProvider<DocumentModel> {
 
@@ -42,16 +41,7 @@ public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentMode
                 .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite().getTree().getPathAsString() + "'")
                 .append(" ORDER BY " + UPLOADS_SORT_FIELD + " DESC");
                 @SuppressWarnings("serial")
-                List<DocumentModel> documents = doc.getCoreSession().query(query.toString(), new Filter() {
-                    @Override
-                    public boolean accept(DocumentModel arg0) {
-                        try {
-                            return LabsSiteWebAppUtils.canGetPreview(arg0, isAdmin);
-                        } catch (ClientException e) {
-                            LOG.error(e, e);
-                        }
-                        return false;
-                    }});
+                List<DocumentModel> documents = doc.getCoreSession().query(query.toString(), new PageClasseurDocsFilter());
                 if (!hasError()) {
                     resultsCount = documents.size();
                     long pageSize = getMinMaxPageSize();

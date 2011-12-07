@@ -13,6 +13,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.model.PropertyException;
@@ -21,6 +22,7 @@ import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.filter.DocUnderVisiblePageFilter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
@@ -250,7 +252,15 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(" <> 'HiddenInNavigation'");
         query.append(" ORDER BY dc:modified DESC");
 
-        return getCoreSession().query(query.toString(), NB_LAST_UPDATED_DOCS);
+        final DocUnderVisiblePageFilter docUnderVisiblePageFilter = new DocUnderVisiblePageFilter();
+        return getCoreSession().query(query.toString(), new Filter() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean accept(DocumentModel doc) {
+                return docUnderVisiblePageFilter.accept(doc);
+            }},
+            NB_LAST_UPDATED_DOCS);
     }
 
     @Override

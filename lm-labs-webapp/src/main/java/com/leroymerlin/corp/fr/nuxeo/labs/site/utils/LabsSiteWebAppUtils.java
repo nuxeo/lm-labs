@@ -39,22 +39,6 @@ public final class LabsSiteWebAppUtils {
     private LabsSiteWebAppUtils() {
     }
 
-
-    public static boolean canGetPreview(final DocumentModel doc, boolean isAdmin)
-            throws ClientException {
-        DocumentModel parent = doc.getCoreSession().getParentDocument(
-                doc.getRef());
-        DocumentModel grandParent = doc.getCoreSession().getDocument(parent.getParentRef());
-        LabsPublisher publisher = grandParent.getAdapter(LabsPublisher.class);
-        boolean filter = isAdmin || (publisher != null && publisher.isVisible());
-        return publisher != null
-                && Docs.FOLDER.type().equals(parent.getType())
-                && Docs.pageDocs().contains(Docs.fromString(grandParent.getType()))
-                && filter
-                && doc.getAdapter(BlobHolder.class) != null;
-    }
-
-
     public static PageProvider<DocumentModel> getLatestUploadsPageProvider(
             DocumentModel doc, long pageSize) throws Exception {
         PageProviderService ppService = Framework.getService(PageProviderService.class);
