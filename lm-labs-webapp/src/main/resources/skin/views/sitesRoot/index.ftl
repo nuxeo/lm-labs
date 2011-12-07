@@ -50,7 +50,7 @@
 	          <#list undeletedLabsSites as sit>
 	            <tr>
 	              <td>${sit.title}</td>
-	              <td>${sit.document.dublincore.creator}</td>
+	              <td>${userFullName(sit.document.dublincore.creator)}</td>
 	              <td><a class="btn" href="${This.path}/${sit.URL}">Voir</a></td>
 	            </tr>
 	          </#list>
@@ -74,7 +74,7 @@
 			          <#list deletedLabsSites as deletedSite>
 			            <tr>
 			              <td>${deletedSite.title}</td>
-			              <td>${deletedSite.document.dublincore.creator}</td>
+			              <td>${userFullName(deletedSite.document.dublincore.creator)}</td>
 			              <td>
 			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Context.modulePath}/@labspublish/undelete/${deletedSite.document.ref}');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>
