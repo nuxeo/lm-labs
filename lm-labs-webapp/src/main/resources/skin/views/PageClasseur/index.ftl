@@ -61,7 +61,7 @@
 
           <div id="addfile_${folder.document.id}_modal" >
               <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
-              <form id="form-download-file" action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
+              <form id="form-upload-file-${folder.document.id}" action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
                 <fieldset>
                   <div class="clearfix">
                         <label for="title">Choisir le fichier</label>
@@ -81,7 +81,7 @@
 
 
               <div class="actions">
-                <button class="btn primary required-fields" form-id="form-download-file">Envoyer</button>
+                <button class="btn primary required-fields" form-id="form-upload-file-${folder.document.id}">Envoyer</button>
               </div>
               </form>
 
