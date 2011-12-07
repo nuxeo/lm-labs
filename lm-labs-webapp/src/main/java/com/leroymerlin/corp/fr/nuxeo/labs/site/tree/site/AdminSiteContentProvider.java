@@ -24,7 +24,7 @@ public class AdminSiteContentProvider extends AbstractContentProvider {
             return (docModel.getAdapter(Page.class) != null);
         }
     }
-
+    
     private static final Filter pageFilter = new PageFilter();
     
     public AdminSiteContentProvider(CoreSession session) {

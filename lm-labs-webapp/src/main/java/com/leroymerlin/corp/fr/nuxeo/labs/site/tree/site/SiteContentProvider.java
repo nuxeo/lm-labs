@@ -5,6 +5,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.Filter;
+import org.nuxeo.ecm.core.schema.FacetNames;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
@@ -28,9 +29,11 @@ public class SiteContentProvider extends AbstractContentProvider {
         @Override
         public boolean accept(DocumentModel docModel) {
             try {
-                boolean isAdmin = docModel.getAdapter(SiteDocument.class).getSite().isAdministrator(docModel.getCoreSession().getPrincipal().getName());
+                boolean isAdmin = docModel.getAdapter(SiteDocument.class).getSite().isAdministrator(
+                        docModel.getCoreSession().getPrincipal().getName());
                 LabsPublisher publisher = docModel.getAdapter(LabsPublisher.class);
-                boolean filter = isAdmin || (publisher != null && publisher.isVisible());
+                boolean filter = isAdmin
+                        || (publisher != null && publisher.isVisible());
                 return docModel.getAdapter(Page.class) != null
                         && filter
                         && !LabsSiteConstants.State.DELETE.getState().equals(
@@ -48,8 +51,8 @@ public class SiteContentProvider extends AbstractContentProvider {
         @Override
         public boolean accept(DocumentModel docModel) {
             try {
-                return /*((docModel.getAdapter(Page.class) != null) || (docModel.hasFacet(FacetNames.FOLDERISH)))
-                        &&*/ !LabsSiteConstants.State.DELETE.getState().equals(
+                return /* ((docModel.getAdapter(Page.class) != null) || */(docModel.hasFacet(FacetNames.FOLDERISH))
+                        && !LabsSiteConstants.State.DELETE.getState().equals(
                                 docModel.getCurrentLifeCycleState());
             } catch (ClientException e) {
                 return false;

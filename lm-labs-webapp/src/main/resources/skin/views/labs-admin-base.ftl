@@ -44,6 +44,8 @@
           <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
           <script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/asset_filedrop.js"></script>
           <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
 
         </@block>

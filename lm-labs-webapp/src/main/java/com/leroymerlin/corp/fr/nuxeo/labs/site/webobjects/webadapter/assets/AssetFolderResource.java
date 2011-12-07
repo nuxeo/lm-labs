@@ -3,7 +3,10 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter.assets;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -25,24 +28,29 @@ public class AssetFolderResource extends DocumentObject {
     @Override
     public Resource traverse(@PathParam("path") String path) {
         try {
-            PathRef pathRef = new PathRef(doc.getPath()
-                    .append(path)
-                    .toString());
-            DocumentModel currentDoc = ctx.getCoreSession()
-                    .getDocument(pathRef);
+            PathRef pathRef = new PathRef(doc.getPath().append(path).toString());
 
-            if (currentDoc.isFolder()) {
-                return ctx.newObject("AssetFolder", currentDoc);
+            if (ctx.getCoreSession().exists(pathRef)) {
+                DocumentModel currentDoc = ctx.getCoreSession().getDocument(
+                        pathRef);
+
+                if (currentDoc.isFolder()) {
+                    return ctx.newObject("AssetFolder", currentDoc);
+                } else {
+                    return ctx.newObject(currentDoc.getType(), currentDoc);
+                }
             } else {
-                return ctx.newObject(currentDoc.getType(), currentDoc);
+                return null;
             }
+
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
     }
 
     public String getCKEditorFuncNum() {
-        return (String) ctx.getRequest().getSession().getAttribute("CKEditorFuncNum");
+        return (String) ctx.getRequest().getSession().getAttribute(
+                "CKEditorFuncNum");
     }
 
     @POST
@@ -50,18 +58,25 @@ public class AssetFolderResource extends DocumentObject {
         FormData form = ctx.getForm();
         if (form.isMultipartContent()) {
             String desc = form.getString("description");
+            String noRedirect = form.getString("no_redirect");
             Blob blob = form.getFirstBlob();
             try {
                 blob.persist();
                 if (blob.getLength() > 0) {
                     DocumentModel file = addFile(blob);
-                    if(!StringUtils.isBlank(desc)) {
+                    if (!StringUtils.isBlank(desc)) {
                         file.setPropertyValue("dc:title", desc);
                         getCoreSession().saveDocument(file);
                     }
                     getCoreSession().save();
                 }
-                return redirect(getPath());
+                if (noRedirect != null) {
+                    JSONObject json = new JSONObject();
+                    json.element("text", "OK");
+                    return Response.ok(json, MediaType.APPLICATION_JSON).build();
+                } else {
+                    return redirect(getPath());
+                }
             } catch (Exception e) {
                 throw WebException.wrap(e);
             }
@@ -70,11 +85,10 @@ public class AssetFolderResource extends DocumentObject {
         }
     }
 
-    private DocumentModel  addFile(Blob blob) throws Exception {
-        return Framework.getService(FileManager.class)
-                .createDocumentFromBlob(doc.getCoreSession(), blob,
-                        doc.getPathAsString(), true,
-                        StringEscapeUtils.escapeHtml(blob.getFilename()));
+    private DocumentModel addFile(Blob blob) throws Exception {
+        return Framework.getService(FileManager.class).createDocumentFromBlob(
+                doc.getCoreSession(), blob, doc.getPathAsString(), true,
+                StringEscapeUtils.escapeHtml(blob.getFilename()));
 
     }
 

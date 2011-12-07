@@ -38,13 +38,34 @@
 	</#if>
 	<script type="text/javascript" src="${skinPath}/js/jstree/jquery.jstree.js"></script>
 	<script type="text/javascript">
+		function refreshTreeview() {
+			jQuery("#jstree").jstree("refresh");
+		}
+		function deletePicture(id) {
+			if (confirm("${Context.getMessage('label.admin.asset.deleteConfirm')}")) {
+				jQuery.ajax({
+					async : false,
+					type: 'GET',
+					url: "${This.previous.path}/id/" + id + "/@delete", 
+					success : function (r) {
+						refreshTreeview();
+					}, 
+					error : function (r, responseData) {
+						//jQuery.jstree.rollback(data.rlbk);
+					}
+				});
+			}
+		}
+	
 		var homePageId = '<#if adminTreeviewType == "Pages">${homepageDoc.id}</#if>';
 		
 		jQuery().ready(function() {
+			initFileDrop('fileContent', '${This.path}/@assets/paramId', refreshTreeview, 'currentNodeId');
+		
 			jQuery('#addFileForm').ajaxForm(function() { 
 				jQuery("#addFileDialog").dialog2('close');
-                loadPictures(jQuery("li[rel=Assets]").attr("id"));
-                jQuery("#jstree").jstree("refresh");
+                loadPictures(jQuery(jQuery("li[rel=Assets]").attr("id")));
+                refreshTreeview();
             }); 
 			jQuery("#addFileDialog").dialog2({
 				autoOpen : false,
@@ -120,7 +141,7 @@
 				    async: false,
 				    url: '${Context.modulePath}/' + url + '/@labspublish/' + operation,
 				    success: function(data) {
-				    	jQuery("#jstree").jstree("refresh");
+				    	refreshTreeview();
 				    }
 				});
 			}
@@ -132,7 +153,7 @@
 				    url: '${Context.modulePath}/' + url + '/@setHome',
 				    success: function(data) {
 				    	homePageId = jQuery(node).attr('id');
-				    	jQuery("#jstree").jstree("refresh");
+				    	refreshTreeview();
 				    }
 				});
 			}
@@ -515,7 +536,7 @@
 						},
 						success : function (r) {
 				        	$(data.rslt.obj).attr("id", "node_" + r.id);
-				        	jQuery("#jstree").jstree("refresh");
+				        	refreshTreeview();
 				        },
 				        error : function (r) {
 				            $.jstree.rollback(data.rlbk);
@@ -523,7 +544,7 @@
 					});
 			   } else {
 			   	alert("${Context.getMessage('label.admin.asset.dirTitleRequire')}");
-			   	jQuery("#jstree").jstree("refresh");
+			   	refreshTreeview();
 			   }
 			    
 			})
@@ -554,7 +575,7 @@
   </@block>
 
 	<@block name="content">
-		<div id="content" class="container">
+		<div id="content" class="container" style="float:left;max-width:350px">
 			<section>
 				<#if adminTreeviewType=="Assets">
 					<div style="display: none">
@@ -594,7 +615,8 @@
 		</div>
 		
 		<#if adminTreeviewType=="Assets">
-		    <div id="fileContent" class="span11 columns well" style="min-height:300px;">
+			<input type="hidden" id="currentNodeId" value="0a179527-8789-4a15-a400-0f1ca77c2340" />
+		    <div id="fileContent" class="span11 columns well" style="min-height:300px;max-width:520px">
 		        <#include "views/AssetFolder/content_admin.ftl"/>
 		    </div>
 			<#-- load picture in terms of treeview's node -->
@@ -606,6 +628,7 @@
 				      url: '${This.path}' + '/@assets/id/'+id+'/@views/content_admin',
 				      success: function(data) {
 				      	jQuery("#contentAdminPictures").html(data);
+				      	jQuery("#currentNodeId").val(id);
 				      }
 				    });
 				}
