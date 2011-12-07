@@ -122,7 +122,7 @@
       <div class="clearfix">
           <label for="folderName">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
             <div class="input">
-              <input id="folderName" name="folderName" class="required"/>
+              <input id="folderName" name="folderName" class="xlarge required"/>
             </div>
           </div><!-- /clearfix -->
       </fieldset>

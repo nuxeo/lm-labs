@@ -33,7 +33,7 @@ jQuery(document).ready(function(){
     buttons: {
       "Annuler": function() { jQuery(this).dialog2("close"); }
     },
-    width: 400,
+    width: '500px',
     autoOpen : false,
 	closeOnOverlayClick : true,
 	removeOnClose : false,
