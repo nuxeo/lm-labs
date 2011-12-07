@@ -83,6 +83,40 @@ public class PageClasseurAdapterTest {
     }
     
     @Test
+    public void iCanGetFolderByThisNameFromAPageClasseur() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        classeur.addFolder("My Folder2");
+        classeur.addFolder("My Folder");
+        session.save();
+        
+        PageClasseurFolder folder = classeur.getFolder("My Folder");
+        assertNotNull(folder);
+        assertThat(folder.getTitle(),is("My Folder"));
+
+        classeur.removeFolder("My Folder");
+        assertNull(classeur.getFolder("My Folder"));
+    }
+    
+    @Test
+    public void iCanGetRemaneFolderByThisNameFromAPageClasseur() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        classeur.addFolder("My Folder2");
+        classeur.addFolder("My Folder");
+        session.save();
+        
+        classeur.renameFolder(classeur.getFolder("My Folder2").getDocument().getRef().toString(), "My Folder3");
+        session.save();
+        
+        PageClasseurFolder folder = classeur.getFolder("My Folder3");
+        assertNotNull(folder);
+        assertThat(folder.getTitle(),is("My Folder3"));
+        folder = classeur.getFolder("My Folder2");
+        assertNull(folder);
+    }
+    
+    @Test
     public void iCantAddTwoFolderOfSameName() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
