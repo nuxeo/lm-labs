@@ -21,13 +21,14 @@
               </form>
             </li>
             </#if>
-            <li><#include "common/login.ftl" /></li>
+            <li><#include "common/labsLogin.ftl" /></li>
             <#if Context.principal.isAnonymous() == false>
             <li class="dropdown	">
               <a href="#" class="dropdown-toggle">${Context.principal.firstName} ${Context.principal.lastName}</a>
               <ul class="dropdown-menu">
                 <@block name="docactions">
-                <#if site?? && Session.hasPermission(This.document.ref, "ADD_CHILDREN")>
+                <!--  TODO le type classeur ne peut pas pour l'instant créer des pages(Ajout contenu) en-dessous  -->
+                <#if site?? && Session.hasPermission(This.document.ref, "ADD_CHILDREN") && This.document.type != "PageClasseur">
                 <li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView">${Context.getMessage('command.docactions.addcontent')}</a></li>
                 </#if>
                 </@block>

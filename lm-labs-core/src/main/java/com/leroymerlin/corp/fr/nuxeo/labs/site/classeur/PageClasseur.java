@@ -17,4 +17,8 @@ public interface PageClasseur extends Page {
 
     public void removeFolder(String title) throws ClientException;
 
+    public PageClasseurFolder getFolder(String title) throws ClientException;
+
+    public void renameFolder(String idRef, String newName) throws ClientException;
+
 }

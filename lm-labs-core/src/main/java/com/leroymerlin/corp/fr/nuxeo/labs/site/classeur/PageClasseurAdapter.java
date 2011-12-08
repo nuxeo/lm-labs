@@ -10,6 +10,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 
@@ -117,7 +118,8 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
         return getFolder(title) != null;
     }
 
-    private PageClasseurFolder getFolder(String title) throws ClientException {
+    @Override
+    public PageClasseurFolder getFolder(String title) throws ClientException {
         for (PageClasseurFolder folder : getFolders()) {
             if (title.equals(folder.getTitle())) {
                 return folder;
@@ -133,6 +135,14 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
             doc.getCoreSession().removeDocument(folder.getDocument().getRef());
         }
 
+    }
+
+    @Override
+    public void renameFolder(String idRef, String newName) throws ClientException {
+        CoreSession session = doc.getCoreSession();
+        DocumentModel document = session.getDocument(new IdRef(idRef));
+        document.setPropertyValue("dc:title", newName);
+        session.saveDocument(document);
     }
 
 

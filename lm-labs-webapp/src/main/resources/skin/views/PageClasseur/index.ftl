@@ -44,7 +44,7 @@
   <#list classeur.folders as folder>
     <section class="${folder.document.type}" id="${folder.document.id}" >
       <div class="page-header">
-        <h1><span title="${folder.document.dublincore.description}" >${folder.document.dublincore.title}</span></h1>
+        <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title}</span></h1>
       </div>
 
 
@@ -58,6 +58,8 @@
           <!-- This button submits the hidden delete form -->
           <button type="submit" class="btn danger" onclick="$('#delete_${folder.document.id}').submit();return false;">${Context.getMessage('command.PageClasseur.deleteFolder')}</button>
 
+		  <!-- rename   -->
+		  <button class='btn' onClick='javascript:renameFolder("${This.path}/@rename/${folder.document.id}", "${folder.document.id}");'>${Context.getMessage("command." + Document.type + ".renameFolder" )}</button>
 
           <div id="addfile_${folder.document.id}_modal" >
               <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
@@ -90,7 +92,6 @@
               <form id="delete_${folder.document.id}" onsubmit="return confirm('Voulez vous vraiment supprimer ce répertoire ?');" action="${This.path}/${folder.document.name}/@delete" method="get" enctype="multipart/form-data">
               </form>
 
-
           </div>
 
         </div>
@@ -121,7 +122,7 @@
       <div class="clearfix">
           <label for="folderName">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
             <div class="input">
-              <input name="folderName" class="required"/>
+              <input id="folderName" name="folderName" class="xlarge required"/>
             </div>
           </div><!-- /clearfix -->
       </fieldset>

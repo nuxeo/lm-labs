@@ -27,15 +27,15 @@
   	action="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@externalURL">
   	<fieldset>
   	  <div class="clearfix">
-        <label for="exturl:name">${Context.getMessage('label.externalURL.edit.name')}</label><br />
+        <label for="exturl:name">${Context.getMessage('label.externalURL.edit.name')}</label>
         <div class="input">
-          <input type="text" class="required" id="exturl:name" name="exturl:name" size="60" value="" />
+          <input type="text" class="required" id="exturl:name" name="exturl:name" />
         </div>
   	  </div>
   	  <div class="clearfix">
-        <label for="exturl:url">${Context.getMessage('label.externalURL.edit.url')}</label><br />
+        <label for="exturl:url">${Context.getMessage('label.externalURL.edit.url')}</label>
         <div class="input">
-          <input type="text" class="required" id="exturl:url" name="exturl:url" size="60" value="" />
+          <input type="text" class="xlarge required" id="exturl:url" name="exturl:url" />
         </div>
   	  </div>
   	</fieldset>
@@ -88,10 +88,11 @@ jQuery(document).ready(function(){
 		buttons: {
 			"Fermer": function() { jQuery(this).dialog2("close"); }
 		},
-		width: 800,
-		modal: true,
-		showCloseHandle : false,
-		autoOpen: false
+		width: '500px',
+		autoOpen : false,
+		closeOnOverlayClick : true,
+		removeOnClose : false,
+		showCloseHandle : true,
 	});
 	jQuery(".actionExternalURL.actionAdd > img").click(function() {
 		jQuery("#div_persistExternalURL").dialog2('open');

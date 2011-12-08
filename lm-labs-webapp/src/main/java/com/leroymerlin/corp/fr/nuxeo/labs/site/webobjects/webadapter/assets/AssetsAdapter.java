@@ -63,8 +63,16 @@ public class AssetsAdapter extends DefaultAdapter {
     @Path("id/{id}")
     public Object doTraverseWithId(@PathParam("id") String id)
             throws ClientException {
-        AssetFolderResource res = getAssetResource(getSite());
+        return doTraverseAsset(id);
+    }
 
+    @Path("paramId")
+    public Object doTraverseWithParamId() throws ClientException {
+        return doTraverseAsset(ctx.getForm().getString("id"));
+    }
+
+    private Object doTraverseAsset(final String id) throws ClientException {
+        AssetFolderResource res = getAssetResource(getSite());
         String path = getContext().getCoreSession().getDocument(new IdRef(id)).getPath().toString();
 
         if (path.endsWith("assets")) {
@@ -74,11 +82,6 @@ public class AssetsAdapter extends DefaultAdapter {
         }
 
         return res.traverse(path);
-
-    }
-
-    private LabsSite getSite() {
-        return (LabsSite) ctx.getProperty("site");
     }
 
     @GET
@@ -107,6 +110,10 @@ public class AssetsAdapter extends DefaultAdapter {
     public Template doGetRootContent() throws ClientException {
         AssetFolderResource folder = getAssetResource(getSite());
         return folder.getView("content");
+    }
+
+    private LabsSite getSite() {
+        return (LabsSite) ctx.getProperty("site");
     }
 
 }

@@ -67,7 +67,7 @@ $.fn.ckeip = function (options, callback) {
 	            } else {
 	                $(original_html).html(ckeip_html);
 	            }
-	            
+	            	            
                 $('#ckeip_' + u_id + '').hide();
                 $(original_html).fadeIn();
 

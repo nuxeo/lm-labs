@@ -33,9 +33,11 @@ jQuery(document).ready(function(){
     buttons: {
       "Annuler": function() { jQuery(this).dialog2("close"); }
     },
-    width: 400,
-    modal: true,
-    autoOpen: false
+    width: '500px',
+    autoOpen : false,
+	closeOnOverlayClick : true,
+	removeOnClose : false,
+	showCloseHandle : true,
   });
 
 
@@ -165,9 +167,11 @@ jQuery(document).ready(function(){
 
   jQuery("#addFolder").click(function() {
     jQuery("#div-addfolder").dialog2('open');
+    jQuery("#div-addfolder").dialog2("options", {title: "Ajouter un répertoire"});
+    jQuery("#form-folder").clearForm();
     return false;
   });
-
+  
   jQuery(".removefile").click(function(evt) {
     if (confirm("Etes-vous sûr de vouloir effacer le fichier '" + jQuery(this).closest("tr").find(".colFileName").text() + "' ?")) {
       var buttonDomElement = evt.target;
@@ -256,3 +260,11 @@ jQuery(document).ready(function(){
         } 
     }); 
 });
+
+function renameFolder(url, id) {
+    jQuery("#div-addfolder").dialog2('open');
+    jQuery("#div-addfolder").dialog2("options", {title: "Renommer le répertoire '" + jQuery("#spanFolderTitle" + id).text() + "'"});
+    jQuery("#folderName").val(jQuery("#spanFolderTitle" + id).text());
+    jQuery("#form-folder").attr('action', url);
+    return false;
+  }
