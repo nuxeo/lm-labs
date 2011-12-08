@@ -19,12 +19,15 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
+import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
+import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 
 @WebObject(type = "PageClasseur", superType = "LabsPage")
@@ -73,8 +76,14 @@ public class PageClasseurResource extends NotifiablePageResource {
     public Resource traverse(@PathParam("path") String path) {
         try {
             PathRef pathRef = new PathRef(doc.getPath().append(path).toString());
-            DocumentModel folder = ctx.getCoreSession().getDocument(pathRef);
-            return newObject("PageClasseurFolder", folder);
+            DocumentModel subDoc = ctx.getCoreSession().getDocument(pathRef);
+            if (Docs.pageDocs().contains(Docs.fromString(subDoc.getType()))) {
+                return (DocumentObject) ctx.newObject(subDoc.getType(), subDoc);
+            } else if (Docs.FOLDER.type().equals(subDoc.getType())) {
+                return newObject("PageClasseurFolder", subDoc);
+            } else {
+                throw new WebResourceNotFoundException("Unknow sub-type for a PageClasseur: " + subDoc.getType());
+            }
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
