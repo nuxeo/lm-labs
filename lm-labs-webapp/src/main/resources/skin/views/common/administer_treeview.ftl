@@ -28,6 +28,11 @@
 	#jstree {
 		background-color: white;
 	}
+	.dropzonehighlighted {
+		background-color: lightgrey;
+		border-color: white;
+		color: white;
+	}
 	</style>
 	</@block>
 	
@@ -56,17 +61,39 @@
 				});
 			}
 		}
+		function openAddFileDialog(id) {
+			jQuery('#addFileForm').attr('action', "${formPath}/id/"+id);
+			jQuery("#addFileDialog").dialog2('open');
+		}
+		function createFolder(title, doctype, destId) {
+			 jQuery.ajax({
+					async : false,
+					type: 'POST',
+					url: "${This.path}/@pageUtils/addFolder",
+					data : {
+						"title" : jQuery('input[name=\'dublincore:title\']').val(),
+						"doctype" : jQuery('input[name=doctype]').val(),
+						"destination" : jQuery('#currentNodeId').val()
+					},
+					success : function (r) {
+						jQuery("#addFolderDialog").dialog2('close');
+			        	refreshTreeview();
+			        }
+			  });
+			return false;
+		}
 	
 		var homePageId = '<#if adminTreeviewType == "Pages">${homepageDoc.id}</#if>';
 		
 		jQuery().ready(function() {
-			initFileDrop('fileContent', '${This.path}/@assets/paramId', refreshTreeview, 'currentNodeId');
+			jQuery("#currentNodeId").val(jQuery("li[rel=Assets]").attr("id"));
+			initFileDrop('fileContent', '${This.path}/@assets/paramId', refreshTreeview, 'currentNodeId', '${Context.getMessage("label.admin.error.too_many_file", 25)}', '${Context.getMessage("label.admin.error.file_too_large", 5)}');
 		
 			jQuery('#addFileForm').ajaxForm(function() { 
 				jQuery("#addFileDialog").dialog2('close');
                 loadPictures(jQuery(jQuery("li[rel=Assets]").attr("id")));
                 refreshTreeview();
-            }); 
+            });
 			jQuery("#addFileDialog").dialog2({
 				autoOpen : false,
 				closeOnOverlayClick : true,
@@ -174,8 +201,7 @@
 		                        "seperator_after" : false,
 		                        "label" : "${Context.getMessage('command.admin.upload_file')}",
 		                        action : function (obj) {
-		                            jQuery('#addFileForm').attr('action', "${formPath}/id/"+obj.attr("id"));
-		    						jQuery("#addFileDialog").dialog2('open');
+		    						openAddFileDialog(obj.attr("id"));
 		                        }
 		                    },
 		                    "create_folder" : {
@@ -541,7 +567,7 @@
 				        error : function (r) {
 				            $.jstree.rollback(data.rlbk);
 				        }
-					});
+				   });
 			   } else {
 			   	alert("${Context.getMessage('label.admin.asset.dirTitleRequire')}");
 			   	refreshTreeview();
@@ -575,37 +601,66 @@
   </@block>
 
 	<@block name="content">
-		<div id="content" class="container" style="float:left;max-width:350px">
-			<section>
+		<#if adminTreeviewType=="Assets">
+			<div style="display: none">
+				<#include "macros/add_file_dialog.ftl" />
+				<@addFileDialog action="${formPath}" onSubmit=""/>
+		    </div>
+		</#if>
+	
+		<div class="page-header">
+			<h1><#if adminTreeviewType=="Assets">Gérer les médias<#else>Gérer les Pages</#if>	
+			<img style="cursor:pointer;" src="${skinPath}/images/theme/header_help.png" onclick="jQuery('#help-jstree').show();return false;"/>
+			</h1>
+		</div>
+		<div id="help-jstree" class="alert-message block-message success" style="display:none;">
+			<a class="close" href="#">&times;</a>
+			<#assign i18nPfx = "label.admin.help." />
+			<p>
+			${Context.getMessage(i18nPfx + 'intro')}<br/>
+			<#list ["drag", "ctrldrag", "f2", "leftclick", "rightclick"] as fn>
 				<#if adminTreeviewType=="Assets">
-					<div style="display: none">
-						<#include "macros/add_file_dialog.ftl" />
-						<@addFileDialog action="${formPath}" onSubmit=""/>
-				    </div>
+					<strong>${Context.getMessage(i18nPfx + 'functions.' + fn + '.asset')}</strong> ${Context.getMessage(i18nPfx + 'functions.' + fn + '.text' + '.asset')}<br/>
+				<#else>
+					<strong>${Context.getMessage(i18nPfx + 'functions.' + fn)}</strong> ${Context.getMessage(i18nPfx + 'functions.' + fn + '.text')}<br/>
 				</#if>
+			</#list>
+			</p>
+		</div>
+		
+		<div style="margin: 0px 0px 8px 283px;">
+            <a href="#" rel="addFileDialog" class="open-dialog btn" onclick="openAddFileDialog(jQuery('#currentNodeId').val())">Ajouter un fichier</a>
+            <a href="#" rel="addFolderDialog" class="open-dialog btn">Ajouter un répertoire</a>
 			
-				<div class="page-header">
-				<h1><#if adminTreeviewType=="Assets">Gérer les médias<#else>Gérer les Pages</#if>	
-				<img style="cursor:pointer;" src="${skinPath}/images/theme/header_help.png" onclick="jQuery('#help-jstree').show();return false;"/>
-				</h1>
-				</div>
-				<div id="help-jstree" class="alert-message block-message success" style="display:none;">
-					<a class="close" href="#">&times;</a>
-					<#assign i18nPfx = "label.admin.help." />
-					<p>
-					${Context.getMessage(i18nPfx + 'intro')}<br/>
-					<#list ["drag", "ctrldrag", "f2", "leftclick", "rightclick"] as fn>
-						<#if adminTreeviewType=="Assets">
-							<strong>${Context.getMessage(i18nPfx + 'functions.' + fn + '.asset')}</strong> ${Context.getMessage(i18nPfx + 'functions.' + fn + '.text' + '.asset')}<br/>
-						<#else>
-							<strong>${Context.getMessage(i18nPfx + 'functions.' + fn)}</strong> ${Context.getMessage(i18nPfx + 'functions.' + fn + '.text')}<br/>
-						</#if>
-					</#list>
-					</p>
-				</div>
-				<div class="row">
+			<div style="font-weight: bold;font-size:16px;margin:10px 0px -6px 0px">
+				Vous avez la possibilité de "glisser-déposer" vos fichiers dans la zone ci-dessous.
+			</div>
+			
+			<#-- TODO IN MACRO -->
+	          <div id="addFolderDialog" style="display:none;">
+	            <h1>Ajouter un répertoire</h1>
+	            <form id="addFolderForm" action="${This.path}" method="post" onSubmit="return createFolder('','','');">
+	              <input type="hidden" name="doctype" value="Folder"/>
+	              <fieldset>
+	                <div class="clearfix">
+	                    <label for="title">Nom du répertoire</label>
+	                      <div class="input">
+	                        <input name="dublincore:title" class="required"/>
+	                      </div>
+	                    </div><!-- /clearfix -->
+	              </fieldset>
+	              <div class="actions">
+	                <button type="submit" class="btn primary required-fields" form-id="addFolderForm">Ajouter</button>
+	              </div>
+	           </form>
+	         </div>
+		</div>
+	
+		<div id="content" class="container" style="float:left;max-width:269px;">
+			<section>
+				<div>
 					<@jsTreeControls id="jsTreeControlsTop" />
-					<div class="span16 columns">
+					<div class="span16 columns" style="margin-top:10px;margin-bottom:10px">
 						<div id="jstree">
 						</div>
 					</div>
@@ -615,10 +670,16 @@
 		</div>
 		
 		<#if adminTreeviewType=="Assets">
-			<input type="hidden" id="currentNodeId" value="0a179527-8789-4a15-a400-0f1ca77c2340" />
-		    <div id="fileContent" class="span11 columns well" style="min-height:300px;max-width:520px">
+			<input type="hidden" id="currentNodeId" value="" />
+		    <div id="fileContent" class="span11 columns well" style="min-height:300px;width:auto;">
 		        <#include "views/AssetFolder/content_admin.ftl"/>
 		    </div>
+		    <div id="waitingPopup" style="display:none;font-weight:bold;text-align:center" >
+				${Context.getMessage('label.waiting')}
+				<br/>
+				<img src="${skinPath}/images/loading.gif" />
+			</div>
+		    
 			<#-- load picture in terms of treeview's node -->
 			<script type="text/javascript">
 				function loadPictures(id){
@@ -638,11 +699,17 @@
 	
 </@extends>
 <#macro jsTreeControls id>
+<style>
+.mini {
+	font-size: 11px;
+	padding: 3px 5px 3px 6px;
+}
+</style>
 <div id="${id}" class="span16 columns jsTreeControls">
-	<button class="small btn" id="expandTreeBt" onclick="jQuery('#jstree').jstree('open_all');return false;">
+	<button class="btn mini" id="expandTreeBt" onclick="jQuery('#jstree').jstree('open_all');return false;">
 	${Context.getMessage('command.admin.tree.expandAll')}
 	</button>
-	<button class="small btn" id="collapseTreeBt" onclick="jQuery('#jstree').jstree('close_all');return false;">
+	<button class="btn mini" id="collapseTreeBt" onclick="jQuery('#jstree').jstree('close_all');return false;">
 	${Context.getMessage('command.admin.tree.collapseAll')}
 	</button>
 </div>
