@@ -628,12 +628,13 @@
 			</p>
 		</div>
 		
+		<#if adminTreeviewType=="Assets">
 		<div style="margin: 0px 0px 8px 283px;">
             <a href="#" rel="addFileDialog" class="open-dialog btn" onclick="openAddFileDialog(jQuery('#currentNodeId').val())">Ajouter un fichier</a>
             <a href="#" rel="addFolderDialog" class="open-dialog btn">Ajouter un répertoire</a>
 			
 			<div style="font-weight: bold;font-size:16px;margin:10px 0px -6px 0px">
-				Vous avez la possibilité de "glisser-déposer" vos fichiers dans la zone ci-dessous.
+				${Context.getMessage("label.admin.help.dragNDrop")}
 			</div>
 			
 			<#-- TODO IN MACRO -->
@@ -655,6 +656,7 @@
 	           </form>
 	         </div>
 		</div>
+		</#if>
 	
 		<div id="content" class="container" style="float:left;max-width:269px;">
 			<section>
@@ -671,7 +673,7 @@
 		
 		<#if adminTreeviewType=="Assets">
 			<input type="hidden" id="currentNodeId" value="" />
-		    <div id="fileContent" class="span11 columns well" style="min-height:300px;width:auto;">
+		    <div id="fileContent" class="span11 columns" style="min-height:300px;width:570px;background-color:#F5F5F5;border:1px solid rgba(0, 0, 0, 0.05);border-radius:4px;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;padding-left:65px;margin-bottom:20px">
 		        <#include "views/AssetFolder/content_admin.ftl"/>
 		    </div>
 		    <div id="waitingPopup" style="display:none;font-weight:bold;text-align:center" >
@@ -690,6 +692,7 @@
 				      success: function(data) {
 				      	jQuery("#contentAdminPictures").html(data);
 				      	jQuery("#currentNodeId").val(id);
+				      	doEllipsisText();
 				      }
 				    });
 				}

@@ -32,7 +32,7 @@
     <#list page.sections as section>
     <section id="section_${section_index}">
         <div class="page-header">
-            <h2>${section.title} <small>${section.description}</small></h2>
+            <h1>${section.title} <small>${section.description}</small></h1>
         </div>
 
         <#list section.rows as row>

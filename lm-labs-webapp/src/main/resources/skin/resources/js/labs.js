@@ -84,8 +84,7 @@ function EllipsisText() {
 }
 
 function doEllipsisText() {
-	jQuery('.ellipsisText').each(
-      function() {
+	jQuery('.ellipsisText').each(function(i) {
         jQuery(this).html('<span class="ellipsis_text">' + jQuery(this).html() + '</span>');
         var option = jQuery(this).attr('ellipsisTextOptions');
         if (option) {
@@ -93,6 +92,5 @@ function doEllipsisText() {
         } else {
           jQuery(this).ThreeDots();
         }
-      }
-    );
+    });
 }
