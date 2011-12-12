@@ -54,7 +54,7 @@
 	            			<option value="${theme}"  <#if site.getThemeManager().getTheme().getName() == theme >selected</#if>>${theme}</option>
 	            		</#list>
 	            	</select>
-                    <span class="help-block">${Context.getMessage('label.labssitesappearance..theme.help.block')}</span>
+                    <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.help.block')}</span>
                   </div>
                 </div><!-- /clearfix -->
 
