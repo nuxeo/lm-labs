@@ -87,19 +87,15 @@
 					        <#include "views/common/breadcrumbs.ftl" >
 					      </@block>
 					    </div>
-					    <div class="container">
-					      <div class="row">
-					         <div class="span16 columns">
-						        <#assign messages = This.getMessages() />
-						        <#list messages?keys as key >
-						           <div class="alert-message ${key}">
-						             <a class="close" href="#">x</a>
-						             ${Context.getMessage(messages[key])}
-						           </div>
-						        </#list>
-					        </div>
-					      </div>
-					    </div>
+				        <div class="span16 columns">
+					        <#assign messages = This.getMessages() />
+					        <#list messages?keys as key >
+					           <div class="alert-message ${key}">
+					             <a class="close" href="#">x</a>
+					             ${Context.getMessage(messages[key])}
+					           </div>
+					        </#list>
+				        </div>
 				    	<div class="span16">
 				    		<@block name="content"></@block>
 				    	</div>
