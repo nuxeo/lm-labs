@@ -20,7 +20,7 @@ public class AdminSiteTreeAsset extends AbstractDocumentTree {
 
     @Override
     protected JSonTreeSerializer getSerializer(WebContext ctx) {
-        return new AdminSiteTreeSerializer();
+        return new AdminSiteTreeSerializer(ctx);
     }
 
 }

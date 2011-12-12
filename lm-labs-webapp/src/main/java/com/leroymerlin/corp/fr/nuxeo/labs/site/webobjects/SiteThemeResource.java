@@ -104,26 +104,6 @@ public class SiteThemeResource extends PageResource {
         return getView("index");
     }
 
-    @POST
-    @Path(value="banner")
-    public Response doPostBanner() {
-        FormData form = ctx.getForm();
-        if (form.isMultipartContent()) {
-            Blob blob = form.getFirstBlob();
-            try {
-                site.setBanner(blob);
-                CoreSession session = ctx.getCoreSession();
-                session.save();
-                return redirect(getPath()
-                        + "?message_success=label.labssites.banner.updated");
-            } catch (ClientException e) {
-                throw WebException.wrap(e);
-            }
-        }
-        return redirect(getPath()
-                + "?message_warning=label.labssites.banner.nothing_changed");
-    }
-
     @DELETE
     @Path(value="banner")
     public Response doDeleteBanner() {
@@ -153,86 +133,69 @@ public class SiteThemeResource extends PageResource {
         }
         return response;
     }
-
+    
+    
     @POST
-    @Path(value="template")
-    public Response doPostTemplate() {
+    @Path(value="appearance")
+    public Response doPostThemeTemplate() {
         FormData form = ctx.getForm();
         try {
             CoreSession session = ctx.getCoreSession();
             site.getTemplate().setTemplateName(form.getString("template"));
+            String themeName = form.getString("theme");
+            site.getThemeManager().setTheme(themeName);
             session.saveDocument(site.getDocument());
             session.save();
-            return redirect(getPath()
-                    + "?message_success=label.labssites.template.updated");
+            return redirect(getPrevious().getPath()
+                    + "/@theme/" + themeName + "?message_success=label.labssites.appearance.updated");
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
     }
 
     @POST
-    @Path(value="theme")
-    public Response doPostTheme() {
-        FormData form = ctx.getForm();
-        try {
-            site.getThemeManager().setTheme(form.getString("theme"));
-            return redirect(getPath()
-                    + "?message_success=label.labssites.theme.updated");
-        } catch (ClientException e) {
-            throw WebException.wrap(e);
-        }
-    }
-
-    @POST
-    @Path(value="logoParameters")
-    public Response doPostLogoPosition() {
+    @Path(value="parameters")
+    public Response doPostParameters() {
         boolean modified = false;
         FormData form = ctx.getForm();
         String posx = form.getString("logo_posx");
         String posy = form.getString("logo_posy");
         String ratio = form.getString("resize_ratio");
         try {
-            if (StringUtils.isNotBlank(posx) && StringUtils.isNumeric(posx)) {
-                theme.setLogoPosX(Integer.parseInt(posx));
-                modified = true;
-            }
-            if (StringUtils.isNotBlank(posy) && StringUtils.isNumeric(posy)) {
-                theme.setLogoPosY(Integer.parseInt(posy));
-                modified = true;
-            }
-            if (StringUtils.isNotBlank(ratio) && StringUtils.isNumeric(ratio)) {
-                theme.setLogoResizeRatio(Integer.parseInt(ratio));
-                modified = true;
-            }
-            if (modified) {
-                CoreSession session = ctx.getCoreSession();
-                session.saveDocument(theme.getDocument());
-                session.save();
-                return redirect(getPath() + "?message_success=label.labssites.logo_parameters.updated");
+            if(form.isMultipartContent()){
+                Blob logo = form.getBlob("logo");
+                Blob banner = form.getBlob("banner");
+                if(logo != null && !StringUtils.isEmpty(logo.getFilename())){
+                    theme.setLogo(logo);
+                    modified = true;
+                }
+                if(banner != null && !StringUtils.isEmpty(banner.getFilename())){
+                    theme.setBanner(banner);
+                    modified = true;
+                }
+                if (StringUtils.isNotBlank(posx) && StringUtils.isNumeric(posx)) {
+                    theme.setLogoPosX(Integer.parseInt(posx));
+                    modified = true;
+                }
+                if (StringUtils.isNotBlank(posy) && StringUtils.isNumeric(posy)) {
+                    theme.setLogoPosY(Integer.parseInt(posy));
+                    modified = true;
+                }
+                if (StringUtils.isNotBlank(ratio) && StringUtils.isNumeric(ratio)) {
+                    theme.setLogoResizeRatio(Integer.parseInt(ratio));
+                    modified = true;
+                }
+                if (modified) {
+                    CoreSession session = ctx.getCoreSession();
+                    session.saveDocument(theme.getDocument());
+                    session.save();
+                    return redirect(getPath() + "?message_success=label.labssites.appearance.theme.edit.updated");
+                }
             }
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        return redirect(getPath() + "?message_warning=label.labssites.logo_parameters.nothing_changed");
-    }
-
-    @POST
-    @Path(value="logo")
-    public Response doPostLogo() {
-        FormData form = ctx.getForm();
-        if (form.isMultipartContent()) {
-            Blob blob = form.getFirstBlob();
-            try {
-                theme.setLogo(blob);
-                CoreSession session = ctx.getCoreSession();
-                session.saveDocument(theme.getDocument());
-                session.save();
-                return redirect(getPath() + "?message_success=label.labssites.logo.updated");
-            } catch (ClientException e) {
-                throw WebException.wrap(e);
-            }
-        }
-        return redirect(getPath() + "?message_warning=label.labssites.logo.nothing_changed");
+        return redirect(getPath() + "?message_warning=label.labssites.appearance.theme.edit.not_updated");
     }
     
     @DELETE
