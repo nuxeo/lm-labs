@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
@@ -199,34 +198,34 @@ public class LabsSiteAdapterTest {
         assertTrue(!doc.getAdapter(LabsPublisher.class).isDeleted());
     }
 
-    // TODO
-    @Ignore("temporarily") @Test()
+    @Test()
     public void iCanGetHomePageRef() throws Exception {
-        DocumentModel doc = session.createDocumentModel("/", "NameSite1",
+        DocumentModel site = session.createDocumentModel("/", "NameSite1",
                 LABSSITE_TYPE);
-        doc.setPropertyValue("dc:title", "le titre");
-        doc.setPropertyValue("labssite:homePageRef", "123456");
-        doc = session.createDocument(doc);
+        site.setPropertyValue("dc:title", "le titre");
+        site = session.createDocument(site);
+        LabsSite labsSite = site.getAdapter(LabsSite.class);
+        DocumentModel welcome = session.getChild(labsSite.getTree().getRef(), Docs.WELCOME.docName());
 
-        LabsSite labsSite = doc.getAdapter(LabsSite.class);
-        assertEquals("123456", labsSite.getHomePageRef());
+        assertEquals(welcome.getId(), labsSite.getHomePageRef());
     }
 
-    // TODO
-    @Ignore("temporarily") @Test()
+    @Test()
     public void iCanSetHomePageRef() throws Exception {
-        DocumentModel doc = session.createDocumentModel("/", "NameSite1",
+        DocumentModel site = session.createDocumentModel("/", "NameSite1",
                 LABSSITE_TYPE);
-        doc.setPropertyValue("dc:title", "le titre");
-        doc = session.createDocument(doc);
-        LabsSite labsSite = doc.getAdapter(LabsSite.class);
-        labsSite.setHomePageRef("123456");
-        doc = session.saveDocument(doc);
+        site.setPropertyValue("dc:title", "le titre");
+        site = session.createDocument(site);
+        LabsSite labsSite = site.getAdapter(LabsSite.class);
+        DocumentModel page = session.createDocumentModel(labsSite.getTree().getPathAsString(), "page", Docs.HTMLPAGE.type());
+        page = session.createDocument(page);
+        labsSite.setHomePageRef(page.getId());
+        site = session.saveDocument(site);
         session.save();
 
-        doc = session.getDocument(new PathRef("/NameSite1"));
-        labsSite = doc.getAdapter(LabsSite.class);
-        assertTrue(labsSite.getHomePageRef().equals("123456"));
+        site = session.getDocument(new PathRef("/NameSite1"));
+        labsSite = site.getAdapter(LabsSite.class);
+        assertTrue(labsSite.getHomePageRef().equals(page.getId()));
     }
 
     @Test
