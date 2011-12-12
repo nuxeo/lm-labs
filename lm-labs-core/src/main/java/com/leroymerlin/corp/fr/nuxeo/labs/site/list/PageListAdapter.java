@@ -388,7 +388,12 @@ public class PageListAdapter extends AbstractPage implements PageList {
                         }
                         break;
                     case DATE:
-                        cell.setCellValue(sdf.format(entry.getDate().getTime()));
+                        if (entry.getDate() != null) {
+                            cell.setCellValue(sdf.format(entry.getDate().getTime()));
+                        }
+                        else{
+                            cell.setCellValue("");
+                        }
                         break;
                     case SELECT:
                         cell.setCellValue(entry.getText());
