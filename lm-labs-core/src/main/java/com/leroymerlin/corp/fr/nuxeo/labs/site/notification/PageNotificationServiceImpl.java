@@ -16,6 +16,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.repository.RepositoryManager;
 import org.nuxeo.ecm.core.event.EventProducer;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
@@ -76,9 +77,7 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
                 if (State.PUBLISH.getState().equals(page.getCurrentLifeCycleState())) {
                     notifyPage(page.getAdapter(Page.class));
                 }
-                unmarkForNotification(page);
             }
-            session.save();
         } catch (LoginException e) {
             LOG.error(e, e);
         } finally {
@@ -88,13 +87,35 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
 
     @Override
     public boolean notifyPage(Page page) throws ClientException {
-        return notifyPageEvent(page, EventNames.PAGE_MODIFIED);
+        DocumentModel document = page.getDocument();
+        if (isToBeNotified(document)) {
+            unmarkForNotification(document);
+            document.getCoreSession().save();
+            return notifyPageEvent(page, EventNames.PAGE_MODIFIED);
+        }
+        return false;
+    }
+
+    private boolean isToBeNotified(DocumentModel page) {
+        CoreSession session = page.getCoreSession();
+        PathRef ref = new PathRef(page.getPathAsString() + "/" + Docs.NOTIFACTIVITIES.docName());
+        try {
+            if (session.exists(ref)) {
+                DocumentModel notif = session.getDocument(ref);
+                return (Boolean) notif.getPropertyValue(PROPERTY_TONOTIFY);
+            }
+        } catch (PropertyException e) {
+            LOG.error("Unable to retrieve value of " + PROPERTY_TONOTIFY + " of document " + page.getPathAsString());
+        } catch (ClientException e) {
+            LOG.error("Unable to access document " + page.getPathAsString());
+        }
+        return false;
     }
 
     @Override
     public boolean notifyPageEvent(Page page, String eventName) throws ClientException {
         try {
-            fireEvent(page, eventName);
+            fireEvent(page.getDocument(), eventName);
             return true;
         } catch (Exception e) {
             LOG.error(e, e);
@@ -142,8 +163,7 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
         return page;
     }
     
-    public void fireEvent(Page page, String eventName) throws Exception {
-        DocumentModel doc = page.getDocument();
+    public void fireEvent(DocumentModel doc, String eventName) throws Exception {
         DocumentEventContext ctx = new DocumentEventContext(doc.getCoreSession(), doc.getCoreSession().getPrincipal(), doc);
         ctx.setProperty("PageId", doc.getId());
         String loopbackurl = Framework.getProperty("nuxeo.loopback.url");
