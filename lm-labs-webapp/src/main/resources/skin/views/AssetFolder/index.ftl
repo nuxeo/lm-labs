@@ -63,12 +63,12 @@
                 <div class="clearfix">
                     <label for="title">Nom du répertoire</label>
                       <div class="input">
-                        <input name="dublincore:title"/>
+                        <input name="dublincore:title" class="required"/>
                       </div>
                     </div><!-- /clearfix -->
               </fieldset>
               <div class="actions">
-                <button type="submit" class="btn primary">Ajouter</button>
+                <button type="submit" class="btn primary required-fields" form-id="addFolderForm">Ajouter</button>
               </div>
             </form>
           </div>
