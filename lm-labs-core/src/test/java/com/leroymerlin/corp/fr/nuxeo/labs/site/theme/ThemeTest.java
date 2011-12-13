@@ -170,6 +170,40 @@ public class ThemeTest {
         assertThat(theme,is(notNullValue()));
         assertThat(theme.getName(),is("supplyChain"));
     }
+    
+    @Test
+    public void canSetStyle() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        theme.setStyle("style");
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        
+        assertThat((String)theme.getDocument().getPropertyValue("sitetheme:style"),is("style"));
+    }
+    
+    @Test
+    public void canGetStyle() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        theme.setStyle("style");
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        
+        assertThat(theme.getStyle(),is("style"));
+    }
 
     private Blob getTestBlob() {
         String filename = "vision.jpg";

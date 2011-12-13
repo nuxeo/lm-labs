@@ -131,13 +131,28 @@ public class PageResource extends DocumentObject {
     @Path(value="generated.less")
     public Object getGeneratedLess(){
         String themeName = "";
+        String style = "";
+        try {
+            LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
+            themeName = site.getThemeManager().getTheme().getName();
+            style = site.getThemeManager().getTheme().getStyle();
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg("addedStyle", style);
+    }
+    
+    @GET
+    @Path(value="generatedAdmin.less")
+    public Object getGeneratedAdminLess(){
+        String themeName = "";
         try {
             LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
             themeName = site.getThemeManager().getTheme().getName();
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName);
+        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg("addedStyle", null);
     }
 
     @Override

@@ -23,7 +23,10 @@
 		<!------------------    TEMPLATE THEME ------------------------->
       <section>
         <div class="page-header">
-          <h3>${Context.getMessage('label.labssites.appearance.title')}</h3>
+          <h3>
+          	${Context.getMessage('label.labssites.appearance.title')}
+          	<small><a href="${Context.modulePath}/${Common.siteDoc(Document).site.URL}" target="_blank">${Context.getMessage('label.labssites.appearance.preview')}</a><small>
+          </h3>
         </div>
         <div class="row">
           <div class="span4 columns">
@@ -98,9 +101,10 @@
                     <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.logo.help.block')}</span>
                   </div>
                 </div><!-- /clearfix -->
+                <hr style="margin: 20px 0 0px;">
                 
                 <!------------------    LOGO PARAMETERS   ------------------------->
-                <h5>${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.title')}</h5>
+                <h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.title')}</h5>
                 <div class="clearfix">
                   <label for="logo_posx">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posx')}</label>
                   <div class="input clearfix">
@@ -113,6 +117,17 @@
                   <label for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
                   <div class="input">
                     <input id="resize_ratio" name="resize_ratio" type="text" value="${site.themeManager.theme.logoResizeRatio}" class="small" />
+                  </div>
+                </div><!-- /clearfix -->
+                <hr style="margin: 20px 0 0px;">
+                
+                <!------------------    Style   ------------------------->
+	      		<h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.style.title')}</h5>
+	      		<div class="clearfix">
+                  <label for="style">${Context.getMessage('label.labssites.appearance.theme.edit.style.label')}</label>
+                  <div class="input">
+		      		 <textarea name="style" style="width: 350px;height: 135px;">${site.themeManager.theme.style}</textarea>
+                    <span class="help-block" style="color: red;">${Context.getMessage('label.labssites.appearance.theme.edit.style.help.block')}</span>
                   </div>
                 </div><!-- /clearfix -->
 	      	</fieldset>

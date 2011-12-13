@@ -161,6 +161,7 @@ public class SiteThemeResource extends PageResource {
         String posx = form.getString("logo_posx");
         String posy = form.getString("logo_posy");
         String ratio = form.getString("resize_ratio");
+        String style = form.getString("style");
         try {
             if(form.isMultipartContent()){
                 Blob logo = form.getBlob("logo");
@@ -185,6 +186,8 @@ public class SiteThemeResource extends PageResource {
                     theme.setLogoResizeRatio(Integer.parseInt(ratio));
                     modified = true;
                 }
+                theme.setStyle(style);
+                modified = true;
                 if (modified) {
                     CoreSession session = ctx.getCoreSession();
                     session.saveDocument(theme.getDocument());

@@ -33,4 +33,8 @@ public interface SiteTheme {
     void setLogo(Blob blob) throws ClientException;
 
     DocumentModel getDocument();
+
+    String getStyle() throws ClientException;
+    
+    void setStyle(String style) throws ClientException;
 }

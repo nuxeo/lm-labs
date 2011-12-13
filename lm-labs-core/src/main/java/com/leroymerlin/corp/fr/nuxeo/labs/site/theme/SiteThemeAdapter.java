@@ -15,6 +15,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
 public class SiteThemeAdapter implements SiteTheme {
 
+
     private static final Log LOG = LogFactory.getLog(SiteThemeAdapter.class);
     
     private static final String PROPERTY_NAME = "dc:title";
@@ -23,6 +24,7 @@ public class SiteThemeAdapter implements SiteTheme {
     private static final String PROPERTY_LOGO_POSX = Schemas.SITETHEME.prefix() + ":logo_posx";
     private static final String PROPERTY_LOGO_POSY = Schemas.SITETHEME.prefix() + ":logo_posy";
     private static final String PROPERTY_LOGO_RESIZE_RATIO = Schemas.SITETHEME.prefix() + ":logo_resize_ratio";
+    private static final String PROPERTY_STYLECSS = Schemas.SITETHEME.prefix() + ":style";
 
     private final DocumentModel doc;
 
@@ -120,6 +122,16 @@ public class SiteThemeAdapter implements SiteTheme {
             LOG.error("Unable to get Imaging Service.");
         }
         return 0;
+    }
+
+    @Override
+    public String getStyle() throws ClientException {
+        return (String)doc.getPropertyValue(PROPERTY_STYLECSS);
+    }
+
+    @Override
+    public void setStyle(String style) throws ClientException {
+        doc.setPropertyValue(PROPERTY_STYLECSS, style);
     }
 
 }
