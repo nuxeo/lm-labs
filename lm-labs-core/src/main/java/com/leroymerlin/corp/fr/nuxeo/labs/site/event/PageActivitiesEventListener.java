@@ -95,8 +95,14 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
                     processed = Mark(doc);
                 }
             } else if (DocumentEventTypes.ABOUT_TO_REMOVE.equals(eventName)) {
-                Page parentPage = getPage(doc);
-                if (parentPage == null) {
+                try {
+                    PageNotificationService notificationService = Framework.getService(PageNotificationService.class);
+                    Page parentPage = notificationService.getRelatedPage(doc);
+                    if (parentPage == null) {
+                        return;
+                    }
+                } catch (Exception e) {
+                    LOG.error(e, e);
                     return;
                 }
                 if (Docs.pageDocs().contains(Docs.fromString(doc.getType()))) {
@@ -120,12 +126,12 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
     }
 
     private boolean notifyPage(DocumentModel doc, String eventName) throws ClientException {
-        Page page = getPage(doc);
-        if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
-            return false;
-        }
         try {
             PageNotificationService notificationService = Framework.getService(PageNotificationService.class);
+            if (!notificationService.canBeMarked(doc)) {
+                return false;
+            }
+            Page page = notificationService.getRelatedPage(doc);
             notificationService.notifyPageEvent(page, eventName);
 //            fireEvent(page.getDocument(), eventName);
             return true;
@@ -136,19 +142,21 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
     }
 
     private boolean Mark(DocumentModel doc) throws ClientException {
-        Page page = getPage(doc);
-        if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
+        PageNotificationService notificationService;
+        try {
+            notificationService = Framework.getService(PageNotificationService.class);
+            if (!notificationService.canBeMarked(doc)) {
+                return false;
+            }
+            Page page = getPage(doc);
+            return setAstoBeNotified(page.getDocument());
+        } catch (Exception e) {
             return false;
         }
-        return setAstoBeNotified(page.getDocument());
     }
 
-    private Page getPage(DocumentModel doc) throws ClientException {
-        Page page = doc.getAdapter(Page.class);
-        if (page == null) {
-            page = doc.getAdapter(SiteDocument.class).getParentPage();
-        }
-        return page;
+    private Page getPage(DocumentModel doc) throws Exception {
+        return Framework.getService(PageNotificationService.class).getRelatedPage(doc);
     }
     
     private boolean setAstoBeNotified(DocumentModel doc) throws ClientException {
@@ -169,7 +177,7 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
     }
 
     @Deprecated
-    private boolean MarkParent(DocumentModel doc) throws ClientException {
+    private boolean MarkParent(DocumentModel doc) throws Exception {
         Page page = getPage(doc);
         if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
             return false;
@@ -181,7 +189,7 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
     }
 
     @Deprecated
-    private boolean MarkParentPage(DocumentModel doc) throws ClientException {
+    private boolean MarkParentPage(DocumentModel doc) throws Exception {
         Page page = getPage(doc);
         if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
             return false;
