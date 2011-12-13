@@ -40,7 +40,7 @@
                 		<li><a href="#" onclick="javascript:publishSite();">${Context.getMessage('command.siteactions.publish')}</a></li>
                 	</#if>
                 	<!--   delete     -->
-                	<li><a href="#" onclick="javascript:deleteSite();">${Context.getMessage('command.siteactions.delete')}</a></li>
+                	<#--li><a href="#" onclick="javascript:deleteSite();">${Context.getMessage('command.siteactions.delete')}</a></li-->
                 	<script type="text/javascript">
                 		function publishSite(){
                 			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouPublish')}")){

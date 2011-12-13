@@ -1,8 +1,18 @@
+<style>
+	.adminPageChkbox {
+		width: 34%;
+	}
+</style>
+
 <h1>${Context.getMessage('label.parameters.page.title')}</h1>
 <div id="divEditParametersPageForm">
 	<form id="form_editParameters" action="${This.path}/@commentable" method="post">
 		<div class="clearfix">
-			<div class="input">
+			<div class="input adminPageChkbox">
+				<input style="margin-top: 6px;float: left;" id="publishPage" type="checkbox" name="publishPage" <#if page.visible>checked="true"</#if> />
+				<label for="publishPage" style="text-align: left;width: 90%;">${Context.getMessage('label.parameters.page.publishPage')}</label>
+			</div>
+			<div class="input adminPageChkbox">
 				<input style="margin-top: 6px;float: left;" id="commentablePage" type="checkbox" name="commentablePage" <#if This.page.commentable >checked="true"</#if> />
 				<label for="commentablePage" style="text-align: left;width: 90%;">${Context.getMessage('label.parameters.page.authorizedCommentable')}</label>
 			</div>

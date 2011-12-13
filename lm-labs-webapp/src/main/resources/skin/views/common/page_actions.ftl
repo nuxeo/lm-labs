@@ -58,45 +58,50 @@ function closeParametersPage(){
 }
 
 function submitParametersPage(){
+	if(jQuery("#publishPage").attr("checked")=="checked") {
+		publishPage();
+	} else {
+		draftPage();
+	}
 	jQuery("#form_editParameters").submit();
 }
 
 function publishPage(){
-	if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouPublish')}")){
+	//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouPublish')}")){
 		jQuery.ajax({
 			type: 'PUT',
 		    async: false,
 		    url: '${This.path}/@labspublish/publish',
 		    success: function(data) {
-		    	if (data == 'publish') {
+		    	/*if (data == 'publish') {
 		          alert("${Context.getMessage('label.lifeCycle.page.hasPublished')}");
 		          document.location.href = '${This.path}';
 		        }
 		        else {
 		          alert("${Context.getMessage('label.lifeCycle.page.hasNotPublished')}");
-		        }
+		        }*/
 		    }
 		});
-	}
+	//}
 }
 
 function draftPage(){
-	if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouDraft')}")){
+	//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouDraft')}")){
 		jQuery.ajax({
 			type: 'PUT',
 		    async: false,
 		    url: '${This.path}/@labspublish/draft',
 		    success: function(data) {
-		    	if (data == 'draft') {
+		    	/*if (data == 'draft') {
 		          alert("${Context.getMessage('label.lifeCycle.page.hasDrafted')}");
 		          document.location.href = '${This.path}';
 		        }
 		        else {
 		          alert("${Context.getMessage('label.lifeCycle.page.hasNotDrafted')}");
-		        }
+		        }*/
 		    }
 		});
-	}
+	//}
 }
 
 function deletePage(){
@@ -118,7 +123,7 @@ function deletePage(){
 	}
 }
 </script>
-	<#if Common.getNotifiableTypes()?seq_contains(Document.type) >
+	<#--if Common.getNotifiableTypes()?seq_contains(Document.type) >
 	<li>
 		<a id="subscribeBt" <#if This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(true);">
 		<#if Document.type == "PageNews">
@@ -135,25 +140,23 @@ function deletePage(){
 		</#if>
 		</a>
 	</li>
-	</#if>
+	</#if-->
 	<#if Session.hasPermission(This.document.ref, "Everything")>
-	     <#if page.visible>
+	     <#--if page.visible>
 			<li><a href="#" onclick="javascript:draftPage();">${Context.getMessage('command.docactions.draft')}</a></li>
 		<#else>
 			<li><a href="#" onclick="javascript:publishPage();">${Context.getMessage('command.docactions.publish')}</a></li>
-		</#if>
+		</#if-->
 		<!--   delete     -->
-		<li><a href="#" onclick="javascript:deletePage();">${Context.getMessage('command.docactions.delete')}</a></li>
+		<#--li><a href="#" onclick="javascript:deletePage();">${Context.getMessage('command.docactions.delete')}</a></li-->
 		<!--   Manage parameter's page     -->
 		<li><a href="#" onclick="javascript:openParametersPage();">${Context.getMessage('command.docactions.parameters')}</a></li>
 		<div id="divEditParametersPage" style="display: none;">
 			<#include "views/common/page_parameters.ftl" />
 		</div>
 		<li>
-			<#if Common.siteDoc(Document).site.indexDocument.id == page.document.id>
-			<span>&nbsp;&nbsp;${Context.getMessage('label.docactions.homePage')}</span>
-			<#else>
-			<a href="#" onclick="javascript:setAsHomePage();" >${Context.getMessage('command.docactions.homePage')}</a>
+			<#if !(Common.siteDoc(Document).site.indexDocument.id == page.document.id)>
+				<a href="#" onclick="javascript:setAsHomePage();" >${Context.getMessage('command.docactions.homePage')}</a>
 			</#if>
 		</li>
 		
