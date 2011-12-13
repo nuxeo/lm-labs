@@ -147,12 +147,12 @@
   <table class="zebra-striped classeurFiles bs" >
   <thead>
     <tr>
+      <th class="header">&nbsp;</th>
       <th class="header editblock" style="min-width: 25px">
       <#if canWrite>
         <input type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
       </#if>
       </th>
-      <th class="header" first-child>&nbsp;</th>
       <th class="header">${Context.getMessage('label.PageClasseur.tableheader.filename')}</th>
       <th class="header" style="min-width: 42px">${Context.getMessage('label.PageClasseur.tableheader.size')}</th>
       <#-- <th>${Context.getMessage('label.PageClasseur.tableheader.version')}</th> -->
@@ -164,15 +164,15 @@
   <tbody>
   <#list folder.files as child>
   <tr class="main ${child.id}">
+    <td>
+      <img title="${child.type}" alt="${child.type}/" src="/nuxeo${child.common.icon}" />
+    </td>
     <td class="editblock">
     <#if child.facets?seq_contains("Folderish") == false >
       <#if canWrite>
         <input type="checkbox" name="checkoptions" value="${child.id}" />
       </#if>
     </#if>
-    </td>
-    <td>
-      <img title="${child.type}" alt="${child.type}/" src="/nuxeo${child.common.icon}" />
     </td>
     <#if child.facets?seq_contains("Folderish") == false >
       <#assign modifDate = child.dublincore.modified?datetime >
@@ -190,10 +190,10 @@
       </#if>
         <a class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${child.name}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
         <a class="btn small classeurDownload" href="${This.path}/${folder.document.name}/${child.name}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
+        <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${child.name}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">
+        </form>
         </td>
 
-          <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${child.name}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">
-          </form>
 
     </#if>
   </tr>
