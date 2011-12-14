@@ -10,8 +10,8 @@
       <!-- Every day at 7am 
       <cronExpression>0 0 7 * * ?</cronExpression>
       -->
+      <cronExpression>0 0/5 * * * ?</cronExpression>
       <!-- TEST: Every minute
-      <cronExpression>0 0/1 * * * ?</cronExpression>
        -->
       <!-- GOOD ONE: Every 30 minutes
        -->

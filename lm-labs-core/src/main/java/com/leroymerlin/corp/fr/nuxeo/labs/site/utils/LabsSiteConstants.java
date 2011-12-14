@@ -78,6 +78,7 @@ public final class LabsSiteConstants {
         PAGENEWS("PageNews", StringUtils.EMPTY),
         LABSNEWS("LabsNews", StringUtils.EMPTY),
         PAGECLASSEUR("PageClasseur", StringUtils.EMPTY),
+        PAGECLASSEURFOLDER("Folder", StringUtils.EMPTY),
         PAGELIST("PageList", StringUtils.EMPTY),
         PAGELIST_LINE("PageListLine", StringUtils.EMPTY),
         FOLDER("Folder", StringUtils.EMPTY),

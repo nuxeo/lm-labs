@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -15,6 +17,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
@@ -39,6 +42,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
  * 
  */
 public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
+
+    private static final Log LOG = LogFactory.getLog(LabsSiteAdapter.class);
 
     public static final int NB_LAST_UPDATED_DOCS = 20;
 
@@ -142,6 +147,44 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             }
         }
         return pages;
+    }
+
+    @Override
+    public DocumentModelList getAllDeletedDocs() throws ClientException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM Document")
+        .append(" WHERE ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(LifeCycleConstants.DELETED_STATE).append("'")
+        .append(" AND ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(doc.getPathAsString()).append("'");
+        DocumentModelList docs = getCoreSession().query(query.toString(), new Filter() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public boolean accept(DocumentModel arg0) {
+                if (Docs.pageDocs().contains(Docs.fromString(arg0.getType()))) {
+                    return true;
+                } else if (Docs.PAGECLASSEURFOLDER.type().equals(arg0.getType())) {
+                    try {
+                        DocumentModel parent = arg0.getCoreSession().getParentDocument(arg0.getRef());
+                        if (Docs.PAGECLASSEUR.type().equals(parent.getType())) {
+                            return true;
+                        }
+                    } catch (ClientException e) {
+                        return false;
+                    }
+                    return false;
+                } else {
+                    try {
+                        DocumentModel parent = arg0.getCoreSession().getParentDocument(arg0.getRef());
+                        DocumentModel grandParent = arg0.getCoreSession().getDocument(parent.getParentRef());
+                        return Docs.PAGECLASSEURFOLDER.type().equals(parent.getType())
+                                && Docs.pageDocs().contains(Docs.fromString(grandParent.getType()))
+                                ;
+                    } catch (ClientException e) {
+                        LOG.error(e, e);
+                    }
+                    return false;
+                }
+            }});
+        return docs;
     }
 
     private CoreSession getCoreSession() {

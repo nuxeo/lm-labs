@@ -15,4 +15,6 @@ public interface PageClasseurFolder {
     DocumentModelList getFiles() throws ClientException;
 
     void removeFile(String title) throws ClientException;
+    
+    boolean setAsDeleted() throws ClientException;
 }

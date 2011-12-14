@@ -99,6 +99,8 @@ public interface LabsSite  extends LabsBase {
 
     List<Page> getAllDeletedPages() throws ClientException;
 
+    DocumentModelList getAllDeletedDocs() throws ClientException;
+
     void setHomePageRef(String homePageRef) throws ClientException;
 
     String getHomePageRef() throws ClientException;

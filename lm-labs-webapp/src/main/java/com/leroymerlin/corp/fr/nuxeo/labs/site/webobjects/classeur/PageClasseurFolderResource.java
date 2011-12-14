@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.classeur;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -62,6 +63,26 @@ public class PageClasseurFolderResource extends DocumentObject {
         return redirect(prev.getPath());
     }
 
+    @Override
+    public Response getDelete() {
+        try {
+            if (folder.setAsDeleted()) {
+                ctx.getCoreSession().save();
+            }
+        } catch (ClientException e) {
+            throw WebException.wrap("Failed to set as 'deleted' for document " + doc.getPathAsString(), e);
+        }
+        if (prev != null) { // show parent ? TODO: add getView(method) to be able to change the view method
+            return redirect(prev.getPath());
+        }
+        return redirect(ctx.getBasePath());
+    }
+    
+    @GET
+    @Path("@permanentDelete")
+    public Response doPermanentDelete() {
+        return doDelete();
+    }
 
     @Path(value = "{path}")
     @Override

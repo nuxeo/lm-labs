@@ -11,6 +11,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 
@@ -80,10 +81,10 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
         try {
             StringBuilder sb = new StringBuilder("SELECT * From Document");
             sb.append(" WHERE ").append(NXQL.ECM_PARENTID).append(" = '").append(doc.getId()).append("'")
-            .append(" AND ").append(NXQL.ECM_PRIMARYTYPE).append(" = '").append(Docs.FOLDER.type()).append("'")
+            .append(" AND ").append(NXQL.ECM_PRIMARYTYPE).append(" = '").append(Docs.PAGECLASSEURFOLDER.type()).append("'")
             .append(" AND ").append(NXQL.ECM_ISPROXY).append(" = 0")
             .append(" AND ").append(NXQL.ECM_ISVERSION).append(" = 0")
-            .append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" <> 'deleted'");
+            .append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" <> '").append(LifeCycleConstants.DELETED_STATE).append("'");
             sb.append(" ORDER BY dc:title ASC");
             DocumentModelList list = doc.getCoreSession()
                     .query(sb.toString());

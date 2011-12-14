@@ -6,12 +6,13 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 import org.nuxeo.runtime.api.Framework;
 
 public class PageClasseurFolderImpl implements PageClasseurFolder {
 
-    private final DocumentModel doc;
+    private DocumentModel doc;
 
     public PageClasseurFolderImpl(DocumentModel doc) {
         this.doc = doc;
@@ -83,6 +84,16 @@ public class PageClasseurFolderImpl implements PageClasseurFolder {
                 break;
             }
         }
+    }
+
+    @Override
+    public boolean setAsDeleted() throws ClientException {
+        if (doc.getAllowedStateTransitions().contains(LifeCycleConstants.DELETE_TRANSITION)) {
+            doc.followTransition(LifeCycleConstants.DELETE_TRANSITION);
+            doc = doc.getCoreSession().saveDocument(doc);
+            return true;
+        }
+        return false;
     }
 
 }
