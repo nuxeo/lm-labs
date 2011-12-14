@@ -141,7 +141,7 @@ function deletePage(){
 		</a>
 	</li>
 	</#if-->
-	<#if Session.hasPermission(This.document.ref, "Everything")>
+	<#if Session.hasPermission(This.document.ref, "Everything") || Session.hasPermission(This.document.ref, 'ReadWrite')>
 	     <#--if page.visible>
 			<li><a href="#" onclick="javascript:draftPage();">${Context.getMessage('command.docactions.draft')}</a></li>
 		<#else>

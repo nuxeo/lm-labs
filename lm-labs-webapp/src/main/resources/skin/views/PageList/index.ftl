@@ -36,7 +36,7 @@
 			<#if isAuthorized>
 				<div id="divActionManageList">
 					<a href="#" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine();">${Context.getMessage('label.pageList.addLine')}</a>
-					<#if Session.hasPermission(Document.ref, 'Everything')>
+					<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
 						<a href="#" class="editblock open-dialog" rel="divManageList" onClick="javascript:manageList();">${Context.getMessage('label.pageList.manageList')}</a>
 					</#if>
 				</div>

@@ -1,4 +1,4 @@
-<#if site?? && Session.hasPermission(site.document.ref, "Everything")>
+<#if site?? && (Session.hasPermission(site.document.ref, "Everything") || Session.hasPermission(site.document.ref, "ReadWrite"))>
 <@extends src="/views/labs-admin-base.ftl">
 
   <@block name="breadcrumbs">

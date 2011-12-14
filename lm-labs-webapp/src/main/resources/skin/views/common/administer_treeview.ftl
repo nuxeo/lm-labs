@@ -20,7 +20,7 @@
 	<#assign parentIds = parentIds + "]" />
 </#if>
 
-<#assign canManage = Session.hasPermission(Document.ref, 'Everything') />
+<#assign canManage = Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')/>
 
 	<@block name="css">
 	<@superBlock/>
