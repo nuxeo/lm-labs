@@ -34,11 +34,11 @@
                 <li class="divider"></li>
                 <@block name="siteactions">
                 <#if site?? && Session.hasPermission(site.document.ref, "Everything")>
-                	<#if site.visible>
+                	<#--if site.visible>
                 		<li><a href="#" onclick="javascript:draftSite();">${Context.getMessage('command.siteactions.draft')}</a></li>
                 	<#else>
                 		<li><a href="#" onclick="javascript:publishSite();">${Context.getMessage('command.siteactions.publish')}</a></li>
-                	</#if>
+                	</#if-->
                 	<!--   delete     -->
                 	<#--li><a href="#" onclick="javascript:deleteSite();">${Context.getMessage('command.siteactions.delete')}</a></li-->
                 	<script type="text/javascript">
@@ -100,7 +100,7 @@
                 		}
                 	</script>
                 </#if>
-                <#if site?? && Session.hasPermission(site.document.ref, "WRITE")>
+                <#if site?? && (Session.hasPermission(site.document.ref, "WRITE") || Session.hasPermission(site.document.ref, "ReadWrite"))>
                 <li><a href="${Context.modulePath}/${site.URL}/@views/edit">${Context.getMessage('label.contextmenu.administration')}</a></li>
                 </#if>
                 <#if site??>
