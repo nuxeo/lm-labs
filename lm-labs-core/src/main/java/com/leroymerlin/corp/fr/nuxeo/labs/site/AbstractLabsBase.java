@@ -121,5 +121,16 @@ public abstract class AbstractLabsBase  implements LabsBase{
             return false;
         }
     }
+    
+    @Override
+    public boolean isContributor(String userName) throws ClientException {
+        try {
+            UserManager userManager = Framework.getService(UserManager.class);
+            NuxeoPrincipal principal = userManager.getPrincipal(userName);
+            return doc.getCoreSession().hasPermission(principal, doc.getRef(), SecurityConstants.READ_WRITE);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }

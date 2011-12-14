@@ -2,9 +2,9 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
@@ -88,6 +89,18 @@ public class LabsSiteAdapterTest {
         LabsSite labssite = doc.getAdapter(LabsSite.class);
         assertTrue(labssite.isAdministrator("Administrator"));
         assertFalse(labssite.isAdministrator("CGM"));
+    }
+    
+    @Test
+    // FIXME
+    @Ignore
+    public void testIsContributor() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1",
+                LABSSITE_TYPE);
+        doc = session.createDocument(doc);
+        LabsSite labssite = doc.getAdapter(LabsSite.class);
+        assertTrue(labssite.isContributor("CGM"));
+        assertFalse(labssite.isContributor("Administrator"));
     }
 
     @Test

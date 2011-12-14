@@ -319,6 +319,10 @@
 					}
 				};
 				
+				<#if !Session.hasPermission(Document.ref, 'Everything')>
+					delete items.remove;
+				</#if>
+				
 				<#-- selected item we want -->
 				if(jQuery(node).attr('rel') == 'Tree' || jQuery(node).attr('rel') == 'Assets') {
 					delete items.goto;

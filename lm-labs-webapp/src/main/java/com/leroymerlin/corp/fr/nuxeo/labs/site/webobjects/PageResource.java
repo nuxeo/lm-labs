@@ -41,19 +41,19 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 public class PageResource extends DocumentObject {
 
     private static final String ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT = " isn't authorized to display this element!";
+
     public static final String COPYOF_PREFIX = "Copie de ";
 
     private static final String BROWSE_TREE_VIEW = "views/common/browse_tree.ftl";
-    
+
     private static final String GENERATED_LESS_TEMPLATE = "resources/less/generatedLess.ftl";
 
-//    private static final Log LOG = LogFactory.getLog(PageResource.class);
+    // private static final Log LOG = LogFactory.getLog(PageResource.class);
 
     private static final String[] MESSAGES_TYPE = new String[] { "error",
             "info", "success", "warning" };
-    
-    private LabsBase labsBaseAdapter;
 
+    private LabsBase labsBaseAdapter;
 
     @Override
     public void initialize(Object... args) {
@@ -74,23 +74,23 @@ public class PageResource extends DocumentObject {
      */
     private void authorize(String userName, DocumentModel document) {
         try {
-            if (CommonHelper.siteDoc(doc).getSite().isAdministrator(ctx.getPrincipal().getName())) {
+            String principalName = ctx.getPrincipal().getName();
+            LabsSite site = CommonHelper.siteDoc(doc).getSite();
+            if (site.isAdministrator(principalName)
+                    || site.isContributor(principalName)) {
                 return;
             }
-            if(!Docs.LABSNEWS.type().equals(document.getType())){
+            if (!Docs.LABSNEWS.type().equals(document.getType())) {
                 boolean authorized = labsBaseAdapter.isAuthorizedToDisplay();
                 authorized = authorized && !labsBaseAdapter.isDeleted();
                 if (!authorized) {
-                    throw new WebResourceNotFoundException(
-                            userName
-                                    + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT);
+                    throw new WebResourceNotFoundException(userName
+                            + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT);
                 }
             }
         } catch (ClientException e) {
-            throw new WebResourceNotFoundException(
-                    userName
-                            + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT,
-                    e);
+            throw new WebResourceNotFoundException(userName
+                    + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT, e);
         }
     }
 
@@ -98,38 +98,39 @@ public class PageResource extends DocumentObject {
      * @param document
      */
     private void initLabsBaseAdapter(DocumentModel document) {
-        if (LabsSiteConstants.Docs.SITE.type().equals(document.getType())){
+        if (LabsSiteConstants.Docs.SITE.type().equals(document.getType())) {
             labsBaseAdapter = document.getAdapter(LabsSite.class);
-        }
-        else{
+        } else {
             labsBaseAdapter = document.getAdapter(Page.class);
         }
     }
-    
-    public boolean isAuthorizedToDisplay() throws ClientException{
+
+    public boolean isAuthorizedToDisplay() throws ClientException {
         return labsBaseAdapter.isAuthorizedToDisplay();
     }
-    
-    public boolean isAuthorizedToDisplay(DocumentModel pDocument) throws ClientException{
-        return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(Page.class).isAuthorizedToDisplay() : false;
+
+    public boolean isAuthorizedToDisplay(DocumentModel pDocument)
+            throws ClientException {
+        return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(
+                Page.class).isAuthorizedToDisplay() : false;
     }
-    
-    public boolean isVisible() throws ClientException{
+
+    public boolean isVisible() throws ClientException {
         return labsBaseAdapter.isVisible();
     }
 
     public Page getPage() throws ClientException {
-        if (labsBaseAdapter instanceof LabsSiteAdapter){
-            return ((LabsSiteAdapter) labsBaseAdapter).getIndexDocument().getAdapter(Page.class);
-        }
-        else{
+        if (labsBaseAdapter instanceof LabsSiteAdapter) {
+            return ((LabsSiteAdapter) labsBaseAdapter).getIndexDocument().getAdapter(
+                    Page.class);
+        } else {
             return (Page) labsBaseAdapter;
         }
     }
-    
+
     @GET
-    @Path(value="generated.less")
-    public Object getGeneratedLess(){
+    @Path(value = "generated.less")
+    public Object getGeneratedLess() {
         String themeName = "";
         String style = "";
         try {
@@ -139,12 +140,13 @@ public class PageResource extends DocumentObject {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg("addedStyle", style);
+        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg(
+                "addedStyle", style);
     }
-    
+
     @GET
-    @Path(value="generatedAdmin.less")
-    public Object getGeneratedAdminLess(){
+    @Path(value = "generatedAdmin.less")
+    public Object getGeneratedAdminLess() {
         String themeName = "";
         try {
             LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
@@ -152,7 +154,8 @@ public class PageResource extends DocumentObject {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg("addedStyle", null);
+        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg(
+                "addedStyle", null);
     }
 
     @Override
@@ -183,80 +186,97 @@ public class PageResource extends DocumentObject {
 
     @POST
     @Path("@move")
-    public Response doMove(@FormParam("destination") String destinationId, @FormParam("view") String view, @FormParam("redirect") String redirect) throws ClientException {
-        DocumentModel destination = doc.getCoreSession().getDocument(new IdRef(destinationId));
+    public Response doMove(@FormParam("destination") String destinationId,
+            @FormParam("view") String view,
+            @FormParam("redirect") String redirect) throws ClientException {
+        DocumentModel destination = doc.getCoreSession().getDocument(
+                new IdRef(destinationId));
         String viewUrl = "";
         if (!StringUtils.isEmpty(view)) {
             viewUrl = "/@views/" + view;
         }
         if (!destination.isFolder()) {
-            return redirect(getPath() + viewUrl + "?message_error=label.admin.page.move.destinationNotFolder");
+            return redirect(getPath()
+                    + viewUrl
+                    + "?message_error=label.admin.page.move.destinationNotFolder");
         }
         try {
             doc.getCoreSession().move(doc.getRef(), destination.getRef(), null);
             doc.getCoreSession().save();
         } catch (Exception e) {
-            return redirect(getPath() + viewUrl + "?message_error=" + e.getMessage());
+            return redirect(getPath() + viewUrl + "?message_error="
+                    + e.getMessage());
         }
-        return redirect(getPath() + viewUrl + "?message_success=label.admin.page.moved");
+        return redirect(getPath() + viewUrl
+                + "?message_success=label.admin.page.moved");
     }
 
     @POST
     @Path("@copy")
-    public Response doCopy(@FormParam("destination") String destinationId, @FormParam("view") String view, @FormParam("redirect") String redirect) throws ClientException {
-        DocumentModel destination = doc.getCoreSession().getDocument(new IdRef(destinationId));
+    public Response doCopy(@FormParam("destination") String destinationId,
+            @FormParam("view") String view,
+            @FormParam("redirect") String redirect) throws ClientException {
+        DocumentModel destination = doc.getCoreSession().getDocument(
+                new IdRef(destinationId));
         String viewUrl = "";
         if (!StringUtils.isEmpty(view)) {
             viewUrl = "/@views/" + view;
         }
         if (!destination.isFolder()) {
-            return redirect(getPath() + viewUrl + "?message_error=label.admin.page.copy.destinationNotFolder");
+            return redirect(getPath()
+                    + viewUrl
+                    + "?message_error=label.admin.page.copy.destinationNotFolder");
         }
         try {
-            DocumentModel copy = doc.getCoreSession().copy(doc.getRef(), destination.getRef(), null);
+            DocumentModel copy = doc.getCoreSession().copy(doc.getRef(),
+                    destination.getRef(), null);
             Page page = copy.getAdapter(Page.class);
             page.setTitle(COPYOF_PREFIX + page.getTitle());
             doc.getCoreSession().saveDocument(page.getDocument());
             doc.getCoreSession().save();
         } catch (Exception e) {
-            return redirect(getPath() + viewUrl + "?message_error=" + e.getMessage());
+            return redirect(getPath() + viewUrl + "?message_error="
+                    + e.getMessage());
         }
-        return redirect(getPath() + viewUrl + "?message_success=label.admin.page.copied");
+        return redirect(getPath() + viewUrl
+                + "?message_success=label.admin.page.copied");
     }
 
     @POST
     @Path("@commentable")
-    public Response doCommentable(){
+    public Response doCommentable() {
         try {
-            boolean isChecked = "on".equalsIgnoreCase(ctx.getForm().getString("commentablePage"));
+            boolean isChecked = "on".equalsIgnoreCase(ctx.getForm().getString(
+                    "commentablePage"));
             doc.getAdapter(Page.class).setCommentable(isChecked);
             CoreSession session = getCoreSession();
             session.saveDocument(doc);
             session.save();
         } catch (ClientException e) {
-            return redirect(getPath() + "?message_error=label.parameters.page.save.fail");
+            return redirect(getPath()
+                    + "?message_error=label.parameters.page.save.fail");
         }
-        return redirect(getPath() + "?message_success=label.parameters.page.save.success");
+        return redirect(getPath()
+                + "?message_success=label.parameters.page.save.success");
     }
 
     @GET
     @Path("@addContentView")
-    public Template addContentView(){
+    public Template addContentView() {
         return getTemplate("views/LabsPage/manage.ftl");
     }
-    
+
     @POST
     @Path("@addContent")
     public Response addContent() {
         String name = ctx.getForm().getString("name");
-        DocumentModel newDoc = DocumentHelper.createDocument(ctx, doc,
-                name);
-        String pathSegment = URIUtils.quoteURIPathComponent(
-                newDoc.getName(), true);
+        DocumentModel newDoc = DocumentHelper.createDocument(ctx, doc, name);
+        String pathSegment = URIUtils.quoteURIPathComponent(newDoc.getName(),
+                true);
         return redirect(getPath() + '/' + pathSegment);
 
     }
-    
+
     @PUT
     @Path("@setHome")
     public Response setAsHomePage() {
@@ -275,7 +295,7 @@ public class PageResource extends DocumentObject {
 
     /**
      * Returns a Map containing all "flash" messages
-     *
+     * 
      * @return
      */
     public Map<String, String> getMessages() {
