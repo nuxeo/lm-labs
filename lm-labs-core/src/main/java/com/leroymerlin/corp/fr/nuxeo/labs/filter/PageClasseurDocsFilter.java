@@ -26,7 +26,7 @@ public class PageClasseurDocsFilter implements Filter {
             LabsPublisher publisher = grandParent.getAdapter(LabsPublisher.class);
             boolean filter = isAdmin || (publisher != null && publisher.isVisible());
             return publisher != null
-                    && Docs.FOLDER.type().equals(parent.getType())
+                    && Docs.PAGECLASSEURFOLDER.type().equals(parent.getType())
                     && Docs.pageDocs().contains(Docs.fromString(grandParent.getType()))
                     && filter
                     && doc.getAdapter(BlobHolder.class) != null;

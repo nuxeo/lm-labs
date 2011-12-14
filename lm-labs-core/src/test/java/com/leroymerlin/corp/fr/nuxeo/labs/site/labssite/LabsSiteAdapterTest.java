@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -36,6 +37,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
@@ -304,6 +306,27 @@ public class LabsSiteAdapterTest {
         ArrayList<ExternalURL> list = labsSite.getExternalURLs();
         assertEquals(2, list.size());
         assertEquals("a", list.get(0).getName());
+    }
+    
+    @Test
+    public void iCanGetDeletedDocs() throws Exception {
+        DocumentModel site = session.createDocumentModel("/", "NameSite1",
+                LABSSITE_TYPE);
+        site.setPropertyValue("dc:title", "le titre");
+        site = session.createDocument(site);
+        LabsSite labsSite = site.getAdapter(LabsSite.class);
+        DocumentModel classeur = session.createDocumentModel(labsSite.getTree().getPathAsString(), "classeur", Docs.PAGECLASSEUR.type());
+        classeur = session.createDocument(classeur);
+        DocumentModel folder = session.createDocumentModel(classeur.getPathAsString(), "folder1", Docs.PAGECLASSEURFOLDER.type());
+        folder = session.createDocument(folder);
+        assertTrue(labsSite.getAllDeletedDocs().isEmpty());
+        
+        PageClasseurFolder adapter = folder.getAdapter(PageClasseurFolder.class);
+        assertNotNull(adapter);
+        boolean setAsDeleted = adapter.setAsDeleted();
+        session.save();
+        assertTrue(setAsDeleted);
+        assertFalse(labsSite.getAllDeletedDocs().isEmpty());
     }
     
     private CoreSession changeUser(String username) throws ClientException {

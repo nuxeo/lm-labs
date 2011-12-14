@@ -38,16 +38,16 @@
 	<@adminMenu item="trash"/>
 	<div class="container">
       <section>
-        <#assign deletedPages = This.getDeletedPage() />
+        <#assign deletedDocs = This.getDeletedDocs() />
         <div class="page-header">
           <h3>
-          	${Context.getMessage('label.lifeCycle.trash.title')} <#if (deletedPages?? && deletedPages?size > 0)>(${deletedPages?size})</#if>
+          	${Context.getMessage('label.lifeCycle.trash.title')} <#if (deletedDocs?size > 0)>(${deletedDocs?size})</#if>
           	<div style="text-align: right;margin-top: -37px;">
 				<button onClick="beEmptyTrash();" title="${Context.getMessage('label.lifeCycle.page.emptyTrash')}" class="btn" style="margin-left:20px;" >${Context.getMessage('label.lifeCycle.page.emptyTrash')}</button>
 			</div>
           </h3>
         </div>
-        <#if (deletedPages?? && deletedPages?size > 0)>
+        <#if (deletedDocs?size > 0)>
 	        <table class="zebra-striped bs">
 	            <thead>
 	            <tr>
@@ -60,11 +60,10 @@
 	            </tr>
 	          </thead>
 	          <tbody>
-	          <#list deletedPages as deletedPage>
+	          <#list deletedDocs as doc>
 	            <tr>
-	              <#assign doc=deletedPage.document />
 	              <td>
-	              	<a href="#" rel="popover" data-content='${deletedPage.description}' data-original-title="${Context.getMessage('label.description')}">${deletedPage.title} (${deletedPage.document.type})</a>
+	              	<a href="#" rel="popover" data-content='${doc.dublincore.description}' data-original-title="${Context.getMessage('label.description')}">${doc.dublincore.title} (${doc.type})</a>
 	              </td>
 	              <td>${userFullName(doc.dublincore.creator)}</td>
 	              <td>
@@ -78,7 +77,7 @@
 	                <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
 	              </td>
 	              <td>
-	              	<a  href="#" class="btn" onclick="javascript:undeletePage('${deletedPage.document.ref}');">${Context.getMessage('command.docactions.undelete')}</a>
+	              	<a  href="#" class="btn" onclick="javascript:undeletePage('${doc.ref}');">${Context.getMessage('command.docactions.undelete')}</a>
 	              </td>
 	            </tr>
 	          </#list>

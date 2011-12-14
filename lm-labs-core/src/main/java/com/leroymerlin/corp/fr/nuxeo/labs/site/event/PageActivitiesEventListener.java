@@ -21,10 +21,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageNotificationServ
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
+import com.mchange.v1.lang.BooleanUtils;
 
 public class PageActivitiesEventListener extends PageNotifier implements EventListener {
 
     private static final Log LOG = LogFactory.getLog(PageActivitiesEventListener.class);
+    
+    private static final String PROPERTY_NAME_SERVICE_ENABLED = "labs.notification.enabled";
 
     static final ArrayList<String> markDocs = new ArrayList<String>(
             Arrays.asList(
@@ -35,21 +38,21 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
                     Docs.PAGELIST.type(),
                     Docs.PAGECLASSEUR.type(),
                     Docs.HTMLPAGE.type(),
-                    Docs.LABSNEWS.type(),
-                    Docs.PAGELIST_LINE.type(),
-                    Docs.FOLDER.type()
+                    Docs.LABSNEWS.type()
                     ));
     static final ArrayList<String> markParentDocs = new ArrayList<String>(
             Arrays.asList(
-                    Docs.FOLDER.type(),
+                    Docs.PAGECLASSEURFOLDER.type(),
                     "File",
                     "Picture"
                     ));
     static final ArrayList<String> markParentPageDocs = new ArrayList<String>(
             Arrays.asList(
-                    Docs.LABSNEWS.type(),
+                    Docs.LABSNEWS.type(), // on creation
                     Docs.PAGELIST_LINE.type()
                     ));
+
+    private PageNotificationService notificationService = null;
 
     @Override
     public void handleEvent(Event evt) throws ClientException {
@@ -63,21 +66,27 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
                 ) {
             return;
         }
+        String enabled = Framework.getProperty(PROPERTY_NAME_SERVICE_ENABLED);
+        if (enabled == null || !BooleanUtils.parseBoolean(enabled)) {
+            LOG.debug("Labs Notification Service disabled.");
+            return;
+        }
         DocumentEventContext ctx = (DocumentEventContext) evt.getContext();
         DocumentModel doc = ctx.getSourceDocument();
         if (doc != null) {
-//            if (!DocumentEventTypes.DOCUMENT_REMOVED.equals(eventName) && doc.getAdapter(MailNotification.class).isToBeNotified()) {
-//                return;
-//            }
             if (Docs.NOTIFACTIVITIES.type().equals(doc.getType())) {
                 return;
             }
             LOG.debug("event: " + eventName);
             boolean processed = false;
+            try {
+                getNotificationService();
+            } catch (Exception e) {
+                LOG.error("Unable to retrieve notification service. Skip processing event. So it won't be notified to users.", e);
+                return;
+            }
             if (DocumentEventTypes.DOCUMENT_UPDATED.equals(eventName)) {
-                if (Docs.pageDocs().contains(Docs.fromString(doc.getType()))) {
-                    // TODO
-                    //processed = notifyPage(doc, EventNames.PAGE_MODIFIED);
+                if (markDocs.contains(doc.getType())) {
                     processed = Mark(doc);
                 } else if (markParentPageDocs.contains(doc.getType())
                         || markParentDocs.contains(doc.getType())
@@ -95,8 +104,13 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
                     processed = Mark(doc);
                 }
             } else if (DocumentEventTypes.ABOUT_TO_REMOVE.equals(eventName)) {
-                Page parentPage = getPage(doc);
-                if (parentPage == null) {
+                try {
+                    Page parentPage = notificationService.getRelatedPage(doc);
+                    if (parentPage == null) {
+                        return;
+                    }
+                } catch (Exception e) {
+                    LOG.error(e, e);
                     return;
                 }
                 if (Docs.pageDocs().contains(Docs.fromString(doc.getType()))) {
@@ -111,23 +125,20 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
                 // should not happen
             }
             if (!processed) {
-//                LOG.warn("event " + eventName + " on " + doc.getPathAsString() + " not processed.");
+                LOG.debug("event " + eventName + " on " + doc.getPathAsString() + " not processed.");
             } else {
                 LOG.debug("event " + eventName + " on " + doc.getPathAsString() + " processed.");
             }
         }
-
     }
 
     private boolean notifyPage(DocumentModel doc, String eventName) throws ClientException {
-        Page page = getPage(doc);
-        if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
-            return false;
-        }
         try {
-            PageNotificationService notificationService = Framework.getService(PageNotificationService.class);
+            if (!notificationService.canBeMarked(doc)) {
+                return false;
+            }
+            Page page = getPage(doc);
             notificationService.notifyPageEvent(page, eventName);
-//            fireEvent(page.getDocument(), eventName);
             return true;
         } catch (Exception e) {
             LOG.error(e, e);
@@ -136,19 +147,19 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
     }
 
     private boolean Mark(DocumentModel doc) throws ClientException {
-        Page page = getPage(doc);
-        if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
+        try {
+            if (!notificationService.canBeMarked(doc)) {
+                return false;
+            }
+            Page page = getPage(doc);
+            return setAstoBeNotified(page.getDocument());
+        } catch (Exception e) {
             return false;
         }
-        return setAstoBeNotified(page.getDocument());
     }
 
-    private Page getPage(DocumentModel doc) throws ClientException {
-        Page page = doc.getAdapter(Page.class);
-        if (page == null) {
-            page = doc.getAdapter(SiteDocument.class).getParentPage();
-        }
-        return page;
+    private Page getPage(DocumentModel doc) throws Exception {
+        return notificationService.getRelatedPage(doc);
     }
     
     private boolean setAstoBeNotified(DocumentModel doc) throws ClientException {
@@ -156,8 +167,7 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
             doc.getAdapter(MailNotification.class).setAsToBeNotified();
             return true;
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.error(e, e);
         }
         return false;
 //        if (doc.getAdapter(MailNotification.class).isToBeNotified()) {
@@ -167,9 +177,16 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
 //        doc.getCoreSession().saveDocument(doc);
 //        return true;
     }
+    
+    private PageNotificationService getNotificationService() throws Exception {
+        if (notificationService == null) {
+            notificationService = Framework.getService(PageNotificationService.class);
+        }
+        return notificationService;
+    }
 
     @Deprecated
-    private boolean MarkParent(DocumentModel doc) throws ClientException {
+    private boolean MarkParent(DocumentModel doc) throws Exception {
         Page page = getPage(doc);
         if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
             return false;
@@ -181,7 +198,7 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
     }
 
     @Deprecated
-    private boolean MarkParentPage(DocumentModel doc) throws ClientException {
+    private boolean MarkParentPage(DocumentModel doc) throws Exception {
         Page page = getPage(doc);
         if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
             return false;

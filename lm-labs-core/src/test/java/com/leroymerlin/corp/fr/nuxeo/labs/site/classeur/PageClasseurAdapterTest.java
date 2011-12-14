@@ -10,6 +10,7 @@ import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
@@ -166,6 +167,19 @@ public class PageClasseurAdapterTest {
         PageClasseurFolder folder = classeur.getFolders().get(0);
         folder.addFile(null, "null desc");
         
+    }
+    
+    @Test
+    public void iCanSetFolderAsDeleted() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        PageClasseurFolder folder = classeur.addFolder("My Folder");
+        session.save();
+        assertFalse(classeur.getFolders().isEmpty());
+        boolean deleted = folder.setAsDeleted();
+        session.save();
+        assertTrue(deleted);
+        assertEquals(LifeCycleConstants.DELETED_STATE, folder.getDocument().getCurrentLifeCycleState());
+        assertTrue(classeur.getFolders().isEmpty());
     }
 
     private Blob getTestBlob() {

@@ -99,7 +99,7 @@ public class PageClasseurResource extends NotifiablePageResource {
             DocumentModel subDoc = ctx.getCoreSession().getDocument(pathRef);
             if (Docs.pageDocs().contains(Docs.fromString(subDoc.getType()))) {
                 return (DocumentObject) ctx.newObject(subDoc.getType(), subDoc);
-            } else if (Docs.FOLDER.type().equals(subDoc.getType())) {
+            } else if (Docs.PAGECLASSEURFOLDER.type().equals(subDoc.getType())) {
                 return newObject("PageClasseurFolder", subDoc);
             } else {
                 throw new WebResourceNotFoundException("Unknow sub-type for a PageClasseur: " + subDoc.getType());
