@@ -15,14 +15,22 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageNotificationService;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
+import com.mchange.v1.lang.BooleanUtils;
 
 public class CheckPagesToNotify implements EventListener {
 
     private static final Log LOG = LogFactory.getLog(CheckPagesToNotify.class);
+    
+    private static final String PROPERTY_NAME_SERVICE_ENABLED = "labs.notification.enabled";
 
     @Override
     public void handleEvent(Event evt) throws ClientException {
         if (!EventNames.CHECK_PAGES_TO_NOTIFY.equals(evt.getName())) {
+            return;
+        }
+        String enabled = Framework.getProperty(PROPERTY_NAME_SERVICE_ENABLED);
+        if (enabled == null || !BooleanUtils.parseBoolean(enabled)) {
+            LOG.debug("Labs Notifications disabled.");
             return;
         }
         try {

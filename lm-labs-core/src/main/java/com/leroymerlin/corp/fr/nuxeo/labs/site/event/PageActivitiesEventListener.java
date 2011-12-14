@@ -26,8 +26,6 @@ import com.mchange.v1.lang.BooleanUtils;
 public class PageActivitiesEventListener extends PageNotifier implements EventListener {
 
     private static final Log LOG = LogFactory.getLog(PageActivitiesEventListener.class);
-    
-    private static final String PROPERTY_NAME_SERVICE_ENABLED = "labs.notification.enabled";
 
     static final ArrayList<String> markDocs = new ArrayList<String>(
             Arrays.asList(
@@ -64,11 +62,6 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
                 && !DocumentEventTypes.DOCUMENT_CREATED.equals(eventName)
                 && !DocumentEventTypes.ABOUT_TO_REMOVE.equals(eventName)
                 ) {
-            return;
-        }
-        String enabled = Framework.getProperty(PROPERTY_NAME_SERVICE_ENABLED);
-        if (enabled == null || !BooleanUtils.parseBoolean(enabled)) {
-            LOG.debug("Labs Notification Service disabled.");
             return;
         }
         DocumentEventContext ctx = (DocumentEventContext) evt.getContext();
