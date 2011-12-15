@@ -56,9 +56,9 @@ public enum RowTemplate {
 			row.addContent(4, NO_CONTENT);
 			break;
 		case R3COL:
-			row.addContent(5, NO_CONTENT);
-			row.addContent(5, NO_CONTENT);
-			row.addContent(6, NO_CONTENT);
+			row.addContent(333, NO_CONTENT);
+			row.addContent(333, NO_CONTENT);
+			row.addContent(333, NO_CONTENT);
 			break;
 		case R4COL:
 			row.addContent(4, NO_CONTENT);

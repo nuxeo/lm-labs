@@ -20,7 +20,7 @@
 	<#assign parentIds = parentIds + "]" />
 </#if>
 
-<#assign canManage = Session.hasPermission(Document.ref, 'Everything') />
+<#assign canManage = Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')/>
 
 	<@block name="css">
 	<@superBlock/>
@@ -318,6 +318,10 @@
 						}
 					}
 				};
+				
+				<#if !Session.hasPermission(Document.ref, 'Everything')>
+					delete items.remove;
+				</#if>
 				
 				<#-- selected item we want -->
 				if(jQuery(node).attr('rel') == 'Tree' || jQuery(node).attr('rel') == 'Assets') {

@@ -33,4 +33,6 @@ public interface LabsBase {
     boolean isDraft() throws ClientException;
     
     boolean isAdministrator(String userName) throws ClientException;
+    
+    boolean isContributor(String userName) throws ClientException;
 }

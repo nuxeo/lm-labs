@@ -81,7 +81,7 @@
                   <label for="banner">${Context.getMessage('label.labssites.appearance.theme.edit.banner.label')}</label>
                   <div class="input">
 		      		    <a href="#" style="float:right;" id="deleteBanner" onClick="javascript=deleteBanner('${This.path}/banner', '${This.path}', '${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete.confirm')}');">${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete')}</a>
-                    <input name="banner" type="file" enctype="multipart/form-data"/>
+                    <input name="banner" type="file" size="1" enctype="multipart/form-data"/>
                     <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.banner.help.block')}</span>
                   </div>
                 </div><!-- /clearfix -->
@@ -97,7 +97,7 @@
                   </#if>
                   <label for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
                   <div class="input">
-                    <input class="required" name="logo" type="file" enctype="multipart/form-data"/>
+                    <input name="logo" type="file" size="1" enctype="multipart/form-data"/>
                     <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.logo.help.block')}</span>
                   </div>
                 </div><!-- /clearfix -->

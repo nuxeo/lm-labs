@@ -48,7 +48,7 @@
         <section>
           <div class="page-header">
             <h1>PLAN DU SITE 
-          	<#if site?? && Session.hasPermission(site.document.ref, 'Everything') >
+          	<#if site?? && (Session.hasPermission(site.document.ref, 'Everything') || Session.hasPermission(site.document.ref, 'ReadWrite')) >
           	<a href="${This.path}/@views/administer_pages"><button id="adminPagesBt" class="btn danger small">${Context.getMessage('command.sitemap.goToPageAdmin')}</button></a>
           	</#if>
           	</h1>

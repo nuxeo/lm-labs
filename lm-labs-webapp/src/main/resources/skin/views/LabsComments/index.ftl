@@ -5,7 +5,7 @@
 
 				<div class="labscomments by">
 					<span>${This.activeAdapter.getFullName(comment.comment.author)}</span>
-					<#if Session.hasPermission(Document.ref, 'Everything') || Context.principal.name == comment.comment.author>
+					<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == comment.comment.author>
 						<p class="labscomments delete" onClick="javascript:if(confirm('${Context.getMessage('label.comments.deleted.confirm')?js_string}')){${deleteComment}('${This.path}/@labscomments', '${comment.id}');}{return false;}">&nbsp;</p>
 					</#if>
 				</div>
