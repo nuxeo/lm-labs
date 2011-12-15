@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
-import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -249,12 +248,19 @@ public class PageResource extends DocumentObject {
     @Path("@addContent")
     public Response addContent() {
         String name = ctx.getForm().getString("name");
-        DocumentModel newDoc = DocumentHelper.createDocument(ctx, doc,
-                name);
-        String pathSegment = URIUtils.quoteURIPathComponent(
-                newDoc.getName(), true);
-        return redirect(getPath() + '/' + pathSegment);
-
+        String location = ctx.getForm().getString("location");
+        DocumentModel parent = doc;
+        try {
+            if ("same".equals(location)) {
+                parent = getCoreSession().getParentDocument(doc.getRef());
+            } else if ("top".equals(location)) {
+                parent = doc.getAdapter(SiteDocument.class).getSite().getTree();
+            }
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
+        return redirect(ctx.getUrlPath(newDoc));
     }
     
     @PUT

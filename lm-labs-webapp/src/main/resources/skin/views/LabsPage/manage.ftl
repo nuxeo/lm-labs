@@ -25,6 +25,18 @@
           </div>
         </#list>
     </div><!-- /clearfix -->
+    
+    <div class="clearfix">
+      <label for="location">${Context.getMessage('label.page.creation.location')}</label>
+      <div class="input">
+        <select name="location">
+          <#assign locations = ["top", "same", "under"] />
+          <#list locations as location>
+          <option value="${location}" <#if location == "under">selected="selected"</#if>>${Context.getMessage('label.page.creation.location.' + location)}</option>
+          </#list>
+        </select>
+      </div>
+    </div><!-- /clearfix -->
 
   </fieldset>
 
