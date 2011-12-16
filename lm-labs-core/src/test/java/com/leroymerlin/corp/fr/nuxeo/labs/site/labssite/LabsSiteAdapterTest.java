@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
@@ -52,6 +51,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 public class LabsSiteAdapterTest {
 
     private static final String LABSSITE_TYPE = LabsSiteConstants.Docs.SITE.type();
+
     private final String USERNAME1 = "CGM";
 
     @Inject
@@ -59,7 +59,7 @@ public class LabsSiteAdapterTest {
 
     @Inject
     protected FeaturesRunner featuresRunner;
-    
+
     @Test
     public void iCanCreateALabsSiteDocument() throws Exception {
         // Use the session as a factory
@@ -88,19 +88,23 @@ public class LabsSiteAdapterTest {
         doc = session.createDocument(doc);
         LabsSite labssite = doc.getAdapter(LabsSite.class);
         assertTrue(labssite.isAdministrator("Administrator"));
-        assertFalse(labssite.isAdministrator("CGM"));
+        assertFalse(labssite.isAdministrator(USERNAME1));
     }
-    
+
     @Test
-    // FIXME
-    @Ignore
     public void testIsContributor() throws Exception {
-        DocumentModel doc = session.createDocumentModel("/", "NameSite1",
+        DocumentModel site = session.createDocumentModel("/", "NameSite1",
                 LABSSITE_TYPE);
-        doc = session.createDocument(doc);
-        LabsSite labssite = doc.getAdapter(LabsSite.class);
-        assertTrue(labssite.isContributor("CGM"));
-        assertFalse(labssite.isContributor("Administrator"));
+        site = session.createDocument(site);
+        session.save();
+
+        PermissionsHelper.addPermission(site, SecurityConstants.READ_WRITE,
+                USERNAME1, true);
+        assertTrue(PermissionsHelper.hasPermission(site,
+                SecurityConstants.READ_WRITE, USERNAME1));
+
+        LabsSite labssite = site.getAdapter(LabsSite.class);
+        assertTrue(labssite.isContributor(USERNAME1));
     }
 
     @Test
@@ -220,7 +224,8 @@ public class LabsSiteAdapterTest {
         site.setPropertyValue("dc:title", "le titre");
         site = session.createDocument(site);
         LabsSite labsSite = site.getAdapter(LabsSite.class);
-        DocumentModel welcome = session.getChild(labsSite.getTree().getRef(), Docs.WELCOME.docName());
+        DocumentModel welcome = session.getChild(labsSite.getTree().getRef(),
+                Docs.WELCOME.docName());
 
         assertEquals(welcome.getId(), labsSite.getHomePageRef());
     }
@@ -232,7 +237,9 @@ public class LabsSiteAdapterTest {
         site.setPropertyValue("dc:title", "le titre");
         site = session.createDocument(site);
         LabsSite labsSite = site.getAdapter(LabsSite.class);
-        DocumentModel page = session.createDocumentModel(labsSite.getTree().getPathAsString(), "page", Docs.HTMLPAGE.type());
+        DocumentModel page = session.createDocumentModel(
+                labsSite.getTree().getPathAsString(), "page",
+                Docs.HTMLPAGE.type());
         page = session.createDocument(page);
         labsSite.setHomePageRef(page.getId());
         site = session.saveDocument(site);
@@ -250,11 +257,14 @@ public class LabsSiteAdapterTest {
                 LABSSITE_TYPE);
         site = session.createDocument(site);
         session.save();
-        PermissionsHelper.addPermission(site, SecurityConstants.READ, USERNAME1, true);
-        assertTrue(PermissionsHelper.hasPermission(site, SecurityConstants.READ, USERNAME1));
+        PermissionsHelper.addPermission(site, SecurityConstants.READ,
+                USERNAME1, true);
+        assertTrue(PermissionsHelper.hasPermission(site,
+                SecurityConstants.READ, USERNAME1));
         session.save();
-        DocumentModel page = session.createDocumentModel(
-                site.getPathAsString()+"/"+LabsSiteConstants.Docs.TREE.docName(), "page1", Docs.PAGECLASSEUR.type());
+        DocumentModel page = session.createDocumentModel(site.getPathAsString()
+                + "/" + LabsSiteConstants.Docs.TREE.docName(), "page1",
+                Docs.PAGECLASSEUR.type());
         page = session.createDocument(page);
         // folder 1
         DocumentModel folder = session.createDocumentModel(
@@ -269,12 +279,13 @@ public class LabsSiteAdapterTest {
         DocumentModelList lastUpdatedDocs = labsSite.getLastUpdatedDocs();
 
         CoreSession userSession = changeUser(USERNAME1);
-        DocumentModel userSite = userSession.getDocument(new PathRef("/NameSite1"));
+        DocumentModel userSite = userSession.getDocument(new PathRef(
+                "/NameSite1"));
         LabsSite userLabsSite = userSite.getAdapter(LabsSite.class);
         lastUpdatedDocs = userLabsSite.getLastUpdatedDocs();
         assertEquals(0, lastUpdatedDocs.size());
         CoreInstance.getInstance().close(userSession);
-        
+
         LabsPublisher publisher = page.getAdapter(LabsPublisher.class);
         publisher.publish();
         page = session.saveDocument(page);
@@ -305,7 +316,7 @@ public class LabsSiteAdapterTest {
         lastUpdatedDocs = labsSite.getLastUpdatedDocs();
         assertEquals(5, lastUpdatedDocs.size());
     }
-    
+
     @Test
     public void iCanGetExternalURLs() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "NameSite1",
@@ -320,7 +331,7 @@ public class LabsSiteAdapterTest {
         assertEquals(2, list.size());
         assertEquals("a", list.get(0).getName());
     }
-    
+
     @Test
     public void iCanGetDeletedDocs() throws Exception {
         DocumentModel site = session.createDocumentModel("/", "NameSite1",
@@ -328,12 +339,16 @@ public class LabsSiteAdapterTest {
         site.setPropertyValue("dc:title", "le titre");
         site = session.createDocument(site);
         LabsSite labsSite = site.getAdapter(LabsSite.class);
-        DocumentModel classeur = session.createDocumentModel(labsSite.getTree().getPathAsString(), "classeur", Docs.PAGECLASSEUR.type());
+        DocumentModel classeur = session.createDocumentModel(
+                labsSite.getTree().getPathAsString(), "classeur",
+                Docs.PAGECLASSEUR.type());
         classeur = session.createDocument(classeur);
-        DocumentModel folder = session.createDocumentModel(classeur.getPathAsString(), "folder1", Docs.PAGECLASSEURFOLDER.type());
+        DocumentModel folder = session.createDocumentModel(
+                classeur.getPathAsString(), "folder1",
+                Docs.PAGECLASSEURFOLDER.type());
         folder = session.createDocument(folder);
         assertTrue(labsSite.getAllDeletedDocs().isEmpty());
-        
+
         PageClasseurFolder adapter = folder.getAdapter(PageClasseurFolder.class);
         assertNotNull(adapter);
         boolean setAsDeleted = adapter.setAsDeleted();
@@ -341,7 +356,7 @@ public class LabsSiteAdapterTest {
         assertTrue(setAsDeleted);
         assertFalse(labsSite.getAllDeletedDocs().isEmpty());
     }
-    
+
     private CoreSession changeUser(String username) throws ClientException {
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
         Map<String, Serializable> ctx = new HashMap<String, Serializable>();
