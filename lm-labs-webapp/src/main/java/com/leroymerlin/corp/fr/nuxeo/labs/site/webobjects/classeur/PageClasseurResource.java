@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
@@ -125,8 +126,12 @@ public class PageClasseurResource extends NotifiablePageResource {
                 LOG.debug(id);
                 IdRef idRef = new IdRef(id);
                 if (getCoreSession().exists(idRef)) {
-                    getCoreSession().removeDocument(idRef);
-                    removed = true;
+                    DocumentModel file = getCoreSession().getDocument(idRef);
+                    if (file.getAllowedStateTransitions().contains(LifeCycleConstants.DELETE_TRANSITION)) {
+                        file.followTransition(LifeCycleConstants.DELETE_TRANSITION);
+                        getCoreSession().saveDocument(file);
+                        removed = true;
+                    }
                 }
             }
             if (removed) {

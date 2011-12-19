@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
@@ -86,6 +87,9 @@ public final class CommonHelper {
                 }}));
         }
         return pages;
-        
+    }
+    
+    public static String quoteURIPathComponent(String s) {
+        return URIUtils.quoteURIPathComponent(s, false);
     }
 }
