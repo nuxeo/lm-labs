@@ -34,13 +34,13 @@
                 <li class="divider"></li>
                 <@block name="siteactions">
                 <#if site?? && Session.hasPermission(site.document.ref, "Everything")>
-                	<#--if site.visible>
+                	<#if site.visible>
                 		<li><a href="#" onclick="javascript:draftSite();">${Context.getMessage('command.siteactions.draft')}</a></li>
                 	<#else>
                 		<li><a href="#" onclick="javascript:publishSite();">${Context.getMessage('command.siteactions.publish')}</a></li>
-                	</#if-->
+                	</#if>
                 	<!--   delete     -->
-                	<#--li><a href="#" onclick="javascript:deleteSite();">${Context.getMessage('command.siteactions.delete')}</a></li-->
+                	<!--li><a href="#" onclick="javascript:deleteSite();">${Context.getMessage('command.siteactions.delete')}</a></li-->
                 	<script type="text/javascript">
                 		function publishSite(){
                 			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouPublish')}")){
