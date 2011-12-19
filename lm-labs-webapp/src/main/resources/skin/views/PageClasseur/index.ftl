@@ -188,9 +188,9 @@
             <button class="btn danger editblock" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
             <span class="editblock"><br /></span>
       </#if>
-        <a class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${child.name}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
-        <a class="btn small classeurDownload" href="${This.path}/${folder.document.name}/${child.name}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
-        <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${child.name}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">
+        <a class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
+        <a class="btn small classeurDownload" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
+        <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">
         </form>
         </td>
 
