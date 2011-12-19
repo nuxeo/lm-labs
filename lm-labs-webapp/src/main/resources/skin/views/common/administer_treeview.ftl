@@ -373,7 +373,7 @@
 			jQuery("#jstree")
 			.bind("loaded.jstree", function (event, data) {
 			<#if adminTreeviewType=="Assets">
-				loadPictures(jQuery("li[rel=Assets]").attr("id"));
+				jQuery('.jstree a:first').click();
 			<#else>
 				changeIconOfHomePage();
 				addStatusLabels(data);
