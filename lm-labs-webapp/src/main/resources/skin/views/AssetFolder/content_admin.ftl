@@ -13,6 +13,7 @@
 		padding: 4px;
 		float:left;
 		margin:0.4em;
+		word-wrap:break-word;
 	}
 </style>
 <#assign children=Session.getChildren(Document.ref) />
@@ -29,7 +30,7 @@
 		    <img src="/nuxeo/nxpicsfile/default/${doc.id}/Thumbnail:content/any_value" style="float: left;"/>
 			<img src="${skinPath}/images/asset/bin.png" onclick="deletePicture('${doc.id}');" style="cursor: pointer;float:right">
 			<div style="clear:both"></div>
-		    <div class="ellipsisText" ellipsisTextOptions="{max_rows:2,whole_word:false,ellipsis_string:'...',valid_delimiters:[' ', ',', '.']}" style="width:125px;margin-top:10px">${doc.name}</div>
+		    <div class="ellipsisText" ellipsisTextOptions="{max_rows:2}" style="width:125px;margin-top:10px">${doc.name}</div>
 		  </div>
 		  <#assign hasPicture="1" />
 		  </#if>
