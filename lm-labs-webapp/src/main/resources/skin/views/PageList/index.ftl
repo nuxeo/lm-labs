@@ -30,9 +30,18 @@
 	
 	<@block name="content">	
 		<div id="content" class="container">
-  <div class="page-header">
-    <h1><span title="${Document.dublincore.description}" >${Document.dublincore.title}</span></h1>
-  </div>
+		
+			<#if page.displayableTitle>
+		    	<h1>${page.title}</h1>
+		    </#if>
+		    <#if page.displayableDescription>
+		    	<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
+		    		<#include "views/common/description_area.ftl">
+		    	<#else>
+		    		${page.description}
+		    	</#if>
+		    </#if>
+		
 			<#if isAuthorized>
 				<div id="divActionManageList">
 					<a href="#" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine();">${Context.getMessage('label.pageList.addLine')}</a>

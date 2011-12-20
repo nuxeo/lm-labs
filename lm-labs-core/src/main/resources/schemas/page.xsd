@@ -5,5 +5,9 @@
 	
 	<xs:element name="commentable" type="xs:boolean" default="false" />
 	
+	<xs:element name="displayableTitle" type="xs:boolean" default="true" />
+	
+	<xs:element name="displayableDescription" type="xs:boolean" default="true" />
+	
 </xs:schema>
 

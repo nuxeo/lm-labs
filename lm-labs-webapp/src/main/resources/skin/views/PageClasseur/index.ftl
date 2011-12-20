@@ -25,10 +25,16 @@
   <@block name="content">
 
   <div class="container">
-
-
-
-  <#include "views/common/description_area.ftl">
+	<#if page.displayableTitle>
+    	<h1>${page.title}</h1>
+    </#if>
+    <#if page.displayableDescription>
+    	<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
+    		<#include "views/common/description_area.ftl">
+    	<#else>
+    		${page.description}
+    	</#if>
+    </#if>
 
 
   <#assign area_height=2 />

@@ -25,9 +25,13 @@
 
   <@block name="content">
        <div class="container">
-
-    <h1>${page.title}</h1>
-    ${page.description}
+	
+	<#if page.displayableTitle>
+    	<h1>${page.title}</h1>
+    </#if>
+    <#if page.displayableDescription>
+    	${page.description}
+    </#if>
 
     <#list page.sections as section>
     <section id="section_${section_index}">

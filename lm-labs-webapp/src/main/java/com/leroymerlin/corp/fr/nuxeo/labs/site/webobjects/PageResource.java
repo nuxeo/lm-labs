@@ -242,12 +242,16 @@ public class PageResource extends DocumentObject {
     }
 
     @POST
-    @Path("@commentable")
-    public Response doCommentable() {
+    @Path("@managePage")
+    public Response doManagePage() {
         try {
-            boolean isChecked = "on".equalsIgnoreCase(ctx.getForm().getString(
-                    "commentablePage"));
-            doc.getAdapter(Page.class).setCommentable(isChecked);
+            boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString("commentablePage"));
+            boolean isCheckedDisplayableTitle = "on".equalsIgnoreCase(ctx.getForm().getString("displayableTitlePage"));
+            boolean isCheckedDisplayableDescription = "on".equalsIgnoreCase(ctx.getForm().getString("displayableDescriptionPage"));
+            Page page = doc.getAdapter(Page.class);
+            page.setCommentable(isCheckedCommentable);
+            page.setDisplayableTitle(isCheckedDisplayableTitle);
+            page.setDisplayableDescription(isCheckedDisplayableDescription);
             CoreSession session = getCoreSession();
             session.saveDocument(doc);
             session.save();

@@ -24,7 +24,17 @@
   <@block name="content">
       <div id="content" class="container">
 
-    <div style="clear:both"></div>
+    	<#if page.displayableTitle>
+	    	<h1>${page.title}</h1>
+	    </#if>
+	    <#if page.displayableDescription>
+	    	<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
+	    		<#include "views/common/description_area.ftl">
+	    	<#else>
+	    		${page.description}
+	    	</#if>
+	    </#if>
+    	
         <#if isAuthorized>
           <a class="btn" href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>
         </#if>

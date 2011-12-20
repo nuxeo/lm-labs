@@ -26,8 +26,10 @@
   <@block name="content">
 
        <div class="container">
-
-    <#include "views/common/description_area.ftl">
+       
+	<#if page.displayableDescription>
+    	<#include "views/common/description_area.ftl">
+    </#if>
 
 <div style="clear:both;"></div>
 

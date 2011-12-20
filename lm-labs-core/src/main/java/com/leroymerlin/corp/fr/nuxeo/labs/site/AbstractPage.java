@@ -11,14 +11,47 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public abstract class AbstractPage extends AbstractLabsBase implements Page {
 
+    private static final String THIS_PAGE_IS_NOT_IN_A_LABS_SITE = "This page is not in a LabsSite";
+    private static final String PG_DISPLAYABLE_DESCRIPTION = "pg:displayableDescription";
+    private static final String PG_DISPLAYABLE_TITLE = "pg:displayableTitle";
+    private static final String PG_COMMENTABLE = "pg:commentable";
+
     @Override
     public void setCommentable(boolean isCommentable) throws ClientException {
-        doc.setPropertyValue("pg:commentable", isCommentable);
+        doc.setPropertyValue(PG_COMMENTABLE, isCommentable);
     }
 
     @Override
     public boolean isCommentable() throws ClientException {
-        Serializable propertyValue = doc.getPropertyValue("pg:commentable");
+        Serializable propertyValue = doc.getPropertyValue(PG_COMMENTABLE);
+        if (propertyValue instanceof Boolean) {
+            return ((Boolean) propertyValue).booleanValue();
+        }
+        return false;
+    }
+
+    @Override
+    public void setDisplayableTitle(boolean isDisplayableTitle) throws ClientException {
+        doc.setPropertyValue(PG_DISPLAYABLE_TITLE, isDisplayableTitle);
+    }
+
+    @Override
+    public boolean isDisplayableTitle() throws ClientException {
+        Serializable propertyValue = doc.getPropertyValue(PG_DISPLAYABLE_TITLE);
+        if (propertyValue instanceof Boolean) {
+            return ((Boolean) propertyValue).booleanValue();
+        }
+        return false;
+    }
+
+    @Override
+    public void setDisplayableDescription(boolean isDisplayableDescription) throws ClientException {
+        doc.setPropertyValue(PG_DISPLAYABLE_DESCRIPTION, isDisplayableDescription);
+    }
+
+    @Override
+    public boolean isDisplayableDescription() throws ClientException {
+        Serializable propertyValue = doc.getPropertyValue(PG_DISPLAYABLE_DESCRIPTION);
         if (propertyValue instanceof Boolean) {
             return ((Boolean) propertyValue).booleanValue();
         }
@@ -29,7 +62,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     public String getPath() throws ClientException {
         LabsSite site = getSite();
         if (site == null) {
-            throw new IllegalArgumentException("This page is not in a LabsSite");
+            throw new IllegalArgumentException(THIS_PAGE_IS_NOT_IN_A_LABS_SITE);
         }
         return site.getURL()  + doc.getPathAsString()
                 .replace(site.getTree()
