@@ -3,12 +3,16 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
+import java.util.List;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -120,18 +124,8 @@ public class LabsPublishService extends DefaultAdapter {
     @Path("undelete/{ref}")
     public Object doUndeleteRef(@PathParam("ref") final String ref) {
         try {
-            DocumentModel document = getContext().getCoreSession().getDocument(new IdRef(ref));
-            if ("default".equals(document.getLifeCyclePolicy())) {
-                if (LifeCycleConstants.DELETED_STATE.equals(document.getCurrentLifeCycleState())) {
-                    document.followTransition(LifeCycleConstants.UNDELETE_TRANSITION);
-                    return Response.ok(UNDELETE).build();
-                }
-            } else {
-                if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                    LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
-                    publisherAdapter.undelete();
-                    return Response.ok(UNDELETE).build();
-                }
+            if (undelete(ref)) {
+                return Response.ok(UNDELETE).build();
             }
         } catch (ClientException e) {
             log.error(IMPOSSIBLE_TO_DELETE, e);
@@ -160,6 +154,52 @@ public class LabsPublishService extends DefaultAdapter {
         }
         return Response.ok(NOT_BE_EMPTY).build();
     }
+
+    @DELETE
+    @Path("bulkDelete")
+    public Response doBulkDelete(@QueryParam("id") List<String> ids) {
+        final String logPrefix = "<doBulkDelete> ";
+        try {
+            boolean removed = false;
+            for (String id : ids) {
+                IdRef idRef = new IdRef(id);
+                if (getDocument().getCoreSession().exists(idRef)) {
+                    getDocument().getCoreSession().removeDocument(idRef);
+                    removed = true;
+                }
+            }
+            if (removed) {
+                getDocument().getCoreSession().save();
+            }
+        } catch (ClientException e) {
+            log.error(e.getMessage());
+            return Response.serverError().status(Status.NOT_MODIFIED).entity(
+                    e.getMessage()).build();
+        }
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @PUT
+    @Path("bulkUndelete")
+    public Response doBulkUndelete(@QueryParam("id") List<String> ids) {
+        final String logPrefix = "<doBulkUndelete> ";
+        try {
+            boolean removed = false;
+            for (String id : ids) {
+                if (undelete(id)) {
+                    removed = true;
+                }
+            }
+            if (removed) {
+                getDocument().getCoreSession().save();
+            }
+        } catch (ClientException e) {
+            log.error(e.getMessage());
+            return Response.serverError().status(Status.NOT_MODIFIED).entity(
+                    e.getMessage()).build();
+        }
+        return Response.status(Status.NO_CONTENT).build();
+    }
     
     /**
      * @return
@@ -167,6 +207,27 @@ public class LabsPublishService extends DefaultAdapter {
     private DocumentModel getDocument() {
         DocumentObject dobj = (DocumentObject) getTarget();
         return dobj.getDocument();
+    }
+    
+    private boolean undelete(String id) throws ClientException {
+        IdRef idRef = new IdRef(id);
+        boolean removed = false;
+        if (getDocument().getCoreSession().exists(idRef)) {
+            DocumentModel document = getContext().getCoreSession().getDocument(idRef);
+            if ("default".equals(document.getLifeCyclePolicy())) {
+                if (LifeCycleConstants.DELETED_STATE.equals(document.getCurrentLifeCycleState())) {
+                    document.followTransition(LifeCycleConstants.UNDELETE_TRANSITION);
+                    removed = true;
+                }
+            } else {
+                if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
+                    LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                    publisherAdapter.undelete();
+                    removed = true;
+                }
+            }
+        }
+        return removed;
     }
 
 }
