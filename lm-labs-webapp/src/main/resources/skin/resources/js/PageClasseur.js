@@ -268,3 +268,24 @@ function renameFolder(url, id) {
     jQuery("#form-folder").attr('action', url);
     return false;
   }
+  
+function moveFolder(path, parentId, srcId, destId) {
+	jQuery.ajax({
+		async : false,
+		type: 'POST',
+		url: path + "/@pageUtils/moveFolder",
+		data : {
+			"source" : srcId, 
+			"destinationContainer" : parentId,
+			"after" : destId,
+			"redirect": "true"
+		},
+		success : function (r) {
+		   window.location.replace(path+r);
+		},
+		error: function(r) {
+		   window.location.replace(path+r);
+		}
+	});
+	
+}

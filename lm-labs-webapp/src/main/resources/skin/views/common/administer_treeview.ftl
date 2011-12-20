@@ -489,7 +489,6 @@
 							url: "${This.path}/@pageUtils/" + operation,
 							data : {
 								"source" : currentId, 
-								"originContainer" : data.rslt.op.attr("id"),
 								"destinationContainer" : data.rslt.np.attr("id"),
 								"after" : jQuery(after).attr("id")
 							},

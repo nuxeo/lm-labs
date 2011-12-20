@@ -22,62 +22,86 @@ public class PageUtilsService extends DefaultAdapter {
 
     public static final String COPYOF_PREFIX = "Copie de ";
 
+    static final String[] ADMIN_MSG = { "label.admin.page.moved",
+            "label.admin.page.notMoved",
+            "label.admin.page.move.destinationNotFolder" };
+
+    static final String[] PAGE_CLASSEUR_MSG = {
+            "label.PageClasseur.folder.moved",
+            "label.PageClasseur.folder.notMoved",
+            "label.PageClasseur.folder.copy.destinationNotFolder" };
+
     @POST
     @Path("move")
     public Response doAdminMove(@FormParam("source") String sourceId,
-            @FormParam("originContainer") String originContainerId,
             @FormParam("destinationContainer") String destinationId,
             @FormParam("after") String afterId,
             @FormParam("redirect") String redirect,
             @FormParam("view") String view) throws ClientException {
+        return doMove(sourceId, destinationId, afterId, redirect, view,
+                ADMIN_MSG);
+    }
+
+    @POST
+    @Path("moveFolder")
+    public Response doFolderMove(@FormParam("source") String sourceId,
+            @FormParam("destinationContainer") String destinationId,
+            @FormParam("after") String afterId,
+            @FormParam("redirect") String redirect,
+            @FormParam("view") String view) throws ClientException {
+        return doMove(sourceId, destinationId, afterId, redirect, view,
+                PAGE_CLASSEUR_MSG);
+    }
+
+    private Response doMove(final String sourceId, final String destinationId,
+            final String afterId, final String redirect, final String view,
+            final String[] msg) throws ClientException {
         DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
         CoreSession session = doc.getCoreSession();
         DocumentModel source = session.getDocument(new IdRef(sourceId));
         DocumentModel sourceParent = session.getParentDocument(source.getRef());
         DocumentModel destination = session.getDocument(new IdRef(destinationId));
-        
+
         String viewUrl = "";
         if (!StringUtils.isEmpty(view)) {
             viewUrl = "/@views/" + view;
         }
         if (!destination.isFolder()) {
             if (BooleanUtils.toBoolean(redirect)) {
-                return redirect(getPath()
-                        + viewUrl
-                        + "?message_error=label.admin.page.move.destinationNotFolder");
+                return redirect(getPath() + viewUrl + "?message_error="
+                        + msg[2]);
             } else {
                 return Response.status(Status.NOT_ACCEPTABLE).build();
             }
         }
         try {
             DocumentModel toMoved = null;
-            if (sourceParent.getId().equals(destinationId)){
+            if (sourceParent.getId().equals(destinationId)) {
                 toMoved = session.getDocument(new IdRef(sourceId));
-            }
-            else{
-                toMoved = session.move(source.getRef(), destination.getRef(), source.getTitle());
+            } else {
+                toMoved = session.move(source.getRef(), destination.getRef(),
+                        source.getTitle());
             }
             DocumentModel after = null;
-            if (!StringUtils.isEmpty(afterId)){
+            if (!StringUtils.isEmpty(afterId)) {
                 after = session.getDocument(new IdRef(afterId));
-                session.orderBefore(destination.getRef(), toMoved.getName(), after.getName());
+                session.orderBefore(destination.getRef(), toMoved.getName(),
+                        after.getName());
+            } else {
+                session.orderBefore(destination.getRef(), toMoved.getName(),
+                        null);
             }
-            else{
-                session.orderBefore(destination.getRef(), toMoved.getName(), null);
-            }
-
             session.save();
+            
             if (BooleanUtils.toBoolean(redirect)) {
-                return redirect(getPath() + viewUrl
-                        + "?message_success=label.admin.page.moved");
+                return Response.ok("?message_success=" + msg[0]).build();
             } else {
                 return Response.ok().entity(
                         toMoved.getAdapter(Page.class).getTitle()).build();
             }
         } catch (Exception e) {
             if (BooleanUtils.toBoolean(redirect)) {
-                return redirect(getPath() + viewUrl + "?message_error="
-                        + e.getCause());
+                return Response.ok("?message_error=" + msg[1]).build();
             } else {
                 return Response.status(Status.PRECONDITION_FAILED).build();
             }
@@ -90,7 +114,7 @@ public class PageUtilsService extends DefaultAdapter {
             @FormParam("destinationContainer") String destinationId,
             @FormParam("redirect") String redirect,
             @FormParam("view") String view) throws ClientException {
-        
+
         DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
         CoreSession session = doc.getCoreSession();
         DocumentModel source = session.getDocument(new IdRef(sourceId));
