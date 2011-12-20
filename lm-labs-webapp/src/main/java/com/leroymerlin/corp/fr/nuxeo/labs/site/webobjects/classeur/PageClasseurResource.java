@@ -103,7 +103,9 @@ public class PageClasseurResource extends NotifiablePageResource {
             } else if (Docs.PAGECLASSEURFOLDER.type().equals(subDoc.getType())) {
                 return newObject("PageClasseurFolder", subDoc);
             } else {
-                throw new WebResourceNotFoundException("Unknow sub-type for a PageClasseur: " + subDoc.getType());
+                throw new WebResourceNotFoundException(
+                        "Unknow sub-type for a PageClasseur: "
+                                + subDoc.getType());
             }
         } catch (ClientException e) {
             throw WebException.wrap(e);
@@ -127,7 +129,8 @@ public class PageClasseurResource extends NotifiablePageResource {
                 IdRef idRef = new IdRef(id);
                 if (getCoreSession().exists(idRef)) {
                     DocumentModel file = getCoreSession().getDocument(idRef);
-                    if (file.getAllowedStateTransitions().contains(LifeCycleConstants.DELETE_TRANSITION)) {
+                    if (file.getAllowedStateTransitions().contains(
+                            LifeCycleConstants.DELETE_TRANSITION)) {
                         file.followTransition(LifeCycleConstants.DELETE_TRANSITION);
                         getCoreSession().saveDocument(file);
                         removed = true;

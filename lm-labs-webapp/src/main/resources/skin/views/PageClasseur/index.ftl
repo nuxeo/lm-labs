@@ -24,6 +24,13 @@
 
   <@block name="content">
 
+	<style>
+	.arrowOpacity {
+		opacity:0.4;
+		cursor:default;
+	}
+	</style>
+
   <div class="container">
 	<#if page.displayableTitle>
     	<h1>${page.title}</h1>
@@ -47,12 +54,36 @@
   <#assign children = Session.getChildren(Document.ref, "Folder")>
 
   <#if classeur.folders?size &gt; 0>
+  <#assign i=0 />
   <#list classeur.folders as folder>
     <section class="${folder.document.type}" id="${folder.document.id}" >
       <div class="page-header">
         <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title}</span></h1>
+	    
+	    <#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')> 
+	    <div id="arrowOrder">
+	        <#if i &gt; 0>
+	        	<a href="" onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false">
+	        		<img src="/nuxeo/icons/move_up.png"/>
+	        	</a>
+	        <#else>
+	        	<a href="" onclick="return false">
+	        		<img src="/nuxeo/icons/move_up.png" class="arrowOpacity"/>
+	        	</a>
+	        </#if>
+	        <#if (i+1) &lt; classeur.folders?size>
+	        	<a href="" onclick="moveFolder('${This.path}', '${Document.ref}', $('#${folder.document.id}').next('section').attr('id'), '${folder.document.id}');return false">
+	        		<img src="/nuxeo/icons/move_down.png"/>
+	        	</a>
+	        <#else>
+	        	<a href="" onclick="return false">
+	        		<img src="/nuxeo/icons/move_down.png" class="arrowOpacity"/>
+	        	</a>
+	        </#if>
+	    </div>
+	    </#if>
+	    
       </div>
-
 
         <#if canWrite>
         <div class="row editblock">
@@ -105,6 +136,7 @@
 
       <@displayChildren folder=folder />
     </section> <!-- Folder -->
+    <#assign i=i+1 />
   </#list>
   </#if>
 

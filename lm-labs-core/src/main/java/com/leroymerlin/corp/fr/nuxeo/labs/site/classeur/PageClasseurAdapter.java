@@ -85,7 +85,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
             .append(" AND ").append(NXQL.ECM_ISPROXY).append(" = 0")
             .append(" AND ").append(NXQL.ECM_ISVERSION).append(" = 0")
             .append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" <> '").append(LifeCycleConstants.DELETED_STATE).append("'");
-            sb.append(" ORDER BY dc:title ASC");
+            sb.append(" ORDER BY ").append(NXQL.ECM_POS);
             DocumentModelList list = doc.getCoreSession()
                     .query(sb.toString());
             for (DocumentModel child : list) {
