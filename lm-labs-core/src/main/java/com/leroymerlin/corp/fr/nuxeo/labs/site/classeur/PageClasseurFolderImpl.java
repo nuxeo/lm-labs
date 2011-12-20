@@ -1,6 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.classeur;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -9,6 +8,8 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 import org.nuxeo.runtime.api.Framework;
+
+import com.leroymerlin.common.core.utils.Slugify;
 
 public class PageClasseurFolderImpl implements PageClasseurFolder {
 
@@ -47,14 +48,16 @@ public class PageClasseurFolderImpl implements PageClasseurFolder {
     private DocumentModel doAddfile(Blob blob, String description)
             throws Exception {
         blob.persist();
+        String filename = blob.getFilename();
         DocumentModel fileDoc = Framework.getService(FileManager.class)
                 .createDocumentFromBlob(doc.getCoreSession(), blob,
                         doc.getPathAsString(), true,
-                        StringEscapeUtils.escapeHtml(blob.getFilename()));
+                        Slugify.slugify(filename));
+        fileDoc.setPropertyValue("dc:title", filename);
         if (!StringUtils.isEmpty(description)) {
             fileDoc.setPropertyValue("dc:description", description);
-            fileDoc = doc.getCoreSession().saveDocument(fileDoc);
         }
+        fileDoc = doc.getCoreSession().saveDocument(fileDoc);
         return fileDoc;
     }
 

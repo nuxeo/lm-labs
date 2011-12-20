@@ -46,6 +46,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -173,7 +174,11 @@ public class SitesRoot extends ModuleRoot {
         DocumentModel document;
         try {
             document = session.getDocument(new IdRef(id));
-            return (DocumentObject) ctx.newObject(document.getType(), document);
+            if (Docs.SITE.type().equals(document.getType())) {
+                return (DocumentObject) ctx.newObject("LabsSite", document);
+            } else {
+                return (DocumentObject) ctx.newObject(document.getType(), document);
+            }
         } catch (ClientException e) {
             throw new WebResourceNotFoundException(e.getMessage(), e);
         }

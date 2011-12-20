@@ -184,7 +184,7 @@
       <#assign modifDate = child.dublincore.modified?datetime >
       <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") >
       <#assign filename = This.getBlobHolder(child).blob.filename >
-      <td><span title="${child.dublincore.description}">${filename}</span></td>
+      <td><span title="${child.dublincore.description}">${child.dublincore.title}</span></td>
       <td>${bytesFormat(This.getBlobHolder(child).blob.length, "K", "fr_FR")}<span class="sortValue">${This.getBlobHolder(child).blob.length?string.computer}</span></td>
       <#-- <td>${child.versionLabel}</span></td> -->
       <td><span title="${modifDateStr}" >${Context.getMessage('label.PageClasseur.table.dateInWordsFormat',[dateInWords(modifDate)])}</span><span class="sortValue">${modifDate?string("yyyyMMddHHmmss")}</span></td>

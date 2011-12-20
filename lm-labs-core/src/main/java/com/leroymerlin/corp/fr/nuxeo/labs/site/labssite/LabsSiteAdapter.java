@@ -4,6 +4,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,6 +30,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.filter.DocUnderVisiblePageFilter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
@@ -338,6 +344,83 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         extURL.setName(title);
         getCoreSession().createDocument(docExtURL);
         return extURL;
+    }
+
+    // TODO vdu unit test
+    @Override
+    public boolean updateUrls(String oldUrl, String newUrl) throws ClientException {
+        List<String> stringUrlFields = new ArrayList<String>(
+                Arrays.asList(
+                        "dc:description"
+                        ));
+        StringBuilder queryFormat = new StringBuilder();
+        queryFormat.append("SELECT * FROM ").append(Docs.PAGE.type())
+        .append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(doc.getPathAsString()).append("'")
+        .append(" AND ").append("%s").append(" LIKE '%%").append(oldUrl).append("%%'");
+        String queryFormatStr = queryFormat.toString();
+
+        boolean anyUpdated = false;
+        for (String fieldName : stringUrlFields) {
+            boolean updated = false;
+            String query = String.format(queryFormatStr, fieldName);
+            DocumentModelList docs = getCoreSession().query(query);
+            for (DocumentModel document : docs) {
+                updated = updateUrlInProperty(document, fieldName, oldUrl, newUrl);
+                if (updated) {
+                    getCoreSession().saveDocument(document);
+                }
+            }
+            anyUpdated |= updated;
+        }
+        
+        // TODO since 5.5.0 you can query complex properties
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM ").append(StringUtils.join(new String[] {Docs.HTMLPAGE.type(), Docs.LABSNEWS.type()}, ","))
+        .append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(doc.getPathAsString()).append("'");
+        DocumentModelList docs = getCoreSession().query(query.toString());
+        for (DocumentModel document : docs) {
+            boolean updated = false;
+            if (Docs.HTMLPAGE.type().equals(document.getType())) {
+                HtmlPage htmlPage = document.getAdapter(HtmlPage.class);
+                for (HtmlSection section : htmlPage.getSections()) {
+                    updated = processRows(section.getRows(), oldUrl, newUrl);
+                }
+            } else { // LabsNews
+                LabsNews news = document.getAdapter(LabsNews.class);
+                updated = processRows(news.getRows(), oldUrl, newUrl);
+            }
+            if (updated) {
+                getCoreSession().saveDocument(document);
+            }
+            anyUpdated |= updated;
+        }
+        return anyUpdated;
+    }
+    
+    private boolean processRows(List<HtmlRow> rows, String oldUrl, String newUrl) throws ClientException {
+        boolean updated = false;
+        for (HtmlRow row : rows) {
+            for (HtmlContent content : row.getContents()) {
+                String html = content.getHtml();
+                if (html.contains(oldUrl)) {
+                    html = StringUtils.replace(html, oldUrl, newUrl);
+                    content.setHtml(html);
+                    updated = true;
+                }
+            }
+        }
+        return updated;
+    }
+
+    private boolean updateUrlInProperty(DocumentModel document, String propertyName, String oldUrl, String newUrl) throws ClientException {
+        boolean updated = false;
+        String stringField = (String) document.getPropertyValue(propertyName);
+        if (stringField.contains(oldUrl)) {
+            stringField = StringUtils.replace(stringField, oldUrl, newUrl);
+            document.setPropertyValue(propertyName, stringField);
+            updated = true;
+        }
+        return updated;
     }
 
 }
