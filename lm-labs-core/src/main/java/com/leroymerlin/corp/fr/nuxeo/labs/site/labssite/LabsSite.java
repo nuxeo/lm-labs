@@ -115,4 +115,6 @@ public interface LabsSite  extends LabsBase {
     
     ExternalURL createExternalURL(String title) throws ClientException;
 
+    boolean updateUrls(String oldUrl, String newUrl) throws ClientException;
+
 }

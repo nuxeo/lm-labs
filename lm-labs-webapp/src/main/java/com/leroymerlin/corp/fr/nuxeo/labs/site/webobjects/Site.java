@@ -129,7 +129,9 @@ public class Site extends PageResource {
                 site.setDescription(description);
                 modified = true;
             }
-            if (!StringUtils.isEmpty(url)) {
+            String oldUrl = site.getURL();
+            url = StringUtils.trim(url);
+            if (!StringUtils.isEmpty(url) && !url.equals(oldUrl)) {
                 site.setURL(url);
                 modified = true;
             }
@@ -152,7 +154,7 @@ public class Site extends PageResource {
             throw WebException.wrap(e);
         }
     }
-    
+
     @Path("@theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
