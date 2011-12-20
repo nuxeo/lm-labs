@@ -10,7 +10,7 @@
 
   <groupId>com.leroymerlin.labs</groupId>
   <artifactId>lm-labs-parent</artifactId>
-  <version>1.6-SNAPSHOT</version>
+  <version>1.7-SNAPSHOT</version>
   <name>LM Labs :: parent project</name>
   <description></description>
   <packaging>pom</packaging>
