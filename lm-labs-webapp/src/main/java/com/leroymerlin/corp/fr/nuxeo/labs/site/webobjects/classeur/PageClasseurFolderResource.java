@@ -7,7 +7,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -89,7 +88,7 @@ public class PageClasseurFolderResource extends DocumentObject {
     @Override
     public Resource traverse(@PathParam("path") String path) {
         try {
-            PathRef pathRef = new PathRef(doc.getPath().append(StringEscapeUtils.escapeHtml(path)).toString());
+            PathRef pathRef = new PathRef(doc.getPath().append(path).toString());
             DocumentModel file = ctx.getCoreSession().getDocument(pathRef);
             return newObject("ClasseurElement", file);
         } catch (ClientException e) {

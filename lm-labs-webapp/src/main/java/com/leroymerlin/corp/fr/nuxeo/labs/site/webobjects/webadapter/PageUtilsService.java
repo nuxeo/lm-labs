@@ -25,18 +25,17 @@ public class PageUtilsService extends DefaultAdapter {
     @POST
     @Path("move")
     public Response doAdminMove(@FormParam("source") String sourceId,
-            @FormParam("destination") String destinationId,
+            @FormParam("originContainer") String originContainerId,
+            @FormParam("destinationContainer") String destinationId,
+            @FormParam("after") String afterId,
             @FormParam("redirect") String redirect,
             @FormParam("view") String view) throws ClientException {
         DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        DocumentModel source = doc.getCoreSession().getDocument(
-                new IdRef(sourceId));
-        DocumentModel sourceParent = doc.getCoreSession().getParentDocument(source.getRef());
-        if (sourceParent.getId().equals(destinationId)) {
-            return Response.noContent().build();
-        }
-        DocumentModel destination = doc.getCoreSession().getDocument(
-                new IdRef(destinationId));
+        CoreSession session = doc.getCoreSession();
+        DocumentModel source = session.getDocument(new IdRef(sourceId));
+        DocumentModel sourceParent = session.getParentDocument(source.getRef());
+        DocumentModel destination = session.getDocument(new IdRef(destinationId));
+        
         String viewUrl = "";
         if (!StringUtils.isEmpty(view)) {
             viewUrl = "/@views/" + view;
@@ -51,15 +50,29 @@ public class PageUtilsService extends DefaultAdapter {
             }
         }
         try {
-            DocumentModel move = doc.getCoreSession().move(source.getRef(),
-                    destination.getRef(), source.getTitle());
-            doc.getCoreSession().save();
+            DocumentModel toMoved = null;
+            if (sourceParent.getId().equals(destinationId)){
+                toMoved = session.getDocument(new IdRef(sourceId));
+            }
+            else{
+                toMoved = session.move(source.getRef(), destination.getRef(), source.getTitle());
+            }
+            DocumentModel after = null;
+            if (!StringUtils.isEmpty(afterId)){
+                after = session.getDocument(new IdRef(afterId));
+                session.orderBefore(destination.getRef(), toMoved.getName(), after.getName());
+            }
+            else{
+                session.orderBefore(destination.getRef(), toMoved.getName(), null);
+            }
+
+            session.save();
             if (BooleanUtils.toBoolean(redirect)) {
                 return redirect(getPath() + viewUrl
                         + "?message_success=label.admin.page.moved");
             } else {
                 return Response.ok().entity(
-                        move.getAdapter(Page.class).getTitle()).build();
+                        toMoved.getAdapter(Page.class).getTitle()).build();
             }
         } catch (Exception e) {
             if (BooleanUtils.toBoolean(redirect)) {
@@ -74,14 +87,14 @@ public class PageUtilsService extends DefaultAdapter {
     @POST
     @Path("copy")
     public Response doAdminCopy(@FormParam("source") String sourceId,
-            @FormParam("destination") String destinationId,
+            @FormParam("destinationContainer") String destinationId,
             @FormParam("redirect") String redirect,
             @FormParam("view") String view) throws ClientException {
+        
         DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        DocumentModel source = doc.getCoreSession().getDocument(
-                new IdRef(sourceId));
-        DocumentModel destination = doc.getCoreSession().getDocument(
-                new IdRef(destinationId));
+        CoreSession session = doc.getCoreSession();
+        DocumentModel source = session.getDocument(new IdRef(sourceId));
+        DocumentModel destination = session.getDocument(new IdRef(destinationId));
         String viewUrl = "";
         if (!StringUtils.isEmpty(view)) {
             viewUrl = "/@views/" + view;
@@ -96,13 +109,13 @@ public class PageUtilsService extends DefaultAdapter {
             }
         }
         try {
-            DocumentModel copy = doc.getCoreSession().copy(source.getRef(),
+            DocumentModel copy = session.copy(source.getRef(),
                     destination.getRef(), null);
             Page page = copy.getAdapter(Page.class);
             String newTitle = COPYOF_PREFIX + page.getTitle();
             page.setTitle(newTitle);
-            doc.getCoreSession().saveDocument(page.getDocument());
-            doc.getCoreSession().save();
+            session.saveDocument(page.getDocument());
+            session.save();
             if (BooleanUtils.toBoolean(redirect)) {
                 return redirect(getPath() + viewUrl
                         + "?message_success=label.admin.page.copied");

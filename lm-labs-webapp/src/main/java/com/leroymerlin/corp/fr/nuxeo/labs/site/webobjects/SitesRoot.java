@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,10 +48,23 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
 @Path("/labssites")
 public class SitesRoot extends ModuleRoot {
+
+    private final class ComparatorLabsSite implements Comparator<LabsSite> {
+        @Override
+        public int compare(LabsSite lb1, LabsSite lb2) {
+            try {
+                return lb1.getTitle().compareTo(lb2.getTitle());
+            } catch (ClientException e) {
+                return 0;
+            }
+        }
+    }
 
     private static final Log log = LogFactory.getLog(SitesRoot.class);
 
@@ -110,6 +124,7 @@ public class SitesRoot extends ModuleRoot {
                 result.add(labsSite);
             }
         }
+        Collections.sort(result,  new ComparatorLabsSite());
         return result;
     }
 
@@ -121,6 +136,7 @@ public class SitesRoot extends ModuleRoot {
                 result.add(labsSite);
             }
         }
+        Collections.sort(result, new ComparatorLabsSite());
         return result;
     }
 

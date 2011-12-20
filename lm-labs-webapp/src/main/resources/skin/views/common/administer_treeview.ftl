@@ -373,7 +373,7 @@
 			jQuery("#jstree")
 			.bind("loaded.jstree", function (event, data) {
 			<#if adminTreeviewType=="Assets">
-				loadPictures(jQuery("li[rel=Assets]").attr("id"));
+				jQuery('.jstree a:first').click();
 			<#else>
 				changeIconOfHomePage();
 				addStatusLabels(data);
@@ -386,9 +386,9 @@
 			-->
 			<#if adminTreeviewType=="Pages">
 			.bind("before.jstree", function (e, data) {
-				<#--
-				console.log('before.jstree ' + data.func + ' ' + data.args.length);
-				-->
+				
+				//console.log('before.jstree ' + data.func + ' ' + data.args.length);
+				
 				if(data.func === "reload_nodes") {
 					changeIconOfHomePage();
 					addStatusLabels(data);
@@ -466,6 +466,20 @@
 					if (data.rslt.cr === -1) {
 					} else {
 						var operation = data.rslt.cy ? "copy" : "move";
+						var finded = false;
+						var after;
+						var currentId = jQuery(this).attr("id");
+
+						data.inst._get_children(data.rslt.np).each(function (index, element){
+							if (finded){
+								after = element;
+								return false;
+							}
+							if (jQuery(element).attr("id") == currentId){
+								finded = true;
+							}
+							
+						});
 						<#--
 						console.log("operation:" + operation);
 						-->
@@ -474,8 +488,10 @@
 							type: 'POST',
 							url: "${This.path}/@pageUtils/" + operation,
 							data : {
-								"source" : jQuery(this).attr("id"), 
-								"destination" : data.rslt.np.attr("id")
+								"source" : currentId, 
+								"originContainer" : data.rslt.op.attr("id"),
+								"destinationContainer" : data.rslt.np.attr("id"),
+								"after" : jQuery(after).attr("id")
 							},
 							success : function (r) {
 						        if (r.redirect) {
@@ -494,6 +510,7 @@
 						        }
 							}
 						});
+						
 					}
 				});
 			})
