@@ -329,7 +329,30 @@ public class LabsSiteAdapterTest {
         labsSite.createExternalURL("a").setURL("www.a.org");
         ArrayList<ExternalURL> list = labsSite.getExternalURLs();
         assertEquals(2, list.size());
-        assertEquals("a", list.get(0).getName());
+        assertEquals("b", list.get(0).getName());
+        assertEquals("a", list.get(1).getName());
+    }
+
+    @Test
+    public void iCanInsertBeforeExternalURL() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "NameSite1",
+                LABSSITE_TYPE);
+        doc.setPropertyValue("dc:title", "le titre");
+        doc = session.createDocument(doc);
+        LabsSite labsSite = doc.getAdapter(LabsSite.class);
+        ExternalURL extURLA = labsSite.createExternalURL("a");
+        extURLA.setURL("www.b.org");
+        ExternalURL extURLB = labsSite.createExternalURL("b");
+        extURLB.setURL("www.a.org");
+        ExternalURL extURLC = labsSite.createExternalURL("c");
+        extURLC.setURL("www.a.org");
+        session.orderBefore(extURLC.getDocument().getParentRef(), extURLA.getDocument().getName(), extURLC.getDocument().getName());
+        session.save();
+        ArrayList<ExternalURL> list = labsSite.getExternalURLs();
+        assertEquals(3, list.size());
+        assertEquals("b", list.get(0).getName());
+        assertEquals("a", list.get(1).getName());
+        assertEquals("c", list.get(2).getName());
     }
 
     @Test

@@ -35,7 +35,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.sort.ExternalURLSorter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManagerImpl;
@@ -318,8 +317,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         if (getCoreSession().exists(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()))) {
             DocumentModel folder = getCoreSession().getDocument(new PathRef(doc.getPathAsString() + "/" + Docs.EXTERNAL_URLS.docName()));
             DocumentModelList listDoc = doc.getCoreSession().getChildren(folder.getRef(),
-                    LabsSiteConstants.Docs.EXTERNAL_URL.type(), null, null,
-                    new ExternalURLSorter());
+                    LabsSiteConstants.Docs.EXTERNAL_URL.type(), null, null, null);
             for (DocumentModel urlDoc : listDoc) {
                 ExternalURL extURL = urlDoc.getAdapter(ExternalURL.class);
                 listExtURL.add(extURL);
