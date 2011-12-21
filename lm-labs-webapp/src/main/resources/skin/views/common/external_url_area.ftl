@@ -89,7 +89,7 @@ function moveDownExternalURL(url, path, id){
 			url: url + "/@moveDownExternalURL/" + jQuery(after).attr("id"),
 			data: '',		
 			success: function(msg){
-				alert('Sauvegardé');
+				//alert('Sauvegardé');
 			},
 			error: function(msg){
 				//alert( msg.responseText );
@@ -122,7 +122,7 @@ function moveUpExternalURL(url, path, id){
 			url: url + "/@moveUpExternalURL/" + jQuery(before).attr("id"),
 			data: '',
 			success: function(msg){
-				alert('Sauvegardé');
+				//alert('Sauvegardé');
 			},
 			error: function(msg){
 				//alert( msg.responseText );
