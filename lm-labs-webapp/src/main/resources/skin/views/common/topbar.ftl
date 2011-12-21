@@ -27,13 +27,13 @@
               <a href="#" class="dropdown-toggle">${Context.principal.firstName} ${Context.principal.lastName}</a>
               <ul class="dropdown-menu">
                 <@block name="docactions">
-                <#if site?? && Session.hasPermission(This.document.ref, "ADD_CHILDREN") >
+                <#if site?? && site.isContributor(Context.principal.name) >
                 <li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView">${Context.getMessage('command.docactions.addcontent')}</a></li>
                 </#if>
                 </@block>
                 <li class="divider"></li>
                 <@block name="siteactions">
-                <#if site?? && Session.hasPermission(site.document.ref, "Everything")>
+                <#if site?? && site.isAdministrator(Context.principal.name) >
                 	<#if site.visible>
                 		<li><a href="#" onclick="javascript:draftSite();">${Context.getMessage('command.siteactions.draft')}</a></li>
                 	<#else>
@@ -100,7 +100,7 @@
                 		}
                 	</script>
                 </#if>
-                <#if site?? && (Session.hasPermission(site.document.ref, "WRITE") || Session.hasPermission(site.document.ref, "ReadWrite"))>
+                <#if site?? && site.isContributor(Context.principal.name) >
                 <li><a href="${Context.modulePath}/${site.URL}/@views/edit">${Context.getMessage('label.contextmenu.administration')}</a></li>
                 </#if>
                 <#if site??>
@@ -108,7 +108,7 @@
                 </#if>
                 </@block>
 
-              <#if site?? && Session.hasPermission(site.document.ref, 'Everything') >
+              <#if site?? && site.isAdministrator(Context.principal.name) >
                 <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.document.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
