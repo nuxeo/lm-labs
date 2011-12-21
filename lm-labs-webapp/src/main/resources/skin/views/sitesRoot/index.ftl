@@ -6,6 +6,24 @@
     <script type="text/javascript" src="${skinPath}/js/sitesRoot.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript">
+jQuery(document).ready(function() {
+  jQuery("table[class*='zebra-striped']").tablesorter({
+    headers: { 2: { sorter: false}},
+    sortList: [[0,0]],
+    textExtraction: function(node) {
+      // extract data from markup and return it
+      var sortValues = jQuery(node).find('span[class=sortValue]');
+      if (sortValues.length > 0) {
+        return sortValues[0].innerHTML;
+      }
+      return node.innerHTML;
+    }
+  });
+		  
+});
+    </script>
   </@block>
 
   <@block name="css">
