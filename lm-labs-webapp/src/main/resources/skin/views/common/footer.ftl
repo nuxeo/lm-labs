@@ -1,8 +1,6 @@
 <div id="FKfooter_logo_lm">&nbsp;</div>
 <@block name="footer">
-  <a href="/nuxeo/pdf/charte.pdf" target="_blank">${Context.getMessage('label.information')}</a> | ${Context.getMessage('label.contact')} : <a href="mailto:communicationinterne@leroymerlin.fr">communicationinterne@leroymerlin.fr</a>
-  <br />
-  <div id="admin_contact"></div>
+  <div id="admin_contact" style="margin-left: 20px;"></div>
   
   <script type="text/javascript">
 	jQuery(document).ready(function(){

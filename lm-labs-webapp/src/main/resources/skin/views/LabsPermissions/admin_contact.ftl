@@ -6,6 +6,6 @@
 
 <#assign i=0 />
 <#list permissionsAdmin as perm>
-	<#if i &gt; 0>, </#if><a href="mailto:${usernameAndEmail[perm.name]}">${perm.name}</a>
+	<#if i &gt; 0>, </#if><a href="mailto:${usernameAndEmail[perm.name]}">${usernameAndEmail[perm.name]}</a>
 	<#assign i=i+1 />
 </#list>
