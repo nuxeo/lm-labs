@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
+import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -285,7 +286,7 @@ public class PageResource extends DocumentObject {
             throw WebException.wrap(e);
         }
         DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
-        return redirect(ctx.getUrlPath(newDoc));
+        return redirect(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false));
     }
     
     @PUT
