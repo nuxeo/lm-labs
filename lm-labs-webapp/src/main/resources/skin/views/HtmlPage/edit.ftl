@@ -27,12 +27,12 @@
 
        <div class="container">
        
-	<#if page.displayableDescription>
-    	<#include "views/common/description_area.ftl">
-    </#if>
-
-<div style="clear:both;"></div>
-
+       <#if page.displayableTitle>
+	    	<h1>${page.title}</h1>
+	    </#if>
+	    <#if page.displayableDescription>
+	    	<#include "views/common/description_area.ftl">
+	    </#if>
 
     <#list page.sections as section>
     <section id="section_${section_index}">

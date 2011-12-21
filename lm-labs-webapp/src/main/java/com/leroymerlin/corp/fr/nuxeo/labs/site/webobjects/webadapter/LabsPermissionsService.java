@@ -30,12 +30,15 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.directory.SizeLimitExceededException;
+import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.GroupUserSuggest;
 import com.leroymerlin.common.core.security.LMPermission;
@@ -44,7 +47,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 
 /**
  * @author fvandaele
- *
+ * 
  */
 @WebAdapter(name = "labspermissions", type = "LabsPermissions")
 public class LabsPermissionsService extends DefaultAdapter {
@@ -52,33 +55,81 @@ public class LabsPermissionsService extends DefaultAdapter {
     public enum Action {
         GRANT, REMOVE;
     }
-    
+
     public enum Rights {
-        
-        EVERYTHING(SecurityConstants.EVERYTHING),
-        WRITE(SecurityConstants.READ_WRITE),
-        READ(SecurityConstants.READ);
-        
+
+        EVERYTHING(SecurityConstants.EVERYTHING), WRITE(
+                SecurityConstants.READ_WRITE), READ(SecurityConstants.READ);
+
         private String right;
-        
-        Rights(String right){
+
+        Rights(String right) {
             this.right = right;
         }
-        
-        public String getRight(){
+
+        public String getRight() {
             return right;
         }
     }
 
     private static final Log log = LogFactory.getLog(LabsPermissionsService.class);
-    
+
     private static final String THE_RIGHT_LIST_DONT_BE_NULL = "The right'list dont be null !";
-    
+
     @GET
     public Object doGet() {
+        List<LMPermission> permissions = extractPermissions();
+        List<LMPermission> permissionsAdmin = new ArrayList<LMPermission>();
+        List<LMPermission> permissionsWrite = new ArrayList<LMPermission>();
+        List<LMPermission> permissionsRead = new ArrayList<LMPermission>();
+        for (LMPermission perm : permissions) {
+            if (Rights.EVERYTHING.right.equals(perm.getPermission())) {
+                permissionsAdmin.add(perm);
+            } else if (Rights.WRITE.right.equals(perm.getPermission())) {
+                permissionsWrite.add(perm);
+            } else if (Rights.READ.right.equals(perm.getPermission())) {
+                permissionsRead.add(perm);
+            }
+        }
+        return getView("displayArray").arg("permissionsAdmin", permissionsAdmin).arg(
+                "permissionsWrite", permissionsWrite).arg("permissionsRead",
+                permissionsRead);
+    }
+
+    @GET
+    @Path("permAdmin")
+    public Object doGetPermissionsAdmin() {
+        List<LMPermission> permissions = extractPermissions();
+        List<LMPermission> permissionsAdmin = new ArrayList<LMPermission>();
+        Map<String, String> usernameAndEmail = new HashMap<String, String>(
+                permissionsAdmin.size());
+        UserManager userManager = null;
+        try {
+            userManager = Framework.getService(UserManager.class);
+        } catch (Exception e) {
+            throw WebException.wrap(e);
+        }
+
+        for (LMPermission perm : permissions) {
+            if (Rights.EVERYTHING.right.equals(perm.getPermission())) {
+                permissionsAdmin.add(perm);
+                try {
+                    NuxeoPrincipal principal = userManager.getPrincipal(perm.getName());
+                    usernameAndEmail.put(perm.getName(), principal.getEmail());
+                } catch (ClientException e) {
+                    throw WebException.wrap(e);
+                }
+            }
+        }
+
+        return getView("admin_contact").arg("permissionsAdmin",
+                permissionsAdmin).arg("usernameAndEmail", usernameAndEmail);
+    }
+
+    private List<LMPermission> extractPermissions() {
         List<LMPermission> permissions = new ArrayList<LMPermission>();
         DocumentModel document = getDocument();
-        try{
+        try {
             permissions = PermissionsHelper.getPermissions(document);
             @SuppressWarnings("deprecation")
             final String[] excludedUsers = { SecurityConstants.ADMINISTRATOR,
@@ -86,29 +137,15 @@ public class LabsPermissionsService extends DefaultAdapter {
             CollectionUtils.filter(permissions, new Predicate() {
                 public boolean evaluate(Object o) {
                     return ((LMPermission) o).isGranted()
-                            && !Arrays.asList(excludedUsers)
-                                    .contains(((LMPermission) o).getName());
+                            && !Arrays.asList(excludedUsers).contains(
+                                    ((LMPermission) o).getName());
                 }
             });
 
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
-        List<LMPermission> permissionsAdmin = new ArrayList<LMPermission>();
-        List<LMPermission> permissionsWrite = new ArrayList<LMPermission>();
-        List<LMPermission> permissionsRead = new ArrayList<LMPermission>();
-        for(LMPermission perm:permissions){
-            if (Rights.EVERYTHING.right.equals(perm.getPermission())){
-                permissionsAdmin.add(perm);
-            }
-            else if(Rights.WRITE.right.equals(perm.getPermission())){
-                permissionsWrite.add(perm);
-            }
-            else if(Rights.READ.right.equals(perm.getPermission())){
-                permissionsRead.add(perm);
-            }
-        }
-        return getView("displayArray").arg("permissionsAdmin", permissionsAdmin).arg("permissionsWrite", permissionsWrite).arg("permissionsRead", permissionsRead);
+        return permissions;
     }
 
     /**
@@ -119,7 +156,7 @@ public class LabsPermissionsService extends DefaultAdapter {
         DocumentModel document = dobj.getDocument();
         return document;
     }
-    
+
     @GET
     @Path("suggestedUsers/{string}")
     @Produces("plain/text")
@@ -131,7 +168,8 @@ public class LabsPermissionsService extends DefaultAdapter {
             suggests = GroupsUsersSuggestHelper.getSuggestions(pattern);
             params.put("suggests", suggests);
         } catch (SizeLimitExceededException e) {
-            params.put("errorMessage", "Trop de resultats, veuillez affiner votre recherche.");
+            params.put("errorMessage",
+                    "Trop de resultats, veuillez affiner votre recherche.");
         } catch (ClientException e) {
             params.put("errorMessage", e.getMessage());
         }
@@ -140,12 +178,14 @@ public class LabsPermissionsService extends DefaultAdapter {
 
     @GET
     @Path("haspermission")
-    public Response hasPermission(@QueryParam(value = "permission") String permission,
+    public Response hasPermission(
+            @QueryParam(value = "permission") String permission,
             @QueryParam(value = "id") String id) {
         DocumentModel document = getDocument();
         try {
-            return Response.ok(Boolean.toString(PermissionsHelper.hasPermission(document,
-                    permission, id))).build();
+            return Response.ok(
+                    Boolean.toString(PermissionsHelper.hasPermission(document,
+                            permission, id))).build();
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
@@ -153,13 +193,16 @@ public class LabsPermissionsService extends DefaultAdapter {
 
     @GET
     @Path("higherpermission")
-    public Response hasHigherPermission(@QueryParam(value = "permission") String permission,
+    public Response hasHigherPermission(
+            @QueryParam(value = "permission") String permission,
             @QueryParam(value = "id") String id) {
         List<String> labsRightsString = getListRights();
         DocumentModel document = getDocument();
         try {
             PermissionsHelper helper = new PermissionsHelper(labsRightsString);
-            return Response.ok(Boolean.toString(helper.hasHigherPermission(document, permission, id))).build();
+            return Response.ok(
+                    Boolean.toString(helper.hasHigherPermission(document,
+                            permission, id))).build();
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
@@ -170,11 +213,11 @@ public class LabsPermissionsService extends DefaultAdapter {
      */
     private List<String> getListRights() {
         List<String> labsRightsString = new ArrayList<String>();
-        
+
         for (Rights labsRight : Rights.values()) {
             labsRightsString.add(labsRight.getRight());
         }
-        if (labsRightsString.isEmpty()){
+        if (labsRightsString.isEmpty()) {
             throw new WebException(THE_RIGHT_LIST_DONT_BE_NULL);
         }
         return labsRightsString;
@@ -196,29 +239,21 @@ public class LabsPermissionsService extends DefaultAdapter {
 
         } catch (IllegalStateException e1) {
             return Response.ok(ctx.getMessage(e1.getMessage()),
-                    MediaType.TEXT_PLAIN)
-                    .build();
+                    MediaType.TEXT_PLAIN).build();
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
     }
-    
-
 
     /**
      * Sets a permission on a element.
-     *
-     * @param doc
-     *            {@link DocumentModel}
-     * @param permission
-     *            permission name
-     * @param id
-     *            user or group name
-     * @param action
-     *            <code>Action.GRANT</code> or <code>Action.REMOVE</code>
+     * 
+     * @param doc {@link DocumentModel}
+     * @param permission permission name
+     * @param id user or group name
+     * @param action <code>Action.GRANT</code> or <code>Action.REMOVE</code>
      * @param override
-     * @throws IllegalStateException
-     *             when current user has a higher permission
+     * @throws IllegalStateException when current user has a higher permission
      * @throws Exception
      */
     public void setPermission(DocumentModel doc, final String permission,
@@ -237,9 +272,11 @@ public class LabsPermissionsService extends DefaultAdapter {
                 if (granted) {
                     List<String> labsRightsString = getListRights();
                     try {
-                        PermissionsHelper helper = new PermissionsHelper(labsRightsString);
+                        PermissionsHelper helper = new PermissionsHelper(
+                                labsRightsString);
                         if (!override
-                                && helper.hasHigherPermission(doc, permission, id)) {
+                                && helper.hasHigherPermission(doc, permission,
+                                        id)) {
                             throw new IllegalStateException(
                                     "message.security.permission.hasHigherPermission");
                         }
@@ -283,8 +320,10 @@ public class LabsPermissionsService extends DefaultAdapter {
 
     @DELETE
     @Path("delete")
-    public Response deletePermission(@QueryParam(value = "permission") String permission,
-            @QueryParam(value = "id") String id) throws IllegalStateException, Exception {
+    public Response deletePermission(
+            @QueryParam(value = "permission") String permission,
+            @QueryParam(value = "id") String id) throws IllegalStateException,
+            Exception {
         DocumentModel document = getDocument();
         assert StringUtils.isNotEmpty(permission);
         assert StringUtils.isNotEmpty(id);
