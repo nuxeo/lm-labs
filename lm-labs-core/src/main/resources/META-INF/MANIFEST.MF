@@ -13,5 +13,5 @@ Nuxeo-Component: OSGI-INF/core-types-contrib.xml,
  OSGI-INF/notification-contrib.xml,
  OSGI-INF/pagenotification-service.xml,
  OSGI-INF/schedule-contrib.xml,
+ OSGI-INF/pathsegment-contrib.xml,
  OSGI-INF/sitemanager-service.xml
- 

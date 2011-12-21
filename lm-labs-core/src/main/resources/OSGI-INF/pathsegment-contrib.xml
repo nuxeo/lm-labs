@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.PathSegmentService">
+
+  <extension target="org.nuxeo.ecm.core.api.pathsegment.PathSegmentService"
+    point="pathSegmentService">
+    <!--service class="org.nuxeo.ecm.core.api.pathsegment.PathSegmentServiceCompat" /-->
+    <service class="com.leroymerlin.corp.fr.nuxeo.labs.pathsegment.PathSegmentServicePage" />
+  </extension>
+
+</component>
