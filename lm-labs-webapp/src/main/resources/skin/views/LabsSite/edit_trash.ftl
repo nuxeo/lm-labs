@@ -96,7 +96,9 @@ jQuery(document).ready(function() {
 	                <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
 	              </td>
 	              <td>
-	              	<a  href="#" class="btn" onclick="javascript:undeletePage('${doc.ref}');">${Context.getMessage('command.docactions.undelete')}</a>
+	              	<a  href="#" class="btn" onclick="javascript:undeletePage('${doc.ref}');">${Context.getMessage('command.trash.undelete')}</a>
+	              	<#assign docUrl = Root.getLink(doc) />
+	              	<a  href="${docUrl}" class="btn danger" onclick="deletePage(this);return false;">${Context.getMessage('command.trash.delete')}</a>
 	              </td>
 	            </tr>
 	          </#list>
@@ -107,6 +109,25 @@ jQuery(document).ready(function() {
       </section>
     </div>
     <script type="text/javascript">
+		function deletePage(bt){
+			var url = jQuery(bt).attr('href');
+			if (confirm("${Context.getMessage('label.trash.remove.confirm')}")){
+				jQuery('.btn').attr('disabled', true);
+    			jQuery.ajax({
+					type: 'DELETE',
+				    async: false,
+				    url: url,
+				    success: function(data) {
+						alert("${Context.getMessage('label.trash.remove.success')}");
+						window.location.reload();
+				    },
+					error: function(jqXHR, textStatus, errorThrown) {
+						<#--alert(errorThrown + ": " + "," + jqXHR.responseText);-->
+						alert("${Context.getMessage('label.trash.remove.failed')}");
+					}
+				});
+			}
+		}
 		function undeletePage(ref){
 			if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouUndelete')}")){
     			jQuery.ajax({
@@ -192,7 +213,7 @@ jQuery(document).ready(function() {
 						window.location.reload();
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
-						//alert(errorThrown + ": " + "," + jqXHR.responseText);
+						<#--alert(errorThrown + ": " + "," + jqXHR.responseText);-->
 						alert(failureMsg);
 					}
 				});
