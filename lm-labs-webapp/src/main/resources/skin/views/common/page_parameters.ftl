@@ -19,7 +19,13 @@
 	<form id="form_editParameters" action="${This.path}/@managePage" method="post">
 		<div class="clearfix">
 			<div class="input">
-				<input  id="publishPage" type="checkbox" name="publishPage" <#if page.visible>checked="true"</#if> />
+				<label for="updateTitlePage">${Context.getMessage('label.parameters.page.updateTitlePage')}</label>
+				<input id="updateTitlePage" type="text" name="updateTitlePage" value="${This.document.title}" maxlength="90"/>
+			</div>
+		</div>
+		<div class="clearfix">
+			<div class="input">
+				<input id="publishPage" type="checkbox" name="publishPage" <#if page.visible>checked="true"</#if> />
 				<label for="publishPage">${Context.getMessage('label.parameters.page.publishPage')}</label>
 			</div>
 			<div class="input">

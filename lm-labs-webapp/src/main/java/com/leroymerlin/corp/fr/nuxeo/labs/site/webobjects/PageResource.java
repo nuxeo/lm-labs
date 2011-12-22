@@ -246,13 +246,22 @@ public class PageResource extends DocumentObject {
     @Path("@managePage")
     public Response doManagePage() {
         try {
-            boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString("commentablePage"));
-            boolean isCheckedDisplayableTitle = "on".equalsIgnoreCase(ctx.getForm().getString("displayableTitlePage"));
-            boolean isCheckedDisplayableDescription = "on".equalsIgnoreCase(ctx.getForm().getString("displayableDescriptionPage"));
+            String pageTitle = ctx.getForm().getString("updateTitlePage");
+            if (StringUtils.isBlank(pageTitle)) {
+                return redirect(getPath()
+                        + "?message_error=label.parameters.page.save.fail.invalidPageTitle");
+            }
+            boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString(
+                    "commentablePage"));
+            boolean isCheckedDisplayableTitle = "on".equalsIgnoreCase(ctx.getForm().getString(
+                    "displayableTitlePage"));
+            boolean isCheckedDisplayableDescription = "on".equalsIgnoreCase(ctx.getForm().getString(
+                    "displayableDescriptionPage"));
             Page page = doc.getAdapter(Page.class);
             page.setCommentable(isCheckedCommentable);
             page.setDisplayableTitle(isCheckedDisplayableTitle);
             page.setDisplayableDescription(isCheckedDisplayableDescription);
+            page.setTitle(pageTitle);
             CoreSession session = getCoreSession();
             session.saveDocument(doc);
             session.save();
@@ -286,9 +295,10 @@ public class PageResource extends DocumentObject {
             throw WebException.wrap(e);
         }
         DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
-        return redirect(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false));
+        return redirect(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc),
+                false));
     }
-    
+
     @PUT
     @Path("@setHome")
     public Response setAsHomePage() {
