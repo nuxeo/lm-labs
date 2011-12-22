@@ -29,6 +29,7 @@ import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 /**
  * @author fvandaele
@@ -109,9 +110,7 @@ public class LabsPublishService extends DefaultAdapter {
     public Object doUndelete() {
         DocumentModel document = getDocument();
         try {
-            if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
-                publisherAdapter.undelete();
+            if (undelete(document.getId())) {
                 return Response.ok(UNDELETE).build();
             }
         } catch (ClientException e) {
@@ -156,7 +155,7 @@ public class LabsPublishService extends DefaultAdapter {
     }
 
     @DELETE
-    @Path("bulkDelete")
+    @Path("bulkDelete") // TODO change to bulkRemove
     public Response doBulkDelete(@QueryParam("id") List<String> ids) {
         final String logPrefix = "<doBulkDelete> ";
         try {
@@ -211,23 +210,57 @@ public class LabsPublishService extends DefaultAdapter {
     
     private boolean undelete(String id) throws ClientException {
         IdRef idRef = new IdRef(id);
-        boolean removed = false;
+        boolean undeleted = false;
         if (getDocument().getCoreSession().exists(idRef)) {
             DocumentModel document = getContext().getCoreSession().getDocument(idRef);
-            if ("default".equals(document.getLifeCyclePolicy())) {
-                if (LifeCycleConstants.DELETED_STATE.equals(document.getCurrentLifeCycleState())) {
-                    document.followTransition(LifeCycleConstants.UNDELETE_TRANSITION);
-                    removed = true;
-                }
-            } else {
-                if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                    LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
-                    publisherAdapter.undelete();
-                    removed = true;
+            if (cascadeUndelete(document)) {
+                undeleted = undeleteDoc(document);
+            }
+        }
+        return undeleted;
+    }
+    
+    private boolean undeleteDoc(DocumentModel document) throws ClientException {
+        boolean undeleted = false;
+        if ("default".equals(document.getLifeCyclePolicy())) {
+            if (LifeCycleConstants.DELETED_STATE.equals(document.getCurrentLifeCycleState())) {
+                document.followTransition(LifeCycleConstants.UNDELETE_TRANSITION);
+                undeleted = true;
+            }
+        } else {
+            if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
+                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                publisherAdapter.undelete();
+                undeleted = true;
+            }
+        }
+        return undeleted;
+    }
+
+    private boolean cascadeUndelete(DocumentModel document) throws ClientException {
+        boolean undeleted = true;
+        DocumentModel parentDoc = document.getCoreSession().getDocument(document.getParentRef());
+        if (Docs.PAGECLASSEUR.type().equals(parentDoc.getType())
+                && Docs.PAGECLASSEURFOLDER.type().equals(document.getType())) {
+            // cascade down undelete
+            undeleted = false;
+            DocumentModelList files = document.getCoreSession().getFiles(document.getRef());
+            for (DocumentModel file : files) {
+                undeleteDoc(file);
+                undeleted = true;
+            }
+        } else if (Docs.PAGECLASSEURFOLDER.type().equals(parentDoc.getType())
+                && LifeCycleConstants.DELETED_STATE.equals(parentDoc.getCurrentLifeCycleState())) {
+            DocumentModel grandParentDoc = document.getCoreSession().getDocument(parentDoc.getParentRef());
+            if (Docs.PAGECLASSEUR.type().equals(grandParentDoc.getType())) {
+                // cascade up undelete
+                undeleted = false;
+                if (undeleteDoc(parentDoc)) {
+                    undeleted = true;
                 }
             }
         }
-        return removed;
+        return undeleted;
     }
 
 }
