@@ -189,7 +189,7 @@ jQuery(document).ready(function() {
 				var actionUrl = '';
 				var ajaxAction = '';
 				if (action == "remove") {
-					actionUrl = 'bulkDelete';
+					actionUrl = 'bulkRemove';
 					ajaxAction = 'DELETE';
 				} else {
 					actionUrl = 'bulkUndelete';

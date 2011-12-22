@@ -155,9 +155,9 @@ public class LabsPublishService extends DefaultAdapter {
     }
 
     @DELETE
-    @Path("bulkDelete") // TODO change to bulkRemove
-    public Response doBulkDelete(@QueryParam("id") List<String> ids) {
-        final String logPrefix = "<doBulkDelete> ";
+    @Path("bulkRemove")
+    public Response doBulkRemove(@QueryParam("id") List<String> ids) {
+        final String logPrefix = "<doBulkRemove> ";
         try {
             boolean removed = false;
             for (String id : ids) {
