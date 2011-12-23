@@ -2,8 +2,14 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.DocumentRef;
+import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.core.query.sql.NXQL;
 
 
 public final class LabsSiteUtils {
@@ -31,6 +37,27 @@ public final class LabsSiteUtils {
             result = false;
         }
         return result;
+    }
+    
+    public static DocumentModel getDeletedPageName(String name, DocumentRef parentRef, CoreSession session) throws ClientException{
+        
+        StringBuilder sb = new StringBuilder("SELECT * From Document");
+        sb.append(" WHERE ").append(NXQL.ECM_PARENTID).append(" = '").append(parentRef).append("'")
+            .append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(LifeCycleConstants.DELETED_STATE).append("'");
+        DocumentModelList list = session.query(sb.toString());
+        for (DocumentModel child : list) {
+            if(name.equalsIgnoreCase(child.getName())){
+                return child;
+            }
+        }
+        return null;
+    }
+    
+    public static boolean existDeletedPageName(String name, DocumentRef parentRef, CoreSession session) throws ClientException{
+        if(getDeletedPageName(name, parentRef, session) == null){
+            return false;
+        }
+        return true;
     }
 
 }
