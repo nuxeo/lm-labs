@@ -36,6 +36,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 @Features(SiteFeatures.class)
 @RepositoryConfig(cleanup=Granularity.METHOD)
 public class PageListAdapterTest {
+    private static final String FORMAT_DATE = "dd/MM/yy";
     private static final String WIDTH = "S8";
     private static final int ID_HEADER = 1;
     private static final String FONT_SIZE = "50";
@@ -84,6 +85,55 @@ public class PageListAdapterTest {
             assertTrue(FONT_SIZE == header.getFontSize());
             assertTrue(ID_HEADER == header.getIdHeader());
             assertTrue(WIDTH == header.getWidth());
+        }
+    }
+
+    @Test
+    public void canGetFormatDateDefault() throws Exception {
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        assertThat(pageList,is(notNullValue()));
+        
+        Header head = new Header();
+        head.setName(NAME);
+        head.setType(TYPE);
+        head.setFontName(FONT_NAME);
+        head.setFontSize(FONT_SIZE);
+        head.setIdHeader(ID_HEADER);
+        head.setWidth(WIDTH);
+        pageList.addHeader(head);
+        pageList = model.create();
+        
+        Set<Header> headerList = pageList.getHeaderSet();
+        assertNotNull(headerList);
+        assertTrue(headerList.size() == 1);
+        for (Header header:headerList){
+            assertTrue("dd MMMMM yyyy".equals(header.getFormatDate()));
+        }
+    }
+
+    @Test
+    public void canSetAndGetFormatDate() throws Exception {
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        assertThat(pageList,is(notNullValue()));
+        
+        Header head = new Header();
+        head.setName(NAME);
+        head.setType(TYPE);
+        head.setFontName(FONT_NAME);
+        head.setFontSize(FONT_SIZE);
+        head.setIdHeader(ID_HEADER);
+        head.setWidth(WIDTH);
+        head.setFormatDate(FORMAT_DATE);
+        pageList.addHeader(head);
+        pageList = model.create();
+        
+        Set<Header> headerList = pageList.getHeaderSet();
+        assertNotNull(headerList);
+        assertTrue(headerList.size() == 1);
+        for (Header header:headerList){
+            assertTrue(FORMAT_DATE.equals(header.getFormatDate()));
         }
     }
     

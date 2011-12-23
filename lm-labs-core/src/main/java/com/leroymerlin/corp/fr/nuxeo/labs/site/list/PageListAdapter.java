@@ -50,6 +50,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
     private static final String NAME = "name";
     private static final String ORDER_POSITION = "orderPosition";
     private static final String SELECT_LIST = "selectlist";
+    private static final String FORMAT_DATE = "formatDate";
     public static final int NULL_VALUE_FOR_INT = -1;
     
     private static SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMMM yyyy");
@@ -146,6 +147,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         map.put(WIDTH, pHead.getWidth());
         map.put(ORDER_POSITION, pHead.getOrderPosition());
         map.put(SELECT_LIST, pHead.getSelectlist());
+        map.put(FORMAT_DATE, pHead.getFormatDate());
         return map;
     }
 
@@ -195,6 +197,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         header.setFontSize(Tools.getString(pMap.get(FONT_SIZE)));
         header.setWidth(Tools.getString(pMap.get(WIDTH)));
         header.setSelectlist(Tools.getStringList(pMap.get(SELECT_LIST)));
+        header.setFormatDate(Tools.getString(pMap.get(FORMAT_DATE)));
         return header;
     }
 

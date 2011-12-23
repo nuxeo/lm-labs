@@ -49,6 +49,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBe
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontDto;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontSize;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFormatDate;
 
 /**
  * @author fvandaele
@@ -58,6 +59,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontSize
 @Produces("text/html; charset=UTF-8")
 public class PageListResource extends NotifiablePageResource {
 
+
+    private static final String THE_HEADERS_FORMAT_DATE_SHOULD_NOT_BE_EMPTY = "The headers format date should not be empty.";
 
     private static final String IMPOSSIBLE_TO_EXPORT_ARRAY_IN_EXCEL = "Impossible to export array in excel !";
 
@@ -119,6 +122,17 @@ public class PageListResource extends NotifiablePageResource {
             LOG.error(THE_HEADERS_WIDTHS_SHOULD_NOT_BE_EMPTY);
         }
         return width;
+    }
+
+    public List<Enum<LabsFormatDate>> getHeaderFormatDates() {
+        List<Enum<LabsFormatDate>> result = new ArrayList<Enum<LabsFormatDate>>();
+        for (Enum<LabsFormatDate> type : LabsFormatDate.values()) {
+            result.add(type);
+        }
+        if (result.isEmpty()){
+            LOG.error(THE_HEADERS_FORMAT_DATE_SHOULD_NOT_BE_EMPTY);
+        }
+        return result;
     }
     
     public String getDefault(){

@@ -14,6 +14,7 @@ headersCollection.toString = function(){
 			output.push('font:' + myCollection[myOrder[ii]].font + '\n');
 			output.push('idHeader:' + myCollection[myOrder[ii]].idHeader + '\n');
 			output.push('orderPosition:' + myCollection[myOrder[ii]].orderPosition+ '\n');
+			output.push('formatDate:' + myCollection[myOrder[ii]].formatDate + '\n');
 			output.push('selectlist:\n');
 			var selectlist = myCollection[myOrder[ii]].selectlist;
 			for ( var j = 0; j< selectlist.length; j++) {
@@ -45,8 +46,8 @@ jQuery(document).ready(function() {
 		overflowx : 'hidden',
 		autoOpen : false, 
 		closeOnOverlayClick : false, 
-		removeOnClose : true, 
-		showCloseHandle : true,
+		removeOnClose : false, 
+		showCloseHandle : false,
 	});
 });
 
@@ -87,30 +88,45 @@ function initNewHeader() {
 	$("#headerName").select();
 	$("#headerName").focus();
 	$('#headerType option[value=TEXT]').attr("selected", "selected");
+	$('#headerFormatDate option:nth(0)').attr("selected", "selected");
 	$('#headerFont option:nth(0)').attr("selected", "selected");
 	$('#headerWidth option:nth(0)').attr("selected", "selected");
 	clearDivEditOptions();
 	hideEditSelect();
+	hideEditFormatDate();
 }
 
-function manageEditSelect() {
+function manageEditType() {
 	if (jQuery("#headerType").val() == "SELECT") {
 		initDivEditOptions();
 		displayEditSelect();
-	} else {
+	}else {
 		clearDivEditOptions();
 		hideEditSelect();
+	}
+	if (jQuery("#headerType").val() == "DATE") {
+		displayEditFormatDate();
+	}
+	else{
+		hideEditFormatDate();
 	}
 	headersCollection.getSelectedItem().type = $("#headerType").val();
 }
 
 function displayEditSelect() {
-	$("#div_edit_select")[0].style.display = "block";
-	$("#div_edit_select")[0].style.overflow = "hidden";
+	$("#div_edit_select").show();
+}
+
+function displayEditFormatDate() {
+	$("#div_edit_format_date").show();
 }
 
 function hideEditSelect() {
-	$("#div_edit_select")[0].style.display = "none";
+	$("#div_edit_select").hide();
+}
+
+function hideEditFormatDate() {
+	$("#div_edit_format_date").hide();
 }
 
 function initDivEditOptions() {
@@ -195,6 +211,10 @@ function changeAllHeaderWidth() {
 	headersCollection.getSelectedItem().width = $("#headerWidth").val();
 }
 
+function changeAllHeaderFormatDate() {
+	headersCollection.getSelectedItem().formatDate = $("#headerFormatDate").val();
+}
+
 function changeAllHeaderFont() {
 	headersCollection.getSelectedItem().font = $("#headerFont").val();
 }
@@ -207,8 +227,9 @@ function changeHeader(selected) {
 	$('#headerType option[value=' + selectedItem.type + ']').attr( "selected", "selected");
 	$('#headerFont option[value=' + selectedItem.font + ']').attr( "selected", "selected");
 	$('#headerWidth option[value=' + selectedItem.width + ']').attr( "selected", "selected");
+	$('#headerFormatDate option[value="' + selectedItem.formatDate + '"]').attr( "selected", "selected");
 	addClassLineheaderSelected();
-	manageEditSelect();
+	manageEditType();
 	loadEditOptions();
 }
 
@@ -288,6 +309,7 @@ function createNewHeader() {
 	obj.idHeader = headersCollection.getOrder().length;
 	obj.orderPosition = obj.idHeader;
 	obj.selectlist = [];
+	obj.formatDate = $('#headerFormatDate').val();
 	return obj;
 }
 

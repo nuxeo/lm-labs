@@ -41,6 +41,8 @@ public class Header implements Comparable<Header> {
 
     private List<String> selectlist;
 
+    private String formatDate;
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -171,5 +173,13 @@ public class Header implements Comparable<Header> {
 
     public int getOrderPosition() {
         return orderPosition;
+    }
+
+    public String getFormatDate() {
+        return formatDate;
+    }
+
+    public void setFormatDate(String formatDate) {
+        this.formatDate = formatDate;
     }
 }
