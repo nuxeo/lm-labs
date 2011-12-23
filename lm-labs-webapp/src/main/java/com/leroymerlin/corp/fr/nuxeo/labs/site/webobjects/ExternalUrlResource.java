@@ -33,9 +33,7 @@ public class ExternalUrlResource extends DocumentObject {
         CoreSession session = ctx.getCoreSession();
         try {
             DocumentModel beforeDoc = session.getDocument(new IdRef(beforeId));
-            session.orderBefore(doc.getParentRef(), doc.getName(), beforeDoc.getName());
-            session.save();
-            return Response.status(Status.OK).build();
+            return moveExternalURL(doc.getName(), beforeDoc.getName());
         } catch (ClientException e) {
             return Response.status(Status.GONE).build();
         }
@@ -47,12 +45,17 @@ public class ExternalUrlResource extends DocumentObject {
         CoreSession session = ctx.getCoreSession();
         try {
             DocumentModel afterDoc = session.getDocument(new IdRef(afterId));
-            session.orderBefore(doc.getParentRef(), afterDoc.getName(), doc.getName());
-            session.save();
-            return Response.status(Status.OK).build();
+            return moveExternalURL(afterDoc.getName(), doc.getName());
         } catch (ClientException e) {
             return Response.status(Status.GONE).build();
         }
+    }
+    
+    private Response moveExternalURL(String beforeName, String afterName) throws ClientException{
+        CoreSession session = ctx.getCoreSession();
+        session.orderBefore(doc.getParentRef(), beforeName, afterName);
+        session.save();
+        return Response.status(Status.OK).build();
     }
 
 }
