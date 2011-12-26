@@ -339,17 +339,22 @@ public class PageResource extends DocumentObject {
     @PUT
     @Path("@setHome")
     public Response setAsHomePage() {
-        LabsSite site;
+        boolean setAsHome = false;
         try {
-            site = doc.getAdapter(SiteDocument.class).getSite();
+            LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
             if (site.isAdministrator(ctx.getPrincipal().getName())) {
                 site.setHomePageRef(doc.getId());
                 doc.getCoreSession().saveDocument(site.getDocument());
+                setAsHome = true;
             }
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        return Response.noContent().build();
+        if (setAsHome) {
+            return Response.noContent().build();
+        } else {
+            return Response.status(Status.UNAUTHORIZED).build();
+        }
     }
 
     /**

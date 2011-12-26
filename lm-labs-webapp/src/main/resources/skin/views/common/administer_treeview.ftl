@@ -181,6 +181,9 @@
 				    success: function(data) {
 				    	homePageId = jQuery(node).attr('id');
 				    	refreshTreeview();
+				    },
+				    error: function(jqXHR, textStatus, errorThrown) {
+				    	alert(jqXHR.statusText);
 				    }
 				});
 			}
@@ -321,6 +324,9 @@
 				
 				<#if !Session.hasPermission(Document.ref, 'Everything')>
 					delete items.remove;
+				</#if>
+				<#if !(site?? && site.isAdministrator(Context.principal.name)) >
+					delete items.home;
 				</#if>
 				
 				<#-- selected item we want -->
