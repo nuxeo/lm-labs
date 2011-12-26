@@ -71,7 +71,13 @@ public class SiteDocumentAdapter implements SiteDocument {
     @Override
     public String getResourcePath() throws ClientException {
         LabsSite site = getSite();
-        return site.getURL() + doc.getPathAsString().replace(site.getTree().getPathAsString()  , "");
+        String endUrl = doc.getPathAsString();
+        if (endUrl.contains(site.getTree().getPathAsString())) {
+            endUrl = endUrl.replace(site.getTree().getPathAsString(), "");
+        } else {
+            endUrl = endUrl.replace(site.getDocument().getPathAsString(), "");
+        }
+        return site.getURL() + endUrl;
     }
 
     @Override

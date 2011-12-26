@@ -94,7 +94,7 @@ jQuery(document).ready(function() {
 			              <td>${deletedSite.title}</td>
 			              <td>${userFullName(deletedSite.document.dublincore.creator)}</td>
 			              <td>
-			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Context.modulePath}/@labspublish/undelete/${deletedSite.document.ref}');">${Context.getMessage('command.siteactions.undelete')}</a>
+			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>
 			            </tr>
 			          </#list>
