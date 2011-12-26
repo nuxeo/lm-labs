@@ -8,21 +8,21 @@
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
-jQuery(document).ready(function() {
-  jQuery("table[class*='zebra-striped']").tablesorter({
-    headers: { 2: { sorter: false}},
-    sortList: [[0,0]],
-    textExtraction: function(node) {
-      // extract data from markup and return it
-      var sortValues = jQuery(node).find('span[class=sortValue]');
-      if (sortValues.length > 0) {
-        return sortValues[0].innerHTML;
-      }
-      return node.innerHTML;
-    }
-  });
-		  
-});
+		jQuery(document).ready(function() {
+		  jQuery("table[class*='zebra-striped']").tablesorter({
+		    headers: { 2: { sorter: false}},
+		    sortList: [[0,0]],
+		    textExtraction: function(node) {
+		      // extract data from markup and return it
+		      var sortValues = jQuery(node).find('span[class=sortValue]');
+		      if (sortValues.length > 0) {
+		        return sortValues[0].innerHTML;
+		      }
+		      return node.innerHTML;
+		    }
+		  });
+				  
+		});
     </script>
   </@block>
 
@@ -52,6 +52,7 @@ jQuery(document).ready(function() {
       <h1>${Context.getMessage('label.labssite.list.sites.title')}</h1>
     </div>
 
+	<#assign hasOneMoreDeletedSite = false />
 	<#assign deletedLabsSites = This.deletedLabsSites />
 	<#assign undeletedLabsSites = This.undeletedLabsSites />
     <#if (deletedLabsSites?size > 0 || undeletedLabsSites?size > 0) >
@@ -62,6 +63,7 @@ jQuery(document).ready(function() {
 	            <th>Nom du site</th>
 	            <th>Responsable</th>
 	            <th style="width: 100px;">&nbsp;</th>
+	            <th style="width: 110px;" class="deletedMySites"></th>
 	          </tr>
 	        </thead>
 	        <tbody>
@@ -70,9 +72,41 @@ jQuery(document).ready(function() {
 	              <td>${sit.title}</td>
 	              <td>${userFullName(sit.document.dublincore.creator)}</td>
 	              <td><a class="btn" href="${This.path}/${sit.URL}">Voir</a></td>
+	              <#if sit.isAdministrator(Context.principal.name) >
+	              	<#assign hasOneMoreDeletedSite = true />
+	              	<td><a href="#" class="btn" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
+	              <#else>
+	              	<td class="deletedMySites"></td>
+	              </#if>
 	            </tr>
 	          </#list>
 	      </table>
+	      <script type="text/javascript">
+				function deleteSite(url){
+        			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
+            			jQuery.ajax({
+							type: 'PUT',
+						    async: false,
+						    url: url,
+						    success: function(data) {
+						    	if (data == 'delete') {
+						          alert("${Context.getMessage('label.lifeCycle.site.hasDeleted')}");
+						          document.location.href = '${Context.modulePath}';
+						        }
+						        else {
+						          alert("${Context.getMessage('label.lifeCycle.site.hasNotDeleted')}");
+						        }
+						    }
+						});
+					}
+        		}
+        		<#if !hasOneMoreDeletedSite>
+					jQuery(document).ready(function() {
+						jQuery("#deletedMySites").remove();
+						jQuery(".deletedMySites").remove();
+					});
+        		</#if>
+			</script>
 	    </#if>
 	    <#if (deletedLabsSites?size > 0) >
 	    	<!--   delete     -->

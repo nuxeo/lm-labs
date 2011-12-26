@@ -1,11 +1,11 @@
 <h1>Ajouter du contenu</h1>
 
-<form id="add_doc_form" action="${This.path}/@addContent" method="post">
+<form id="add_doc_form" action="${This.path}" method="post">
   <fieldset>
     <div class="clearfix">
       <label for="name">${Context.getMessage('label.title')}</label>
       <div class="input">
-        <input name="name" class="required"/>
+        <input name="name" id="name" class="required" />
       </div>
     </div><!-- /clearfix -->
     <div class="clearfix">
@@ -41,10 +41,60 @@
   </fieldset>
 
   <div class="actions">
-    <button class="btn primary required-fields" form-id="add_doc_form">Créer</button>
+    <button class="btn primary required-fields btnCreatePage" form-id="add_doc_form">Créer</button>
   </div>
 </form>
 
 <script type="text/javascript">
-	initRequiredFields();
+		
+	
+	jQuery(document).ready(function(){
+	  initRequiredFields();
+	
+	  $(".btnCreatePage").click(function(event) {
+	    event.preventDefault();
+	    jQuery(".btnCreatePage").attr("disabled", true);
+		jQuery.ajax({
+			type: "POST",
+			url: jQuery("#add_doc_form").attr("action") + '/@addContent',
+			data: $("#add_doc_form").serialize(),		
+			success: function(msg){
+				if (msg == "existedPageName"){
+						<#if site?? && site.isAdministrator(Context.principal.name)>
+							if (confirm("${Context.getMessage('label.page.creation.existDeletedPageName.administrator')?js_string}")){
+								addDocWithDelete();
+							}
+						<#else>
+							<#if site?? && site.isContributor(Context.principal.name)>
+								alert("${Context.getMessage('label.page.creation.existDeletedPageName.contributor')?js_string}");
+							</#if>
+						</#if>
+					jQuery("#name").val("");
+				}
+				else{
+					document.location.href = msg;
+				}
+				jQuery(".btnCreatePage").attr("disabled", false);
+			},
+			error: function(msg){
+				alert(msg);
+			}
+		});
+	  });
+	});
+	
+function addDocWithDelete(){
+	jQuery.ajax({
+		type: "POST",
+		url: jQuery("#add_doc_form").attr("action") + '/@addForceContent',
+		data: $("#add_doc_form").serialize(),		
+		success: function(msg){
+			document.location.href = msg;
+		},
+		error: function(msg){
+			alert(msg);
+		}
+	});
+}
+
 </script>

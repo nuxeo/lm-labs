@@ -84,19 +84,7 @@ function moveDownExternalURL(url, path, id){
 	jQuery(current).insertAfter(after);
 	
 	if(jQuery(after).attr("id") != undefined){
-		jQuery.ajax({
-			type: "GET",
-			url: url + "/@moveDownExternalURL/" + jQuery(after).attr("id"),
-			data: '',		
-			success: function(msg){
-				//alert('Sauvegardé');
-			},
-			error: function(msg){
-				//alert( msg.responseText );
-				alert('Non sauvegardé!');
-				document.location.href=path;
-			}
-		});
+		ajaxMoveExtURL(url + "/@moveDownExternalURL/" + jQuery(after).attr("id"));
 	}
 }
 
@@ -116,21 +104,24 @@ function moveUpExternalURL(url, path, id){
 	jQuery(before).insertAfter(current);
 	
 	if(jQuery(before).attr("id") != undefined){
-		
-		jQuery.ajax({
-			type: "GET",
-			url: url + "/@moveUpExternalURL/" + jQuery(before).attr("id"),
-			data: '',
-			success: function(msg){
-				//alert('Sauvegardé');
-			},
-			error: function(msg){
-				//alert( msg.responseText );
-				alert('Non sauvegardé!');
-				document.location.href=path;
-			}
-		});
+		ajaxMoveExtURL(url + "/@moveUpExternalURL/" + jQuery(before).attr("id"));
 	}
+}
+
+function ajaxMoveExtURL(url){
+	jQuery.ajax({
+		type: "GET",
+		url: url,
+		data: '',
+		success: function(msg){
+			//alert('Sauvegardé');
+		},
+		error: function(msg){
+			//alert( msg.responseText );
+			alert('Non sauvegardé!');
+			document.location.href=path;
+		}
+	});
 }
 
 function initFieldsExternalURL() {

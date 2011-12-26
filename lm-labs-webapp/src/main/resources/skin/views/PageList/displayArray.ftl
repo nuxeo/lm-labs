@@ -16,6 +16,7 @@
           <td ${This.getLineStyle(header)} ${This.getLineOnclick(entriesLine)}>
             <#assign entry = entriesLine.getEntryByIdHead(header.idHeader) />
             <#if entry != null>
+              <#assign formatDate = header.formatDate />
               <#include "/views/PageList/" + header.type?lower_case + "/display.ftl" />
             </#if>
           </td>

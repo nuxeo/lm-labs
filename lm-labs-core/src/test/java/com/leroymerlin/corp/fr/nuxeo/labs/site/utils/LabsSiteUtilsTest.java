@@ -2,7 +2,9 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -296,4 +298,53 @@ public final class LabsSiteUtilsTest {
         docu = sessionToto.getDocument(docu.getRef());
         assertTrue(!LabsSiteUtils.isOnlyRead(docu));
     }
+    
+    @Test
+    public void existDeletedPageName() throws Exception {
+        LabsSite site = sm.createSite(session, "Mon Site", "monsite");
+
+        DocumentModel pageClasseur = session.createDocumentModel(
+                site.getTree().getPathAsString(), "pageClasseur", Docs.PAGECLASSEUR.type());
+        session.createDocument(pageClasseur);
+
+        DocumentModel pageListe = session.createDocumentModel(
+                site.getTree().getPathAsString(), "pageListe", Docs.PAGELIST.type());
+        session.createDocument(pageListe);
+
+        DocumentModel pageNews = session.createDocumentModel(
+                site.getTree().getPathAsString(), "pageNews", Docs.PAGENEWS.type());
+        pageNews = session.createDocument(pageNews);
+        pageNews.getAdapter(LabsPublisher.class).delete();
+        
+        session.save();
+
+        assertFalse(LabsSiteUtils.existDeletedPageName("papage", site.getTree().getRef(), session));
+        assertFalse(LabsSiteUtils.existDeletedPageName("pageList", site.getTree().getRef(), session));
+        assertTrue(LabsSiteUtils.existDeletedPageName("pagenews", site.getTree().getRef(), session));
+    }
+    
+    @Test
+    public void getDeletedPageName() throws Exception {
+        LabsSite site = sm.createSite(session, "Mon Site", "monsite");
+
+        DocumentModel pageClasseur = session.createDocumentModel(
+                site.getTree().getPathAsString(), "pageClasseur", Docs.PAGECLASSEUR.type());
+        session.createDocument(pageClasseur);
+
+        DocumentModel pageListe = session.createDocumentModel(
+                site.getTree().getPathAsString(), "pageListe", Docs.PAGELIST.type());
+        session.createDocument(pageListe);
+
+        DocumentModel pageNews = session.createDocumentModel(
+                site.getTree().getPathAsString(), "pageNews", Docs.PAGENEWS.type());
+        pageNews = session.createDocument(pageNews);
+        pageNews.getAdapter(LabsPublisher.class).delete();
+        
+        session.save();
+
+        assertNull(LabsSiteUtils.getDeletedPageName("papage", site.getTree().getRef(), session));
+        assertNull(LabsSiteUtils.getDeletedPageName("pageList", site.getTree().getRef(), session));
+        assertNotNull(LabsSiteUtils.getDeletedPageName("pagenews", site.getTree().getRef(), session));
+    }
+
 }

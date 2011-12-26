@@ -37,7 +37,7 @@
 					<div class="clearfix">
 						<label for="headerType">${Context.getMessage('label.pageList.edit.editHeader.type')}</label>
 						<div class="input">
-							<select name="headerType" id="headerType" onChange="javascript:manageEditSelect();">
+							<select name="headerType" id="headerType" onChange="javascript:manageEditType();">
 			            		<#list This.getHeaderTypes() as type>
 			            			<option value="${type.name()}">${Context.getMessage(type.getI18n())}</option>
 			            		</#list>
@@ -46,6 +46,14 @@
 						<div id="div_edit_select" style="display: none;">
 		            		<div id="div_edit_options"></div>
 		            		<a href="#" onClick="javascript:addOneOption();">${Context.getMessage('label.pageList.edit.editHeader.options.add')}</a>
+		            	</div>
+						<div id="div_edit_format_date" style="display: none;">
+							<label for="headerFormatDate">${Context.getMessage('label.pageList.edit.editHeader.formatDate')}</label>
+							<select name="headerFormatDate" id="headerFormatDate" onChange="javascript:changeAllHeaderFormatDate();">
+			            		<#list This.getHeaderFormatDates() as formatDate>
+			            			<option value="${Context.getMessage(formatDate.getI18n())}">${Context.getMessage(formatDate.getI18n() + '.label')}</option>
+			            		</#list>
+			            	</select>
 		            	</div>
 					</div>
 					<!--         WIDTH      ------->
@@ -80,6 +88,6 @@
 <div  class="actions">
 	<button id="saveHeaderList" class="btn primary" onClick="javascript:saveHeaderList('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
 	<button id="cancel" class="btn" onClick="javascript:closeManageList();" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
-	<!--<br /><br />
-	<button id="StructureJsHeaders" class="btn info" onClick="javascript:alert(headersCollection.toString());" >StructureJsHeaders</button>-->
+	<br /><br />
+	<button id="StructureJsHeaders" class="btn info" onClick="javascript:alert(headersCollection.toString());" >StructureJsHeaders</button>
 </div>

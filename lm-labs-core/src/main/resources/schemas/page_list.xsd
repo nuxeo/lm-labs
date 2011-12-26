@@ -25,6 +25,7 @@
 			<xs:element name="idHeader" type="xs:int" />
 			<xs:element name="orderPosition" type="xs:int" />
 			<xs:element name="selectlist" type="tns:selectlist" />
+			<xs:element name="formatDate" type="xs:string" default="dd MMMMM yyyy" />
 		</xs:sequence>
 	</xs:complexType>
 	

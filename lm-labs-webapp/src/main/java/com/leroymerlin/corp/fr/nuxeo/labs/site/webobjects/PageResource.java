@@ -16,6 +16,7 @@ import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.rest.DocumentHelper;
 import org.nuxeo.ecm.core.rest.DocumentObject;
@@ -36,6 +37,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
@@ -251,6 +253,7 @@ public class PageResource extends DocumentObject {
                 return redirect(getPath()
                         + "?message_error=label.parameters.page.save.fail.invalidPageTitle");
             }
+            
             boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString(
                     "commentablePage"));
             boolean isCheckedDisplayableTitle = "on".equalsIgnoreCase(ctx.getForm().getString(
@@ -279,24 +282,58 @@ public class PageResource extends DocumentObject {
         return getTemplate("views/LabsPage/manage.ftl");
     }
 
+    public boolean isSingleNamePage(String name, DocumentRef parentRef) {
+        
+        return true;
+    }
+
     @POST
     @Path("@addContent")
     public Response addContent() {
         String name = ctx.getForm().getString("name");
         String location = ctx.getForm().getString("location");
         DocumentModel parent = doc;
+        CoreSession session = getCoreSession();
         try {
             if ("same".equals(location)) {
-                parent = getCoreSession().getParentDocument(doc.getRef());
+                parent = session.getParentDocument(doc.getRef());
             } else if ("top".equals(location)) {
                 parent = doc.getAdapter(SiteDocument.class).getSite().getTree();
+            }
+            if (LabsSiteUtils.existDeletedPageName(name, parent.getRef(), session)){
+                return Response.ok("existedPageName").build();
             }
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
+        
         DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
-        return redirect(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc),
-                false));
+        return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
+    }
+
+    @POST
+    @Path("@addForceContent")
+    public Response addForceContent() {
+        String name = ctx.getForm().getString("name");
+        String location = ctx.getForm().getString("location");
+        DocumentModel parent = doc;
+        CoreSession session = getCoreSession();
+        try {
+            if ("same".equals(location)) {
+                parent = session.getParentDocument(doc.getRef());
+            } else if ("top".equals(location)) {
+                parent = doc.getAdapter(SiteDocument.class).getSite().getTree();
+            }
+            DocumentModel deletedPageDoc = LabsSiteUtils.getDeletedPageName(name, parent.getRef(), session);
+            if (deletedPageDoc != null){
+                session.removeDocument(deletedPageDoc.getRef());
+            }
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        
+        DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
+        return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
     }
 
     @PUT
