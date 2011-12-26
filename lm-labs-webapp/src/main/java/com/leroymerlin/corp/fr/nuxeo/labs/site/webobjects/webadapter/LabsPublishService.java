@@ -158,7 +158,6 @@ public class LabsPublishService extends DefaultAdapter {
     @DELETE
     @Path("bulkRemove")
     public Response doBulkRemove(@QueryParam("id") List<String> ids) {
-        final String logPrefix = "<doBulkRemove> ";
         try {
             boolean removed = false;
             for (String id : ids) {
@@ -182,7 +181,6 @@ public class LabsPublishService extends DefaultAdapter {
     @PUT
     @Path("bulkUndelete")
     public Response doBulkUndelete(@QueryParam("id") List<String> ids) {
-        final String logPrefix = "<doBulkUndelete> ";
         try {
             boolean removed = false;
             for (String id : ids) {
