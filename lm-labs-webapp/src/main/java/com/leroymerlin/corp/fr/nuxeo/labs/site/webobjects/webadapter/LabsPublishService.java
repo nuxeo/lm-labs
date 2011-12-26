@@ -119,6 +119,7 @@ public class LabsPublishService extends DefaultAdapter {
         return Response.ok(NOT_DELETED).build();
     }
     
+    @Deprecated
     @PUT
     @Path("undelete/{ref}")
     public Object doUndeleteRef(@PathParam("ref") final String ref) {

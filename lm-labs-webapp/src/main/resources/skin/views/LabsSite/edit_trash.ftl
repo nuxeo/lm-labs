@@ -96,8 +96,8 @@ jQuery(document).ready(function() {
 	                <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
 	              </td>
 	              <td>
-	              	<a  href="#" class="btn" onclick="javascript:undeletePage('${doc.ref}');">${Context.getMessage('command.trash.undelete')}</a>
 	              	<#assign docUrl = Root.getLink(doc) />
+	              	<a  href="${docUrl}" class="btn" onclick="javascript:undeletePage(this);return false;">${Context.getMessage('command.trash.undelete')}</a>
 	              	<a  href="${docUrl}" class="btn danger" onclick="deletePage(this);return false;">${Context.getMessage('command.trash.delete')}</a>
 	              </td>
 	            </tr>
@@ -128,12 +128,13 @@ jQuery(document).ready(function() {
 				});
 			}
 		}
-		function undeletePage(ref){
+		function undeletePage(bt){
+			var url = jQuery(bt).attr('href');
 			if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouUndelete')}")){
     			jQuery.ajax({
 					type: 'PUT',
 				    async: false,
-				    url: '${This.path}/@labspublish/undelete/' + ref,
+				    url: url + '/@labspublish/undelete',
 				    success: function(data) {
 				    	if (data == 'undelete') {
 				          alert("${Context.getMessage('label.lifeCycle.page.hasUndeleted')}");
