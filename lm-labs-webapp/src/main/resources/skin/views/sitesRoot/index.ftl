@@ -62,8 +62,8 @@
 	          <tr>
 	            <th>Nom du site</th>
 	            <th>Responsable</th>
-	            <th style="width: 100px;">&nbsp;</th>
-	            <th style="width: 110px;" class="deletedMySites"></th>
+	            <th style="width: 57px;">&nbsp;</th>
+	            <th style="width: 88px;" class="deletedMySites"></th>
 	          </tr>
 	        </thead>
 	        <tbody>
@@ -102,7 +102,6 @@
         		}
         		<#if !hasOneMoreDeletedSite>
 					jQuery(document).ready(function() {
-						jQuery("#deletedMySites").remove();
 						jQuery(".deletedMySites").remove();
 					});
         		</#if>
@@ -114,15 +113,17 @@
 				<div class="page-header">
 					<h4>${Context.getMessage('label.labssite.list.deleted.sites.title')}</h4>
 				</div>
-			      <table class="zebra-striped bs" id="MySites" >
+			      <table class="zebra-striped bs" id="MyDeletedSites" >
 			        <thead>
 			          <tr>
 			            <th>Nom du site</th>
 			            <th>Responsable</th>
-			            <th style="width: 100px;">&nbsp;</th>
+			            <th style="width: 86px;">&nbsp;</th>
+	            		<th style="width: 88px;" class="deletedMydeletedSites"></th>
 			          </tr>
 			        </thead>
 			        <tbody>
+			          <#assign hasOneMoreDeletedDefinitelySite = false />
 			          <#list deletedLabsSites as deletedSite>
 			            <tr>
 			              <td>${deletedSite.title}</td>
@@ -130,6 +131,12 @@
 			              <td>
 			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>
+			              <#if deletedSite.isAdministrator(Context.principal.name) >
+			              	<#assign hasOneMoreDeletedDefinitelySite = true />
+			              	<td><a href="#" class="btn" onclick="javascript:deleteDefinitelySite('${Context.modulePath}/definitelyDelete/${deletedSite.URL}');">${Context.getMessage('command.siteactions.delete')}</a></td>
+			              <#else>
+			              	<td class="deletedMydeletedSites"></td>
+			              </#if>
 			            </tr>
 			          </#list>
 			      </table>
@@ -153,6 +160,30 @@
 						});
 					}
         		}
+				function deleteDefinitelySite(url){
+        			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDefinitelyDelete')}")){
+            			jQuery.ajax({
+							type: 'DELETE',
+						    async: false,
+						    url: url,
+						    success: function(data) {
+						    	if (data == 'definitelyDeleted') {
+						          alert("${Context.getMessage('label.lifeCycle.site.hasDefinitelyDelete')}");
+						          document.location.href = '${Context.modulePath}';
+						        }
+						        else {
+						          alert("${Context.getMessage('label.lifeCycle.site.hasNotDefinitelyDelete')}");
+						        }
+						    }
+						});
+					}
+        		}        		
+        		
+        		<#if !hasOneMoreDeletedDefinitelySite>
+					jQuery(document).ready(function() {
+						jQuery(".deletedMydeletedSites").remove();
+					});
+        		</#if>
 			</script>
 	    </#if>
     <#else>
