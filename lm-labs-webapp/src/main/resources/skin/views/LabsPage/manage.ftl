@@ -30,9 +30,15 @@
       <label for="location">${Context.getMessage('label.page.creation.location')}</label>
       <div class="input">
         <select name="location">
-          <#assign locations = ["top", "same", "under"] />
+          <#assign locations = ["top"] />
+      	  <#assign defaultLocation = "top" />
+          <#if This.isInstanceOf("LabsPage") && This.type.name != "LabsSite" >
+            <#assign locations = locations + ["same", "under"] />
+            <#assign defaultLocation = "under" />
+          <#else>
+          </#if>
           <#list locations as location>
-          <option value="${location}" <#if location == "under">selected="selected"</#if>>${Context.getMessage('label.page.creation.location.' + location)}</option>
+          <option value="${location}" <#if location == defaultLocation>selected="selected"</#if>>${Context.getMessage('label.page.creation.location.' + location)}</option>
           </#list>
         </select>
       </div>
