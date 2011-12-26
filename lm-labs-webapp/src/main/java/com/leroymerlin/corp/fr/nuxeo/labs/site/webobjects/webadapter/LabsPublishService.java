@@ -136,7 +136,7 @@ public class LabsPublishService extends DefaultAdapter {
     @Path("emptyTrash")
     public Object doEmptyTrash() {
         DocumentModel document = getDocument();
-        CoreSession session = document.getCoreSession();
+        CoreSession session = ctx.getCoreSession();
         try {
             DocumentModelList docs = document.getAdapter(SiteDocument.class).getSite().getAllDeletedDocs();
             boolean deleted = false;
@@ -162,13 +162,13 @@ public class LabsPublishService extends DefaultAdapter {
             boolean removed = false;
             for (String id : ids) {
                 IdRef idRef = new IdRef(id);
-                if (getDocument().getCoreSession().exists(idRef)) {
-                    getDocument().getCoreSession().removeDocument(idRef);
+                if (ctx.getCoreSession().exists(idRef)) {
+                    ctx.getCoreSession().removeDocument(idRef);
                     removed = true;
                 }
             }
             if (removed) {
-                getDocument().getCoreSession().save();
+                ctx.getCoreSession().save();
             }
         } catch (ClientException e) {
             log.error(e.getMessage());
@@ -190,7 +190,7 @@ public class LabsPublishService extends DefaultAdapter {
                 }
             }
             if (removed) {
-                getDocument().getCoreSession().save();
+                ctx.getCoreSession().save();
             }
         } catch (ClientException e) {
             log.error(e.getMessage());
@@ -211,7 +211,7 @@ public class LabsPublishService extends DefaultAdapter {
     private boolean undelete(String id) throws ClientException {
         IdRef idRef = new IdRef(id);
         boolean undeleted = false;
-        if (getDocument().getCoreSession().exists(idRef)) {
+        if (ctx.getCoreSession().exists(idRef)) {
             DocumentModel document = getContext().getCoreSession().getDocument(idRef);
             if (cascadeUndelete(document)) {
                 undeleted = undeleteDoc(document);
