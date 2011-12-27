@@ -70,7 +70,7 @@ dragDrop = {
 	},
 	releaseElement: function() {
 		if(confirm(dragDrop.confirmMsg)) {
-			dragDrop.updateFunction();
+			dragDrop.updateFunction(dragDrop.draggedObject.offsetLeft, dragDrop.draggedObject.offsetTop);
 		} else {
 			dragDrop.setPosition(0,0)
 		}
