@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -76,20 +77,10 @@ public class Site extends PageResource {
     @POST
     @Path("@addContent")
     @Override
-    public Response addContent() {
-        try {
-            DocumentModel tree = site.getTree();
-
-            String name = ctx.getForm().getString("name");
-            DocumentModel newDoc = DocumentHelper.createDocument(ctx, tree,
-                    name);
-            String pathSegment = URIUtils.quoteURIPathComponent(
-                    newDoc.getName(), true);
-            return redirect(getPath() + '/' + pathSegment);
-        } catch (ClientException e) {
-            throw WebException.wrap(e);
-        }
-
+    public Response doAddContent() {
+        String name = ctx.getForm().getString("name");
+        boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString("overwritePage"));
+        return addContent(name, PageCreationLocation.TOP, overwrite);
     }
 
     @POST

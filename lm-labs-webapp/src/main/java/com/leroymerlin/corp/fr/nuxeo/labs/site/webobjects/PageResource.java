@@ -58,6 +58,34 @@ public class PageResource extends DocumentObject {
 
     private LabsBase labsBaseAdapter;
 
+    protected enum PageCreationLocation {
+        TOP("top"),
+        SAME("same"),
+        UNDER("under");
+        
+        private String location;
+
+        private static final Map<String, PageCreationLocation> stringToEnum = new HashMap<String, PageCreationLocation>();
+        static { // Initialize map from constant name to enum constant
+            for (PageCreationLocation op : values())
+                stringToEnum.put(op.location(), op);
+        }
+
+        // Returns Operation for string, or null if string is invalid
+        public static PageCreationLocation fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
+
+        private PageCreationLocation(String location) {
+            this.location = location;
+        }
+
+        public String location() {
+            return location;
+        }
+
+    }
+    
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
@@ -290,38 +318,11 @@ public class PageResource extends DocumentObject {
 
     @POST
     @Path("@addContent")
-    public Response addContent() {
+    public Response doAddContent() {
         String name = ctx.getForm().getString("name");
         String location = ctx.getForm().getString("location");
         boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString("overwritePage"));
-        DocumentModel parent = doc;
-        CoreSession session = getCoreSession();
-        try {
-            LabsSite labsSite = doc.getAdapter(SiteDocument.class).getSite();
-            if (overwrite && !labsSite.isAdministrator(ctx.getPrincipal().getName())) {
-                return Response.status(Status.UNAUTHORIZED).build();
-            }
-            if ("same".equals(location)) {
-                parent = session.getParentDocument(doc.getRef());
-            } else if ("top".equals(location)) {
-                parent = labsSite.getTree();
-            }
-            if (overwrite) {
-                DocumentModel deletedPageDoc = LabsSiteUtils.getDeletedPageName(name, parent.getRef(), session);
-                if (deletedPageDoc != null){
-                    session.removeDocument(deletedPageDoc.getRef());
-                }
-            } else {
-                if (LabsSiteUtils.existDeletedPageName(name, parent.getRef(), session)){
-                    return Response.ok("existedPageName").build();
-                }
-            }
-        } catch (ClientException e) {
-            throw WebException.wrap(e);
-        }
-        
-        DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
-        return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
+        return addContent(name, PageCreationLocation.fromString(location), overwrite);
     }
 
     @PUT
@@ -368,6 +369,39 @@ public class PageResource extends DocumentObject {
             Object... args) {
         // TODO Auto-generated method stub
         return super.initialize(ctx, type, args);
+    }
+
+    protected Response addContent(String name, PageCreationLocation location, boolean overwrite) {
+        if (location == null) {
+            location = PageCreationLocation.TOP;
+        }
+        DocumentModel parent = doc;
+        CoreSession session = getCoreSession();
+        try {
+            LabsSite labsSite = doc.getAdapter(SiteDocument.class).getSite();
+            if (overwrite && !labsSite.isAdministrator(ctx.getPrincipal().getName())) {
+                return Response.status(Status.UNAUTHORIZED).build();
+            }
+            if (PageCreationLocation.SAME.equals(location)) {
+                parent = session.getParentDocument(doc.getRef());
+            } else if (PageCreationLocation.TOP.equals(location)) {
+                parent = labsSite.getTree();
+            }
+            if (overwrite) {
+                DocumentModel deletedPageDoc = LabsSiteUtils.getDeletedPageName(name, parent.getRef(), session);
+                if (deletedPageDoc != null){
+                    session.removeDocument(deletedPageDoc.getRef());
+                }
+            } else {
+                if (LabsSiteUtils.existDeletedPageName(name, parent.getRef(), session)){
+                    return Response.ok("existedPageName").build();
+                }
+            }
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
+        return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
     }
 
 }
