@@ -1,6 +1,7 @@
 <h1>Ajouter du contenu</h1>
 
 <form id="add_doc_form" action="${This.path}" method="post">
+  <input name="overwritePage" id="overwritePage" type="hidden" value="false" />
   <fieldset>
     <div class="clearfix">
       <label for="name">${Context.getMessage('label.title')}</label>
@@ -90,9 +91,10 @@
 	});
 	
 function addDocWithDelete(){
+	jQuery("#overwritePage").val("true");
 	jQuery.ajax({
 		type: "POST",
-		url: jQuery("#add_doc_form").attr("action") + '/@addForceContent',
+		url: jQuery("#add_doc_form").attr("action") + '/@addContent',
 		data: $("#add_doc_form").serialize(),		
 		success: function(msg){
 			document.location.href = msg;

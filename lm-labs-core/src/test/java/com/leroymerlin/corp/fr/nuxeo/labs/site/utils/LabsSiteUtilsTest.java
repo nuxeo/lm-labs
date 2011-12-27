@@ -314,13 +314,15 @@ public final class LabsSiteUtilsTest {
         DocumentModel pageNews = session.createDocumentModel(
                 site.getTree().getPathAsString(), "pageNews", Docs.PAGENEWS.type());
         pageNews = session.createDocument(pageNews);
+        session.save();
+        assertFalse(LabsSiteUtils.existDeletedPageName("pageNews", site.getTree().getRef(), session));
         pageNews.getAdapter(LabsPublisher.class).delete();
         
         session.save();
 
         assertFalse(LabsSiteUtils.existDeletedPageName("papage", site.getTree().getRef(), session));
         assertFalse(LabsSiteUtils.existDeletedPageName("pageList", site.getTree().getRef(), session));
-        assertTrue(LabsSiteUtils.existDeletedPageName("pagenews", site.getTree().getRef(), session));
+        assertTrue(LabsSiteUtils.existDeletedPageName("pageNews", site.getTree().getRef(), session));
     }
     
     @Test
@@ -344,7 +346,7 @@ public final class LabsSiteUtilsTest {
 
         assertNull(LabsSiteUtils.getDeletedPageName("papage", site.getTree().getRef(), session));
         assertNull(LabsSiteUtils.getDeletedPageName("pageList", site.getTree().getRef(), session));
-        assertNotNull(LabsSiteUtils.getDeletedPageName("pagenews", site.getTree().getRef(), session));
+        assertNotNull(LabsSiteUtils.getDeletedPageName("pageNews", site.getTree().getRef(), session));
     }
 
 }
