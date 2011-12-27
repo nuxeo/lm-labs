@@ -53,45 +53,43 @@
 </form>
 
 <script type="text/javascript">
-		
-	
-	jQuery(document).ready(function(){
-	  initRequiredFields();
-	
-	  $(".btnCreatePage").click(function(event) {
-	  if(hasError) {
-	  	return;
-	  }
-	    event.preventDefault();
-	    jQuery(".btnCreatePage").attr("disabled", true);
-		jQuery.ajax({
-			type: "POST",
-			url: jQuery("#add_doc_form").attr("action") + '/@addContent',
-			data: $("#add_doc_form").serialize(),		
-			success: function(msg){
-				if (msg == "existedPageName"){
-						<#if site?? && site.isAdministrator(Context.principal.name)>
-							if (confirm("${Context.getMessage('label.page.creation.existDeletedPageName.administrator')?js_string}")){
-								addDocWithDelete();
-							}
-						<#else>
-							<#if site?? && site.isContributor(Context.principal.name)>
-								alert("${Context.getMessage('label.page.creation.existDeletedPageName.contributor')?js_string}");
-							</#if>
+
+jQuery(document).ready(function(){
+	initRequiredFields();
+	$(".btnCreatePage").click(function(event) {
+	if(hasError) {
+		return;
+	}
+    event.preventDefault();
+    jQuery(".btnCreatePage").attr("disabled", true);
+	jQuery.ajax({
+		type: "POST",
+		url: jQuery("#add_doc_form").attr("action") + '/@addContent',
+		data: $("#add_doc_form").serialize(),		
+		success: function(msg){
+			if (msg == "existedPageName"){
+					<#if site?? && site.isAdministrator(Context.principal.name)>
+						if (confirm("${Context.getMessage('label.page.creation.existDeletedPageName.administrator')?js_string}")){
+							addDocWithDelete();
+						}
+					<#else>
+						<#if site?? && site.isContributor(Context.principal.name)>
+							alert("${Context.getMessage('label.page.creation.existDeletedPageName.contributor')?js_string}");
 						</#if>
-					jQuery("#name").val("");
-				}
-				else{
-					document.location.href = msg;
-				}
-				jQuery(".btnCreatePage").attr("disabled", false);
-			},
-			error: function(msg){
-				alert(msg);
+					</#if>
+				jQuery("#name").val("");
 			}
-		});
-	  });
+			else{
+				document.location.href = msg;
+			}
+			jQuery(".btnCreatePage").attr("disabled", false);
+		},
+		error: function(msg){
+			alert(msg);
+		}
 	});
+  });
+});
 	
 function addDocWithDelete(){
 	jQuery("#overwritePage").val("true");
