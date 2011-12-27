@@ -59,6 +59,9 @@
 	  initRequiredFields();
 	
 	  $(".btnCreatePage").click(function(event) {
+	  if(hasError) {
+	  	return;
+	  }
 	    event.preventDefault();
 	    jQuery(".btnCreatePage").attr("disabled", true);
 		jQuery.ajax({
