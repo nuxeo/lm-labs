@@ -5,11 +5,11 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.DocumentRef;
-import org.nuxeo.ecm.core.api.LifeCycleConstants;
+import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
-import org.nuxeo.ecm.core.query.sql.NXQL;
+
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
 
 public final class LabsSiteUtils {
@@ -40,24 +40,26 @@ public final class LabsSiteUtils {
     }
     
     public static DocumentModel getDeletedPageName(String name, DocumentRef parentRef, CoreSession session) throws ClientException{
-        
-        StringBuilder sb = new StringBuilder("SELECT * From Document");
-        sb.append(" WHERE ").append(NXQL.ECM_PARENTID).append(" = '").append(parentRef).append("'")
-            .append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(LifeCycleConstants.DELETED_STATE).append("'");
-        DocumentModelList list = session.query(sb.toString());
-        for (DocumentModel child : list) {
-            if(name.equalsIgnoreCase(child.getName())){
+        DocumentModel parent = session.getDocument(parentRef);
+        PathRef pathRef = new PathRef(parent.getPathAsString() + "/" + name);
+        if (session.exists(pathRef)) {
+            DocumentModel child = session.getDocument(pathRef);
+            if (State.DELETE.getState().equals(child.getCurrentLifeCycleState())) {
                 return child;
             }
         }
         return null;
     }
     
-    public static boolean existDeletedPageName(String name, DocumentRef parentRef, CoreSession session) throws ClientException{
-        if(getDeletedPageName(name, parentRef, session) == null){
-            return false;
+    public static boolean existDeletedPageName(final String title, DocumentRef parentRef, CoreSession session) {
+        try {
+            if(getDeletedPageName(title, parentRef, session) != null) {
+                return true;
+            }
+        } catch (ClientException e) {
+            log.error(e, e);
         }
-        return true;
+        return false;
     }
 
 }

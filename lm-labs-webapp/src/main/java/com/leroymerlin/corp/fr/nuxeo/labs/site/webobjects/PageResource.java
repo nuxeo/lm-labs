@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -292,41 +293,28 @@ public class PageResource extends DocumentObject {
     public Response addContent() {
         String name = ctx.getForm().getString("name");
         String location = ctx.getForm().getString("location");
+        boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString("overwritePage"));
         DocumentModel parent = doc;
         CoreSession session = getCoreSession();
         try {
+            LabsSite labsSite = doc.getAdapter(SiteDocument.class).getSite();
+            if (overwrite && !labsSite.isAdministrator(ctx.getPrincipal().getName())) {
+                return Response.status(Status.UNAUTHORIZED).build();
+            }
             if ("same".equals(location)) {
                 parent = session.getParentDocument(doc.getRef());
             } else if ("top".equals(location)) {
-                parent = doc.getAdapter(SiteDocument.class).getSite().getTree();
+                parent = labsSite.getTree();
             }
-            if (LabsSiteUtils.existDeletedPageName(name, parent.getRef(), session)){
-                return Response.ok("existedPageName").build();
-            }
-        } catch (ClientException e) {
-            throw WebException.wrap(e);
-        }
-        
-        DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
-        return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
-    }
-
-    @POST
-    @Path("@addForceContent")
-    public Response addForceContent() {
-        String name = ctx.getForm().getString("name");
-        String location = ctx.getForm().getString("location");
-        DocumentModel parent = doc;
-        CoreSession session = getCoreSession();
-        try {
-            if ("same".equals(location)) {
-                parent = session.getParentDocument(doc.getRef());
-            } else if ("top".equals(location)) {
-                parent = doc.getAdapter(SiteDocument.class).getSite().getTree();
-            }
-            DocumentModel deletedPageDoc = LabsSiteUtils.getDeletedPageName(name, parent.getRef(), session);
-            if (deletedPageDoc != null){
-                session.removeDocument(deletedPageDoc.getRef());
+            if (overwrite) {
+                DocumentModel deletedPageDoc = LabsSiteUtils.getDeletedPageName(name, parent.getRef(), session);
+                if (deletedPageDoc != null){
+                    session.removeDocument(deletedPageDoc.getRef());
+                }
+            } else {
+                if (LabsSiteUtils.existDeletedPageName(name, parent.getRef(), session)){
+                    return Response.ok("existedPageName").build();
+                }
             }
         } catch (ClientException e) {
             throw WebException.wrap(e);
@@ -339,17 +327,22 @@ public class PageResource extends DocumentObject {
     @PUT
     @Path("@setHome")
     public Response setAsHomePage() {
-        LabsSite site;
+        boolean setAsHome = false;
         try {
-            site = doc.getAdapter(SiteDocument.class).getSite();
+            LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
             if (site.isAdministrator(ctx.getPrincipal().getName())) {
                 site.setHomePageRef(doc.getId());
                 doc.getCoreSession().saveDocument(site.getDocument());
+                setAsHome = true;
             }
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        return Response.noContent().build();
+        if (setAsHome) {
+            return Response.noContent().build();
+        } else {
+            return Response.status(Status.UNAUTHORIZED).build();
+        }
     }
 
     /**

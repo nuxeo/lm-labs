@@ -1,6 +1,7 @@
 <h1>Ajouter du contenu</h1>
 
 <form id="add_doc_form" action="${This.path}" method="post">
+  <input name="overwritePage" id="overwritePage" type="hidden" value="false" />
   <fieldset>
     <div class="clearfix">
       <label for="name">${Context.getMessage('label.title')}</label>
@@ -30,9 +31,15 @@
       <label for="location">${Context.getMessage('label.page.creation.location')}</label>
       <div class="input">
         <select name="location">
-          <#assign locations = ["top", "same", "under"] />
+          <#assign locations = ["top"] />
+      	  <#assign defaultLocation = "top" />
+          <#if This.isInstanceOf("LabsPage") && This.type.name != "LabsSite" >
+            <#assign locations = locations + ["same", "under"] />
+            <#assign defaultLocation = "under" />
+          <#else>
+          </#if>
           <#list locations as location>
-          <option value="${location}" <#if location == "under">selected="selected"</#if>>${Context.getMessage('label.page.creation.location.' + location)}</option>
+          <option value="${location}" <#if location == defaultLocation>selected="selected"</#if>>${Context.getMessage('label.page.creation.location.' + location)}</option>
           </#list>
         </select>
       </div>
@@ -84,9 +91,10 @@
 	});
 	
 function addDocWithDelete(){
+	jQuery("#overwritePage").val("true");
 	jQuery.ajax({
 		type: "POST",
-		url: jQuery("#add_doc_form").attr("action") + '/@addForceContent',
+		url: jQuery("#add_doc_form").attr("action") + '/@addContent',
 		data: $("#add_doc_form").serialize(),		
 		success: function(msg){
 			document.location.href = msg;
