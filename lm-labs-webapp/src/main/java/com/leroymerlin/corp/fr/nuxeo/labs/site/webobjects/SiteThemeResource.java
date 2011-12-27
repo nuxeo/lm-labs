@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -42,6 +43,7 @@ public class SiteThemeResource extends PageResource {
     private static final Log LOG = LogFactory.getLog(SiteThemeResource.class);
 
     private LabsSite site;
+
     private SiteTheme theme;
 
     @Override
@@ -51,26 +53,27 @@ public class SiteThemeResource extends PageResource {
         theme = (SiteTheme) args[1];
         doc = theme.getDocument();
     }
-    
+
     @Override
-    public boolean isVisible() throws ClientException{
+    public boolean isVisible() throws ClientException {
         return true;
     }
-    
+
     @Override
-    public Page getPage() throws ClientException{
+    public Page getPage() throws ClientException {
         return null;
     }
 
-    public List<String> getTemplates(){
+    public List<String> getTemplates() {
         LabsThemeManager themeService = getThemeService();
         List<String> entriesTemplate = new ArrayList<String>();
-        if (themeService != null){
+        if (themeService != null) {
             entriesTemplate = themeService.getTemplateList(getModule().getRoot().getAbsolutePath());
         }
-        if (entriesTemplate.isEmpty()){
+        if (entriesTemplate.isEmpty()) {
             LOG.error(THE_THEMES_SHOULD_NOT_BE_EMPTY);
-            LOG.error("Verify the package " + LabsSiteWebAppUtils.DIRECTORY_THEME);
+            LOG.error("Verify the package "
+                    + LabsSiteWebAppUtils.DIRECTORY_THEME);
         }
         return entriesTemplate;
     }
@@ -89,12 +92,13 @@ public class SiteThemeResource extends PageResource {
     public List<String> getThemes() {
         LabsThemeManager themeService = getThemeService();
         List<String> entriesTheme = new ArrayList<String>();
-        if (themeService != null){
+        if (themeService != null) {
             entriesTheme = themeService.getThemeList(getModule().getRoot().getAbsolutePath());
         }
-        if (entriesTheme.isEmpty()){
+        if (entriesTheme.isEmpty()) {
             LOG.error(THE_TEMPLATES_SHOULD_NOT_BE_EMPTY);
-            LOG.error("Verify the package " + LabsSiteWebAppUtils.DIRECTORY_TEMPLATE);
+            LOG.error("Verify the package "
+                    + LabsSiteWebAppUtils.DIRECTORY_TEMPLATE);
         }
         return entriesTheme;
     }
@@ -105,21 +109,23 @@ public class SiteThemeResource extends PageResource {
     }
 
     @DELETE
-    @Path(value="banner")
+    @Path(value = "banner")
     public Response doDeleteBanner() {
         try {
             site.setBanner(null);
             CoreSession session = ctx.getCoreSession();
             session.save();
-            return Response.ok("?message_success=label.labssites.banner.deleted",
+            return Response.ok(
+                    "?message_success=label.labssites.banner.deleted",
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         } catch (ClientException e) {
             LOG.error(e);
-            return Response.ok("?message_warning=label.labssites.banner.notDeleted",
+            return Response.ok(
+                    "?message_warning=label.labssites.banner.notDeleted",
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         }
     }
-    
+
     @GET
     @Path("banner")
     public Response getImgBanner() throws ClientException {
@@ -128,15 +134,15 @@ public class SiteThemeResource extends PageResource {
         if (blob != null) {
             response = Response.ok().entity(blob).type(blob.getMimeType()).build();
         }
-        if (response == null){
-            response = redirect(LabsSiteWebAppUtils.getPathDefaultBanner(getModule(), ctx));
+        if (response == null) {
+            response = redirect(LabsSiteWebAppUtils.getPathDefaultBanner(
+                    getModule(), ctx));
         }
         return response;
     }
-    
-    
+
     @POST
-    @Path(value="appearance")
+    @Path(value = "appearance")
     public Response doPostThemeTemplate() {
         FormData form = ctx.getForm();
         try {
@@ -146,15 +152,15 @@ public class SiteThemeResource extends PageResource {
             site.getThemeManager().setTheme(themeName);
             session.saveDocument(site.getDocument());
             session.save();
-            return redirect(getPrevious().getPath()
-                    + "/@theme/" + themeName + "?message_success=label.labssites.appearance.updated");
+            return redirect(getPrevious().getPath() + "/@theme/" + themeName
+                    + "?message_success=label.labssites.appearance.updated");
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
     }
 
     @POST
-    @Path(value="parameters")
+    @Path(value = "parameters")
     public Response doPostParameters() {
         boolean modified = false;
         FormData form = ctx.getForm();
@@ -163,14 +169,15 @@ public class SiteThemeResource extends PageResource {
         String ratio = form.getString("resize_ratio");
         String style = form.getString("style");
         try {
-            if(form.isMultipartContent()){
+            if (form.isMultipartContent()) {
                 Blob logo = form.getBlob("logo");
                 Blob banner = form.getBlob("banner");
-                if(logo != null && !StringUtils.isEmpty(logo.getFilename())){
+                if (logo != null && !StringUtils.isEmpty(logo.getFilename())) {
                     theme.setLogo(logo);
                     modified = true;
                 }
-                if(banner != null && !StringUtils.isEmpty(banner.getFilename())){
+                if (banner != null
+                        && !StringUtils.isEmpty(banner.getFilename())) {
                     theme.setBanner(banner);
                     modified = true;
                 }
@@ -182,7 +189,8 @@ public class SiteThemeResource extends PageResource {
                     theme.setLogoPosY(Integer.parseInt(posy));
                     modified = true;
                 }
-                if (StringUtils.isNotBlank(ratio) && StringUtils.isNumeric(ratio)) {
+                if (StringUtils.isNotBlank(ratio)
+                        && StringUtils.isNumeric(ratio)) {
                     theme.setLogoResizeRatio(Integer.parseInt(ratio));
                     modified = true;
                 }
@@ -192,31 +200,56 @@ public class SiteThemeResource extends PageResource {
                     CoreSession session = ctx.getCoreSession();
                     session.saveDocument(theme.getDocument());
                     session.save();
-                    return redirect(getPath() + "?message_success=label.labssites.appearance.theme.edit.updated");
+                    return redirect(getPath()
+                            + "?message_success=label.labssites.appearance.theme.edit.updated");
                 }
             }
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        return redirect(getPath() + "?message_warning=label.labssites.appearance.theme.edit.not_updated");
+        return redirect(getPath()
+                + "?message_warning=label.labssites.appearance.theme.edit.not_updated");
     }
-    
+
+    @POST
+    @Path(value = "logoXY")
+    public Response doPostLogoXY(@FormParam("posX") String posX,
+            @FormParam("posY") String posY) {
+        try {
+            if (StringUtils.isBlank(posX) || StringUtils.isBlank(posY)) {
+                return redirect(getPath()
+                        + "?message_warning=label.labssites.appearance.theme.edit.logo.not_updated");
+            }
+
+            theme.setLogoPosX(Integer.parseInt(posX));
+            theme.setLogoPosY(Integer.parseInt(posY));
+            CoreSession session = ctx.getCoreSession();
+            session.saveDocument(theme.getDocument());
+            session.save();
+            return redirect(getPath()
+                    + "?message_success=label.labssites.appearance.theme.edit.logo.updated");
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+    }
+
     @DELETE
-    @Path(value="logo")
+    @Path(value = "logo")
     public Response doDeleteLogo() {
         try {
             theme.setLogo(null);
             CoreSession session = ctx.getCoreSession();
             session.saveDocument(theme.getDocument());
             session.save();
-            return redirect(getPath() + "?message_success=label.labssites.logo.updated");
+            return redirect(getPath()
+                    + "?message_success=label.labssites.logo.updated");
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
     }
-    
+
     @GET
-    @Path(value="logo")
+    @Path(value = "logo")
     public Response getImgLogo() throws ClientException {
         Blob blob = theme.getLogo();
         if (blob == null) {
