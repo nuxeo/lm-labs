@@ -28,7 +28,7 @@ $(document).ready(function() {
   
   
 });
-
+var hasError = false;
 function initRequiredFields(){
 	$(".required-fields").bind("click", function(event) {
 		  var form = null;
@@ -39,7 +39,7 @@ function initRequiredFields(){
 		  else{
 			  alert("Vous devez définir un attribut form-id sur l'élément .required, correspondant à l'identifiant du formulaire");
 		  }
-		  var hasError = false;
+		  hasError = false;
 		  $(form).children().find(".required").each(function(i, element) {
 			    var elementInputClass = $(element).parents(".clearfix");
 				if($(element) && $(element).val().length < 1){
