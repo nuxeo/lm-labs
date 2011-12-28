@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/piwik"
+  xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/piwik">
+
+  <xs:element name="piwikId" type="xs:string"/>
+
+</xs:schema>
+
