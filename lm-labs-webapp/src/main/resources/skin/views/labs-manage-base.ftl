@@ -72,7 +72,7 @@
     </div><!--FKtopContent-->
 
     <div id="FKfooter">
-        <#include "views/common/footer.ftl">
+        <#include "views/footer-manage-base.ftl">
     </div><!--FKfooter-->
 <div>
 &nbsp;
