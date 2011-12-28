@@ -70,7 +70,18 @@
 	          <#list undeletedLabsSites as sit>
 	            <tr>
 	              <td>${sit.title}</td>
-	              <td>${userFullName(sit.document.dublincore.creator)}</td>
+	              <#assign administratorsSiteSize = sit.administratorsSite?size />
+	              <#assign cptAdministratorsSite = 0 />
+	              <#if (administratorsSiteSize > 0)>
+	              	<td>
+	              		<#list sit.administratorsSite as siteAdministrator>
+	              			${userFullName(siteAdministrator)}&nbsp;<#if (cptAdministratorsSite != administratorsSiteSize -1)>,</#if>
+	              			<#assign cptAdministratorsSite = cptAdministratorsSite + 1/>
+	              		</#list>
+	              	</td>
+	              <#else>
+	              	<td>${userFullName(sit.document.dublincore.creator)}</td>
+	              </#if>
 	              <td><a class="btn" href="${This.path}/${sit.URL}">Voir</a></td>
 	              <#if sit.isAdministrator(Context.principal.name) >
 	              	<#assign hasOneMoreDeletedSite = true />
@@ -127,7 +138,18 @@
 			          <#list deletedLabsSites as deletedSite>
 			            <tr>
 			              <td>${deletedSite.title}</td>
-			              <td>${userFullName(deletedSite.document.dublincore.creator)}</td>
+			              <#assign administratorsSiteSize = deletedSite.administratorsSite?size />
+			              <#assign cptAdministratorsSite = 0 />
+			              <#if (administratorsSiteSize > 0)>
+			              	<td>
+			              		<#list deletedSite.administratorsSite as siteAdministrator>
+			              			${userFullName(siteAdministrator)}&nbsp;<#if (cptAdministratorsSite != administratorsSiteSize -1)>,</#if>
+			              			<#assign cptAdministratorsSite = cptAdministratorsSite + 1/>
+			              		</#list>
+			              	</td>
+			              <#else>
+			              	<td>${userFullName(deletedSite.document.dublincore.creator)}</td>
+			              </#if>
 			              <td>
 			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>

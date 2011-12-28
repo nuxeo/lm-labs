@@ -4,7 +4,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +19,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,7 +28,6 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
-import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.directory.SizeLimitExceededException;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
@@ -43,6 +39,8 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.common.core.security.GroupUserSuggest;
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.GroupsUsersSuggestHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 
 /**
@@ -56,38 +54,22 @@ public class LabsPermissionsService extends DefaultAdapter {
         GRANT, REMOVE;
     }
 
-    public enum Rights {
-
-        EVERYTHING(SecurityConstants.EVERYTHING), WRITE(
-                SecurityConstants.READ_WRITE), READ(SecurityConstants.READ);
-
-        private String right;
-
-        Rights(String right) {
-            this.right = right;
-        }
-
-        public String getRight() {
-            return right;
-        }
-    }
-
     private static final Log log = LogFactory.getLog(LabsPermissionsService.class);
 
     private static final String THE_RIGHT_LIST_DONT_BE_NULL = "The right'list dont be null !";
 
     @GET
     public Object doGet() {
-        List<LMPermission> permissions = extractPermissions();
+        List<LMPermission> permissions = extractPermissions(getDocument());
         List<LMPermission> permissionsAdmin = new ArrayList<LMPermission>();
         List<LMPermission> permissionsWrite = new ArrayList<LMPermission>();
         List<LMPermission> permissionsRead = new ArrayList<LMPermission>();
         for (LMPermission perm : permissions) {
-            if (Rights.EVERYTHING.right.equals(perm.getPermission())) {
+            if (Rights.EVERYTHING.getRight().equals(perm.getPermission())) {
                 permissionsAdmin.add(perm);
-            } else if (Rights.WRITE.right.equals(perm.getPermission())) {
+            } else if (Rights.WRITE.getRight().equals(perm.getPermission())) {
                 permissionsWrite.add(perm);
-            } else if (Rights.READ.right.equals(perm.getPermission())) {
+            } else if (Rights.READ.getRight().equals(perm.getPermission())) {
                 permissionsRead.add(perm);
             }
         }
@@ -99,7 +81,7 @@ public class LabsPermissionsService extends DefaultAdapter {
     @GET
     @Path("permAdmin")
     public Object doGetPermissionsAdmin() {
-        List<LMPermission> permissions = extractPermissions();
+        List<LMPermission> permissions = extractPermissions(getDocument());
         List<LMPermission> permissionsAdmin = new ArrayList<LMPermission>();
         Map<String, String> usernameAndEmail = new HashMap<String, String>(
                 permissionsAdmin.size());
@@ -111,7 +93,7 @@ public class LabsPermissionsService extends DefaultAdapter {
         }
 
         for (LMPermission perm : permissions) {
-            if (Rights.EVERYTHING.right.equals(perm.getPermission())) {
+            if (Rights.EVERYTHING.getRight().equals(perm.getPermission())) {
                 permissionsAdmin.add(perm);
                 try {
                     NuxeoPrincipal principal = userManager.getPrincipal(perm.getName());
@@ -126,26 +108,12 @@ public class LabsPermissionsService extends DefaultAdapter {
                 permissionsAdmin).arg("usernameAndEmail", usernameAndEmail);
     }
 
-    private List<LMPermission> extractPermissions() {
-        List<LMPermission> permissions = new ArrayList<LMPermission>();
-        DocumentModel document = getDocument();
+    private List<LMPermission> extractPermissions(DocumentModel document) {
         try {
-            permissions = PermissionsHelper.getPermissions(document);
-            @SuppressWarnings("deprecation")
-            final String[] excludedUsers = { SecurityConstants.ADMINISTRATOR,
-                    SecurityConstants.ADMINISTRATORS, SecurityConstants.MEMBERS };
-            CollectionUtils.filter(permissions, new Predicate() {
-                public boolean evaluate(Object o) {
-                    return ((LMPermission) o).isGranted()
-                            && !Arrays.asList(excludedUsers).contains(
-                                    ((LMPermission) o).getName());
-                }
-            });
-
+            return LabsSiteUtils.extractPermissions(document);
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
-        return permissions;
     }
 
     /**

@@ -1,5 +1,10 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -10,6 +15,8 @@ import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
+
+import com.leroymerlin.common.core.security.LMPermission;
 
 
 public final class LabsSiteUtils {
@@ -60,6 +67,21 @@ public final class LabsSiteUtils {
             log.error(e, e);
         }
         return false;
+    }
+    
+    public static List<LMPermission> extractPermissions(DocumentModel document) throws Exception{
+        List<LMPermission> permissions = PermissionsHelper.getPermissions(document);
+        @SuppressWarnings("deprecation")
+        final String[] excludedUsers = { SecurityConstants.ADMINISTRATOR,
+                SecurityConstants.ADMINISTRATORS, SecurityConstants.MEMBERS };
+        CollectionUtils.filter(permissions, new Predicate() {
+            public boolean evaluate(Object o) {
+                return ((LMPermission) o).isGranted()
+                        && !Arrays.asList(excludedUsers).contains(
+                                ((LMPermission) o).getName());
+            }
+        });
+        return permissions;
     }
 
 }

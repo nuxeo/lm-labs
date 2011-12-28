@@ -193,6 +193,22 @@ public final class LabsSiteConstants {
         PERMISSIONS_HELPER = new PermissionsHelper(OREDERED_PERMISSONS);
     }
 
+    public enum Rights {
+
+        EVERYTHING(SecurityConstants.EVERYTHING), WRITE(
+                SecurityConstants.READ_WRITE), READ(SecurityConstants.READ);
+
+        private String right;
+
+        Rights(String right) {
+            this.right = right;
+        }
+
+        public String getRight() {
+            return right;
+        }
+    }
+
     private LabsSiteConstants() {}
 
 }

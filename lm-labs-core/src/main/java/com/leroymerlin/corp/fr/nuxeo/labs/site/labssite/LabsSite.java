@@ -117,4 +117,6 @@ public interface LabsSite  extends LabsBase {
 
     boolean updateUrls(String oldUrl, String newUrl) throws ClientException;
 
+    List<String> getAdministratorsSite() throws Exception;
+
 }

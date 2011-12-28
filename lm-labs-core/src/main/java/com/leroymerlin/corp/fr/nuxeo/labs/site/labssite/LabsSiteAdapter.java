@@ -26,6 +26,7 @@ import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 
+import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.corp.fr.nuxeo.labs.filter.DocUnderVisiblePageFilter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -40,7 +41,9 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManagerImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 /**
  * @author fvandaele
@@ -419,6 +422,18 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             updated = true;
         }
         return updated;
+    }
+
+    @Override
+    public List<String> getAdministratorsSite() throws Exception {
+        List<String> result = new ArrayList<String>();
+        List<LMPermission> permissions = LabsSiteUtils.extractPermissions(this.doc);
+        for (LMPermission perm : permissions) {
+            if (Rights.EVERYTHING.getRight().equals(perm.getPermission())) {
+                result.add(perm.getName());
+            }
+        }
+        return result;
     }
 
 }

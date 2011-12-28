@@ -192,6 +192,20 @@ public class SiteManagerTest {
         assertThat(administrators.get(0), is("Everything"));
     }
     
+    @Test
+    public void iCanGetAdministrators() throws Exception{
+        CoreSession sess = changeUser("CGM");
+        LabsSite site = sm.createSite(sess, "Mon titre", "myurl");
+        site.setDescription("desc");
+        sess.save();
+        
+        List<String> administrators = site.getAdministratorsSite();
+        
+        assertThat(administrators, notNullValue());
+        assertThat(administrators.size(), is(1));
+        assertThat(administrators.get(0), is("CGM"));
+    }
+    
     
     private CoreSession changeUser(String username) throws ClientException {
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
