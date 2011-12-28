@@ -20,6 +20,7 @@
     <schema name="sitetheme" prefix="sitetheme" src="schemas/sitetheme.xsd" />
     <schema name="labstemplate" prefix="labstemplate" src="schemas/labstemplate.xsd" />
     <schema name="mailnotif" prefix="mailnotif" src="schemas/mailnotif.xsd" />
+    <schema name="piwik" prefix="piwik" src="schemas/piwik.xsd" />
   </extension>
 
   <extension target="org.nuxeo.ecm.core.schema.TypeService"
@@ -49,6 +50,7 @@
       <schema name="labssite" />
       <schema name="page" />
       <schema name="labstemplate" />
+      <schema name="piwik" />
       <subtypes>
         <type>Tree</type>
         <type>Assets</type>
