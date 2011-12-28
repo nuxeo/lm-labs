@@ -189,13 +189,11 @@
 						    async: false,
 						    url: url,
 						    success: function(data) {
-						    	if (data == 'definitelyDeleted') {
-						          alert("${Context.getMessage('label.lifeCycle.site.hasDefinitelyDelete')}");
-						          document.location.href = '${Context.modulePath}';
-						        }
-						        else {
-						          alert("${Context.getMessage('label.lifeCycle.site.hasNotDefinitelyDelete')}");
-						        }
+					          alert("${Context.getMessage('label.lifeCycle.site.hasDefinitelyDelete')}");
+					          document.location.href = '${Context.modulePath}';
+						    },
+						    error: function(data) {
+					          alert("${Context.getMessage('label.lifeCycle.site.hasNotDefinitelyDelete')}");
 						    }
 						});
 					}
