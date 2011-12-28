@@ -123,6 +123,7 @@
 
     <div id="FKfooter">
         <#include "views/common/footer.ftl">
+        <#include "views/common/piwik.ftl">
     </div><!--FKfooter-->
 <div>
 &nbsp;
