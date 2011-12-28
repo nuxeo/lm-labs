@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.event;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,13 +22,12 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageNotificationServ
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
-import com.mchange.v1.lang.BooleanUtils;
 
 public class PageActivitiesEventListener extends PageNotifier implements EventListener {
 
     private static final Log LOG = LogFactory.getLog(PageActivitiesEventListener.class);
 
-    static final ArrayList<String> markDocs = new ArrayList<String>(
+    static final List<String> markDocs = new ArrayList<String>(
             Arrays.asList(
                     Docs.PAGEBLOCS.type(),
                     Docs.DASHBOARD.type(),
@@ -38,13 +38,13 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
                     Docs.HTMLPAGE.type(),
                     Docs.LABSNEWS.type()
                     ));
-    static final ArrayList<String> markParentDocs = new ArrayList<String>(
+    static final List<String> markParentDocs = new ArrayList<String>(
             Arrays.asList(
                     Docs.PAGECLASSEURFOLDER.type(),
                     "File",
                     "Picture"
                     ));
-    static final ArrayList<String> markParentPageDocs = new ArrayList<String>(
+    static final List<String> markParentPageDocs = new ArrayList<String>(
             Arrays.asList(
                     Docs.LABSNEWS.type(), // on creation
                     Docs.PAGELIST_LINE.type()
@@ -67,8 +67,12 @@ public class PageActivitiesEventListener extends PageNotifier implements EventLi
         DocumentEventContext ctx = (DocumentEventContext) evt.getContext();
         DocumentModel doc = ctx.getSourceDocument();
         if (doc != null) {
-            if (Docs.NOTIFACTIVITIES.type().equals(doc.getType())) {
-                return;
+            List<String> allTypes = new ArrayList<String>();
+            allTypes.addAll(markDocs);
+            allTypes.addAll(markParentDocs);
+            allTypes.addAll(markParentPageDocs);
+            if (!allTypes.contains(doc.getType())) {
+            	return;
             }
             LOG.debug("event: " + eventName);
             boolean processed = false;
