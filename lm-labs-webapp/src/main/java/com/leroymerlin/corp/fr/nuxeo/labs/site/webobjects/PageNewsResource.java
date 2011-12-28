@@ -28,7 +28,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html.RowTemplate;
  * @author fvandaele
  *
  */
-@WebObject(type = "PageNews", superType = "Page")
+@WebObject(type = "PageNews", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
 public class PageNewsResource extends NotifiablePageResource {
 
