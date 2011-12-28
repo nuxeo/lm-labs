@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -159,22 +158,6 @@ public class SitesRoot extends ModuleRoot {
         } catch (SiteManagerException e) {
             throw new WebResourceNotFoundException(e.getMessage(), e);
         }
-    }
-
-    @DELETE
-    @Path("definitelyDelete/{url}")
-    public Object doDeleteDefinitelySite(@PathParam("url") final String pURL) {
-        CoreSession session = getContext().getCoreSession();
-        SiteManager sm = getSiteManager();
-        try {
-            sm.removeSite(session, sm.getSite(session, pURL));
-            return Response.ok("definitelyDeleted").build();
-        } catch (ClientException e) {
-            log.error(e.getMessage(), e);
-        } catch (SiteManagerException e) {
-            log.error(e.getMessage(), e);
-        }
-        return Response.ok("notDefinitelyDeleted").build();
     }
 
     /**

@@ -155,7 +155,7 @@
 			              </td>
 			              <#if deletedSite.isAdministrator(Context.principal.name) >
 			              	<#assign hasOneMoreDeletedDefinitelySite = true />
-			              	<td><a href="#" class="btn" onclick="javascript:deleteDefinitelySite('${Context.modulePath}/definitelyDelete/${deletedSite.URL}');">${Context.getMessage('command.siteactions.delete')}</a></td>
+			              	<td><a href="#" class="btn" onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');">${Context.getMessage('command.siteactions.delete')}</a></td>
 			              <#else>
 			              	<td class="deletedMydeletedSites"></td>
 			              </#if>
