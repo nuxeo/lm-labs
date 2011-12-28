@@ -47,6 +47,14 @@
                     <textarea name="description" id="labsSiteDescription" >${site.description}</textarea>
                   </div>
                 </div><!-- /clearfix -->
+
+                <div class="clearfix">
+                  <label for="piwik:piwikId">${Context.getMessage('label.labssite.edit.piwikId')}</label>
+                  <div class="input">
+                    <textarea name="piwik:piwikId" id="piwik:piwikId" >${site.piwikId}</textarea>
+                  </div>
+                </div><!-- /clearfix -->
+                
               </fieldset>
               <div class="actions">
                 <button class="btn primary">${Context.getMessage('label.labssites.edit.valid')}</button>

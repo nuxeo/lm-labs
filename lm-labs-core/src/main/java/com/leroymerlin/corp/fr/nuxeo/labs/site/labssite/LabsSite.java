@@ -118,5 +118,9 @@ public interface LabsSite  extends LabsBase {
     boolean updateUrls(String oldUrl, String newUrl) throws ClientException;
 
     List<String> getAdministratorsSite() throws Exception;
+    
+    String getPiwikId() throws ClientException;
+    
+    void setPiwikId(String piwikId) throws ClientException;
 
 }

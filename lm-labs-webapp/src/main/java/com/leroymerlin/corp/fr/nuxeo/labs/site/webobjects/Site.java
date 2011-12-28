@@ -110,6 +110,7 @@ public class Site extends PageResource {
         String title = form.getString("title");
         String url = form.getString("URL");
         String description = form.getString("description");
+        String piwikId = form.getString("piwik:piwikId");
         boolean modified = false;
         try {
             if (!StringUtils.isEmpty(title)) {
@@ -124,6 +125,12 @@ public class Site extends PageResource {
             url = StringUtils.trim(url);
             if (!StringUtils.isEmpty(url) && !url.equals(oldUrl)) {
                 site.setURL(url);
+                modified = true;
+            }
+            String oldPiwikId = site.getPiwikId();
+            piwikId = StringUtils.trim(piwikId);
+            if (!StringUtils.equals(piwikId, oldPiwikId)) {
+            	site.setPiwikId(piwikId);
                 modified = true;
             }
             String msgLabel = "label.labssites.edit.noop";

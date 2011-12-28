@@ -44,6 +44,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.piwik.Piwik;
 
 /**
  * @author fvandaele
@@ -435,5 +436,15 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         }
         return result;
     }
+
+	@Override
+	public String getPiwikId() throws ClientException {
+		return doc.getAdapter(Piwik.class).getId();
+	}
+
+	@Override
+	public void setPiwikId(String piwikId) throws ClientException {
+		doc.getAdapter(Piwik.class).setId(piwikId);
+	}
 
 }

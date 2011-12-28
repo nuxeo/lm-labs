@@ -199,13 +199,13 @@ public class SitesRoot extends ModuleRoot {
     public Response doPost(@FormParam("labsSiteTitle") String pTitle,
             @FormParam("labsSiteURL") String pURL,
             @FormParam("labsSiteDescription") String pDescription,
-            @FormParam("labssiteId") String pId) {
+            @FormParam("piwik:piwikId") String piwikId) {
         CoreSession session = ctx.getCoreSession();
 
         SiteManager sm = getSiteManager();
         try {
             LabsSite labSite = sm.createSite(session, pTitle, pURL);
-            labSite.setURL(pURL);
+            labSite.setPiwikId(StringUtils.trim(piwikId));
             session.saveDocument(labSite.getDocument());
             session.save();
             return redirect(getPath() + "/" + labSite.getURL());
