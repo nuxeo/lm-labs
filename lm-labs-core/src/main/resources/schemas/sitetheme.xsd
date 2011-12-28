@@ -11,5 +11,21 @@
   <xs:element name="logo_resize_ratio" type="xs:integer" default="100" /> <!-- percentage -->
   <xs:element name="style" type="xs:string" />
   <xs:element name="oldStyle" type="xs:string" />
+  
+  <xs:element nillable="false" name="properties">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="key" minOccurs="0" type="xs:string"/>
+              <xs:element name="value" minOccurs="0" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
 </xs:schema>
 

@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.theme;
 
+import java.util.Map;
+
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -37,4 +39,8 @@ public interface SiteTheme {
     String getStyle() throws ClientException;
     
     void setStyle(String style) throws ClientException;
+
+    Map<String, String> getProperties() throws ClientException;
+    
+    void setProperties(Map<String, String> properties) throws ClientException;
 }

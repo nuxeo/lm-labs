@@ -5,6 +5,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -213,5 +216,74 @@ public class ThemeTest {
         blob.setMimeType("image/jpeg");
         blob.setFilename(filename);
         return blob;
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void canSetProperties() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        
+        Map<String, String> properties = new HashMap<String, String>();
+        properties.put("bgcolor", "#EFFFFFF");
+        properties.put("background-url", "/nuxeo/hotslip/asset/img/fff.png");
+        
+        theme.setProperties(properties);
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        
+        assertThat((List<Map<String, Object>>)theme.getDocument().getPropertyValue("sitetheme:properties"), notNullValue());
+        assertThat(((List<Map<String, Object>>)theme.getDocument().getPropertyValue("sitetheme:properties")).size(), is(2));
+        Map<String, Object> get0 = ((List<Map<String, Object>>)theme.getDocument().getPropertyValue("sitetheme:properties")).get(0);
+        Map<String, Object> get1 = ((List<Map<String, Object>>)theme.getDocument().getPropertyValue("sitetheme:properties")).get(1);
+        if(get0.get("key").equals("bgcolor")){
+            assertThat(get0.get("value").toString(), is("#EFFFFFF"));
+        }
+        else if(get0.get("key").equals("background-url")){
+            assertThat(get0.get("value").toString(), is("/nuxeo/hotslip/asset/img/fff.png"));
+        }
+        else{
+            assertThat(null, notNullValue());
+        }
+        
+        if(get1.get("key").equals("bgcolor")){
+            assertThat(get1.get("value").toString(), is("#EFFFFFF"));
+        }
+        else if(get1.get("key").equals("background-url")){
+            assertThat(get1.get("value").toString(), is("/nuxeo/hotslip/asset/img/fff.png"));
+        }
+        else{
+            assertThat(null, notNullValue());
+        }
+    }
+    
+    @Test
+    public void canGetProperties() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        
+        Map<String, String> properties = new HashMap<String, String>();
+        properties.put("bgcolor", "#EFFFFFF");
+        properties.put("background-url", "/nuxeo/hotslip/asset/img/fff.png");
+        
+        theme.setProperties(properties);
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        properties = theme.getProperties();
+
+        assertThat(properties.get("bgcolor").toString(), is("#EFFFFFF"));
+        assertThat(properties.get("background-url").toString(), is("/nuxeo/hotslip/asset/img/fff.png"));
     }
 }

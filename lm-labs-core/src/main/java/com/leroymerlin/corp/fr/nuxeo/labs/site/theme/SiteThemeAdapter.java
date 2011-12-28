@@ -1,6 +1,11 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.theme;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,6 +16,7 @@ import org.nuxeo.ecm.platform.picture.api.ImageInfo;
 import org.nuxeo.ecm.platform.picture.api.ImagingService;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
 public class SiteThemeAdapter implements SiteTheme {
@@ -25,6 +31,7 @@ public class SiteThemeAdapter implements SiteTheme {
     private static final String PROPERTY_LOGO_POSY = Schemas.SITETHEME.prefix() + ":logo_posy";
     private static final String PROPERTY_LOGO_RESIZE_RATIO = Schemas.SITETHEME.prefix() + ":logo_resize_ratio";
     private static final String PROPERTY_STYLECSS = Schemas.SITETHEME.prefix() + ":style";
+    private static final String PROPERTIES = Schemas.SITETHEME.prefix() + ":properties";
 
     private final DocumentModel doc;
 
@@ -132,6 +139,39 @@ public class SiteThemeAdapter implements SiteTheme {
     @Override
     public void setStyle(String style) throws ClientException {
         doc.setPropertyValue(PROPERTY_STYLECSS, style);
+    }
+
+    @Override
+    public Map<String, String> getProperties() throws ClientException {
+        Map<String, String> properties = new HashMap<String, String>();
+        Serializable objPropertiesList = doc.getProperty(PROPERTIES);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> propertiesList = (List<Map<String, Object>>) objPropertiesList;
+        for (Map<String, Object> list : propertiesList) {
+            properties.put(Tools.getString(list.get("key")), Tools.getString(list.get("value")));
+        }
+        return properties;
+    }
+
+    @Override
+    public void setProperties(Map<String, String> properties) throws ClientException {
+        List<Map<String, Object>> listProperties = new ArrayList<Map<String, Object>>();
+        if (properties != null){
+            for (Map.Entry<String, String> property : properties.entrySet()) {
+                listProperties.add(getPropertyMap(property));
+            }
+            doc.getProperty(PROPERTIES).setValue(listProperties);
+        }
+        else{
+            doc.getProperty(PROPERTIES).setValue(null);
+        }
+    }
+
+    private Map<String, Object> getPropertyMap(Entry<String, String> pProperty) {
+        Map<String, Object> property = new HashMap<String, Object>();
+        property.put("key", pProperty.getKey());
+        property.put("value", pProperty.getValue());
+        return property;
     }
 
 }
