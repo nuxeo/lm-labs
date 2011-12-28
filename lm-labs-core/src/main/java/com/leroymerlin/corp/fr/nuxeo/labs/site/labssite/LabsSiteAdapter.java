@@ -447,4 +447,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 		doc.getAdapter(Piwik.class).setId(piwikId);
 	}
 
+	@Override
+	public boolean isPiwikEnabled() throws ClientException {
+		return StringUtils.isNotBlank(getPiwikId());
+	}
+
 }

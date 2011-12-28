@@ -122,5 +122,7 @@ public interface LabsSite  extends LabsBase {
     String getPiwikId() throws ClientException;
     
     void setPiwikId(String piwikId) throws ClientException;
+    
+    boolean isPiwikEnabled() throws ClientException;
 
 }

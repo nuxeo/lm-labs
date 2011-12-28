@@ -55,7 +55,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFormatDa
  * @author fvandaele
  * 
  */
-@WebObject(type = "PageList")
+@WebObject(type = "PageList", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
 public class PageListResource extends NotifiablePageResource {
 

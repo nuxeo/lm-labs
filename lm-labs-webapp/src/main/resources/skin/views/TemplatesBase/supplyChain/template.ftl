@@ -121,6 +121,7 @@
 		</div>
 	    <div id="FKfooter">
 	        &nbsp;&nbsp;<#include "views/common/footer.ftl">
+	        <#include "views/common/piwik.ftl">
 		    
 	    </div><!--FKfooter-->
 	    <div class="bottomJagged">&nbsp;</div>
