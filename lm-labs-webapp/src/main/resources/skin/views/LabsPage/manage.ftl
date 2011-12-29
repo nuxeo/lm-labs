@@ -10,9 +10,9 @@
       </div>
     </div><!-- /clearfix -->
     <div class="clearfix">
-      <label for="dc:description">${Context.getMessage('label.description')}</label>
+      <label for="description">${Context.getMessage('label.description')}</label>
       <div class="input">
-        <textarea name="description"/>
+        <textarea id="description" name="description"/>
         </textarea>
       </div>
     </div><!-- /clearfix -->
