@@ -236,8 +236,8 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     private DocumentEventContext getContext(DocumentModel doc) throws ClientException, PropertyException {
         DocumentEventContext ctx = new DocumentEventContext(doc.getCoreSession(), doc.getCoreSession().getPrincipal(), doc);
         ctx.setProperty("PageId", doc.getId());
-        String loopbackurl = Framework.getProperty("nuxeo.loopback.url");
-        ctx.setProperty("baseUrl", loopbackurl);
+        String baseUrl = Framework.getProperty("labs.baseUrl", "nuxeo.loopback.url" + "/site/labssites");
+        ctx.setProperty("labsBaseUrl", baseUrl);
         ctx.setProperty("siteUrl", (Serializable) doc.getAdapter(SiteDocument.class).getSite().getURL());
         ctx.setProperty("siteTitle", (Serializable) doc.getAdapter(SiteDocument.class).getSite().getTitle());
         ctx.setProperty("pageUrl", doc.getAdapter(Page.class).getPath());
