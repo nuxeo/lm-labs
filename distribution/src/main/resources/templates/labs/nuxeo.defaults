@@ -1,3 +1,4 @@
 # Mail settings (for notifications)
 nuxeo.notification.eMailSubjectPrefix=[Nuxeo-Labs] 
 #labs.notification.enabled=true
+#labs.baseUrl=http://localhost:8080/nuxeo
