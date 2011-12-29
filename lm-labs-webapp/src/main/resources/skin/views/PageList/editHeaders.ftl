@@ -88,6 +88,6 @@
 <div  class="actions">
 	<button id="saveHeaderList" class="btn primary" onClick="javascript:saveHeaderList('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
 	<button id="cancel" class="btn" onClick="javascript:closeManageList();" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
-	<br /><br />
-	<button id="StructureJsHeaders" class="btn info" onClick="javascript:alert(headersCollection.toString());" >StructureJsHeaders</button>
+	<!--<br /><br />
+	<button id="StructureJsHeaders" class="btn info" onClick="javascript:alert(headersCollection.toString());" >StructureJsHeaders</button>-->
 </div>
