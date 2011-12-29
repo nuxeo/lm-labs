@@ -14,8 +14,6 @@ import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
-
 import com.leroymerlin.common.core.security.LMPermission;
 
 
@@ -46,21 +44,18 @@ public final class LabsSiteUtils {
         return result;
     }
     
-    public static DocumentModel getDeletedPageName(String name, DocumentRef parentRef, CoreSession session) throws ClientException{
+    public static DocumentModel getPageName(String name, DocumentRef parentRef, CoreSession session) throws ClientException {
         DocumentModel parent = session.getDocument(parentRef);
         PathRef pathRef = new PathRef(parent.getPathAsString() + "/" + name);
         if (session.exists(pathRef)) {
-            DocumentModel child = session.getDocument(pathRef);
-            if (State.DELETE.getState().equals(child.getCurrentLifeCycleState())) {
-                return child;
-            }
+            return session.getDocument(pathRef);
         }
         return null;
     }
     
-    public static boolean existDeletedPageName(final String title, DocumentRef parentRef, CoreSession session) {
+    public static boolean pageNameExists(final String title, DocumentRef parentRef, CoreSession session) {
         try {
-            if(getDeletedPageName(title, parentRef, session) != null) {
+            if(getPageName(title, parentRef, session) != null) {
                 return true;
             }
         } catch (ClientException e) {

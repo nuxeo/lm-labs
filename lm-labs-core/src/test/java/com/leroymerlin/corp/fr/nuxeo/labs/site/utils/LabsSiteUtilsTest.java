@@ -300,7 +300,7 @@ public final class LabsSiteUtilsTest {
     }
     
     @Test
-    public void existDeletedPageName() throws Exception {
+    public void existPageName() throws Exception {
         LabsSite site = sm.createSite(session, "Mon Site", "monsite");
 
         DocumentModel pageClasseur = session.createDocumentModel(
@@ -315,18 +315,23 @@ public final class LabsSiteUtilsTest {
                 site.getTree().getPathAsString(), "pageNews", Docs.PAGENEWS.type());
         pageNews = session.createDocument(pageNews);
         session.save();
-        assertFalse(LabsSiteUtils.existDeletedPageName("pageNews", site.getTree().getRef(), session));
+        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree().getRef(), session));
+        pageNews.getAdapter(LabsPublisher.class).publish();
+        session.save();
+        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree().getRef(), session));
+        pageNews.getAdapter(LabsPublisher.class).draft();
+        session.save();
+        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree().getRef(), session));
         pageNews.getAdapter(LabsPublisher.class).delete();
-        
         session.save();
 
-        assertFalse(LabsSiteUtils.existDeletedPageName("papage", site.getTree().getRef(), session));
-        assertFalse(LabsSiteUtils.existDeletedPageName("pageList", site.getTree().getRef(), session));
-        assertTrue(LabsSiteUtils.existDeletedPageName("pageNews", site.getTree().getRef(), session));
+        assertFalse(LabsSiteUtils.pageNameExists("papage", site.getTree().getRef(), session));
+        assertFalse(LabsSiteUtils.pageNameExists("pageList", site.getTree().getRef(), session));
+        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree().getRef(), session));
     }
     
     @Test
-    public void getDeletedPageName() throws Exception {
+    public void getPageName() throws Exception {
         LabsSite site = sm.createSite(session, "Mon Site", "monsite");
 
         DocumentModel pageClasseur = session.createDocumentModel(
@@ -340,13 +345,14 @@ public final class LabsSiteUtilsTest {
         DocumentModel pageNews = session.createDocumentModel(
                 site.getTree().getPathAsString(), "pageNews", Docs.PAGENEWS.type());
         pageNews = session.createDocument(pageNews);
+        assertNotNull(LabsSiteUtils.getPageName("pageNews", site.getTree().getRef(), session));
         pageNews.getAdapter(LabsPublisher.class).delete();
         
         session.save();
 
-        assertNull(LabsSiteUtils.getDeletedPageName("papage", site.getTree().getRef(), session));
-        assertNull(LabsSiteUtils.getDeletedPageName("pageList", site.getTree().getRef(), session));
-        assertNotNull(LabsSiteUtils.getDeletedPageName("pageNews", site.getTree().getRef(), session));
+        assertNull(LabsSiteUtils.getPageName("papage", site.getTree().getRef(), session));
+        assertNull(LabsSiteUtils.getPageName("pageList", site.getTree().getRef(), session));
+        assertNotNull(LabsSiteUtils.getPageName("pageNews", site.getTree().getRef(), session));
     }
 
 }

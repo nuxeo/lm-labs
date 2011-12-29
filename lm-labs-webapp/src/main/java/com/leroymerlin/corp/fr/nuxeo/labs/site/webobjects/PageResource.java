@@ -388,12 +388,12 @@ public class PageResource extends DocumentObject {
                 parent = labsSite.getTree();
             }
             if (overwrite) {
-                DocumentModel deletedPageDoc = LabsSiteUtils.getDeletedPageName(name, parent.getRef(), session);
+                DocumentModel deletedPageDoc = LabsSiteUtils.getPageName(name, parent.getRef(), session);
                 if (deletedPageDoc != null){
                     session.removeDocument(deletedPageDoc.getRef());
                 }
             } else {
-                if (LabsSiteUtils.existDeletedPageName(name, parent.getRef(), session)){
+                if (LabsSiteUtils.pageNameExists(name, parent.getRef(), session)){
                     return Response.ok("existedPageName").build();
                 }
             }
