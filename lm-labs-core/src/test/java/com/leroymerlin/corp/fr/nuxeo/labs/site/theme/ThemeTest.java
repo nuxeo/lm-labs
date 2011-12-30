@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -225,9 +227,11 @@ public class ThemeTest {
         tm.setTheme("supplyChain");
         SiteTheme theme = tm.getTheme();
         
-        Map<String, String> properties = new HashMap<String, String>();
-        properties.put("bgcolor", "#EFFFFFF");
-        properties.put("background-url", "/nuxeo/hotslip/asset/img/fff.png");
+        Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
+        ThemeProperty prop = new ThemeProperty("bgcolor", "bgcolor-value", "bgcolor-label", "bgcolor-description");
+        properties.put("bgcolor", prop);
+        prop = new ThemeProperty("background-url", "background-url-value", "background-url-label", "background-url-description");
+        properties.put("background-url", prop);
         
         theme.setProperties(properties);
         
@@ -243,20 +247,28 @@ public class ThemeTest {
         Map<String, Object> get0 = ((List<Map<String, Object>>)theme.getDocument().getPropertyValue("sitetheme:properties")).get(0);
         Map<String, Object> get1 = ((List<Map<String, Object>>)theme.getDocument().getPropertyValue("sitetheme:properties")).get(1);
         if(get0.get("key").equals("bgcolor")){
-            assertThat(get0.get("value").toString(), is("#EFFFFFF"));
+            assertThat(get0.get("value").toString(), is("bgcolor-value"));
+            assertThat(get0.get("label").toString(), is("bgcolor-label"));
+            assertThat(get0.get("description").toString(), is("bgcolor-description"));
         }
         else if(get0.get("key").equals("background-url")){
-            assertThat(get0.get("value").toString(), is("/nuxeo/hotslip/asset/img/fff.png"));
+            assertThat(get0.get("value").toString(), is("background-url-value"));
+            assertThat(get0.get("label").toString(), is("background-url-label"));
+            assertThat(get0.get("description").toString(), is("background-url-description"));
         }
         else{
             assertThat(null, notNullValue());
         }
         
         if(get1.get("key").equals("bgcolor")){
-            assertThat(get1.get("value").toString(), is("#EFFFFFF"));
+            assertThat(get1.get("value").toString(), is("bgcolor-value"));
+            assertThat(get1.get("label").toString(), is("bgcolor-label"));
+            assertThat(get1.get("description").toString(), is("bgcolor-description"));
         }
         else if(get1.get("key").equals("background-url")){
-            assertThat(get1.get("value").toString(), is("/nuxeo/hotslip/asset/img/fff.png"));
+            assertThat(get1.get("value").toString(), is("background-url-value"));
+            assertThat(get1.get("label").toString(), is("background-url-label"));
+            assertThat(get1.get("description").toString(), is("background-url-description"));
         }
         else{
             assertThat(null, notNullValue());
@@ -269,9 +281,11 @@ public class ThemeTest {
         tm.setTheme("supplyChain");
         SiteTheme theme = tm.getTheme();
         
-        Map<String, String> properties = new HashMap<String, String>();
-        properties.put("bgcolor", "#EFFFFFF");
-        properties.put("background-url", "/nuxeo/hotslip/asset/img/fff.png");
+        Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
+        ThemeProperty prop = new ThemeProperty("bgcolor", "bgcolor-value", "bgcolor-label", "bgcolor-description");
+        properties.put("bgcolor", prop);
+        prop = new ThemeProperty("background-url", "background-url-value", "background-url-label", "background-url-description");
+        properties.put("background-url", prop);
         
         theme.setProperties(properties);
         
@@ -283,7 +297,199 @@ public class ThemeTest {
         theme = tm.getTheme();
         properties = theme.getProperties();
 
-        assertThat(properties.get("bgcolor").toString(), is("#EFFFFFF"));
-        assertThat(properties.get("background-url").toString(), is("/nuxeo/hotslip/asset/img/fff.png"));
+        assertThat(properties.get("bgcolor").getValue(), is("bgcolor-value"));
+        assertThat(properties.get("bgcolor").getLabel(), is("bgcolor-label"));
+        assertThat(properties.get("bgcolor").getDescription(), is("bgcolor-description"));
+        assertThat(properties.get("background-url").getValue(), is("background-url-value"));
+        assertThat(properties.get("background-url").getLabel(), is("background-url-label"));
+        assertThat(properties.get("background-url").getDescription(), is("background-url-description"));
+    }
+    
+    @Test
+    public void canSetLastRead() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        
+        theme.setLastRead(5000l);
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+
+        assertThat(theme.getDocument().getPropertyValue("sitetheme:lastRead"), notNullValue());
+        assertThat(((Long)theme.getDocument().getPropertyValue("sitetheme:lastRead")).longValue(), is(5000l));
+    }
+    
+    @Test
+    public void canGetDefaultLastRead() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+
+        assertThat(theme.getLastRead(), is(0l));
+    }
+    
+    @Test
+    public void canGetLastRead() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        
+        theme.setLastRead(5000l);
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+
+        assertThat(theme.getLastRead(), is(5000l));
+    }
+    
+    @Test
+    public void canVerifyFirstToLoadWithNoFile() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+        
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        ThemePropertiesManage tpm = new ThemePropertiesManage(theme.getProperties());
+
+        assertThat(tpm.isLoaded("themeProperties/propertiesyy", theme.getLastRead()), is(true));
+    }
+    
+    @Test
+    public void canVerifyFirstToLoad() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+        
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        ThemePropertiesManage tpm = new ThemePropertiesManage(theme.getProperties());
+
+        String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
+        assertThat(tpm.isLoaded(pathProperties, theme.getLastRead()), is(false));
+    }
+    
+    @Test
+    public void canVerifyNoToLoad() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        
+        String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
+        File testFile = new File(pathProperties);
+        
+        theme.setLastRead(testFile.lastModified() + 100000);
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+        
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        ThemePropertiesManage tpm = new ThemePropertiesManage(theme.getProperties());
+        
+        assertThat(tpm.isLoaded(pathProperties, theme.getLastRead()), is(true));
+    }
+    
+    @Test
+    public void canLoad() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        
+        String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
+        File testFile = new File(pathProperties);
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+        
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        Map<String, ThemeProperty> properties = theme.getProperties();
+        ThemePropertiesManage tpm = new ThemePropertiesManage(properties);
+        tpm.loadProperties(new FileInputStream(testFile));
+        properties = tpm.getProperties();
+
+        assertThat(properties.size(), is(5));
+        assertThat(properties.get("@basefont"), notNullValue());
+        assertThat(properties.get("@basefont").getLabel(), is("Police du site"));
+        assertThat(properties.get("@basefont").getDescription(), is("Séparé par ',' et délimité par '\"'"));
+    }
+    
+    @Test
+    public void canAddPropertyToLoadInMapWithASameKey() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
+        properties.put("@baseFontColorTitle", new ThemeProperty("@baseFontColorTitle", null, null, null));
+        theme.setProperties(properties);
+        
+        String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
+        File testFile = new File(pathProperties);
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+        
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        properties = theme.getProperties();
+        ThemePropertiesManage tpm = new ThemePropertiesManage(properties);
+        tpm.loadProperties(new FileInputStream(testFile));
+        properties = tpm.getProperties();
+
+        assertThat(properties.size(), is(5));
+    }
+    
+    @Test
+    public void canAddPropertyToLoadInMapWithAdifferentKey() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
+        properties.put("@baseFontColorTitleyy", new ThemeProperty("@baseFontColorTitleyy", null, null, null));
+        theme.setProperties(properties);
+        
+        String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
+        File testFile = new File(pathProperties);
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+        
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        properties = theme.getProperties();
+        ThemePropertiesManage tpm = new ThemePropertiesManage(properties);
+        tpm.loadProperties(new FileInputStream(testFile));
+        properties = tpm.getProperties();
+
+        assertThat(properties.size(), is(6));
     }
 }

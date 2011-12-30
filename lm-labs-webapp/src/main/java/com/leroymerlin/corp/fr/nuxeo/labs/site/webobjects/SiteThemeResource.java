@@ -162,7 +162,6 @@ public class SiteThemeResource extends PageResource {
     @POST
     @Path(value = "parameters")
     public Response doPostParameters() {
-        boolean modified = false;
         FormData form = ctx.getForm();
         String posx = form.getString("logo_posx");
         String posy = form.getString("logo_posy");
@@ -174,35 +173,27 @@ public class SiteThemeResource extends PageResource {
                 Blob banner = form.getBlob("banner");
                 if (logo != null && !StringUtils.isEmpty(logo.getFilename())) {
                     theme.setLogo(logo);
-                    modified = true;
                 }
                 if (banner != null
                         && !StringUtils.isEmpty(banner.getFilename())) {
                     theme.setBanner(banner);
-                    modified = true;
                 }
                 if (StringUtils.isNotBlank(posx) && StringUtils.isNumeric(posx)) {
                     theme.setLogoPosX(Integer.parseInt(posx));
-                    modified = true;
                 }
                 if (StringUtils.isNotBlank(posy) && StringUtils.isNumeric(posy)) {
                     theme.setLogoPosY(Integer.parseInt(posy));
-                    modified = true;
                 }
                 if (StringUtils.isNotBlank(ratio)
                         && StringUtils.isNumeric(ratio)) {
                     theme.setLogoResizeRatio(Integer.parseInt(ratio));
-                    modified = true;
                 }
                 theme.setStyle(style);
-                modified = true;
-                if (modified) {
-                    CoreSession session = ctx.getCoreSession();
-                    session.saveDocument(theme.getDocument());
-                    session.save();
-                    return redirect(getPath()
-                            + "?message_success=label.labssites.appearance.theme.edit.updated");
-                }
+                CoreSession session = ctx.getCoreSession();
+                session.saveDocument(theme.getDocument());
+                session.save();
+                return redirect(getPath()
+                        + "?message_success=label.labssites.appearance.theme.edit.updated");
             }
         } catch (ClientException e) {
             throw WebException.wrap(e);

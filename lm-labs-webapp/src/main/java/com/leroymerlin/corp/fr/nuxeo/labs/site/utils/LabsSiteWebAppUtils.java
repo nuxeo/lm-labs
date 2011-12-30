@@ -80,6 +80,5 @@ public final class LabsSiteWebAppUtils {
     public static String getPathDefaultBanner(Module module, WebContext ctx) {
         return getSkinPathPrefix(module, ctx) + DEFAULT_BANNER;
     }
-    
 
 }

@@ -6,6 +6,8 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
+
 public interface SiteTheme {
 
     String getName() throws ClientException;
@@ -40,7 +42,11 @@ public interface SiteTheme {
     
     void setStyle(String style) throws ClientException;
 
-    Map<String, String> getProperties() throws ClientException;
+    Map<String, ThemeProperty> getProperties() throws ClientException;
     
-    void setProperties(Map<String, String> properties) throws ClientException;
+    void setProperties(Map<String, ThemeProperty> properties) throws ClientException;
+
+    long getLastRead() throws ClientException;
+    
+    void setLastRead(long lastRead) throws ClientException;
 }
