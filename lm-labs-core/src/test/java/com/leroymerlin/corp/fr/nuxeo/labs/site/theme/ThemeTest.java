@@ -442,7 +442,7 @@ public class ThemeTest {
     }
     
     @Test
-    public void canAddPropertyToLoadInMapWithASameKey() throws Exception {
+    public void canMergePropertyToLoadInMapWithASameKey() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
         tm.setTheme("supplyChain");
         SiteTheme theme = tm.getTheme();
@@ -467,5 +467,30 @@ public class ThemeTest {
         assertThat(properties.size(), is(5));
         assertThat(properties.get("@baseFontColorTitle").getValue(), is("title"));
     }
+    
+    @Test
+    public void canMergePropertyToLoadInMapWithAdifferentKey() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        tm.setTheme("supplyChain");
+        SiteTheme theme = tm.getTheme();
+        Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
+        properties.put("@baseFontColorTitleyy", new ThemeProperty("@baseFontColorTitleyy", null, null, null));
+        theme.setProperties(properties);
+        
+        String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
+        File testFile = new File(pathProperties);
+        
+        session.saveDocument(theme.getDocument());
+        session.save();
+        
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        properties = theme.getProperties();
+        ThemePropertiesManage tpm = new ThemePropertiesManage(properties);
+        tpm.loadProperties(new FileInputStream(testFile));
+        properties = tpm.getProperties();
 
+        assertThat(properties.size(), is(5));
+    }
 }

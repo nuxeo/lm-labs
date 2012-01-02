@@ -1,8 +1,5 @@
+;
 
-@basefont
-@baseFontFamily
-@baseFontColor
-@baseFontColorTitle
-
-@background-url
+@baseFontFamily;Police du site;Séparé par ',' et délimité par '"'
+@basefont;Taille de base;Finir par px, em ou %
 
