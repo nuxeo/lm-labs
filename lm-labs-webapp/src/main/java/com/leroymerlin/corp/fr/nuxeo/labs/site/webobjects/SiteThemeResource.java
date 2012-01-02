@@ -1,7 +1,12 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -30,6 +35,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.ThemePropertiesManage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 @WebObject(type = "SiteTheme")
@@ -189,17 +196,46 @@ public class SiteThemeResource extends PageResource {
                     theme.setLogoResizeRatio(Integer.parseInt(ratio));
                 }
                 theme.setStyle(style);
+                theme.setProperties(extractProperties(form));
                 CoreSession session = ctx.getCoreSession();
                 session.saveDocument(theme.getDocument());
                 session.save();
                 return redirect(getPath()
                         + "?message_success=label.labssites.appearance.theme.edit.updated");
             }
-        } catch (ClientException e) {
+        } catch (Exception e) {
             throw WebException.wrap(e);
         }
         return redirect(getPath()
                 + "?message_warning=label.labssites.appearance.theme.edit.not_updated");
+    }
+    
+    private Map<String, ThemeProperty> extractProperties(FormData form) throws Exception{
+        Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
+        String baseFiledName = "Property";
+        int cpt = 0;
+        String sCpt = form.getString("cptProperties");
+        if(StringUtils.isNotBlank(sCpt) && StringUtils.isNumeric(sCpt)){
+            cpt = Integer.parseInt(sCpt);
+        }
+        ThemeProperty prop = null;
+        String value = null;
+        for (int i=0; i<cpt; i++){
+            prop = new ThemeProperty();
+            prop.setKey(form.getString("key" + baseFiledName + i));
+            prop.setLabel(form.getString("label" + baseFiledName + i));
+            prop.setDescription(form.getString("description" + baseFiledName + i));
+            value = form.getString("value" + baseFiledName + i);
+            if(StringUtils.isNotBlank(value)){
+                prop.setValue(value);
+            }
+            else{
+                prop.setValue(null);
+            }
+            properties.put(prop.getKey(), prop);
+        }
+        
+        return properties;
     }
 
     @POST
@@ -247,6 +283,32 @@ public class SiteThemeResource extends PageResource {
             return null;
         }
         return Response.ok().entity(blob).type(blob.getMimeType()).build();
+    }
+    
+    public List<ThemeProperty> getThemeProperties(){
+        List<ThemeProperty> properties = new ArrayList<ThemeProperty>();
+        try {
+            ThemePropertiesManage tpm = new ThemePropertiesManage(theme.getProperties());
+            String path = getModule().getRoot().getAbsolutePath() +  
+                LabsSiteWebAppUtils.DIRECTORY_THEME + "/" + theme.getName() + "/properties" ;
+            File f = new File(path);
+            if (!tpm.isLoaded(f.getAbsolutePath(), theme.getLastRead())){
+                if (f.exists()){
+                    tpm.loadProperties(new FileInputStream(f));
+                    theme.setProperties(tpm.getProperties());
+                    theme.setLastRead(Calendar.getInstance().getTimeInMillis());
+                    getCoreSession().saveDocument(theme.getDocument());
+                    getCoreSession().save();
+                }
+            }
+            Map<String, ThemeProperty> props = tpm.getProperties();
+            for (ThemeProperty prop:props.values()){
+                properties.add(prop);
+            }
+        } catch (Exception e) {
+            throw WebException.wrap(e);
+        }
+        return properties;
     }
 
 }

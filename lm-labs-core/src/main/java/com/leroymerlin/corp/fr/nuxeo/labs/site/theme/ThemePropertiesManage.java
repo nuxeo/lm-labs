@@ -52,28 +52,44 @@ public class ThemePropertiesManage {
     }
     
     public void loadProperties(InputStream input) throws ThemePropertiesException{
-        List<ThemeProperty> properties = new ArrayList<ThemeProperty>();
+        List<ThemeProperty> propertiesFile = new ArrayList<ThemeProperty>();
+        InputStreamReader inputReader = null;
         if (input != null){
             try {
-                InputStreamReader fr = new InputStreamReader(input) ;
-                BufferedReader br = new BufferedReader(fr);
+                inputReader = new InputStreamReader(input) ;
+                BufferedReader buffer = new BufferedReader(inputReader);
                 String line;
-                String separator = extractSeparator(br);
-                line = br.readLine();
+                String separator = extractSeparator(buffer);
+                line = buffer.readLine();
                 while(line != null){
                     if (!StringUtils.isEmpty(line)){
                         if(line.startsWith("@")){
-                            properties.add(extractProperty(line.trim(), separator)); 
+                            propertiesFile.add(extractProperty(line.trim(), separator)); 
                         }
                     }
-                    line = br.readLine();
+                    line = buffer.readLine();
                 }
-                fr.close();
             } catch (Exception e) {
                 throw new ThemePropertiesException("Problem with the propertie's file loading", e);
+            } finally {
+                closeInputStream(inputReader);
             }
         }
-        addMapKeysOnAMapIfUnexist(properties);
+        merge(propertiesFile);
+    }
+
+    /**
+     * @param input
+     * @throws ThemePropertiesException
+     */
+    private void closeInputStream(InputStreamReader input) throws ThemePropertiesException {
+        if (input != null){
+            try {
+                input.close();
+            } catch (IOException e) {
+                throw new ThemePropertiesException("Problem with the propertie's file closing", e);
+            }
+        }
     }
 
     /**
@@ -113,13 +129,21 @@ public class ThemePropertiesManage {
         return prop;
     }
     
-    private void addMapKeysOnAMapIfUnexist(List<ThemeProperty> addedProperties){
+    private void merge(List<ThemeProperty> addedProperties){
+        Map<String, ThemeProperty> result = new HashMap<String, ThemeProperty>();
         if(!addedProperties.isEmpty()){
             for (ThemeProperty addedProperty : addedProperties){
-                if (!properties.containsKey(addedProperty)){
-                    properties.put(addedProperty.getKey(), addedProperty);
+                if (!properties.containsKey(addedProperty.getKey())){
+                    result.put(addedProperty.getKey(), addedProperty);
+                }
+                else{
+                    ThemeProperty prop = properties.get(addedProperty.getKey());
+                    prop.setLabel(addedProperty.getLabel());
+                    prop.setDescription(addedProperty.getDescription());
+                    result.put(prop.getKey(), prop);
                 }
             }
+            properties = result;
         }
     }
 

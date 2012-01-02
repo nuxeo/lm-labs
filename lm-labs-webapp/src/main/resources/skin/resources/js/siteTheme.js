@@ -1,7 +1,10 @@
 jQuery(document).ready(function(){
 	
 	jQuery("#div-editTheme").dialog2({
-	    open: function() {},
+		width : '570px',
+		height : '400px',
+		overflowy : 'auto',
+		overflowx : 'hidden',
 	    autoOpen : false,
 		closeOnOverlayClick : true,
 		removeOnClose : false,

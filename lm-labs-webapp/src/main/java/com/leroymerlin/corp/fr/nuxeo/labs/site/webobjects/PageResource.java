@@ -35,6 +35,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -164,15 +166,28 @@ public class PageResource extends DocumentObject {
     public Object getGeneratedLess() {
         String themeName = "";
         String style = "";
+        String styleProperties = "";
         try {
             LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
-            themeName = site.getThemeManager().getTheme().getName();
-            style = site.getThemeManager().getTheme().getStyle();
+            SiteTheme theme = site.getThemeManager().getTheme();
+            themeName = theme.getName();
+            style = theme.getStyle();
+            styleProperties = generateLessWithProperties(theme.getProperties());
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
         return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg(
-                "addedStyle", style);
+                "addedStyle", style).arg("styleProperties", styleProperties);
+    }
+    
+    private String generateLessWithProperties(Map<String, ThemeProperty> properties){
+        StringBuilder less = new StringBuilder();
+        for (ThemeProperty prop: properties.values()){
+            if (StringUtils.isNotBlank(prop.getValue())){
+                less.append(prop.getKey() + ":" + prop.getValue() + ";\n");
+            }
+        }
+        return less.toString();
     }
 
     @GET
