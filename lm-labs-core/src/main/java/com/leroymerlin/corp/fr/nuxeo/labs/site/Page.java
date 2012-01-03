@@ -12,14 +12,6 @@ public interface Page extends LabsBase {
     
     void setCommentable(boolean isCommentable) throws ClientException;
     
-    boolean isDisplayableTitle() throws ClientException;
-    
-    void setDisplayableTitle(boolean isDisplayableTitle) throws ClientException;
-    
-    boolean isDisplayableDescription() throws ClientException;
-    
-    void setDisplayableDescription(boolean isDisplayableDescription) throws ClientException;
-    
     List<String> getNotDisplayableParameters() throws ClientException;
     
     void setNotDisplayableParameters(List<String> fields) throws ClientException;

@@ -151,50 +151,6 @@ public class PageAdapterTest {
     }
 
     @Test
-    public void iCanGetDisplayableTitleDefault() throws Exception {
-        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
-
-        assertTrue(page.isDisplayableTitle());
-    }
-
-    @Test
-    public void iCanSetDisplayableTitle() throws Exception {
-        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
-        page.setDisplayableTitle(false);
-
-        session.saveDocument(doc);
-        session.save();
-        doc = session.getDocument(doc.getRef());
-        page = doc.getAdapter(Page.class);
-        
-        assertFalse(page.isDisplayableTitle());
-    }
-
-    @Test
-    public void iCanGetDisplayableDescriptionDefault() throws Exception {
-        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
-
-        assertTrue(page.isDisplayableDescription());
-    }
-
-    @Test
-    public void iCanSetDisplayableDescription() throws Exception {
-        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
-        page.setDisplayableDescription(false);
-
-        session.saveDocument(doc);
-        session.save();
-        doc = session.getDocument(doc.getRef());
-        page = doc.getAdapter(Page.class);
-        
-        assertFalse(page.isDisplayableDescription());
-    }
-
-    @Test
     public void iCanGetDefaultDisplayableParameters() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
         Page page = doc.getAdapter(Page.class);
