@@ -32,10 +32,10 @@
 	</style>
 
   <div class="container">
-	<#if page.displayableTitle>
+	<#if page.isDisplayable(This.DC_TITLE)>
     	<h1>${page.title}</h1>
     </#if>
-    <#if page.displayableDescription>
+    <#if page.isDisplayable(This.DC_DESCRIPTION)>
     	<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
     		<#include "views/common/description_area.ftl">
     	<#else>

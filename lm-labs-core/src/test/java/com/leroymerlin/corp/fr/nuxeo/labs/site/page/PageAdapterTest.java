@@ -7,7 +7,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -192,11 +194,30 @@ public class PageAdapterTest {
         assertFalse(page.isDisplayableDescription());
     }
 
-//    @Test
-//    public void iCanGetDefaultTheme() throws Exception {
-//        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-//        Page page = doc.getAdapter(Page.class);
-//        assertFalse(page.getTheme().equals("default"));
-//    }
+    @Test
+    public void iCanGetDefaultDisplayableParameters() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = doc.getAdapter(Page.class);
+        
+        assertTrue(page.isDisplayable("dc:title"));
+        assertTrue(page.isDisplayable("dc:description"));
+    }
+
+    @Test
+    public void iCanSetDisplayableParameters() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = doc.getAdapter(Page.class);
+        List<String> lisParamNotDisplayable = new ArrayList<String>();
+        lisParamNotDisplayable.add("dc:title");
+        page.setNotDisplayableParameters(lisParamNotDisplayable);
+        
+        session.saveDocument(doc);
+        session.save();
+        doc = session.getDocument(doc.getRef());
+        page = doc.getAdapter(Page.class);
+        
+        assertFalse(page.isDisplayable("dc:title"));
+        assertTrue(page.isDisplayable("dc:description"));
+    }
 
 }

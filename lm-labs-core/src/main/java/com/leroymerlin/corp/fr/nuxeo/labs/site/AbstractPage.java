@@ -1,6 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -8,13 +10,15 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
 public abstract class AbstractPage extends AbstractLabsBase implements Page {
 
     private static final String THIS_PAGE_IS_NOT_IN_A_LABS_SITE = "This page is not in a LabsSite";
-    private static final String PG_DISPLAYABLE_DESCRIPTION = "pg:displayableDescription";
-    private static final String PG_DISPLAYABLE_TITLE = "pg:displayableTitle";
-    private static final String PG_COMMENTABLE = "pg:commentable";
+    private static final String PG_DISPLAYABLE_DESCRIPTION = Schemas.PAGE.prefix() + ":displayableDescription";
+    private static final String PG_DISPLAYABLE_TITLE = Schemas.PAGE.prefix() + ":displayableTitle";
+    private static final String PG_COMMENTABLE = Schemas.PAGE.prefix() + ":commentable";
+    private static final String PG_DISPLAYABLE_PARAMETERS = Schemas.PAGE.prefix() + ":displayableParameters";
 
     @Override
     public void setCommentable(boolean isCommentable) throws ClientException {
@@ -82,6 +86,27 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     @Override
     public String[] getAllowedSubtypes() throws ClientException {
         return getAllowedSubtypes(doc);
+    }
+
+    @Override
+    public List<String> getNotDisplayableParameters() throws ClientException {
+        @SuppressWarnings("unchecked")
+        List<String> propertyValue = (List<String>) doc.getPropertyValue(PG_DISPLAYABLE_PARAMETERS);
+        if (propertyValue == null){
+            propertyValue = new ArrayList<String>();
+        }
+        return propertyValue;
+    }
+
+    @Override
+    public void setNotDisplayableParameters(List<String> properties) throws ClientException {
+        doc.getProperty(PG_DISPLAYABLE_PARAMETERS).setValue(properties);
+    }
+
+    @Override
+    public boolean isDisplayable(String fieldName) throws ClientException {
+        List<String> parameters = getNotDisplayableParameters();
+        return !parameters.contains(fieldName);
     }
 
 }

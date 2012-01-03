@@ -1,6 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.FormParam;
@@ -44,6 +46,10 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
+
+    public static final String DC_DESCRIPTION = "dc:description";
+
+    public static final String DC_TITLE = "dc:title";
 
     private static final String ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT = " isn't authorized to display this element!";
 
@@ -221,7 +227,7 @@ public class PageResource extends DocumentObject {
     @Path("updateDescriptionCKEIP")
     public Object updateDescription(@FormParam("content") String description) {
         try {
-            doc.setPropertyValue("dc:description", description);
+            doc.setPropertyValue(DC_DESCRIPTION, description);
             getCoreSession().saveDocument(doc);
             getCoreSession().save();
         } catch (Exception e) {
@@ -287,6 +293,14 @@ public class PageResource extends DocumentObject {
         return redirect(getPath() + viewUrl
                 + "?message_success=label.admin.page.copied");
     }
+    
+    public String getDC_TITLE(){
+        return DC_TITLE;
+    }
+    
+    public String getDC_DESCRIPTION(){
+        return DC_DESCRIPTION;
+    }
 
     @POST
     @Path("@managePage")
@@ -297,17 +311,19 @@ public class PageResource extends DocumentObject {
                 return redirect(getPath()
                         + "?message_error=label.parameters.page.save.fail.invalidPageTitle");
             }
-            
+            List<String> fieldsNotDisplayable = new ArrayList<String>();
+            if(!DC_TITLE.equals(ctx.getForm().getString(DC_TITLE))){
+                fieldsNotDisplayable.add(DC_TITLE);
+            }
+            if(!DC_DESCRIPTION.equals(ctx.getForm().getString(DC_DESCRIPTION))){
+                fieldsNotDisplayable.add(DC_DESCRIPTION);
+            }
+
             boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString(
-                    "commentablePage"));
-            boolean isCheckedDisplayableTitle = "on".equalsIgnoreCase(ctx.getForm().getString(
-                    "displayableTitlePage"));
-            boolean isCheckedDisplayableDescription = "on".equalsIgnoreCase(ctx.getForm().getString(
-                    "displayableDescriptionPage"));
+            "commentablePage"));
             Page page = doc.getAdapter(Page.class);
             page.setCommentable(isCheckedCommentable);
-            page.setDisplayableTitle(isCheckedDisplayableTitle);
-            page.setDisplayableDescription(isCheckedDisplayableDescription);
+            page.setNotDisplayableParameters(fieldsNotDisplayable);
             page.setTitle(pageTitle);
             CoreSession session = getCoreSession();
             session.saveDocument(doc);
