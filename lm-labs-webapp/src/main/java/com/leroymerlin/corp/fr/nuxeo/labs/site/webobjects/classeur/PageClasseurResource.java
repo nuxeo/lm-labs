@@ -20,12 +20,14 @@ import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
+import org.nuxeo.ecm.core.convert.api.ConversionService;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -37,6 +39,9 @@ public class PageClasseurResource extends NotifiablePageResource {
     private static final Log LOG = LogFactory.getLog(PageClasseurResource.class);
 
     private PageClasseur classeur;
+    
+    @Deprecated
+    private ConversionService conversionService = null;
 
     @Override
     public void initialize(Object... args) {
@@ -48,6 +53,30 @@ public class PageClasseurResource extends NotifiablePageResource {
     @GET
     public Object doGet() {
         return getView("index");
+    }
+    
+    public boolean hasConvertersForHtml(String mimetype) throws Exception{
+        if (mimetype.startsWith("image")){
+            return true;
+        }
+        getConversionService();
+        List<String> converterNames = getConversionService().getConverterNames(mimetype, "text/html");
+        if (converterNames.size() < 1){
+            return false;
+        }
+        for (String converterName: converterNames){
+            if (!getConversionService().isConverterAvailable(converterName).isAvailable()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private ConversionService getConversionService() throws Exception {
+        if (conversionService == null){
+            conversionService = Framework.getService(ConversionService.class);
+        }
+        return conversionService;
     }
 
     @POST

@@ -225,8 +225,9 @@
       		<#break>
       	</#if>
       </#list>
-      <#assign blobLenght = This.getBlobHolder(child).blob.length >
-      <#assign max_lenght = This.getProperty("labs.max.size.file.read", "5")?number * 1048576 />
+      <#assign blob = This.getBlobHolder(child).blob >
+      <#assign blobLenght = blob.length >
+      <#assign max_lenght = This.getProperty("labs.max.size.file.readr", "10")?number * 1048576 />
       <td>
       	<#if (isModifiedFilename)>
       		<span title="${filename}-${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>
@@ -234,7 +235,7 @@
       		<span title="${child.dublincore.description}">${filename}</span>
       	</#if>
       </td>
-      <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${This.getBlobHolder(child).blob.length?string.computer}</span></td>
+      <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${blobLenght?string.computer}</span></td>
       <#-- <td>${child.versionLabel}</span></td> -->
       <td><span title="${modifDateStr}" >${Context.getMessage('label.PageClasseur.table.dateInWordsFormat',[dateInWords(modifDate)])}</span><span class="sortValue">${modifDate?string("yyyyMMddHHmmss")}</span></td>
       <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
@@ -244,7 +245,7 @@
             <span class="editblock"><br /></span>
       </#if>
         <a class="btn small classeurDownload" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
-      <#if (max_lenght > blobLenght)>
+      <#if (max_lenght > blobLenght) && This.hasConvertersForHtml(blob.mimeType)>
        	<a class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
       </#if>
         <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">
