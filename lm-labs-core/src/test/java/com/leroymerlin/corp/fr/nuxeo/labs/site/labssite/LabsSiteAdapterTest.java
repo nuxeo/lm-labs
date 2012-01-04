@@ -2,11 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.Serializable;
@@ -36,6 +32,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
@@ -60,6 +57,9 @@ public class LabsSiteAdapterTest {
     @Inject
     protected FeaturesRunner featuresRunner;
 
+    @Inject
+    SiteManager sm;
+    
     @Test
     public void iCanCreateALabsSiteDocument() throws Exception {
         // Use the session as a factory
@@ -83,9 +83,7 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void testIsAdministrator() throws Exception {
-        DocumentModel doc = session.createDocumentModel("/", "NameSite1",
-                LABSSITE_TYPE);
-        doc = session.createDocument(doc);
+        DocumentModel doc = createSite();
         LabsSite labssite = doc.getAdapter(LabsSite.class);
         assertTrue(labssite.isAdministrator("Administrator"));
         assertFalse(labssite.isAdministrator(USERNAME1));
@@ -93,9 +91,7 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void testIsContributor() throws Exception {
-        DocumentModel site = session.createDocumentModel("/", "NameSite1",
-                LABSSITE_TYPE);
-        site = session.createDocument(site);
+        DocumentModel site = createSite();
         session.save();
 
         PermissionsHelper.addPermission(site, SecurityConstants.READ_WRITE,
@@ -252,10 +248,7 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void iCanGetLastUpdatedDocs() throws Exception {
-        // site
-        DocumentModel site = session.createDocumentModel("/", "NameSite1",
-                LABSSITE_TYPE);
-        site = session.createDocument(site);
+        DocumentModel site = createSite();
         session.save();
         PermissionsHelper.addPermission(site, SecurityConstants.READ,
                 USERNAME1, true);
@@ -380,6 +373,41 @@ public class LabsSiteAdapterTest {
         assertFalse(labsSite.getAllDeletedDocs().isEmpty());
     }
 
+    @Test
+	public void iCanGetDefaultSiteTemplate() throws Exception {
+    	LabsSite site = createLabsSite();
+    	assertFalse(site.isSiteTemplate());
+	}
+
+    @Test
+	public void iCanSetSiteAsTemplate() throws Exception {
+    	LabsSite site = createLabsSite();
+    	site.setSiteTemplate(true);
+    	session.saveDocument(site.getDocument());
+    	assertTrue(site.isSiteTemplate());
+    	site.setSiteTemplate(false);
+    	session.saveDocument(site.getDocument());
+    	assertFalse(site.isSiteTemplate());
+	}
+    
+    @Test
+	public void iCanSetSiteTemplatePreview() throws Exception {
+    	LabsSite site = createLabsSite();
+        Blob preview = site.getSiteTemplatePreview();
+        assertNull(preview);
+        
+    	Blob blob = getTestBlob();
+    	site.setSiteTemplatePreview(blob);
+        preview = site.getSiteTemplatePreview();
+        assertNotNull(preview);
+		assertEquals(preview.getFilename(), blob.getFilename());
+        assertEquals(preview.getLength(), blob.getLength());
+        
+    	site.setSiteTemplatePreview(null);
+        preview = site.getSiteTemplatePreview();
+        assertNull(preview);
+	}
+    
     private CoreSession changeUser(String username) throws ClientException {
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
         Map<String, Serializable> ctx = new HashMap<String, Serializable>();
@@ -388,4 +416,16 @@ public class LabsSiteAdapterTest {
         userSession.connect(coreFeature.getRepository().getName(), ctx);
         return userSession;
     }
+
+	private DocumentModel createSite() throws ClientException {
+		DocumentModel site = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
+        site.setPropertyValue("dc:title", "le titre");
+        site = session.createDocument(site);
+		return site;
+	}
+	
+	private LabsSite createLabsSite() throws ClientException {
+		final LabsSite site = createSite().getAdapter(LabsSite.class);
+		return site;
+	}
 }

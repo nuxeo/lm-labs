@@ -8,21 +8,73 @@
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
-		jQuery(document).ready(function() {
-		  jQuery("table[class*='zebra-striped']").tablesorter({
-		    headers: { 2: { sorter: false}},
-		    sortList: [[0,0]],
-		    textExtraction: function(node) {
-		      // extract data from markup and return it
-		      var sortValues = jQuery(node).find('span[class=sortValue]');
-		      if (sortValues.length > 0) {
-		        return sortValues[0].innerHTML;
-		      }
-		      return node.innerHTML;
+jQuery(document).ready(function() {
+  jQuery("table[class*='zebra-striped']").tablesorter({
+    headers: { 2: { sorter: false}},
+    sortList: [[0,0]],
+    textExtraction: function(node) {
+      // extract data from markup and return it
+      var sortValues = jQuery(node).find('span[class=sortValue]');
+      if (sortValues.length > 0) {
+        return sortValues[0].innerHTML;
+      }
+      return node.innerHTML;
+    }
+  });
+});
+
+function deleteSite(url){
+	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
+		jQuery.ajax({
+			type: 'PUT',
+		    async: false,
+		    url: url,
+		    success: function(data) {
+		    	if (data == 'delete') {
+		          alert("${Context.getMessage('label.lifeCycle.site.hasDeleted')}");
+		          document.location.href = '${Context.modulePath}';
+		        }
+		        else {
+		          alert("${Context.getMessage('label.lifeCycle.site.hasNotDeleted')}");
+		        }
 		    }
-		  });
-				  
 		});
+	}
+}
+function undeleteSite(url){
+	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouUndelete')}")){
+		jQuery.ajax({
+			type: 'PUT',
+		    async: false,
+		    url: url,
+		    success: function(data) {
+		    	if (data == 'undelete') {
+		          alert("${Context.getMessage('label.lifeCycle.site.hasUndeleted')}");
+		          document.location.href = '${Context.modulePath}';
+		        }
+		        else {
+		          alert("${Context.getMessage('label.lifeCycle.site.hasNotUndeleted')}");
+		        }
+		    }
+		});
+	}
+}
+function deleteDefinitelySite(url){
+	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDefinitelyDelete')}")){
+		jQuery.ajax({
+			type: 'DELETE',
+		    async: false,
+		    url: url,
+		    success: function(data) {
+	          alert("${Context.getMessage('label.lifeCycle.site.hasDefinitelyDelete')}");
+	          document.location.href = '${Context.modulePath}';
+		    },
+		    error: function(data) {
+	          alert("${Context.getMessage('label.lifeCycle.site.hasNotDefinitelyDelete')}");
+		    }
+		});
+	}
+}        		
     </script>
   </@block>
 
@@ -55,96 +107,127 @@
 	<#assign hasOneMoreDeletedSite = false />
 	<#assign deletedLabsSites = This.deletedLabsSites />
 	<#assign undeletedLabsSites = This.undeletedLabsSites />
-    <#if (deletedLabsSites?size > 0 || undeletedLabsSites?size > 0) >
+	<#assign templateLabsSites = This.templateLabsSites />
+    <#if (deletedLabsSites?size > 0 || undeletedLabsSites?size > 0 || templateLabsSites?size > 0) >
     	<#if (undeletedLabsSites?size > 0) >
+	    	<#assign hasAtLeastOneAdminSite = false />
+	    	<#list undeletedLabsSites as undeletedSite>
+	    		<#if undeletedSite.isAdministrator(Context.principal.name) >
+	    			<#assign hasAtLeastOneAdminSite = true />
+	    			<#break>
+	    		</#if>
+	    	</#list>
 	      <table class="zebra-striped bs" id="MySites" >
 	        <thead>
 	          <tr>
-	            <th>Nom du site</th>
-	            <th>Responsable</th>
+	            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
+	            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
 	            <th style="width: 57px;">&nbsp;</th>
-	            <th style="width: 88px;" class="deletedMySites"></th>
+	            <#if hasAtLeastOneAdminSite>
+	            <th style="width: 88px;"></th>
+	            </#if>
 	          </tr>
 	        </thead>
 	        <tbody>
 	          <#list undeletedLabsSites as sit>
 	            <tr>
 	              <td>${sit.title}</td>
-	              <#assign administratorsSiteSize = sit.administratorsSite?size />
-	              <#assign cptAdministratorsSite = 0 />
-	              <#if (administratorsSiteSize > 0)>
+	              <#if (sit.administratorsSite?size > 0)>
 	              	<td>
 	              		<#list sit.administratorsSite as siteAdministrator>
-	              			${userFullName(siteAdministrator)}&nbsp;<#if (cptAdministratorsSite != administratorsSiteSize -1)>,</#if>
-	              			<#assign cptAdministratorsSite = cptAdministratorsSite + 1/>
+	              			${userFullName(siteAdministrator)}<#if (siteAdministrator != sit.administratorsSite?last)>,&nbsp;</#if>
 	              		</#list>
 	              	</td>
 	              <#else>
 	              	<td>${userFullName(sit.document.dublincore.creator)}</td>
 	              </#if>
-	              <td><a class="btn" href="${This.path}/${sit.URL}">Voir</a></td>
+	              <td><a class="btn" href="${This.path}/${sit.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
 	              <#if sit.isAdministrator(Context.principal.name) >
-	              	<#assign hasOneMoreDeletedSite = true />
 	              	<td><a href="#" class="btn" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
-	              <#else>
-	              	<td class="deletedMySites"></td>
 	              </#if>
 	            </tr>
 	          </#list>
 	      </table>
-	      <script type="text/javascript">
-				function deleteSite(url){
-        			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
-            			jQuery.ajax({
-							type: 'PUT',
-						    async: false,
-						    url: url,
-						    success: function(data) {
-						    	if (data == 'delete') {
-						          alert("${Context.getMessage('label.lifeCycle.site.hasDeleted')}");
-						          document.location.href = '${Context.modulePath}';
-						        }
-						        else {
-						          alert("${Context.getMessage('label.lifeCycle.site.hasNotDeleted')}");
-						        }
-						    }
-						});
-					}
-        		}
-        		<#if !hasOneMoreDeletedSite>
-					jQuery(document).ready(function() {
-						jQuery(".deletedMySites").remove();
-					});
-        		</#if>
-			</script>
 	    </#if>
+	    <#-- template sites -->
+    	<#if (templateLabsSites?size > 0) >
+    	<section>
+			<div class="page-header">
+				<h4>${Context.getMessage('label.labssite.list.template.sites.title')}</h4>
+			</div>
+	    	<#assign hasAtLeastOneAdminSite = false />
+	    	<#list templateLabsSites as labsSite>
+	    		<#if labsSite.isAdministrator(Context.principal.name) >
+	    			<#assign hasAtLeastOneAdminSite = true />
+	    			<#break>
+	    		</#if>
+	    	</#list>
+	      <table class="zebra-striped bs" id="templateSites" >
+	        <thead>
+	          <tr>
+	            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
+	            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
+	            <#if hasAtLeastOneAdminSite>
+	            <th style="width: 57px;">&nbsp;</th>
+	            <th style="width: 88px;"></th>
+	            </#if>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          <#list templateLabsSites as labsSite>
+	            <tr>
+	              <td>${labsSite.title}</td>
+	              <#if (labsSite.administratorsSite?size > 0)>
+	              	<td>
+	              		<#list labsSite.administratorsSite as siteAdministrator>
+	              			${userFullName(siteAdministrator)}<#if (siteAdministrator != labsSite.administratorsSite?last)>,&nbsp;</#if>
+	              		</#list>
+	              	</td>
+	              <#else>
+	              	<td>${userFullName(labsSite.document.dublincore.creator)}</td>
+	              </#if>
+	              <#if labsSite.isAdministrator(Context.principal.name) >
+	                <td><a class="btn" href="${This.path}/${labsSite.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
+	              	<td><a href="#" class="btn" onclick="javascript:deleteSite('${Context.modulePath}/${labsSite.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
+	              </#if>
+	            </tr>
+	          </#list>
+	      </table>
+		</section>
+	    </#if>
+	    	<#-- deleted sites -->
 	    <#if (deletedLabsSites?size > 0) >
-	    	<!--   delete     -->
 	    	<section>
 				<div class="page-header">
 					<h4>${Context.getMessage('label.labssite.list.deleted.sites.title')}</h4>
 				</div>
+			      <#assign hasAtLeastOneAdminSite = false />
+			      <#list deletedLabsSites as deletedSite>
+			        <#if deletedSite.isAdministrator(Context.principal.name) >
+			          <#assign hasAtLeastOneAdminSite = true />
+			          <#break>
+	    		    </#if>
+			      </#list>
 			      <table class="zebra-striped bs" id="MyDeletedSites" >
 			        <thead>
 			          <tr>
-			            <th>Nom du site</th>
-			            <th>Responsable</th>
+			            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
+			            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
 			            <th style="width: 86px;">&nbsp;</th>
-	            		<th style="width: 88px;" class="deletedMydeletedSites"></th>
+			            <#if hasAtLeastOneAdminSite>
+	            		<th style="width: 88px;"></th>
+	            		</#if>
 			          </tr>
 			        </thead>
 			        <tbody>
-			          <#assign hasOneMoreDeletedDefinitelySite = false />
+			          
 			          <#list deletedLabsSites as deletedSite>
 			            <tr>
 			              <td>${deletedSite.title}</td>
-			              <#assign administratorsSiteSize = deletedSite.administratorsSite?size />
-			              <#assign cptAdministratorsSite = 0 />
-			              <#if (administratorsSiteSize > 0)>
+			              <#if (deletedSite.administratorsSite?size > 0)>
 			              	<td>
 			              		<#list deletedSite.administratorsSite as siteAdministrator>
-			              			${userFullName(siteAdministrator)}&nbsp;<#if (cptAdministratorsSite != administratorsSiteSize -1)>,</#if>
-			              			<#assign cptAdministratorsSite = cptAdministratorsSite + 1/>
+			              			${userFullName(siteAdministrator)}<#if (siteAdministrator != deletedSite.administratorsSite?last)>,&nbsp;</#if>
 			              		</#list>
 			              	</td>
 			              <#else>
@@ -154,57 +237,12 @@
 			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>
 			              <#if deletedSite.isAdministrator(Context.principal.name) >
-			              	<#assign hasOneMoreDeletedDefinitelySite = true />
 			              	<td><a href="#" class="btn" onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');">${Context.getMessage('command.siteactions.delete')}</a></td>
-			              <#else>
-			              	<td class="deletedMydeletedSites"></td>
 			              </#if>
 			            </tr>
 			          </#list>
 			      </table>
 			</section>
-			<script type="text/javascript">
-				function undeleteSite(url){
-        			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouUndelete')}")){
-            			jQuery.ajax({
-							type: 'PUT',
-						    async: false,
-						    url: url,
-						    success: function(data) {
-						    	if (data == 'undelete') {
-						          alert("${Context.getMessage('label.lifeCycle.site.hasUndeleted')}");
-						          document.location.href = '${Context.modulePath}';
-						        }
-						        else {
-						          alert("${Context.getMessage('label.lifeCycle.site.hasNotUndeleted')}");
-						        }
-						    }
-						});
-					}
-        		}
-				function deleteDefinitelySite(url){
-        			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDefinitelyDelete')}")){
-            			jQuery.ajax({
-							type: 'DELETE',
-						    async: false,
-						    url: url,
-						    success: function(data) {
-					          alert("${Context.getMessage('label.lifeCycle.site.hasDefinitelyDelete')}");
-					          document.location.href = '${Context.modulePath}';
-						    },
-						    error: function(data) {
-					          alert("${Context.getMessage('label.lifeCycle.site.hasNotDefinitelyDelete')}");
-						    }
-						});
-					}
-        		}        		
-        		
-        		<#if !hasOneMoreDeletedDefinitelySite>
-					jQuery(document).ready(function() {
-						jQuery(".deletedMydeletedSites").remove();
-					});
-        		</#if>
-			</script>
 	    </#if>
     <#else>
       Aucun site trouvé

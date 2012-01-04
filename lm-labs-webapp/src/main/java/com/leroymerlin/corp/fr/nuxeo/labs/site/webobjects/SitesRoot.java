@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -20,9 +19,11 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.httpclient.URIException;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -116,12 +117,32 @@ public class SitesRoot extends ModuleRoot {
             return new ArrayList<LabsSite>();
         }
     }
+    
+    public List<LabsSite> getTemplateLabsSites() {
+        try {
+            return getTemplateLabsSites(getLabsSites());
+        } catch (ClientException e) {
+            log.error("Impossible to get the template sites!", e);
+            return new ArrayList<LabsSite>();
+        }
+    }
 
-    private List<LabsSite> getLabsSitesUndeleted(List<LabsSite> pOrigin)
+    private List<LabsSite> getTemplateLabsSites(List<LabsSite> labsSites) throws ClientException {
+        List<LabsSite> result = new ArrayList<LabsSite>();
+        for (LabsSite labsSite : labsSites) {
+            if (!labsSite.isDeleted() && labsSite.isSiteTemplate()) {
+                result.add(labsSite);
+            }
+        }
+        Collections.sort(result,  new ComparatorLabsSite());
+        return result;
+	}
+
+	private List<LabsSite> getLabsSitesUndeleted(List<LabsSite> pOrigin)
             throws ClientException {
         List<LabsSite> result = new ArrayList<LabsSite>();
         for (LabsSite labsSite : pOrigin) {
-            if (!labsSite.isDeleted()) {
+            if (!labsSite.isDeleted() && !labsSite.isSiteTemplate()) {
                 result.add(labsSite);
             }
         }
@@ -196,16 +217,31 @@ public class SitesRoot extends ModuleRoot {
     }
 
     @POST
-    public Response doPost(@FormParam("labsSiteTitle") String pTitle,
-            @FormParam("labsSiteURL") String pURL,
-            @FormParam("labsSiteDescription") String pDescription,
-            @FormParam("piwik:piwikId") String piwikId) {
+    public Response doPost() {
+    	FormData form = ctx.getForm();
+    	String piwikId = form.getString("piwik:piwikId");
+    	String pDescription = form.getString("dc:description");
+    	String pURL = form.getString("webc:url");
+    	String pTitle = form.getString("dc:title");
+    	
         CoreSession session = ctx.getCoreSession();
 
         SiteManager sm = getSiteManager();
         try {
             LabsSite labSite = sm.createSite(session, pTitle, pURL);
             labSite.setPiwikId(StringUtils.trim(piwikId));
+            labSite.setDescription(pDescription);
+            String siteTemplateStr = form.getString("labssite:siteTemplate");
+            boolean isSiteTemplate = BooleanUtils.toBoolean(siteTemplateStr);
+            labSite.setSiteTemplate(isSiteTemplate);
+			if (isSiteTemplate) {
+            	if (form.isMultipartContent()) {
+            		Blob preview = form.getBlob("labssite:siteTemplatePreview");
+                    if (preview != null && !StringUtils.isEmpty(preview.getFilename())) {
+                    	labSite.setSiteTemplatePreview(preview);
+                    }
+            	}
+            }
             session.saveDocument(labSite.getDocument());
             session.save();
             return redirect(getPath() + "/" + labSite.getURL());

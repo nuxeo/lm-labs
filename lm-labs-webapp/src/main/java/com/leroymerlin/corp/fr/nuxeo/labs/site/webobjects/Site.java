@@ -15,12 +15,12 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
-import org.nuxeo.ecm.core.rest.DocumentHelper;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -49,7 +49,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 public class Site extends PageResource {
 
     private LabsSite site;
-
+    
     @Override
     public Object doGet() {
         try {
@@ -83,34 +83,18 @@ public class Site extends PageResource {
         return addContent(name, PageCreationLocation.TOP, overwrite);
     }
 
-    @POST
     @Override
-    public Response doPost() {
+    public Response getPut() {
         FormData form = ctx.getForm();
-
-        if ("edit".equals(form.getString("action"))) {
-            return updateSite(form);
-        }
-
-        try {
-            DocumentModel tree = site.getTree();
-
-            String name = ctx.getForm().getString("name");
-            DocumentModel newDoc = DocumentHelper.createDocument(ctx, tree,
-                    name);
-            String pathSegment = URIUtils.quoteURIPathComponent(
-                    newDoc.getName(), true);
-            return redirect(getPath() + '/' + pathSegment);
-        } catch (ClientException e) {
-            throw WebException.wrap(e);
-        }
+        return updateSite(form);
     }
 
     private Response updateSite(FormData form) {
-        String title = form.getString("title");
-        String url = form.getString("URL");
-        String description = form.getString("description");
+        String title = form.getString("dc:title");
+        String url = form.getString("webc:url");
+        String description = form.getString("dc:description");
         String piwikId = form.getString("piwik:piwikId");
+        String siteTemplateStr = form.getString("labssite:siteTemplate");
         boolean modified = false;
         try {
             if (!StringUtils.isEmpty(title)) {
@@ -132,6 +116,31 @@ public class Site extends PageResource {
             if (!StringUtils.equals(piwikId, oldPiwikId)) {
             	site.setPiwikId(piwikId);
                 modified = true;
+            }
+            boolean isSiteTemplate = BooleanUtils.toBoolean(siteTemplateStr);
+            if (site.isSiteTemplate() != isSiteTemplate) {
+            	site.setSiteTemplate(isSiteTemplate);
+        		modified = true;
+            }
+            if (isSiteTemplate) {
+            	if (form.isMultipartContent()) {
+            		Blob preview = form.getBlob("labssite:siteTemplatePreview");
+                    if (preview != null && !StringUtils.isEmpty(preview.getFilename())) {
+                    	site.setSiteTemplatePreview(preview);
+                        modified = true;
+                    }
+            	}
+            } else {
+                Blob siteTemplatePreview = null;
+                try {
+        			siteTemplatePreview = site.getSiteTemplatePreview();
+        		} catch (ClientException e) {
+        			throw WebException.wrap(e);
+        		}
+            	if (siteTemplatePreview != null) {
+            		site.setSiteTemplatePreview(null);
+            		modified = true;
+            	}
             }
             String msgLabel = "label.labssites.edit.noop";
             if (modified) {
@@ -253,7 +262,7 @@ public class Site extends PageResource {
     public List<DocumentModel> getDeletedDocs() throws ClientException {
         return doc.getAdapter(LabsSite.class).getAllDeletedDocs();
     }
-
+    
     @Path("@externalURL/{idExt}")
     public Object doExternalUrl(@PathParam("idExt") final String pId) {
         try {

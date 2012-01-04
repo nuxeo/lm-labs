@@ -3,6 +3,7 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,6 +43,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManagerImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.piwik.Piwik;
@@ -56,9 +58,10 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     public static final int NB_LAST_UPDATED_DOCS = 20;
 
-    private static final String HOME_PAGE_REF = "labssite:homePageRef";
-
-    static final String URL = "webcontainer:url";
+    private static final String PROPERTY_HOME_PAGE_REF = Schemas.LABSSITE.prefix() + ":homePageRef";
+    private static final String PROPERTY_SITE_TEMPLATE = Schemas.LABSSITE.prefix() + ":siteTemplate";
+    private static final String PROPERTY_SITE_TEMPLATE_PREVIEW = Schemas.LABSSITE.prefix() + ":siteTemplatePreview";
+    private static final String PROPERTY_URL = "webcontainer:url";
 
     public LabsSiteAdapter(DocumentModel doc) {
         this.doc = doc;
@@ -66,12 +69,12 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     @Override
     public String getURL() throws ClientException {
-        return (String) doc.getPropertyValue(URL);
+        return (String) doc.getPropertyValue(PROPERTY_URL);
     }
 
     @Override
     public void setURL(String pURL) throws ClientException {
-        doc.setPropertyValue(URL, pURL);
+        doc.setPropertyValue(PROPERTY_URL, pURL);
     }
 
     @Override
@@ -258,14 +261,14 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     @Override
     public void setHomePageRef(String homePageRef) throws ClientException {
-        doc.setPropertyValue(HOME_PAGE_REF, homePageRef);
+        doc.setPropertyValue(PROPERTY_HOME_PAGE_REF, homePageRef);
     }
 
     @Override
     public String getHomePageRef() throws ClientException {
         // return (String) doc.getPropertyValue(HOME_PAGE_REF);
         try {
-            String ref = (String) doc.getPropertyValue(HOME_PAGE_REF);
+            String ref = (String) doc.getPropertyValue(PROPERTY_HOME_PAGE_REF);
             // TODO this is temporary
             if (StringUtils.isEmpty(ref)) {
                 return getWelcomePageId();
@@ -287,7 +290,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             setHomePageRef(welcome.getId());
             doc.getCoreSession().saveDocument(doc);
             doc.getCoreSession().save();
-            return (String) doc.getPropertyValue(HOME_PAGE_REF);
+            return (String) doc.getPropertyValue(PROPERTY_HOME_PAGE_REF);
         }
         throw WebException.wrap(new WebResourceNotFoundException(
                 "home page not set."));
@@ -450,6 +453,26 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 	@Override
 	public boolean isPiwikEnabled() throws ClientException {
 		return StringUtils.isNotBlank(getPiwikId());
+	}
+
+	@Override
+	public void setSiteTemplate(boolean value) throws ClientException {
+		doc.setPropertyValue(PROPERTY_SITE_TEMPLATE, new Boolean(value));
+	}
+
+	@Override
+	public boolean isSiteTemplate() throws ClientException {
+		return (Boolean) doc.getPropertyValue(PROPERTY_SITE_TEMPLATE);
+	}
+
+	@Override
+	public Blob getSiteTemplatePreview() throws ClientException {
+		return (Blob) doc.getPropertyValue(PROPERTY_SITE_TEMPLATE_PREVIEW);
+	}
+
+	@Override
+	public void setSiteTemplatePreview(Blob blob) throws ClientException {
+		doc.setPropertyValue(PROPERTY_SITE_TEMPLATE_PREVIEW, (Serializable) blob);
 	}
 
 }

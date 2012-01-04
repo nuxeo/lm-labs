@@ -22,21 +22,43 @@
 &nbsp;
           </div>
           <div class="span12 columns">
-            <form action="${This.path}" method="post">
-              <input type="hidden" name="action" value="edit"/>
+<script>
+jQuery(document).ready(function() {
+	jQuery('#siteTemplate').click(function() {
+		if (jQuery(this).is(':checked')) {
+			jQuery('#siteTemplatePreviewDiv').show();
+		} else {
+			jQuery('#siteTemplatePreviewDiv').hide();
+		}
+	});
+});
+</script>
+<style>
+#form-labssite .input input[type="checkbox"] {
+	margin-top: 6px;
+	float: left;
+}
+	
+#form-labssite .input label {
+	text-align: left;
+	width: 90%;
+}
+</style>
+          
+            <form action="${This.path}/@put" method="post" id="form-labssite" enctype="multipart/form-data">
               <fieldset>
                 <legend>Mettez à jour les propriétés du site</legend>
                 <div class="clearfix">
                   <label for="labsSiteTitle">${Context.getMessage('label.labssite.edit.title')}</label>
                   <div class="input">
-                    <input class="required" name="title" value="${site.title}"/>
+                    <input class="required" name="dc:title" value="${site.title}" id="labsSiteTitle"/>
                   </div>
                 </div><!-- /clearfix -->
 
                 <div class="clearfix">
                   <label for="labsSiteURL">${Context.getMessage('label.labssite.edit.url')}</label>
                   <div class="input">
-                    ${Context.modulePath}/<input class="required" name="URL" value="${site.URL}" />
+                    ${Context.modulePath}/<input class="required" name="webc:url" value="${site.URL}" id="labsSiteURL" />
                     <span class="help-block">C'est par ce lien que le site sera accessible</span>
                   </div>
                 </div><!-- /clearfix -->
@@ -44,7 +66,7 @@
                 <div class="clearfix">
                   <label for="labsSiteDescription">${Context.getMessage('label.labssite.edit.description')}</label>
                   <div class="input">
-                    <textarea name="description" id="labsSiteDescription" >${site.description}</textarea>
+                    <textarea name="dc:description" id="labsSiteDescription" >${site.description}</textarea>
                   </div>
                 </div><!-- /clearfix -->
 
@@ -54,6 +76,30 @@
                     <textarea name="piwik:piwikId" id="piwik:piwikId" >${site.piwikId}</textarea>
                   </div>
                 </div><!-- /clearfix -->
+
+			    <div class="clearfix">
+			      <div class="input">
+			        <input id="siteTemplate" type="checkbox" name="labssite:siteTemplate" <#if site.siteTemplate>checked="true"</#if> />
+			        <label for="siteTemplate">&nbsp;${Context.getMessage('label.labssite.edit.siteTemplate')}</label>
+			      </div>
+			    </div><!-- /clearfix -->
+			
+				<div class="clearfix" id="siteTemplatePreviewDiv" <#if !site.siteTemplate>style="display:none;"</#if>>
+			      <#if site.siteTemplate && site.siteTemplatePreview?? >
+			      <div style="float: right; margin-right: 25px;" >
+			        <img style="width:60px;cursor:pointer;"
+			        <#--
+			        title="${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete')}" 
+			        onclick="if (confirm('${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete.confirm')}')) jQuery.ajax({url:'${This.path}/logo', type:'DELETE', success:function() {window.location.reload();}});"
+			        -->
+						src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@blob"/>
+			      </div>
+			      </#if>
+			      <label for="siteTemplatePreview">${Context.getMessage('label.labssite.edit.siteTemplatePreview')}</label>
+			      <div class="input">
+			        <input name="labssite:siteTemplatePreview" type="file" size="25" id="siteTemplatePreview" />
+			      </div>
+			    </div><!-- /clearfix -->
                 
               </fieldset>
               <div class="actions">

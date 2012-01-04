@@ -125,4 +125,11 @@ public interface LabsSite  extends LabsBase {
     
     boolean isPiwikEnabled() throws ClientException;
 
+    void setSiteTemplate(boolean value) throws ClientException;
+    
+    boolean isSiteTemplate() throws ClientException;
+
+    Blob getSiteTemplatePreview() throws ClientException;
+    
+    void setSiteTemplatePreview(Blob blob) throws ClientException;
 }

@@ -3,9 +3,11 @@
   targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/labssite"
   xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/labssite">
 
+  <xs:include schemaLocation="core-types.xsd" />
   <xs:element name="theme_name" type="xs:string" default="labs"></xs:element>
-  
   <xs:element name="homePageRef" type="xs:string"></xs:element>
+  <xs:element name="siteTemplate" type="xs:boolean" default="false" />
+  <xs:element name="siteTemplatePreview" type="tns:content"/>
 
 </xs:schema>
 
