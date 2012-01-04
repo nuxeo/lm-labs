@@ -61,7 +61,7 @@
         <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title}</span></h1>
 	    
 	    <#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')> 
-	    <div id="arrowOrder">
+	    <div id="arrowOrder" class="editblock">
 	        <#if i &gt; 0>
 	        	<a href="" onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false">
 	        		<img src="/nuxeo/icons/move_up.png"/>
