@@ -215,10 +215,25 @@
     <#if child.facets?seq_contains("Folderish") == false >
       <#assign modifDate = child.dublincore.modified?datetime >
       <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") >
-      <#assign filename = This.getBlobHolder(child).blob.filename >
+      <#assign filename = child.dublincore.title >
+      <#assign words = filename?word_list>
+      <#assign isModifiedFilename = false>
+      <#assign max_len_word = 50>
+      <#list words as word>
+      	<#if (word?length > max_len_word)>
+      		<#assign isModifiedFilename = true>
+      		<#break>
+      	</#if>
+      </#list>
       <#assign blobLenght = This.getBlobHolder(child).blob.length >
       <#assign max_lenght = This.getProperty("labs.max.size.file.read", "5")?number * 1048576 />
-      <td><span title="${child.dublincore.description}">${child.dublincore.title}</span></td>
+      <td>
+      	<#if (isModifiedFilename)>
+      		<span title="${filename}-${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>
+      	<#else>
+      		<span title="${child.dublincore.description}">${filename}</span>
+      	</#if>
+      </td>
       <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${This.getBlobHolder(child).blob.length?string.computer}</span></td>
       <#-- <td>${child.versionLabel}</span></td> -->
       <td><span title="${modifDateStr}" >${Context.getMessage('label.PageClasseur.table.dateInWordsFormat',[dateInWords(modifDate)])}</span><span class="sortValue">${modifDate?string("yyyyMMddHHmmss")}</span></td>
