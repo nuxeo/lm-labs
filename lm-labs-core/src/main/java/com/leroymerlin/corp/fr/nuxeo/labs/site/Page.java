@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
+import java.util.List;
+
 import org.nuxeo.ecm.core.api.ClientException;
 
 public interface Page extends LabsBase {
@@ -10,11 +12,9 @@ public interface Page extends LabsBase {
     
     void setCommentable(boolean isCommentable) throws ClientException;
     
-    boolean isDisplayableTitle() throws ClientException;
+    List<String> getNotDisplayableParameters() throws ClientException;
     
-    void setDisplayableTitle(boolean isDisplayableTitle) throws ClientException;
+    void setNotDisplayableParameters(List<String> fields) throws ClientException;
     
-    boolean isDisplayableDescription() throws ClientException;
-    
-    void setDisplayableDescription(boolean isDisplayableDescription) throws ClientException;
+    boolean isDisplayable(String fieldName) throws ClientException;
 }

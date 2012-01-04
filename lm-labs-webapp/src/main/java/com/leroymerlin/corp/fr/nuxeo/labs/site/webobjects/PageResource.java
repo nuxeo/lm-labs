@@ -1,6 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.FormParam;
@@ -29,12 +31,15 @@ import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -42,6 +47,10 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
+
+    public static final String DC_DESCRIPTION = "dc:description";
+
+    public static final String DC_TITLE = "dc:title";
 
     private static final String ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT = " isn't authorized to display this element!";
 
@@ -158,21 +167,38 @@ public class PageResource extends DocumentObject {
             return (Page) labsBaseAdapter;
         }
     }
+    
+    public String getProperty(String prop, String defaultValue){
+        return Framework.getProperty(prop, defaultValue);
+    }
 
     @GET
     @Path(value = "generated.less")
     public Object getGeneratedLess() {
         String themeName = "";
         String style = "";
+        String styleProperties = "";
         try {
             LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
-            themeName = site.getThemeManager().getTheme().getName();
-            style = site.getThemeManager().getTheme().getStyle();
+            SiteTheme theme = site.getThemeManager().getTheme();
+            themeName = theme.getName();
+            style = theme.getStyle();
+            styleProperties = generateLessWithProperties(theme.getProperties());
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
         return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg(
-                "addedStyle", style);
+                "addedStyle", style).arg("styleProperties", styleProperties);
+    }
+    
+    private String generateLessWithProperties(Map<String, ThemeProperty> properties){
+        StringBuilder less = new StringBuilder();
+        for (ThemeProperty prop: properties.values()){
+            if (StringUtils.isNotBlank(prop.getValue())){
+                less.append(prop.getKey() + ":" + prop.getValue() + ";\n");
+            }
+        }
+        return less.toString();
     }
 
     @GET
@@ -206,7 +232,7 @@ public class PageResource extends DocumentObject {
     @Path("updateDescriptionCKEIP")
     public Object updateDescription(@FormParam("content") String description) {
         try {
-            doc.setPropertyValue("dc:description", description);
+            doc.setPropertyValue(DC_DESCRIPTION, description);
             getCoreSession().saveDocument(doc);
             getCoreSession().save();
         } catch (Exception e) {
@@ -272,6 +298,14 @@ public class PageResource extends DocumentObject {
         return redirect(getPath() + viewUrl
                 + "?message_success=label.admin.page.copied");
     }
+    
+    public String getDC_TITLE(){
+        return DC_TITLE;
+    }
+    
+    public String getDC_DESCRIPTION(){
+        return DC_DESCRIPTION;
+    }
 
     @POST
     @Path("@managePage")
@@ -282,17 +316,19 @@ public class PageResource extends DocumentObject {
                 return redirect(getPath()
                         + "?message_error=label.parameters.page.save.fail.invalidPageTitle");
             }
-            
+            List<String> fieldsNotDisplayable = new ArrayList<String>();
+            if(!DC_TITLE.equals(ctx.getForm().getString(DC_TITLE))){
+                fieldsNotDisplayable.add(DC_TITLE);
+            }
+            if(!DC_DESCRIPTION.equals(ctx.getForm().getString(DC_DESCRIPTION))){
+                fieldsNotDisplayable.add(DC_DESCRIPTION);
+            }
+
             boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString(
-                    "commentablePage"));
-            boolean isCheckedDisplayableTitle = "on".equalsIgnoreCase(ctx.getForm().getString(
-                    "displayableTitlePage"));
-            boolean isCheckedDisplayableDescription = "on".equalsIgnoreCase(ctx.getForm().getString(
-                    "displayableDescriptionPage"));
+            "commentablePage"));
             Page page = doc.getAdapter(Page.class);
             page.setCommentable(isCheckedCommentable);
-            page.setDisplayableTitle(isCheckedDisplayableTitle);
-            page.setDisplayableDescription(isCheckedDisplayableDescription);
+            page.setNotDisplayableParameters(fieldsNotDisplayable);
             page.setTitle(pageTitle);
             CoreSession session = getCoreSession();
             session.saveDocument(doc);

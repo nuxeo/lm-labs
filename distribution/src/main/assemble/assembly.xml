@@ -39,9 +39,9 @@
     <mkdir dir="${labs}/nxserver/bundles" />
 
     <!-- Custom resources -->
-    <!-- copy todir="${labs}/" overwrite="true">
+    <copy todir="${labs}/" overwrite="true">
       <fileset dir="src/main/resources/" />
-    </copy -->
+    </copy>
 
     <echo>Copy our own plugins</echo>
     <copy todir="${labs}/nxserver/bundles" overwrite="true">

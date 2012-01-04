@@ -103,6 +103,41 @@
                 </div><!-- /clearfix -->
                 <hr style="margin: 20px 0 0px;">
                 
+                <#assign properties = This.getThemeProperties() />
+                <#if (properties?size > 0)>
+	                <!------------------    Properties   ------------------------->
+		      		<h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.properties.title')}</h5>
+		      		<#assign cptProperties = 0 />
+		      		<#list properties as property>
+		      		<#if (property.key != null)>
+			      		<div class="clearfix">
+		                  <label for="property${cptProperties}">${property.label}</label>
+		                  <div class="input">
+				      		 <input id="valueProperty${cptProperties}" name="valueProperty${cptProperties}" type="text" value="<#if (property.value != null)>${property.value?html}</#if>" />
+		                     <span class="help-block">${property.description?html}</span>
+		                  </div>
+		                </div><!-- /clearfix -->
+		                <input type="hidden" name="keyProperty${cptProperties}" value="${property.key}"/>
+		                <input type="hidden" name="labelProperty${cptProperties}" value="<#if (property.label != null)>${property.label?html}</#if>"/>
+		                <input type="hidden" name="descriptionProperty${cptProperties}" value="<#if (property.description != null)>${property.description?html}</#if>"/>
+		                <#assign cptProperties = cptProperties + 1 />
+		            </#if>
+	                </#list>
+	                <input type="hidden" name="cptProperties" value="${cptProperties}"/>
+	                <hr style="margin: 20px 0 0px;">
+	            </#if>            
+                
+                <!------------------    Style   ------------------------->
+	      		<h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.style.title')}</h5>
+	      		<div class="clearfix">
+                  <label for="style">${Context.getMessage('label.labssites.appearance.theme.edit.style.label')}</label>
+                  <div class="input">
+		      		 <textarea name="style" style="width: 350px;height: 135px;">${site.themeManager.theme.style}</textarea>
+                    <span class="help-block" style="color: red;">${Context.getMessage('label.labssites.appearance.theme.edit.style.help.block')}</span>
+                  </div>
+                </div><!-- /clearfix -->
+                <hr style="margin: 20px 0 0px;">
+                
                 <!------------------    LOGO PARAMETERS   ------------------------->
                 <h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.title')}</h5>
                 <div class="clearfix">
@@ -119,17 +154,7 @@
                     <input id="resize_ratio" name="resize_ratio" type="text" value="${site.themeManager.theme.logoResizeRatio}" class="small" />
                   </div>
                 </div><!-- /clearfix -->
-                <hr style="margin: 20px 0 0px;">
                 
-                <!------------------    Style   ------------------------->
-	      		<h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.style.title')}</h5>
-	      		<div class="clearfix">
-                  <label for="style">${Context.getMessage('label.labssites.appearance.theme.edit.style.label')}</label>
-                  <div class="input">
-		      		 <textarea name="style" style="width: 350px;height: 135px;">${site.themeManager.theme.style}</textarea>
-                    <span class="help-block" style="color: red;">${Context.getMessage('label.labssites.appearance.theme.edit.style.help.block')}</span>
-                  </div>
-                </div><!-- /clearfix -->
 	      	</fieldset>
 	      
 		      <div class="actions">

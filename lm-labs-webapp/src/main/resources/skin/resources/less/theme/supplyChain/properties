@@ -1,0 +1,10 @@
+;
+
+@baseFontFamily;Police du site;Séparé par ',' et délimité par '"'
+@basefont;Taille de base;Finir par px, em ou %
+
+@bgcolortabs;Couleur de navigation Admin;
+@baseFontColor;Couleur de fond des textes;
+@baseFontColorTitle;Couleur des titres;
+
+/*@background-url;URL de l'image de fond;*/

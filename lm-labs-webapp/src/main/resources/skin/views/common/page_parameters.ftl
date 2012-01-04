@@ -33,12 +33,12 @@
 				<label for="commentablePage">${Context.getMessage('label.parameters.page.authorizedCommentable')}</label>
 			</div>
 			<div class="input">
-				<input id="displayableTitlePage" type="checkbox" name="displayableTitlePage" <#if This.page.displayableTitle >checked="true"</#if> />
-				<label for="displayableTitlePage">${Context.getMessage('label.parameters.page.displayableTitlePage')}</label>
+				<input id="${This.DC_TITLE}" type="checkbox" name="${This.DC_TITLE}" value="${This.DC_TITLE}" <#if This.page.isDisplayable(This.DC_TITLE) >checked="true"</#if> />
+				<label for="${This.DC_TITLE}">${Context.getMessage('label.parameters.page.displayableTitlePage')}</label>
 			</div>
 			<div class="input">
-				<input id="displayableDescriptionPage" type="checkbox" name="displayableDescriptionPage" <#if This.page.displayableDescription >checked="true"</#if> />
-				<label for="displayableDescriptionPage">${Context.getMessage('label.parameters.page.displayableDescriptionPage')}</label>
+				<input id="${This.DC_DESCRIPTION}" type="checkbox" name="${This.DC_DESCRIPTION}" value="${This.DC_DESCRIPTION}" <#if This.page.isDisplayable(This.DC_DESCRIPTION) >checked="true"</#if> />
+				<label for="${This.DC_DESCRIPTION}">${Context.getMessage('label.parameters.page.displayableDescriptionPage')}</label>
 			</div>
 		</div>
 	</form>

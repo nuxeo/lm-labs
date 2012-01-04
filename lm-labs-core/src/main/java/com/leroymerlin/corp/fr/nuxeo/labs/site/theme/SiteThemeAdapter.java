@@ -16,6 +16,7 @@ import org.nuxeo.ecm.platform.picture.api.ImageInfo;
 import org.nuxeo.ecm.platform.picture.api.ImagingService;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
@@ -32,6 +33,7 @@ public class SiteThemeAdapter implements SiteTheme {
     private static final String PROPERTY_LOGO_RESIZE_RATIO = Schemas.SITETHEME.prefix() + ":logo_resize_ratio";
     private static final String PROPERTY_STYLECSS = Schemas.SITETHEME.prefix() + ":style";
     private static final String PROPERTIES = Schemas.SITETHEME.prefix() + ":properties";
+    private static final String LAST_READ = Schemas.SITETHEME.prefix() + ":lastRead";
 
     private final DocumentModel doc;
 
@@ -142,22 +144,26 @@ public class SiteThemeAdapter implements SiteTheme {
     }
 
     @Override
-    public Map<String, String> getProperties() throws ClientException {
-        Map<String, String> properties = new HashMap<String, String>();
+    public Map<String, ThemeProperty> getProperties() throws ClientException {
+        Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         Serializable objPropertiesList = doc.getProperty(PROPERTIES);
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> propertiesList = (List<Map<String, Object>>) objPropertiesList;
+        ThemeProperty prop = null;
         for (Map<String, Object> list : propertiesList) {
-            properties.put(Tools.getString(list.get("key")), Tools.getString(list.get("value")));
+            prop = new ThemeProperty(Tools.getString(list.get("key")), 
+                    Tools.getString(list.get("value")), Tools.getString(list.get("label")), 
+                    Tools.getString(list.get("description")));
+            properties.put(prop.getKey(), prop);
         }
         return properties;
     }
 
     @Override
-    public void setProperties(Map<String, String> properties) throws ClientException {
+    public void setProperties(Map<String, ThemeProperty> properties) throws ClientException {
         List<Map<String, Object>> listProperties = new ArrayList<Map<String, Object>>();
         if (properties != null){
-            for (Map.Entry<String, String> property : properties.entrySet()) {
+            for (Map.Entry<String, ThemeProperty> property : properties.entrySet()) {
                 listProperties.add(getPropertyMap(property));
             }
             doc.getProperty(PROPERTIES).setValue(listProperties);
@@ -167,11 +173,27 @@ public class SiteThemeAdapter implements SiteTheme {
         }
     }
 
-    private Map<String, Object> getPropertyMap(Entry<String, String> pProperty) {
+    private Map<String, Object> getPropertyMap(Entry<String, ThemeProperty> pProperty) {
         Map<String, Object> property = new HashMap<String, Object>();
         property.put("key", pProperty.getKey());
-        property.put("value", pProperty.getValue());
+        property.put("value", pProperty.getValue().getValue());
+        property.put("label", pProperty.getValue().getLabel());
+        property.put("description", pProperty.getValue().getDescription());
         return property;
+    }
+
+    @Override
+    public long getLastRead() throws ClientException {
+        Long lastRead = (Long)doc.getPropertyValue(LAST_READ);
+        if (lastRead != null){
+            return lastRead.longValue();
+        }
+        return 0;
+    }
+
+    @Override
+    public void setLastRead(long lastRead) throws ClientException {
+        doc.setPropertyValue(LAST_READ, lastRead);
     }
 
 }

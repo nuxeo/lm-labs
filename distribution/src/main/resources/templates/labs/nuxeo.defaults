@@ -2,3 +2,4 @@
 nuxeo.notification.eMailSubjectPrefix=[Nuxeo-Labs] 
 #labs.notification.enabled=true
 #labs.baseUrl=http://localhost:8080/nuxeo
+labs.max.size.file.read=6

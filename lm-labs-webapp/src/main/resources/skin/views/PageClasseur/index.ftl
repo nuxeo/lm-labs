@@ -32,10 +32,10 @@
 	</style>
 
   <div class="container">
-	<#if page.displayableTitle>
+	<#if page.isDisplayable(This.DC_TITLE)>
     	<h1>${page.title}</h1>
     </#if>
-    <#if page.displayableDescription>
+    <#if page.isDisplayable(This.DC_DESCRIPTION)>
     	<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
     		<#include "views/common/description_area.ftl">
     	<#else>
@@ -61,7 +61,7 @@
         <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title}</span></h1>
 	    
 	    <#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')> 
-	    <div id="arrowOrder">
+	    <div id="arrowOrder" class="editblock">
 	        <#if i &gt; 0>
 	        	<a href="" onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false">
 	        		<img src="/nuxeo/icons/move_up.png"/>
@@ -215,9 +215,26 @@
     <#if child.facets?seq_contains("Folderish") == false >
       <#assign modifDate = child.dublincore.modified?datetime >
       <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") >
-      <#assign filename = This.getBlobHolder(child).blob.filename >
-      <td><span title="${child.dublincore.description}">${child.dublincore.title}</span></td>
-      <td>${bytesFormat(This.getBlobHolder(child).blob.length, "K", "fr_FR")}<span class="sortValue">${This.getBlobHolder(child).blob.length?string.computer}</span></td>
+      <#assign filename = child.dublincore.title >
+      <#assign words = filename?word_list>
+      <#assign isModifiedFilename = false>
+      <#assign max_len_word = 50>
+      <#list words as word>
+      	<#if (word?length > max_len_word)>
+      		<#assign isModifiedFilename = true>
+      		<#break>
+      	</#if>
+      </#list>
+      <#assign blobLenght = This.getBlobHolder(child).blob.length >
+      <#assign max_lenght = This.getProperty("labs.max.size.file.read", "5")?number * 1048576 />
+      <td>
+      	<#if (isModifiedFilename)>
+      		<span title="${filename}-${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>
+      	<#else>
+      		<span title="${child.dublincore.description}">${filename}</span>
+      	</#if>
+      </td>
+      <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${This.getBlobHolder(child).blob.length?string.computer}</span></td>
       <#-- <td>${child.versionLabel}</span></td> -->
       <td><span title="${modifDateStr}" >${Context.getMessage('label.PageClasseur.table.dateInWordsFormat',[dateInWords(modifDate)])}</span><span class="sortValue">${modifDate?string("yyyyMMddHHmmss")}</span></td>
       <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
@@ -226,11 +243,13 @@
             <button class="btn danger editblock" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
             <span class="editblock"><br /></span>
       </#if>
-        <a class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
         <a class="btn small classeurDownload" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
+      <#if (max_lenght > blobLenght)>
+       	<a class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
+      </#if>
         <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">
         </form>
-        </td>
+       	</td>
 
 
     </#if>
