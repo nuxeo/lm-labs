@@ -31,6 +31,7 @@ import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -165,6 +166,10 @@ public class PageResource extends DocumentObject {
         } else {
             return (Page) labsBaseAdapter;
         }
+    }
+    
+    public String getProperty(String prop, String defaultValue){
+        return Framework.getProperty(prop, defaultValue);
     }
 
     @GET

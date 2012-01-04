@@ -216,8 +216,10 @@
       <#assign modifDate = child.dublincore.modified?datetime >
       <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") >
       <#assign filename = This.getBlobHolder(child).blob.filename >
+      <#assign blobLenght = This.getBlobHolder(child).blob.length >
+      <#assign max_lenght = This.getProperty("labs.max.size.file.read", "5")?number * 1048576 />
       <td><span title="${child.dublincore.description}">${child.dublincore.title}</span></td>
-      <td>${bytesFormat(This.getBlobHolder(child).blob.length, "K", "fr_FR")}<span class="sortValue">${This.getBlobHolder(child).blob.length?string.computer}</span></td>
+      <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${This.getBlobHolder(child).blob.length?string.computer}</span></td>
       <#-- <td>${child.versionLabel}</span></td> -->
       <td><span title="${modifDateStr}" >${Context.getMessage('label.PageClasseur.table.dateInWordsFormat',[dateInWords(modifDate)])}</span><span class="sortValue">${modifDate?string("yyyyMMddHHmmss")}</span></td>
       <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
@@ -226,11 +228,13 @@
             <button class="btn danger editblock" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
             <span class="editblock"><br /></span>
       </#if>
-        <a class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
         <a class="btn small classeurDownload" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
+      <#if (max_lenght > blobLenght)>
+       	<a class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
+      </#if>
         <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">
         </form>
-        </td>
+       	</td>
 
 
     </#if>
