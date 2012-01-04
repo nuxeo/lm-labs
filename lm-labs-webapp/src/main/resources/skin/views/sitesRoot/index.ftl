@@ -143,7 +143,7 @@ function deleteDefinitelySite(url){
 	              </#if>
 	              <td><a class="btn" href="${This.path}/${sit.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
 	              <#if sit.isAdministrator(Context.principal.name) >
-	              	<td><a href="#" class="btn" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
+	              	<td><a href="#" class="btn danger" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
 	              </#if>
 	            </tr>
 	          </#list>
@@ -188,7 +188,7 @@ function deleteDefinitelySite(url){
 	              </#if>
 	              <#if labsSite.isAdministrator(Context.principal.name) >
 	                <td><a class="btn" href="${This.path}/${labsSite.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
-	              	<td><a href="#" class="btn" onclick="javascript:deleteSite('${Context.modulePath}/${labsSite.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
+	              	<td><a href="#" class="btn danger" onclick="javascript:deleteSite('${Context.modulePath}/${labsSite.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
 	              </#if>
 	            </tr>
 	          </#list>
@@ -237,7 +237,7 @@ function deleteDefinitelySite(url){
 			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>
 			              <#if deletedSite.isAdministrator(Context.principal.name) >
-			              	<td><a href="#" class="btn" onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');">${Context.getMessage('command.siteactions.delete')}</a></td>
+			              	<td><a href="#" class="btn danger" onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');">${Context.getMessage('command.siteactions.delete')}</a></td>
 			              </#if>
 			            </tr>
 			          </#list>
