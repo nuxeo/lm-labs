@@ -142,8 +142,12 @@ function deleteDefinitelySite(url){
 	              	<td>${userFullName(sit.document.dublincore.creator)}</td>
 	              </#if>
 	              <td><a class="btn" href="${This.path}/${sit.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
+	              <#if hasAtLeastOneAdminSite>
+	              <td>
 	              <#if sit.isAdministrator(Context.principal.name) >
-	              	<td><a href="#" class="btn danger" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
+	              	<a href="#" class="btn danger" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a>
+	              </#if>
+	              </td>
 	              </#if>
 	            </tr>
 	          </#list>
@@ -186,9 +190,14 @@ function deleteDefinitelySite(url){
 	              <#else>
 	              	<td>${userFullName(labsSite.document.dublincore.creator)}</td>
 	              </#if>
+	              <#if hasAtLeastOneAdminSite>
 	              <#if labsSite.isAdministrator(Context.principal.name) >
 	                <td><a class="btn" href="${This.path}/${labsSite.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
 	              	<td><a href="#" class="btn danger" onclick="javascript:deleteSite('${Context.modulePath}/${labsSite.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
+	              <#else>
+	                <td></td>
+	                <td></td>
+	              </#if>
 	              </#if>
 	            </tr>
 	          </#list>
@@ -236,8 +245,12 @@ function deleteDefinitelySite(url){
 			              <td>
 			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>
+			              <#if hasAtLeastOneAdminSite>
+			              <td>
 			              <#if deletedSite.isAdministrator(Context.principal.name) >
-			              	<td><a href="#" class="btn danger" onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');">${Context.getMessage('command.siteactions.delete')}</a></td>
+			              	<a href="#" class="btn danger" onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');">${Context.getMessage('command.siteactions.delete')}</a>
+			              </#if>
+			              </td>
 			              </#if>
 			            </tr>
 			          </#list>
