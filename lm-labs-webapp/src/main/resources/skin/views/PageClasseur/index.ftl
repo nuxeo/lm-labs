@@ -227,7 +227,7 @@
       </#list>
       <#assign blob = This.getBlobHolder(child).blob >
       <#assign blobLenght = blob.length >
-      <#assign max_lenght = This.getProperty("labs.max.size.file.readr", "10")?number * 1048576 />
+      <#assign max_lenght = This.getProperty("labs.max.size.file.read", "10")?number * 1048576 />
       <td>
       	<#if (isModifiedFilename)>
       		<span title="${filename}-${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>
