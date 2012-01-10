@@ -128,7 +128,7 @@ public class SiteThemeAdapter implements SiteTheme {
             }
             return (imageInfo.getWidth() * logoResizeRatio / 100);
         } catch (Exception e1) {
-            LOG.error("Unable to get Imaging Service.");
+            LOG.error("Unable to get Imaging Service: " + e1.getMessage());
         }
         return 0;
     }
