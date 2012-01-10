@@ -218,7 +218,7 @@
       <#assign filename = child.dublincore.title >
       <#assign words = filename?word_list>
       <#assign isModifiedFilename = false>
-      <#assign max_len_word = 50>
+      <#assign max_len_word = 40>
       <#list words as word>
       	<#if (word?length > max_len_word)>
       		<#assign isModifiedFilename = true>
@@ -227,7 +227,7 @@
       </#list>
       <#assign blob = This.getBlobHolder(child).blob >
       <#assign blobLenght = blob.length >
-      <#assign max_lenght = This.getProperty("labs.max.size.file.read", "10")?number * 1048576 />
+      <#assign max_lenght = This.getPropertyMaxSizeFileRead() />
       <td>
       	<#if (isModifiedFilename)>
       		<span title="${filename}-${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>

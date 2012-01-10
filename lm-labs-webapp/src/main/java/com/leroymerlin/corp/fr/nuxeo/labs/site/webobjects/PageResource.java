@@ -171,6 +171,17 @@ public class PageResource extends DocumentObject {
     public String getProperty(String prop, String defaultValue){
         return Framework.getProperty(prop, defaultValue);
     }
+    
+    public int getPropertyMaxSizeFileRead(){
+        int result = 6;
+        String property = getProperty("labs.max.size.file.read", "" + result);
+        try {
+            result = new Integer(property).intValue();
+        } catch (NumberFormatException e) {
+            WebException.wrap(e);
+        }
+        return result * 1048576;
+    }
 
     @GET
     @Path(value = "generated.less")
