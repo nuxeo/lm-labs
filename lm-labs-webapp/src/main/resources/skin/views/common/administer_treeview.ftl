@@ -535,7 +535,9 @@
 								success : function (r) {
 									if(!r.status) {
 										data.inst.refresh();
-										loadPictures($(data.rslt.parent).attr("id"));
+										<#if adminTreeviewType=="Assets">
+											loadPictures($(data.rslt.parent).attr("id"));
+										</#if>
 									}
 								}
 								, error : function (r, responseData) {
