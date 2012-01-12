@@ -75,9 +75,7 @@ public class PageNewsResource extends NotifiablePageResource {
             session.saveDocument(news.getDocumentModel());
             session.save();
 
-            return redirect(getPath() + "/" + news.getDocumentModel()
-                    .getName() + "/@views/edit"
-                    + "?message_succes=label.news.news_created");
+            return redirect(getPath());
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }

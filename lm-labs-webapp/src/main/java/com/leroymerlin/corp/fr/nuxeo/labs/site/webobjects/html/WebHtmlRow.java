@@ -17,6 +17,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 @WebObject(type = "HtmlRow")
 public class WebHtmlRow extends DocumentObject {
 
+    private static final String FAILED_TO_DELETE_SECTION = "Failed to delete section ";
     private HtmlRow row;
 
     @Override
@@ -41,10 +42,9 @@ public class WebHtmlRow extends DocumentObject {
             saveDocument();
         } catch (Exception e) {
             throw WebException.wrap(
-                    "Failed to delete section " + doc.getPathAsString(), e);
+                    FAILED_TO_DELETE_SECTION + doc.getPathAsString(), e);
         }
-        return redirect(prev.getPrevious()
-                .getPath() + "/@views/edit");
+        return redirect(prev.getPrevious().getPath());
     }
 
     private void saveDocument() throws ClientException {

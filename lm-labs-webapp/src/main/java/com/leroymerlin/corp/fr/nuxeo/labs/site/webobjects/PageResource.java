@@ -15,6 +15,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -48,6 +50,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
 
+    private static final String FAILED_TO_UPDATE_PAGE_DESCRIPTION = "Failed to update page description\n";
+
     public static final String DC_DESCRIPTION = "dc:description";
 
     public static final String DC_TITLE = "dc:title";
@@ -60,7 +64,7 @@ public class PageResource extends DocumentObject {
 
     private static final String GENERATED_LESS_TEMPLATE = "resources/less/generatedLess.ftl";
 
-    // private static final Log LOG = LogFactory.getLog(PageResource.class);
+     private static final Log LOG = LogFactory.getLog(PageResource.class);
 
     private static final String[] MESSAGES_TYPE = new String[] { "error",
             "info", "success", "warning" };
@@ -247,7 +251,8 @@ public class PageResource extends DocumentObject {
             getCoreSession().saveDocument(doc);
             getCoreSession().save();
         } catch (Exception e) {
-            Response.status(Status.INTERNAL_SERVER_ERROR).build();
+            LOG.error(FAILED_TO_UPDATE_PAGE_DESCRIPTION + e.getMessage());
+            return Response.serverError().status(Status.NOT_MODIFIED).entity(FAILED_TO_UPDATE_PAGE_DESCRIPTION).build();
         }
         return Response.status(Status.OK).build();
     }

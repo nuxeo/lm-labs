@@ -16,11 +16,6 @@
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
   </@block>
-  
-  <@block name="docactions">
-		<@superBlock/>
-		<#include "views/common/page_actions.ftl" />
-	</@block>
 
   <@block name="content">
 
@@ -218,7 +213,7 @@
       <#assign filename = child.dublincore.title >
       <#assign words = filename?word_list>
       <#assign isModifiedFilename = false>
-      <#assign max_len_word = 40>
+      <#assign max_len_word = 50>
       <#list words as word>
       	<#if (word?length > max_len_word)>
       		<#assign isModifiedFilename = true>

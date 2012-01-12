@@ -615,6 +615,8 @@
 	</script>
 	</@block>
 
+	<@block name="docactions"></@block>
+
   <@block name="breadcrumbs">
     <#include "views/common/breadcrumbs_siteadmin.ftl" >
   </@block>

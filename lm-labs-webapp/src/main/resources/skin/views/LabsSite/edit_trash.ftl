@@ -43,6 +43,8 @@ jQuery(document).ready(function() {
     <#include "views/common/breadcrumbs_siteadmin.ftl" >
   </@block>
 
+  <@block name="docactions"></@block>
+
 
   <@block name="content">
     <#include "macros/admin_menu.ftl" />

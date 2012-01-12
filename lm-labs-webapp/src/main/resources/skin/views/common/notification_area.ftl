@@ -19,6 +19,31 @@
 				</#if>
 				</button>
 			</a>
+			<script type="text/javascript">	
+				function subscribePage(subscribe) {
+					jQuery.ajax({
+						type: 'GET',
+					    async: false,
+					    url: "${This.path}/@" + (subscribe ? 'subscribe' : 'unsubscribe'),
+					    success: function(data) {
+					    	if (subscribe) {
+					    		jQuery('#subscribeBt').hide();
+					    		jQuery('#unsubscribeBt').show();
+					        }
+					        else {
+					    		jQuery('#subscribeBt').show();
+					    		jQuery('#unsubscribeBt').hide();
+					        }
+					    },
+					    error: function() {
+				    		<#-- TODO alert
+					    	console.log('subscribe failed.');
+					        -->
+					    }
+					});
+					return false;
+				}
+			</script>
 		</#if>
 	</div>
 </#if>

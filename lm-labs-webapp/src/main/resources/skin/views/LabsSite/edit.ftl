@@ -5,6 +5,8 @@
     <#include "views/common/breadcrumbs_siteadmin.ftl" >
   </@block>
 
+  <@block name="docactions"></@block>
+
   <@block name="tabs">
     <#include "macros/admin_menu.ftl" />
 	<@adminMenu item="general"/>

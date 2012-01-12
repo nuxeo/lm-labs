@@ -19,6 +19,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource
 @WebObject(type = "HtmlPage", superType = "LabsPage")
 public class WebHtmlPage extends NotifiablePageResource {
 
+    private static final String FAILED_TO_ADD_HTML_SECTION = "Failed to add html section\n";
+
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
@@ -61,12 +63,12 @@ public class WebHtmlPage extends NotifiablePageResource {
             section.setTitle(title);
             section.setDescription(description);
             saveDocument();
-
-            return redirect(getPath() + "/@views/edit");
+            
+            return redirect(getPath());
         } catch (ClientException e) {
-            throw WebException.wrap(e);
+            throw WebException.wrap(FAILED_TO_ADD_HTML_SECTION, e);
         } catch (NumberFormatException e) {
-            throw WebException.wrap(e);
+            throw WebException.wrap(FAILED_TO_ADD_HTML_SECTION, e);
         }
     }
 

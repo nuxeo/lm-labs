@@ -2,7 +2,10 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.rest.DocumentObject;
@@ -15,7 +18,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 @WebObject(type = "HtmlContent")
 public class WebHtmlContent extends DocumentObject {
 
+    private static final String FAILED_TO_POST_HTML_CONTENT = "Failed to post html content\n";
+
     private HtmlContent content;
+
+    private static final Log LOG = LogFactory.getLog(WebHtmlContent.class);
 
     @Override
     public void initialize(Object... args) {
@@ -34,12 +41,10 @@ public class WebHtmlContent extends DocumentObject {
         try {
             content.setHtml(form.getString("content"));
             saveDocument();
-            return redirect(prev.getPrevious()
-                    .getPrevious()
-                    .getPath() + "/@views/edit");
+            return Response.status(Status.OK).build();
         } catch (ClientException e) {
-            return Response.serverError()
-                    .build();
+            LOG.error(FAILED_TO_POST_HTML_CONTENT + e.getMessage());
+            return Response.serverError().status(Status.NOT_MODIFIED).entity(FAILED_TO_POST_HTML_CONTENT).build();
         }
 
     }
@@ -49,7 +54,7 @@ public class WebHtmlContent extends DocumentObject {
         // Do nothing, but don't delete the doc !
         return redirect(prev.getPrevious()
                 .getPrevious()
-                .getPath() + "/@views/edit");
+                .getPath());
     }
 
     private void saveDocument() throws ClientException {

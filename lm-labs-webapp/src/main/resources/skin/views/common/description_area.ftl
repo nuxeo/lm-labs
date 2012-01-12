@@ -1,5 +1,5 @@
 <#if Session.hasPermission(Document.ref, 'Write') >
-	<div class="well" id="pageDescription">
+	<div class="well editblock" id="pageDescription">
 		<div id="description">${Document.dublincore.description}</div>
 		
 		<script type="text/javascript">
@@ -20,6 +20,7 @@
 	        });
 	    </script>
 	</div>
+
 <#elseif Document.dublincore.description != null>
 	<div id="pageDescription">
 		<div id="description">${Document.dublincore.description}</div>

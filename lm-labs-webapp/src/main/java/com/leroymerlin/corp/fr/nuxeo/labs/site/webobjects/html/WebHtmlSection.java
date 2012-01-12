@@ -19,6 +19,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 @WebObject(type = "HtmlSection")
 public class WebHtmlSection extends DocumentObject {
 
+    private static final String FAILED_TO_POST_SECTION = "Failed to post html section ";
+    private static final String FAILED_TO_DELETE_SECTION = "Failed to delete html section ";
     private HtmlSection section;
 
     @Override
@@ -37,9 +39,9 @@ public class WebHtmlSection extends DocumentObject {
             saveDocument();
         } catch (Exception e) {
             throw WebException.wrap(
-                    "Failed to delete section " + doc.getPathAsString(), e);
+                    FAILED_TO_DELETE_SECTION + doc.getPathAsString(), e);
         }
-        return redirect(prev.getPath() + "/@views/edit");
+        return redirect(prev.getPath());
     }
 
     @Override
@@ -64,9 +66,9 @@ public class WebHtmlSection extends DocumentObject {
             saveDocument();
         } catch (ClientException e) {
             throw WebException.wrap(
-                    "Failed to delete section " + doc.getPathAsString(), e);
+                    FAILED_TO_POST_SECTION + doc.getPathAsString(), e);
         }
-        return redirect(prev.getPath() + "/@views/edit");
+        return redirect(prev.getPath());
     }
 
     @Path("r/{index}")

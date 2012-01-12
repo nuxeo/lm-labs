@@ -6,6 +6,7 @@
 	    <script type="text/javascript" src="${skinPath}/js/siteTheme.js"></script>
 	</@block>
 
+	<@block name="docactions"></@block>
 
   <@block name="tabs">
     <#include "macros/admin_menu.ftl" />

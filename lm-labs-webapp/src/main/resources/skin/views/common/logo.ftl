@@ -53,7 +53,7 @@
 			id="logoDragMsgId" 
 			class="logoDragMsg"
 			style="top:${site.themeManager.theme.logoPosY+logoBorderPadding+4}px;left:${site.themeManager.theme.logoPosX+logoBorderPadding}px;width:${logoWidth+46}px;">
-	        	<center><span>${Context.getMessage("label.labssites.appearance.theme.edit.drag_n_drop")}<span></center>
+	        	<center><span>${Context.getMessage("label.labssites.appearance.theme.edit.drag_n_drop")}</span></center>
 	    </div>
 	</#if>
 </#if>

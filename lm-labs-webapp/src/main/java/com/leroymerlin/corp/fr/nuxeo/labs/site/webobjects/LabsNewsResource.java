@@ -16,6 +16,7 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 
 @WebObject(type = "LabsNews", superType = "LabsPage")
@@ -37,11 +38,11 @@ public class LabsNewsResource extends PageResource {
         return doc.getAdapter(LabsNews.class);
     }
     
-    
-    @Override
-    public boolean isVisible() throws ClientException {
-        return true;
+    public Page getPage() throws ClientException {
+        return null;
     }
+    
+    
     
 
     @POST
@@ -56,7 +57,7 @@ public class LabsNewsResource extends PageResource {
             session.save();
 
             return redirect(getPath()
-                    + "?message_success=label.news.news_updated");
+                    + "?message_success=label.labsNews.news_updated");
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
@@ -93,6 +94,15 @@ public class LabsNewsResource extends PageResource {
         news.setEndPublication(getDateFromStr(endDate));
         news.setContent(content);
 
+    }
+
+    @Override
+    public Response doDelete() {
+        super.doDelete();
+        if (this.getPrevious() != null){
+            redirect(this.getPrevious().getPath() + "?message_success=label.labsNews.news_updated");
+        }
+        return redirect(ctx.getBasePath());
     }
 
 }

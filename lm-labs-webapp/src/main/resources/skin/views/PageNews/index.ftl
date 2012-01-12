@@ -15,11 +15,6 @@
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
   </@block>
-  
-  <@block name="docactions">
-    <@superBlock/>
-      <#include "views/common/page_actions.ftl" />
-  </@block>
 
   <@block name="content">
       <div id="content" class="container">
@@ -36,7 +31,7 @@
 	    </#if>
     	
         <#if isAuthorized>
-          <a class="btn" href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>
+          <a class="btn editblock" href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>
         </#if>
 
         <#list pageNews.allNews as news>

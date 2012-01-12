@@ -21,13 +21,8 @@ $(document).ready(function() {
 
   $(document).controls();
 
-  // handling shorcut for mode previsualisation
-  $(document).bind('keyup', 'e', function() {
-	  $(".editblock").toggle();
-  });
-  
-  
 });
+
 var hasError = false;
 function initRequiredFields(){
 	$(".required-fields").bind("click", function(event) {
