@@ -11,7 +11,6 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.runtime.api.Framework;
@@ -122,4 +121,26 @@ public final class CommonHelper {
     	return adaptersList;
     }
     
+    public static final boolean canCreateSite(String principalId, CoreSession session) {
+    	SiteManager sm = getSiteManager();
+    	if (sm != null) {
+    		try {
+				DocumentModel siteRoot = sm.getSiteRoot(session);
+				if(session.hasPermission(siteRoot.getRef(), SecurityConstants.ADD_CHILDREN)) {
+					return true;
+				}
+			} catch (ClientException e) {
+				return false;
+			}
+    	}
+    	return false;
+    }
+    
+    private static final SiteManager getSiteManager() {
+    	try {
+    		return Framework.getService(SiteManager.class);
+    	} catch (Exception e) {
+    		return null;
+    	}
+    }
 }

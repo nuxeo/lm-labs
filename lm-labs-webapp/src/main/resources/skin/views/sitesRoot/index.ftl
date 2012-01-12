@@ -1,5 +1,5 @@
 <@extends src="/views/labs-manage-base.ftl">
-  <#assign isAuthorized = !Context.principal.isAnonymous()>
+  <#assign canCreateSite = Common.canCreateSite(Context.principal.name, Session)>
 
   <@block name="scripts">
     <@superBlock/>
@@ -88,7 +88,7 @@ function deleteDefinitelySite(url){
 
   <@block name="docactions">
     <@superBlock/>
-    <#if isAuthorized>
+    <#if canCreateSite>
       <li>
         <a class="open-dialog" rel="divEditSite" href="#">${Context.getMessage('label.labssite.add.site')}</a>
         <div id="divEditSite" class="dialog2" style="display:none;">
