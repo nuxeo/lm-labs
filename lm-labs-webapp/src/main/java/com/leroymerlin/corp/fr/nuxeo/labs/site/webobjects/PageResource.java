@@ -117,12 +117,12 @@ public class PageResource extends DocumentObject {
             String principalName = ctx.getPrincipal().getName();
             LabsSite site = CommonHelper.siteDoc(doc).getSite();
             if (site.isAdministrator(principalName)
-                    || site.isContributor(principalName)) {
+                    || (site.isContributor(principalName) && !site.isSiteTemplate())) {
                 return;
             }
             if (!Docs.LABSNEWS.type().equals(document.getType())) {
                 boolean authorized = labsBaseAdapter.isAuthorizedToDisplay();
-                authorized = authorized && !labsBaseAdapter.isDeleted();
+                authorized = authorized && !labsBaseAdapter.isDeleted() && !site.isSiteTemplate();
                 if (!authorized) {
                     throw new WebResourceNotFoundException(userName
                             + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT);

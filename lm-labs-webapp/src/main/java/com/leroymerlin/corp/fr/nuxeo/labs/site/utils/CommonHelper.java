@@ -8,12 +8,21 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.LifeCycleConstants;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.core.query.sql.NXQL;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
 public final class CommonHelper {
 
@@ -92,4 +101,25 @@ public final class CommonHelper {
     public static String quoteURIPathComponent(String s) {
         return URIUtils.quoteURIPathComponent(s, false);
     }
+    
+    public static final List<LabsSite> getTemplateSites(CoreSession session) throws ClientException {
+    	SiteManager sm;
+    	List<LabsSite> adaptersList = new ArrayList<LabsSite>();
+    	try {
+			sm = Framework.getService(SiteManager.class);
+		} catch (Exception e) {
+			return adaptersList;
+		}
+    	StringBuilder query = new StringBuilder();
+    	query.append("SELECT * FROM ").append(Docs.SITE.type())
+    		.append(" WHERE ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(State.PUBLISH.getState()).append("'")
+    		.append(" AND ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(sm.getSiteRoot(session).getPathAsString()).append("'")
+    		.append(" AND ").append(LabsSiteAdapter.PROPERTY_SITE_TEMPLATE).append(" = 1");
+    	DocumentModelList list = session.query(query.toString());
+    	for(DocumentModel site : list) {
+    		adaptersList.add(site.getAdapter(LabsSite.class));
+    	}
+    	return adaptersList;
+    }
+    
 }

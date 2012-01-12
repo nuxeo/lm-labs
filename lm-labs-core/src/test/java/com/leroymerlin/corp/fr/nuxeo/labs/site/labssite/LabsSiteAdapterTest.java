@@ -32,9 +32,11 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
@@ -44,7 +46,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 @RunWith(FeaturesRunner.class)
 @Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
 @Deploy("com.leroymerlin.labs.core.test")
-@RepositoryConfig(cleanup = Granularity.METHOD)
+@RepositoryConfig(cleanup = Granularity.METHOD, init = DefaultRepositoryInit.class)
 public class LabsSiteAdapterTest {
 
     private static final String LABSSITE_TYPE = LabsSiteConstants.Docs.SITE.type();
@@ -83,7 +85,7 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void testIsAdministrator() throws Exception {
-        DocumentModel doc = createSite();
+        DocumentModel doc = createSite("NameSite1", session);
         LabsSite labssite = doc.getAdapter(LabsSite.class);
         assertTrue(labssite.isAdministrator("Administrator"));
         assertFalse(labssite.isAdministrator(USERNAME1));
@@ -91,7 +93,7 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void testIsContributor() throws Exception {
-        DocumentModel site = createSite();
+        DocumentModel site = createSite("NameSite1", session);
         session.save();
 
         PermissionsHelper.addPermission(site, SecurityConstants.READ_WRITE,
@@ -248,7 +250,7 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void iCanGetLastUpdatedDocs() throws Exception {
-        DocumentModel site = createSite();
+        DocumentModel site = createSite("NameSite1", session);
         session.save();
         PermissionsHelper.addPermission(site, SecurityConstants.READ,
                 USERNAME1, true);
@@ -375,13 +377,13 @@ public class LabsSiteAdapterTest {
 
     @Test
 	public void iCanGetDefaultSiteTemplate() throws Exception {
-    	LabsSite site = createLabsSite();
+    	LabsSite site = createLabsSite("NameSite1", session);
     	assertFalse(site.isSiteTemplate());
 	}
 
     @Test
 	public void iCanSetSiteAsTemplate() throws Exception {
-    	LabsSite site = createLabsSite();
+    	LabsSite site = createLabsSite("NameSite1", session);
     	site.setSiteTemplate(true);
     	session.saveDocument(site.getDocument());
     	assertTrue(site.isSiteTemplate());
@@ -392,7 +394,7 @@ public class LabsSiteAdapterTest {
     
     @Test
 	public void iCanSetSiteTemplatePreview() throws Exception {
-    	LabsSite site = createLabsSite();
+    	LabsSite site = createLabsSite("NameSite1", session);
         Blob preview = site.getSiteTemplatePreview();
         assertNull(preview);
         
@@ -408,6 +410,31 @@ public class LabsSiteAdapterTest {
         assertNull(preview);
 	}
     
+    @Test
+	public void iCanCopySiteTemplate() throws Exception {
+    	DocumentModel siteRoot = sm.getSiteRoot(session);
+        PermissionsHelper.addPermission(siteRoot, SecurityConstants.ADD_CHILDREN, USERNAME1, true);
+    	
+        LabsSite template1 = createTemplateSite("template1", session);
+        PermissionsHelper.addPermission(template1.getDocument(), SecurityConstants.READ, USERNAME1, true);
+    	session.save();
+    	CoreSession cgmSession = changeUser(USERNAME1);
+    	assertNotNull(cgmSession);
+    	LabsSite cgmSite = sm.createSite(cgmSession, "CGMsite", "CGMsite");
+    	assertNotNull(cgmSite);
+    	final String welcomeId = cgmSite.getIndexDocument().getId();
+    	LabsSite cgmTemplateSite = sm.getSite(cgmSession, "template1");
+    	assertNotNull(cgmTemplateSite);
+    	final String templateWelcomeId = cgmTemplateSite.getIndexDocument().getId();
+    	cgmSite.applyTemplateSite(cgmTemplateSite.getDocument());
+    	assertFalse(templateWelcomeId.equals(welcomeId));
+    	DocumentModelList assetsList = cgmSession.getChildren(cgmSite.getAssetsDoc().getRef(), "Folder");
+    	assertEquals(2, assetsList.size());
+    	assetsList = cgmSession.getChildren(cgmSite.getAssetsDoc().getRef(), "File");
+    	assertEquals(0, assetsList.size());
+		// TODO more tests
+	}
+    
     private CoreSession changeUser(String username) throws ClientException {
         CoreFeature coreFeature = featuresRunner.getFeature(CoreFeature.class);
         Map<String, Serializable> ctx = new HashMap<String, Serializable>();
@@ -417,15 +444,31 @@ public class LabsSiteAdapterTest {
         return userSession;
     }
 
-	private DocumentModel createSite() throws ClientException {
-		DocumentModel site = session.createDocumentModel("/", "NameSite1", LABSSITE_TYPE);
+	private DocumentModel createSite(final String siteName, CoreSession session) throws ClientException {
+		DocumentModel site = session.createDocumentModel("/", siteName, LABSSITE_TYPE);
         site.setPropertyValue("dc:title", "le titre");
         site = session.createDocument(site);
 		return site;
 	}
 	
-	private LabsSite createLabsSite() throws ClientException {
-		final LabsSite site = createSite().getAdapter(LabsSite.class);
+	private LabsSite createLabsSite(final String siteName, CoreSession session) throws ClientException {
+		final LabsSite site = createSite(siteName, session).getAdapter(LabsSite.class);
+		return site;
+	}
+	
+	private LabsSite createTemplateSite(final String siteName, CoreSession session) throws ClientException, SiteManagerException {
+        LabsSite site = sm.createSite(session, siteName, siteName);
+		site.setSiteTemplate(true);
+		session.saveDocument(site.getDocument());
+		DocumentModel assetsDoc = site.getAssetsDoc();
+		DocumentModel folder1 = session.createDocumentModel(assetsDoc.getPathAsString(), "folder1", "Folder");
+		session.createDocument(folder1);
+		DocumentModel folder2 = session.createDocumentModel(assetsDoc.getPathAsString(), "folder2", "Folder");
+		session.createDocument(folder2);
+		DocumentModel asset1 = session.createDocumentModel(folder1.getPathAsString(), "asset1", "File");
+		session.createDocument(asset1);
+		DocumentModel asset2 = session.createDocumentModel(folder2.getPathAsString(), "asset2", "File");
+		session.createDocument(asset2);
 		return site;
 	}
 }

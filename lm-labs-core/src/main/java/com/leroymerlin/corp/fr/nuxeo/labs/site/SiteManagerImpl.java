@@ -81,7 +81,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         }
     }
 
-    private DocumentModel getSiteRoot(CoreSession session)
+    public DocumentModel getSiteRoot(CoreSession session)
             throws ClientException {
         DocumentRef sitesRootRef = SITES_ROOT_REF;
         if (!session.exists(sitesRootRef)) {

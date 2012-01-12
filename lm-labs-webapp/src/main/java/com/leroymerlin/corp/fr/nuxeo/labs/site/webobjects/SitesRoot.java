@@ -223,11 +223,10 @@ public class SitesRoot extends ModuleRoot {
     	String pDescription = form.getString("dc:description");
     	String pURL = form.getString("webc:url");
     	String pTitle = form.getString("dc:title");
-    	
+    	String templateId = form.getString("siteTemplateId");
         CoreSession session = ctx.getCoreSession();
-
-        SiteManager sm = getSiteManager();
         try {
+        	SiteManager sm = getSiteManager();
             LabsSite labSite = sm.createSite(session, pTitle, pURL);
             labSite.setPiwikId(StringUtils.trim(piwikId));
             labSite.setDescription(pDescription);
@@ -243,7 +242,27 @@ public class SitesRoot extends ModuleRoot {
             	}
             }
             session.saveDocument(labSite.getDocument());
+            boolean templateToCopy = false;
+            boolean copied = false;
+            if (StringUtils.isNotEmpty(StringUtils.trim(templateId))) {
+            	IdRef templateRef = new IdRef(templateId);
+            	if (session.exists(templateRef)) {
+            		templateToCopy = true;
+            		try {
+            			labSite.applyTemplateSite(session.getDocument(templateRef));
+            			session.saveDocument(labSite.getDocument());
+            			copied = true;
+					} catch (ClientException e) {
+						log.error("Copy of site template failed. " + e.getMessage());
+					} catch (IllegalArgumentException e) {
+						log.error("Copy of site template failed. " + e.getMessage());
+					}
+            	}
+            }
             session.save();
+            if (templateToCopy && !copied) {
+            	return redirect(getPath() + "?message_error=label.labssites.edit.error.template.copy.failed");
+            }
             return redirect(getPath() + "/" + labSite.getURL());
         } catch (SiteManagerException e) {
             return redirect(getPath() + "?message_error=" + e.getMessage());

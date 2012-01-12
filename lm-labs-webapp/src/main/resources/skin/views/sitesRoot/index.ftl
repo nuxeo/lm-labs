@@ -6,6 +6,8 @@
     <script type="text/javascript" src="${skinPath}/js/sitesRoot.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
 jQuery(document).ready(function() {

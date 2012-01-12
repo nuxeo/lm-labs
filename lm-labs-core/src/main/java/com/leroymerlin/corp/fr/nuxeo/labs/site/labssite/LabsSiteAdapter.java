@@ -12,15 +12,18 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.common.utils.Path;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
@@ -54,14 +57,14 @@ import com.leroymerlin.corp.fr.nuxeo.piwik.Piwik;
  */
 public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
-    private static final Log LOG = LogFactory.getLog(LabsSiteAdapter.class);
-
     public static final int NB_LAST_UPDATED_DOCS = 20;
 
+    public static final String PROPERTY_SITE_TEMPLATE = Schemas.LABSSITE.prefix() + ":siteTemplate";
     private static final String PROPERTY_HOME_PAGE_REF = Schemas.LABSSITE.prefix() + ":homePageRef";
-    private static final String PROPERTY_SITE_TEMPLATE = Schemas.LABSSITE.prefix() + ":siteTemplate";
     private static final String PROPERTY_SITE_TEMPLATE_PREVIEW = Schemas.LABSSITE.prefix() + ":siteTemplatePreview";
     private static final String PROPERTY_URL = "webcontainer:url";
+    
+    private static final Log LOG = LogFactory.getLog(LabsSiteAdapter.class);
 
     public LabsSiteAdapter(DocumentModel doc) {
         this.doc = doc;
@@ -473,6 +476,33 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 	@Override
 	public void setSiteTemplatePreview(Blob blob) throws ClientException {
 		doc.setPropertyValue(PROPERTY_SITE_TEMPLATE_PREVIEW, (Serializable) blob);
+	}
+	
+	@Override
+	public boolean hasSiteTemplatePreview() throws ClientException {
+		return (getSiteTemplatePreview() != null);
+	}
+
+	@Override
+	public void applyTemplateSite(final DocumentModel templateSite) throws ClientException, IllegalArgumentException {
+		UnrestrictedSessionRunner sessionRunner = new UnrestrictedSessionRunner(templateSite.getCoreSession()) {
+			@Override
+			public void run() throws ClientException {
+				LabsSite labsSiteTemplate = templateSite.getAdapter(LabsSite.class);
+				if (labsSiteTemplate.isSiteTemplate()) {
+					Path indexLastSegments = labsSiteTemplate.getIndexDocument().getPath().removeFirstSegments(templateSite.getPath().segmentCount());
+					session.removeDocuments(session.getChildrenRefs(doc.getRef(), null).toArray(new DocumentRef[]{}));
+					session.copy(session.getChildrenRefs(templateSite.getRef(), null), doc.getRef());
+					Path indexPath = doc.getPath().append(indexLastSegments);
+					setHomePageRef(session.getDocument(new PathRef(indexPath.toString())).getId());
+					// TODO what about rights on documents ?
+				} else {
+					throw new IllegalArgumentException(templateSite.getPathAsString() + " is not a site template.");
+				}
+				
+			}
+		};
+		sessionRunner.runUnrestricted();
 	}
 
 }

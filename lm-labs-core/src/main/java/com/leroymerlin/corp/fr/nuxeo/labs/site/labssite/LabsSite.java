@@ -131,5 +131,9 @@ public interface LabsSite  extends LabsBase {
 
     Blob getSiteTemplatePreview() throws ClientException;
     
+    boolean hasSiteTemplatePreview() throws ClientException;
+    
     void setSiteTemplatePreview(Blob blob) throws ClientException;
+
+    void applyTemplateSite(final DocumentModel templateSite) throws ClientException, IllegalArgumentException;
 }

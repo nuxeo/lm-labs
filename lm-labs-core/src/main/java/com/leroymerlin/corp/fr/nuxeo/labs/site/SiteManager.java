@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
@@ -23,4 +24,6 @@ public interface SiteManager {
     List<LabsSite> getAllSites(CoreSession session) throws ClientException;
 
     void updateSite(CoreSession session, LabsSite site) throws ClientException, SiteManagerException;
+
+    DocumentModel getSiteRoot(CoreSession session) throws ClientException;
 }
