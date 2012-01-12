@@ -82,7 +82,7 @@ jQuery(document).ready(function() {
 	                <input type="checkbox" name="checkoptions" value="${doc.id}" />
 	              </td>
 	              <td>
-	              	<a href="#" rel="popover" data-content='${doc.dublincore.description}' data-original-title="${Context.getMessage('label.description')}">${doc.dublincore.title} (${doc.type})</a>
+	              	<a href="#" rel="popover" data-content='${doc.dublincore.description}' data-original-title="${Context.getMessage('label.description')} &lt;br&gt;&lt;br&gt;${Root.getTruncatedLink(doc)}">${doc.dublincore.title} (${doc.type})</a>
 	              </td>
 	              <td>${userFullName(doc.dublincore.creator)}</td>
 	              <td>

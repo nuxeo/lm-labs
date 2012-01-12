@@ -99,7 +99,7 @@ public class SitesRoot extends ModuleRoot {
                 "serverTimeout",
                 String.valueOf(getContext().getRequest().getSession().getMaxInactiveInterval()));
     }
-    
+
     public List<LabsSite> getUndeletedLabsSites() {
         try {
             return getLabsSitesUndeleted(getLabsSites());
@@ -117,7 +117,7 @@ public class SitesRoot extends ModuleRoot {
             return new ArrayList<LabsSite>();
         }
     }
-    
+
     public List<LabsSite> getTemplateLabsSites() {
         try {
             return getTemplateLabsSites(getLabsSites());
@@ -127,18 +127,19 @@ public class SitesRoot extends ModuleRoot {
         }
     }
 
-    private List<LabsSite> getTemplateLabsSites(List<LabsSite> labsSites) throws ClientException {
+    private List<LabsSite> getTemplateLabsSites(List<LabsSite> labsSites)
+            throws ClientException {
         List<LabsSite> result = new ArrayList<LabsSite>();
         for (LabsSite labsSite : labsSites) {
             if (!labsSite.isDeleted() && labsSite.isSiteTemplate()) {
                 result.add(labsSite);
             }
         }
-        Collections.sort(result,  new ComparatorLabsSite());
+        Collections.sort(result, new ComparatorLabsSite());
         return result;
-	}
+    }
 
-	private List<LabsSite> getLabsSitesUndeleted(List<LabsSite> pOrigin)
+    private List<LabsSite> getLabsSitesUndeleted(List<LabsSite> pOrigin)
             throws ClientException {
         List<LabsSite> result = new ArrayList<LabsSite>();
         for (LabsSite labsSite : pOrigin) {
@@ -146,7 +147,7 @@ public class SitesRoot extends ModuleRoot {
                 result.add(labsSite);
             }
         }
-        Collections.sort(result,  new ComparatorLabsSite());
+        Collections.sort(result, new ComparatorLabsSite());
         return result;
     }
 
@@ -198,7 +199,8 @@ public class SitesRoot extends ModuleRoot {
             if (Docs.SITE.type().equals(document.getType())) {
                 return (DocumentObject) ctx.newObject("LabsSite", document);
             } else {
-                return (DocumentObject) ctx.newObject(document.getType(), document);
+                return (DocumentObject) ctx.newObject(document.getType(),
+                        document);
             }
         } catch (ClientException e) {
             throw new WebResourceNotFoundException(e.getMessage(), e);
@@ -233,13 +235,14 @@ public class SitesRoot extends ModuleRoot {
             String siteTemplateStr = form.getString("labssite:siteTemplate");
             boolean isSiteTemplate = BooleanUtils.toBoolean(siteTemplateStr);
             labSite.setSiteTemplate(isSiteTemplate);
-			if (isSiteTemplate) {
-            	if (form.isMultipartContent()) {
-            		Blob preview = form.getBlob("labssite:siteTemplatePreview");
-                    if (preview != null && !StringUtils.isEmpty(preview.getFilename())) {
-                    	labSite.setSiteTemplatePreview(preview);
+            if (isSiteTemplate) {
+                if (form.isMultipartContent()) {
+                    Blob preview = form.getBlob("labssite:siteTemplatePreview");
+                    if (preview != null
+                            && !StringUtils.isEmpty(preview.getFilename())) {
+                        labSite.setSiteTemplatePreview(preview);
                     }
-            	}
+                }
             }
             session.saveDocument(labSite.getDocument());
             boolean templateToCopy = false;
@@ -335,6 +338,15 @@ public class SitesRoot extends ModuleRoot {
         try {
             return new StringBuilder().append(getPath()).append("/").append(
                     siteDocument.getResourcePath()).toString();
+        } catch (ClientException e) {
+            return getPath();
+        }
+    }
+
+    public String getTruncatedLink(DocumentModel document) {
+        SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
+        try {
+            return siteDocument.getResourcePath();
         } catch (ClientException e) {
             return getPath();
         }
