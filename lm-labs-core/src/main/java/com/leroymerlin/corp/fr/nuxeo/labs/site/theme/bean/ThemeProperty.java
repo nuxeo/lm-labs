@@ -17,6 +17,8 @@ public class ThemeProperty {
     
     private String description;
     
+    private String type;
+    
     public ThemeProperty() {
         this.key = "";
         this.value = "";
@@ -24,12 +26,13 @@ public class ThemeProperty {
         this.description = "";
     }
 
-    public ThemeProperty(String key, String value, String label, String description) {
+    public ThemeProperty(String key, String value, String label, String description, String type) {
         super();
         this.key = key;
         this.value = value;
         this.label = label;
         this.description = description;
+        this.type = type;
     }
 
     public String getKey() {
@@ -87,6 +90,14 @@ public class ThemeProperty {
         } else if (!key.equals(other.key))
             return false;
         return true;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

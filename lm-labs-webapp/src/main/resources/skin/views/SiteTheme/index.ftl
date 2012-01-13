@@ -4,6 +4,12 @@
 	<@block name="scripts">
 	    <@superBlock/>
 	    <script type="text/javascript" src="${skinPath}/js/siteTheme.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.miniColors.min.js"></script>
+	</@block>
+	
+	<@block name="css">
+	    <@superBlock/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.miniColors.css"/>
 	</@block>
 
 	<@block name="docactions"></@block>
@@ -113,14 +119,21 @@
 		      		<#if (property.key != null)>
 			      		<div class="clearfix">
 		                  <label for="property${cptProperties}">${property.label}</label>
+		                  <#assign property = property />
+		                  <#assign typeProperty = "string" />
+		                  <#if (property.type != null)>
+		                  	<#assign typeProperty = property.type />
+		                  </#if>
+		                  
 		                  <div class="input">
-				      		 <input id="valueProperty${cptProperties}" name="valueProperty${cptProperties}" type="text" value="<#if (property.value != null)>${property.value?html}</#if>" />
+				      		 <#include "views/SiteTheme/typeProperty/input-" + typeProperty + ".ftl" >
 		                     <span class="help-block">${property.description?html}</span>
 		                  </div>
 		                </div><!-- /clearfix -->
 		                <input type="hidden" name="keyProperty${cptProperties}" value="${property.key}"/>
 		                <input type="hidden" name="labelProperty${cptProperties}" value="<#if (property.label != null)>${property.label?html}</#if>"/>
 		                <input type="hidden" name="descriptionProperty${cptProperties}" value="<#if (property.description != null)>${property.description?html}</#if>"/>
+		                <input type="hidden" name="typeProperty${cptProperties}" value="<#if (property.type != null)>${property.type}</#if>"/>
 		                <#assign cptProperties = cptProperties + 1 />
 		            </#if>
 	                </#list>

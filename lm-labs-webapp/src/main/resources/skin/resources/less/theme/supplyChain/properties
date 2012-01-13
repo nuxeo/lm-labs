@@ -1,10 +1,10 @@
 ;
 
-@baseFontFamily;Police du site;Séparé par ',' et délimité par '"'
-@basefont;Taille de base;Finir par px, em ou %
+@baseFontFamily;Police du site;Séparé par -,- et délimité par -'-;font
+@basefont;Taille de base;;size
 
-@bgcolortabs;Couleur de navigation Admin;
-@baseFontColor;Couleur de fond des textes;
-@baseFontColorTitle;Couleur des titres;
+@bgcolortabs;Couleur de navigation;Couleur de base pour chaque onglets de navigation;color
+@baseFontColor;Couleur des textes;Couleur de base des textes;color
+@baseFontColorTitle;Couleur des titres de navigation;Couleur des titres de navigation;color
 
 /*@background-url;URL de l'image de fond;*/

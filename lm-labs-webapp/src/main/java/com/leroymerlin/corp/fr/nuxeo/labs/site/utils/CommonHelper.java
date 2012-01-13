@@ -21,6 +21,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FontFamily;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FontSize;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
 public final class CommonHelper {
@@ -142,5 +144,13 @@ public final class CommonHelper {
     	} catch (Exception e) {
     		return null;
     	}
+    }
+    
+    public static List<FontFamily> getFontFamilies(){
+        return LabsSiteConstants.FontFamily.getFontFamilies();
+    }
+    
+    public static List<FontSize> getFontSizes(){
+        return LabsSiteConstants.FontSize.getFontSizes();
     }
 }

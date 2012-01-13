@@ -153,7 +153,7 @@ public class SiteThemeAdapter implements SiteTheme {
         for (Map<String, Object> list : propertiesList) {
             prop = new ThemeProperty(Tools.getString(list.get("key")), 
                     Tools.getString(list.get("value")), Tools.getString(list.get("label")), 
-                    Tools.getString(list.get("description")));
+                    Tools.getString(list.get("description")), Tools.getString(list.get("type")));
             properties.put(prop.getKey(), prop);
         }
         return properties;
@@ -179,6 +179,7 @@ public class SiteThemeAdapter implements SiteTheme {
         property.put("value", pProperty.getValue().getValue());
         property.put("label", pProperty.getValue().getLabel());
         property.put("description", pProperty.getValue().getDescription());
+        property.put("type", pProperty.getValue().getType());
         return property;
     }
 

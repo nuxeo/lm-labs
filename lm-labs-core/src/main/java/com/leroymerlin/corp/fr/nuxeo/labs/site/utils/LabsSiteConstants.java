@@ -9,6 +9,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public final class LabsSiteConstants {
     
     public final class NotifNames {
@@ -207,6 +209,105 @@ public final class LabsSiteConstants {
         public String getRight() {
             return right;
         }
+    }
+    
+    public enum PropertyType {
+
+        COLOR("color"), FONT("font"), SIZE("size"), STRING("string"), IMAGE("image");
+
+        private String type;
+        
+        private static final Map<String, PropertyType> stringToEnum = new HashMap<String, PropertyType>();
+        static { // Initialize map from constant name to enum constant
+            for (PropertyType op : values())
+                stringToEnum.put(op.getType(), op);
+        }
+
+        // Returns Operation for string, or null if string is invalid
+        public static PropertyType fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
+
+        PropertyType(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
+    }
+    
+    public enum FontFamily {
+
+        ARIAL("Arial", "arial, sans-serif"), TIMES_NEW_ROMAN("Times new roman", "'times new roman', serif"), 
+            COURIER_NEW("Courier New", "'courier new', monospace"), GEORGIA("Georgia", "georgia, serif"), 
+            TREBUCHET("Trebuchet", "'trebuchet ms', sans-serif"), VERDANA("Verdana", "verdana, sans-serif");
+
+        private String displayName;
+        private String cssName;
+        
+        private static final Map<String, FontFamily> stringToEnum = new HashMap<String, FontFamily>();
+        static { // Initialize map from constant name to enum constant
+            for (FontFamily op : values())
+                stringToEnum.put(op.getDisplayName(), op);
+        }
+
+        // Returns Operation for string, or null if string is invalid
+        public static FontFamily fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
+        
+        public static List<FontFamily> getFontFamilies(){
+            ArrayList<LabsSiteConstants.FontFamily> list = new ArrayList<LabsSiteConstants.FontFamily>(stringToEnum.values());
+            Collections.sort(list);
+            return list;
+        }
+
+        FontFamily(String displayName, String cssName) {
+            this.displayName = displayName;
+            this.cssName = cssName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public String getCssName() {
+            return cssName;
+        }
+    }
+    
+    public enum FontSize {
+
+        S_8PX("8px"), S_10PX("10px"), S_12PX("12px"), S_16PX("16px"),S_18PX("18px"), S_24PX("24px");
+
+        private String size;
+        
+        private static final Map<String, FontSize> stringToEnum = new HashMap<String, FontSize>();
+        static { // Initialize map from constant name to enum constant
+            for (FontSize op : values())
+                stringToEnum.put(op.getSize(), op);
+        }
+
+        // Returns Operation for string, or null if string is invalid
+        public static FontSize fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
+        
+        public static List<FontSize> getFontSizes(){
+            ArrayList<LabsSiteConstants.FontSize> list = new ArrayList<LabsSiteConstants.FontSize>(stringToEnum.values());
+            Collections.sort(list);
+            return list;
+        }
+
+        FontSize(String type) {
+            this.size = type;
+        }
+
+        public String getSize() {
+            return size;
+        }
+        
     }
 
     private LabsSiteConstants() {}

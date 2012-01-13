@@ -225,6 +225,7 @@ public class SiteThemeResource extends PageResource {
             prop.setKey(form.getString("key" + baseFiledName + i));
             prop.setLabel(form.getString("label" + baseFiledName + i));
             prop.setDescription(form.getString("description" + baseFiledName + i));
+            prop.setType(form.getString("type" + baseFiledName + i));
             value = form.getString("value" + baseFiledName + i);
             if(StringUtils.isNotBlank(value)){
                 prop.setValue(value);
