@@ -1,7 +1,9 @@
+<#assign permName = "" />
 <section>
 	<div class="page-header">
+		<#assign permText = Context.getMessage('label.security.labs.permission.Everything') />
 		<h4>
-			${Context.getMessage('label.security.labs.permission.Everything')} 
+			${permText} 
 			<small>
 				<#if 0 < permissionsAdmin?size >
 					(${permissionsAdmin?size})&nbsp;
@@ -21,14 +23,16 @@
 			<div class="span12 columns">
 				<#if perm.name == 'Everyone' >
 	            	${Context.getMessage('label.security.labs.' + perm.name)}
+	            	<#assign permName = Context.getMessage('label.security.labs.' + perm.name) />
 	            <#else>
 	              	<#assign displayName = perm.displayName>
 	             	${perm.name}<#if displayName?length &gt; 0 > (${displayName})</#if>
+	            	<#assign permName = perm.name />
 	            </#if>
 			</div>
 			<div class="span2 columns">
 				<#if perm.inherited == false >
-	              	<span onclick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}');" style="cursor: pointer;">
+	              	<span onclick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}', '${Context.getMessage('label.security.labs.permission.confirm_delete', permText, permName)?js_string}');" style="cursor: pointer;">
 	                	<img alt="${Context.getMessage('command.security.removePerm')}" src="${skinPath}/images/x.gif"/>
 	              	</span>
 	            <#else>
@@ -41,8 +45,9 @@
 
 <section>
 	<div class="page-header">
+		<#assign permText = Context.getMessage('label.security.labs.permission.Write') />
 		<h4>
-			${Context.getMessage('label.security.labs.permission.Write')} 
+			${permText} 
 			<small>
 				<#if 0 < permissionsWrite?size >
 					(${permissionsWrite?size})&nbsp;
@@ -62,14 +67,16 @@
 			<div class="span12 columns">
 				<#if perm.name == 'Everyone' >
 	            	${Context.getMessage('label.security.labs.' + perm.name)}
+	            	<#assign permName = Context.getMessage('label.security.labs.' + perm.name) />
 	            <#else>
 	              	<#assign displayName = perm.displayName>
 	             	${perm.name}<#if displayName?length &gt; 0 > (${displayName})</#if>
+	            	<#assign permName = perm.name />
 	            </#if>
 			</div>
 			<div class="span2 columns">
 				<#if perm.inherited == false >
-	              	<span onclick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}');" style="cursor: pointer;">
+	              	<span onclick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}', '${Context.getMessage('label.security.labs.permission.confirm_delete', permText, permName)?js_string}');" style="cursor: pointer;">
 	                	<img alt="${Context.getMessage('command.security.removePerm')}" src="${skinPath}/images/x.gif"/>
 	              	</span>
 	            <#else>
@@ -82,8 +89,9 @@
 
 <section>
 	<div class="page-header">
+		<#assign permText = Context.getMessage('label.security.labs.permission.Read') />
 		<h4>
-			${Context.getMessage('label.security.labs.permission.Read')} 
+			${permText} 
 			<small>
 				<#if 0 < permissionsRead?size >
 					(${permissionsRead?size})&nbsp;
@@ -104,14 +112,16 @@
 			<div class="span12 columns">
 				<#if perm.name == 'Everyone' >
 	            	${Context.getMessage('label.security.labs.' + perm.name)}
+	            	<#assign permName = Context.getMessage('label.security.labs.' + perm.name) />
 	            <#else>
 	              	<#assign displayName = perm.displayName>
 	             	${perm.name}<#if displayName?length &gt; 0 > (${displayName})</#if>
+	            	<#assign permName = perm.name />
 	            </#if>
 			</div>
 			<div class="span2 columns">
 				<#if perm.inherited == false >
-	              	<span onclick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}');" style="cursor: pointer;">
+	              	<span onclick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}', '${Context.getMessage('label.security.labs.permission.confirm_delete', permText, permName)?js_string}');" style="cursor: pointer;">
 	                	<img alt="${Context.getMessage('command.security.removePerm')}" src="${skinPath}/images/x.gif"/>
 	              	</span>
 	            <#else>
@@ -154,23 +164,25 @@ function vomitPublic(){
 	}
 }
 
-function labsPermissionsDelete(url){
-	jQuery.ajax({
-        type: 'DELETE',
-        async: false,
-        url: url,
-        success: function(data, msg){
-          if (data.length > 0) {
-            alert(data);
-          }
-          else {
-            jQuery("#divDislayArray").load('${This.path}/@labspermissions');
-          }
-        },
-        error: function(xhr, status, ex){
-          alert(ex);
-        }
-    });
+function labsPermissionsDelete(url, confirme){
+	if (confirm(confirme)) {alert('toto');
+		/*jQuery.ajax({
+	        type: 'DELETE',
+	        async: false,
+	        url: url,
+	        success: function(data, msg){
+	          if (data.length > 0) {
+	            alert(data);
+	          }
+	          else {
+	            jQuery("#divDislayArray").load('${This.path}/@labspermissions');
+	          }
+	        },
+	        error: function(xhr, status, ex){
+	          alert(ex);
+	        }
+	    });*/
+	}
 }
 
 $(function () {
