@@ -138,6 +138,21 @@ public final class CommonHelper {
     	return false;
     }
     
+    public static final boolean canCreateTemplateSite(String principalId, CoreSession session) {
+    	SiteManager sm = getSiteManager();
+    	if (sm != null) {
+    		try {
+				DocumentModel siteRoot = sm.getSiteRoot(session);
+				if(session.hasPermission(siteRoot.getRef(), SecurityConstants.EVERYTHING)) {
+					return true;
+				}
+			} catch (ClientException e) {
+				return false;
+			}
+    	}
+    	return false;
+    }
+    
     private static final SiteManager getSiteManager() {
     	try {
     		return Framework.getService(SiteManager.class);

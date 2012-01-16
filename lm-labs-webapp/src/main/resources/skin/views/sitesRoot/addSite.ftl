@@ -46,12 +46,14 @@
       </div>
     </div><!-- /clearfix -->
 
+	<#if Common.canCreateTemplateSite(Context.principal.name, Session) >
     <div class="clearfix">
       <div class="input">
         <input id="siteTemplate" type="checkbox" name="labssite:siteTemplate" />
         <label for="siteTemplate">&nbsp;${Context.getMessage('label.labssite.edit.siteTemplate')}</label>
       </div>
     </div><!-- /clearfix -->
+    </#if>
 
     <div class="clearfix" id="siteTemplateRadioDiv">
       <label for="siteTemplate">&nbsp;${Context.getMessage('label.labssite.edit.siteTemplateName')}</label>
