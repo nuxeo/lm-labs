@@ -136,7 +136,12 @@
 		                    <option value="3COL">3 colonnes (33/33/33)</option>
 		                    <option value="4COL">4 colonnes (25/25/25/25)</option>
 		                </select>
-		                Classe CSS : <input class="medium" name="cssClass" />
+		                <div id="displayCssClass_${section_index}" style="display: none;float: right;">
+		                	Classe CSS : <input class="medium" name="cssClass" />
+		                </div>
+		                <div id="herfDisplayCssClass_${section_index}" style="float: right;cursor: pointer;" onClick="javascript:displayCssClass('${section_index}');">
+		                	<br>Ajouter un style à la ligne
+		                </div>
 		                <button type="submit" class="btn small primary">Ajouter</button>
 		                <span class="help-block">
 		                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
@@ -148,6 +153,12 @@
 	              </fieldset>
 	          </form>
 	        </div>
+	        <script type="text/javascript">
+	        	function displayCssClass(section){
+	        		jQuery("#displayCssClass_" + section).show();
+	        		jQuery("#herfDisplayCssClass_" + section).hide();
+	        	}
+	        </script>
 	    </#if>
     </section>
 
