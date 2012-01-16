@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -375,6 +376,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         
         numCell = 0;
         numRow ++;
+        SimpleDateFormat sdfHeader = null;
         for (EntriesLine line : getLines()) {
             row = sheet.createRow(numRow);
             for (Header head : headers) {
@@ -392,7 +394,13 @@ public class PageListAdapter extends AbstractPage implements PageList {
                         break;
                     case DATE:
                         if (entry.getDate() != null) {
-                            cell.setCellValue(sdf.format(entry.getDate().getTime()));
+                            if(!StringUtils.isEmpty(head.getFormatDate())){
+                                sdfHeader = new SimpleDateFormat(head.getFormatDate());
+                                cell.setCellValue(sdfHeader.format(entry.getDate().getTime()));
+                            }
+                            else{
+                                cell.setCellValue(sdf.format(entry.getDate().getTime()));
+                            }
                         }
                         else{
                             cell.setCellValue("");
