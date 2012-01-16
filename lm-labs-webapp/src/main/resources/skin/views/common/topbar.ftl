@@ -73,6 +73,44 @@
 									}
 									jQuery("#form_editParameters").submit();
 								}
+								
+								function publishPage(){
+									//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouPublish')}")){
+										jQuery.ajax({
+											type: 'PUT',
+										    async: false,
+										    url: '${This.path}/@labspublish/publish',
+										    success: function(data) {
+										    	/*if (data == 'publish') {
+										          alert("${Context.getMessage('label.lifeCycle.page.hasPublished')}");
+										          document.location.href = '${This.path}';
+										        }
+										        else {
+										          alert("${Context.getMessage('label.lifeCycle.page.hasNotPublished')}");
+										        }*/
+										    }
+										});
+									//}
+								}
+								
+								function draftPage(){
+									//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouDraft')}")){
+										jQuery.ajax({
+											type: 'PUT',
+										    async: false,
+										    url: '${This.path}/@labspublish/draft',
+										    success: function(data) {
+										    	/*if (data == 'draft') {
+										          alert("${Context.getMessage('label.lifeCycle.page.hasDrafted')}");
+										          document.location.href = '${This.path}';
+										        }
+										        else {
+										          alert("${Context.getMessage('label.lifeCycle.page.hasNotDrafted')}");
+										        }*/
+										    }
+										});
+									//}
+								}
 							</script>
 						</@block>
 	                </#if>
