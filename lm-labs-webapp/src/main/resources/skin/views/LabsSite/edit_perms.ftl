@@ -1,12 +1,6 @@
 <#if site?? && Session.hasPermission(site.document.ref, "Everything")>
 <@extends src="/views/labs-admin-base.ftl">
 
-<@block name="scripts">
-    <@superBlock/>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
-  </@block>
-
   <@block name="docactions"></@block>
 
   <@block name="breadcrumbs">

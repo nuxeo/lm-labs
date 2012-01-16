@@ -20,13 +20,8 @@
 
    	<div class="container">
    
-   	<#if page.isDisplayable(This.DC_TITLE)>
-    	<h1>${page.title}</h1>
-    </#if>
-    <#if page.isDisplayable(This.DC_DESCRIPTION)>
-    	<#include "views/common/description_area.ftl">
-    </#if>
-  
+   	<#include "views/common/page_header.ftl">
+  	
   <#assign isContributor = site?? && site.isContributor(Context.principal.name) />
 
   <#list page.sections as section>

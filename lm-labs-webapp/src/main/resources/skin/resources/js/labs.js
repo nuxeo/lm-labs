@@ -23,6 +23,12 @@ $(document).ready(function() {
 
 });
 
+$(function () {
+	$("#pageHeaderTitle[rel=popover]")
+		.popover({offset: 10, html: true})
+	}
+)
+
 var hasError = false;
 function initRequiredFields(){
 	$(".required-fields").bind("click", function(event) {
