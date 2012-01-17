@@ -153,6 +153,21 @@ public final class CommonHelper {
     	return false;
     }
     
+    public static final boolean canDeleteSite(String principalId, CoreSession session) {
+    	SiteManager sm = getSiteManager();
+    	if (sm != null) {
+    		try {
+				DocumentModel siteRoot = sm.getSiteRoot(session);
+				if(session.hasPermission(siteRoot.getRef(), SecurityConstants.REMOVE_CHILDREN)) {
+					return true;
+				}
+			} catch (ClientException e) {
+				return false;
+			}
+    	}
+    	return false;
+    }
+    
     private static final SiteManager getSiteManager() {
     	try {
     		return Framework.getService(SiteManager.class);

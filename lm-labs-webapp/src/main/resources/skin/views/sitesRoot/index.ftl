@@ -249,9 +249,14 @@ function deleteDefinitelySite(url){
 			              </td>
 			              <#if hasAtLeastOneAdminSite>
 			              <td>
-			              <#if deletedSite.isAdministrator(Context.principal.name) >
-			              	<a href="#" class="btn danger" onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');">${Context.getMessage('command.siteactions.delete')}</a>
+			              <a href="#" class="btn danger<#if !Common.canDeleteSite(Context.principal.name, Session) > disabled</#if>"
+			              <#if Common.canDeleteSite(Context.principal.name, Session) >
+			                onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');"
+			              <#else>
+			                title="${Context.getMessage('label.labssite.list.deletion.not.allowed')}"
+			                onclick="alert('${Context.getMessage('label.labssite.list.deletion.not.allowed')?js_string}');"
 			              </#if>
+			              >${Context.getMessage('command.siteactions.delete')}</a>
 			              </td>
 			              </#if>
 			            </tr>
