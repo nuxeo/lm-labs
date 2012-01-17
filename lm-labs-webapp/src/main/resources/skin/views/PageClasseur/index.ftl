@@ -216,7 +216,7 @@
       <#assign max_lenght = This.getPropertyMaxSizeFileRead() />
       <td>
       	<#if (isModifiedFilename)>
-      		<span title="${filename}-${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>
+      		<span title="${filename} - ${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>
       	<#else>
       		<span title="${child.dublincore.description}">${filename}</span>
       	</#if>
