@@ -54,6 +54,7 @@ $.fn.ckeip = function (options, callback) {
 
 
         $("#cancel_ckeip_" + u_id + "").click(function () {
+        	$('#ckeip_e_' + u_id + '').val($(original_html).html());
             $('#ckeip_' + u_id + '').hide();
             $(original_html).fadeIn();
             return false;
