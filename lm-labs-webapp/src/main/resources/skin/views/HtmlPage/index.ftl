@@ -20,13 +20,8 @@
 
    	<div class="container">
    
-   	<#if page.isDisplayable(This.DC_TITLE)>
-    	<h1>${page.title}</h1>
-    </#if>
-    <#if page.isDisplayable(This.DC_DESCRIPTION)>
-    	<#include "views/common/description_area.ftl">
-    </#if>
-  
+   	<#include "views/common/page_header.ftl">
+  	
   <#assign isContributor = site?? && site.isContributor(Context.principal.name) />
 
   <#list page.sections as section>
@@ -37,9 +32,9 @@
 
 		<#if isContributor >
 	        <div class="well editblock">
-	          <a href="#" rel="editsection_${section_index}" class="btn open-dialog" >Modifier la section</a>
+	          <a href="#" rel="editsection_${section_index}" class="btn small open-dialog" >Modifier la section</a>
 	          <!-- This button submits the hidden delete form -->
-	          <button type="submit" class="btn danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
+	          <button type="submit" class="btn small danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
 	
 	          <div id="editsection_${section_index}" >
 	          	  <h1>Modifier la section</h1>
@@ -98,6 +93,7 @@
 	              </#list>
 	
 	               <div style="margin-left:20px;clear:both;" class="editblock">
+	               	  <a href="#" class="btn small" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;">Modifier la classe CSS</a>
 		              <form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
 		                    <button type="submit" class="btn small danger">Supprimer la ligne</button>
 		              </form>
@@ -166,7 +162,7 @@
 
 		<#if isContributor >
 		    <#-- Add Section -->
-		    <a id="addsectionlink" href="#" rel="addsection" class="btn open-dialog editblock" >Ajouter une section</a>
+		    <a id="addsectionlink" href="#" rel="addsection" class="btn small open-dialog editblock" >Ajouter une section</a>
 	
 		    <div id="addsection">
 		    	<h1>Ajouter une section</h1>
@@ -210,6 +206,26 @@
 			              
 			            <div class="actions">
 			              <button type="submit" class="btn small primary">Ajouter</button>&nbsp;
+			            </div>
+	           		</fieldset>
+	        	</form>
+	    	</div>
+	    	
+	    	<div id="div-modifyCSSLine">
+		    	<h1>Modifier la ligne</h1>
+		    	<form action="${This.path}" id="form-modifyCSSLine" method="post">
+		      		<input type="hidden" name="section" value=""/>
+		      		<input type="hidden" name="row" value=""/>
+		      		<fieldset>
+			            <div class="clearfix">
+			              <label for="cssName">Classe CSS</label>
+			              <div class="input">
+			                <input class="large" id="cssName" name="cssName" type="text" />
+			              </div>
+			            </div><!-- /clearfix -->
+			              
+			            <div class="actions">
+			              <button type="submit" class="btn small primary">Modifier</button>&nbsp;
 			            </div>
 	           		</fieldset>
 	        	</form>

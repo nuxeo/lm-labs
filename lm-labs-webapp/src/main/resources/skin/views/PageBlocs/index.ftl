@@ -1,10 +1,11 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
 
-  <@block name="title">${site.title}-${This.document.title}</@block>
+  <#include "views/common/page_header.ftl">
 
   <@block name="content">
 
     <div id="content" class="container">
+    	<#include "views/common/page_header.ftl">
       <div class="row">
     </div>
   </@block>

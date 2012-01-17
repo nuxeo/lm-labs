@@ -1,4 +1,4 @@
-<#if Session.hasPermission(Document.ref, 'Write') >
+
 	<div class="well editblock" id="pageDescription">
 		<div id="description">${Document.dublincore.description}</div>
 		
@@ -16,13 +16,8 @@
 	        e_url: '${This.path}/@put', -->
 	        e_url: '${This.path}/updateDescriptionCKEIP',
 	        ckeditor_config: ckeditorconfig,
-	        emptyedit_message: "${Context.getMessage('label.ckeditor.double_click_to_edit_content')}"
+	        emptyedit_message: "${Context.getMessage('label.ckeditor.double_click_to_edit_content')}"<#if (!This.page.isDisplayable(This.DC_DESCRIPTION))>,
+	        display_ckeipTex: false</#if>
 	        });
 	    </script>
 	</div>
-
-<#elseif Document.dublincore.description != null>
-	<div id="pageDescription">
-		<div id="description">${Document.dublincore.description}</div>
-	</div>
-</#if>

@@ -14,7 +14,8 @@ $.fn.ckeip = function (options, callback) {
         ckeditor_config: '',
         e_width: '50',
         emptyedit_message: 'Double click to edit content',
-        view_style: ''
+        view_style: '',
+        display_ckeipTex: true
     };
     var settings = $.extend({}, defaults, options);
 
@@ -26,7 +27,9 @@ $.fn.ckeip = function (options, callback) {
         }
         var u_id = Math.floor(Math.random() * 99999999);
         
-        $(this).parent().before("<div id='ckeipText_" + u_id + "' class='" + settings.view_style + "viewblock' style='display:none;' >" + eip_html + "</div>");
+        if (settings.display_ckeipTex){
+        	$(this).parent().before("<div id='ckeipText_" + u_id + "' class='" + settings.view_style + "viewblock' style='display:none;' >" + eip_html + "</div>");
+    	}
 
         $(this).before("<div id='ckeip_" + u_id + "' style='display:none;'><textarea id ='ckeip_e_" + u_id + "' cols='" + settings.e_width + "' rows='" + settings.e_height + "'  >" + eip_html + "</textarea>  <br /><a class='btn primary' href='#' id='save_ckeip_" + u_id + "'>Enregistrer</a> <a href='#' class='btn'  id='cancel_ckeip_" + u_id + "'>Annuler</a></div>");
 
@@ -51,6 +54,7 @@ $.fn.ckeip = function (options, callback) {
 
 
         $("#cancel_ckeip_" + u_id + "").click(function () {
+        	$('#ckeip_e_' + u_id + '').val($(original_html).html());
             $('#ckeip_' + u_id + '').hide();
             $(original_html).fadeIn();
             return false;
@@ -58,7 +62,9 @@ $.fn.ckeip = function (options, callback) {
 
         $("#save_ckeip_" + u_id + "").click(function () {
             var ckeip_html = $('#ckeip_e_' + u_id + '').val();
-            $('#ckeipText_' + u_id + '').html(ckeip_html);
+            if (settings.display_ckeipTex){
+            	$('#ckeipText_' + u_id + '').html(ckeip_html);
+            }
             $.post(settings.e_url, {
                 content: ckeip_html,
                 data: settings.data

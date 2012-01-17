@@ -163,8 +163,27 @@ public class HtmlDocTest {
         section = page.getSections().get(0);
         assertThat(section.row(0).getCssClass(),is(nullValue()));
         assertThat(section.row(1).getCssClass(),is("acssclass"));
+    }
 
+    @Test
+    public void canSetRowClasses() throws Exception {
+        HtmlPage page = createApageWithSections();
+        HtmlSection section = page.getSections().get(0);
 
+        HtmlRow row = section.addRow();
+        assertThat(row.getCssClass(),is(nullValue()));
+
+        row = section.addRow();
+        row.setCssClass("acssclass1");
+        assertThat(row.getCssClass(),is("acssclass1"));
+
+        session.saveDocument(page.getDocument());
+        session.save();
+
+        page = retrieveTestPage();
+        section = page.getSections().get(0);
+        assertThat(section.row(0).getCssClass(),is(nullValue()));
+        assertThat(section.row(1).getCssClass(),is("acssclass1"));
     }
 
     private HtmlPage retrieveTestPage() throws ClientException {
