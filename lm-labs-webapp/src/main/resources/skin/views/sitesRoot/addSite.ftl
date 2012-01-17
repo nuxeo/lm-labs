@@ -15,7 +15,7 @@
 
 <h1>${Context.getMessage('label.labssite.add.site')}</h1>
 
-<form method="post" enctype="multipart/form-data" id="form-labssite" action="${This.path}">
+<form method="post" enctype="multipart/form-data" id="form-labssite" action="${This.path}/"> <#-- trailing slash in form's URL is very important, DONT'T REMOVE !! -->
   <fieldset>
     <div class="clearfix">
       <label for="labsSiteTitle">${Context.getMessage('label.labssite.edit.title')}</label>
