@@ -102,15 +102,15 @@
 				    	<div class="span16">
 				    		<@block name="content"></@block>
 				    	</div>
-				    	<br>
-				    	<div class="span16">
-					    	<@block name="pageCommentable">
-							    <#assign pageCommentable = This.getPage()/>
-								<#if pageCommentable != null && pageCommentable.commentable>
-									<#include "/views/LabsComments/displayCommentsPage.ftl" />
-								</#if>
-							</@block>
-						</div>
+						<#assign pageCommentable = This.getPage()/>
+				    	<#if pageCommentable != null && pageCommentable.commentable>
+					    	<br>
+					    	<div class="span16">
+						    	<@block name="pageCommentable">
+										<#include "/views/LabsComments/displayCommentsPage.ftl" />
+								</@block>
+							</div>
+						</#if>
 				    </div>   	
 			    </div>
 			    <div>&nbsp;</div>
