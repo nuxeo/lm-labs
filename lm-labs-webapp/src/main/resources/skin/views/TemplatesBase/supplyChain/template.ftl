@@ -69,8 +69,8 @@
 		    <div id="FKtopContent" style="position:relative;" >
 				<#include "views/common/logo.ftl" />
 		    	<div class="top">
-   					<#include "views/common/notification_area.ftl" />
 		    		<#include "views/common/sitemap_area.ftl" />
+   					<#include "views/common/notification_area.ftl" />
 		    	</div>			
 				
 			    
