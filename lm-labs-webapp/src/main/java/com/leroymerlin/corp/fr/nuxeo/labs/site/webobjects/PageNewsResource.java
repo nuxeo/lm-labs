@@ -3,9 +3,7 @@
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
-import static org.nuxeo.ecm.webengine.WebEngine.SKIN_PATH_PREFIX_KEY;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
@@ -14,14 +12,12 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
-import org.nuxeo.ecm.webengine.model.Module;
-import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.model.WebObject;
-import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html.RowTemplate;
 
 /**
@@ -84,22 +80,7 @@ public class PageNewsResource extends NotifiablePageResource {
 
 
     private String getSamplePictureHtml() {
-
-        return "<img src=\"" + getSkinPath() + "/images/samplePicture.jpg\"/>";
-    }
-
-    private String getSkinPath() {
-        Module module = ctx.getModule();
-        HttpServletRequest request = ctx.getRequest();
-        if (Framework.getProperty(SKIN_PATH_PREFIX_KEY) != null) {
-            return module.getSkinPathPrefix();
-        }
-        String webenginePath = request.getHeader(WebContext.NUXEO_WEBENGINE_BASE_PATH);
-        if (webenginePath == null) {
-            return module.getSkinPathPrefix();
-        } else {
-            return ctx.getBasePath() + "/" + module.getName() + "/skin";
-        }
+        return "<img src=\"" + LabsSiteWebAppUtils.getSkinPathPrefix(getModule(), getContext()) + "/images/samplePicture.jpg\"/>";
     }
 
 }

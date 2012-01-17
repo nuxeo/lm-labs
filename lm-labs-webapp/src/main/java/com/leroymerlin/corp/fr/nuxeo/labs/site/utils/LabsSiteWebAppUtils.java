@@ -73,7 +73,7 @@ public final class LabsSiteWebAppUtils {
         if (webenginePath == null) {
             return module.getSkinPathPrefix();
         } else {
-            return ctx.getBasePath() + "/" + module.getName();
+            return ctx.getBasePath() + "/" + module.getName() + "/skin";
         }
     }
     
