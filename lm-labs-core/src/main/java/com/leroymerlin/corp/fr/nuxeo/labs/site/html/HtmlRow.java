@@ -101,4 +101,9 @@ public class HtmlRow {
         return cssClass;
     }
 
+    public void setCssClass(String cssClass)  throws ClientException{
+        this.cssClass = cssClass;
+        this.update();
+    }
+
 }
