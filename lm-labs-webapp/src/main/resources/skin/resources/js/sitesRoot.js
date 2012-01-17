@@ -4,9 +4,9 @@
 function sendForm(path, msgError){
   $("#form-labssite").validate();
     var options = {
-    beforeSubmit: function(){
-      return $("#form-labssite").valid();
-    },
+	    beforeSubmit: function(){
+	      return $("#form-labssite").valid();
+	    },
         success: function(responseText, statusText) {
           if (statusText == "notmodified"){
             $("#labsSiteURL").val($("#oldURL").val());
