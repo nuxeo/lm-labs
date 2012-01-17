@@ -39,12 +39,14 @@
       </div>
     </div><!-- /clearfix -->
 
+<#--
     <div class="clearfix">
       <label for="piwik:piwikId">${Context.getMessage('label.labssite.edit.piwikId')}</label>
       <div class="input">
         <input name="piwik:piwikId" id="piwik:piwikId" />
       </div>
-    </div><!-- /clearfix -->
+    </div>
+-->
 
 	<#if Common.canCreateTemplateSite(Context.principal.name, Session) >
     <div class="clearfix">
