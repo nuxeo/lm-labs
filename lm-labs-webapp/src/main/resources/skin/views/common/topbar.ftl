@@ -32,7 +32,7 @@
 	                		<li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView">${Context.getMessage('command.docactions.addcontent')}</a></li>
 	                	</@block>
 	                	<!--   Mode page     -->
-	                	<li><a id="page_edit" href="#" onclick="javascript:simulateKeyup69();">Voir la page</a></li>
+	                	<li><a id="page_edit" href="#" onclick="javascript:simulateKeyup69();">Visualiser</a></li>
 	                	<@block name="docactionsonpage">
 		                	<!--   Manage parameter's page     -->
 							<li><a href="#" onclick="javascript:openParametersPage();">${Context.getMessage('command.docactions.parameters')}</a></li>
