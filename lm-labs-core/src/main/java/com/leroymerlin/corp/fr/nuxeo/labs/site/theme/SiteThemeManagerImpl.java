@@ -9,7 +9,6 @@ import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
@@ -21,46 +20,19 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
         this.parentSiteDoc = doc;
     }
 
-    private DocumentModel getRootOfThemes() throws ClientException {
-        CoreSession session = parentSiteDoc.getCoreSession();
-        DocumentRef rootRef = new PathRef(parentSiteDoc.getPathAsString()
-                + "/themes");
-        if (session.exists(rootRef)) {
-            return session.getDocument(rootRef);
-        } else {
-            return createRoot();
-        }
-
+    private DocumentModel getRootOfThemes(CoreSession session) throws ClientException {
+        return session.getDocument(new PathRef(getThemesRootPath()));
     }
 
-    private DocumentModel createRoot() throws ClientException {
-        final DocumentRef rootRef = new PathRef(parentSiteDoc.getPathAsString()
-                + "/themes");
-        CoreSession session = parentSiteDoc.getCoreSession();
-        UnrestrictedSessionRunner sessionRunner = new UnrestrictedSessionRunner(session) {
-            @Override
-            public void run() throws ClientException {
-                if (!session.exists(rootRef)) {
-                    DocumentModel rootDoc = session.createDocumentModel(
-                            parentSiteDoc.getPathAsString(), "themes", "Folder");
-                    rootDoc.setPropertyValue("dc:title", "themes");
-                    rootDoc = session.createDocument(rootDoc);
-                    session.save();
-                }
-            }
-        };
-        sessionRunner.runUnrestricted();
-        return session.getDocument(rootRef);
+    private String getThemesRootPath() {
+    	return parentSiteDoc.getPathAsString() + "/" + Docs.SITETHEMESROOT.docName();
     }
-
-
 
     @Override
     public SiteTheme getTheme(String themeName) throws ClientException {
         CoreSession session = parentSiteDoc.getCoreSession();
 
-        DocumentRef themeRef = new PathRef(getRootOfThemes().getPathAsString()
-                + "/" + themeName);
+        DocumentRef themeRef = new PathRef(getThemesRootPath() + "/" + themeName);
         if (session.exists(themeRef)) {
             return session.getDocument(themeRef)
                     .getAdapter(SiteTheme.class);
@@ -83,21 +55,22 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
 
     private SiteTheme createTheme(final String themeName) throws ClientException {
         CoreSession session = parentSiteDoc.getCoreSession();
-        final DocumentRef themeRef = new PathRef(getRootOfThemes().getPathAsString()
-                + "/" + themeName);
         UnrestrictedSessionRunner sessionRunner = new UnrestrictedSessionRunner(session) {
             @Override
             public void run() throws ClientException {
+            	DocumentModel rootOfThemes = getRootOfThemes(session);
+				DocumentRef themeRef = new PathRef(rootOfThemes.getPathAsString()
+            			+ "/" + themeName);
                 if (!session.exists(themeRef)) {
                     DocumentModel themeDoc = session.createDocumentModel(
-                            getRootOfThemes().getPathAsString(), themeName, Docs.SITETHEME.type());
+                            rootOfThemes.getPathAsString(), themeName, Docs.SITETHEME.type());
                     themeDoc = session.createDocument(themeDoc);
                     session.save();
                 }
             }
         };
         sessionRunner.runUnrestricted();
-        DocumentModel themeDoc = session.getDocument(themeRef);
+        DocumentModel themeDoc = session.getDocument(new PathRef(getThemesRootPath() + "/" + themeName));
         return themeDoc.getAdapter(SiteTheme.class);
     }
 
