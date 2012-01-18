@@ -11,15 +11,20 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean;
  */
 public enum ColSize {
 
-    S_8PX(8),
-    S_10PX(10),
-    S_15PX(15),
-    S_20PX(20),
-    S_30PX(30),
-    S_40PX(40),
+    S_25PX(25),
     S_50PX(50),
-    S_70PX(70),
-    S_100PX(100);
+    S_75PX(75),
+    S_100PX(100),
+    S_150PX(150),
+    S_200PX(200),
+    S_250PX(250),
+    S_300PX(300),
+    S_350PX(350),
+    S_400PX(400),
+    S_450PX(450),
+    S_500PX(500),
+    S_550PX(550),
+    S_600PX(600);
     
     private int size;
     
