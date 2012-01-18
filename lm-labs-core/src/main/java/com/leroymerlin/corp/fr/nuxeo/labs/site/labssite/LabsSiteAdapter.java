@@ -495,7 +495,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 					session.copy(session.getChildrenRefs(templateSite.getRef(), null), doc.getRef());
 					Path indexPath = doc.getPath().append(indexLastSegments);
 					setHomePageRef(session.getDocument(new PathRef(indexPath.toString())).getId());
-					// TODO what about rights on documents ?
+					String templateThemeName = (String) labsSiteTemplate.getDocument().getPropertyValue(Schemas.LABSSITE.getName() + ":theme_name");
+					getThemeManager(session).setTheme(templateThemeName);
+					getTemplate().setTemplateName(labsSiteTemplate.getTemplate().getTemplateName());
 				} else {
 					throw new IllegalArgumentException(templateSite.getPathAsString() + " is not a site template.");
 				}
@@ -504,5 +506,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 		};
 		sessionRunner.runUnrestricted();
 	}
+
+    private SiteThemeManager getThemeManager(CoreSession session) throws ClientException {
+        return new SiteThemeManagerImpl(session.getDocument(new PathRef(doc.getPathAsString())));
+    }
 
 }
