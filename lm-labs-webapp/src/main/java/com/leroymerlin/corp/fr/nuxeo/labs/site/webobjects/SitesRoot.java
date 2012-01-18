@@ -16,6 +16,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.EntityTag;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.httpclient.URIException;
@@ -28,7 +31,9 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
+import org.nuxeo.ecm.core.storage.sql.coremodel.SQLBlob;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -175,6 +180,44 @@ public class SitesRoot extends ModuleRoot {
         try {
             LabsSite site = sm.getSite(session, pURL);
             return newObject("LabsSite", site.getDocument());
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        } catch (SiteManagerException e) {
+            throw new WebResourceNotFoundException(e.getMessage(), e);
+        }
+    }
+    
+    @GET
+    @Path("@templatePreview/{url}")
+    public Object doGetTemplatePreview(@Context Request request, @PathParam("url") final String url) {
+    	// comme l'acces au webobject d'un site de type modèle est impossible
+    	// pour un utilisateur non-administrateur, j'ai mis en place ce petit hack
+    	// afin d'obtenir l'image de preview.
+        try {
+        	CoreSession session = getContext().getCoreSession();
+        	SiteManager sm = getSiteManager();
+            LabsSite site = sm.getSite(session, url);
+            BlobHolder blobHolder = site.getDocument().getAdapter(BlobHolder.class);
+            Blob blob = blobHolder.getBlob();
+            EntityTag etag = null;
+            String digest = ((SQLBlob) blob).getBinary().getDigest();
+            if (digest != null) {
+            	etag = new EntityTag(digest);
+            }
+            Response.ResponseBuilder rb = request.evaluatePreconditions(etag);
+            if (rb != null) {
+                return rb.build();
+            }
+            String mimeType = blob.getMimeType() == null ? "image/jpeg"
+                    : blob.getMimeType();
+            String filename = blob.getFilename() == null ? "file"
+                    : blob.getFilename();
+            rb = Response.ok(blob).header("Content-Disposition",
+            	"inline;filename=\"" + filename + "\"").type(mimeType);
+            if (etag != null) {
+                rb.tag(etag);
+            }
+            return rb.build();
         } catch (ClientException e) {
             throw WebException.wrap(e);
         } catch (SiteManagerException e) {
@@ -351,4 +394,5 @@ public class SitesRoot extends ModuleRoot {
             return getPath();
         }
     }
+
 }
