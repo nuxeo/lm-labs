@@ -56,7 +56,7 @@
                 </div><!-- /clearfix -->
                 
                 <div class="clearfix">
-                  <label for="template">${Context.getMessage('label.labssites.appearance.theme.label')}</label>
+                  <label for="theme">${Context.getMessage('label.labssites.appearance.theme.label')}</label>
                   <div class="input">
 	            	<a href="#" id="modifyThemeParameters"><br/>${Context.getMessage('label.labssites.appearance.theme.parameters')}</a> 
                     <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${site.getThemeManager().getTheme().getName()}');">
