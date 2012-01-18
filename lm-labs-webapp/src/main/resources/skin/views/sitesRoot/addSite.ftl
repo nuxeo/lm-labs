@@ -68,7 +68,7 @@
         <span class="radioSiteTemplate">
           <input type="radio" name="siteTemplateId" value="${templateName.document.id}" 
         	<#if templateName.hasSiteTemplatePreview()>
-        	onclick="onSelectRadio(this, '${Root.getLink(templateName.document)}/@blob');"
+        	onclick="onSelectRadio(this, '${Context.modulePath}/@templatePreview/${templateName.URL}');"
         	<#else>
         	onclick="cleanPreview();"
         	</#if>

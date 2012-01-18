@@ -414,13 +414,22 @@ public class LabsSiteAdapterTest {
 	public void iCanCopySiteTemplate() throws Exception {
     	DocumentModel siteRoot = sm.getSiteRoot(session);
         PermissionsHelper.addPermission(siteRoot, SecurityConstants.ADD_CHILDREN, USERNAME1, true);
+        PermissionsHelper.addPermission(siteRoot, SecurityConstants.READ, SecurityConstants.EVERYONE, true);
     	
         LabsSite template1 = createTemplateSite("template1", session);
         PermissionsHelper.addPermission(template1.getDocument(), SecurityConstants.READ, USERNAME1, true);
     	session.save();
+    	String templateName = "LeTemplate";
+    	String themeName = "LeTheme";
+    	template1.getTemplate().setTemplateName(templateName);
+    	template1.getThemeManager().setTheme(themeName);
+    	session.saveDocument(template1.getDocument());
+    	session.save();
+    	
     	CoreSession cgmSession = changeUser(USERNAME1);
     	assertNotNull(cgmSession);
     	LabsSite cgmSite = sm.createSite(cgmSession, "CGMsite", "CGMsite");
+    	session.save();
     	assertNotNull(cgmSite);
     	final String welcomeId = cgmSite.getIndexDocument().getId();
     	LabsSite cgmTemplateSite = sm.getSite(cgmSession, "template1");
@@ -428,6 +437,8 @@ public class LabsSiteAdapterTest {
     	final String templateWelcomeId = cgmTemplateSite.getIndexDocument().getId();
     	cgmSite.applyTemplateSite(cgmTemplateSite.getDocument());
     	assertFalse(templateWelcomeId.equals(welcomeId));
+    	assertEquals(templateName, cgmTemplateSite.getTemplate().getTemplateName());
+    	assertEquals(themeName, cgmTemplateSite.getThemeManager().getTheme().getName());
     	DocumentModelList assetsList = cgmSession.getChildren(cgmSite.getAssetsDoc().getRef(), "Folder");
     	assertEquals(2, assetsList.size());
     	assetsList = cgmSession.getChildren(cgmSite.getAssetsDoc().getRef(), "File");

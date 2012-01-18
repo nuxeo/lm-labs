@@ -46,12 +46,18 @@ public class SiteCreationEventListener implements EventListener {
             DocumentModel assets = session.createDocumentModel(
                     doc.getPathAsString(), LabsSiteConstants.Docs.ASSETS.docName(),
                     LabsSiteConstants.Docs.ASSETS.type());
+            LOG.debug("Creating themes' root ...");
+            DocumentModel themesRoot = session.createDocumentModel(
+                    doc.getPathAsString(), LabsSiteConstants.Docs.SITETHEMESROOT.docName(),
+                    LabsSiteConstants.Docs.SITETHEMESROOT.type());
             
             tree.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.TREE.docName()));
             assets.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.ASSETS.docName()));
+            themesRoot.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.SITETHEMESROOT.docName()));
             
             session.createDocument(tree);
             session.createDocument(assets);
+            session.createDocument(themesRoot);
             createWelcomePage(doc, session);
         }
     }
