@@ -11,7 +11,8 @@ headersCollection.toString = function(){
 			output.push('Name:' + myCollection[myOrder[ii]].name + '\n');
 			output.push('Type:' + myCollection[myOrder[ii]].type + '\n');
 			output.push('width:' + myCollection[myOrder[ii]].width + '\n');
-			output.push('font:' + myCollection[myOrder[ii]].font + '\n');
+			output.push('fontName:' + myCollection[myOrder[ii]].fontName + '\n');
+			output.push('fontSize:' + myCollection[myOrder[ii]].fontSize + '\n');
 			output.push('idHeader:' + myCollection[myOrder[ii]].idHeader + '\n');
 			output.push('orderPosition:' + myCollection[myOrder[ii]].orderPosition+ '\n');
 			output.push('formatDate:' + myCollection[myOrder[ii]].formatDate + '\n');
@@ -41,7 +42,7 @@ headersCollection.organizeOrderPosition = function(){
 
 jQuery(document).ready(function() {
 	jQuery("#divManageList").dialog2({
-		height : '320px',
+		height : '385px',
 		overflowy : 'auto',
 		overflowx : 'hidden',
 		autoOpen : false, 
@@ -89,7 +90,8 @@ function initNewHeader() {
 	$("#headerName").focus();
 	$('#headerType option[value=TEXT]').attr("selected", "selected");
 	$('#headerFormatDate option:nth(0)').attr("selected", "selected");
-	$('#headerFont option:nth(0)').attr("selected", "selected");
+	$('#headerFontName option:nth(0)').attr("selected", "selected");
+	$('#headerFontSize option:nth(0)').attr("selected", "selected");
 	$('#headerWidth option:nth(0)').attr("selected", "selected");
 	clearDivEditOptions();
 	hideEditSelect();
@@ -215,8 +217,12 @@ function changeAllHeaderFormatDate() {
 	headersCollection.getSelectedItem().formatDate = $("#headerFormatDate").val();
 }
 
-function changeAllHeaderFont() {
-	headersCollection.getSelectedItem().font = $("#headerFont").val();
+function changeAllHeaderFontName() {
+	headersCollection.getSelectedItem().fontName = $("#headerFontName").val();
+}
+
+function changeAllHeaderFontSize() {
+	headersCollection.getSelectedItem().fontSize = $("#headerFontSize").val();
 }
 
 function changeHeader(selected) {
@@ -225,7 +231,8 @@ function changeHeader(selected) {
 	$("#headerName").val(selectedItem.name);
 	$("#headerName").focus();
 	$('#headerType option[value=' + selectedItem.type + ']').attr( "selected", "selected");
-	$('#headerFont option[value=' + selectedItem.font + ']').attr( "selected", "selected");
+	$('#headerFontName option[value="' + selectedItem.fontName + '"]').attr( "selected", "selected");
+	$('#headerFontSize option[value=' + selectedItem.fontSize + ']').attr( "selected", "selected");
 	$('#headerWidth option[value=' + selectedItem.width + ']').attr( "selected", "selected");
 	$('#headerFormatDate option[value="' + selectedItem.formatDate + '"]').attr( "selected", "selected");
 	addClassLineheaderSelected();
@@ -305,7 +312,8 @@ function createNewHeader() {
 	obj.name = "";
 	obj.type = "TEXT";
 	obj.width = $('#headerWidth').val();
-	obj.font = $('#headerFont').val();
+	obj.fontName = $('#headerFontName').val();
+	obj.fontSize = $('#headerFontSize').val();
 	obj.idHeader = headersCollection.getOrder().length;
 	obj.orderPosition = obj.idHeader;
 	obj.selectlist = [];

@@ -68,16 +68,28 @@
 			            	</select>
 			            </div>
 		            </div>
-		            <!--         FONT      ------->
+		            <!--         FONTNAME     ------->
 					<div class="clearfix">
-						<label for="headerFont">${Context.getMessage('label.pageList.edit.editHeader.font')}</label>
+						<label for="headerFontName">${Context.getMessage('label.pageList.edit.editHeader.fontName')}</label>
 			            <div class="input">
-			            	<select name="headerFont" id="headerFont" onChange="javascript:changeAllHeaderFont();">
-			            		<option value="${This.getDefault()}">${Context.getMessage('label.pageList.edit.editHeader.default')}</option>
-			            		<#list This.getHeaderFonts() as font>
-			            			<option value="${font.fontName.name()}-${font.fontSize.name()}">${Context.getMessage(font.getNameI18n())}-${font.fontSize.size}</option>
-			            		</#list>
-			            	</select>
+			            	<select name="headerFontName" id="headerFontName" onChange="javascript:changeAllHeaderFontName();">
+								<option value="${This.getDefault()}">${Context.getMessage('label.pageList.edit.editHeader.default')}</option>
+								<#list Common.getFontFamilies() as font>
+									<option value="${font.getCssName()}">${font.getDisplayName()}</option>
+								</#list>
+							</select>
+			            </div>
+		            </div>
+		            <!--         FONTSIZE      ------->
+					<div class="clearfix">
+						<label for="headerFontSize">${Context.getMessage('label.pageList.edit.editHeader.fontSize')}</label>
+			            <div class="input">
+			            	<select name="headerFontSize" id="headerFontSize" onChange="javascript:changeAllHeaderFontSize();">
+								<option value="${This.getDefault()}">${Context.getMessage('label.pageList.edit.editHeader.default')}</option>
+								<#list Common.getFontSizes() as size>
+									<option value="${size.getSize()}">${size.getSize()}</option>
+								</#list>
+							</select>
 			            </div>
 		            </div>
 				</fieldset>

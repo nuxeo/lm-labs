@@ -46,9 +46,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.ColSize;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBean;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontDto;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontName;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFontSize;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.LabsFormatDate;
 
 /**
@@ -69,8 +66,6 @@ public class PageListResource extends NotifiablePageResource {
     private static final String IMPOSSIBLE_TO_GET_HEADER_SET_ON_PAGE_LIST = "Impossible to getHeaderSet() on PageList";
 
     private static final String THE_HEADERS_WIDTHS_SHOULD_NOT_BE_EMPTY = "The headers widths should not be empty.";
-
-    private static final String THE_HEADERS_FONTS_SHOULD_NOT_BE_EMPTY = "The headers fonts should not be empty.";
 
     private static final String THE_HEADERS_TYPES_SHOULD_NOT_BE_EMPTY = "The headers types should not be empty.";
 
@@ -100,19 +95,6 @@ public class PageListResource extends NotifiablePageResource {
         return entriesType;
     }
 
-    public List<LabsFontDto> getHeaderFonts() {
-        List<LabsFontDto> fonts = new ArrayList<LabsFontDto>();
-        for (Enum<LabsFontName> fontName : LabsFontName.values()) {
-            for (Enum<LabsFontSize> fontSize : LabsFontSize.values()) {
-                fonts.add(new LabsFontDto(fontName, fontSize));
-            }
-        }
-        if (fonts.isEmpty()){
-            LOG.error(THE_HEADERS_FONTS_SHOULD_NOT_BE_EMPTY);
-        }
-        return fonts;
-    }
-
     public List<Enum<ColSize>> getHeaderWidths() {
         List<Enum<ColSize>> width = new ArrayList<Enum<ColSize>>();
         for (Enum<ColSize> type : ColSize.values()) {
@@ -140,15 +122,18 @@ public class PageListResource extends NotifiablePageResource {
     }
     
     public String getLineStyle(Header pHead) throws ClientException{
-        StringBuilder style = new StringBuilder("style='");
+        StringBuilder style = new StringBuilder("style=\"");
         boolean hasOneStyle = false;
         if(!pHead.getWidth().equals(Header.DEFAULT)){
             style.append("width: ").append(ColSize.valueOf(pHead.getWidth()).getSize()).append("px;");
             hasOneStyle = true;
         }
-        if(!pHead.getFont().equals(Header.DEFAULT)){
-            style.append("font-family: \"").append(getContext().getMessage(LabsFontName.valueOf(pHead.getFontName()).getI18n())).append("\";");
-            style.append("font-size: ").append(LabsFontSize.valueOf(pHead.getFontSize()).getSize()).append("px;");
+        if(!pHead.getFontName().equals(Header.DEFAULT)){
+            style.append("font-family: ").append(pHead.getFontName()).append(";");
+            hasOneStyle = true;
+        }
+        if(!pHead.getFontSize().equals(Header.DEFAULT)){
+            style.append("font-size: ").append(pHead.getFontSize()).append(";");
             hasOneStyle = true;
         }
         if (isAuthorized()){
@@ -156,7 +141,7 @@ public class PageListResource extends NotifiablePageResource {
             hasOneStyle = true;
         }
         if (hasOneStyle){
-            style.append("' ");
+            style.append("\" ");
             return style.toString();
         }
         return "";
@@ -211,7 +196,6 @@ public class PageListResource extends NotifiablePageResource {
                 if (!StringUtil.isEmpty(header.getName())){
                     header.setOrderPosition(position);
                     position++;
-                    header.extractElementsOfFont();
                     List<String> selectlist = header.getSelectlist();
                     if (selectlist != null && !selectlist.isEmpty()){
                         header.setSelectlist(reorganizeSelectlist(selectlist));
@@ -295,9 +279,9 @@ public class PageListResource extends NotifiablePageResource {
         try {
             int index = 0;
             headerSet = pgl.getHeaderSet();
+            String order = null;
             for (Header head : headerSet){
-                head.createFont();
-                String order = BASE_KEY + index;
+                order = BASE_KEY + index;
                 mapHead.put(order, head);
                 headersName.append("\"").append(order).append("\",");
                 listHeadersName.add(order);
