@@ -136,4 +136,8 @@ public interface LabsSite  extends LabsBase {
     void setSiteTemplatePreview(Blob blob) throws ClientException;
 
     void applyTemplateSite(final DocumentModel templateSite) throws ClientException, IllegalArgumentException;
+    
+    void setThemeName(String name) throws ClientException;
+    
+    String getThemeName() throws ClientException;
 }

@@ -425,6 +425,7 @@ public class LabsSiteAdapterTest {
     	template1.getThemeManager().setTheme(themeName);
     	session.saveDocument(template1.getDocument());
     	session.save();
+    	assertEquals(themeName, template1.getThemeName());
     	
     	CoreSession cgmSession = changeUser(USERNAME1);
     	assertNotNull(cgmSession);
@@ -437,8 +438,9 @@ public class LabsSiteAdapterTest {
     	final String templateWelcomeId = cgmTemplateSite.getIndexDocument().getId();
     	cgmSite.applyTemplateSite(cgmTemplateSite.getDocument());
     	assertFalse(templateWelcomeId.equals(welcomeId));
-    	assertEquals(templateName, cgmTemplateSite.getTemplate().getTemplateName());
-    	assertEquals(themeName, cgmTemplateSite.getThemeManager().getTheme().getName());
+    	assertEquals(templateName, cgmSite.getTemplate().getTemplateName());
+    	assertEquals(themeName, cgmTemplateSite.getThemeName());
+    	assertEquals(themeName, cgmSite.getThemeName());
     	DocumentModelList assetsList = cgmSession.getChildren(cgmSite.getAssetsDoc().getRef(), "Folder");
     	assertEquals(2, assetsList.size());
     	assetsList = cgmSession.getChildren(cgmSite.getAssetsDoc().getRef(), "File");

@@ -485,6 +485,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
 	@Override
 	public void applyTemplateSite(final DocumentModel templateSite) throws ClientException, IllegalArgumentException {
+		final String templateThemeName = (String) templateSite.getPropertyValue(Schemas.LABSSITE.prefix() + ":theme_name");
 		UnrestrictedSessionRunner sessionRunner = new UnrestrictedSessionRunner(templateSite.getCoreSession()) {
 			@Override
 			public void run() throws ClientException {
@@ -495,8 +496,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 					session.copy(session.getChildrenRefs(templateSite.getRef(), null), doc.getRef());
 					Path indexPath = doc.getPath().append(indexLastSegments);
 					setHomePageRef(session.getDocument(new PathRef(indexPath.toString())).getId());
-					String templateThemeName = (String) labsSiteTemplate.getDocument().getPropertyValue(Schemas.LABSSITE.getName() + ":theme_name");
-					getThemeManager(session).setTheme(templateThemeName);
+					setThemeName(templateThemeName);
 					getTemplate().setTemplateName(labsSiteTemplate.getTemplate().getTemplateName());
 				} else {
 					throw new IllegalArgumentException(templateSite.getPathAsString() + " is not a site template.");
@@ -507,8 +507,14 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 		sessionRunner.runUnrestricted();
 	}
 
-    private SiteThemeManager getThemeManager(CoreSession session) throws ClientException {
-        return new SiteThemeManagerImpl(session.getDocument(new PathRef(doc.getPathAsString())));
-    }
+	@Override
+	public void setThemeName(String name) throws ClientException {
+		doc.setPropertyValue(Schemas.LABSSITE.prefix() + ":theme_name", name);
+	}
+
+	@Override
+	public String getThemeName() throws ClientException {
+		return (String) doc.getPropertyValue(Schemas.LABSSITE.prefix() + ":theme_name");
+	}
 
 }
