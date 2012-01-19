@@ -89,12 +89,10 @@ jQuery(document).ready(function() {
 				<div class="clearfix" id="siteTemplatePreviewDiv" <#if !site.siteTemplate>style="display:none;"</#if>>
 			      <#if site.siteTemplate && site.siteTemplatePreview?? >
 			      <div style="float: right; margin-right: 25px;" >
-			        <img style="width:60px;cursor:pointer;"
-			        <#--
-			        title="${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete')}" 
-			        onclick="if (confirm('${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete.confirm')}')) jQuery.ajax({url:'${This.path}/logo', type:'DELETE', success:function() {window.location.reload();}});"
-			        -->
-						src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@blob"/>
+			        <img style="width:400px;cursor:pointer;"
+			          title="${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete')}" 
+			          onclick="if (confirm('${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete.confirm')?js_string}')) jQuery.ajax({url:'${Root.getLink(site.document)}/@blob', type:'DELETE', success:function() {window.location.reload();}});"
+			          src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@blob"/>
 			      </div>
 			      </#if>
 			      <label for="siteTemplatePreview">${Context.getMessage('label.labssite.edit.siteTemplatePreview')}</label>

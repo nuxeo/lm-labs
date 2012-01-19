@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.Calendar;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
@@ -78,6 +79,20 @@ public class BlobService extends DefaultAdapter {
         BlobHolder convert = service.convert(converterName, blobHolder, null);
         return convert.getBlob()
                 .getString();
+    }
+    
+    @DELETE
+    public Object doDelete() {
+        DocumentModel documentModel = this.getTarget().getAdapter(DocumentModel.class);
+		BlobHolder blobHolder = documentModel.getAdapter(BlobHolder.class);
+        try {
+			blobHolder.setBlob(null);
+			getContext().getCoreSession().saveDocument(documentModel);
+		} catch (ClientException e) {
+			LOG.error(e, e);
+			return Response.notModified().build();
+		}
+        return Response.noContent().build();
     }
 
     protected Object getBlob(DocumentModel doc, Request request,
