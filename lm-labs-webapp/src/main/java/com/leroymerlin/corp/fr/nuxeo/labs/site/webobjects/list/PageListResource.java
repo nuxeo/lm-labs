@@ -124,15 +124,19 @@ public class PageListResource extends NotifiablePageResource {
     public String getLineStyle(Header pHead) throws ClientException{
         StringBuilder style = new StringBuilder("style=\"");
         boolean hasOneStyle = false;
-        if(!pHead.getWidth().equals(Header.DEFAULT)){
-            style.append("width: ").append(ColSize.valueOf(pHead.getWidth()).getSize()).append("px;");
-            hasOneStyle = true;
+        if(!Header.DEFAULT.equals(pHead.getWidth())){
+            // For the old values
+            try {
+                int size = ColSize.valueOf(pHead.getWidth()).getSize();
+                style.append("width: ").append(size).append("px;");
+                hasOneStyle = true;
+            } catch (Exception e) {}
         }
-        if(!pHead.getFontName().equals(Header.DEFAULT)){
+        if(!Header.DEFAULT.equals(pHead.getFontName())){
             style.append("font-family: ").append(pHead.getFontName()).append(";");
             hasOneStyle = true;
         }
-        if(!pHead.getFontSize().equals(Header.DEFAULT)){
+        if(!Header.DEFAULT.equals(pHead.getFontSize())){
             style.append("font-size: ").append(pHead.getFontSize()).append(";");
             hasOneStyle = true;
         }
