@@ -13,6 +13,8 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
         <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
         <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
 
 	  <link rel="stylesheet/less" href="${Context.modulePath}/${site.URL}/generated.less">
       <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
