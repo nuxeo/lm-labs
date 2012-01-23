@@ -7,8 +7,6 @@
     usernameTmp = $('#username').val();
 
     jQuery(".listener").keypress(function(e){
-      if (!e)
-        e = event;
       if (e.keyCode == 13 || e.which == 13){
        valid();
       }
@@ -55,7 +53,7 @@
       url: "${Context.loginPath}",
       data: {caller: "login", nuxeo_login : "true", username : username, password : password},
       success: function(html, status) {
-        succesRedirect();
+        //succesRedirect();
         jQuery.cookie("LAST_ACTION", "LOGIN", {path: "/"});
         return true;
       },
