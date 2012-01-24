@@ -7,6 +7,57 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript">
+function updateBtLabels(bt, title, alt) {
+	jQuery(bt).attr("title", title);
+	jQuery(bt).attr("alt", alt);
+}
+function changeFolderBt(imgObj, newStatus) {
+	if (newStatus === 'open') {
+		jQuery(imgObj).attr("src", "${skinPath}/images/toggle_plus.png");
+	} else {
+		jQuery(imgObj).attr("src", "${skinPath}/images/toggle_minus.png");
+	}
+}
+function slideFolder(imgObj, action) {
+	var collapsables = jQuery(imgObj).closest(".Folder").find("div[class*='folder-collapsable']");
+	if (action === '') {
+		if (collapsables.is(":visible")) {
+			action = 'open';
+		} else {
+			action = 'close';
+		}
+	}
+	if (action === "open") {
+		changeFolderBt(imgObj, 'open');
+		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.open')}", "${Context.getMessage('command.PageClasseur.open')}");
+		collapsables.slideUp("fast");
+	} else {
+		changeFolderBt(imgObj, 'close');
+		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.collapse')}", "${Context.getMessage('command.PageClasseur.collapse')}");
+		collapsables.slideDown("fast");
+	}
+}
+function slideAllFolders(imgObj) {
+	if (jQuery(imgObj).hasClass('allFoldersOpened')) {
+		jQuery(imgObj).removeClass('allFoldersOpened');
+		jQuery(imgObj).addClass('allFoldersClosed');
+		changeFolderBt(imgObj, 'open');
+		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.allFolders.open')}", "${Context.getMessage('command.PageClasseur.allFolders.open')}");
+		jQuery("img[class*='openCloseBt']").each(function(i, e) {
+			slideFolder(jQuery(this), 'open');
+		});
+	} else {
+		jQuery(imgObj).removeClass('allFoldersClosed');
+		jQuery(imgObj).addClass('allFoldersOpened');
+		changeFolderBt(imgObj, 'close');
+		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.allFolders.collapse')}", "${Context.getMessage('command.PageClasseur.allFolders.collapse')}");
+		jQuery("img[class*='openCloseBt']").each(function(i, e) {
+			slideFolder(jQuery(this), 'close');
+		});
+	}
+}
+        </script>
 
   </@block>
 
@@ -27,6 +78,9 @@
 	</style>
 
   <div class="container">
+    <#if classeur.folders?size &gt; 0>
+	<img class='allFoldersOpened' src="${skinPath}/images/toggle_minus.png" onclick="slideAllFolders(this);" style="float: left; margin: 5px;" title="${Context.getMessage('label.PageClasseur.allFolders.collapse')}" alt="${Context.getMessage('command.PageClasseur.allFolders.collapse')}" />
+	</#if>
 	<#include "views/common/page_header.ftl">
 
 
@@ -43,6 +97,9 @@
   <#assign i=0 />
   <#list classeur.folders as folder>
     <section class="${folder.document.type}" id="${folder.document.id}" >
+      <#if folder.files?size &gt; 0>
+      <img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideFolder(this, '');" style="float: left; margin: 5px;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
+      </#if>
       <div class="page-header">
         <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title}</span></h1>
 	    
@@ -168,6 +225,7 @@
 <#macro displayChildren folder recurse=false>
 
   <#if folder.files?size &gt; 0>
+  <div class="folder-collapsable" >
   <table class="zebra-striped classeurFiles bs" >
   <thead>
     <tr>
@@ -244,6 +302,7 @@
   </#list>
   </tbody>
   </table>
+  </div>
   </#if>
 </#macro>
   </div>
