@@ -17,6 +17,8 @@ jQuery(document).ready(function(){
 	    return false;
 	  });
 	
+	 
+	
 });
 
 function deleteBanner(url, path, msgConfirm){
@@ -42,4 +44,45 @@ function manageDisplayModifyParameters(value){
 	else{
 		jQuery("#modifyThemeParameters").hide();
 	}
+}
+
+function setCallFunction(calledRef, value){
+	jQuery("#valueProperty" + calledRef).val(value);
+	jQuery("#spanTextAsset" + calledRef).html("(loading ...)");
+}
+
+function hideBanner(){
+	jQuery("#actionMediaBanner").hide();
+	if (jQuery("#bannerImgId")){
+		jQuery("#bannerImgId").attr("src", jQuery("#bannerImgId").attr("src") + '?' + new Date());
+	}
+}
+
+function hideLogo(){
+	jQuery("#actionMediaLogo").hide();
+}
+
+function hidePropertyImage(propertyName){
+	jQuery("#actionMedia" + propertyName).hide();
+}
+
+function deleteElement(url, callFunction, msgConfirm){
+	if (confirm(msgConfirm)){
+		jQuery.ajax({
+			type: "DELETE",
+			url: url,
+			data: '',
+			success: function(msg){
+				//document.location.href=path + msg;
+				eval(callFunction);
+			},
+			error: function(msg){
+				alert( msg.responseText );
+			}
+		});
+	}
+}
+
+function openAssets(url){
+	popupCenter(url, (screen.width)*2/3, (screen.height)*2/3, "menubar=no,scrollbars=auto,statusbar=no");
 }

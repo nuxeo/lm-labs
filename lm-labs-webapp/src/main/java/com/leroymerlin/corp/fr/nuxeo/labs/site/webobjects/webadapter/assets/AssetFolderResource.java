@@ -48,9 +48,14 @@ public class AssetFolderResource extends DocumentObject {
         }
     }
 
-    public String getCKEditorFuncNum() {
+    public String getCalledRef() {
         return (String) ctx.getRequest().getSession().getAttribute(
-                "CKEditorFuncNum");
+                "calledRef");
+    }
+
+    public String getCallFunction() {
+        return (String) ctx.getRequest().getSession().getAttribute(
+                "callFunction");
     }
 
     @POST

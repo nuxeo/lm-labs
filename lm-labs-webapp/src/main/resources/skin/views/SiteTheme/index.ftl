@@ -87,7 +87,13 @@
 	      		<div class="clearfix">
                   <label for="banner">${Context.getMessage('label.labssites.appearance.theme.edit.banner.label')}</label>
                   <div class="input">
-		      		    <a href="#" style="float:right;" id="deleteBanner" onClick="javascript=deleteBanner('${This.path}/banner', '${This.path}', '${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete.confirm')}');">${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete')}</a>
+                  	<#if (site.themeManager.theme.banner != null)>
+	                  	<div id="actionMediaBanner" style="float: right;">
+		                  	<span onclick="javascript:deleteElement('${This.path}/banner', 'hideBanner()', '${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete.confirm')}');" style="cursor: pointer;">
+						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete')}" src="${skinPath}/images/x.gif"/>
+						  	</span>
+					  	</div>
+					</#if>
                     <input name="banner" type="file" size="1" enctype="multipart/form-data"/>
                     <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.banner.help.block')}</span>
                   </div>
@@ -95,15 +101,24 @@
                 
                 <!------------------    LOGO   ------------------------->
                 <div class="clearfix">
-                  <#assign logoWidth = site.themeManager.theme.logoWidth />
+                  <#--assign logoWidth = site.themeManager.theme.logoWidth />
                   <#if logoWidth &gt; 0 >
                   <div style="float: right; margin-right: 50px;" >
                     <img title="${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete.title')}" style="width:60px;cursor:pointer;" onclick="if (confirm('${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete.confirm')}')) jQuery.ajax({url:'${This.path}/logo', type:'DELETE', success:function() {window.location.reload();}});"
     					src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/logo"/>
                   </div>
-                  </#if>
+                  </#if-->
                   <label for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
                   <div class="input">
+                  	 <#assign logoWidth = site.themeManager.theme.logoWidth />
+                  	 <#if logoWidth &gt; 0 >
+	                    <div id="actionMediaLogo" style="float: right;">
+	                    	<img src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/logo" style="width: 40px;border:1px dashed black;"/>
+		                  	<span onclick="javascript:deleteElement('${This.path}/logo', 'hideLogo()', '${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete.confirm')}');" style="cursor: pointer;">
+						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete')}" src="${skinPath}/images/x.gif"/>
+						  	</span>                  
+	                    </div>
+	                  </#if>
                     <input name="logo" type="file" size="1" enctype="multipart/form-data"/>
                     <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.logo.help.block')}</span>
                   </div>
@@ -177,9 +192,6 @@
 		      </div>
 	      </form>
 	   </div>
-
-
-
 	</div>
   </@block>
 </@extends>

@@ -2,12 +2,13 @@
     "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="fr">
     <head>
-      <title></title>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.min.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
+    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      	<title>Interface des médias</title>
+      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.min.js"></script>
+      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
+      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
+      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
+      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
@@ -17,12 +18,14 @@
         <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
 
 	  <link rel="stylesheet/less" href="${Context.modulePath}/${site.URL}/generated.less">
-      <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.2.1.min.js"></script>
 
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
+      <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
+      <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
     </head>
-    <body>
+    <body id="body">
 	<#-- timeout -->
     <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
 
@@ -93,14 +96,12 @@
        collapsed: true,
        cookieId: "${site.document.id}-assets-navtree"
       }
-    );
+    );    
   });
 
-
-
-    function sendToCKEditor(href) {
-      window.opener.CKEDITOR.tools.callFunction(${This.getCKEditorFuncNum()}, href);
-      window.close();
+    function sendToCallFunction(href) {
+    	window.opener.${This.getCallFunction()}('${This.getCalledRef()}', href);
+        window.close();
     }
     </script>
   </div>

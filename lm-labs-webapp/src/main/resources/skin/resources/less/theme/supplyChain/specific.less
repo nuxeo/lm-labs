@@ -13,19 +13,27 @@
 @bgcolortabs: #BB6C1A;
 @baseFontColor: #595959;
 @baseFontColorTitle: #676D71;
+@baseFontColorTabs: #676D71;
+@backgroundURL: "images/bg-brown.gif";
+@backgroundURLRelative: true;
 
 @sidebarWidth:   180px;
 
-.container {
-	//width: auto;
+.background-image() when (@backgroundURLRelative = false){
+	background-image: url("http://@{backgroundURL}");
 }
 
+.background-image() when (@backgroundURLRelative = true){
+	background-image: url("@{backgroundURL}");
+}
+
+
 html {
-  background-image: url(images/bg-brown.gif);
+  .background-image;
 }
 
 html>body {
-  background-image: url(images/bg-brown.gif);
+  .background-image;
   font-family: @baseFontFamily;
   color: @baseFontColor;
 }
@@ -60,6 +68,7 @@ a:hover {
       }
      > h5{
      	line-height: 22px;
+     	color: @baseFontColorTabs
      }
 }
 .tabs > li.active > a{
@@ -138,7 +147,7 @@ a:hover {
  
 h1 {
   font-size: @basefont + 9;
-  color: @bgcolortabs;
+  color: @baseFontColorTitle;
 } 
 
 h2 {
