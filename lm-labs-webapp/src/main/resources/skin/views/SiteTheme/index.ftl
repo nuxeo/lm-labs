@@ -87,7 +87,13 @@
 	      		<div class="clearfix">
                   <label for="banner">${Context.getMessage('label.labssites.appearance.theme.edit.banner.label')}</label>
                   <div class="input">
-		      		    <a href="#" style="float:right;" id="deleteBanner" onClick="javascript=deleteBanner('${This.path}/banner', '${This.path}', '${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete.confirm')}');">${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete')}</a>
+                  	<#if (site.themeManager.theme.banner != null)>
+	                  	<div id="actionMediaBanner" style="float: right;">
+		                  	<span onclick="javascript:deleteElement('${This.path}/banner', 'hideBanner()', '${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete.confirm')}');" style="cursor: pointer;">
+						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete')}" src="${skinPath}/images/x.gif"/>
+						  	</span>
+					  	</div>
+					</#if>
                     <input name="banner" type="file" size="1" enctype="multipart/form-data"/>
                     <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.banner.help.block')}</span>
                   </div>
@@ -95,15 +101,17 @@
                 
                 <!------------------    LOGO   ------------------------->
                 <div class="clearfix">
-                  <#assign logoWidth = site.themeManager.theme.logoWidth />
-                  <#if logoWidth &gt; 0 >
-                  <div style="float: right; margin-right: 50px;" >
-                    <img title="${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete.title')}" style="width:60px;cursor:pointer;" onclick="if (confirm('${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete.confirm')}')) jQuery.ajax({url:'${This.path}/logo', type:'DELETE', success:function() {window.location.reload();}});"
-    					src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/logo"/>
-                  </div>
-                  </#if>
                   <label for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
                   <div class="input">
+                  	 <#assign logoWidth = site.themeManager.theme.logoWidth />
+                  	 <#if logoWidth &gt; 0 >
+	                    <div id="actionMediaLogo" style="float: right;">
+	                    	<img src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/logo" style="width: 40px;border:1px dashed black;"/>
+		                  	<span onclick="javascript:deleteElement('${This.path}/logo', 'hideLogo()', '${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete.confirm')}');" style="cursor: pointer;">
+						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete')}" src="${skinPath}/images/x.gif"/>
+						  	</span>                  
+	                    </div>
+	                  </#if>
                     <input name="logo" type="file" size="1" enctype="multipart/form-data"/>
                     <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.logo.help.block')}</span>
                   </div>
@@ -140,34 +148,40 @@
 	                <input type="hidden" name="cptProperties" value="${cptProperties}"/>
 	                <hr style="margin: 20px 0 0px;">
 	            </#if>            
-                
-                <!------------------    Style   ------------------------->
-	      		<h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.style.title')}</h5>
-	      		<div class="clearfix">
-                  <label for="style">${Context.getMessage('label.labssites.appearance.theme.edit.style.label')}</label>
-                  <div class="input">
-		      		 <textarea name="style" style="width: 350px;height: 135px;">${site.themeManager.theme.style}</textarea>
-                    <span class="help-block" style="color: red;">${Context.getMessage('label.labssites.appearance.theme.edit.style.help.block')}</span>
-                  </div>
-                </div><!-- /clearfix -->
-                <hr style="margin: 20px 0 0px;">
-                
-                <!------------------    LOGO PARAMETERS   ------------------------->
-                <h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.title')}</h5>
-                <div class="clearfix">
-                  <label for="logo_posx">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posx')}</label>
-                  <div class="input clearfix">
-                    <input id="logo_posx" name="logo_posx" type="text" value="${site.themeManager.theme.logoPosX}" class="small" />
-                  </div>
-                  <label for="logo_posy">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posy')}</label>
-                  <div class="input clearfix">
-                    <input id="logo_posy" name="logo_posy" type="text" value="${site.themeManager.theme.logoPosY}" class="small" />
-                  </div>
-                  <label for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
-                  <div class="input">
-                    <input id="resize_ratio" name="resize_ratio" type="text" value="${site.themeManager.theme.logoResizeRatio}" class="small" />
-                  </div>
-                </div><!-- /clearfix -->
+                <small><a href="#" onclick="javascript:jQuery('#div_style_logo').show();jQuery(this).hide();">${Context.getMessage('label.labssites.appearance.theme.edit.expertMode')}</a></small>
+                <div id="div_style_logo" class="clearfix" style="display: none;">
+	                <!------------------    Style   ------------------------->
+		      		<h5 style="color: black;">
+		      			${Context.getMessage('label.labssites.appearance.theme.edit.style.title')}
+		      		</h5>
+		      		<div class="clearfix">
+	                  <label for="style">${Context.getMessage('label.labssites.appearance.theme.edit.style.label')}</label>
+	                  <div class="input">
+			      		 <textarea name="style" style="width: 350px;height: 135px;">${site.themeManager.theme.style}</textarea>
+	                    <span class="help-block" style="color: red;">${Context.getMessage('label.labssites.appearance.theme.edit.style.help.block')}</span>
+	                  </div>
+	                </div><!-- /clearfix -->
+	                <hr style="margin: 20px 0 0px;">
+	                
+	                <!------------------    LOGO PARAMETERS   ------------------------->
+	                <h5 style="color: black;">
+		      			${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.title')}
+		      		</h5>
+	                <divclass="clearfix">
+	                  <label for="logo_posx">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posx')}</label>
+	                  <div class="input clearfix">
+	                    <input id="logo_posx" name="logo_posx" type="text" value="${site.themeManager.theme.logoPosX}" class="small" />
+	                  </div>
+	                  <label for="logo_posy">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posy')}</label>
+	                  <div class="input clearfix">
+	                    <input id="logo_posy" name="logo_posy" type="text" value="${site.themeManager.theme.logoPosY}" class="small" />
+	                  </div>
+	                  <label for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
+	                  <div class="input">
+	                    <input id="resize_ratio" name="resize_ratio" type="text" value="${site.themeManager.theme.logoResizeRatio}" class="small" />
+	                  </div>
+	                </div><!-- /clearfix -->
+	              </div>
                 
 	      	</fieldset>
 	      
@@ -177,9 +191,6 @@
 		      </div>
 	      </form>
 	   </div>
-
-
-
 	</div>
   </@block>
 </@extends>

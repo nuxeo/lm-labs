@@ -165,8 +165,8 @@ function vomitPublic(){
 }
 
 function labsPermissionsDelete(url, confirme){
-	if (confirm(confirme)) {alert('toto');
-		/*jQuery.ajax({
+	if (confirm(confirme)) {
+		jQuery.ajax({
 	        type: 'DELETE',
 	        async: false,
 	        url: url,
@@ -181,7 +181,7 @@ function labsPermissionsDelete(url, confirme){
 	        error: function(xhr, status, ex){
 	          alert(ex);
 	        }
-	    });*/
+	    });
 	}
 }
 

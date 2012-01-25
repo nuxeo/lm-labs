@@ -28,11 +28,21 @@ public class AssetsAdapter extends DefaultAdapter {
 
     public AssetsAdapter() {
         WebContext ctx = WebEngine.getActiveContext();
+        //callerRef
         String parameter = ctx.getRequest().getParameter("CKEditorFuncNum");
-        if (StringUtils.isNotBlank(parameter)) {
-            ctx.getRequest().getSession().setAttribute("CKEditorFuncNum",
-                    parameter);
+        if (StringUtils.isBlank(parameter)) {
+            parameter = ctx.getRequest().getParameter("calledRef");
         }
+        if (StringUtils.isNotBlank(parameter)) {
+            ctx.getRequest().getSession().setAttribute("calledRef",parameter);
+        }
+        
+        //jscallback
+        parameter = ctx.getRequest().getParameter("callFunction");
+        if (StringUtils.isBlank(parameter)) {
+            parameter = "CKEDITOR.tools.callFunction";
+        }
+        ctx.getRequest().getSession().setAttribute("callFunction",parameter);
     }
 
     @GET

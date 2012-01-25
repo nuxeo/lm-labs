@@ -210,7 +210,14 @@ public class PageResource extends DocumentObject {
         StringBuilder less = new StringBuilder();
         for (ThemeProperty prop: properties.values()){
             if (StringUtils.isNotBlank(prop.getValue())){
-                less.append(prop.getKey() + ":" + prop.getValue() + ";\n");
+                if(LabsSiteConstants.PropertyType.IMAGE.getType().equals(prop.getType())){
+                    String pathImg = this.getContext().getBaseURL().substring(7) + prop.getValue();
+                    less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
+                    less.append(prop.getKey() + "Relative: false;\n");
+                }
+                else{
+                    less.append(prop.getKey() + ":" + prop.getValue() + ";\n");
+                }
             }
         }
         return less.toString();

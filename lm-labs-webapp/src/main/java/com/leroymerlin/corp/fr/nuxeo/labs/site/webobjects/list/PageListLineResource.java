@@ -172,7 +172,7 @@ public class PageListLineResource extends DocumentObject {
             parent.saveLine(entriesLine);
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_LINE, e);
-            Response.ok("?message_error=label.pageList.line_updated_error",
+            return Response.ok("?message_error=label.pageList.line_updated_error",
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         }
         return Response.ok("?message_success=label.pageList.line_updated",

@@ -17,7 +17,7 @@
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/><#-- TODO still needed ?? -->
           <!--<link rel="stylesheet/less" href="${skinPath}/less/theme/labs/specific.less">-->
           <link rel="stylesheet/less" href="${This.path}/generatedAdmin.less">
-          <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.2.1.min.js"></script>
           <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>

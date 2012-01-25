@@ -20,7 +20,7 @@
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/pagination.css"/>
           <link rel="stylesheet/less" href="${This.path}/generated.less"/>
-          <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.1.4.min.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.2.1.min.js"></script>
         </@block>
 
         <@block name="scripts">
