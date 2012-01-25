@@ -19,7 +19,10 @@
 
 @sidebarWidth:   180px;
 
-.background-image() when (@backgroundURLRelative = false){
+//Astuce afin de palier le probleme de less à intertréper les variables après avoir
+//ajouter le pathBase (http://....) alors que le pathBase pourrait être dans la variable
+//De meme pour XXXRelative
+.background-image() when (@backgroundURLRelative = false){ 
 	background-image: url("http://@{backgroundURL}");
 }
 
