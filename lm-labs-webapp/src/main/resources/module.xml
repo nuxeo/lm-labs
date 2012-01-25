@@ -4,15 +4,30 @@
   <links>
     <!-- PageClasseur bottom buttons -->
     <link id="addFolder">
-      <category>BOTTOM_ACTIONS</category>
+      <category>PageClasseur_ACTIONS</category>
       <type>PageClasseur</type>
       <guard>Write</guard>
     </link>
 
     <link id="deleteSelection">
-      <category>BOTTOM_ACTIONS</category>
+      <category>PageClasseur_ACTIONS</category>
+      <category>PageClasseur_SELECTION_ACTIONS</category>
       <type>PageClasseur</type>
       <guard>Write</guard>
+    </link>
+
+    <link id="showSelection">
+      <category>PageClasseur_ACTIONS</category>
+      <category>PageClasseur_SELECTION_ACTIONS</category>
+      <type>PageClasseur</type>
+      <guard>Everything</guard>
+    </link>
+
+    <link id="hideSelection">
+      <category>PageClasseur_ACTIONS</category>
+      <category>PageClasseur_SELECTION_ACTIONS</category>
+      <type>PageClasseur</type>
+      <guard>Everything</guard>
     </link>
 
     <!-- Page description buttons -->

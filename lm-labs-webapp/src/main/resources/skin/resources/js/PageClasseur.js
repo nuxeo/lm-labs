@@ -207,8 +207,21 @@ jQuery(document).ready(function(){
     }
     return false;
   });
+  
+  function getIdsUrlParamsString() {
+	  var url = '';
+	  var checkboxes = jQuery('input[name="checkoptions"]:checked');
+	  var n = jQuery(checkboxes).size();
+      jQuery(checkboxes).each(function(i) {
+          url += "id=" + this.value;
+          if (i < n-1) {
+            url += "&";
+          }
+      });
+      return url;
+  }
 
-  jQuery("#deleteSelection").click(function(evt) {
+  jQuery(".selectionActionsBt.delete").click(function(evt) {
     if (confirm("Etes-vous sûr de vouloir effacer les fichiers sélectionnés ?")) {
       var buttonDomElement = evt.target;
       jQuery(buttonDomElement).attr('disabled', true);
@@ -217,12 +230,7 @@ jQuery(document).ready(function(){
       if (n <= 0) {
         return false;
       }
-      jQuery('input[name="checkoptions"]:checked').each(function(i) {
-        url += "id=" + this.value;
-        if (i < n-1) {
-          url += "&";
-        }
-      });
+      url += getIdsUrlParamsString();
       jQuery.ajax({
         url: url,
         type: "DELETE",
@@ -241,6 +249,38 @@ jQuery(document).ready(function(){
     return false;
   });
 
+  jQuery(".selectionActionsBt.hide, .selectionActionsBt.show").click(function(evt) {
+	  var action = '';
+	  if (jQuery(this).hasClass('hide')) {
+		  action = 'hide';
+	  } else {
+		  action = 'show';
+	  }
+	  var buttonDomElement = evt.target;
+	  jQuery(buttonDomElement).attr('disabled', true);
+	  var url = jQuery('.classeur').attr("id") + "/@filesVisibility/" + action + "?";
+	  var n = jQuery('input[name="checkoptions"]:checked').length;
+	  if (n <= 0) {
+		  return false;
+	  }
+	  url += getIdsUrlParamsString();
+	  jQuery.ajax({
+		  url: url,
+		  type: "PUT",
+		  complete: function(jqXHR, textStatus) {
+			  jQuery('input[name="checkoptions"]').attr('checked', false);
+		  },
+		  success: function (data, textStatus, jqXHR) {
+			  window.location.reload();
+		  },
+		  error: function(jqXHR, textStatus, errorThrown) {
+			  jQuery(buttonDomElement).attr('disabled', false);
+			  alert(errorThrown + ": " + "," + jqXHR.responseText);
+		  }
+	  });
+	  return false;
+  });
+
   jQuery('input[name="checkoptionsFolder"]').change(function() {
     var checkboxes = jQuery(this).closest('.Folder:not(.row)').find('input[name="checkoptions"]');
     if (jQuery(this).is(':checked')) {
@@ -248,6 +288,20 @@ jQuery(document).ready(function(){
     } else {
       jQuery(checkboxes).removeAttr('checked');
     }
+    updateSelectionBts();
+  });
+  
+  function updateSelectionBts() {
+	  var checkboxes = jQuery('input[name="checkoptions"]:checked');
+	  if (jQuery(checkboxes).size() > 0) {
+		  jQuery('.selectionActionsBt').removeAttr('disabled');
+	  } else {
+		  jQuery('.selectionActionsBt').attr('disabled', 'disabled');
+	  }
+  }
+  
+  jQuery('input[name="checkoptions"]').change(function() {
+	  updateSelectionBts();
   });
 
   function closeDropzone() {

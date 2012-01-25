@@ -6,10 +6,13 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.utils.Slugify;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 
 public class PageClasseurFolderImpl implements PageClasseurFolder {
 
@@ -70,6 +73,9 @@ public class PageClasseurFolderImpl implements PageClasseurFolder {
                 .append("'");
         sb.append(" AND ecm:isProxy = 0 AND ecm:isCheckedInVersion = 0");
         sb.append(" AND ecm:currentLifeCycleState <> 'deleted'");
+        if (!doc.getCoreSession().hasPermission(doc.getParentRef(), SecurityConstants.EVERYTHING)) {
+        	sb.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(" <> '").append(FacetNames.LABSHIDDEN).append("'");
+        }
         sb.append(" ORDER BY dc:title ASC");
 
         DocumentModelList list = doc.getCoreSession()
@@ -98,5 +104,29 @@ public class PageClasseurFolderImpl implements PageClasseurFolder {
         }
         return false;
     }
+
+	@Override
+	public boolean hide(DocumentModel file) throws ClientException {
+		if (doc.getCoreSession().getParentDocument(file.getRef()).equals(doc)) {
+	    	if (!file.getFacets().contains(FacetNames.LABSHIDDEN)) {
+	    		file.addFacet(FacetNames.LABSHIDDEN);
+	    		doc.getCoreSession().saveDocument(file);
+	    		return true;
+	    	}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean show(DocumentModel file) throws ClientException {
+		if (doc.getCoreSession().getParentDocument(file.getRef()).equals(doc)) {
+	    	if (file.getFacets().contains(FacetNames.LABSHIDDEN)) {
+	    		file.removeFacet(FacetNames.LABSHIDDEN);
+	    		doc.getCoreSession().saveDocument(file);
+	    		return true;
+	    	}
+		}
+		return false;
+	}
 
 }

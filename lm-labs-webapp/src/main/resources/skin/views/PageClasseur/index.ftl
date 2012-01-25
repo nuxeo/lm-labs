@@ -184,8 +184,19 @@ function slideAllFolders(imgObj) {
   </#if>
 
   <div id="classeurBottomActions" class="editblock">
-    <#list This.getLinks("BOTTOM_ACTIONS") as link>
-      <button class="btn" id="${link.id}">${Context.getMessage('command.' + Document.type + '.' + link.id)}</button>
+    <#list This.getLinks("PageClasseur_ACTIONS") as link>
+      <#assign btnClass = "" />
+      <#if link.id == "addFolder" >
+        <#assign btnClass = "primary" />
+      <#elseif link.id == "deleteSelection" >
+        <#assign btnClass = "danger" />
+      </#if>
+      <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >
+        <#if link.id?ends_with("Selection") >
+          <#assign btnClass = btnClass + " " + link.id?split("Selection")[0] />
+        </#if>
+      </#if>
+      <button class="btn ${btnClass} <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >selectionActionsBt</#if>" id="${link.id}" <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") > disabled="disabled"</#if>>${Context.getMessage('command.' + Document.type + '.' + link.id)}</button>
     </#list>
   </div>
 
@@ -230,11 +241,11 @@ function slideAllFolders(imgObj) {
   <thead>
     <tr>
       <th class="header">&nbsp;</th>
-      <th class="header editblock" style="min-width: 25px">
       <#if canWrite>
-        <input type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
-      </#if>
+      <th class="header" style="min-width: 25px">
+        <input class="editblock" type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
       </th>
+      </#if>
       <th class="header">${Context.getMessage('label.PageClasseur.tableheader.filename')}</th>
       <th class="header" style="min-width: 42px">${Context.getMessage('label.PageClasseur.tableheader.size')}</th>
       <#-- <th>${Context.getMessage('label.PageClasseur.tableheader.version')}</th> -->
@@ -245,17 +256,17 @@ function slideAllFolders(imgObj) {
   </thead>
   <tbody>
   <#list folder.files as child>
-  <tr class="main ${child.id}">
+  <tr class="main ${child.id}<#if child.facets?seq_contains("LabsHidden")> hidden editblock</#if>">
     <td>
       <img title="${child.type}" alt="${child.type}/" src="/nuxeo${child.common.icon}" />
     </td>
-    <td class="editblock">
+    <#if canWrite>
+    <td>
     <#if child.facets?seq_contains("Folderish") == false >
-      <#if canWrite>
-        <input type="checkbox" name="checkoptions" value="${child.id}" />
+        <input class="editblock" type="checkbox" name="checkoptions" value="${child.id}" />
       </#if>
-    </#if>
     </td>
+    </#if>
     <#if child.facets?seq_contains("Folderish") == false >
       <#assign modifDate = child.dublincore.modified?datetime >
       <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") >

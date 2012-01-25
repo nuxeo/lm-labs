@@ -5,6 +5,8 @@ import static com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Do
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.adapter.DocumentAdapterFactory;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+
 public class PageClasseurAdapterFactory implements DocumentAdapterFactory {
 
     @Override
@@ -16,7 +18,7 @@ public class PageClasseurAdapterFactory implements DocumentAdapterFactory {
         }
 
         if (klass.equals(PageClasseurFolder.class)
-                && "Folder".equals(doc.getType())) {
+                && Docs.PAGECLASSEURFOLDER.type().equals(doc.getType())) {
             return new PageClasseurFolderImpl(doc);
         }
 

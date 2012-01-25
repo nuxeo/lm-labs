@@ -90,7 +90,7 @@ public class PageClasseurFolderResource extends DocumentObject {
         try {
             PathRef pathRef = new PathRef(doc.getPath().append(path).toString());
             DocumentModel file = ctx.getCoreSession().getDocument(pathRef);
-            return newObject("ClasseurElement", file);
+            return newObject("ClasseurElement", file, folder);
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }

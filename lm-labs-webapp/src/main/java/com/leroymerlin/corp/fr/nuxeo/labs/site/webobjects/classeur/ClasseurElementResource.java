@@ -2,19 +2,26 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.classeur;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
+
 @WebObject(type = "ClasseurElement")
 public class ClasseurElementResource extends DocumentObject {
 
-    @Override
+    private PageClasseurFolder parentFolder;
+
+	@Override
     public Response getDelete() {
         try {
             if (setAsDeleted()) {
@@ -49,5 +56,25 @@ public class ClasseurElementResource extends DocumentObject {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void initialize(Object... args) {
+        assert args != null && args.length == 2;
+        doc = (DocumentModel) args[0];
+        parentFolder = (PageClasseurFolder) args[1];
+    }
+    
+    @PUT
+    @Path("@visibility/{action}")
+    public Response doSetVisibility(@PathParam("action") String action) throws ClientException {
+    	if ("show".equals(action)) {
+    		parentFolder.show(doc);
+    		return Response.noContent().build();
+    	} else if ("hide".equals(action)) {
+    		parentFolder.hide(doc);
+    		return Response.noContent().build();
+    	}
+		return Response.notModified().build();
     }
 }

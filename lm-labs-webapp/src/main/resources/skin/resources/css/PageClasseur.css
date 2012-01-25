@@ -47,6 +47,11 @@
 	cursor: pointer;
 }
 
+table.classeurFiles tr.hidden td {
+	font-style: italic;
+	text-decoration: line-through;
+}
+
 #classeurBottomActions {
 	margin-top: 1em;
 	padding-bottom: 1em;
