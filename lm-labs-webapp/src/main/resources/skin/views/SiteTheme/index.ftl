@@ -32,7 +32,7 @@
         <div class="page-header">
           <h3>
           	${Context.getMessage('label.labssites.appearance.title')}
-          	<small><a href="${Context.modulePath}/${Common.siteDoc(Document).site.URL}" target="_blank">${Context.getMessage('label.labssites.appearance.preview')}</a><small>
+          	<small><a href="${Context.modulePath}/${Common.siteDoc(Document).site.URL}" target="_blank">${Context.getMessage('label.labssites.appearance.preview')}</a></small>
           </h3>
         </div>
         <div class="row">
@@ -124,32 +124,32 @@
 		      		<h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.properties.title')}</h5>
 		      		<#assign cptProperties = 0 />
 		      		<#list properties as property>
-		      		<#if (property.key != null)>
-			      		<div class="clearfix">
-		                  <label for="property${cptProperties}">${property.label}</label>
-		                  <#assign property = property />
-		                  <#assign typeProperty = "string" />
-		                  <#if (property.type != null)>
-		                  	<#assign typeProperty = property.type />
-		                  </#if>
-		                  
-		                  <div class="input">
-				      		 <#include "views/SiteTheme/typeProperty/input-" + typeProperty + ".ftl" >
-		                     <span class="help-block">${property.description?html}</span>
-		                  </div>
-		                </div><!-- /clearfix -->
-		                <input type="hidden" name="keyProperty${cptProperties}" value="${property.key}"/>
-		                <input type="hidden" name="labelProperty${cptProperties}" value="<#if (property.label != null)>${property.label?html}</#if>"/>
-		                <input type="hidden" name="descriptionProperty${cptProperties}" value="<#if (property.description != null)>${property.description?html}</#if>"/>
-		                <input type="hidden" name="typeProperty${cptProperties}" value="<#if (property.type != null)>${property.type}</#if>"/>
-		                <#assign cptProperties = cptProperties + 1 />
-		            </#if>
+			      		<#if (property.key != null)>
+				      		<div class="clearfix">
+			                  <label for="property${cptProperties}">${property.label}</label>
+			                  <#assign property = property />
+			                  <#assign typeProperty = "string" />
+			                  <#if (property.type != null)>
+			                  	<#assign typeProperty = property.type />
+			                  </#if>
+			                  
+			                  <div class="input">
+					      		 <#include "views/SiteTheme/typeProperty/input-" + typeProperty + ".ftl" >
+			                     <span class="help-block">${property.description?html}</span>
+			                  </div>
+			                </div><!-- /clearfix -->
+			                <input type="hidden" name="keyProperty${cptProperties}" value="${property.key}"/>
+			                <input type="hidden" name="labelProperty${cptProperties}" value="<#if (property.label != null)>${property.label?html}</#if>"/>
+			                <input type="hidden" name="descriptionProperty${cptProperties}" value="<#if (property.description != null)>${property.description?html}</#if>"/>
+			                <input type="hidden" name="typeProperty${cptProperties}" value="<#if (property.type != null)>${property.type}</#if>"/>
+			                <#assign cptProperties = cptProperties + 1 />
+			            </#if>
 	                </#list>
 	                <input type="hidden" name="cptProperties" value="${cptProperties}"/>
-	                <hr style="margin: 20px 0 0px;">
-	            </#if>            
+	                <hr style="margin: 20px 0 0px;" />
+	            </#if>
                 <small><a href="#" onclick="javascript:jQuery('#div_style_logo').show();jQuery(this).hide();">${Context.getMessage('label.labssites.appearance.theme.edit.expertMode')}</a></small>
-                <div id="div_style_logo" class="clearfix" style="display: none;">
+                <div id="div_style_logo" style="display: none;">
 	                <!------------------    Style   ------------------------->
 		      		<h5 style="color: black;">
 		      			${Context.getMessage('label.labssites.appearance.theme.edit.style.title')}
@@ -167,7 +167,7 @@
 	                <h5 style="color: black;">
 		      			${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.title')}
 		      		</h5>
-	                <divclass="clearfix">
+	                <div class="clearfix">
 	                  <label for="logo_posx">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posx')}</label>
 	                  <div class="input clearfix">
 	                    <input id="logo_posx" name="logo_posx" type="text" value="${site.themeManager.theme.logoPosX}" class="small" />
@@ -187,11 +187,29 @@
 	      
 		      <div class="actions">
 		      	<button class="btn primary">${Context.getMessage('label.labssites.appearance.theme.edit.save')}</button>
-		      	<a href="#" class="btn" onclick="javascript:jQuery('#div-editTheme').dialog2('close');">${Context.getMessage('label.labssites.appearance.theme.edit.cancel')}</a>
+		      	<a href="#" class="btn" onclick="javascript:resetPropertiesTheme();">${Context.getMessage('label.labssites.appearance.theme.edit.resetProperties')}</a>
+		      	<a href="#" class="btn" onclick="javascript:jQuery('#div-editTheme').dialog2('close');">${Context.getMessage('label.close')}</a>
 		      </div>
 	      </form>
-	   </div>
+	    </div>
+	    
+	    
 	</div>
+	
+	<script type="text/javascript">
+		function resetPropertiesTheme(){
+			<#assign cptProperties = 0 />
+		    <#list properties as property>
+		    	jQuery('#valueProperty${cptProperties}').val("");
+		    	if (jQuery('input[name=quizBackgroundColorEdit${cptProperties}]')){
+		    		jQuery('input[name=quizBackgroundColorEdit${cptProperties}]').val("");
+		    		jQuery("input[name=quizBackgroundColorEdit${cptProperties}]").miniColors('value', '');
+		    	}
+		    	<#assign cptProperties = cptProperties + 1 />
+	        </#list>
+		}
+	</script>
+	
   </@block>
 </@extends>
 <#else>
