@@ -66,16 +66,15 @@ function slideAllFolders(imgObj) {
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
-  </@block>
-
-  <@block name="content">
-
 	<style>
 	.arrowOpacity {
 		opacity:0.4;
 		cursor:default;
 	}
 	</style>
+  </@block>
+
+  <@block name="content">
 
   <div class="container">
     <#if classeur.folders?size &gt; 0>
@@ -84,7 +83,9 @@ function slideAllFolders(imgObj) {
 	<#include "views/common/page_header.ftl">
 
 
-  <#assign area_height=2 />
+  <div id="classeurTopActions" class="editblock">
+    <@mainButtons />
+  </div>
 
     <input type="hidden" id="folderPath" value="" />
 
@@ -184,20 +185,7 @@ function slideAllFolders(imgObj) {
   </#if>
 
   <div id="classeurBottomActions" class="editblock">
-    <#list This.getLinks("PageClasseur_ACTIONS") as link>
-      <#assign btnClass = "" />
-      <#if link.id == "addFolder" >
-        <#assign btnClass = "primary" />
-      <#elseif link.id == "deleteSelection" >
-        <#assign btnClass = "danger" />
-      </#if>
-      <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >
-        <#if link.id?ends_with("Selection") >
-          <#assign btnClass = btnClass + " " + link.id?split("Selection")[0] />
-        </#if>
-      </#if>
-      <button class="btn ${btnClass} <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >selectionActionsBt</#if>" id="${link.id}" <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") > disabled="disabled"</#if>>${Context.getMessage('command.' + Document.type + '.' + link.id)}</button>
-    </#list>
+    <@mainButtons />
   </div>
 
 
@@ -232,6 +220,23 @@ function slideAllFolders(imgObj) {
 </div>
 
 <#include "views/common/loading.ftl">
+
+<#macro mainButtons >
+    <#list This.getLinks("PageClasseur_ACTIONS") as link>
+      <#assign btnClass = "" />
+      <#if link.id == "addFolder" >
+        <#assign btnClass = "primary " + link.id />
+      <#elseif link.id == "deleteSelection" >
+        <#assign btnClass = "danger" />
+      </#if>
+      <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >
+        <#if link.id?ends_with("Selection") >
+          <#assign btnClass = btnClass + " " + link.id?split("Selection")[0] />
+        </#if>
+      </#if>
+      <button class="btn ${btnClass} <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >selectionActionsBt</#if>" <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") > disabled="disabled"</#if>>${Context.getMessage('command.' + Document.type + '.' + link.id)}</button>
+    </#list>
+</#macro>
 
 <#macro displayChildren folder recurse=false>
 

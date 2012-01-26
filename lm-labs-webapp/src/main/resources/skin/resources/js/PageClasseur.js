@@ -165,7 +165,7 @@ jQuery(document).ready(function(){
     return false;
   });
 
-  jQuery("#addFolder").click(function() {
+  jQuery(".btn.addFolder").click(function() {
     jQuery("#div-addfolder").dialog2('open');
     jQuery("#div-addfolder").dialog2("options", {title: "Ajouter un répertoire"});
     jQuery("#form-folder").clearForm();
