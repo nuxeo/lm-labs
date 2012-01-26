@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html;
 
+import java.util.Map;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,6 +15,7 @@ import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 
@@ -89,6 +92,10 @@ public class WebHtmlPage extends NotifiablePageResource {
 
     private HtmlPage getHtmlPage() {
         return doc.getAdapter(HtmlPage.class);
+    }
+    
+    public Map<String, String> getColumnLayoutsSelect() throws ClientException {
+    	return HtmlRow.getColumnLayoutsSelect();
     }
 
 }

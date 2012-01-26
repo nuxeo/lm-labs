@@ -55,7 +55,7 @@ public class WebHtmlSection extends DocumentObject {
                 String cssClass = form.getString("cssClass");
                 HtmlRow row = section.addRow(cssClass);
                 String rowTemplate = form.getString("rowTemplate");
-                RowTemplate.initRow(row, RowTemplate.fromString(rowTemplate));
+                row.initTemplate(rowTemplate);
             } else if ("editsection".equals(action)) {
                 String title = form.getString("title");
                 String description = form.getString("description");

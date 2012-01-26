@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:nxs="http://www.leroymerlin.fr/ecm/schemas/columns_layout" targetNamespace="http://www.leroymerlin.fr/ecm/schemas/columns_layout">
+  <xs:element name="code" type="xs:string" />
+  <xs:element name="spans" type="xs:string" />
+  <xs:element name="label" type="xs:string" />
+  <xs:element name="obsolete" type="xs:integer" />
+  <xs:element name="order" type="xs:integer" />
+</xs:schema>

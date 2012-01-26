@@ -1,0 +1,9 @@
+code, spans, label, obsolete, order
+"1COL","16","label.directories.columns_layout.1COL","0","1"
+"2COL_5050","8|8","label.directories.columns_layout.2COL_5050","0","2"
+"2COL_2575","4|12","label.directories.columns_layout.2COL_2575","0","3"
+"2COL_7525","12|4","label.directories.columns_layout.2COL_7525","0","4"
+"2COL_3366","5|11","label.directories.columns_layout.2COL_3366","0","5"
+"2COL_6633","11|5","label.directories.columns_layout.2COL_6633","0","6"
+"3COL","333|333|333","label.directories.columns_layout.3COL","0","7"
+"4COL","4|4|4|4","label.directories.columns_layout.4COL","0","8"
