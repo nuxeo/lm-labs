@@ -337,8 +337,8 @@ public class PageListAdapterTest {
     public void canSetAndIsAllContibutors() throws Exception {
         PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
         PageList pageList = model.getAdapter();
-        pageList.setAllContributors(true);
         pageList = model.create();
+        pageList.setAllContributors(true);
         assertTrue(pageList.isAllContributors());
     }
     
