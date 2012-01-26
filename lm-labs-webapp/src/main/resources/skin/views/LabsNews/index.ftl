@@ -118,14 +118,10 @@
 	                  <label for="title">Type de ligne</label>
 	                  <div class="input">
 	                    <select name="rowTemplate">
-	                        <option value="1COL">1 colonne</option>
-		                    <option value="2COL_5050">2 colonnes (50/50)</option>
-		                    <option value="2COL_2575">2 colonnes (25/75)</option>
-		                    <option value="2COL_7525">2 colonnes (75/25)</option>
-		                    <option value="2COL_3366">2 colonnes (33/66)</option>
-		                    <option value="2COL_6633">2 colonnes (66/33)</option>
-		                    <option value="3COL">3 colonnes (33/33/33)</option>
-		                    <option value="4COL">4 colonnes (25/25/25/25)</option>
+	                    <#assign layouts = This.columnLayoutsSelect />
+	                    <#list layouts?keys as layoutCode >
+	                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
+	                    </#list>
 		                </select>
 		                <button type="submit" class="btn small primary">Ajouter</button>
 		                <span class="help-block">

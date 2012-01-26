@@ -8,6 +8,7 @@
 
   <extension target="org.nuxeo.ecm.core.schema.TypeService"
     point="schema">
+    <schema name="columns_layout" src="schemas/columns_layout.xsd"/>
     <schema name="page" prefix="pg" src="schemas/page.xsd" />
     <schema name="page_news" prefix="pgn" src="schemas/page_news.xsd" />
     <schema name="labsnews" prefix="ln" src="schemas/labsnews.xsd" />

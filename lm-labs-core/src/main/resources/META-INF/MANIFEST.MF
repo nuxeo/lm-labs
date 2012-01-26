@@ -15,4 +15,5 @@ Nuxeo-Component: OSGI-INF/core-types-contrib.xml,
  OSGI-INF/schedule-contrib.xml,
  OSGI-INF/pathsegment-contrib.xml,
  OSGI-INF/blobholder-contrib.xml,
+ OSGI-INF/directories-contrib.xml,
  OSGI-INF/sitemanager-service.xml

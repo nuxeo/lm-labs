@@ -3,6 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Map;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,6 +18,7 @@ import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 
 @WebObject(type = "LabsNews", superType = "LabsPage")
@@ -103,6 +105,10 @@ public class LabsNewsResource extends PageResource {
             redirect(this.getPrevious().getPath() + "?message_success=label.labsNews.news_updated");
         }
         return redirect(ctx.getBasePath());
+    }
+    
+    public Map<String, String> getColumnLayoutsSelect() throws ClientException {
+    	return HtmlRow.getColumnLayoutsSelect();
     }
 
 }

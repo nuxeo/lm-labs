@@ -57,13 +57,13 @@ public class PageNewsResource extends NotifiablePageResource {
             HtmlRow row = news.addRow();
 
             if ("2COL".equals(model)) {
-                RowTemplate.initRow(row, RowTemplate.R2COL_2575);
+                row.initTemplate(RowTemplate.R2COL_2575.value());
                 row.content(0)
                         .setHtml(getSamplePictureHtml());
                 row.content(1)
                         .setHtml(content);
             } else {
-                RowTemplate.initRow(row, RowTemplate.R1COL);
+                row.initTemplate(RowTemplate.R1COL.value());
                 row.content(0)
                         .setHtml(content);
             }

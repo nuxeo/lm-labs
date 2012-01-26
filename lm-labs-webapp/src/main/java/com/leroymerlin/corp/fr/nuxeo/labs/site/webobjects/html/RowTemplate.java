@@ -31,10 +31,17 @@ public enum RowTemplate {
 		return stringToEnum.get(rowTemplate);
 	}
 
-	private String value() {
+	public String value() {
 		return value;
 	}
 
+	/**
+	 * @deprecated use {@link HtmlRow#initTemplate(String)} instead.
+	 * @param row
+	 * @param template
+	 * @throws ClientException
+	 */
+	@Deprecated
 	public static void initRow(HtmlRow row, RowTemplate template) throws ClientException {
 		for (HtmlContent content : row.getContents()) {
 			content.remove();

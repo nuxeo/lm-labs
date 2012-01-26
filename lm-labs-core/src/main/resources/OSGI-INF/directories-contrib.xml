@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.site.directories">
+
+  <extension target="org.nuxeo.ecm.directory.sql.SQLDirectoryFactory"
+    point="directories">
+
+    <directory name="columns_layout">
+      <schema>columns_layout</schema>
+      <dataSource>java:/nxsqldirectory</dataSource>
+      <table>columns_layout</table>
+      <idField>code</idField>
+      <autoincrementIdField>false</autoincrementIdField>
+      <dataFile>directories/columns_layout.csv</dataFile>
+      <createTablePolicy>on_missing_columns</createTablePolicy>
+    </directory>
+
+  </extension>
+
+</component>

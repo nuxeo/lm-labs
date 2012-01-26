@@ -6,11 +6,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.directory.DirectoryException;
+import org.nuxeo.ecm.directory.Session;
+import org.nuxeo.ecm.directory.api.DirectoryService;
+import org.nuxeo.runtime.api.Framework;
 
 public class HtmlRow {
 
+    private static final Log LOG = LogFactory.getLog(HtmlRow.class);
+    private static final String SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT = "columns_layout";
+    private static final String PROPERTY_NAME_COLUMNS_LAYOUT_LABEL = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":label";
+    private static final String PROPERTY_NAME_COLUMNS_LAYOUT_CODE = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":code";
+    private static final String PROPERTY_NAME_COLUMNS_LAYOUT_SPANS = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":spans";
+    private static final String DIRECTORY_NAME_COLUMNS_LAYOUT = "columns_layout";
+
     private static final String CSS_PROPERTY_NAME = "cssclass";
+    private static final String NO_CONTENT = "";
     private final HtmlSection parentSection;
     private Map<String, Serializable> rowMap = new HashMap<String, Serializable>();
     private List<HtmlContent> contents;
@@ -104,6 +120,51 @@ public class HtmlRow {
     public void setCssClass(String cssClass)  throws ClientException{
         this.cssClass = cssClass;
         this.update();
+    }
+    
+    public void initTemplate(String templateName) throws ClientException {
+        for (HtmlContent content : this.getContents()) {
+            content.remove();
+        }
+        Session session = null;
+        try {
+            DirectoryService directoryService = Framework.getService(DirectoryService.class);
+            session = directoryService.open(DIRECTORY_NAME_COLUMNS_LAYOUT);
+            DocumentModel entry = session.getEntry(templateName);
+            String[] spans = StringUtils.split((String) entry.getPropertyValue(PROPERTY_NAME_COLUMNS_LAYOUT_SPANS), "|");
+            for (String span : spans) {
+                this.addContent(Integer.parseInt(span), NO_CONTENT);
+            }
+        } catch (Exception e) {
+            throw new ClientException(e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public static Map<String, String> getColumnLayoutsSelect() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        Session session = null;
+        try {
+            DirectoryService directoryService = Framework.getService(DirectoryService.class);
+            session = directoryService.open(DIRECTORY_NAME_COLUMNS_LAYOUT);
+            for (DocumentModel entry : session.getEntries()) {
+                map.put((String) entry.getPropertyValue(PROPERTY_NAME_COLUMNS_LAYOUT_CODE), (String) entry.getPropertyValue(PROPERTY_NAME_COLUMNS_LAYOUT_LABEL));
+            }
+        } catch (Exception e) {
+            LOG.error(e);
+        } finally {
+            if (session != null) {
+                try {
+                    session.close();
+                } catch (DirectoryException e) {
+                    LOG.error("Unable to close session: " + e.getMessage());
+                }
+            }
+        }
+        return map;
     }
 
 }
