@@ -25,8 +25,11 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.DocumentRef;
+import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
+import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
@@ -34,6 +37,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
@@ -315,8 +319,30 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * (boolean)
      */
     @Override
-    public void setAllContributors(boolean isAllContributors) throws ClientException {
-        doc.setPropertyValue(ALL_CONTRIBUTORS, isAllContributors);
+    public void setAllContributors(final boolean isAllContributors) throws ClientException {
+        if (isAllContributors != isAllContributors()){
+            final DocumentRef ref = doc.getRef();
+            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(doc.getCoreSession()){
+    
+                @SuppressWarnings("deprecation")
+                @Override
+                public void run() throws ClientException {
+                    DocumentModel docu = session.getDocument(ref);
+                    SecurityData data = SecurityDataHelper.buildSecurityData(docu);
+                    if (isAllContributors){
+                        data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
+                    }
+                    else{
+                        data.removeModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
+                    }
+                    SecurityDataHelper.updateSecurityOnDocument(docu, data);
+                    session.save();
+                }
+                
+            };
+            runner.runUnrestricted();
+            doc.setPropertyValue(ALL_CONTRIBUTORS, isAllContributors);
+        }
     }
 
     /*
