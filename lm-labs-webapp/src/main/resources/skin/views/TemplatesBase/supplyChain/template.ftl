@@ -46,9 +46,9 @@
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.pagination.js"></script>
           <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.ThreeDots.min.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
           <script type="text/javascript">
             jQuery(document).ready(function() {
 			  new EllipsisText().init();
