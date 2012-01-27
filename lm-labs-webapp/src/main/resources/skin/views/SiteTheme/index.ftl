@@ -27,7 +27,7 @@
     <div class="container">
   
       
-		<!------------------    TEMPLATE THEME ------------------------->
+		<!--    TEMPLATE THEME -->
       <section>
         <div class="page-header">
           <h3>
@@ -42,7 +42,6 @@
           <div class="span12 columns">
             <form action="${This.path}/appearance" method="post" id="form-appearance">
               <fieldset>
-                <!--<legend>${Context.getMessage('label.labssites.template.title.legend')}</legend>-->
                 <div class="clearfix">
                   <label for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
                   <div class="input">
@@ -83,7 +82,7 @@
 	      
 	      <form action="${This.path}/parameters" method="post" enctype="multipart/form-data" id="form-parameter">
 	      	<fieldset>
-	      		<!------------------    BANNER   ------------------------->
+	      		<!--    BANNER   -->
 	      		<div class="clearfix">
                   <label for="banner">${Context.getMessage('label.labssites.appearance.theme.edit.banner.label')}</label>
                   <div class="input">
@@ -99,7 +98,7 @@
                   </div>
                 </div><!-- /clearfix -->
                 
-                <!------------------    LOGO   ------------------------->
+                <!--   LOGO  -->
                 <div class="clearfix">
                   <label for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
                   <div class="input">
@@ -120,7 +119,7 @@
                 
                 <#assign properties = This.getThemeProperties() />
                 <#if (properties?size > 0)>
-	                <!------------------    Properties   ------------------------->
+	                <!--    Properties  -->
 		      		<h5 style="color: black;">${Context.getMessage('label.labssites.appearance.theme.edit.properties.title')}</h5>
 		      		<#assign cptProperties = 0 />
 		      		<#list properties as property>
@@ -150,7 +149,7 @@
 	            </#if>
                 <small><a href="#" onclick="javascript:jQuery('#div_style_logo').show();jQuery(this).hide();">${Context.getMessage('label.labssites.appearance.theme.edit.expertMode')}</a></small>
                 <div id="div_style_logo" style="display: none;">
-	                <!------------------    Style   ------------------------->
+	                <!--    Style   -->
 		      		<h5 style="color: black;">
 		      			${Context.getMessage('label.labssites.appearance.theme.edit.style.title')}
 		      		</h5>
@@ -163,7 +162,7 @@
 	                </div><!-- /clearfix -->
 	                <hr style="margin: 20px 0 0px;">
 	                
-	                <!------------------    LOGO PARAMETERS   ------------------------->
+	                <!--    LOGO PARAMETERS  -->
 	                <h5 style="color: black;">
 		      			${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.title')}
 		      		</h5>
