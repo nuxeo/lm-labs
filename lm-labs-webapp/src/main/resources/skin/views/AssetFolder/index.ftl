@@ -13,6 +13,7 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
         <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
         <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
         <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
         <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>

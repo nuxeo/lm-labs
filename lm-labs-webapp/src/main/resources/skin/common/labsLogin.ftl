@@ -1,20 +1,24 @@
   <script type="text/javascript">
     var usernameTmp = "";
     jQuery(document).ready(function() {
-    bindFocus(jQuery("#username"), jQuery("#username").val());
-    bindFocus(jQuery("#password"), jQuery("#password").val());
+	    bindFocus(jQuery("#username"), jQuery("#username").val());
+	    bindFocus(jQuery("#password"), jQuery("#password").val());
+	
+	    usernameTmp = $('#username').val();
+	
+	    jQuery(".listener").keypress(function(e){
+	      if (e.keyCode == 13 || e.which == 13){
+	       valid();
+	      }
+	    });
+	
+	    jQuery("#login").click(valid);
+	    jQuery("#logout").click(doLogout);
+	    
+	    $('input[placeholder], textarea[placeholder]').placeholder();
+	  });
 
-    usernameTmp = $('#username').val();
 
-    jQuery(".listener").keypress(function(e){
-      if (e.keyCode == 13 || e.which == 13){
-       valid();
-      }
-    });
-
-    jQuery("#login").click(valid);
-    jQuery("#logout").click(doLogout);
-  });
 
   function valid(){
     var user = jQuery("#username").val();
