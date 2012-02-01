@@ -49,6 +49,7 @@ import com.leroymerlin.common.freemarker.UserFullNameTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NotAuthorizedException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
@@ -183,7 +184,7 @@ public class SitesRoot extends ModuleRoot {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         } catch (SiteManagerException e) {
-            throw new WebResourceNotFoundException(e.getMessage(), e);
+            throw new NotAuthorizedException(e.getMessage(), e);
         }
     }
     
@@ -263,15 +264,15 @@ public class SitesRoot extends ModuleRoot {
 
     @POST
     public Response doPost() {
-    	FormData form = ctx.getForm();
-    	String piwikId = form.getString("piwik:piwikId");
-    	String pDescription = form.getString("dc:description");
-    	String pURL = form.getString("webc:url");
-    	String pTitle = form.getString("dc:title");
-    	String templateId = form.getString("siteTemplateId");
+        FormData form = ctx.getForm();
+        String piwikId = form.getString("piwik:piwikId");
+        String pDescription = form.getString("dc:description");
+        String pURL = form.getString("webc:url");
+        String pTitle = form.getString("dc:title");
+        String templateId = form.getString("siteTemplateId");
         CoreSession session = ctx.getCoreSession();
         try {
-        	SiteManager sm = getSiteManager();
+            SiteManager sm = getSiteManager();
             LabsSite labSite = sm.createSite(session, pTitle, pURL);
             labSite.setPiwikId(StringUtils.trim(piwikId));
             labSite.setDescription(pDescription);
@@ -291,23 +292,26 @@ public class SitesRoot extends ModuleRoot {
             boolean templateToCopy = false;
             boolean copied = false;
             if (StringUtils.isNotEmpty(StringUtils.trim(templateId))) {
-            	IdRef templateRef = new IdRef(templateId);
-            	if (session.exists(templateRef)) {
-            		templateToCopy = true;
-            		try {
-            			labSite.applyTemplateSite(session.getDocument(templateRef));
-            			session.saveDocument(labSite.getDocument());
-            			copied = true;
-					} catch (ClientException e) {
-						log.error("Copy of site template failed. " + e.getMessage());
-					} catch (IllegalArgumentException e) {
-						log.error("Copy of site template failed. " + e.getMessage());
-					}
-            	}
+                IdRef templateRef = new IdRef(templateId);
+                if (session.exists(templateRef)) {
+                    templateToCopy = true;
+                    try {
+                        labSite.applyTemplateSite(session.getDocument(templateRef));
+                        session.saveDocument(labSite.getDocument());
+                        copied = true;
+                    } catch (ClientException e) {
+                        log.error("Copy of site template failed. "
+                                + e.getMessage());
+                    } catch (IllegalArgumentException e) {
+                        log.error("Copy of site template failed. "
+                                + e.getMessage());
+                    }
+                }
             }
             session.save();
             if (templateToCopy && !copied) {
-            	return redirect(getPath() + "?message_error=label.labssites.edit.error.template.copy.failed");
+                return redirect(getPath()
+                        + "?message_error=label.labssites.edit.error.template.copy.failed");
             }
             return redirect(getPath() + "/" + labSite.getURL());
         } catch (SiteManagerException e) {
@@ -342,6 +346,9 @@ public class SitesRoot extends ModuleRoot {
         } else if (e instanceof WebSecurityException) {
             return Response.status(401).entity(
                     getTemplate("error/error_401.ftl")).type("text/html").build();
+        } else if (e instanceof NotAuthorizedException) {
+            return Response.status(202).entity(
+                    getTemplate("error/error_202.ftl")).type("text/html").build();
         } else {
 
             return Response.status(500).entity(
