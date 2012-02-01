@@ -270,5 +270,21 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
             CoreInstance.getInstance().close(session);
         }
     }
+    @Override
+    public Calendar getLastNotified(DocumentModel page) throws ClientException, PropertyException {
+        CoreSession session = page.getCoreSession();
+        PathRef ref = new PathRef(page.getPathAsString() + "/" + Docs.NOTIFACTIVITIES.docName());
+        try {
+            if (session.exists(ref)) {
+                DocumentModel notif = session.getDocument(ref);
+                return (Calendar) notif.getPropertyValue(PROPERTY_NOTIFIED);
+            }
+        } catch (PropertyException e) {
+            LOG.error("Unable to retrieve value of " + PROPERTY_NOTIFIED + " of document " + page.getPathAsString());
+        } catch (ClientException e) {
+            LOG.error("Unable to access document " + page.getPathAsString());
+        }
+        return null;
+    }
 
 }

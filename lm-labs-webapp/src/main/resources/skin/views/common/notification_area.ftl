@@ -5,8 +5,10 @@
 				<button class="btn primary">
 				<#if Document.type == "PageNews">
 					 ${Context.getMessage('command.contextmenu.PageNews.subscribe')}
-				<#else>
-					${Context.getMessage('command.contextmenu.Page.subscribe')}
+				<#elseif Document.type == "Site">
+					${Context.getMessage('command.contextmenu.Site.subscribe')}
+                <#else>
+                    ${Context.getMessage('command.contextmenu.Page.subscribe')}
 				</#if>
 				</button>
 			</a>
@@ -14,6 +16,8 @@
 				<button class="btn primary">
 				<#if Document.type == "PageNews">
 					${Context.getMessage('command.contextmenu.PageNews.unsubscribe')}
+                <#elseif Document.type == "Site">
+                    ${Context.getMessage('command.contextmenu.Site.unsubscribe')}
 				<#else>
 					${Context.getMessage('command.contextmenu.Page.unsubscribe')}
 				</#if>
@@ -21,6 +25,17 @@
 			</a>
 			<script type="text/javascript">	
 				function subscribePage(subscribe) {
+				    <#if Document.type == "Site" >
+				    var confirmMsg = '';
+				    if (subscribe) {
+				        confirmMsg = "${Context.getMessage('command.contextmenu.Site.subscribe.confirm')}";
+				    } else {
+                        confirmMsg = "${Context.getMessage('command.contextmenu.Site.unsubscribe.confirm')}";
+				    }
+				    if (!confirm(confirmMsg)) {
+				        return;
+				    }
+				    </#if>
 					jQuery.ajax({
 						type: 'GET',
 					    async: false,

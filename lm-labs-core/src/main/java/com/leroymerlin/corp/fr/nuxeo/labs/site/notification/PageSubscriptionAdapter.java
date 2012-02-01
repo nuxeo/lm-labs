@@ -36,7 +36,7 @@ public class PageSubscriptionAdapter implements PageSubscription {
             NotificationManager notificationService = Framework.getService(NotificationManager.class);
             UserManager userManager = Framework.getService(UserManager.class);
             for (String name : getNotificationNames()) {
-                notificationService.addSubscription(NotificationConstants.USER_PREFIX + principal, name, doc, true, userManager.getPrincipal(principal), name);
+                notificationService.addSubscription(NotificationConstants.USER_PREFIX + principal, name, doc, false, userManager.getPrincipal(principal), name);
             }
         }
     }

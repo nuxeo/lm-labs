@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.site.test.notification.override">
+
+<require>org.nuxeo.ecm.platform.notification.service.NotificationContrib</require>
+
+  <extension
+    target="org.nuxeo.ecm.platform.ec.notification.service.NotificationService"
+    point="notifications">
+
+    <notification name="Subscriptions updated" enabled="false" channel="none" >
+      <event name="subscriptionAssigned"/>
+    </notification>
+
+  </extension>
+
+</component>

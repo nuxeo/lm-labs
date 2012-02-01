@@ -46,7 +46,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 @WebObject(type = "LabsSite", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
-public class Site extends PageResource {
+public class Site extends NotifiablePageResource {
 
     private LabsSite site;
     

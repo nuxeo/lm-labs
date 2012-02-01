@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
@@ -7,7 +9,11 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public abstract class NotifiablePageResource extends PageResource {
 
@@ -19,8 +25,17 @@ public abstract class NotifiablePageResource extends PageResource {
         LOG.debug("@subscribe");
         try {
             PageSubscription subscriptionAdapter = doc.getAdapter(PageSubscription.class);
-            if (!subscriptionAdapter.isSubscribed(ctx.getPrincipal().getName())) {
-                subscriptionAdapter.subscribe(ctx.getPrincipal().getName());
+            subscriptionAdapter.subscribe(ctx.getPrincipal().getName());
+            if (Docs.SITE.type().equals(doc.getType())) {
+                List<Page> pages = doc.getAdapter(LabsSite.class).getAllPages();
+                for (Page page : pages) {
+                    PageSubscription subscription = page.getDocument().getAdapter(PageSubscription.class);
+                    if (subscription != null) {
+                        subscription.subscribe(ctx.getPrincipal().getName());
+                    } else {
+                        LOG.warn("Unable to get adapter for " + page.getDocument().getPathAsString());
+                    }
+                }
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -36,6 +51,14 @@ public abstract class NotifiablePageResource extends PageResource {
         try {
             PageSubscription subscriptionAdapter = doc.getAdapter(PageSubscription.class);
             subscriptionAdapter.unsubscribe(ctx.getPrincipal().getName());
+            if (Docs.SITE.type().equals(doc.getType())) {
+                for (Page page : doc.getAdapter(SiteDocument.class).getSite().getAllPages()) {
+                    PageSubscription subscription = page.getDocument().getAdapter(PageSubscription.class);
+                    if (subscription != null) {
+                        subscription.unsubscribe(ctx.getPrincipal().getName());
+                    }
+                }
+            }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             LOG.error(e, e);

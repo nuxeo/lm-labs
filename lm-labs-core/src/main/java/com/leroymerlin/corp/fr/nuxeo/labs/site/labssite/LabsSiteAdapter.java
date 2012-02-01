@@ -40,6 +40,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManagerImpl;
@@ -115,7 +116,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     public List<Page> getAllPages() throws ClientException {
         DocumentModelList docs = getCoreSession().query(
                 "SELECT * FROM Page, Space where ecm:currentLifeCycleState <> 'deleted' AND ecm:path STARTSWITH '"
-                        + doc.getPathAsString() + "'");
+                        + getTree().getPathAsString() + "'");
 
         List<Page> pages = new ArrayList<Page>();
         for (DocumentModel doc : docs) {
@@ -516,5 +517,21 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 	public String getThemeName() throws ClientException {
 		return (String) doc.getPropertyValue(Schemas.LABSSITE.prefix() + ":theme_name");
 	}
+
+    @Override
+    public List<Page> getSubscribedPages() throws ClientException {
+        List<Page> subscribedPages = new ArrayList<Page>();
+        for (Page page : getAllPages()) {
+            try {
+                PageSubscription adapter = page.getDocument().getAdapter(PageSubscription.class);
+                if (adapter != null && adapter.isSubscribed(getCoreSession().getPrincipal().getName())) {
+                    subscribedPages.add(page);
+                }
+            } catch (Exception e) {
+                LOG.error(e, e);
+            }
+        }
+        return subscribedPages;
+    }
 
 }
