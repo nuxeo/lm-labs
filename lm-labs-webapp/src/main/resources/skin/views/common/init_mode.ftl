@@ -51,5 +51,18 @@
 			  press.which = 69;
 			  $("body").trigger(press);
 		}
+		
+		function displayModeWhenReopen(collapsables){
+			jQuery(collapsables).find(".editblock").each(
+				function(i){
+					if(IS_MODE_EDITION){
+						jQuery(this).show();
+					}
+					else{
+						jQuery(this).hide();
+					}
+				}
+			);
+		}
 	</script>
 </#if>

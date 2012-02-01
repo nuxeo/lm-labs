@@ -36,6 +36,7 @@ function slideFolder(imgObj, action) {
 		changeFolderBt(imgObj, 'close');
 		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.collapse')}", "${Context.getMessage('command.PageClasseur.collapse')}");
 		collapsables.slideDown("fast");
+		displayModeWhenReopen(collapsables);
 	}
 }
 function slideAllFolders(imgObj) {
@@ -278,8 +279,8 @@ function slideAllFolders(imgObj) {
     <tr>
       <th class="header">&nbsp;</th>
       <#if canWrite>
-      <th class="header" style="min-width: 25px">
-        <input class="editblock" type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
+      <th class="header editblock" style="min-width: 25px">
+        <input type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
       </th>
       </#if>
       <th class="header">${Context.getMessage('label.PageClasseur.tableheader.filename')}</th>
@@ -297,9 +298,9 @@ function slideAllFolders(imgObj) {
       <img title="${child.type}" alt="${child.type}/" src="/nuxeo${child.common.icon}" />
     </td>
     <#if canWrite>
-	    <td>
+	    <td <#if !child.facets?seq_contains("LabsHidden")>class="editblock"</#if>>
 	      <#if (child.facets?seq_contains("Folderish") == false) >
-	        <input class="editblock" type="checkbox" name="checkoptions" value="${child.id}" />
+	        <input type="checkbox" name="checkoptions" value="${child.id}" />
 	      </#if>
 	    </td>
     </#if>
@@ -332,7 +333,7 @@ function slideAllFolders(imgObj) {
       <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
       <td>
       <#if canWrite>
-      	<div class="editblock">
+      	<div <#if !child.facets?seq_contains("LabsHidden")> class="editblock"</#if>>
       		<button class="btn" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${child.dublincore.description?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/@rename');">Renommer</button>
             <button class="btn danger" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
             <br />
