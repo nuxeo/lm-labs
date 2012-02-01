@@ -21,7 +21,7 @@
 			<div class="clearfix">
 				<div class="input">
 					<label for="updateTitlePage">${Context.getMessage('label.parameters.page.updateTitlePage')}</label>
-					<input id="updateTitlePage" type="text" name="updateTitlePage" value="${This.document.title}" maxlength="90"/>
+					<input id="updateTitlePage" type="text" name="updateTitlePage" value="${This.document.title?html}" maxlength="90"/>
 				</div>
 			</div>
 			<div class="clearfix">
