@@ -140,4 +140,6 @@ public interface LabsSite  extends LabsBase {
     void setThemeName(String name) throws ClientException;
     
     String getThemeName() throws ClientException;
+    
+    List<Page> getSubscribedPages() throws ClientException;
 }

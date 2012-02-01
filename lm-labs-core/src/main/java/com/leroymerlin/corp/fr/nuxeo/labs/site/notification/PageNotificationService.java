@@ -1,9 +1,11 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.notification;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
@@ -32,4 +34,6 @@ public interface PageNotificationService {
 //    public List<DocumentModel> getMarkedPagesOfSite(DocumentModel site, CoreSession session) throws ClientException;
 
 //    void fireEvent(Page page, String eventName) throws Exception;
+    
+    public Calendar getLastNotified(DocumentModel doc) throws ClientException, PropertyException;
 }

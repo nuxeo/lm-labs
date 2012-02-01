@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
@@ -9,6 +10,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
@@ -77,6 +79,15 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     public boolean isDisplayable(String fieldName) throws ClientException {
         List<String> parameters = getNotDisplayableParameters();
         return !parameters.contains(fieldName);
+    }
+
+    @Override
+    public Calendar getLastNotified() throws ClientException {
+        try {
+            return doc.getAdapter(MailNotification.class).getLastNotified();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

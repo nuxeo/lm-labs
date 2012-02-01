@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
@@ -17,4 +18,6 @@ public interface Page extends LabsBase {
     void setNotDisplayableParameters(List<String> fields) throws ClientException;
     
     boolean isDisplayable(String fieldName) throws ClientException;
+    
+    Calendar getLastNotified() throws ClientException;
 }

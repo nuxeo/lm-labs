@@ -1,63 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component name="com.leroymerlin.bloginno.audit.test.persistence.config">
+<component name="com.leroymerlin.labs.test.persistence.config">
 
-	<require>org.nuxeo.ecm.platform.rating.core.hibernate.config</require>
-	<require>org.nuxeo.ecm.platform.audit.service.NXAuditEventsService</require>
   <extension target="org.nuxeo.ecm.core.persistence.PersistenceComponent"
     point="hibernate">
-    
-    <hibernateConfiguration name="rating-service">
-      <properties>
-        <property name="hibernate.connection.url">jdbc:hsqldb:mem:.;sql.enforce_strict_size=true</property>;
-        <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="hibernate.connection.auto_commit">true</property>
-        <property name="hibernate.connection.pool_size">1</property>;
-        <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>;
-        <property name="hibernate.hbm2ddl.auto">update</property>;
-        <property name="hibernate.show_sql">false</property>; // true to debug
-        <property name="hibernate.format_sql">true</property>;
-      </properties>
-    </hibernateConfiguration>
-    
-    
-    <hibernateConfiguration name="nxaudit-logs">
-      <properties>
-        <property name="hibernate.connection.url">jdbc:hsqldb:mem:.;sql.enforce_strict_size=true</property>;
-        <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="hibernate.connection.auto_commit">true</property>
-        <property name="hibernate.connection.pool_size">1</property>;
-        <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>;
-        <property name="hibernate.hbm2ddl.auto">update</property>;
-        <property name="hibernate.show_sql">false</property>; // true to debug
-        <property name="hibernate.format_sql">true</property>;
-      </properties>
-    </hibernateConfiguration>
-    
-    <hibernateConfiguration name="idea-notification-service">
-      <properties>
-        <property name="hibernate.connection.url">jdbc:hsqldb:mem:.;sql.enforce_strict_size=true</property>;
-        <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="hibernate.connection.auto_commit">true</property>
-        <property name="hibernate.connection.pool_size">1</property>;
-        <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>;
-        <property name="hibernate.hbm2ddl.auto">update</property>;
-        <property name="hibernate.show_sql">false</property>; // true to debug
-        <property name="hibernate.format_sql">true</property>;
-      </properties>
-    </hibernateConfiguration>
-    
-    <hibernateConfiguration name="idea-viewed-notification-service">
-      <properties>
-        <property name="hibernate.connection.url">jdbc:hsqldb:mem:.;sql.enforce_strict_size=true</property>;
-        <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="hibernate.connection.auto_commit">true</property>
-        <property name="hibernate.connection.pool_size">1</property>;
-        <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>;
-        <property name="hibernate.hbm2ddl.auto">update</property>;
-        <property name="hibernate.show_sql">false</property>; // true to debug
-        <property name="hibernate.format_sql">true</property>;
-      </properties>
-    </hibernateConfiguration>
+        <hibernateConfiguration name="nxplaceful">
+          <properties>
+            <property name="hibernate.connection.url">jdbc:hsqldb:mem:.;sql.enforce_strict_size=true</property>
+            <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
+            <property name="hibernate.connection.auto_commit">true</property> 
+            <property name="hibernate.connection.pool_size">1</property>
+            <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+            <property name="hibernate.hbm2ddl.auto">update</property>
+            <property name="hibernate.show_sql">false</property>
+            <property name="hibernate.format_sql">true</property>
+           </properties>
+        </hibernateConfiguration>
+
   </extension>
 
 </component>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.site.document.types">
+
+  <!-- Require the generic portal DM configuration <require>com.leroymerlin.corp.fr.nuxeo.portal.types.ui</require> -->
+
+  <extension target="org.nuxeo.ecm.platform.types.TypeService"
+    point="types">
+
+    <type id="Domain">
+      <subtypes>
+        <type hidden="create">SitesRoot</type>
+      </subtypes>
+    </type>
+
+    <type id="SitesRoot">
+      <label>SitesRoot</label>
+      <icon>/icons/workspace.gif</icon>
+      <icon-expanded>/icons/workspace_open.gif</icon-expanded>
+      <bigIcon>/icons/workspace_100.png</bigIcon>
+      <category>SuperDocument</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Site</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="Site">
+      <label>Site</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Tree</type>
+        <type>Assets</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="Tree">
+      <label>Tree</label>
+      <icon>/icons/folder.gif</icon>
+      <bigIcon>/icons/folder_100.png</bigIcon>
+      <icon-expanded>/icons/folder_open.gif</icon-expanded>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageListe</type>
+        <type>HtmlPage</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="Assets">
+      <label>Assets</label>
+      <icon>/icons/folder.gif</icon>
+      <bigIcon>/icons/folder_100.png</bigIcon>
+      <icon-expanded>/icons/folder_open.gif</icon-expanded>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Folder</type>
+        <type>Picture</type>
+        <!-- <type>Audio</type> -->
+        <!-- <type>Video</type> -->
+        <type>File</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="Page">
+      <label>Page</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageListe</type>
+        <type>HtmlPage</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="HtmlPage">
+      <label>HtmlPage</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageListe</type>
+        <type>HtmlPage</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="PageBlocs">
+      <label>PageBlocs</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageListe</type>
+        <type>HtmlPage</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="PageNews">
+      <label>PageNews</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>LabsNews</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="PageClasseur">
+      <label>PageClasseur</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Folder</type>
+        <type>File</type>
+        <type>Picture</type>
+        <!-- <type>Audio</type> -->
+        <!-- <type>Video</type> -->
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="PageList">
+      <label>PageList</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="LabsNews">
+      <label>News</label>
+      <icon>/icons/news.png</icon>
+      <bigIcon>/icons/news_100.png</bigIcon>
+      <category>SimpleDocument</category>
+      <default-view>view_documents</default-view>
+      <description></description>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+    </type>
+
+    <!-- <type id="Workspace"> <subtypes> <type>SiteActu</type> <type>News</type>
+      </subtypes> </type> <type id="Folder"> <subtypes> <type>SiteActu</type> <type>News</type>
+      </subtypes> </type> <type id="Rubrique"> <label>Rubrique</label> <icon>/icons/rubrique.gif</icon>
+      <category>Collaborative</category> <bigIcon>/icons/rubrique_100.jpeg</bigIcon>
+      <default-view>view_documents</default-view> <layouts mode="any"> <layout>heading</layout>
+      </layouts> <subtypes> <type>Rubrique</type> </subtypes> <contentViews category="content">
+      <contentView>document_content</contentView> </contentViews> <contentViews
+      category="trash_content"> <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews> </type> <type id="SiteActu"> <label>Site d'actus</label>
+      <icon>/icons/site.jpeg</icon> <category>Collaborative</category> <bigIcon>/icons/site_100.gif</bigIcon>
+      <default-view>view_documents</default-view> <layouts mode="create"> <layout>siteactu_heading</layout>
+      </layouts> <layouts mode="any"> <layout>siteactu_heading</layout> <layout>siteThemeLayout</layout>
+      <layout>urlLayout</layout> </layouts> <subtypes> <type>Rubrique</type> </subtypes>
+      <contentViews category="content"> <contentView>orderable_document_content</contentView>
+      </contentViews> <contentViews category="trash_content"> <contentView showInExportView="false">document_trash_content</contentView>
+      </contentViews> </type> -->
+
+  </extension>
+</component>
