@@ -36,7 +36,7 @@ function slideFolder(imgObj, action) {
 		changeFolderBt(imgObj, 'close');
 		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.collapse')}", "${Context.getMessage('command.PageClasseur.collapse')}");
 		collapsables.slideDown("fast");
-		displayModeWhenReopen(collapsables);
+		refreshDisplayMode(collapsables);
 	}
 }
 function slideAllFolders(imgObj) {
