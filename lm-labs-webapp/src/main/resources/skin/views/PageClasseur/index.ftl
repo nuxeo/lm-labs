@@ -161,7 +161,7 @@ function slideAllFolders(imgObj) {
                         </div><!-- /clearfix -->
 
                    <div class="clearfix">
-                        <label for="description">Description</label>
+                        <label for="description">${Context.getMessage('label.PageClasseur.form.description')}</label>
                           <div class="input">
                             <textarea name="description"></textarea>
                           </div>
@@ -231,9 +231,15 @@ function slideAllFolders(imgObj) {
   <form id="form-renameTitleElement" action="${This.path}" method="post">
       <fieldset>
 	      <div class="clearfix">
-	          <label for="renameTitleElement">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
+	          <label for="renameTitleElement">${Context.getMessage('label.PageClasseur.form.title')}</label>
 	          <div class="input">
 	            <input id="renameTitleElement" name="renameTitleElement" class="xlarge required"/>
+	          </div>
+	      </div><!-- /clearfix -->
+	      <div class="clearfix">
+	          <label for="descriptionElement">${Context.getMessage('label.PageClasseur.form.description')}</label>
+	          <div class="input">
+	            <textarea name="descriptionElement" id="descriptionElement" class="xlarge"></textarea>
 	          </div>
 	      </div><!-- /clearfix -->
       </fieldset>
@@ -315,9 +321,9 @@ function slideAllFolders(imgObj) {
       <#assign max_lenght = This.getPropertyMaxSizeFileRead() />
       <td>
       	<#if (isModifiedFilename)>
-      		<span title="${blob.filename} - ${child.name} - ${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>
+      		<span title="${blob.filename} - ${child.name} - ${child.dublincore.description?html}">${filename?substring(0, max_len_word)}...</span>
       	<#else>
-      		<span title="${blob.filename} - ${child.dublincore.description}">${filename}</span>
+      		<span title="${blob.filename} - ${child.dublincore.description?html}">${filename?html}</span>
       	</#if>
       </td>
       <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${blobLenght?string.computer}</span></td>
@@ -327,7 +333,7 @@ function slideAllFolders(imgObj) {
       <td>
       <#if canWrite>
       	<div class="editblock">
-      		<button class="btn" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/@rename');">Renommer</button>
+      		<button class="btn" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${child.dublincore.description?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/@rename');">Renommer</button>
             <button class="btn danger" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
             <br />
         </div>

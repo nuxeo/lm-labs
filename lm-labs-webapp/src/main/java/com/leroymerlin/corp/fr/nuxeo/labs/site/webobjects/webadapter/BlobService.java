@@ -63,9 +63,11 @@ public class BlobService extends DefaultAdapter {
         DocumentModel doc = this.getTarget()
                 .getAdapter(DocumentModel.class);
         String title = ctx.getForm().getString("renameTitleElement");
+        String description = ctx.getForm().getString("descriptionElement");
         if(!StringUtils.isEmpty(title)){
             try {
                 doc.setPropertyValue("dc:title", title);
+                doc.setPropertyValue("dc:description", description);
                 CoreSession session = doc.getCoreSession();
                 session.saveDocument(doc);
                 session.save();

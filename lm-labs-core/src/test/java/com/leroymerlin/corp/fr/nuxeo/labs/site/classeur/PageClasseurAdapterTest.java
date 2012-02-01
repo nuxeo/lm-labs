@@ -229,6 +229,34 @@ public class PageClasseurAdapterTest extends LabstTest {
         assertThat((String)file.getTitle(),is("title2"));
     }
     
+    @Test
+    public void iCanModifyDescriptionOfFile() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        
+        classeur.addFolder("My Folder");
+        session.save();        
+        PageClasseurFolder folder = classeur.getFolders().get(0);
+        assertThat(folder.getFiles().size(),is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "titlerr");
+        session.save();
+        folder = classeur.getFolders().get(0);
+        assertThat(folder.getFiles().size(),is(1));
+        DocumentModel file = folder.getFiles().get(0);
+        assertThat(file.getTitle(),is("titlerr"));
+        file.setPropertyValue("dc:description", "Pomodoro cheat sheet56");
+        session.saveDocument(file);
+        session.save();
+        
+        String path = classeur.getDocument().getPathAsString();
+        DocumentModel doc = session.getDocument(new PathRef(path));
+        classeur = doc.getAdapter(PageClasseur.class);
+        folder = classeur.getFolders().get(0);
+        assertThat(folder.getFiles().size(),is(1));
+        file = folder.getFiles().get(0);
+        assertThat((String)file.getPropertyValue("dc:description"),is("Pomodoro cheat sheet56"));
+    }
+    
     @Test(expected=IllegalArgumentException.class)
     public void iCannotAddNullBlobToAFolder() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();

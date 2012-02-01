@@ -355,8 +355,9 @@ function moveFolder(path, parentId, srcId, destId) {
 	
 }
 
-function openRenameTitleElement(title, url){
+function openRenameTitleElement(title, description, url){
 	jQuery("#div-renameTitleElement").dialog2('open');
 	jQuery("#renameTitleElement").val(title);
+	jQuery("#descriptionElement").val(description);
 	jQuery("#form-renameTitleElement").attr("action", url);
 }
