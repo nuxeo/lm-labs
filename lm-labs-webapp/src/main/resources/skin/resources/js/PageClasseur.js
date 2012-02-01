@@ -40,6 +40,17 @@ jQuery(document).ready(function(){
 	showCloseHandle : true,
   });
 
+  jQuery("#div-renameTitleElement").dialog2({
+    buttons: {
+      "Annuler": function() { jQuery(this).dialog2("close"); }
+    },
+    width: '500px',
+    autoOpen : false,
+	closeOnOverlayClick : true,
+	removeOnClose : false,
+	showCloseHandle : true,
+  });
+
 
   jQuery(".opendropzone").click(function() {
     jQuery('.opendropzone').show();
@@ -342,4 +353,10 @@ function moveFolder(path, parentId, srcId, destId) {
 		}
 	});
 	
+}
+
+function openRenameTitleElement(title, url){
+	jQuery("#div-renameTitleElement").dialog2('open');
+	jQuery("#renameTitleElement").val(title);
+	jQuery("#form-renameTitleElement").attr("action", url);
 }

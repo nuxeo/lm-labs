@@ -100,7 +100,7 @@ public class AllDocTypeRepositoryInit extends OfmRepositoryInit {
             Blob blob = new FileBlob(
                     getClass().getResourceAsStream("/" + FILE1_NAME));
             blob.setFilename(FILE1_NAME);
-            folder.addFile(blob, FILE1_DESCRIPTION);
+            folder.addFile(blob, FILE1_DESCRIPTION, "title");
 
         } catch (Exception e) {
             // TODO Auto-generated catch block

@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.EntityTag;
@@ -13,10 +14,12 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.api.model.PropertyException;
@@ -24,6 +27,7 @@ import org.nuxeo.ecm.core.convert.api.ConversionService;
 import org.nuxeo.ecm.core.storage.sql.coremodel.SQLBlob;
 import org.nuxeo.ecm.platform.preview.adapter.PreviewAdapterManager;
 import org.nuxeo.ecm.platform.preview.api.HtmlPreviewAdapter;
+import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 import org.nuxeo.runtime.api.Framework;
@@ -51,6 +55,28 @@ public class BlobService extends DefaultAdapter {
                 .getAdapter(DocumentModel.class);
         String previewURL = ctx.getBaseURL() + "/nuxeo/" + getPreviewURL(doc);
         return this.redirect(previewURL);
+    }
+
+    @POST
+    @Path("@rename")
+    public Object rename() {
+        DocumentModel doc = this.getTarget()
+                .getAdapter(DocumentModel.class);
+        String title = ctx.getForm().getString("renameTitleElement");
+        if(!StringUtils.isEmpty(title)){
+            try {
+                doc.setPropertyValue("dc:title", title);
+                CoreSession session = doc.getCoreSession();
+                session.saveDocument(doc);
+                session.save();
+            } catch (ClientException e) {
+                throw WebException.wrap("Failed to rename for document " + doc.getPathAsString(), e);
+            }
+        }
+        else{
+            return this.redirect(this.getPrevious().getPrevious().getPrevious().getPath() + "?message_error=label.PageClasseur.form.rename.unsaved");
+        }
+        return this.redirect(this.getPrevious().getPrevious().getPrevious().getPath() + "?message_success=label.PageClasseur.form.rename.saved");
     }
 
     public String getPreviewURL(DocumentModel doc) throws IllegalStateException {

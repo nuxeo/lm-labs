@@ -160,15 +160,73 @@ public class PageClasseurAdapterTest extends LabstTest {
         session.save();        
         PageClasseurFolder folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(),is(0));
-        folder.addFile(getTestBlob(), "Pomodoro cheat sheet");
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
         session.save();
         assertThat(folder.getFiles().size(),is(1));
-        folder.removeFile("pomodoro_cheat_sheet.pdf");
+        folder.removeFile("title");
         session.save();
         assertThat(folder.getFiles().size(),is(0));
         
         
         
+    }
+    
+    @Test
+    public void iCanGetTitleOfFile() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        
+        classeur.addFolder("My Folder");
+        session.save();        
+        PageClasseurFolder folder = classeur.getFolders().get(0);
+        assertThat(folder.getFiles().size(),is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
+        session.save();
+        assertThat(folder.getFiles().size(),is(1));
+        assertThat(folder.getFiles().get(0).getTitle(),is("title"));
+    }
+    
+    @Test
+    public void iCanGetDefaultTitleOfFile() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        
+        classeur.addFolder("My Folder");
+        session.save();        
+        PageClasseurFolder folder = classeur.getFolders().get(0);
+        assertThat(folder.getFiles().size(),is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", null);
+        session.save();
+        assertThat(folder.getFiles().size(),is(1));
+        assertThat(folder.getFiles().get(0).getTitle(),is("pomodoro_cheat_sheet.pdf"));
+    }
+    
+    @Test
+    public void iCanRenameTitleOfFile() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        
+        classeur.addFolder("My Folder");
+        session.save();        
+        PageClasseurFolder folder = classeur.getFolders().get(0);
+        assertThat(folder.getFiles().size(),is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "titlerr");
+        session.save();
+        folder = classeur.getFolders().get(0);
+        assertThat(folder.getFiles().size(),is(1));
+        DocumentModel file = folder.getFiles().get(0);
+        assertThat(file.getTitle(),is("titlerr"));
+        file.setPropertyValue("dc:title", "title2");
+        session.saveDocument(file);
+        session.save();
+        
+        String path = classeur.getDocument().getPathAsString();
+        DocumentModel doc = session.getDocument(new PathRef(path));
+        classeur = doc.getAdapter(PageClasseur.class);
+        folder = classeur.getFolders().get(0);
+        assertThat(folder.getFiles().size(),is(1));
+        file = folder.getFiles().get(0);
+        assertThat((String)file.getTitle(),is("title2"));
     }
     
     @Test(expected=IllegalArgumentException.class)
@@ -178,7 +236,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         session.save();        
 
         PageClasseurFolder folder = classeur.getFolders().get(0);
-        folder.addFile(null, "null desc");
+        folder.addFile(null, "null desc", "title");
         
     }
     
@@ -200,7 +258,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         PageClasseurFolder folder = classeur.addFolder("My Folder");
         session.save();        
-        DocumentModel file = folder.addFile(getTestBlob(), "Pomodoro cheat sheet");
+        DocumentModel file = folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
         session.save();
         assertEquals(1, folder.getFiles().size());
         assertFalse(file.getFacets().contains(FacetNames.LABSHIDDEN));
@@ -224,7 +282,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         String folderId = folder.getDocument().getId();
         session.save();        
         PermissionsHelper.addPermission(classeur.getDocument(), SecurityConstants.READ_WRITE, USERNAME1 , true);
-        DocumentModel file = folder.addFile(getTestBlob(), "Pomodoro cheat sheet");
+        DocumentModel file = folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
         session.save();
         assertEquals(1, folder.getFiles().size());
         assertFalse(file.getFacets().contains(FacetNames.LABSHIDDEN));

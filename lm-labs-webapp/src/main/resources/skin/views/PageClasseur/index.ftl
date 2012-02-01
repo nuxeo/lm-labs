@@ -147,13 +147,20 @@ function slideAllFolders(imgObj) {
               <form id="form-upload-file-${folder.document.id}" action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
                 <fieldset>
                   <div class="clearfix">
-                        <label for="title">Choisir le fichier</label>
+                        <label for="title">${Context.getMessage('label.PageClasseur.form.title')}</label>
+                          <div class="input">
+                            <input type="text" name="title" class="large"/>
+                          </div>
+                        </div><!-- /clearfix -->
+                        
+                   <div class="clearfix">
+                        <label for="file">Choisir le fichier</label>
                           <div class="input">
                             <input type="file" name="file" class="required"/>
                           </div>
                         </div><!-- /clearfix -->
 
-                        <div class="clearfix">
+                   <div class="clearfix">
                         <label for="description">Description</label>
                           <div class="input">
                             <textarea name="description"></textarea>
@@ -219,6 +226,24 @@ function slideAllFolders(imgObj) {
 
 </div>
 
+<div id="div-renameTitleElement" style="display: none;" >
+    <h1>${Context.getMessage('label.PageClasseur.form.rename.title')}</h1>
+  <form id="form-renameTitleElement" action="${This.path}" method="post">
+      <fieldset>
+	      <div class="clearfix">
+	          <label for="renameTitleElement">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
+	          <div class="input">
+	            <input id="renameTitleElement" name="renameTitleElement" class="xlarge required"/>
+	          </div>
+	      </div><!-- /clearfix -->
+      </fieldset>
+	  <div class="actions">
+	    <button class="btn primary required-fields" form-id="form-renameTitleElement">${Context.getMessage('label.PageClasseur.form.rename.save')}</button>
+	  </div>
+  </form>
+
+</div>
+
 <#include "views/common/loading.ftl">
 
 <#macro mainButtons >
@@ -266,11 +291,11 @@ function slideAllFolders(imgObj) {
       <img title="${child.type}" alt="${child.type}/" src="/nuxeo${child.common.icon}" />
     </td>
     <#if canWrite>
-    <td>
-    <#if child.facets?seq_contains("Folderish") == false >
-        <input class="editblock" type="checkbox" name="checkoptions" value="${child.id}" />
-      </#if>
-    </td>
+	    <td>
+	      <#if (child.facets?seq_contains("Folderish") == false) >
+	        <input class="editblock" type="checkbox" name="checkoptions" value="${child.id}" />
+	      </#if>
+	    </td>
     </#if>
     <#if child.facets?seq_contains("Folderish") == false >
       <#assign modifDate = child.dublincore.modified?datetime >
@@ -290,9 +315,9 @@ function slideAllFolders(imgObj) {
       <#assign max_lenght = This.getPropertyMaxSizeFileRead() />
       <td>
       	<#if (isModifiedFilename)>
-      		<span title="${filename} - ${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>
+      		<span title="${blob.filename} - ${child.name} - ${child.dublincore.description}">${filename?substring(0, max_len_word)}...</span>
       	<#else>
-      		<span title="${child.dublincore.description}">${filename}</span>
+      		<span title="${blob.filename} - ${child.dublincore.description}">${filename}</span>
       	</#if>
       </td>
       <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${blobLenght?string.computer}</span></td>
@@ -301,8 +326,11 @@ function slideAllFolders(imgObj) {
       <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
       <td>
       <#if canWrite>
-            <button class="btn danger editblock" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
-            <span class="editblock"><br /></span>
+      	<div class="editblock">
+      		<button class="btn" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/@rename');">Renommer</button>
+            <button class="btn danger" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
+            <br />
+        </div>
       </#if>
         <a rel="nofollow" class="btn small classeurDownload" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
       <#if (max_lenght > blobLenght) && This.hasConvertersForHtml(blob.mimeType)>

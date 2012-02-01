@@ -33,14 +33,14 @@ public class PageClasseurFolderImpl implements PageClasseurFolder {
     }
 
     @Override
-    public DocumentModel addFile(Blob blob, String description)
+    public DocumentModel addFile(Blob blob, String description, String title)
             throws ClientException {
         if (blob == null) {
             throw new IllegalArgumentException(
                     "Could not find any uploaded file");
         } else {
             try {
-                return doAddfile(blob, description);
+                return doAddfile(blob, description, title);
             } catch (Exception e) {
                 throw new ClasseurException(
                         "label.classeur.error.unable_to_add_file_to_folder", e);
@@ -48,7 +48,7 @@ public class PageClasseurFolderImpl implements PageClasseurFolder {
         }
     }
 
-    private DocumentModel doAddfile(Blob blob, String description)
+    private DocumentModel doAddfile(Blob blob, String description, String title)
             throws Exception {
         blob.persist();
         String filename = blob.getFilename();
@@ -56,7 +56,12 @@ public class PageClasseurFolderImpl implements PageClasseurFolder {
                 .createDocumentFromBlob(doc.getCoreSession(), blob,
                         doc.getPathAsString(), true,
                         Slugify.slugify(filename));
-        fileDoc.setPropertyValue("dc:title", filename);
+        if(!StringUtils.isEmpty(title)){
+            fileDoc.setPropertyValue("dc:title", title);
+        }
+        else{
+            fileDoc.setPropertyValue("dc:title", filename);
+        }
         if (!StringUtils.isEmpty(description)) {
             fileDoc.setPropertyValue("dc:description", description);
         }

@@ -10,7 +10,7 @@ public interface PageClasseurFolder {
 
     String getTitle() throws ClientException;
 
-    DocumentModel addFile(Blob blob, String description) throws ClientException;
+    DocumentModel addFile(Blob blob, String description, String title) throws ClientException;
 
     DocumentModelList getFiles() throws ClientException;
 

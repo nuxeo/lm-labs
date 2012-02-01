@@ -36,7 +36,7 @@ public class PageClasseurPageRepositoryInit extends OfmRepositoryInit {
             Blob blob = new FileBlob(getClass().getResourceAsStream(
                     "/" + FILE1_NAME));
             blob.setFilename(FILE1_NAME);
-            folder.addFile(blob, FILE1_DESCRIPTION);
+            folder.addFile(blob, FILE1_DESCRIPTION, "title");
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -45,13 +45,13 @@ public class PageClasseurPageRepositoryInit extends OfmRepositoryInit {
         session.save();
     }
     
-    public static DocumentModel addBlobToFolder1(CoreSession session, Blob blob, String description) throws ClientException, SiteManagerException {
+    public static DocumentModel addBlobToFolder1(CoreSession session, Blob blob, String description, String title) throws ClientException, SiteManagerException {
         LabsSite site = getSiteManager().getSite(session, SITE_URL);
         DocumentModel ofm = site.getDocument();
         DocumentModel folderDoc = session.getDocument(new PathRef(ofm.getPathAsString() + "/"
                 + LabsSiteConstants.Docs.TREE.docName() + "/" + PAGE_CLASSEUR_TITLE + "/" + FOLDER1_NAME));
         PageClasseurFolder folder = folderDoc.getAdapter(PageClasseurFolder.class);
-        return folder.addFile(blob, description);
+        return folder.addFile(blob, description, title);
     }
 
 }
