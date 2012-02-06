@@ -1,5 +1,5 @@
 var ckeditorconfig = {
-extraPlugins : 'tableresize',
+extraPlugins : 'tableresize,insertlabspagetoc',
 filebrowserBrowseUrl : '@assets',
 filebrowserImageBrowseUrl : '@assets',
 filebrowserFlashBrowseUrl : '@assets',
@@ -14,7 +14,7 @@ toolbar:
 '/',
 [ 'Bold','Italic','Underline','Strike','-','SelectAll','RemoveFormat'],
 ['Link','Unlink'],
-[ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar' ] ,'/',
+[ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','-','InsertLabsPageTableOfContents' ] ,'/',
 ['Format','Font','FontSize'],
 ['TextColor','BGColor'],
 ['Maximize', 'ShowBlocks','-']
