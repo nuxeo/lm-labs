@@ -57,6 +57,15 @@
       </artifact:set>
     </copy>
 
+    <echo>Copy custom libs</echo>
+    <copy todir="${labs}/nxserver/lib" overwrite="true">
+      <artifact:set>
+        <includes>
+          <artifact groupId="org.jsoup" />
+        </includes>
+      </artifact:set>
+    </copy>
+
     <!-- make the final zip -->
     <zip destfile="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip" basedir="${labs}" />
     <artifact:attach file="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip" type="zip" target="${maven.project.groupId}:${maven.project.artifactId}" />
