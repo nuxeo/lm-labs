@@ -9,14 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.SortInfo;
+import org.nuxeo.ecm.directory.SizeLimitExceededException;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProviderService;
 import org.nuxeo.ecm.webengine.model.Module;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.common.core.security.GroupUserSuggest;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider;
 
@@ -29,7 +32,7 @@ public final class LabsSiteWebAppUtils {
     public static final String DIRECTORY_TEMPLATE = "/skin/views/TemplatesBase";
 
     public static final String DIRECTORY_THEME = "/skin/resources/less/theme";
-    
+
     public static String NUXEO_WEBENGINE_BASE_PATH = "nuxeo-webengine-base-path";
 
     private LabsSiteWebAppUtils() {
@@ -43,8 +46,7 @@ public final class LabsSiteWebAppUtils {
 
         SiteDocument sd = doc.getAdapter(SiteDocument.class);
 
-        props.put(
-                LatestUploadsPageProvider.PARENT_DOCUMENT_PROPERTY,
+        props.put(LatestUploadsPageProvider.PARENT_DOCUMENT_PROPERTY,
                 (Serializable) sd.getSite().getTree());
         @SuppressWarnings("unchecked")
         PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) ppService.getPageProvider(
@@ -57,9 +59,10 @@ public final class LabsSiteWebAppUtils {
         File directoryBase = new File(path);
         return Arrays.asList(directoryBase.list(new DirectoryFilter()));
     }
-    
+
     /**
      * to complete with '/'
+     * 
      * @param module of webengine
      * @param ctx the webContext
      * @return
@@ -68,17 +71,33 @@ public final class LabsSiteWebAppUtils {
         if (Framework.getProperty(SKIN_PATH_PREFIX_KEY) != null) {
             return module.getSkinPathPrefix();
         }
-        String webenginePath = ctx.getRequest()
-                .getHeader(NUXEO_WEBENGINE_BASE_PATH);
+        String webenginePath = ctx.getRequest().getHeader(
+                NUXEO_WEBENGINE_BASE_PATH);
         if (webenginePath == null) {
             return module.getSkinPathPrefix();
         } else {
             return ctx.getBasePath() + "/" + module.getName() + "/skin";
         }
     }
-    
+
     public static String getPathDefaultBanner(Module module, WebContext ctx) {
         return getSkinPathPrefix(module, ctx) + DEFAULT_BANNER;
+    }
+
+    public static Map<String, Object> getSuggestedUsers(String pattern) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        List<GroupUserSuggest> suggests;
+        try {
+            suggests = GroupsUsersSuggestHelper.getSuggestions(pattern);
+            params.put("suggests", suggests);
+        } catch (SizeLimitExceededException e) {
+            params.put("errorMessage",
+                    "Trop de resultats, veuillez affiner votre recherche.");
+        } catch (ClientException e) {
+            params.put("errorMessage", e.getMessage());
+        }
+
+        return params;
     }
 
 }

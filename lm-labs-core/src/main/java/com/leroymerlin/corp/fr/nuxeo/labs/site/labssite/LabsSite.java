@@ -118,6 +118,12 @@ public interface LabsSite  extends LabsBase {
     boolean updateUrls(String oldUrl, String newUrl) throws ClientException;
 
     List<String> getAdministratorsSite() throws Exception;
+
+    List<String> getContacts() throws Exception;
+    
+    boolean addContact(String ldap) throws Exception;
+    
+    boolean deleteContact(String ldap) throws Exception;
     
     String getPiwikId() throws ClientException;
     

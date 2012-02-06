@@ -49,7 +49,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 public class Site extends NotifiablePageResource {
 
     private LabsSite site;
-    
+
     @Override
     public Object doGet() {
         try {
@@ -79,7 +79,8 @@ public class Site extends NotifiablePageResource {
     @Override
     public Response doAddContent() {
         String name = ctx.getForm().getString("name");
-        boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString("overwritePage"));
+        boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString(
+                "overwritePage"));
         return addContent(name, PageCreationLocation.TOP, overwrite);
     }
 
@@ -114,33 +115,34 @@ public class Site extends NotifiablePageResource {
             String oldPiwikId = site.getPiwikId();
             piwikId = StringUtils.trim(piwikId);
             if (!StringUtils.equals(piwikId, oldPiwikId)) {
-            	site.setPiwikId(piwikId);
+                site.setPiwikId(piwikId);
                 modified = true;
             }
             boolean isSiteTemplate = BooleanUtils.toBoolean(siteTemplateStr);
             if (site.isSiteTemplate() != isSiteTemplate) {
-            	site.setSiteTemplate(isSiteTemplate);
-        		modified = true;
+                site.setSiteTemplate(isSiteTemplate);
+                modified = true;
             }
             if (isSiteTemplate) {
-            	if (form.isMultipartContent()) {
-            		Blob preview = form.getBlob("labssite:siteTemplatePreview");
-                    if (preview != null && !StringUtils.isEmpty(preview.getFilename())) {
-                    	site.setSiteTemplatePreview(preview);
+                if (form.isMultipartContent()) {
+                    Blob preview = form.getBlob("labssite:siteTemplatePreview");
+                    if (preview != null
+                            && !StringUtils.isEmpty(preview.getFilename())) {
+                        site.setSiteTemplatePreview(preview);
                         modified = true;
                     }
-            	}
+                }
             } else {
                 Blob siteTemplatePreview = null;
                 try {
-        			siteTemplatePreview = site.getSiteTemplatePreview();
-        		} catch (ClientException e) {
-        			throw WebException.wrap(e);
-        		}
-            	if (siteTemplatePreview != null) {
-            		site.setSiteTemplatePreview(null);
-            		modified = true;
-            	}
+                    siteTemplatePreview = site.getSiteTemplatePreview();
+                } catch (ClientException e) {
+                    throw WebException.wrap(e);
+                }
+                if (siteTemplatePreview != null) {
+                    site.setSiteTemplatePreview(null);
+                    modified = true;
+                }
             }
             String msgLabel = "label.labssites.edit.noop";
             if (modified) {
@@ -149,11 +151,8 @@ public class Site extends NotifiablePageResource {
                 session.save();
                 msgLabel = "label.labssites.edit.site.updated";
             }
-            return redirect(ctx.getModulePath()
-                    + "/"
-                    + site.getURL()
-                    + "/@views/edit?message_success="
-                    + msgLabel);
+            return redirect(ctx.getModulePath() + "/" + site.getURL()
+                    + "/@views/edit?message_success=" + msgLabel);
         } catch (SiteManagerException e) {
             return redirect(getPath() + "/@views/edit?message_error="
                     + e.getMessage());
@@ -262,16 +261,17 @@ public class Site extends NotifiablePageResource {
     public List<DocumentModel> getDeletedDocs() throws ClientException {
         return doc.getAdapter(LabsSite.class).getAllDeletedDocs();
     }
-    
+
     @Path("@externalURL/{idExt}")
     public Object doExternalUrl(@PathParam("idExt") final String pId) {
         try {
-            DocumentModel docExtURL = getCoreSession().getDocument(new IdRef(pId));
+            DocumentModel docExtURL = getCoreSession().getDocument(
+                    new IdRef(pId));
             return newObject("ExternalUrl", docExtURL);
         } catch (ClientException e) {
             throw new WebResourceNotFoundException("External URL not found", e);
         }
-        
+
     }
 
     @POST
