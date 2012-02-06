@@ -19,10 +19,10 @@
 				&nbsp;
 			</div>
 			<div class="span5 columns">
-				${contact.displayName} (${contact.ldap})
+				${contact.displayName} (${contact.ldap})&nbsp;
 			</div>
 			<div class="span5 columns">
-				${contact.email}
+				${contact.email}&nbsp;
 			</div>
 			<div class="span2 columns">
 				<span onclick="javascript:labsContactDelete('${This.path}/@labscontacts/delete?ldap=${contact.ldap}', '${Context.getMessage('label.admin.contact.confirm_delete', contact.displayName)?js_string}');" style="cursor: pointer;">
