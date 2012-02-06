@@ -84,10 +84,11 @@ function slideAllFolders(imgObj) {
 	</#if>
 	<#include "views/common/page_header.ftl">
 
-
+  <#if classeur.folders?size &gt; 0>
   <div id="classeurTopActions" class="editblock">
     <@mainButtons />
   </div>
+  </#if>
 
     <input type="hidden" id="folderPath" value="" />
 
