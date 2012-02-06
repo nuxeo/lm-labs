@@ -43,7 +43,8 @@ function labsContactDelete(url, confirme){
 	            alert(data);
 	          }
 	          else {
-	            jQuery("#divDislayArray").load('${This.path}/@labscontacts');
+	            //jQuery("#divDislayArray").load('${This.path}/@labscontacts');
+	            window.location.reload();
 	          }
 	        },
 	        error: function(xhr, status, ex){

@@ -54,7 +54,8 @@ function addContact(){
 			    url: "${This.path}/@labscontacts/add?id=" + username,
 			    success: function(data) {
 			    	closeAddContact();
-			    	jQuery("#divDislayArray").load('${This.path}/@labscontacts');
+			    	//jQuery("#divDislayArray").load('${This.path}/@labscontacts');
+			    	window.location.reload();
 			    }
 			});
 		}
