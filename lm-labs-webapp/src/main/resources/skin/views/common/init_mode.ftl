@@ -36,6 +36,7 @@
 			$("#logoImgId").removeClass("logoImgId-notmove");
 			$("#logoImgId").addClass("logoImgId-move");
 			$(".viewblock").hide();
+			jQuery(".cke_hidden").hide();
 		}
 		
 		function displayViewMode(){
@@ -43,6 +44,7 @@
 			$("#logoImgId").removeClass("logoImgId-move");
 			$("#logoImgId").addClass("logoImgId-notmove");
 			$(".viewblock").show();
+			jQuery(".cke_hidden").hide();
 		}
 		
 		function simulateKeyup69(){

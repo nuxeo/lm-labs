@@ -17,6 +17,7 @@
   </@block>
 
   <@block name="content">
+  <@tableOfContents>
 
    	<div class="container">
    
@@ -27,6 +28,7 @@
   <#list page.sections as section>
     <section id="section_${section_index}">
         <div class="page-header">
+            <a name="section_${section_index}" />
             <h1>${section.title} <small>${section.description}</small></h1>
         </div>
 
@@ -75,14 +77,21 @@
         	<#if isContributor >
 	          <div class="row<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 	              <#list row.contents as content>
-		              <div class="span${content.colNumber} columns editblock">
-		                <div id="s_${section_index}_r_${row_index}_c_${content_index}">${content.html}</div>
+                    <div class="span${content.colNumber} columns viewblock">
+                    <#if content.html == "">
+                        &nbsp;
+                    <#else>
+                      ${content.html}
+                    </#if>
+                    </div>
+		              <div class="span${content.colNumber} columns editblock toc-noreplace ">
+		                <div id="s_${section_index}_r_${row_index}_c_${content_index}" >${content.html}</div>
 		                <script type="text/javascript">
 		                  $('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
 		                    e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
 		                    ckeditor_config: ckeditorconfig,
 		                    emptyedit_message: "${Context.getMessage('label.ckeditor.double_click_to_edit_content')}",
-		                    view_style: "span${content.colNumber} columns "
+		                    view_style: "span${content.colNumber} columns cke_hidden "
 		                    });
 		                </script>
 		                <noscript>
@@ -231,6 +240,7 @@
 		</#if>
 		
 	</div>
- 
+
+  </@tableOfContents>
   </@block>
 </@extends>

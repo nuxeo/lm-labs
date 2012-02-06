@@ -76,6 +76,7 @@ function slideAllFolders(imgObj) {
   </@block>
 
   <@block name="content">
+  <@tableOfContents>
 
   <div class="container">
     <#if classeur.folders?size &gt; 0>
@@ -103,6 +104,7 @@ function slideAllFolders(imgObj) {
       <img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideFolder(this, '');" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
       </#if>
       <div class="page-header">
+        <a name="section_${folder_index}" />
         <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title}</span></h1>
 	    
 	    <#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')> 
@@ -357,5 +359,6 @@ function slideAllFolders(imgObj) {
   </#if>
 </#macro>
   </div>
+  </@tableOfContents>
   </@block>
 </@extends>

@@ -47,6 +47,7 @@ import com.leroymerlin.common.freemarker.BytesFormatTemplateMethod;
 import com.leroymerlin.common.freemarker.DateInWordsMethod;
 import com.leroymerlin.common.freemarker.UserFullNameTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
+import com.leroymerlin.corp.fr.nuxeo.freemarker.TableOfContentsDirective;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NotAuthorizedException;
@@ -104,6 +105,7 @@ public class SitesRoot extends ModuleRoot {
         rendering.setSharedVariable(
                 "serverTimeout",
                 String.valueOf(getContext().getRequest().getSession().getMaxInactiveInterval()));
+        rendering.setSharedVariable("tableOfContents", new TableOfContentsDirective());
     }
 
     public List<LabsSite> getUndeletedLabsSites() {

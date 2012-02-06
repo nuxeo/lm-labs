@@ -1,7 +1,8 @@
 
-	<div class="well editblock" id="pageDescription">
-		<div id="description">${Document.dublincore.description}</div>
+	<div class="viewblock">${Document.dublincore.description}</div>
 		
+	<div class="well editblock toc-noreplace" id="pageDescription">
+		<div id="description">${Document.dublincore.description}</div>
 		<script type="text/javascript">
 		  <#-- detect error when loading picture -->
 		  $('#description').find('img').each(function() {
@@ -16,6 +17,7 @@
 	        e_url: '${This.path}/@put', -->
 	        e_url: '${This.path}/updateDescriptionCKEIP',
 	        ckeditor_config: ckeditorconfig,
+	        view_style: "cke_hidden",
 	        emptyedit_message: "${Context.getMessage('label.ckeditor.double_click_to_edit_content')}"<#if (!This.page.isDisplayable(This.DC_DESCRIPTION))>,
 	        display_ckeipTex: false</#if>
 	        });
