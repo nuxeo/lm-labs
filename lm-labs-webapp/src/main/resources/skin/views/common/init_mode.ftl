@@ -28,6 +28,8 @@
 			  if ($.cookie('labseditmode') != 'true'){
 				  //Passage en mode visu
 				  simulateKeyup69();
+			  } else {
+			     jQuery(".viewblock").hide();
 			  }
 		});
 		
