@@ -1,14 +1,11 @@
 package com.leroymerlin.corp.fr.nuxeo.freemarker;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class TableOfContentsGenerator {
-    private static final Log LOG = LogFactory.getLog(TableOfContentsGenerator.class);
     public static final String DEFAULT_UL_CLASS = "page-toc";
     public static final String DEFAULT_TOC_TAG = "[[TOC]]";
     public static final String DEFAULT_SELECTOR = "section > div.page-header";
@@ -81,8 +78,6 @@ public class TableOfContentsGenerator {
     }
 
     private String replaceTag(String html, String tocTag, String noReplaceParentClass) {
-        String logPrefix = "<replaceTag> ";
-        // TODO Don't replace in cKeditor using NoReplaceParentClass
         String tocReplacement = "[[No anchors found]]";
         Document htmlDoc = Jsoup.parse(html);
         Elements anchorElements = htmlDoc.select(selector);
@@ -90,16 +85,19 @@ public class TableOfContentsGenerator {
             StringBuilder sb = new StringBuilder();
             sb.append("<ul class=\"").append(ulClass).append("\">");
             for (Element elem : anchorElements) {
-                LOG.debug(logPrefix + elem.html());
                 sb.append("<li><a href=\"#").append(elem.select("a[name]").attr("name")).append("\">").append(elem.select("h1").html()).append("</a></li>");
             }
             sb.append("</ul>");
             tocReplacement = sb.toString();
             String result = "";
             if (!noReplaceParentClass.isEmpty()) {
-                Elements elementsWithTag = htmlDoc.select(":containsOwn(TOC)");
+                Elements elementsWithTag = htmlDoc.select(":containsOwn(" + tocTag + ")");
                 for (Element elem : elementsWithTag) {
                     boolean hasClass = false;
+                    if (elem.hasClass(noReplaceParentClass)) {
+                        hasClass = true;
+                        break;
+                    }
                     for (Element parent: elem.parents()) {
                         if (parent.hasClass(noReplaceParentClass)) {
                             hasClass = true;
