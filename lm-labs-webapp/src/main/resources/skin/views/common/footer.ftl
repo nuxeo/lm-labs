@@ -14,7 +14,7 @@
   <script type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery("#admin_contact").load('${This.path}/@labspermissions/permAdmin');
-		jQuery("#contact").load('${This.path}/@labscontacts/contactAdmin');
+		jQuery("#contact").load('${Context.modulePath}/${site.URL}/@labscontacts/contactAdmin');
 	});
   </script> 
 </@block>
