@@ -1,8 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,11 +25,8 @@ import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
-import com.sun.syndication.io.SyndFeedOutput;
 
 public class PageNewsAdapter extends AbstractPage implements PageNews {
-
-    private static final String NO_RSS_WRITE = "No rss write";
 
     public PageNewsAdapter(DocumentModel doc) {
         this.doc = doc;
@@ -169,16 +163,4 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
                 && news.getRows().get(0) != null && news.getRows().get(0).content(0) != null 
                 && !StringUtils.isEmpty(news.getRows().get(0).content(0).getHtml());
     }
-
-    @Override
-    public void writeRss(OutputStream pOutput, SyndFeed pFeed) throws ClientException {
-        Writer writer = new PrintWriter(pOutput);
-        SyndFeedOutput outputFeed = new SyndFeedOutput();
-        try {
-            outputFeed.output(pFeed,writer);
-        } catch (Exception e) {
-            throw new ClientException(NO_RSS_WRITE, e);
-        }
-    }
-
 }

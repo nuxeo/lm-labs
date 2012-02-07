@@ -29,18 +29,16 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.rest.DocumentObject;
-import org.nuxeo.ecm.directory.SizeLimitExceededException;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 import org.nuxeo.runtime.api.Framework;
 
-import com.leroymerlin.common.core.security.GroupUserSuggest;
 import com.leroymerlin.common.core.security.LMPermission;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.GroupsUsersSuggestHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 
 /**
@@ -130,17 +128,7 @@ public class LabsPermissionsService extends DefaultAdapter {
     @Produces("plain/text")
     public Object getSuggestedUsers(@PathParam("string") String str) {
         final String pattern = StringEscapeUtils.unescapeJavaScript(str);
-        Map<String, Object> params = new HashMap<String, Object>();
-        List<GroupUserSuggest> suggests;
-        try {
-            suggests = GroupsUsersSuggestHelper.getSuggestions(pattern);
-            params.put("suggests", suggests);
-        } catch (SizeLimitExceededException e) {
-            params.put("errorMessage",
-                    "Trop de resultats, veuillez affiner votre recherche.");
-        } catch (ClientException e) {
-            params.put("errorMessage", e.getMessage());
-        }
+        Map<String, Object> params = LabsSiteWebAppUtils.getSuggestedUsers(pattern);
         return getView("selectUsers").args(params);
     }
 

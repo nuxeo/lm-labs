@@ -8,6 +8,8 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Calendar;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.SyndFeedOutput;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -217,7 +220,10 @@ public class PageNewsAdapterTest {
             assertThat(temp.length(), is(0l));
             
             FileOutputStream out = new FileOutputStream(temp);
-            pn.writeRss(out, feed);
+            
+            Writer writer = new PrintWriter(out);
+            SyndFeedOutput outputFeed = new SyndFeedOutput();
+            outputFeed.output(feed, writer);
             out.close();
             
             assertTrue(temp.length() > 0);

@@ -2,7 +2,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
 import java.util.Calendar;
 import java.util.Collection;
-import java.io.OutputStream;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
@@ -36,7 +35,4 @@ public interface PageNews extends Page {
      * @throws ClientException
      */
     SyndFeed buildRssLabsNews(List<LabsNews> pLabsNews, String pPathBase, String pDefaultDescription) throws ClientException;
-    
-    void writeRss(OutputStream pOutput, SyndFeed pFeed) throws ClientException;
-
 }

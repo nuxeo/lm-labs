@@ -1,8 +1,15 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -16,6 +23,7 @@ import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
+import com.sun.syndication.io.SyndFeedOutput;
 
 public final class SyndicationUtils {
 
@@ -34,6 +42,21 @@ public final class SyndicationUtils {
         feed.setDescription(rssDesc);
         feed.setEntries(createRssEntries(docList, context));
         return feed;
+    }
+    
+    public static StreamingOutput generateStreamingOutput(final SyndFeed feed) {
+        return new StreamingOutput() {
+            public void write(OutputStream output) throws IOException,
+                    WebApplicationException {
+                try {
+                    Writer writer = new PrintWriter(output);
+                    SyndFeedOutput outputFeed = new SyndFeedOutput();
+                    outputFeed.output(feed, writer);
+                } catch (Exception e) {
+                    throw new WebApplicationException(e);
+                }
+            }
+        };
     }
 
     private static List<SyndEntry> createRssEntries(

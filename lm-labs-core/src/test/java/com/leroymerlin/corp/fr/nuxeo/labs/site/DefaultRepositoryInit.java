@@ -11,7 +11,8 @@ public class DefaultRepositoryInit implements RepositoryInit {
 
     @Override
     public void populate(CoreSession session) throws ClientException {
-        DocumentModel doc = session.createDocumentModel("/", Docs.DEFAULT_DOMAIN.docName(),Docs.DEFAULT_DOMAIN.type());
+        DocumentModel doc = session.createDocumentModel("/",
+                Docs.DEFAULT_DOMAIN.docName(), Docs.DEFAULT_DOMAIN.type());
         session.createDocument(doc);
         session.save();
 
