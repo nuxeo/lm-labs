@@ -104,12 +104,10 @@ public interface LabsSite  extends LabsBase {
     void setHomePageRef(String homePageRef) throws ClientException;
 
     String getHomePageRef() throws ClientException;
-    
-    /**
-     * @return
-     * @throws ClientException
-     */
+
     DocumentModelList getLastUpdatedDocs() throws ClientException;
+    
+    DocumentModelList getLastUpdatedNewsDocs() throws ClientException;
 
     ArrayList<ExternalURL> getExternalURLs() throws ClientException;
     

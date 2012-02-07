@@ -319,6 +319,69 @@ public class LabsSiteAdapterTest {
     }
 
     @Test
+    public void iCanGetLastUpdatedNewsDocs() throws Exception {
+        DocumentModel site1 = createSite("NameSite1", session);
+        session.save();
+
+        // page news 1
+        DocumentModel page1 = session.createDocumentModel(
+                site1.getPathAsString() + "/"
+                        + LabsSiteConstants.Docs.TREE.docName(), "page1",
+                Docs.PAGENEWS.type());
+        page1 = session.createDocument(page1);
+        // news 1
+        DocumentModel news1 = session.createDocumentModel(
+                page1.getPathAsString(), "news1", Docs.LABSNEWS.type());
+        news1 = session.createDocument(news1);
+        // news 2
+        DocumentModel news2 = session.createDocumentModel(
+                page1.getPathAsString(), "news2", Docs.LABSNEWS.type());
+        news2 = session.createDocument(news2);
+        session.save();
+
+        // page news 2
+        DocumentModel page2 = session.createDocumentModel(
+                site1.getPathAsString() + "/"
+                        + LabsSiteConstants.Docs.TREE.docName(), "page1",
+                Docs.PAGENEWS.type());
+        page2 = session.createDocument(page2);
+        // news 1
+        DocumentModel news1bis = session.createDocumentModel(
+                page2.getPathAsString(), "news1bis", Docs.LABSNEWS.type());
+        news1bis = session.createDocument(news1bis);
+        // news 2
+        DocumentModel news2bis = session.createDocumentModel(
+                page2.getPathAsString(), "news2bis", Docs.LABSNEWS.type());
+        news2bis = session.createDocument(news2bis);
+        session.save();
+        
+        // we create another site with news
+        DocumentModel autreSite = createSite("NameAutreSite", session);
+        session.save();
+
+        // autre page news 1
+        DocumentModel autrePage = session.createDocumentModel(
+                autreSite.getPathAsString() + "/"
+                        + LabsSiteConstants.Docs.TREE.docName(), "autrePage1",
+                Docs.PAGENEWS.type());
+        autrePage = session.createDocument(autrePage);
+        // autre news 1
+        DocumentModel autreNews1 = session.createDocumentModel(
+                autrePage.getPathAsString(), "autreNews1", Docs.LABSNEWS.type());
+        autreNews1 = session.createDocument(autreNews1);
+        // autre news 2
+        DocumentModel autreNews2 = session.createDocumentModel(
+                autrePage.getPathAsString(), "autreNews2", Docs.LABSNEWS.type());
+        autreNews2 = session.createDocument(autreNews2);
+        session.save();
+
+        LabsSite labsSite = site1.getAdapter(LabsSite.class);
+        DocumentModelList lastUpdatedNewsDocs = labsSite.getLastUpdatedNewsDocs();
+        assertNotNull(lastUpdatedNewsDocs);
+        assertEquals(4, lastUpdatedNewsDocs.size());
+    }
+
+    @Test
     public void iCanGetExternalURLs() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "NameSite1",
                 LABSSITE_TYPE);
@@ -495,11 +558,11 @@ public class LabsSiteAdapterTest {
         labssite.addContact("10057208");
         labssite.addContact("10087898");
         labssite.addContact("118999");
-        
+
         List<String> contacts = labssite.getContacts();
         assertNotNull(contacts);
         assertEquals(3, contacts.size());
-        
+
         labssite.deleteContact("10087898");
         contacts = labssite.getContacts();
         assertNotNull(contacts);

@@ -34,8 +34,8 @@ public class LabsRssAdapter extends DefaultAdapter {
     @Produces("application/rss+xml")
     public StreamingOutput getFeed() {
         LabsSite site = (LabsSite) getContext().getProperty("site");
-        String rssTitle = ctx.getMessage("label.last_message.rss.title");
-        String rssDesc = ctx.getMessage("label.last_message.rss.desc");
+        String rssTitle = ctx.getMessage("label.rss.last_message.title");
+        String rssDesc = ctx.getMessage("label.rss.last_message.desc");
         try {
             DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs();
             final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedDocs,
@@ -65,6 +65,66 @@ public class LabsRssAdapter extends DefaultAdapter {
                             "label.labsNews.description.default"));
             return SyndicationUtils.generateStreamingOutput(feed);
         } catch (Exception e) {
+            throw WebException.wrap(e);
+        }
+    }
+    
+    @GET
+    @Path(value = "lastNews")
+    @Produces("application/rss+xml")
+    public StreamingOutput getFeedLastNews() {
+        LabsSite site = (LabsSite) getContext().getProperty("site");
+        String rssTitle = ctx.getMessage("label.rss.last_news.title");
+        String rssDesc = ctx.getMessage("label.rss.last_news.desc");
+        try {
+            DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
+            final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedNewsDocs,
+                    rssTitle, rssDesc, getContext());
+            return SyndicationUtils.generateStreamingOutput(feed);
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+    }
+    
+    @GET
+    @Path(value = "lastUpload")
+    @Produces("application/rss+xml")
+    public StreamingOutput getFeedLastUpload() {
+        LabsSite site = (LabsSite) getContext().getProperty("site");
+        String rssTitle = ctx.getMessage("label.rss.last_upload.title");
+        String rssDesc = ctx.getMessage("label.rss.last_upload.desc");
+        try {
+            // FIXME
+            DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
+            final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedNewsDocs,
+                    rssTitle, rssDesc, getContext());
+            return SyndicationUtils.generateStreamingOutput(feed);
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+    }
+
+    @GET
+    @Path(value = "all")
+    @Produces("application/rss+xml")
+    public StreamingOutput getAll() {
+        LabsSite site = (LabsSite) getContext().getProperty("site");
+        String rssTitle = ctx.getMessage("label.rss.all.title");
+        String rssDesc = ctx.getMessage("label.rss.all.desc");
+        try {
+            // FIXME
+            DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs();
+            DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
+
+            // FIXME limite
+            
+            DocumentModelList allDocs = lastUpdatedDocs;
+            allDocs.addAll(lastUpdatedNewsDocs);
+
+            final SyndFeed feed = SyndicationUtils.buildRss(
+                    allDocs, rssTitle, rssDesc, getContext());
+            return SyndicationUtils.generateStreamingOutput(feed);
+        } catch (ClientException e) {
             throw WebException.wrap(e);
         }
     }

@@ -43,7 +43,7 @@ public final class SyndicationUtils {
         feed.setEntries(createRssEntries(docList, context));
         return feed;
     }
-    
+
     public static StreamingOutput generateStreamingOutput(final SyndFeed feed) {
         return new StreamingOutput() {
             public void write(OutputStream output) throws IOException,
