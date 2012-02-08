@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.test.directory">
+ 
+  <require>org.nuxeo.ecm.directory.sql.SQLDirectoryFactory</require>
+  <require>org.nuxeo.ecm.directory.sql.storage</require>
+
+  <extension target="org.nuxeo.ecm.directory.sql.SQLDirectoryFactory"
+    point="directories">
+
+    <directory name="columns_layout">
+      <schema>columns_layout</schema>
+
+      <!-- Do not use the regular datasource but a in memory setup instead
+        <dataSource>java:/nxsqldirectory</dataSource>
+      -->
+      <dbDriver>org.hsqldb.jdbcDriver</dbDriver>
+      <dbUrl>jdbc:hsqldb:mem:memid</dbUrl>
+      <dbUser>sa</dbUser>
+      <dbPassword></dbPassword>
+      <!-- 
+       -->
+
+      <table>dir_columns_layout</table>
+      <idField>code</idField>
+      <autoincrementIdField>false</autoincrementIdField>
+      <dataFile>directory-config/columns_layout.csv</dataFile>
+      <createTablePolicy>always</createTablePolicy>
+    </directory>
+
+  </extension>
+</component>
