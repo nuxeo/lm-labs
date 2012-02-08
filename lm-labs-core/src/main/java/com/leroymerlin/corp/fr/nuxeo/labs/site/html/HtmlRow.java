@@ -2,9 +2,12 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.html;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -20,9 +23,11 @@ public class HtmlRow {
 
     private static final Log LOG = LogFactory.getLog(HtmlRow.class);
     private static final String SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT = "columns_layout";
+    private static final String PROPERTY_SHORT_NAME_ORDER = "order";
     private static final String PROPERTY_NAME_COLUMNS_LAYOUT_LABEL = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":label";
     private static final String PROPERTY_NAME_COLUMNS_LAYOUT_CODE = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":code";
     private static final String PROPERTY_NAME_COLUMNS_LAYOUT_SPANS = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":spans";
+    private static final String PROPERTY_NAME_COLUMNS_LAYOUT_ORDER = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":" + PROPERTY_SHORT_NAME_ORDER;
     private static final String DIRECTORY_NAME_COLUMNS_LAYOUT = "columns_layout";
 
     private static final String CSS_PROPERTY_NAME = "cssclass";
@@ -145,12 +150,16 @@ public class HtmlRow {
     }
 
     public static Map<String, String> getColumnLayoutsSelect() {
-        HashMap<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new LinkedHashMap<String, String>();
         Session session = null;
         try {
             DirectoryService directoryService = Framework.getService(DirectoryService.class);
             session = directoryService.open(DIRECTORY_NAME_COLUMNS_LAYOUT);
-            for (DocumentModel entry : session.getEntries()) {
+            Map<String, String> orderBy = new LinkedHashMap<String, String>();
+            Map<String, Serializable> filter = Collections.emptyMap();
+            Set<String> fulltext = Collections.emptySet();
+            orderBy.put(PROPERTY_SHORT_NAME_ORDER, "asc");
+            for (DocumentModel entry : session.query(filter, fulltext, orderBy)) {
                 map.put((String) entry.getPropertyValue(PROPERTY_NAME_COLUMNS_LAYOUT_CODE), (String) entry.getPropertyValue(PROPERTY_NAME_COLUMNS_LAYOUT_LABEL));
             }
         } catch (Exception e) {

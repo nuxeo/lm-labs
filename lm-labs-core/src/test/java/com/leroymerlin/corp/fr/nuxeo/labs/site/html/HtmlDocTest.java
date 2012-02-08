@@ -1,19 +1,33 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.html;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
+import javax.sql.DataSource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nuxeo.common.jndi.NamingContextFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
+import org.nuxeo.ecm.directory.Session;
+import org.nuxeo.ecm.directory.api.DirectoryService;
+import org.nuxeo.ecm.platform.test.PlatformFeature;
+import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
@@ -22,7 +36,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
+@Deploy({
+    "org.nuxeo.ecm.directory.api",
+    "org.nuxeo.ecm.directory",
+    "org.nuxeo.ecm.directory.sql",
+    "com.leroymerlin.labs.core.test:OSGI-INF/test-directory-contrib.xml"
 
+})
 @RepositoryConfig(cleanup = Granularity.METHOD)
 public class HtmlDocTest {
 
@@ -31,6 +51,22 @@ public class HtmlDocTest {
     private static final String TEST_TITLE = "Mon titre de page";
     @Inject
     CoreSession session;
+    
+    @Inject
+    DirectoryService directoryService;
+    
+    public HtmlDocTest() throws Exception {
+        NamingContextFactory.setAsInitial();
+
+        DataSource dataSource = PlatformFeature.createDataSource("jdbc:hsqldb:mem:directories");
+        InitialContext initialCtx = new InitialContext();
+
+        try {
+            initialCtx.lookup("java:comp/env/jdbc/nxsqldirectory");
+        } catch (NameNotFoundException e) {
+            initialCtx.bind("java:comp/env/jdbc/nxsqldirectory", dataSource);
+        }
+    }
 
     @Test
     public void baseHTMLPageType() throws Exception {
@@ -184,6 +220,29 @@ public class HtmlDocTest {
         section = page.getSections().get(0);
         assertThat(section.row(0).getCssClass(),is(nullValue()));
         assertThat(section.row(1).getCssClass(),is("acssclass1"));
+    }
+
+    @Test
+    public void iCanGetTheTestDirectory() throws Exception {
+        assertNotNull(directoryService);
+        Session dirSession = directoryService.open("columns_layout");
+        assertNotNull(dirSession);
+        dirSession.close();
+    }
+    
+    @Test
+    public void iCanGetColumnsLayout() throws Exception {
+        Map<String, String> columnLayoutsSelect = HtmlRow.getColumnLayoutsSelect();
+        assertFalse(columnLayoutsSelect.isEmpty());
+        Session dirSession = directoryService.open("columns_layout");
+        Long prev = null;
+        for (String code : columnLayoutsSelect.keySet()) {
+            DocumentModel entry = dirSession.getEntry(code);
+            if (prev != null && prev.intValue() > ((Long) entry.getPropertyValue("columns_layout:order")).intValue()) {
+                fail("directory entries not ordered.");
+            }
+            prev = new Long((Long) entry.getPropertyValue("columns_layout:order"));
+        }
     }
 
     private HtmlPage retrieveTestPage() throws ClientException {
