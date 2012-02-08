@@ -1,8 +1,11 @@
 <#if contactsAdmin?size &gt; 0>
 	${Context.getMessage("label.footer.contact.other")}
-	<#assign i=0 />
 	<#list contactsAdmin as contact>
-		<#if i &gt; 0>, </#if><a href="mailto:${contact.email}">${contact.displayName} (${contact.ldap})</a>
-		<#assign i=i+1 />
+		<a href="mailto:${contact.email}">${contact.displayName} (${contact.ldap})</a><#if contact != contactsAdmin?last>, </#if>
 	</#list>
+	<#if Session.hasPermission(Document.ref, 'Everything') >
+        <a class="editblock" href="${Context.modulePath}/${site.URL}/@views/edit_contacts">
+            <img style="vertical-align: middle;" title="${Context.getMessage("label.footer.contact.goToAdminContact")}" alt="${Context.getMessage("label.footer.contact.goToAdminContact")}" src="${skinPath}/images/edit.gif" />
+        </a>
+	</#if>
 </#if>
