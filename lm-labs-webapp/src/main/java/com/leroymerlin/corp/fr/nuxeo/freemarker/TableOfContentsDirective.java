@@ -39,7 +39,6 @@ public class TableOfContentsDirective implements TemplateDirectiveModel {
 
     @Override
     public void execute(Environment env, @SuppressWarnings("rawtypes") Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
-        String logPrefix = "<execute> ";
         if (loopVars.length != 0) {
                 throw new TemplateModelException(
                     "This directive doesn't allow loop variables.");
@@ -48,7 +47,6 @@ public class TableOfContentsDirective implements TemplateDirectiveModel {
         // If there is non-empty nested content:
         if (body != null) {
             String html = renderBody(body);
-            LOG.debug(logPrefix + html);
             TableOfContentsGenerator generator = new TableOfContentsGenerator.Builder(html)
             .noReplaceParentClass(getParamStringValue(params, PARAM_NAME_NO_REPLACE_CLASS))
             .selector(getParamStringValue(params, PARAM_NAME_SELECTOR))
