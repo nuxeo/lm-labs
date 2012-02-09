@@ -24,6 +24,9 @@
    	<#include "views/common/page_header.ftl">
   	
   <#assign isContributor = site?? && site.isContributor(Context.principal.name) />
+  <#if isContributor >
+    <#assign layouts = This.columnLayoutsSelect />
+  </#if>
 
   <#list page.sections as section>
     <section id="section_${section_index}">
@@ -134,7 +137,6 @@
 	                  <label for="title">Type de ligne</label>
 	                  <div class="input">
 	                    <select name="rowTemplate">
-	                    <#assign layouts = This.columnLayoutsSelect />
 	                    <#list layouts?keys as layoutCode >
 	                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
 	                    </#list>
