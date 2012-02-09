@@ -7,6 +7,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -21,13 +22,23 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 
 @WebObject(type = "PageClasseurFolder")
 public class PageClasseurFolderResource extends DocumentObject {
-    
+
     private PageClasseurFolder folder;
 
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
         folder = doc.getAdapter(PageClasseurFolder.class);
+    }
+    
+    @Override
+    public Response getPut() {
+        FormData form = ctx.getForm();
+        String title = form.getString("dc:title");
+        if (!StringUtils.isEmpty(title)) {
+            return super.getPut();
+        }
+        return Response.serverError().status(Status.FORBIDDEN).entity("Folder name is empty").build();
     }
 
     @POST
