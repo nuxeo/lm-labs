@@ -37,7 +37,7 @@ jQuery(document).ready(function(){
     autoOpen : false,
 	closeOnOverlayClick : true,
 	removeOnClose : false,
-	showCloseHandle : true,
+	showCloseHandle : true
   });
 
   jQuery("#div-renameTitleElement").dialog2({
@@ -48,7 +48,7 @@ jQuery(document).ready(function(){
     autoOpen : false,
 	closeOnOverlayClick : true,
 	removeOnClose : false,
-	showCloseHandle : true,
+	showCloseHandle : true
   });
 
 
@@ -327,10 +327,10 @@ jQuery(document).ready(function(){
 });
 
 function renameFolder(url, id) {
-    jQuery("#div-addfolder").dialog2('open');
     jQuery("#div-addfolder").dialog2("options", {title: "Renommer le répertoire '" + jQuery("#spanFolderTitle" + id).text() + "'"});
     jQuery("#folderName").val(jQuery("#spanFolderTitle" + id).text());
     jQuery("#form-folder").attr('action', url);
+    jQuery("#div-addfolder").dialog2('open');
     return false;
   }
   
@@ -360,4 +360,5 @@ function openRenameTitleElement(title, description, url){
 	jQuery("#renameTitleElement").val(title);
 	jQuery("#descriptionElement").val(description);
 	jQuery("#form-renameTitleElement").attr("action", url);
+    return false;
 }

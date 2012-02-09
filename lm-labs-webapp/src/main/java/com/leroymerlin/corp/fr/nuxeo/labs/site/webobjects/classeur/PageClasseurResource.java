@@ -85,7 +85,7 @@ public class PageClasseurResource extends NotifiablePageResource {
     @Override
     public Response doPost() {
         FormData form = ctx.getForm();
-        String folderTitle = form.getString("folderName");
+        String folderTitle = form.getString("dc:title");
         if (!StringUtils.isEmpty(folderTitle)) {
             try {
                 classeur.addFolder(folderTitle);
@@ -102,26 +102,26 @@ public class PageClasseurResource extends NotifiablePageResource {
         }
     }
 
-    @POST
-    @Path("@rename/{id}")
-    public Response doRename(@PathParam("id") String idRef) {
-        FormData form = ctx.getForm();
-        String folderTitle = form.getString("folderName");
-        if (!StringUtils.isEmpty(folderTitle)) {
-            try {
-                classeur.renameFolder(idRef, folderTitle);
-                getCoreSession().save();
-                return Response.status(Status.OK).build();
-            } catch (ClientException e) {
-                return Response.serverError().status(Status.FORBIDDEN).entity(
-                        e.getMessage()).build();
-            }
-
-        } else {
-            return Response.serverError().status(Status.FORBIDDEN).entity(
-                    "Folder name is empty").build();
-        }
-    }
+//    @POST
+//    @Path("@rename/{id}")
+//    public Response doRename(@PathParam("id") String idRef) {
+//        FormData form = ctx.getForm();
+//        String folderTitle = form.getString("folderName");
+//        if (!StringUtils.isEmpty(folderTitle)) {
+//            try {
+//                classeur.renameFolder(idRef, folderTitle);
+//                getCoreSession().save();
+//                return Response.status(Status.OK).build();
+//            } catch (ClientException e) {
+//                return Response.serverError().status(Status.FORBIDDEN).entity(
+//                        e.getMessage()).build();
+//            }
+//
+//        } else {
+//            return Response.serverError().status(Status.FORBIDDEN).entity(
+//                    "Folder name is empty").build();
+//        }
+//    }
 
     @Path(value = "{path}")
     @Override
