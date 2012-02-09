@@ -20,6 +20,9 @@
   <@block name="docactionsonpage"></@block>
   
   <#assign isContributor = site?? && site.isContributor(Context.principal.name) />
+  <#if isContributor >
+    <#assign layouts = This.columnLayoutsSelect />
+  </#if>
 
   <@block name="content">
     <#if news??>
@@ -118,7 +121,6 @@
 	                  <label for="title">Type de ligne</label>
 	                  <div class="input">
 	                    <select name="rowTemplate">
-	                    <#assign layouts = This.columnLayoutsSelect />
 	                    <#list layouts?keys as layoutCode >
 	                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
 	                    </#list>

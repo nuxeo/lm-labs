@@ -46,19 +46,16 @@ function addContact(){
 	if (username == undefined) {
   		alert("Pas d'utilisateur selectionn\u00E9");
 	} else {
-		var operationConfirmed = confirm(["Souhaitez-vous r\u00E9ellement ajouter l'utilisateur '", username, "' aux contacts ce site ?"].join(""));
-	    if (operationConfirmed) {
-	    	jQuery.ajax({
-				type: 'GET',
-			    async: false,
-			    url: "${This.path}/@labscontacts/add?id=" + username,
-			    success: function(data) {
-			    	closeAddContact();
-			    	//jQuery("#divDislayArray").load('${This.path}/@labscontacts');
-			    	window.location.reload();
-			    }
-			});
-		}
+    	jQuery.ajax({
+			type: 'GET',
+		    async: false,
+		    url: "${This.path}/@labscontacts/add?id=" + username,
+		    success: function(data) {
+		    	closeAddContact();
+		    	//jQuery("#divDislayArray").load('${This.path}/@labscontacts');
+		    	window.location.reload();
+		    }
+		});
 	}
 }
 
