@@ -62,8 +62,17 @@
 			<form id="form-loginPopup" class="form" onsubmit="doLogin();return false;" action="">
 				<fieldset>
 					<div class="clearfix">
-						<span class="help-inline" style="display: none">
-							<strong>
+						<label style="font-weight: bold;">${Context.getMessage('label.Username')}</label>
+						<div class="input">
+							<input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="listener text required" size="13" style="width:145px"/>
+						</div>
+						<label style="font-weight: bold;margin-top:15px">${Context.getMessage('label.Password')}</label>
+						<div class="input" style="margin-top:15px">
+							<input type="password" id="password" placeholder="Mot de passe" class="listener text required" size="13"  style="width:145px"/>
+						</div>
+						<span class="help-inline" style="display: none;">
+							<br /><br />
+							<strong style="margin-left: 151px;">
 								<#if Context.principal.isAnonymous() == true>
 									${Context.getMessage('label.login.failed')}
 								<#else>
@@ -71,14 +80,6 @@
 								</#if>
 							</strong>
 						</span>
-						<label>${Context.getMessage('label.Username')}</label>
-						<div class="input">
-							<input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="small listener text required" size="13"/>
-						</div>
-						<label>${Context.getMessage('label.Password')}</label>
-						<div class="input">
-							<input type="password" id="password" placeholder="Mot de passe" class="small listener text required" size="13"/>
-						</div>
 					</div>
 				</fieldset>
 				<div  class="actions">
