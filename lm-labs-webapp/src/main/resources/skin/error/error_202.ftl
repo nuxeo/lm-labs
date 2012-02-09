@@ -44,7 +44,7 @@
 			      data: {caller: "login", nuxeo_login : "true", username : username, password : password},
 			      success: function(html, status) {
 			        jQuery.cookie("LAST_ACTION", "LOGIN", {path: "/"});
-			        window.location.href = '${This.context.URL}';
+			        window.location.reload();
 			      },
 			      error: function(html, status) {
 			      	showError();
