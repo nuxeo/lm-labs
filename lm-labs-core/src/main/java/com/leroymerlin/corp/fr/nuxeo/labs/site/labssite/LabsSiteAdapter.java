@@ -60,6 +60,8 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     public static final int NB_LAST_UPDATED_DOCS = 20;
 
+    public static final int NB_LAST_UPDATED_NEWS_DOCS = 20;
+
     public static final String PROPERTY_SITE_TEMPLATE = Schemas.LABSSITE.prefix()
             + ":siteTemplate";
 
@@ -342,6 +344,29 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                 return docUnderVisiblePageFilter.accept(doc);
             }
         }, NB_LAST_UPDATED_DOCS);
+    }
+
+    @Override
+    public DocumentModelList getLastUpdatedNewsDocs() throws ClientException {
+        StringBuilder query = new StringBuilder("SELECT * FROM ");
+        query.append(Docs.LABSNEWS.type());
+        query.append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(
+                doc.getPathAsString()).append("/").append(
+                LabsSiteConstants.Docs.TREE.docName()).append("'");
+        query.append(" AND ecm:isCheckedInVersion = 0");
+        query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
+        query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(
+                " <> 'HiddenInNavigation'");
+
+        final DocUnderVisiblePageFilter docUnderVisiblePageFilter = new DocUnderVisiblePageFilter();
+        return getCoreSession().query(query.toString(), new Filter() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public boolean accept(DocumentModel doc) {
+                return docUnderVisiblePageFilter.accept(doc);
+            }
+        }, NB_LAST_UPDATED_NEWS_DOCS);
     }
 
     @Override
