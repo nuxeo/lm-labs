@@ -7,6 +7,8 @@
 			${page.title}
 		</#if>
 	</h1>
+<#else>
+<div style="clear: both;" />
 </#if>
 	<#if site?? && site.isContributor(Context.principal.name) >
 		<#include "views/common/description_area.ftl">
