@@ -7,11 +7,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
+import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
@@ -34,6 +36,18 @@ public class ClasseurElementResource extends DocumentObject {
             return redirect(prev.getPath());
         }
         return redirect(ctx.getBasePath());
+    }
+    
+    @Override
+    public Response getPut() {
+        FormData form = ctx.getForm();
+        String title = form.getString("dc:title");
+        if (!StringUtils.isEmpty(title)) {
+            super.getPut();
+            return this.redirect(this.getPrevious().getPrevious().getPath() + "?message_success=label.PageClasseur.form.rename.saved");
+            
+        }
+        return this.redirect(this.getPrevious().getPrevious().getPath() + "?message_error=label.PageClasseur.form.rename.unsaved");
     }
     
     @GET
