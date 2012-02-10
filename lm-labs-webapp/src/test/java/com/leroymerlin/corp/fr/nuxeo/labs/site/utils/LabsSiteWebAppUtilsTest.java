@@ -100,6 +100,7 @@ public class LabsSiteWebAppUtilsTest {
                 FileUtils.getResourcePathFromContext("testFiles/" + filename));
         Blob blob = new FileBlob(testFile);
         blob.setFilename(filename);
+        blob.setMimeType("application/pdf");
         return blob;
 
     }
