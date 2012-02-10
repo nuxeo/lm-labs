@@ -53,30 +53,6 @@ public class BlobService extends DefaultAdapter {
         return this.redirect(previewURL);
     }
 
-//    @POST
-//    @Path("@rename")
-//    public Object rename() {
-//        DocumentModel doc = this.getTarget()
-//                .getAdapter(DocumentModel.class);
-//        String title = ctx.getForm().getString("renameTitleElement");
-//        String description = ctx.getForm().getString("descriptionElement");
-//        if(!StringUtils.isEmpty(title)){
-//            try {
-//                doc.setPropertyValue("dc:title", title);
-//                doc.setPropertyValue("dc:description", description);
-//                CoreSession session = doc.getCoreSession();
-//                session.saveDocument(doc);
-//                session.save();
-//            } catch (ClientException e) {
-//                throw WebException.wrap("Failed to rename for document " + doc.getPathAsString(), e);
-//            }
-//        }
-//        else{
-//            return this.redirect(this.getPrevious().getPrevious().getPrevious().getPath() + "?message_error=label.PageClasseur.form.rename.unsaved");
-//        }
-//        return this.redirect(this.getPrevious().getPrevious().getPrevious().getPath() + "?message_success=label.PageClasseur.form.rename.saved");
-//    }
-
     public String getPreviewURL(DocumentModel doc) throws IllegalStateException {
         PreviewAdapterManager pam = Framework.getLocalService(PreviewAdapterManager.class);
         boolean hasPreview = pam.hasAdapter(doc);
