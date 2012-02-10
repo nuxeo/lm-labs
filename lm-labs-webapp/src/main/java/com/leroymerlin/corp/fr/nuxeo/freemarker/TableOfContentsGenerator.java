@@ -79,7 +79,7 @@ public class TableOfContentsGenerator {
 
     private String replaceTag(String html, String tocTag, String noReplaceParentClass) {
         String tocReplacement = "[[No anchors found]]";
-        Document htmlDoc = Jsoup.parse(html);
+        Document htmlDoc = Jsoup.parseBodyFragment(html);
         Elements anchorElements = htmlDoc.select(selector);
         if (!anchorElements.isEmpty()) {
             StringBuilder sb = new StringBuilder();
@@ -109,7 +109,7 @@ public class TableOfContentsGenerator {
                         elem.html(htmlWithTag.replace(tocTag, tocReplacement));
                     }
                 }
-                result = htmlDoc.html();
+                result = htmlDoc.body().html();
             } else {
                 result = html.replace(tocTag, tocReplacement);
             }
