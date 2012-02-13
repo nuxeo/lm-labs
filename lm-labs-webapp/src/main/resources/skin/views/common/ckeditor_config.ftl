@@ -9,10 +9,10 @@ filebrowserFlashUploadUrl : '@assets',
 toolbar:
 [
 ['Source'],
-['Cut','Copy','Paste','PasteText','PasteFromWord'],
+['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'],
 ['NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Outdent','Indent','Blockquote'],
 '/',
-['Undo','Redo','Bold','Italic','Underline','Strike','-','SelectAll','RemoveFormat'],
+['Bold','Italic','Underline','Strike','-','SelectAll','RemoveFormat'],
 ['Link','Unlink'],
 [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar'
 <#if This.type.name == "PageClasseur" || This.type.name == "HtmlPage" >
