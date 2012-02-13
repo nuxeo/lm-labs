@@ -40,8 +40,8 @@ function initFileDrop(dropzoneId, upload_url, callback_function, input_id, tooMa
 	        // user dragging files out of the browser document window
 	    },
 	    drop: function() {
-	    	jQuery('#waitingPopup').dialog2('open');
 	        // user drops file
+	    	jQuery('#waitingPopup').dialog2('open');
 	    },
 	    uploadStarted: function(i, file, len){
 	        return false;
