@@ -706,12 +706,6 @@
 		    <div id="fileContent" class="span11 columns" style="min-height:300px;width:570px;background-color:#F5F5F5;border:1px solid rgba(0, 0, 0, 0.05);border-radius:4px;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;padding-left:65px;margin-bottom:20px">
 		        <#include "views/AssetFolder/content_admin.ftl"/>
 		    </div>
-		    <div id="waitingPopup" style="display:none;font-weight:bold;text-align:center" >
-				${Context.getMessage('label.waiting')}
-				<br/>
-				<img src="${skinPath}/images/loading.gif" />
-			</div>
-		    
 			<#-- load picture in terms of treeview's node -->
 			<script type="text/javascript">
 				function loadPictures(id){

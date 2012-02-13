@@ -40,10 +40,10 @@ function initFileDrop(dropzoneId, upload_url, callback_function, input_id, tooMa
 	        // user dragging files out of the browser document window
 	    },
 	    drop: function() {
+	    	jQuery('#waitingPopup').dialog2('open');
 	        // user drops file
 	    },
 	    uploadStarted: function(i, file, len){
-	    	$('#waitingPopup').dialog({ modal: true });
 	        return false;
 	    },
 	    uploadFinished: function(i, file, response, time) {
@@ -66,7 +66,7 @@ function initFileDrop(dropzoneId, upload_url, callback_function, input_id, tooMa
 	    },
 	    afterAll: function() {
 	    	jQuery('#'+dropzoneId).removeClass('dropzonehighlighted');
-	    	$('#waitingPopup').dialog( "close" );
+	    	jQuery('#waitingPopup').dialog2('close');
 	        callback_function();
 	    }
 	});

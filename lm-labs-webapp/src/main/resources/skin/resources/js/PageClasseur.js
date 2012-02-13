@@ -118,7 +118,6 @@ jQuery(document).ready(function(){
         // len = total files user dropped
 //				if(nbPictUploaded == 0) {
           //setTimeout(function() {jQuery('#waitingPopup').dialog({ modal: true });}, 100);
-          //jQuery('#waitingPopup').dialog({ modal: true });
 //				}
         nbPictUploaded = nbPictUploaded+1;
 //				var nbPictures = parseInt(jQuery('#nbPictures').attr("value"))+1;
@@ -130,7 +129,7 @@ jQuery(document).ready(function(){
         // response is the data you got back from server in JSON format.
 
 //				nbPictUploaded = nbPictUploaded - 1;
-        //jQuery('#waitingPopup').dialog( "close" );
+        //jQuery('#waitingPopup').dialog2( "close" );
 //				if(0 == nbPictUploaded) {
 //					var nbPictures = parseInt(jQuery('#nbPictures').attr("value"));
 //					jQuery('#nbPicturesLabel').text(nbPictures);
@@ -152,7 +151,7 @@ jQuery(document).ready(function(){
         afterAll: function() {
 //				console.log('afterAll');
             // runs after all files have been uploaded or otherwise dealt with
-        //jQuery('#waitingPopup').dialog( "close" );
+        //jQuery('#waitingPopup').dialog2( "close" );
         },
         rename: function(name) {
             // name in string format
