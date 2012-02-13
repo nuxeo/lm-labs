@@ -7,6 +7,7 @@
 function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
 <#if This.type.name == "PageClasseur" || This.type.name == "HtmlPage" >
     if (ckeip_html.indexOf('[[TOC]]') != -1) {
+        jQuery('#waitingPopup').dialog2('open');
         window.location.reload();
     }
 </#if>

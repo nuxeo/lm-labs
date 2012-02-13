@@ -240,8 +240,6 @@ function slideAllFolders(imgObj) {
 
 </div>
 
-<#include "views/common/loading.ftl">
-
 <#macro mainButtons >
     <#list This.getLinks("PageClasseur_ACTIONS") as link>
       <#assign btnClass = "" />

@@ -53,6 +53,7 @@
           <script type="text/javascript">
             jQuery(document).ready(function() {
 			  new EllipsisText().init();
+              jQuery('#waitingPopup').dialog2({autoOpen : false, closeOnOverlayClick : false, removeOnClose : false, showCloseHandle : false});
 		    });
 		  </script>
 
@@ -125,6 +126,7 @@
     </div><!--container-fluid-->
 
     <div id="FKfooter">
+        <#include "views/common/loading.ftl">
         <#include "views/common/footer.ftl">
         <#include "views/common/labsPiwik.ftl">
     </div><!--FKfooter-->
