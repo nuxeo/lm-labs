@@ -10,6 +10,7 @@ import javax.ws.rs.core.StreamingOutput;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.platform.query.api.PageProvider;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
@@ -19,6 +20,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SyndicationUtils;
 import com.sun.syndication.feed.synd.SyndFeed;
 
@@ -29,6 +31,8 @@ public class LabsRssAdapter extends DefaultAdapter {
     private static final String BAD_TYPE_OF_DOCUMENT = "Bad type of document for this resource!";
 
     private static final int TOP_NEW_MAX = 10;
+
+    private static final int LAST_UPLOAD_MAX = 10;
 
     @GET
     @Produces("application/rss+xml")
@@ -68,7 +72,7 @@ public class LabsRssAdapter extends DefaultAdapter {
             throw WebException.wrap(e);
         }
     }
-    
+
     @GET
     @Path(value = "lastNews")
     @Produces("application/rss+xml")
@@ -78,14 +82,14 @@ public class LabsRssAdapter extends DefaultAdapter {
         String rssDesc = ctx.getMessage("label.rss.last_news.desc");
         try {
             DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
-            final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedNewsDocs,
-                    rssTitle, rssDesc, getContext());
+            final SyndFeed feed = SyndicationUtils.buildRss(
+                    lastUpdatedNewsDocs, rssTitle, rssDesc, getContext());
             return SyndicationUtils.generateStreamingOutput(feed);
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
     }
-    
+
     @GET
     @Path(value = "lastUpload")
     @Produces("application/rss+xml")
@@ -94,12 +98,13 @@ public class LabsRssAdapter extends DefaultAdapter {
         String rssTitle = ctx.getMessage("label.rss.last_upload.title");
         String rssDesc = ctx.getMessage("label.rss.last_upload.desc");
         try {
-            // FIXME
-            DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
-            final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedNewsDocs,
+            PageProvider<DocumentModel> latestUploadsPageProvider = LabsSiteWebAppUtils.getLatestUploadsPageProvider(
+                    site.getDocument(), 0);
+            List<DocumentModel> lastUpdatedNews = latestUploadsPageProvider.getCurrentPage();
+            final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedNews,
                     rssTitle, rssDesc, getContext());
             return SyndicationUtils.generateStreamingOutput(feed);
-        } catch (ClientException e) {
+        } catch (Exception e) {
             throw WebException.wrap(e);
         }
     }
@@ -112,19 +117,34 @@ public class LabsRssAdapter extends DefaultAdapter {
         String rssTitle = ctx.getMessage("label.rss.all.title");
         String rssDesc = ctx.getMessage("label.rss.all.desc");
         try {
-            // FIXME
             DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs();
             DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
+            PageProvider<DocumentModel> latestUploadsPageProvider = LabsSiteWebAppUtils.getLatestUploadsPageProvider(
+                    site.getDocument(), 0);
 
-            // FIXME limite
-            
             DocumentModelList allDocs = lastUpdatedDocs;
-            allDocs.addAll(lastUpdatedNewsDocs);
+            if (lastUpdatedDocs != null) {
+                allDocs.addAll(lastUpdatedNewsDocs);
+            }
+            if (lastUpdatedNewsDocs != null) {
+                allDocs.addAll(lastUpdatedNewsDocs);
+            }
+            if (latestUploadsPageProvider != null
+                    && latestUploadsPageProvider.getCurrentPage() != null) {
+                int i = 0;
+                for (DocumentModel d : latestUploadsPageProvider.getCurrentPage()) {
+                    if (i == LAST_UPLOAD_MAX) {
+                        break;
+                    }
+                    allDocs.add(d);
+                    i++;
+                }
+            }
 
-            final SyndFeed feed = SyndicationUtils.buildRss(
-                    allDocs, rssTitle, rssDesc, getContext());
+            final SyndFeed feed = SyndicationUtils.buildRss(allDocs, rssTitle,
+                    rssDesc, getContext());
             return SyndicationUtils.generateStreamingOutput(feed);
-        } catch (ClientException e) {
+        } catch (Exception e) {
             throw WebException.wrap(e);
         }
     }

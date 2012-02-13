@@ -14,7 +14,6 @@ import javax.ws.rs.core.StreamingOutput;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.webengine.model.WebContext;
 
 import com.sun.syndication.feed.synd.SyndContent;
@@ -32,7 +31,7 @@ public final class SyndicationUtils {
     private SyndicationUtils() {
     }
 
-    public static SyndFeed buildRss(final DocumentModelList docList,
+    public static SyndFeed buildRss(final List<DocumentModel> docList,
             final String rssTitle, final String rssDesc,
             final WebContext context) throws ClientException {
         final SyndFeed feed = new SyndFeedImpl();
@@ -60,7 +59,7 @@ public final class SyndicationUtils {
     }
 
     private static List<SyndEntry> createRssEntries(
-            final DocumentModelList docList, final WebContext context)
+            final List<DocumentModel> docList, final WebContext context)
             throws ClientException {
         List<SyndEntry> entries = new ArrayList<SyndEntry>();
         SyndEntry entry;
