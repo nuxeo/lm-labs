@@ -14,7 +14,11 @@ toolbar:
 '/',
 [ 'Bold','Italic','Underline','Strike','-','SelectAll','RemoveFormat'],
 ['Link','Unlink'],
-[ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','-','InsertLabsPageTableOfContents' ] ,'/',
+[ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar'
+<#if This.type.name == "PageClasseur" || This.type.name == "HtmlPage" >
+,'-','InsertLabsPageTableOfContents'
+</#if>
+] ,'/',
 ['Format','Font','FontSize'],
 ['TextColor','BGColor'],
 ['Maximize', 'ShowBlocks','-']
