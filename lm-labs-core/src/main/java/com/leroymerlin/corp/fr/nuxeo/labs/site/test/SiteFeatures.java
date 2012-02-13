@@ -7,6 +7,8 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
 
 @Deploy( {
     "org.nuxeo.ecm.platform.picture.core",
+    "org.nuxeo.ecm.platform.picture.api",
+    "org.nuxeo.ecm.core.api",
     "com.leroymerlin.labs.core"
 })
 @Features(PlatformFeature.class)
