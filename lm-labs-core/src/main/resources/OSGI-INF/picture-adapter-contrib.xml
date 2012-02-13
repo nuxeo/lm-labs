@@ -1,0 +1,14 @@
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.picture.config">
+
+  <extension
+    target="org.nuxeo.ecm.platform.picture.config.PictureConfigurationService"
+    point="PictureAdapter">
+
+
+    <!--  labsNews picture are remdimensionned with a max width (height does not matter) -->
+    <picAdapter name="LabsNewsPictureAdapter" enabled="true">
+      <typeName>LabsNews</typeName>
+      <class>com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNewsPictureAdapter</class>
+    </picAdapter>
+  </extension>
+</component>

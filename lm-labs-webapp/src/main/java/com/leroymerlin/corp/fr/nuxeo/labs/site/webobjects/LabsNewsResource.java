@@ -11,8 +11,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -95,6 +97,12 @@ public class LabsNewsResource extends PageResource {
         news.setStartPublication(getDateFromStr(startDate));
         news.setEndPublication(getDateFromStr(endDate));
         news.setContent(content);
+        
+        if (form.isMultipartContent()) {
+            Blob blob = form.getFirstBlob();
+            BlobHolder blobHolder = news.getBlobHolder();
+            blobHolder.setBlob(blob);
+        }
 
     }
 

@@ -115,6 +115,7 @@
       <schema name="file" />
       <schema name="labsnews" />
       <schema name="page_html"/>
+      <schema name="picture" />
       <subtypes>
       </subtypes>
     </doctype>

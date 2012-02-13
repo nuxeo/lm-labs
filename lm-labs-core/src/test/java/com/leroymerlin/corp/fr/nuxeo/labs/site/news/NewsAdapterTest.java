@@ -4,16 +4,24 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nuxeo.common.utils.FileUtils;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
+import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
@@ -23,6 +31,10 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 @RunWith(FeaturesRunner.class)
 @Features(com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures.class)
+@Deploy( {
+    "org.nuxeo.ecm.platform.commandline.executor",
+    "org.nuxeo.ecm.platform.picture.convert"
+})
 @RepositoryConfig(cleanup = Granularity.METHOD)
 public class NewsAdapterTest {
 
@@ -196,8 +208,101 @@ public class NewsAdapterTest {
         assertThat(news.row(1).content(0).getHtml(), is("content"));
         assertThat(news.row(1).content(1).getHtml(), is("picture"));
 
+    }
+    
+    @Test
+    public void iCanGetLabsNewsBolbHolder() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = doc.getAdapter(LabsNews.class);
+        news.setTitle("le titre");
+        doc = session.createDocument(news.getDocumentModel());
+        session.save();
 
+        doc = session.getDocument(new PathRef("/myNews"));
+        assertThat(news.getBlobHolder(),is(notNullValue()));
+    }
+    
+    @Test
+    public void iCanSetOriginalPicture() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = doc.getAdapter(LabsNews.class);
+        news.setTitle("le titre");
+        news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/vision.jpg"), "image/jpeg", null,"vision.jpg", null));
+        news.setTruncatedPicture( new FileBlob(getFileFromPath("labsNewsImg/gastro.png"), "image/png", null,"gastro.png", null));
+        doc = session.createDocument(news.getDocumentModel());
+        session.save();
 
+        doc = session.getDocument(new PathRef("/myNews"));
+        assertThat(news.getBlobHolder(),is(notNullValue()));
+        assertThat(news.getBlobHolder().getBlobs().size(),is(3));
+    }
 
+    private static File getFileFromPath(String path) {
+        File file = FileUtils.getResourceFileFromContext(path);
+        assertTrue(file.length() > 0);
+        return file;
+    }
+    
+    @Test
+    public void iCanSetCropCoordsPicture() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = doc.getAdapter(LabsNews.class);
+        news.setTitle("le titre");
+        news.setCropCoords("testCoordonées");
+        doc = session.createDocument(news.getDocumentModel());
+        session.save();
+
+        doc = session.getDocument(new PathRef("/myNews"));
+        assertThat(news.getBlobHolder(),is(notNullValue()));
+        assertThat(news.getBlobHolder().getCropCoords(),is("testCoordonées"));
+    }
+    
+    @Test
+    public void iCanAddAccordeonPictures() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = doc.getAdapter(LabsNews.class);
+        news.setTitle("le titre");
+        
+        List<Blob> blobs = new ArrayList<Blob>();
+        blobs.add(new FileBlob(getFileFromPath("labsNewsImg/banniere.jpg"), "image/jpeg", null,"banniere.jpg", null));
+        blobs.add(new FileBlob(getFileFromPath("labsNewsImg/default_banner.png"), "image/png", null,"default_banner.png", null));
+        news.getBlobHolder().addAccordeonPictures(blobs);
+        
+        doc = session.createDocument(news.getDocumentModel());
+        session.save();
+
+        doc = session.getDocument(new PathRef("/myNews"));
+        assertThat(news.getBlobHolder(),is(notNullValue()));
+        assertThat(news.getBlobHolder().getAccordeonBlobs().size(),is(2));
+    }
+    
+    @Test
+    public void iCanSetAccordeonPictures() throws Exception {
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = doc.getAdapter(LabsNews.class);
+        news.setTitle("le titre");
+        
+        List<Blob> blobs = new ArrayList<Blob>();
+        blobs.add(new FileBlob(getFileFromPath("labsNewsImg/banniere.jpg"), "image/jpeg", null,"banniere.jpg", null));
+        blobs.add(new FileBlob(getFileFromPath("labsNewsImg/default_banner.png"), "image/png", null,"default_banner.png", null));
+        news.getBlobHolder().addAccordeonPictures(blobs);
+        
+        doc = session.createDocument(news.getDocumentModel());
+        session.save();
+
+        doc = session.getDocument(new PathRef("/myNews"));
+        assertThat(news.getBlobHolder(),is(notNullValue()));
+        assertThat(news.getBlobHolder().getAccordeonBlobs().size(),is(2));
+        
+        blobs = new ArrayList<Blob>();
+        blobs.add(new FileBlob(getFileFromPath("labsNewsImg/banniere.jpg"), "image/jpeg", null,"banniere.jpg", null));
+        news.getBlobHolder().setAccordeonPictures(blobs);
+        
+        doc = session.createDocument(news.getDocumentModel());
+        session.save();
+
+        doc = session.getDocument(new PathRef("/myNews"));
+        assertThat(news.getBlobHolder(),is(notNullValue()));
+        assertThat(news.getBlobHolder().getAccordeonBlobs().size(),is(1));
     }
 }

@@ -1,7 +1,9 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
+import java.io.IOException;
 import java.util.Calendar;
 
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
@@ -37,4 +39,14 @@ public interface LabsNews  extends HtmlSection {
     DocumentModel getDocumentModel();
 
     String getLastContributorFullName() throws Exception;
+
+    LabsNewsBlobHolder getBlobHolder() throws ClientException;
+
+    void setOriginalPicture(Blob blob) throws ClientException;
+
+    void setTruncatedPicture(Blob fileBlob) throws ClientException, IOException;
+
+    String getCropCoords() throws ClientException;
+
+    void setCropCoords(String cropCoords) throws ClientException;
 }

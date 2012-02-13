@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
@@ -33,6 +36,8 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     private String lastContributorFullName = null;
     private HtmlSection section;
+    
+    private LabsNewsBlobHolder blobHolder = null;
 
     public LabsNewsAdapter(DocumentModel doc) {
         this.doc = doc;
@@ -243,6 +248,36 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     @Override
     public HtmlRow addRow(String cssClass) throws ClientException {
         return getSection().addRow(cssClass);
+    }
+
+    @Override
+    public LabsNewsBlobHolder getBlobHolder() throws ClientException {
+        if(blobHolder == null){
+            blobHolder = (LabsNewsBlobHolder)this.doc.getAdapter(BlobHolder.class);
+        }
+        return blobHolder;
+    }
+
+    @Override
+    public void setOriginalPicture(Blob blob) throws ClientException {
+        getBlobHolder().setBlob(blob);
+        
+    }
+
+    @Override
+    public void setTruncatedPicture(Blob blob) throws ClientException, IOException {
+        getBlobHolder().addAccordeonPicture(blob);
+        
+    }
+
+    @Override
+    public String getCropCoords() throws ClientException {
+        return getBlobHolder().getCropCoords();
+    }
+
+    @Override
+    public void setCropCoords(String cropCoords) throws ClientException {
+        getBlobHolder().setCropCoords(cropCoords);
     }
 
 }
