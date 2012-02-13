@@ -48,7 +48,7 @@ jQuery(document).ready(function() {
 		autoOpen : false, 
 		closeOnOverlayClick : false, 
 		removeOnClose : false, 
-		showCloseHandle : false,
+		showCloseHandle : false
 	});
 });
 
