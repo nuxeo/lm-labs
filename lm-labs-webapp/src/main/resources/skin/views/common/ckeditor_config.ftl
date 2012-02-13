@@ -12,7 +12,7 @@ toolbar:
 ['Cut','Copy','Paste','PasteText','PasteFromWord'],
 ['NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Outdent','Indent','Blockquote'],
 '/',
-[ 'Bold','Italic','Underline','Strike','-','SelectAll','RemoveFormat'],
+['Undo','Redo','Bold','Italic','Underline','Strike','-','SelectAll','RemoveFormat'],
 ['Link','Unlink'],
 [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar'
 <#if This.type.name == "PageClasseur" || This.type.name == "HtmlPage" >
