@@ -38,7 +38,6 @@ public abstract class NotifiablePageResource extends PageResource {
                 }
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             LOG.error(e, e);
         }
         return Response.noContent().build();
@@ -60,7 +59,6 @@ public abstract class NotifiablePageResource extends PageResource {
                 }
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             LOG.error(e, e);
         }
         return Response.noContent().build();
