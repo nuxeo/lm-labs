@@ -92,12 +92,16 @@ public class PageUtilsService extends DefaultAdapter {
                         null);
             }
             session.save();
-            
+
             if (BooleanUtils.toBoolean(redirect)) {
                 return Response.ok("?message_success=" + msg[0]).build();
             } else {
-                return Response.ok().entity(
-                        toMoved.getAdapter(Page.class).getTitle()).build();
+                Page page = toMoved.getAdapter(Page.class);
+                if (page != null) {
+                    return Response.ok().entity(page.getTitle()).build();
+                } else {
+                    return Response.ok().build();
+                }
             }
         } catch (Exception e) {
             if (BooleanUtils.toBoolean(redirect)) {

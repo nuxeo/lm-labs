@@ -14,8 +14,17 @@
 		float:left;
 		margin:0.4em;
 		word-wrap:break-word;
+		cursor: pointer;
+	}
+	.assetVignette:hover {
+		background: #BEEBFF;
+		border: 1px solid #99DEFD;
+	}
+	.imgVignette {
+		float: left;
 	}
 </style>
+
 <#assign children=Session.getChildren(Document.ref) />
 <#if children?size==0>
 	<div id="contentAdminPictures" class="media-grid" style="width: 664px;text-align:center">
@@ -26,11 +35,12 @@
 		<#assign hasPicture="0" />
 		<#list children as doc>
 		  <#if !doc.isFolder >
-		  <div class="assetVignette">
-		    <img src="/nuxeo/nxpicsfile/default/${doc.id}/Thumbnail:content/any_value" style="float: left;"/>
-			<img src="${skinPath}/images/asset/bin.png" onclick="deletePicture('${doc.id}');" style="cursor: pointer;float:right">
-			<div style="clear:both"></div>
-		    <div class="ellipsisText" ellipsisTextOptions="{max_rows:2}" style="width:125px;margin-top:10px">${doc.name}</div>
+		  <#--We affect the same 'id' attribute to all element in this div, because JsTree needs -->
+		  <div class="assetVignette jstree-draggable" title="${doc.name}" id="${doc.id}">
+		    <img src="/nuxeo/nxpicsfile/default/${doc.id}/Thumbnail:content/any_value" class="imgVignette jstree-draggable" id="${doc.id}"/>
+			<img src="${skinPath}/images/asset/bin.png" onclick="deletePicture('${doc.id}');" style="cursor: pointer;float:right" id="${doc.id}"/>
+			<div style="clear:both" id="${doc.id}"></div>
+		    <div class="ellipsisText" ellipsisTextOptions="{max_rows:2}" style="width:125px;margin-top:10px" id="${doc.id}">${doc.name}</div>
 		  </div>
 		  <#assign hasPicture="1" />
 		  </#if>
