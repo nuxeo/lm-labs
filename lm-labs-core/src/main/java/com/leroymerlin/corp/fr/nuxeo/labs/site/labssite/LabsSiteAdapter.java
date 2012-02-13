@@ -298,7 +298,10 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             String ref = (String) doc.getPropertyValue(PROPERTY_HOME_PAGE_REF);
             // TODO this is temporary
             if (StringUtils.isEmpty(ref)) {
-                return getWelcomePageId();
+                ref = getWelcomePageId();
+            }
+            if (doc.getId().equals(ref)) {
+                LOG.warn("Wrong home page.");
             }
             return ref;
         } catch (Exception e) {
