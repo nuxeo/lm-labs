@@ -95,7 +95,7 @@
 		                    ckeditor_config: ckeditorconfig,
 		                    emptyedit_message: "${Context.getMessage('label.ckeditor.double_click_to_edit_content')}",
 		                    view_style: "span${content.colNumber} columns cke_hidden "
-		                    });
+		                    }, reloadPageForTocIfNeeded);
 		                </script>
 		                <noscript>
 		                  <a  class="btn" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>

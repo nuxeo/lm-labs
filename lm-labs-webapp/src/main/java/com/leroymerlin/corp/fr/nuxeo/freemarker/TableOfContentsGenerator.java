@@ -17,6 +17,8 @@ public class TableOfContentsGenerator {
     private final String selector;
     private final String noReplaceParentClass;
     private final String processedHtml;
+    private final String tocHtml;
+    private final Document htmlDoc;
     
     public static class Builder {
         // Required parameters
@@ -26,9 +28,11 @@ public class TableOfContentsGenerator {
         private String ulClass = DEFAULT_UL_CLASS;
         private String selector = DEFAULT_SELECTOR;
         private String noReplaceParentClass = DEFAULT_NO_REPLACE_CLASS;
+        private final Document htmlDoc;
         
         public Builder(String html) {
             this.html = html;
+            this.htmlDoc = Jsoup.parseBodyFragment(html);
         }
         
         public Builder tag(String val) {
@@ -68,18 +72,22 @@ public class TableOfContentsGenerator {
         return processedHtml;
     }
     
+    public String getToc() {
+        return tocHtml;
+    }
+    
     private TableOfContentsGenerator(Builder builder) {
         html = builder.html;
+        htmlDoc = builder.htmlDoc;
         tag = builder.tag;
         ulClass = builder.ulClass;
         selector = builder.selector;
         noReplaceParentClass = builder.noReplaceParentClass;
-        processedHtml = replaceTag(html, tag, noReplaceParentClass);
+        tocHtml = generateToc();
+        processedHtml = replaceTag();
     }
 
-    private String replaceTag(String html, String tocTag, String noReplaceParentClass) {
-        String tocReplacement = "[[No anchors found]]";
-        Document htmlDoc = Jsoup.parseBodyFragment(html);
+    private String generateToc() {
         Elements anchorElements = htmlDoc.select(selector);
         if (!anchorElements.isEmpty()) {
             StringBuilder sb = new StringBuilder();
@@ -88,10 +96,20 @@ public class TableOfContentsGenerator {
                 sb.append("<li><a href=\"#").append(elem.select("a[name]").attr("name")).append("\">").append(elem.select("h1").html()).append("</a></li>");
             }
             sb.append("</ul>");
-            tocReplacement = sb.toString();
+            return sb.toString();
+        }
+        return "";
+    }
+
+    private String replaceTag() {
+        String tocReplacement = "[[No anchors found]]";
+        Document htmlDoc = Jsoup.parseBodyFragment(html);
+        Elements anchorElements = htmlDoc.select(selector);
+        if (!anchorElements.isEmpty()) {
+            tocReplacement = tocHtml;
             String result = "";
             if (!noReplaceParentClass.isEmpty()) {
-                Elements elementsWithTag = htmlDoc.select(":containsOwn(" + tocTag + ")");
+                Elements elementsWithTag = htmlDoc.select(":containsOwn(" + tag + ")");
                 for (Element elem : elementsWithTag) {
                     boolean hasClass = false;
                     if (elem.hasClass(noReplaceParentClass)) {
@@ -106,15 +124,16 @@ public class TableOfContentsGenerator {
                     }
                     if (!hasClass) {
                         String htmlWithTag = elem.html();
-                        elem.html(htmlWithTag.replace(tocTag, tocReplacement));
+                        elem.html(htmlWithTag.replace(tag, tocReplacement));
                     }
                 }
                 result = htmlDoc.body().html();
             } else {
-                result = html.replace(tocTag, tocReplacement);
+                result = html.replace(tag, tocReplacement);
             }
             return result;
         }
         return html;
     }
+    
 }

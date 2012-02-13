@@ -10,8 +10,10 @@
 <#else>
 <div style="clear: both;" />
 </#if>
+<div class="row">
 	<#if site?? && site.isContributor(Context.principal.name) >
 		<#include "views/common/description_area.ftl">
 	<#elseif page.isDisplayable(This.DC_DESCRIPTION)>
 		${page.description}
 	</#if>
+</div>

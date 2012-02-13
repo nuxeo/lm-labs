@@ -69,7 +69,7 @@ $.fn.ckeip = function (options, callback) {
                 content: ckeip_html,
                 data: settings.data
             }, function (response) {
-                if (typeof callback == "function") callback(response);
+                if (typeof callback == "function") callback(response, jQuery(original_html), ckeip_html);
 
 	            if(ckeip_html=='') {
 	            	$(original_html).html(settings.emptyedit_message);

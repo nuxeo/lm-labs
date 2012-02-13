@@ -4,6 +4,17 @@
 	<div class="well editblock toc-noreplace" id="pageDescription">
 		<div id="description">${Document.dublincore.description}</div>
 		<script type="text/javascript">
+function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
+<#if This.type.name == "PageClasseur" || This.type.name == "HtmlPage" >
+    if (ckeip_html.indexOf('[[TOC]]') != -1) {
+        window.location.reload();
+    }
+</#if>
+    jQuery(ckeObj).closest('div.row').children('.viewblock').html(ckeip_html);
+    return false;
+}
+		</script>
+		<script type="text/javascript">
 		  <#-- detect error when loading picture -->
 		  $('#description').find('img').each(function() {
 		  	$(this).error( function() { 
@@ -20,6 +31,6 @@
 	        view_style: "cke_hidden",
 	        emptyedit_message: "${Context.getMessage('label.ckeditor.double_click_to_edit_content')}"<#if (!This.page.isDisplayable(This.DC_DESCRIPTION))>,
 	        display_ckeipTex: false</#if>
-	        });
+	        }, reloadPageForTocIfNeeded);
 	    </script>
 	</div>
