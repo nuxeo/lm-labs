@@ -302,6 +302,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             }
             return ref;
         } catch (Exception e) {
+            LOG.error("Unable to get home page for site '" + getURL() + "': " + e);
             // TODO this is temporary
             return getWelcomePageId();
         }
