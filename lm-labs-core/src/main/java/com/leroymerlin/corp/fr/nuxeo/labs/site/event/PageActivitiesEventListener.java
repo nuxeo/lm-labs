@@ -23,7 +23,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
-public class PageActivitiesEventListener extends PageNotifier implements EventListener {
+public class PageActivitiesEventListener implements EventListener {
 
     private static final Log LOG = LogFactory.getLog(PageActivitiesEventListener.class);
 

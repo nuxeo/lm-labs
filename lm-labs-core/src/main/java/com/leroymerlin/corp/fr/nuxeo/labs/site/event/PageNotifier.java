@@ -12,6 +12,7 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 
+@Deprecated
 public class PageNotifier {
 
     private static final Log LOG = LogFactory.getLog(PageNotifier.class);

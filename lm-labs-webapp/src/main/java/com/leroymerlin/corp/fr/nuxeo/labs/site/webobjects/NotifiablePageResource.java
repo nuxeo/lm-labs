@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -45,7 +46,7 @@ public abstract class NotifiablePageResource extends PageResource {
 
     @GET
     @Path("@unsubscribe")
-    public Response doUnsubscribe() {
+    public Object doUnsubscribe() {
         LOG.debug("@unsubscribe");
         try {
             PageSubscription subscriptionAdapter = doc.getAdapter(PageSubscription.class);
@@ -60,6 +61,10 @@ public abstract class NotifiablePageResource extends PageResource {
             }
         } catch (Exception e) {
             LOG.error(e, e);
+        }
+        String redirect = ctx.getRequest().getParameter("redirect");
+        if (BooleanUtils.toBoolean(redirect)) {
+            return redirect(getPath()+ "?message_success=label.page.unsubscription.successful");
         }
         return Response.noContent().build();
     }

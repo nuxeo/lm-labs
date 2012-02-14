@@ -8,7 +8,7 @@
 		</ul>
 		<p><a href="${labsBaseUrl}/${pageUrl}">Cliquez ici pour accéder à la page d'actualités</a></p>
 		<p><a href="${labsBaseUrl}/${siteUrl}">Cliquez ici pour accéder au site ${siteTitle}</a></p>
-		<p><a href="${labsBaseUrl}/${pageUrl}/@unsubscribe">Cliquez ici pour vous désabonner de la page d'actualités</a></p>
+		<p><a href="${labsBaseUrl}/${pageUrl}/@unsubscribe?redirect=true">Cliquez ici pour vous désabonner de la page d'actualités</a></p>
 		
 	</body>
 </html>
