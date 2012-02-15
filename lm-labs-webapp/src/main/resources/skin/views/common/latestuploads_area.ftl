@@ -2,5 +2,6 @@
 <#assign pageProvider = latestUploadsPageProvider(Document, 5) />
 <#assign pagesListTile = Context.getMessage('title.LabsSite.latestuploads') />
 <#assign pagesListId = "latestuploads" />
+<#assign pagesListTooltip = "dc:description" />
 
 <#include "views/common/pageslist.ftl" />
