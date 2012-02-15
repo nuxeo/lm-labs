@@ -229,7 +229,7 @@ function slideAllFolders(imgObj) {
 	      <div class="clearfix">
 	          <label for="dc:description">${Context.getMessage('label.PageClasseur.form.description')}</label>
 	          <div class="input">
-	            <textarea name="descriptionElement" id="dc:description" class="xlarge"></textarea>
+	            <textarea name="dc:description" id="descriptionElement" class="xlarge"></textarea>
 	          </div>
 	      </div><!-- /clearfix -->
       </fieldset>
