@@ -411,6 +411,32 @@
 					, "initially_open" : ${parentIds}
 					</#if>
 				},
+				"dnd" : {
+					"drag_check" : function(data) {
+						if(data.r.attr("id") == "phtml_1") {
+							return false;
+						}
+						return {
+							after : false,
+							before : false,
+							inside : true
+						};
+					},
+					"drag_finish" : function(data) {
+						jQuery.ajax({
+							async : false,
+							type: 'POST',
+							url: "${This.path}/@pageUtils/move",
+							data : {
+								"source" : data.o.id, 
+								"destinationContainer" : data.r.attr("id")
+							},
+							success : function (r) {
+								loadPictures($('#currentNodeId').val());
+							}
+						});
+					}
+				},
 				"plugins" : [ "json_data", "themes", "ui", "types"
 				<#if canManage >
 				, "crrm", "hotkeys", "contextmenu", "dnd"
@@ -499,6 +525,7 @@
 								"after" : jQuery(after).attr("id")
 							},
 							success : function (r) {
+								alert("success");
 						        if (r.redirect) {
 						            // data.redirect contains the string URL to redirect to
 						            window.location.replace(r.redirect);

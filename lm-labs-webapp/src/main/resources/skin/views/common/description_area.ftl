@@ -1,5 +1,6 @@
-
+<#if page.isDisplayable(This.DC_DESCRIPTION)>
 	<div class="viewblock">${Document.dublincore.description}</div>
+</#if>
 		
 	<div class="well editblock toc-noreplace" id="pageDescription">
 		<div id="description">${Document.dublincore.description}</div>
