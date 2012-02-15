@@ -8,6 +8,6 @@
     </li>
   </#list>
   </ul>
-  <a href="${detailedPageUrl}">Détails</a>
+  <u><a href="${detailedPageUrl}">Détails</a></u>
 </div>
 

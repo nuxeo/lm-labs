@@ -13,3 +13,5 @@
     <#-- LAST PageClasseur Uploads AREA --> 
     <#include "views/common/latestuploads_area.ftl" />
     
+    <div class="sidebarSeparator">&nbsp;</div>
+    
