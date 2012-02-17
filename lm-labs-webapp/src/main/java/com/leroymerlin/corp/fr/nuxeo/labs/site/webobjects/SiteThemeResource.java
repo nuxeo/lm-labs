@@ -38,7 +38,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.ThemePropertiesManage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.ThemePropertyComparator;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 @WebObject(type = "SiteTheme")
 @Produces("text/html; charset=UTF-8")
@@ -166,14 +170,14 @@ public class SiteThemeResource extends PageResource {
             throw WebException.wrap(e);
         }
     }
-    
+
     @DELETE
     @Path(value = "propertyTheme/{key}")
     public Response doDeletePropertyTheme(@PathParam(value = "key") String key) {
         try {
             Map<String, ThemeProperty> properties = theme.getProperties();
             ThemeProperty prop = properties.get(key);
-            if (prop != null){
+            if (prop != null) {
                 prop.setValue(null);
                 properties.put(key, prop);
                 theme.setProperties(properties);
@@ -182,8 +186,7 @@ public class SiteThemeResource extends PageResource {
                 session.save();
                 return Response.ok().status(Status.OK).build();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return Response.notModified().build();
         }
         return Response.notModified().build();
@@ -232,33 +235,34 @@ public class SiteThemeResource extends PageResource {
         return redirect(getPath()
                 + "?message_warning=label.labssites.appearance.theme.edit.not_updated");
     }
-    
-    private Map<String, ThemeProperty> extractProperties(FormData form) throws Exception{
+
+    private Map<String, ThemeProperty> extractProperties(FormData form)
+            throws Exception {
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         String baseFiledName = "Property";
         int cpt = 0;
         String sCpt = form.getString("cptProperties");
-        if(StringUtils.isNotBlank(sCpt) && StringUtils.isNumeric(sCpt)){
+        if (StringUtils.isNotBlank(sCpt) && StringUtils.isNumeric(sCpt)) {
             cpt = Integer.parseInt(sCpt);
         }
         ThemeProperty prop = null;
         String value = null;
-        for (int i=0; i<cpt; i++){
+        for (int i = 0; i < cpt; i++) {
             prop = new ThemeProperty();
             prop.setKey(form.getString("key" + baseFiledName + i));
             prop.setLabel(form.getString("label" + baseFiledName + i));
-            prop.setDescription(form.getString("description" + baseFiledName + i));
+            prop.setDescription(form.getString("description" + baseFiledName
+                    + i));
             prop.setType(form.getString("type" + baseFiledName + i));
             value = form.getString("value" + baseFiledName + i);
-            if(StringUtils.isNotBlank(value)){
+            if (StringUtils.isNotBlank(value)) {
                 prop.setValue(value);
-            }
-            else{
+            } else {
                 prop.setValue(null);
             }
             properties.put(prop.getKey(), prop);
         }
-        
+
         return properties;
     }
 
@@ -308,16 +312,18 @@ public class SiteThemeResource extends PageResource {
         }
         return Response.ok().entity(blob).type(blob.getMimeType()).build();
     }
-    
-    public List<ThemeProperty> getThemeProperties(){
+
+    public List<ThemeProperty> getThemeProperties() {
         List<ThemeProperty> properties = new ArrayList<ThemeProperty>();
         try {
-            ThemePropertiesManage tpm = new ThemePropertiesManage(theme.getProperties());
-            String path = getModule().getRoot().getAbsolutePath() +  
-                LabsSiteWebAppUtils.DIRECTORY_THEME + "/" + theme.getName() + "/properties" ;
+            ThemePropertiesManage tpm = new ThemePropertiesManage(
+                    theme.getProperties());
+            String path = getModule().getRoot().getAbsolutePath()
+                    + LabsSiteWebAppUtils.DIRECTORY_THEME + "/"
+                    + theme.getName() + "/properties";
             File f = new File(path);
-            if (!tpm.isLoaded(f.getAbsolutePath(), theme.getLastRead())){
-                if (f.exists()){
+            if (!tpm.isLoaded(f.getAbsolutePath(), theme.getLastRead())) {
+                if (f.exists()) {
                     tpm.loadProperties(new FileInputStream(f));
                     theme.setProperties(tpm.getProperties());
                     theme.setLastRead(Calendar.getInstance().getTimeInMillis());
@@ -325,10 +331,7 @@ public class SiteThemeResource extends PageResource {
                     getCoreSession().save();
                 }
             }
-            Map<String, ThemeProperty> props = tpm.getProperties();
-            for (ThemeProperty prop:props.values()){
-                properties.add(prop);
-            }
+            properties = CommonHelper.getThemeProperties(tpm);
         } catch (Exception e) {
             throw WebException.wrap(e);
         }

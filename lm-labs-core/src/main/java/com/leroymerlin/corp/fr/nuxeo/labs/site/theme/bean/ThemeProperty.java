@@ -19,20 +19,24 @@ public class ThemeProperty {
     
     private String type;
     
+    private int orderNumber;
+    
     public ThemeProperty() {
         this.key = "";
         this.value = "";
         this.label = "";
         this.description = "";
+        this.orderNumber = -1;
     }
 
-    public ThemeProperty(String key, String value, String label, String description, String type) {
+    public ThemeProperty(String key, String value, String label, String description, String type, int orderNumber) {
         super();
         this.key = key;
         this.value = value;
         this.label = label;
         this.description = description;
         this.type = type;
+        this.orderNumber = orderNumber;
     }
 
     public String getKey() {
@@ -100,4 +104,11 @@ public class ThemeProperty {
         this.type = type;
     }
 
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 }

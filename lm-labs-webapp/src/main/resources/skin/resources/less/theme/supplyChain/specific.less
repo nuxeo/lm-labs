@@ -1,6 +1,10 @@
 @import "../labs/specific.less";
 
 @basefont:          13px;
+@basefontTitleH1:   22px;
+@basefontTitleH2:   21px;
+@basefontTitleH5:   13px;
+@basefontTitleH6:   11px;
 
 @baseFontFamily:"Trebuchet MS", "Helvetica", "Verdana", "Arial", "Sans-serif";
 
@@ -12,8 +16,11 @@
 /*Specific*/
 @bgcolortabs: #BB6C1A;
 @baseFontColor: #595959;
-@baseFontColorTitle: #676D71;
-@baseFontColorTabs: #676D71;
+@baseFontColorTitleH1: @gray;
+@baseFontColorTitleH2: @gray;
+@baseFontColorTitleH5: @gray;
+@baseFontColorTitleH6: @gray;
+@baseFontColorTabs: @gray;
 @backgroundURL: "images/bg-brown.gif";
 @backgroundURLRelative: true;
 
@@ -149,23 +156,23 @@ a:hover {
  
  
 h1 {
-  font-size: @basefont + 9;
-  color: @baseFontColorTitle;
+  font-size: @basefontTitleH1;
+  color: @baseFontColorTitleH1;
 } 
 
 h2 {
-  font-size: @basefont + 8;
-  color: @baseFontColorTitle;
+  font-size: @basefontTitleH2;
+  color: @baseFontColorTitleH2;
 } 
 
 h5 {
-  font-size: @basefont;
-  color: @baseFontColorTitle;
+  font-size: @basefontTitleH5;
+  color: @baseFontColorTitleH5;
 }
 
 h6 {
-  font-size: @basefont - 2;
-  color: @baseFontColorTitle;
+  font-size: @basefontTitleH6;
+  color: @baseFontColorTitleH6;
 }
 
 #sidebar {

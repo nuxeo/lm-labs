@@ -16,24 +16,40 @@ import org.nuxeo.ecm.platform.picture.api.ImageInfo;
 import org.nuxeo.ecm.platform.picture.api.ImagingService;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteThemeAdapter implements SiteTheme {
 
-
     private static final Log LOG = LogFactory.getLog(SiteThemeAdapter.class);
-    
+
     private static final String PROPERTY_NAME = "dc:title";
-    private static final String PROPERTY_BANNER_BLOB = Schemas.SITETHEME.prefix() + ":banner";
-    private static final String PROPERTY_LOGO_BLOB = Schemas.SITETHEME.prefix() + ":logo";
-    private static final String PROPERTY_LOGO_POSX = Schemas.SITETHEME.prefix() + ":logo_posx";
-    private static final String PROPERTY_LOGO_POSY = Schemas.SITETHEME.prefix() + ":logo_posy";
-    private static final String PROPERTY_LOGO_RESIZE_RATIO = Schemas.SITETHEME.prefix() + ":logo_resize_ratio";
-    private static final String PROPERTY_STYLECSS = Schemas.SITETHEME.prefix() + ":style";
-    private static final String PROPERTIES = Schemas.SITETHEME.prefix() + ":properties";
-    private static final String LAST_READ = Schemas.SITETHEME.prefix() + ":lastRead";
+
+    private static final String PROPERTY_BANNER_BLOB = Schemas.SITETHEME.prefix()
+            + ":banner";
+
+    private static final String PROPERTY_LOGO_BLOB = Schemas.SITETHEME.prefix()
+            + ":logo";
+
+    private static final String PROPERTY_LOGO_POSX = Schemas.SITETHEME.prefix()
+            + ":logo_posx";
+
+    private static final String PROPERTY_LOGO_POSY = Schemas.SITETHEME.prefix()
+            + ":logo_posy";
+
+    private static final String PROPERTY_LOGO_RESIZE_RATIO = Schemas.SITETHEME.prefix()
+            + ":logo_resize_ratio";
+
+    private static final String PROPERTY_STYLECSS = Schemas.SITETHEME.prefix()
+            + ":style";
+
+    private static final String PROPERTIES = Schemas.SITETHEME.prefix()
+            + ":properties";
+
+    private static final String LAST_READ = Schemas.SITETHEME.prefix()
+            + ":lastRead";
 
     private final DocumentModel doc;
 
@@ -55,7 +71,7 @@ public class SiteThemeAdapter implements SiteTheme {
     public void setName(String name) throws ClientException {
         doc.setPropertyValue(PROPERTY_NAME, name);
     }
-    
+
     @Override
     public Blob getBanner() throws ClientException {
         return (Blob) doc.getPropertyValue(PROPERTY_BANNER_BLOB);
@@ -85,7 +101,7 @@ public class SiteThemeAdapter implements SiteTheme {
     @Override
     public void setLogoPosX(int pos) throws ClientException {
         doc.setPropertyValue(PROPERTY_LOGO_POSX, new Long(pos));
-        
+
     }
 
     @Override
@@ -135,7 +151,7 @@ public class SiteThemeAdapter implements SiteTheme {
 
     @Override
     public String getStyle() throws ClientException {
-        return (String)doc.getPropertyValue(PROPERTY_STYLECSS);
+        return (String) doc.getPropertyValue(PROPERTY_STYLECSS);
     }
 
     @Override
@@ -151,42 +167,51 @@ public class SiteThemeAdapter implements SiteTheme {
         List<Map<String, Object>> propertiesList = (List<Map<String, Object>>) objPropertiesList;
         ThemeProperty prop = null;
         for (Map<String, Object> list : propertiesList) {
-            prop = new ThemeProperty(Tools.getString(list.get("key")), 
-                    Tools.getString(list.get("value")), Tools.getString(list.get("label")), 
-                    Tools.getString(list.get("description")), Tools.getString(list.get("type")));
+            try {
+                prop = new ThemeProperty(Tools.getString(list.get("key")),
+                        Tools.getString(list.get("value")),
+                        Tools.getString(list.get("label")),
+                        Tools.getString(list.get("description")),
+                        Tools.getString(list.get("type")),
+                        Tools.getInt(list.get("orderNumber")));
+            } catch (NullException e) {
+                LOG.error("Unable to get property: " + e.getMessage());
+            }
             properties.put(prop.getKey(), prop);
         }
         return properties;
     }
 
     @Override
-    public void setProperties(Map<String, ThemeProperty> properties) throws ClientException {
+    public void setProperties(Map<String, ThemeProperty> properties)
+            throws ClientException {
         List<Map<String, Object>> listProperties = new ArrayList<Map<String, Object>>();
-        if (properties != null){
+        if (properties != null) {
             for (Map.Entry<String, ThemeProperty> property : properties.entrySet()) {
                 listProperties.add(getPropertyMap(property));
             }
             doc.getProperty(PROPERTIES).setValue(listProperties);
-        }
-        else{
+        } else {
             doc.getProperty(PROPERTIES).setValue(null);
         }
     }
 
-    private Map<String, Object> getPropertyMap(Entry<String, ThemeProperty> pProperty) {
+    private Map<String, Object> getPropertyMap(
+            Entry<String, ThemeProperty> pProperty) {
         Map<String, Object> property = new HashMap<String, Object>();
         property.put("key", pProperty.getKey());
         property.put("value", pProperty.getValue().getValue());
         property.put("label", pProperty.getValue().getLabel());
         property.put("description", pProperty.getValue().getDescription());
         property.put("type", pProperty.getValue().getType());
+        property.put("orderNumber", pProperty.getValue().getOrderNumber());
         return property;
     }
 
     @Override
     public long getLastRead() throws ClientException {
-        Long lastRead = (Long)doc.getPropertyValue(LAST_READ);
-        if (lastRead != null){
+        Long lastRead = (Long) doc.getPropertyValue(LAST_READ);
+        if (lastRead != null) {
             return lastRead.longValue();
         }
         return 0;

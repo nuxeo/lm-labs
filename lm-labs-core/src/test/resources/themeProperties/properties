@@ -1,10 +1,19 @@
 ;
 import "./propertiesBase";
 
-@basefont;Police du site;Séparé par ',' et délimité par '"'
-@baseFontFamily;;
-@baseFontColor;;
-@baseFontColorTitle;;;color
+@basefont;Police du site;Séparé par ',' et délimité par '"';font
+@baseFontFamily;;;
+@baseFontColor;;;
 
-@background-url;;
+@baseFontColorTitleH1;;;color
+@baseFontColorTitleH2;;;color
+@baseFontColorTitleH5;;;color
+@baseFontColorTitleH6;;;color
+
+@basefontTitleH1;;;size
+@basefontTitleH2;;;size
+@basefontTitleH5;;;size
+@basefontTitleH6;;;size
+
+@background-url;;;
 

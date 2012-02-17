@@ -23,6 +23,7 @@
               <xs:element name="label" minOccurs="0" type="xs:string"/>
               <xs:element name="description" minOccurs="0" type="xs:string"/>
               <xs:element name="type" minOccurs="1" type="xs:string" default="string"/>
+              <xs:element name="orderNumber" type="xs:integer" default="-1" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -4,7 +4,10 @@ import "./propertiesBase";
 @basefont;Police du site;Séparé par ',' et délimité par '"'
 @baseFontFamily;;
 @baseFontColor;;
-@baseFontColorTitle;;
+@baseFontColorTitleH1;;
+@baseFontColorTitleH2;;
+@baseFontColorTitleH5;;
+@baseFontColorTitleH6;;
 
 @background-url;;
 
