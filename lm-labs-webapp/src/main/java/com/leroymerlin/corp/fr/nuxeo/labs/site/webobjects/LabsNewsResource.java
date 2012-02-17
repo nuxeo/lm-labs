@@ -1,10 +1,12 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,7 +16,6 @@ import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -26,6 +27,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 @WebObject(type = "LabsNews", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
 public class LabsNewsResource extends PageResource {
+    
+    LabsNews labsNews;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat(
             "dd/MM/yyyy");
@@ -39,7 +42,10 @@ public class LabsNewsResource extends PageResource {
     }
 
     public LabsNews getLabsNews() {
-        return doc.getAdapter(LabsNews.class);
+        if (labsNews == null){
+            labsNews = doc.getAdapter(LabsNews.class);
+        }
+        return labsNews;
     }
     
     public Page getPage() throws ClientException {
@@ -57,12 +63,14 @@ public class LabsNewsResource extends PageResource {
         try {
             LabsNews news = doc.getAdapter(LabsNews.class);
             fillNews(form, news);
-            session.saveDocument(news.getDocumentModel());
+            session.saveDocument(doc);
             session.save();
 
             return redirect(getPath()
                     + "?message_success=label.labsNews.news_updated");
         } catch (ClientException e) {
+            throw WebException.wrap(e);
+        } catch (IOException e) {
             throw WebException.wrap(e);
         }
 
@@ -87,21 +95,25 @@ public class LabsNewsResource extends PageResource {
         return null;
     }
 
-    static void fillNews(FormData form, LabsNews news) throws ClientException {
+    static void fillNews(FormData form, LabsNews news) throws ClientException, IOException {
         String pTitle = form.getString("dc:title");
         String startDate = form.getString("newsStartPublication");
         String endDate = form.getString("newsEndPublication");
         String content = form.getString("newsContent");
+        String accroche = form.getString("newsAccroche");
 
         news.setTitle(pTitle);
         news.setStartPublication(getDateFromStr(startDate));
         news.setEndPublication(getDateFromStr(endDate));
         news.setContent(content);
+        news.setAccroche(accroche);
         
         if (form.isMultipartContent()) {
-            Blob blob = form.getFirstBlob();
-            BlobHolder blobHolder = news.getBlobHolder();
-            blobHolder.setBlob(blob);
+            Blob blob = form.getBlob("newsPicture");
+            if(blob.getLength() > 0){
+                blob.persist();
+                news.setOriginalPicture(blob);
+            }
         }
 
     }
@@ -118,5 +130,18 @@ public class LabsNewsResource extends PageResource {
     public Map<String, String> getColumnLayoutsSelect() throws ClientException {
     	return HtmlRow.getColumnLayoutsSelect();
     }
-
+    
+    @GET
+    @Path("summaryPicture")
+    public Response getSummaryPicture() {
+        try {
+            Blob blob = getLabsNews().getSummaryPicture();
+            if (blob != null) {
+                 return Response.ok().entity(blob).type(blob.getMimeType()).build();
+            }
+        } catch (Exception e) {
+            throw WebException.wrap(e);
+        }
+        throw new WebException(Response.Status.NOT_FOUND);
+    }
 }

@@ -41,6 +41,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     public LabsNewsAdapter(DocumentModel doc) {
         this.doc = doc;
+        this.blobHolder = (LabsNewsBlobHolder)this.doc.getAdapter(BlobHolder.class);
     }
 
     @Override
@@ -252,9 +253,9 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     @Override
     public LabsNewsBlobHolder getBlobHolder() throws ClientException {
-        if(blobHolder == null){
-            blobHolder = (LabsNewsBlobHolder)this.doc.getAdapter(BlobHolder.class);
-        }
+//        if(blobHolder == null){
+//            blobHolder = (LabsNewsBlobHolder)this.doc.getAdapter(BlobHolder.class);
+//        }
         return blobHolder;
     }
 
@@ -265,7 +266,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     }
 
     @Override
-    public void setTruncatedPicture(Blob blob) throws ClientException, IOException {
+    public void setSummaryPicture(Blob blob) throws ClientException, IOException {
         getBlobHolder().addAccordeonPicture(blob);
         
     }
@@ -278,6 +279,23 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     @Override
     public void setCropCoords(String cropCoords) throws ClientException {
         getBlobHolder().setCropCoords(cropCoords);
+    }
+
+    @Override
+    public Blob getSummaryPicture() throws ClientException, IOException {
+        //TODO
+        return getBlobHolder().getBlob("OriginalJpeg");
+    }
+
+    @Override
+    public boolean hasSummaryPicture() {
+        // TODO 
+        try {
+            return getBlobHolder().getBlob("OriginalJpeg") != null;
+        } catch (ClientException e) {
+            return false;
+        }
+//        return true;
     }
 
 }

@@ -4,21 +4,22 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 
+import java.io.IOException;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html.RowTemplate;
 
 /**
  * @author fvandaele
@@ -29,7 +30,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html.RowTemplate;
 public class PageNewsResource extends NotifiablePageResource {
 
     //private static final Log LOG = LogFactory.getLog(PageNewsResource.class);
-
+    
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
@@ -51,35 +52,19 @@ public class PageNewsResource extends NotifiablePageResource {
 
             LabsNewsResource.fillNews(form, news);
 
-            String model = form.getString("newsModel");
-            String content = form.getString("newsContent");
-
-            HtmlRow row = news.addRow();
-
-            if ("2COL".equals(model)) {
-                row.initTemplate(RowTemplate.R2COL_2575.value());
-                row.content(0)
-                        .setHtml(getSamplePictureHtml());
-                row.content(1)
-                        .setHtml(content);
-            } else {
-                row.initTemplate(RowTemplate.R1COL.value());
-                row.content(0)
-                        .setHtml(content);
-            }
-
-            session.saveDocument(news.getDocumentModel());
+            DocumentModel newDocNews = session.saveDocument(news.getDocumentModel());
             session.save();
 
-            return redirect(getPath());
+            return redirect(getPath() + "/" + newDocNews.getName());
         } catch (ClientException e) {
+            throw WebException.wrap(e);
+        } catch (IOException e) {
             throw WebException.wrap(e);
         }
 
     }
 
-
-    private String getSamplePictureHtml() {
+    public String getSamplePictureHtml() {
         return "<img src=\"" + LabsSiteWebAppUtils.getSkinPathPrefix(getModule(), getContext()) + "/images/samplePicture.jpg\"/>";
     }
 

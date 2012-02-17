@@ -6,33 +6,33 @@
 
   <a class="btn open-dialog" rel="editprops">Modifier les propriétés</a>
 <div id="editprops">
-<h1>Editer les information de la news</h1>
-<form method="post" action="${This.path}" class="well">
-  <fieldset>
-    <legend>Propriétés de la news</legend>
-    <div class="clearfix">
-      <label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
-      <div class="input">
-        <input class="xlarge required" name="dc:title"  value="<#if news?? >${news.title}</#if>" />
-      </div>
-    </div>
-
-    <div class="clearfix">
-      <label for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>&nbsp;:&nbsp;
-      <div class="input">
-        <input type="text" class="date-pick required" name="newsStartPublication"  <#if news?? && news.startPublication!=null> value="${This.labsNews.startPublication.time?string('dd/MM/yyyy')}" </#if> />
-        ${Context.getMessage('label.labsNews.edit.au')}
-        <input class="date-pick" name="newsEndPublication"  <#if news?? && news.endPublication!=null> value="${This.labsNews.endPublication.time?string('dd/MM/yyyy')}" </#if> />
-      </div>
-    </div>
-
-
-
-    <div class="actions">
-      <input type="submit" class="btn" value="${Context.getMessage('label.labsNews.edit.valid')}" />
-  </div	>
-  </fieldset>
-</form>
+	<h1>Editer les information de la news</h1>
+	<form method="post" action="${This.path}" class="well">
+	  <fieldset>
+	    <legend>Propriétés de la news</legend>
+	    <div class="clearfix">
+	      <label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
+	      <div class="input">
+	        <input class="xlarge required" name="dc:title"  value="<#if news?? >${news.title}</#if>" />
+	      </div>
+	    </div>
+	
+	    <div class="clearfix">
+	      <label for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>&nbsp;:&nbsp;
+	      <div class="input">
+	        <input type="text" class="date-pick required" name="newsStartPublication"  <#if news?? && news.startPublication!=null> value="${This.labsNews.startPublication.time?string('dd/MM/yyyy')}" </#if> />
+	        ${Context.getMessage('label.labsNews.edit.au')}
+	        <input class="date-pick" name="newsEndPublication"  <#if news?? && news.endPublication!=null> value="${This.labsNews.endPublication.time?string('dd/MM/yyyy')}" </#if> />
+	      </div>
+	    </div>
+	
+	
+	
+	    <div class="actions">
+	      <input type="submit" class="btn" value="${Context.getMessage('label.labsNews.edit.valid')}" />
+	  </div	>
+	  </fieldset>
+	</form>
 
 </div>
   <#if news??>

@@ -91,23 +91,23 @@ function removeCheckeditor(){
 }
 
 var isOpen = false;
-function openNews(id, skinBase){
-	jQuery("#contentNews" + id).slideDown("slow");
-	jQuery("#summaryNews" + id).hide();
+function openPropsNews(){
+	jQuery("#editprops").slideDown("slow");
+	jQuery("#btnModifyPropsNews").html("Fermer les propriétés");
 	isOpen = true;
 }
 
-function closeNews(id, skinBase){
-	jQuery("#contentNews" + id).hide();
-	jQuery("#summaryNews" + id).show();
+function closePropsNews(){
+	jQuery("#editprops").slideUp("slow");
+	jQuery("#btnModifyPropsNews").html("Ouvrir les propriétés");
 	isOpen = false;
 }
 
-function actionNews(id, skinBase){
+function actionPropsNews(){
 	if(isOpen == false){
-		openNews(id, skinBase);
+		openPropsNews();
 	}
 	else{
-		closeNews(id, skinBase);
+		closePropsNews();
 	}
 }

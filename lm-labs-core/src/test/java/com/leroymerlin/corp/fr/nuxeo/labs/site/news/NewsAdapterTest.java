@@ -228,7 +228,7 @@ public class NewsAdapterTest {
         LabsNews news = doc.getAdapter(LabsNews.class);
         news.setTitle("le titre");
         news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/vision.jpg"), "image/jpeg", null,"vision.jpg", null));
-        news.setTruncatedPicture( new FileBlob(getFileFromPath("labsNewsImg/gastro.png"), "image/png", null,"gastro.png", null));
+        news.setSummaryPicture( new FileBlob(getFileFromPath("labsNewsImg/gastro.png"), "image/png", null,"gastro.png", null));
         doc = session.createDocument(news.getDocumentModel());
         session.save();
 
@@ -304,5 +304,24 @@ public class NewsAdapterTest {
         doc = session.getDocument(new PathRef("/myNews"));
         assertThat(news.getBlobHolder(),is(notNullValue()));
         assertThat(news.getBlobHolder().getAccordeonBlobs().size(),is(1));
+    }
+    
+    @Test
+    public void iCanGetSummaryPicture() throws Exception {
+        //TODO
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = doc.getAdapter(LabsNews.class);
+        news.setTitle("le titre");
+        //news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/vision.jpg"), "image/jpeg", null,"vision.jpg", null));
+        news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/gastro.png"), "image/png", null,"gastro.png", null));
+        
+        doc = session.createDocument(news.getDocumentModel());
+        session.save();
+
+        doc = session.getDocument(new PathRef("/myNews"));
+        news = doc.getAdapter(LabsNews.class);
+        //assertThat(news.getBlobHolder(),is(notNullValue()));
+        assertThat(news.hasSummaryPicture(),is(true));
+        assertThat(news.getSummaryPicture(),is(notNullValue()));
     }
 }

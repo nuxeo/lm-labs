@@ -44,7 +44,11 @@ public interface LabsNews  extends HtmlSection {
 
     void setOriginalPicture(Blob blob) throws ClientException;
 
-    void setTruncatedPicture(Blob fileBlob) throws ClientException, IOException;
+    void setSummaryPicture(Blob fileBlob) throws ClientException, IOException;
+    
+    boolean hasSummaryPicture();
+
+    Blob getSummaryPicture() throws ClientException, IOException;
 
     String getCropCoords() throws ClientException;
 
