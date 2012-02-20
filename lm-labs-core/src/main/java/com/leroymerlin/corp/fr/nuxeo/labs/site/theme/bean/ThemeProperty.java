@@ -8,6 +8,8 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean;
  *
  */
 public class ThemeProperty {
+    
+    public static final int ORDER_NUMBER_DEFAULT_VALUE = -1;
 
     private String key;
     
@@ -26,7 +28,7 @@ public class ThemeProperty {
         this.value = "";
         this.label = "";
         this.description = "";
-        this.orderNumber = -1;
+        this.orderNumber = ORDER_NUMBER_DEFAULT_VALUE;
     }
 
     public ThemeProperty(String key, String value, String label, String description, String type, int orderNumber) {

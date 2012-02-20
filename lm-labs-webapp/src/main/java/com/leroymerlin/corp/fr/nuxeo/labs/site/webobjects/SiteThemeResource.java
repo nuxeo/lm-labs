@@ -257,6 +257,7 @@ public class SiteThemeResource extends PageResource {
             } else {
                 prop.setValue(null);
             }
+            prop.setOrderNumber(i);
             properties.put(prop.getKey(), prop);
         }
 

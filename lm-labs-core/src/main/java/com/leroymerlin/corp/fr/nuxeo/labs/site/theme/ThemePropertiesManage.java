@@ -156,7 +156,7 @@ public class ThemePropertiesManage {
                     ThemeProperty prop = properties.get(addedProperty.getKey());
                     prop.setLabel(addedProperty.getLabel());
                     prop.setDescription(addedProperty.getDescription());
-                    prop.setType(addedProperty.getType());  
+                    prop.setType(addedProperty.getType());
                     prop.setOrderNumber(addedProperty.getOrderNumber());
                     result.put(prop.getKey(), prop);
                 }
@@ -168,5 +168,4 @@ public class ThemePropertiesManage {
     public Map<String, ThemeProperty> getProperties() {
         return properties;
     }
-
 }
