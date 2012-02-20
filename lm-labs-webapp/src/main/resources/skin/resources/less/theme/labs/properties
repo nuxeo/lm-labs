@@ -1,9 +1,4 @@
 ;
 
-@baseFontFamily;Police du site;Séparé par ',' et délimité par '"';1
-@basefont;Taille de base;Finir par px, em ou %;2
-@basefontTitleH1;Taille des titres h1;Finir par px, em ou %;3
-@basefontTitleH2;Taille des titres h2;Finir par px, em ou %;4
-@basefontTitleH5;Taille des titres h5;Finir par px, em ou %;5
-@basefontTitleH6;Taille des titres h6;Finir par px, em ou %;6
-
+@baseFontFamily;Police du site;Séparé par ',' et délimité par '"'
+@basefont;Taille de base;Finir par px, em ou %
