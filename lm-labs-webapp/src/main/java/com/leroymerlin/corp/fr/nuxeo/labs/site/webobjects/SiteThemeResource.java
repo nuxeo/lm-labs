@@ -40,9 +40,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.ThemePropertiesManage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.ThemePropertyComparator;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 @WebObject(type = "SiteTheme")
 @Produces("text/html; charset=UTF-8")
