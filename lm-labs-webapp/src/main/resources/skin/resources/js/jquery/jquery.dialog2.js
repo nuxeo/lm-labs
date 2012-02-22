@@ -274,7 +274,7 @@
         
         // legacy
         if (options.primary) {
-            button.addClass("primary");
+            button.addClass("btn-primary");
         }
         
         if (options.type) {

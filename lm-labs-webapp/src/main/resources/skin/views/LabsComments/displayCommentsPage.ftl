@@ -1,24 +1,24 @@
 <hr />
-<div id="divCommentablePage"  class="container" >
+<div id="divCommentablePage" class="" >
 	<center><h4 id="titleCommentsPage">${Context.getMessage('label.comments.title')}</h4></center>
 	<div id="divEditCommentable"  class="fixed-container dialog2" style="display: none;">
 		<h1 id="titleComments">${Context.getMessage('label.comments.title')}</h1>
-		<form id="form-commentablePage" method="post" class="form" action="${This.path}/@labscomments">
+		<form id="form-commentablePage" method="post" class="form form-horizontal" action="${This.path}/@labscomments">
 			<fieldset>
 				<!--         Comment      ------->
-				<div class="clearfix">
-					<div class="input" style="margin-bottom: 0px;margin-left: 0px;">
+				<div class="control-group">
+					<div class="controls" style="margin-bottom: 0px;margin-left: 0px;">
 						<textarea name="text" id="text" class="labscomments text required" required-error-text="${Context.getMessage('label.comments.required')}"></textarea>
 					</div>
 				</div>
 			</fieldset>
 			<div  class="actions">
-				<button class="btn primary required-fields" form-id="form-commentablePage" title="${Context.getMessage('label.comments.save')}">${Context.getMessage('label.comments.save')}</button>
+				<button class="btn btn-primary required-fields" form-id="form-commentablePage" title="${Context.getMessage('label.comments.save')}">${Context.getMessage('label.comments.save')}</button>
 			</div>
 		</form>
 	</div>
 	<#if !This.context.principal.anonymous>
-		<a href="#" class="btn open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();">${Context.getMessage('command.Page.CommentAdd')}</a>
+		<a href="#" class="btn btn-small open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();">${Context.getMessage('command.Page.CommentAdd')}</a>
 	</#if>
 	<div id="divListCommentsPage" class="container" style=""></div>
 </div>

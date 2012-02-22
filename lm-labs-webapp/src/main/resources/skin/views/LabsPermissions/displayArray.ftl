@@ -16,11 +16,11 @@
 		</h4>
 	</div>
 	<#list permissionsAdmin as perm>
-		<div class="row">
-			<div class="span2 columns">
+		<div class="row-fluid">
+			<div class="span1 columns">
 				&nbsp;
 			</div>
-			<div class="span12 columns">
+			<div class="span8 columns">
 				<#if perm.name == 'Everyone' >
 	            	${Context.getMessage('label.security.labs.' + perm.name)}
 	            	<#assign permName = Context.getMessage('label.security.labs.' + perm.name) />
@@ -99,7 +99,7 @@
 				<a href="#" rel="popover" data-content="${Context.getMessage('label.security.labs.permission.Read.description')}" data-original-title="${Context.getMessage('label.security.labs.permission.Read')}">Description</a>
 			</small>
 			<div style="text-align: right;margin-top: -37px;">
-				<button id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}" class="btn">${Context.getMessage('label.security.labs.button.vomitPublic')}</button>
+				<button id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}" class="btn btn-warning">${Context.getMessage('label.security.labs.button.vomitPublic')}</button>
 				<button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Read')?js_string}', 'Read');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Read')}" class="btn">+</button>
 			</div>
 		</h4>

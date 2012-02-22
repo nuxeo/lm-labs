@@ -27,11 +27,11 @@
 
 <#assign children=Session.getChildren(Document.ref) />
 <#if children?size==0>
-	<div id="contentAdminPictures" class="media-grid" style="width: 664px;text-align:center">
+	<div id="contentAdminPictures" class="thumbnails" style="width: 664px;text-align:center">
  		<span class="emptyMsg">${Context.getMessage("label.admin.asset.noPicture")}</span>
  	</div>
 <#else>
-	<div id="contentAdminPictures" class="media-grid" style="width: 664px;">
+	<div id="contentAdminPictures" class="thumbnails" style="width: 664px;">
 		<#assign hasPicture="0" />
 		<#list children as doc>
 		  <#if !doc.isFolder >

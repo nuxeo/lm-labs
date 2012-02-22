@@ -19,8 +19,8 @@
   </@block>
 
   <@block name="content">
-      <div id="content" class="container">
-      		<h1>Création d'une news</h1>
+      <div id="content" class="">
+      		<h1>Création d'une actualité</h1>
       		<#assign news = null/>
 			<#include "views/LabsNews/editProps.ftl" />
       </div>

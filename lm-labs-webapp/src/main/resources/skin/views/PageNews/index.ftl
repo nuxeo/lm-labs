@@ -17,7 +17,7 @@
   </@block>
 
   <@block name="content">
-      <div id="content" class="container">
+      <div id="content" class="">
 
     	<#include "views/common/page_header.ftl">
     	
@@ -29,15 +29,15 @@
 
         <#list pageNews.allNews as news>
           <section class="labsnews">
-	          	<div class="row" id="summaryNews${news.documentModel.ref}">
-          			<#if news.hasSummaryPicture()>
-	          			<div class="span15">
+	          	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
+	          		<#if news.hasSummaryPicture()>
+	          			<div class="span11">
 			          		<#-- Image -->
 			          		<div class="span3">
 			          			<@generateSummaryPictureNews news=news />
 			          		</div>
 			          		<#-- Central -->
-			          		<div class="span12">
+			          		<div class="span8">
 			          			<h2 style="line-height: 24px;"><a href="${This.path}/${news.documentModel.name}">${news.title}</a></h2>
 			          			<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
 			          			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
@@ -47,7 +47,7 @@
 			          	</div>
 		          	<#else>
 		          		<#-- Central -->
-		          		<div class="span15">
+		          		<div class="span11">
 		          			<h2 style="line-height: 24px;"><a href="${This.path}/${news.documentModel.name}">${news.title}</a></h2>
 			          		<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
 			          		<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
@@ -62,20 +62,20 @@
 	          	</div>
 	          	
 	          	<div id="contentNews${news.documentModel.ref}" style="display: none;">
-	              <div class="row">
+	              <div class="row-fluid">
 	              	 <#if news.hasSummaryPicture()>
-	              	 	<div class="span15">
+	              	 	<div class="span11">
 			          		<#-- Image -->
 			          		<div class="span3">
 			          			<@generateSummaryPictureNews news=news />
 			          		</div>
 			          		<#-- Central -->
-			          		<div class="span12">
+			          		<div class="span8">
 			          			<@generateHeaderNews news=news />
 				            </div>
 				        </div>
 		          	<#else>
-		              	<div class="span15">
+		              	<div class="span11">
 			                <@generateHeaderNews news=news />
 			            </div>
 			        </#if>
@@ -100,7 +100,7 @@
 
 <#macro generateContentHtmlNews news>
 	<#list news.rows as row>
-	    <div class="row" id="row_s${news_index}_r${row_index}">
+	    <div class="row-fluid" id="row_s${news_index}_r${row_index}">
 	      <#list row.contents as content>
 	        <div class="span${content.colNumber} columns">
 	          <#if content.html == "">

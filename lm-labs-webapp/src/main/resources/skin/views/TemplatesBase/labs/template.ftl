@@ -47,7 +47,7 @@
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.pagination.js"></script>
           <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
           <script type="text/javascript">
@@ -74,23 +74,23 @@
     </@block>
     </div>
 
-    <div class="container" style="width: 960px;">
+    <div class="container">
+    <div class="row-fluid">
       <@block name="breadcrumbs">
         <#include "views/common/breadcrumbs.ftl" >
       </@block>
     </div>
+    </div>
 
     <div class="container">
       <div class="row">
-         <div class="span16 columns">
         <#assign messages = This.getMessages() />
         <#list messages?keys as key >
-           <div class="alert-message ${key}">
-             <a class="close" href="#">x</a>
+           <div class="alert alert-block alert-${key}">
+             <a class="close" data-dismiss="alert" href="#">&times;</a>
              ${Context.getMessage(messages[key])}
            </div>
         </#list>
-        </div>
       </div>
     </div>
     
@@ -102,27 +102,33 @@
 	 </script>
 	 
 	 <div class="container-fluid">
+     <div class="row-fluid">
 
+		<div class="sidebar span2"> 
 		<@block name="sidebar">
-		 	<div class="sidebar"> 
 		    	<#include "views/common/sidebar_area.ftl" />
-		    </div>
 	    </@block>
+		</div>
+	    <#--
+      <#include "views/common/topnavigation_area.ftl" />
+      -->
 	
+        <div class="span10"> 
 	    <@block name="content">
 	    </@block>
-	    
 	    <@block name="pageCommentable">
 		    <#assign pageCommentable = This.getPage()/>
 			<#if pageCommentable != null && pageCommentable.commentable>
 				<#include "/views/LabsComments/displayCommentsPage.ftl" />
 			</#if>
 		</@block>
+        </div>
 	
 	    <div style="clear:both;"></div>
 	
 	    </div><!--FKtopContent-->
     
+    </div><!--row-fluid-->
     </div><!--container-fluid-->
 
     <div id="FKfooter">

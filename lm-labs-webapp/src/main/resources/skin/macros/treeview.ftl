@@ -1,7 +1,7 @@
 <#macro labsTreeview view="treeview">
-<div id="treeviewControl">
-	<a href="#" id="reduceLink">Tout réduire</a>
-	<a href="#" id="expandLink">Tout étendre</a>
+<div class="row-fluid" id="treeviewControl">
+	<a class="btn btn-mini" href="#" id="reduceLink"><i class="icon-minus"></i>Tout réduire</a>
+	<a class="btn btn-mini" href="#" id="expandLink"><i class="icon-plus"></i>Tout étendre</a>
 </div>
 <div>
 	<ul id="tree">

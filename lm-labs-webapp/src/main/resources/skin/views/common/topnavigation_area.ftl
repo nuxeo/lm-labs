@@ -14,9 +14,7 @@
 	<#return false>
 </#function>
 
-
-<div class="span16" >
-	<ul class="tabs topnavpages">
+	<ul class="nav nav-tabs topnavpages">
 		<#assign topPages = Common.getTopNavigationPages(site.tree, Context.principal.name) />
 		<#if topPages?size &gt; 0 >
 			<#assign tabActivated = false />
@@ -45,5 +43,3 @@
 			<li class="active"><a href="${url}"><h5>${Context.getMessage('label.homePage')}</h5></a></li>
 		</#if> 
 	</ul>
-</div>
-

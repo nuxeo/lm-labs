@@ -109,9 +109,9 @@
 			function getLabelHtml(state) {
 				var labelHtml = '';
 				if (state == 'draft') {
-					labelHtml = '<ins>&nbsp;<span class="label success">${Context.getMessage('label.status.draft')}</span></ins>';
+					labelHtml = '<ins>&nbsp;<span class="label label-success">${Context.getMessage('label.status.draft')}</span></ins>';
 				} else if (state == 'deleted') {
-					labelHtml = '<ins>&nbsp;<span class="label warning">${Context.getMessage('label.status.deleted')}</span></ins>';
+					labelHtml = '<ins>&nbsp;<span class="label label-warning">${Context.getMessage('label.status.deleted')}</span></ins>';
 				}
 				return labelHtml;
 			}
@@ -670,7 +670,7 @@
 			<img style="cursor:pointer;" src="${skinPath}/images/theme/header_help.png" onclick="jQuery('#help-jstree').show();return false;"/>
 			</h1>
 		</div>
-		<div id="help-jstree" class="alert-message block-message success" style="display:none;">
+		<div id="help-jstree" class="alert alert-block alert-success" style="display:none;">
 			<a class="close" href="#">&times;</a>
 			<#assign i18nPfx = "label.admin.help." />
 			<p>
@@ -687,8 +687,8 @@
 		
 		<#if adminTreeviewType=="Assets">
 		<div style="margin: 0px 0px 8px 283px;">
-            <a href="#" rel="addFileDialog" class="open-dialog btn" onclick="openAddFileDialog(jQuery('#currentNodeId').val())">Ajouter un fichier</a>
-            <a href="#" rel="addFolderDialog" class="open-dialog btn">Ajouter un répertoire</a>
+            <a href="#" rel="addFileDialog" class="open-dialog btn" onclick="openAddFileDialog(jQuery('#currentNodeId').val())"><i class="icon-file"></i>Ajouter un fichier</a>
+            <a href="#" rel="addFolderDialog" class="open-dialog btn"><i class="icon-folder-close"></i>Ajouter un répertoire</a>
 			
 			<div style="font-weight: bold;font-size:16px;margin:10px 0px -6px 0px">
 				${Context.getMessage("label.admin.help.dragNDrop")}
@@ -697,18 +697,18 @@
 			<#-- TODO IN MACRO -->
 	          <div id="addFolderDialog" style="display:none;">
 	            <h1>Ajouter un répertoire</h1>
-	            <form id="addFolderForm" action="${This.path}" method="post" onSubmit="return createFolder('','','');">
+	            <form class="form-horizontal" id="addFolderForm" action="${This.path}" method="post" onSubmit="return createFolder('','','');">
 	              <input type="hidden" name="doctype" value="Folder"/>
 	              <fieldset>
-	                <div class="clearfix">
-	                    <label for="title">Nom du répertoire</label>
-	                      <div class="input">
-	                        <input name="dublincore:title" class="required"/>
+	                <div class="control-group">
+	                    <label class="control-label" for="title">Nom du répertoire</label>
+	                      <div class="controls">
+	                        <input name="dublincore:title" class="required input"/>
 	                      </div>
-	                    </div><!-- /clearfix -->
+	                    </div>
 	              </fieldset>
 	              <div class="actions">
-	                <button type="submit" class="btn primary required-fields" form-id="addFolderForm">Ajouter</button>
+	                <button type="submit" class="btn btn-primary required-fields" form-id="addFolderForm">Ajouter</button>
 	              </div>
 	           </form>
 	         </div>
@@ -760,11 +760,11 @@
 }
 </style>
 <div id="${id}" class="span16 columns jsTreeControls">
-	<button class="btn mini" id="expandTreeBt" onclick="jQuery('#jstree').jstree('open_all');return false;">
-	${Context.getMessage('command.admin.tree.expandAll')}
+	<button class="btn btn-mini" id="expandTreeBt" onclick="jQuery('#jstree').jstree('open_all');return false;">
+	<i class="icon-plus"></i>${Context.getMessage('command.admin.tree.expandAll')}
 	</button>
-	<button class="btn mini" id="collapseTreeBt" onclick="jQuery('#jstree').jstree('close_all');return false;">
-	${Context.getMessage('command.admin.tree.collapseAll')}
+	<button class="btn btn-mini" id="collapseTreeBt" onclick="jQuery('#jstree').jstree('close_all');return false;">
+	<i class="icon-minus"></i>${Context.getMessage('command.admin.tree.collapseAll')}
 	</button>
 </div>
 </#macro>

@@ -24,17 +24,17 @@
        		
        		<div class="span12 columns">
        			<h3>Modifier le contenu</h3>
-       			<form id="editcontent" class="form-stacked" action="${This.path}" method="post">
+       			<form id="editcontent" action="${This.path}" method="post">
        			<fieldset>
-                <div class="clearfix">
-                <label for="title">Contenu</label>
-                  <div class="input-stacked">
+                <div class="control-group">
+                <label class="control-label" for="title">Contenu</label>
+                  <div class="controls">
                     <textarea name="content">${content.html}</textarea>
                   </div>
             
-                </div><!-- /clearfix -->
-                <div class="action">
-                	<input type="submit" class="btn primary" value="Modifier"/>
+                </div>
+                <div class="form-actions">
+                	<input type="submit" class="btn btn-primary" value="Modifier"/>
                 </div>
                 </fieldset>
        			</form>

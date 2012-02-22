@@ -39,7 +39,7 @@
       });
     </script>
 
-    <div class="container">
+    <div class="">
     <section>
       <div class="page-header">
         <h1>${Context.getMessage('label.search.title')}</h1>
@@ -48,7 +48,7 @@
         </#if>
       </div>
     <#if result?size &gt; 0>
-      <table class="zebra-striped bs" id="resultsSearch" >
+      <table class="table table-striped table-bordered bs" id="resultsSearch" >
         <thead>
           <tr>
           	<th></th>
@@ -88,17 +88,17 @@
               </td>
                 <td>
                   <#if !hasFile>
-                  <a disabled="disabled" href="#" class="btn disabled">
+                  <a href="#" class="btn disabled">
                   <#else>
                   <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">
                   </#if>
-                  ${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
+                  <i class="icon-eye-open"></i>${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
                   <#if !hasFile>
                   <a disabled="disabled" href="#" class="btn disabled">
                   <#else>
                   <a href="${Context.modulePath}/${sd.resourcePath}/@blob" target="_blank" class="btn">
                   </#if>
-                  ${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
+                  <i class="icon-download"></i>${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
                 </td>
             </tr>
           </#list>

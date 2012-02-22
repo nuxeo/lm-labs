@@ -6,12 +6,12 @@
     <script type="text/javascript" src="${skinPath}/js/sitesRoot.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
     <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
 jQuery(document).ready(function() {
-  jQuery("table[class*='zebra-striped']").tablesorter({
+  jQuery("table[class*='table-striped']").tablesorter({
     headers: { 2: { sorter: false}},
     sortList: [[0,0]],
     textExtraction: function(node) {
@@ -119,7 +119,7 @@ function deleteDefinitelySite(url){
 	    			<#break>
 	    		</#if>
 	    	</#list>
-	      <table class="zebra-striped bs" id="MySites" >
+	      <table class="table table-striped table-bordered bs" id="MySites" >
 	        <thead>
 	          <tr>
 	            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
@@ -147,7 +147,7 @@ function deleteDefinitelySite(url){
 	              <#if hasAtLeastOneAdminSite>
 	              <td>
 	              <#if sit.isAdministrator(Context.principal.name) >
-	              	<a href="#" class="btn danger" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a>
+	              	<a href="#" class="btn btn-danger" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a>
 	              </#if>
 	              </td>
 	              </#if>
@@ -168,7 +168,7 @@ function deleteDefinitelySite(url){
 	    			<#break>
 	    		</#if>
 	    	</#list>
-	      <table class="zebra-striped bs" id="templateSites" >
+	      <table class="table table-bordered table-striped bs" id="templateSites" >
 	        <thead>
 	          <tr>
 	            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
@@ -195,7 +195,7 @@ function deleteDefinitelySite(url){
 	              <#if hasAtLeastOneAdminSite>
 	              <#if labsSite.isAdministrator(Context.principal.name) >
 	                <td><a class="btn" href="${This.path}/${labsSite.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
-	              	<td><a href="#" class="btn danger" onclick="javascript:deleteSite('${Context.modulePath}/${labsSite.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
+	              	<td><a href="#" class="btn btn-danger" onclick="javascript:deleteSite('${Context.modulePath}/${labsSite.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
 	              <#else>
 	                <td></td>
 	                <td></td>
@@ -219,7 +219,7 @@ function deleteDefinitelySite(url){
 			          <#break>
 	    		    </#if>
 			      </#list>
-			      <table class="zebra-striped bs" id="MyDeletedSites" >
+			      <table class="table table-bordered table-condensed table-striped bs" id="MyDeletedSites" >
 			        <thead>
 			          <tr>
 			            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
@@ -249,7 +249,7 @@ function deleteDefinitelySite(url){
 			              </td>
 			              <#if hasAtLeastOneAdminSite>
 			              <td>
-			              <a href="#" class="btn danger<#if !Common.canDeleteSite(Context.principal.name, Session) > disabled</#if>"
+			              <a href="#" class="btn btn-danger<#if !Common.canDeleteSite(Context.principal.name, Session) > btn-disabled</#if>"
 			              <#if Common.canDeleteSite(Context.principal.name, Session) >
 			                onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');"
 			              <#else>

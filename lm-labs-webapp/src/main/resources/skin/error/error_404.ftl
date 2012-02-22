@@ -7,7 +7,7 @@
 
 
 <@block name="content">
-  <div class="alert-message block-message error no-fade">
+  <div class="alert alert-block alert-error no-fade">
   <p><strong>La page recherchée n'existe pas</strong> Cela peut être du au fait que :
   <ul>
     <li>La page n'existe plus</li>
@@ -16,10 +16,9 @@
       rêgler le problème)</li>
   </ul></p>
   <div class="alert-actions">
-    <a class="btn small" href="${Context.modulePath}">Liste des sites</a>
+    <a class="btn btn-small" href="${Context.modulePath}">Liste des sites</a>
   </div>
 </div>
-  <a href="
 </@block>
 </@extends>
 

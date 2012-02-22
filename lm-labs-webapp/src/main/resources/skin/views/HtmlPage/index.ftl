@@ -19,7 +19,7 @@
   <@block name="content">
   <@tableOfContents>
 
-   	<div class="container">
+   	<div class="">
    
    	<#include "views/common/page_header.ftl">
   	
@@ -37,36 +37,35 @@
 
 		<#if isContributor >
 	        <div class="well editblock">
-	          <a href="#" rel="editsection_${section_index}" class="btn small open-dialog" >Modifier la section</a>
+	          <a href="#" rel="editsection_${section_index}" class="btn btn-small open-dialog" >Modifier la section</a>
 	          <!-- This button submits the hidden delete form -->
-	          <button type="submit" class="btn small danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
+	          <button type="submit" class="btn btn-small btn-danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
 	
 	          <div id="editsection_${section_index}" >
 	          	  <h1>Modifier la section</h1>
-			      <form action="${This.path}/s/${section_index}" method="post">
+			      <form class="form-horizontal" action="${This.path}/s/${section_index}" method="post">
 				      <input type="hidden" name="action" value="editsection"/>
 				      <fieldset>
-			            <legend>Modifier la section</legend>
-			            <div class="clearfix">
-			              <label for="title">Titre</label>
-			              <div class="input">
-			                <input class="large" id="sectionTitle" name="title" size="30" type="text" value="${section.title}"/>
+			            <div class="control-group">
+			              <label class="control-label" for="title">Titre</label>
+			              <div class="controls">
+			                <input class="input-large" id="sectionTitle" name="title" size="30" type="text" value="${section.title}"/>
 			              </div>
-			            </div><!-- /clearfix -->
+			            </div>
 			
-			            <div class="clearfix">
-			              <label for="description">Sous-titre</label>
-			              <div class="input">
-			                <input class="large" id="sectionDescription" name="description" size="30" type="text" value="${section.description}"/>
-			                <span class="help-block">
+			            <div class="control-group">
+			              <label class="control-label" for="description">Sous-titre</label>
+			              <div class="controls">
+			                <input class="input-large" id="sectionDescription" name="description" size="30" type="text" value="${section.description}"/>
+			                <p class="help-block">
 			                  Texte ajouté en petit à côté du titre
-			                </span>
+			                </p>
 			              </div>
-			            </div><!-- /clearfix -->
-			            <div class="actions">
-			              <button type="submit" class="btn primary">Modifier</button>&nbsp;
 			            </div>
 				      </fieldset>
+			          <div class="actions">
+			            <button type="submit" class="btn btn-primary">Modifier</button>&nbsp;
+			          </div>
 			      </form>
 	          </div>
 	       	  <!-- Hidden form to handle delete action -->
@@ -78,7 +77,7 @@
 
         <#list section.rows as row>
         	<#if isContributor >
-	          <div class="row<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
+	          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 	              <#list row.contents as content>
                     <div class="span${content.colNumber} columns viewblock">
                     <#if content.html == "">
@@ -105,14 +104,15 @@
 	              </#list>
 	
 	               <div style="margin-left:20px;clear:both;" class="editblock">
-	               	  <a href="#" class="btn small" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;">Modifier la classe CSS</a>
+	               	  <a href="#" class="btn btn-small" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;">Modifier la classe CSS</a>
 		              <form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
-		                    <button type="submit" class="btn small danger">Supprimer la ligne</button>
+		                    <button type="submit" style="margin-left: 10px;" class="btn btn-small btn-danger">Supprimer la ligne</button>
 		              </form>
 	               </div>
 	          </div>
+	          <hr class="editblock" />
 	        <#else>
-	           <div class="row<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
+	           <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 	              <#list row.contents as content>
 	                <div class="span${content.colNumber} columns">
 	                <#if content.html == "">
@@ -129,32 +129,32 @@
 
 		<#if isContributor >
 	        <div class="well editblock">
-	          <form id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
+	          <form class="form-horizontal" id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
 	          	  <input type="hidden" name="action" value="addrow"/>
 	              <fieldset>
 	                <legend>Ajouter une ligne</legend>
-	                <div class="clearfix">
-	                  <label for="title">Type de ligne</label>
-	                  <div class="input">
+	                <div class="control-group">
+	                  <label class="control-label" for="title">Type de ligne</label>
+	                  <div class="controls">
 	                    <select name="rowTemplate">
 	                    <#list layouts?keys as layoutCode >
 	                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
 	                    </#list>
 		                </select>
 		                <div id="displayCssClass_${section_index}" style="display: none;float: right;">
-		                	Classe CSS : <input class="medium" name="cssClass" />
+		                	Classe CSS : <input class="input-medium" name="cssClass" />
 		                </div>
 		                <div id="herfDisplayCssClass_${section_index}" style="float: right;cursor: pointer;" onClick="javascript:displayCssClass('${section_index}');">
 		                	<br>Ajouter un style à la ligne
 		                </div>
-		                <button type="submit" class="btn small primary">Ajouter</button>
-		                <span class="help-block">
+		                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
+		                <p class="help-block">
 		                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
 		                    parenthèses représentent des pourcentages de taille de colonne.
-		                </span>
+		                </p>
 	                  </div>
 	
-	                </div><!-- /clearfix -->
+	                </div>
 	              </fieldset>
 	          </form>
 	        </div>
@@ -171,34 +171,36 @@
 
 		<#if isContributor >
 		    <#-- Add Section -->
-		    <a id="addsectionlink" href="#" rel="addsection" class="btn small open-dialog editblock" >Ajouter une section</a>
+		    <div class="form-actions editblock">
+		    <a id="addsectionlink" href="#" rel="addsection" class="btn btn-small open-dialog" >Ajouter une section</a>
+		    </div>
 	
 		    <div id="addsection">
 		    	<h1>Ajouter une section</h1>
-		    	<form  id="addsectionfrm" action="${This.path}" method="post">
+		    	<form class="form-horizontal" id="addsectionfrm" action="${This.path}" method="post">
 		      		<input type="hidden" name="action" value="addsection"/>
 		      		<fieldset>
-			            <div class="clearfix">
-			              <label for="title">Titre</label>
-			              <div class="input">
-			                <input class="large" id="sectionTitle" name="title" size="30" type="text" />
+			            <div class="control-group">
+			              <label class="control-label" for="title">Titre</label>
+			              <div class="controls">
+			                <input class="input-large" id="sectionTitle" name="title" size="30" type="text" />
 			              </div>
-			            </div><!-- /clearfix -->
+			            </div>
 			
 			
-			            <div class="clearfix">
-			              <label for="description">Sous-titre</label>
-			              <div class="input">
-			                <input class="large" id="sectionDescription" name="description" size="30" type="text" />
-			                <span class="help-block">
+			            <div class="control-group">
+			              <label class="control-label" for="description">Sous-titre</label>
+			              <div class="controls">
+			                <input class="input-large" id="sectionDescription" name="description" size="30" type="text" />
+			                <p class="help-block">
 			                  Texte ajouté en petit à côté du titre
-			                </span>
+			                </p>
 			              </div>
-			            </div><!-- /clearfix -->
+			            </div>
 			            
-			            <div class="clearfix">
-			              	  <label for="index">Position</label>
-				              <div class="input">
+			            <div class="control-group">
+			              	  <label class="control-label" for="index">Position</label>
+				              <div class="controls">
 				              	<select name="index">
 				              		<#assign index=0 />
 				              		<#list page.sections as section>
@@ -207,14 +209,14 @@
 				              		</#list>
 				              		<option class="large" id="sectionIndex" value="${page.sections?size}" selected="selected">Dernière</option>
 				              	</select>
-				              	<span class="help-block">
+				              	<p class="help-block">
 				                  Position de la section
-				                </span>
+				                </p>
 				              </div>
-			            </div><!-- /clearfix -->
+			            </div>
 			              
 			            <div class="actions">
-			              <button type="submit" class="btn small primary">Ajouter</button>&nbsp;
+			              <button type="submit" class="btn btn-small btn-primary">Ajouter</button>&nbsp;
 			            </div>
 	           		</fieldset>
 	        	</form>
@@ -222,19 +224,19 @@
 	    	
 	    	<div id="div-modifyCSSLine">
 		    	<h1>Modifier la ligne</h1>
-		    	<form action="${This.path}" id="form-modifyCSSLine" method="post">
+		    	<form class="form-horizontal" action="${This.path}" id="form-modifyCSSLine" method="post">
 		      		<input type="hidden" name="section" value=""/>
 		      		<input type="hidden" name="row" value=""/>
 		      		<fieldset>
-			            <div class="clearfix">
-			              <label for="cssName">Classe CSS</label>
-			              <div class="input">
-			                <input class="large" id="cssName" name="cssName" type="text" />
+			            <div class="control-group">
+			              <label class="control-label" for="cssName">Classe CSS</label>
+			              <div class="controls">
+			                <input class="input-large" id="cssName" name="cssName" type="text" />
 			              </div>
-			            </div><!-- /clearfix -->
+			            </div>
 			              
 			            <div class="actions">
-			              <button type="submit" class="btn small primary">Modifier</button>&nbsp;
+			              <button type="submit" class="btn btn-small btn-primary">Modifier</button>&nbsp;
 			            </div>
 	           		</fieldset>
 	        	</form>

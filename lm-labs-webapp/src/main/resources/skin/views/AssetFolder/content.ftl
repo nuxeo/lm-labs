@@ -1,4 +1,4 @@
-<div class="media-grid">
+<div class="thumbnails">
 <#list Session.getChildren(Document.ref) as doc>
   <#if !doc.isFolder >
   <a onclick="sendToCallFunction('${This.path}/${doc.name}/@blob');return false;">
