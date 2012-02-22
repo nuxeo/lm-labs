@@ -40,39 +40,6 @@
 	              </div>
 			  </#if>
 			  <#if isContributor >
-				<#--<a class="btn open-dialog editblock" rel="editprops">Modifier les propriétés</a>
-				<div id="editprops">
-					<h1>Editer les information de la news</h1>
-					<form class="form-horizontal" method="post" action="${This.path}" class="well">
-					  <fieldset>
-					    <legend>Propriétés de la news</legend>
-					    <div class="control-group">
-					      <label class="control-label" for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
-					      <div class="controls">
-					        <input class="focused input-xlarge" name="dc:title"  value="<#if news?? >${news.title}</#if>">
-					      </div>
-					    </div>
-					
-					    <div class="control-group">
-					      <label class="control-label" for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>
-					      <div class="controls">
-					        <input class="input date-pick span2" name="newsStartPublication"  <#if news?? && news.startPublication!=null> value="${This.labsNews.startPublication.time?string('dd/MM/yyyy')}" </#if>">
-					        ${Context.getMessage('label.labsNews.edit.au')}
-					        <input class="input date-pick span2" name="newsEndPublication"  <#if news?? && news.endPublication!=null> value="${This.labsNews.endPublication.time?string('dd/MM/yyyy')}" </#if>">
-					      </div>
-					    </div>
-					
-					    <div class="actions">
-					      <input type="submit" class="btn" value="${Context.getMessage('label.labsNews.edit.valid')}" />
-					  	</div	>
-					  </fieldset>
-					</form>
-				</div>
-		      	<script type="text/javascript">
-				  $(document).ready(function() {
-				      initEditDateNews();
-				  });
-			  	</script> TODO -->
 			  	<#assign news=news/>
 			  	<#include "views/LabsNews/editProps.ftl" />
 			  </#if>

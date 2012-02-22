@@ -27,7 +27,7 @@
 
         <#list pageNews.allNews as news>
           <section class="labsnews">
-	          	<div class="row" id="summaryNews${news.documentModel.ref}">
+	          	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
 	          		<#if news.hasSummaryPicture()>
 	          			<div class="span11">
 			          		<#-- Image -->
@@ -58,7 +58,7 @@
 	          	</div>
 	          	
 	          	<div id="contentNews${news.documentModel.ref}" style="display: none;">
-	              <div class="row">
+	              <div class="row-fluid">
 	              	 <#if news.hasSummaryPicture()>
 	              	 	<div class="span11">
 			          		<#-- Image -->
@@ -96,7 +96,7 @@
 
 <#macro generateContentHtmlNews news>
 	<#list news.rows as row>
-	    <div class="row" id="row_s${news_index}_r${row_index}">
+	    <div class="row-fluid" id="row_s${news_index}_r${row_index}">
 	      <#list row.contents as content>
 	        <div class="span${content.colNumber} columns">
 	          <#if content.html == "">
