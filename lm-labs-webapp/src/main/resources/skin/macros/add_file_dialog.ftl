@@ -1,24 +1,24 @@
 <#macro addFileDialog action onSubmit>
 	<div id="addFileDialog">
 	    <h1>Ajouter un Fichier</h1>
-	   	<form id="addFileForm" action="${action}" onSubmit="${onSubmit}" method="post" enctype="multipart/form-data">
+	   	<form class="form-horizontal" id="addFileForm" action="${action}" onSubmit="${onSubmit}" method="post" enctype="multipart/form-data">
 	      <fieldset>
-	        <div class="clearfix">
-	                <label for="title">Choisir le fichier</label>
-	                  <div class="input">
-	                    <input type="file" name="file" class="required"/>
+	        <div class="control-group">
+	                <label class="control-label" for="title">Choisir le fichier</label>
+	                  <div class="controls">
+	                    <input type="file" name="file" class="required input-file"/>
 	                  </div>
-	                </div><!-- /clearfix -->
+	                </div>
 	
-	                <div class="clearfix">
-	                <label for="description">Description</label>
-	                  <div class="input">
+	                <div class="control-group">
+	                <label class="control-label" for="description">Description</label>
+	                  <div class="controls">
 	                    <textarea name="description"></textarea>
 	                  </div>
-	                </div><!-- /clearfix -->
+	                </div>
 	      </fieldset>
 	      <div class="actions">
-	        <button type="submit" class="btn primary required-fields" form-id="addFileForm">Ajouter</button>
+	        <button type="submit" class="btn btn-primary required-fields" form-id="addFileForm">Ajouter</button>
 	      </div>
 	  </form>
 	</div>

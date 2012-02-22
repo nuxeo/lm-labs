@@ -25,24 +25,24 @@
 
 <div id="div_persistExternalURL" style="display: none;" >
   <h1>${Context.getMessage('label.externalURL.edit.title')}</h1>
-  <form method="post" id="form-externalURL" enctype="multipart/form-data"
+  <form class="form-horizontal" method="post" id="form-externalURL" enctype="multipart/form-data"
   	action="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@externalURL">
   	<fieldset>
-  	  <div class="clearfix">
-        <label for="exturl:name">${Context.getMessage('label.externalURL.edit.name')}</label>
-        <div class="input">
-          <input type="text" class="required" id="exturl:name" name="exturl:name" />
+  	  <div class="control-group">
+        <label class="control-label" for="exturl:name">${Context.getMessage('label.externalURL.edit.name')}</label>
+        <div class="controls">
+          <input type="text" class="input required" id="exturl:name" name="exturl:name" />
         </div>
   	  </div>
-  	  <div class="clearfix">
-        <label for="exturl:url">${Context.getMessage('label.externalURL.edit.url')}</label>
-        <div class="input">
-          <input type="text" class="xlarge required" id="exturl:url" name="exturl:url" />
+  	  <div class="control-group">
+        <label class="control-label" for="exturl:url">${Context.getMessage('label.externalURL.edit.url')}</label>
+        <div class="controls">
+          <input type="text" class="required input-xlarge " id="exturl:url" name="exturl:url" />
         </div>
   	  </div>
   	</fieldset>
     <div class="actions">
-      <button class="btn primary required-fields" form-id="form-externalURL">Envoyer</button>
+      <button class="btn btn-primary required-fields" form-id="form-externalURL">Envoyer</button>
     </div>
   </form>
 </div>
@@ -127,7 +127,7 @@ function ajaxMoveExtURL(url){
 function initFieldsExternalURL() {
   jQuery("#form-externalURL").clearForm();
   jQuery('input[name="exturl:url"]').val('http://');
-  jQuery("#form-externalURL div.clearfix.error").removeClass("error");
+  jQuery("#form-externalURL div.control-group.error").removeClass("error");
 }
 
 function modifyExternalURL(name, url, order, id){

@@ -1,48 +1,47 @@
 <#include "views/common/init_mode.ftl" />
-    <div class="topbar-wrapper" style="z-index: 5;">
-    <div class="topbar">
-      <div class="topbar-inner">
+    <div class="navbar-wrapper" style="z-index: 5;">
+    <div class="navbar">
+      <div class="navbar-inner">
         <div class="container-fluid">
-          <h3>
             <#if site??>
-              <a href="${Context.modulePath}/${site.document.webcontainer.url}">${site.title}</a>
+              <a class="brand" href="${Context.modulePath}/${site.document.webcontainer.url}">${site.title}</a>
             <#else>
-              <a href="${Context.modulePath}">LABS</a>
+              <a class="brand" href="${Context.modulePath}">LABS</a>
             </#if>
-          </h3>
 
-
-          <ul class="nav secondary-nav">
+          <div class="nav-collapse" >
+          <ul class="nav pull-right">
             <#if site?? >
             <li>
-              <form accept-charset="ISO-8859-1" action="${Context.modulePath}/${site.URL}/@search">
-              <input class="normal" placeholder="${Context.getMessage('label.search')}" name="fullText"/>
+              <form class="navbar-search pull-right" accept-charset="ISO-8859-1" action="${Context.modulePath}/${site.URL}/@search">
+              <input class="search-query" placeholder="${Context.getMessage('label.search')}" name="fullText"/>
               </form>
             </li>
             </#if>
+            <li id="FKerrorLogin" class="navbar-text" style="/*display: none;*/">${Context.getMessage('label.login.failed')}</li>
             <li><#include "common/labsLogin.ftl" /></li>
             <#if Context.principal.isAnonymous() == false>
             <li class="dropdown	">
-              <a href="#" class="dropdown-toggle">${Context.principal.firstName} ${Context.principal.lastName}</a>
+              <a href="#" class="dropdown-toggle">${Context.principal.firstName} ${Context.principal.lastName}<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <@block name="docactions">
 	                <#if site?? && site.isContributor(Context.principal.name) >
 	                	<@block name="docactionsaddpage">
 	                		<!--   add page     -->
-	                		<li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView">${Context.getMessage('command.docactions.addcontent')}</a></li>
+	                		<li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView"><i class="icon-plus"></i>${Context.getMessage('command.docactions.addcontent')}</a></li>
 	                	</@block>
 	                	<!--   Mode page     -->
-	                	<li><a id="page_edit" href="#" onclick="javascript:simulateKeyup69();">Visualiser</a></li>
+	                	<li><a id="page_edit" href="#" onclick="javascript:simulateKeyup69();"><i class="icon-eye-open"></i>Visualiser</a></li>
 	                	<@block name="docactionsonpage">
 		                	<!--   Manage parameter's page     -->
-							<li><a href="#" onclick="javascript:openParametersPage();">${Context.getMessage('command.docactions.parameters')}</a></li>
+							<li><a href="#" onclick="javascript:openParametersPage();"><i class="icon-adjust"></i>${Context.getMessage('command.docactions.parameters')}</a></li>
 							<div id="divEditParametersPage" style="display: none;">
 								<#include "views/common/page_parameters.ftl" />
 							</div>
 							<!--   set homePage     -->
 							<li>
 								<#if This.page?? && !(Common.siteDoc(Document).site.indexDocument.id == This.page.document.id)>
-									<a href="#" onclick="javascript:setAsHomePage();" >${Context.getMessage('command.docactions.homePage')}</a>
+									<a href="#" onclick="javascript:setAsHomePage();" ><i class="icon-home"></i>${Context.getMessage('command.docactions.homePage')}</a>
 								</#if>
 							</li>
 							<script type="text/javascript">
@@ -113,19 +112,19 @@
 								}
 							</script>
 						</@block>
+                <li class="divider"></li>
 	                </#if>
 	                
                 </@block>
-                <li class="divider"></li>
                 <@block name="siteactions">
 	                <#if site?? && site.isAdministrator(Context.principal.name) >
 	                	<#if site.visible>
-	                		<li><a href="#" onclick="javascript:draftSite();">${Context.getMessage('command.siteactions.draft')}</a></li>
+	                		<li><a href="#" onclick="javascript:draftSite();"><i class="icon-file"></i>${Context.getMessage('command.siteactions.draft')}</a></li>
 	                	<#else>
-	                		<li><a href="#" onclick="javascript:publishSite();">${Context.getMessage('command.siteactions.publish')}</a></li>
+	                		<li><a href="#" onclick="javascript:publishSite();"><i class="icon-share-alt"></i>${Context.getMessage('command.siteactions.publish')}</a></li>
 	                	</#if>
 	                	<!--   delete     -->
-	                	<!--li><a href="#" onclick="javascript:deleteSite();">${Context.getMessage('command.siteactions.delete')}</a></li-->
+	                	<!--li><a href="#" onclick="javascript:deleteSite();"><i class="icon-remove"></i>${Context.getMessage('command.siteactions.delete')}</a></li-->
 	                	<script type="text/javascript">
 	                		function publishSite(){
 	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouPublish')}")){
@@ -186,24 +185,25 @@
 	                	</script>
 	                </#if>
 	                <#if site?? && site.isContributor(Context.principal.name) >
-	                <li><a href="${Context.modulePath}/${site.URL}/@views/edit">${Context.getMessage('label.contextmenu.administration')}</a></li>
+	                <li><a href="${Context.modulePath}/${site.URL}/@views/edit"><i class="icon-cog"></i>${Context.getMessage('label.contextmenu.administration')}</a></li>
 	                </#if>
 	                <#if site??>
-	                  <li><a href="${Context.modulePath}/${site.URL}/@views/sitemap">${Context.getMessage('label.contextmenu.sitemap')}</a></li>
+	                  <li><a href="${Context.modulePath}/${site.URL}/@views/sitemap"><i class="icon-screenshot"></i>${Context.getMessage('label.contextmenu.sitemap')}</a></li>
 	                </#if>
                 </@block>
 
               <#if site?? && site.isAdministrator(Context.principal.name) >
-                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.document.title}/tree@view_documents?tabIds=%3A" target="_blank" >${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
+                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.document.title}/tree@view_documents?tabIds=%3A" target="_blank" ><i class="icon-edit"></i>${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
-                <li><a id="logout" href="#">${Context.getMessage('command.contextmenu.logout')}</a></li>
+                <li><a id="logout" href="#"><i class="icon-off"></i>${Context.getMessage('command.contextmenu.logout')}</a></li>
               </ul>
             </li>
             </#if>
           </ul>
+          </div>
         </div>
-      </div><!-- /fill -->
-    </div><!-- /topbar -->
-    </div><!-- /topbar-wrapper -->
+      </div><#-- /fill -->
+    </div><#-- /navbar -->
+    </div><#-- /navbar-wrapper -->
     &nbsp;

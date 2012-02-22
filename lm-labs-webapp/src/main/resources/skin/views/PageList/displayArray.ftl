@@ -1,4 +1,4 @@
-<table id="sortArray" class="zebra-striped bs">
+<table id="sortArray" class="table table-striped table-bordered bs">
   <thead>
     <tr>
       <#list bean.headersSet as header>
@@ -25,11 +25,11 @@
      		<!--  --------------------COMMENTS OF LINE --------------->
      		<#assign nbComments = entriesLine.nbComments/>
      		<#if 0 < nbComments>
-      			<td style="vertical-align: middle;width: 15px;" rel="twipsy" data-original-title="${Context.getMessage('label.comments.nbComments', nbComments)}"  alt="${Context.getMessage('label.comments.title')}">
+      			<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${Context.getMessage('label.comments.nbComments', nbComments)}"  alt="${Context.getMessage('label.comments.title')}">
       				<a href="#" class="open-dialog" rel="divCommentable" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
       			</td>
       		<#else>
-      			<td style="vertical-align: middle;width: 15px;" rel="twipsy" data-original-title="${Context.getMessage('label.comments.null.nbComments')}"  alt="${Context.getMessage('label.comments.title')}">
+      			<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${Context.getMessage('label.comments.null.nbComments')}"  alt="${Context.getMessage('label.comments.title')}">
       				<a href="#" class="labscomments noComments open-dialog" rel="divCommentable" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
       			</td>
       		</#if>
@@ -55,7 +55,7 @@
 <#if This.isCommantableLines()>
 <script type="text/javascript">
 	$(function () {
-		$("td[rel=twipsy]").twipsy({live: true})
+		$("td[rel=tooltip]").tooltip({live: true})
 		}
 	) 
 </script>

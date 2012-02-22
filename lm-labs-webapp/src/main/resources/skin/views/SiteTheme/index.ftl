@@ -25,7 +25,6 @@
 
   <@block name="content">
     <div class="container">
-  
       
 		<!--    TEMPLATE THEME -->
       <section>
@@ -36,40 +35,40 @@
           </h3>
         </div>
         <div class="row">
-          <div class="span4 columns">
+          <div class="span3 columns">
 			&nbsp;
           </div>
-          <div class="span12 columns">
-            <form action="${This.path}/appearance" method="post" id="form-appearance">
+          <div class="span8 columns">
+            <form class="form-horizontal" action="${This.path}/appearance" method="post" id="form-appearance">
               <fieldset>
-                <div class="clearfix">
-                  <label for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
-                  <div class="input">
+                <div class="control-group">
+                  <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
+                  <div class="controls">
                     <select name="template" id="template">
 	            		<#list This.getTemplates() as template>
 	            			<option value="${template}"  <#if site.template.templateName == template >selected</#if>>${template}</option>
 	            		</#list>
 	            	</select>
-                    <span class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</span>
+                    <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
                   </div>
-                </div><!-- /clearfix -->
+                </div>
                 
-                <div class="clearfix">
-                  <label for="theme">${Context.getMessage('label.labssites.appearance.theme.label')}</label>
-                  <div class="input">
+                <div class="control-group">
+                  <label class="control-label" for="theme">${Context.getMessage('label.labssites.appearance.theme.label')}</label>
+                  <div class="controls">
 	            	<a href="#" id="modifyThemeParameters"><br/>${Context.getMessage('label.labssites.appearance.theme.parameters')}</a> 
                     <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${site.getThemeManager().getTheme().getName()}');">
 	            		<#list This.getThemes() as theme>
 	            			<option value="${theme}"  <#if site.getThemeManager().getTheme().getName() == theme >selected</#if>>${theme}</option>
 	            		</#list>
 	            	</select>
-                    <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.help.block')}</span>
+                    <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.help.block')}</p>
                   </div>
-                </div><!-- /clearfix -->
+                </div>
 
                </fieldset>
-              <div class="actions">
-                <button class="btn primary">${Context.getMessage('label.labssites.appearance.save')}</button>
+              <div class="form-actions">
+                <button class="btn btn-primary">${Context.getMessage('label.labssites.appearance.save')}</button>
               </div>
             </form>
           </div>
@@ -80,12 +79,12 @@
 		<div id="div-editTheme" style="display:none;">
 	      <h1>${Context.getMessage('label.labssites.appearance.theme.edit.title')}</h1>
 	      
-	      <form action="${This.path}/parameters" method="post" enctype="multipart/form-data" id="form-parameter">
+	      <form class="form-horizontal" action="${This.path}/parameters" method="post" enctype="multipart/form-data" id="form-parameter">
 	      	<fieldset>
 	      		<!--    BANNER   -->
-	      		<div class="clearfix">
-                  <label for="banner">${Context.getMessage('label.labssites.appearance.theme.edit.banner.label')}</label>
-                  <div class="input">
+	      		<div class="control-group">
+                  <label class="control-label" for="banner">${Context.getMessage('label.labssites.appearance.theme.edit.banner.label')}</label>
+                  <div class="controls">
                   	<#if (site.themeManager.theme.banner != null)>
 	                  	<div id="actionMediaBanner" style="float: right;">
 		                  	<span onclick="javascript:deleteElement('${This.path}/banner', 'hideBanner()', '${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete.confirm')}');" style="cursor: pointer;">
@@ -93,15 +92,15 @@
 						  	</span>
 					  	</div>
 					</#if>
-                    <input name="banner" type="file" size="1" enctype="multipart/form-data"/>
-                    <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.banner.help.block')}</span>
+                    <input class="input-file" name="banner" type="file" size="1" enctype="multipart/form-data"/>
+                    <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.banner.help.block')}</p>
                   </div>
-                </div><!-- /clearfix -->
+                </div>
                 
                 <!--   LOGO  -->
-                <div class="clearfix">
-                  <label for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
-                  <div class="input">
+                <div class="control-group">
+                  <label class="control-label" for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
+                  <div class="controls">
                   	 <#assign logoWidth = site.themeManager.theme.logoWidth />
                   	 <#if logoWidth &gt; 0 >
 	                    <div id="actionMediaLogo" style="float: right;">
@@ -111,10 +110,10 @@
 						  	</span>                  
 	                    </div>
 	                  </#if>
-                    <input name="logo" type="file" size="1" enctype="multipart/form-data"/>
-                    <span class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.logo.help.block')}</span>
+                    <input class="input-file" name="logo" type="file" size="1" enctype="multipart/form-data"/>
+                    <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.logo.help.block')}</p>
                   </div>
-                </div><!-- /clearfix -->
+                </div>
                 <hr style="margin: 20px 0 0px;">
                 
                 <#assign properties = This.getThemeProperties() />
@@ -124,19 +123,19 @@
 		      		<#assign cptProperties = 0 />
 		      		<#list properties as property>
 			      		<#if (property.key != null)>
-				      		<div class="clearfix">
-			                  <label for="property${cptProperties}">${property.label}</label>
+		                    <label class="control-label" for="property${cptProperties}">${property.label}</label>
+				      		<div class="control-group">
 			                  <#assign property = property />
 			                  <#assign typeProperty = "string" />
 			                  <#if (property.type != null)>
 			                  	<#assign typeProperty = property.type />
 			                  </#if>
 			                  
-			                  <div class="input">
+			                  <div class="controls">
 					      		 <#include "views/SiteTheme/typeProperty/input-" + typeProperty + ".ftl" >
-			                     <span class="help-block">${property.description?html}</span>
+			                     <p class="help-block">${property.description?html}</p>
 			                  </div>
-			                </div><!-- /clearfix -->
+			                </div><!-- /control-group -->
 			                <input type="hidden" name="keyProperty${cptProperties}" value="${property.key}"/>
 			                <input type="hidden" name="labelProperty${cptProperties}" value="<#if (property.label != null)>${property.label?html}</#if>"/>
 			                <input type="hidden" name="descriptionProperty${cptProperties}" value="<#if (property.description != null)>${property.description?html}</#if>"/>
@@ -153,39 +152,43 @@
 		      		<h5 style="color: black;">
 		      			${Context.getMessage('label.labssites.appearance.theme.edit.style.title')}
 		      		</h5>
-		      		<div class="clearfix">
-	                  <label for="style">${Context.getMessage('label.labssites.appearance.theme.edit.style.label')}</label>
-	                  <div class="input">
-			      		 <textarea name="style" style="width: 350px;height: 135px;">${site.themeManager.theme.style}</textarea>
-	                    <span class="help-block" style="color: red;">${Context.getMessage('label.labssites.appearance.theme.edit.style.help.block')}</span>
+		      		<div class="control-group">
+	                  <label class="control-label" for="style">${Context.getMessage('label.labssites.appearance.theme.edit.style.label')}</label>
+	                  <div class="controls">
+			      		 <textarea class="input" name="style" style="width: 350px;height: 135px;">${site.themeManager.theme.style}</textarea>
+	                    <p class="help-block" style="color: red;">${Context.getMessage('label.labssites.appearance.theme.edit.style.help.block')}</p>
 	                  </div>
-	                </div><!-- /clearfix -->
+	                </div>
 	                <hr style="margin: 20px 0 0px;">
 	                
 	                <!--    LOGO PARAMETERS  -->
 	                <h5 style="color: black;">
 		      			${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.title')}
 		      		</h5>
-	                <div class="clearfix">
-	                  <label for="logo_posx">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posx')}</label>
-	                  <div class="input clearfix">
-	                    <input id="logo_posx" name="logo_posx" type="text" value="${site.themeManager.theme.logoPosX}" class="small" />
+	                <div class="control-group">
+	                  <label class="control-label" for="logo_posx">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posx')}</label>
+	                  <div class="controls">
+	                    <input class="input" id="logo_posx" name="logo_posx" type="text" value="${site.themeManager.theme.logoPosX}" class="small" />
 	                  </div>
-	                  <label for="logo_posy">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posy')}</label>
-	                  <div class="input clearfix">
-	                    <input id="logo_posy" name="logo_posy" type="text" value="${site.themeManager.theme.logoPosY}" class="small" />
+                    </div>
+                    <div class="control-group">
+	                  <label class="control-label" for="logo_posy">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posy')}</label>
+	                  <div class="controls">
+	                    <input class="input" id="logo_posy" name="logo_posy" type="text" value="${site.themeManager.theme.logoPosY}" class="small" />
 	                  </div>
-	                  <label for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
-	                  <div class="input">
-	                    <input id="resize_ratio" name="resize_ratio" type="text" value="${site.themeManager.theme.logoResizeRatio}" class="small" />
+                    </div>
+                    <div class="control-group">
+	                  <label class="control-label" for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
+	                  <div class="controls">
+	                    <input class="input" id="resize_ratio" name="resize_ratio" type="text" value="${site.themeManager.theme.logoResizeRatio}" class="small" />
 	                  </div>
-	                </div><!-- /clearfix -->
+	                </div>
 	              </div>
                 
 	      	</fieldset>
 	      
-		      <div class="actions">
-		      	<button class="btn primary">${Context.getMessage('label.labssites.appearance.theme.edit.save')}</button>
+		      <div class="form-actions">
+		      	<button class="btn btn-primary">${Context.getMessage('label.labssites.appearance.theme.edit.save')}</button>
 		      	<a href="#" class="btn" onclick="javascript:resetPropertiesTheme();">${Context.getMessage('label.labssites.appearance.theme.edit.resetProperties')}</a>
 		      	<a href="#" class="btn" onclick="javascript:jQuery('#div-editTheme').dialog2('close');">${Context.getMessage('label.close')}</a>
 		      </div>

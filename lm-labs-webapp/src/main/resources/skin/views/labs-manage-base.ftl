@@ -52,11 +52,11 @@
 
       <div class="container" style="width: 960px;">
       	<div class="row">
-         <div class="span16 columns">
+         <div class="span12 columns">
 	        <#assign messages = This.getMessages() />
 	        <#list messages?keys as key >
-	           <div class="alert-message ${key}">
-	             <a class="close" href="#">x</a>
+	           <div class="alert alert-block alert-${key}">
+	             <a class="close" data-dismiss="alert" href="#">x</a>
 	             ${Context.getMessage(messages[key])}
 	           </div>
 	        </#list>

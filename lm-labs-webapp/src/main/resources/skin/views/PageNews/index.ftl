@@ -17,27 +17,25 @@
   </@block>
 
   <@block name="content">
-      <div id="content" class="container">
+      <div id="content" class="">
 
     	<#include "views/common/page_header.ftl">
     	
         <#if isAuthorized>
-        	<div class="editblock" style="width: 100%;text-align: right;margin-bottom: 5px;">
-          		<a href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>
-          	</div>
+          <a class="btn editblock" href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>
         </#if>
 
         <#list pageNews.allNews as news>
           <section class="labsnews">
 	          	<div class="row" id="summaryNews${news.documentModel.ref}">
 	          		<#if news.hasSummaryPicture()>
-	          			<div class="span15">
+	          			<div class="span11">
 			          		<#-- Image -->
 			          		<div class="span3">
 			          			<@generateSummaryPictureNews news=news />
 			          		</div>
 			          		<#-- Central -->
-			          		<div class="span12">
+			          		<div class="span8">
 			          			<h2>${news.title}</h2>
 			          			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:3, alt_text_e:true, alt_text_t:true }">
 			          				<@generateContentHtmlNews news=news />
@@ -46,7 +44,7 @@
 			          	</div>
 		          	<#else>
 		          		<#-- Central -->
-		          		<div class="span15">
+		          		<div class="span11">
 		          			<h2>${news.title}</h2>
 		          			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:3, alt_text_e:true, alt_text_t:true }">
 		          				<@generateContentHtmlNews news=news />
@@ -62,18 +60,18 @@
 	          	<div id="contentNews${news.documentModel.ref}" style="display: none;">
 	              <div class="row">
 	              	 <#if news.hasSummaryPicture()>
-	              	 	<div class="span15">
+	              	 	<div class="span11">
 			          		<#-- Image -->
 			          		<div class="span3">
 			          			<@generateSummaryPictureNews news=news />
 			          		</div>
 			          		<#-- Central -->
-			          		<div class="span12">
+			          		<div class="span8">
 			          			<@generateHeaderNews news=news />
 				            </div>
 				        </div>
 		          	<#else>
-		              	<div class="span15">
+		              	<div class="span11">
 			                <@generateHeaderNews news=news />
 			            </div>
 			        </#if>

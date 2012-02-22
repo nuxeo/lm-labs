@@ -4,7 +4,7 @@
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  jQuery("table[class*='zebra-striped']").tablesorter({
+  jQuery("table[class*='table-striped']").tablesorter({
       sortList: [[1,0]],
       textExtraction: function(node) {
             // extract data from markup and return it
@@ -25,7 +25,7 @@ jQuery(document).ready(function() {
   </@block>
 
      <@block name="sitemap-content">
-        <table class="zebra-striped bs">
+        <table class="table table-striped bs">
             <thead>
             <tr>
               <th width="30%">Elément</th>

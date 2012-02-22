@@ -10,18 +10,18 @@
 			</small>
 		</h4>
 	</div>
-	<div style="text-align: right;margin-top: -40px;">
+	<div style="text-align: right;margin-top: -46px;">
 		<button id="displayAddPerm" onClick="javascript:displayAddContact();" title="${Context.getMessage('label.admin.contact.addContact.title')}" class="btn " style="margin-left:20px;" >+</button>
 	</div>
 	<#list contactsAdmin as contact>
 		<div class="row">
-			<div class="span2 columns">
+			<div class="span1 columns">
 				&nbsp;
 			</div>
-			<div class="span5 columns">
+			<div class="span4 columns">
 				${contact.displayName} (${contact.ldap})&nbsp;
 			</div>
-			<div class="span5 columns">
+			<div class="span4 columns">
 				${contact.email}&nbsp;
 			</div>
 			<div class="span2 columns">

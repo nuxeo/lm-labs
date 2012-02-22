@@ -47,7 +47,7 @@
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.pagination.js"></script>
           <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
           <script type="text/javascript">
@@ -75,46 +75,48 @@
    					<#include "views/common/notification_area.ftl" />
 		    	</div>			
 				
-			    
+				<script type="text/javascript">
+                <#include "views/common/ckeditor_config.ftl" />
+				</script>
 				
-				 <script type="text/javascript">
-				    <#include "views/common/ckeditor_config.ftl" />
-				 </script>
-				
-			      <div class="container-fluid">
-				    <div id="sidebar" class="sidebar">
+                <div class="container-fluid"><div class="row-fluid">
+				  <div id="sidebar" class="sidebar span">
+			      <@block name="sidebar">
 				        <#include "views/TemplatesBase/supplyChain/sidebar.ftl" />
-				    </div>
-				    <div class="body">
+			      </@block>
+                  </div>
+				  <div class="body container">
+                  <@block name="tabs">
 				    	<#include "views/common/topnavigation_area.ftl" />
-				    	<div class="span16">
-					      <@block name="breadcrumbs">
-					        <#include "views/common/breadcrumbs.ftl" >
-					      </@block>
-					    </div>
-				        <div class="span16 columns">
+                  </@block>
+                  <div>
+			      <@block name="breadcrumbs">
+			        <#include "views/common/breadcrumbs.ftl" >
+				  </@block>
+				  </div>
+					    <div class="row">
 					        <#assign messages = This.getMessages() />
 					        <#list messages?keys as key >
-					           <div class="alert-message ${key}">
-					             <a class="close" href="#">x</a>
+					           <div class="alert alert-block alert-${key}">
+					             <a class="close" data-dismiss="alert" href="#">x</a>
 					             ${Context.getMessage(messages[key])}
 					           </div>
 					        </#list>
-				        </div>
-				    	<div class="span16">
+				        </div><#-- row -->
+				    	<div class="row">
 				    		<@block name="content"></@block>
 				    	</div>
 						<#assign pageCommentable = This.getPage()/>
 				    	<#if pageCommentable != null && pageCommentable.commentable>
 					    	<br>
-					    	<div class="span16">
+					    	<div class="">
 						    	<@block name="pageCommentable">
 										<#include "/views/LabsComments/displayCommentsPage.ftl" />
 								</@block>
 							</div>
 						</#if>
-				    </div>   	
-			    </div>
+				    </div> <#-- body --> 	
+			    </div> <#-- row-fluid --></div> <#-- container-fluid -->
 			    <div>&nbsp;</div>
 			</div>			    
 		    <!--FKtopContent-->
