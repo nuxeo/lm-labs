@@ -13,7 +13,7 @@
 				  	  $.cookie('labseditmode', 'false', { path: pathCookie });
 				  	  displayViewMode();
 				  	  if($("#page_edit")){
-				  		$("#page_edit").html("Editer"); 
+				  		$("#page_edit").html('<i class="icon-pencil"></i>Editer'); 
 				  	  }
 				  }
 				  else{
@@ -21,7 +21,7 @@
 					  $.cookie('labseditmode', 'true', { path: pathCookie });
 					  displayEditMode();
 				  	  if($("#page_edit")){
-					  		$("#page_edit").html("Visualiser"); 
+					  		$("#page_edit").html('<i class="icon-eye-open"></i>Visualiser'); 
 					  	  }
 				  }
 			  });

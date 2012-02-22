@@ -7,31 +7,27 @@
   <a class="btn open-dialog" rel="editprops">Modifier les propriétés</a>
 <div id="editprops">
 <h1>Editer les information de la news</h1>
-<form method="post" action="${This.path}" class="well">
+<form class="form-horizontal" method="post" action="${This.path}" class="well">
   <fieldset>
     <legend>Propriétés de la news</legend>
-    <div class="clearfix">
-      <label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
-      <div class="input">
-        <input class="xlarge required" name="dc:title"  value="<#if news?? >${news.title}</#if>" />
+    <div class="control-group">
+      <label class="control-label" for="dc:title">${Context.getMessage('label.labsNews.edit.title')}</label>
+      <div class="controls">
+        <input class="required focused input-xlarge" name="dc:title" value="<#if news?? >${news.title}</#if>" />
       </div>
     </div>
-
-    <div class="clearfix">
-      <label for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>&nbsp;:&nbsp;
-      <div class="input">
-        <input type="text" class="date-pick required" name="newsStartPublication"  <#if news?? && news.startPublication!=null> value="${This.labsNews.startPublication.time?string('dd/MM/yyyy')}" </#if> />
+    <div class="control-group">
+      <label class="control-label" for="newsStartPublication">${Context.getMessage('label.labsNews.edit.period')}</label>&nbsp;:&nbsp;
+      <div class="controls">
+        <input class="input" type="text" class="date-pick required" name="newsStartPublication"  <#if news?? && news.startPublication!=null> value="${This.labsNews.startPublication.time?string('dd/MM/yyyy')}" </#if> />
         ${Context.getMessage('label.labsNews.edit.au')}
         <input class="date-pick" name="newsEndPublication"  <#if news?? && news.endPublication!=null> value="${This.labsNews.endPublication.time?string('dd/MM/yyyy')}" </#if> />
       </div>
     </div>
-
-
-
-    <div class="actions">
-      <input type="submit" class="btn" value="${Context.getMessage('label.labsNews.edit.valid')}" />
-  </div	>
   </fieldset>
+  <div class="actions">
+    <input type="submit" class="btn" value="${Context.getMessage('label.labsNews.edit.valid')}" />
+  </div	>
 </form>
 
 </div>
@@ -57,37 +53,38 @@
 
                <div style="margin-left:20px" class="editblock">
               <form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
-                    <button type="submit" class="btn small danger">Supprimer la ligne</button>
+                    <button type="submit" class="btn btn-small btn-danger">Supprimer la ligne</button>
                   </form>
             </div>
             </div>
           </#list>
 
-          <div class="well editblock">
-          <form id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
-          <input type="hidden" name="action" value="addrow"/>
-              <fieldset>
-                <legend>Ajouter une ligne</legend>
-                <div class="clearfix">
-                <label for="title">Type de ligne</label>
-                  <div class="input">
-                    <select name="rowTemplate">
-	                    <#assign layouts = This.columnLayoutsSelect />
-	                    <#list layouts?keys as layoutCode >
-	                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
-	                    </#list>
-                </select>
-                <button type="submit" class="btn small primary">Ajouter</button>
-                <span class="help-block">
-                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
-                    parenthèses représentent des pourcentages de taille de colonne.
-                  </span>
-                  </div>
-
-                </div><!-- /clearfix -->
-                </fieldset>
-            </form>
-          </div>
+        <div class="well editblock">
+          <form class="form-horizontal" id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
+            <input type="hidden" name="action" value="addrow"/>
+            <fieldset>
+              <legend>Ajouter une ligne</legend>
+              <div class="control-group">
+                <label class="control-label" for="rowTemplate">Type de ligne</label>
+                <div class="controls">
+                  <select name="rowTemplate">
+	                  <#assign layouts = This.columnLayoutsSelect />
+	                  <#list layouts?keys as layoutCode >
+	                    <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
+	                  </#list>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+            <div class="actions">
+              <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
+              <p class="help-block">
+                Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
+                parenthèses représentent des pourcentages de taille de colonne.
+              </p>
+            </div>
+          </form>
+        </div>
 </#if>
 
 </section>

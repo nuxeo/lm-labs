@@ -15,7 +15,7 @@
         <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
         <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
         <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
 
 	  <link rel="stylesheet/less" href="${Context.modulePath}/${site.URL}/generated.less">
@@ -57,24 +57,24 @@
             <#include "views/AssetFolder/content.ftl"/>
           </div>
           <div class="span9 columns actions">
-            <a href="#" rel="addFileDialog" class="open-dialog btn">Ajouter un fichier</a>
-            <a href="#" rel="addFolderDialog" class="open-dialog btn">Ajouter un répertoire</a>
+            <a href="#" rel="addFileDialog" class="open-dialog btn"><i class="icon-file"></i>Ajouter un fichier</a>
+            <a href="#" rel="addFolderDialog" class="open-dialog btn"><i class="icon-folder-close"></i>Ajouter un répertoire</a>
           </div>
 
           <div id="addFolderDialog" style="display:none;">
             <h1>Ajouter un répertoire</h1>
-            <form id="addFolderForm" action="${This.path}" onSubmit="this.action=currentPath" method="post">
+            <form class="form-horizontal" id="addFolderForm" action="${This.path}" onSubmit="this.action=currentPath" method="post">
               <input type="hidden" name="doctype" value="Folder"/>
               <fieldset>
-                <div class="clearfix">
-                    <label for="title">Nom du répertoire</label>
-                      <div class="input">
-                        <input name="dublincore:title" class="required"/>
+                <div class="control-group">
+                    <label class="control-label" for="title">Nom du répertoire</label>
+                      <div class="controls">
+                        <input name="dublincore:title" class="required input"/>
                       </div>
-                    </div><!-- /clearfix -->
+                    </div>
               </fieldset>
               <div class="actions">
-                <button type="submit" class="btn primary required-fields" form-id="addFolderForm">Ajouter</button>
+                <button type="submit" class="btn btn-primary required-fields" form-id="addFolderForm">Ajouter</button>
               </div>
             </form>
           </div>

@@ -17,7 +17,7 @@
   </@block>
 
   <@block name="content">
-      <div id="content" class="container">
+      <div id="content" class="">
 
     	<#include "views/common/page_header.ftl">
     	
@@ -34,7 +34,7 @@
 
 
               <#list news.rows as row>
-                <div class="row" id="row_s${news_index}_r${row_index}">
+                <div class="row-fluid" id="row_s${news_index}_r${row_index}">
                   <#list row.contents as content>
                     <div class="span${content.colNumber} columns">
                       <#if content.html == "">

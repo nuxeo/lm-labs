@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  // Dropdown for topbar nav
+  // Dropdown for navbar nav
   // ===============================
   $("body").bind("click", function(e) {
     $('.dropdown-toggle, .menu').parent("li").removeClass("open");
@@ -31,6 +31,7 @@ $(function () {
 
 var hasError = false;
 function initRequiredFields(){
+	var controlGroupClass = ".control-group";
 	$(".required-fields").bind("click", function(event) {
 		  var form = null;
 		  /*get the form*/
@@ -42,7 +43,7 @@ function initRequiredFields(){
 		  }
 		  hasError = false;
 		  $(form).children().find(".required").each(function(i, element) {
-			    var elementInputClass = $(element).parents(".clearfix");
+			    var elementInputClass = $(element).parents(controlGroupClass);
 				if($(element) && $(element).val().length < 1){
 					if($(element).attr("required-error-text")){
 						if (elementInputClass.children("span").html() == null){
@@ -54,11 +55,11 @@ function initRequiredFields(){
 							elementInputClass.prepend("<span class='help-inline'><strong>Element obligatoire !</strong></span><br />");
 						}
 					}
-					$(element).parents(".clearfix").addClass("error");
+					$(element).parents(controlGroupClass).addClass("error");
 					hasError = true;
 				}
 				else{
-					$(element).parents(".clearfix").removeClass("error");
+					$(element).parents(controlGroupClass).removeClass("error");
 					if (elementInputClass.children("span").html() != null){
 						elementInputClass.children("span").remove();
 					}
@@ -71,7 +72,7 @@ function initRequiredFields(){
 }
 
 function hideAlerts() {
-  $(".alert-message").each(function()
+  $(".alert").each(function()
   {
     if (!$(this).hasClass("no-fade")) {
       $(this).fadeOut();

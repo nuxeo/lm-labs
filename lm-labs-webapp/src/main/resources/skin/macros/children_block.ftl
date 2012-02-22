@@ -1,4 +1,4 @@
-<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
 <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function() {

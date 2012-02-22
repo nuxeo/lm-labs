@@ -20,10 +20,10 @@
           <h3>Propriétés</h3>
         </div>
         <div class="row">
-          <div class="span4 columns">
+          <div class="span3 columns">
 &nbsp;
           </div>
-          <div class="span12 columns">
+          <div class="span16 columns">
 <script>
 jQuery(document).ready(function() {
 	jQuery('#siteTemplate').click(function() {
@@ -47,46 +47,47 @@ jQuery(document).ready(function() {
 }
 </style>
           
-            <form action="${This.path}/@put" method="post" id="form-labssite" enctype="multipart/form-data">
+            <form class="form-horizontal" action="${This.path}/@put" method="post" id="form-labssite" enctype="multipart/form-data">
               <fieldset>
                 <legend>Mettez à jour les propriétés du site</legend>
-                <div class="clearfix">
-                  <label for="labsSiteTitle">${Context.getMessage('label.labssite.edit.title')}</label>
-                  <div class="input">
+                <div class="control-group">
+                  <label class="control-label" for="labsSiteTitle">${Context.getMessage('label.labssite.edit.title')}</label>
+                  <div class="controls">
                     <input class="required" name="dc:title" value="${site.title}" id="labsSiteTitle"/>
                   </div>
-                </div><!-- /clearfix -->
+                </div>
 
-                <div class="clearfix">
-                  <label for="labsSiteURL">${Context.getMessage('label.labssite.edit.url')}</label>
-                  <div class="input">
+                <div class="control-group">
+                  <label class="control-label" for="labsSiteURL">${Context.getMessage('label.labssite.edit.url')}</label>
+                  <div class="controls">
                     ${Context.modulePath}/<input class="required" name="webc:url" value="${site.URL}" id="labsSiteURL" />
-                    <span class="help-block">C'est par ce lien que le site sera accessible</span>
+                    <p class="help-block">C'est par ce lien que le site sera accessible</p>
                   </div>
-                </div><!-- /clearfix -->
+                </div>
 
-                <div class="clearfix">
-                  <label for="labsSiteDescription">${Context.getMessage('label.labssite.edit.description')}</label>
-                  <div class="input">
+                <div class="control-group">
+                  <label class="control-label" for="labsSiteDescription">${Context.getMessage('label.labssite.edit.description')}</label>
+                  <div class="controls">
                     <textarea name="dc:description" id="labsSiteDescription" >${site.description}</textarea>
                   </div>
-                </div><!-- /clearfix -->
+                </div>
 
-                <div class="clearfix">
-                  <label for="piwik:piwikId">${Context.getMessage('label.labssite.edit.piwikId')}</label>
-                  <div class="input">
+                <div class="control-group">
+                  <label class="control-label" for="piwik:piwikId">${Context.getMessage('label.labssite.edit.piwikId')}</label>
+                  <div class="controls">
                     <textarea name="piwik:piwikId" id="piwik:piwikId" >${site.piwikId}</textarea>
                   </div>
-                </div><!-- /clearfix -->
+                </div>
 
-			    <div class="clearfix">
-			      <div class="input">
-			        <input id="siteTemplate" type="checkbox" name="labssite:siteTemplate" <#if site.siteTemplate>checked="true"</#if> />
-			        <label for="siteTemplate">&nbsp;${Context.getMessage('label.labssite.edit.siteTemplate')}</label>
+			    <div class="control-group">
+			      <div class="controls">
+			        <label class="checkbox" for="siteTemplate">
+			          <input class="checkbox" id="siteTemplate" type="checkbox" name="labssite:siteTemplate" <#if site.siteTemplate>checked="true"</#if> />
+			        &nbsp;${Context.getMessage('label.labssite.edit.siteTemplate')}</label>
 			      </div>
-			    </div><!-- /clearfix -->
+			    </div>
 			
-				<div class="clearfix" id="siteTemplatePreviewDiv" <#if !site.siteTemplate>style="display:none;"</#if>>
+				<div class="control-group" id="siteTemplatePreviewDiv" <#if !site.siteTemplate>style="display:none;"</#if>>
 			      <#if site.siteTemplate && site.siteTemplatePreview?? >
 			      <div style="float: right; margin-right: 25px;" >
 			        <img style="width:400px;cursor:pointer;"
@@ -95,15 +96,16 @@ jQuery(document).ready(function() {
 			          src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@blob"/>
 			      </div>
 			      </#if>
-			      <label for="siteTemplatePreview">${Context.getMessage('label.labssite.edit.siteTemplatePreview')}</label>
-			      <div class="input">
+			      <label class="control-label" for="siteTemplatePreview">${Context.getMessage('label.labssite.edit.siteTemplatePreview')}</label>
+			      <div class="controls">
 			        <input name="labssite:siteTemplatePreview" type="file" size="25" id="siteTemplatePreview" />
 			      </div>
-			    </div><!-- /clearfix -->
+			    </div>
                 
               </fieldset>
-              <div class="actions">
-                <button class="btn primary">${Context.getMessage('label.labssites.edit.valid')}</button>
+              <div class="form-actions">
+                <button class="btn btn-primary">${Context.getMessage('label.labssites.edit.valid')}</button>
+                <button class="btn" type="reset">Reset</button>
               </div>
             </form>
           </div>

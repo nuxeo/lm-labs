@@ -2,13 +2,13 @@ jQuery(document).ready(function(){
 	
 	jQuery("#div-editTheme").dialog2({
 		width : '570px',
-		height : '400px',
+		height : '394px',
 		overflowy : 'auto',
 		overflowx : 'hidden',
 	    autoOpen : false,
 		closeOnOverlayClick : true,
 		removeOnClose : false,
-		showCloseHandle : true,
+		showCloseHandle : true
 	  });
 	
 	jQuery("#modifyThemeParameters").click(function() {

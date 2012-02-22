@@ -1,35 +1,35 @@
 <h1>Ajouter du contenu</h1>
 
-<form id="add_doc_form" action="${This.path}" method="post">
+<form class="form-horizontal" id="add_doc_form" action="${This.path}" method="post">
   <input name="overwritePage" id="overwritePage" type="hidden" value="false" />
   <fieldset>
-    <div class="clearfix">
-      <label for="name">${Context.getMessage('label.title')}</label>
-      <div class="input">
-        <input name="name" id="name" class="required" />
+    <div class="control-group">
+      <label class="control-label" for="name">${Context.getMessage('label.title')}</label>
+      <div class="controls">
+        <input name="dc:title" id="name" class="focused required input" />
       </div>
-    </div><!-- /clearfix -->
-    <div class="clearfix">
-      <label for="description">${Context.getMessage('label.description')}</label>
-      <div class="input">
-        <textarea id="description" name="description"/>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="description">${Context.getMessage('label.description')}</label>
+      <div class="controls">
+        <textarea class="input" id="description" name="dc:description"/>
         </textarea>
       </div>
-    </div><!-- /clearfix -->
+    </div>
 
-    <div class="clearfix">
+    <div class="control-group">
       <#assign page = Common.sitePage(Document) />
-      <label for="doctype">${Context.getMessage('label.doctype')}</label>
+      <label class="control-label" for="doctype">${Context.getMessage('label.doctype')}</label>
         <#list page.allowedSubtypes as type>
-          <div class="input">
-            <label><input type="radio" name="doctype" value="${type}" checked> ${Context.getMessage('label.doctype.'+type)}</label>
+          <div class="controls">
+            <label><input class="radio" type="radio" name="doctype" value="${type}" checked> ${Context.getMessage('label.doctype.'+type)}</label>
           </div>
         </#list>
-    </div><!-- /clearfix -->
+    </div>
     
-    <div class="clearfix">
-      <label for="location">${Context.getMessage('label.page.creation.location')}</label>
-      <div class="input">
+    <div class="control-group">
+      <label class="control-label" for="location">${Context.getMessage('label.page.creation.location')}</label>
+      <div class="controls">
         <select name="location">
           <#assign locations = ["top"] />
       	  <#assign defaultLocation = "top" />
@@ -43,12 +43,13 @@
           </#list>
         </select>
       </div>
-    </div><!-- /clearfix -->
+    </div>
 
   </fieldset>
 
   <div class="actions">
-    <button class="btn primary required-fields btnCreatePage" form-id="add_doc_form">Créer</button>
+    <button class="btn btn-primary required-fields btnCreatePage" form-id="add_doc_form">Créer</button>
+    <button class="btn" type="reset">Reset</button>
   </div>
 </form>
 

@@ -1,7 +1,7 @@
 ;
 
 @baseFontFamily;Police du site;Séparé par -,- et délimité par -'-;font
-@basefont;Taille de base;;size
+@baseFontSize;Taille de base;;size
 
 @bgcolortabs;Couleur de navigation;Couleur de base pour chaque onglets de navigation;color
 @baseFontColorTabs;Couleur texte nav.;Couleur des textes des onglets de navigation;color

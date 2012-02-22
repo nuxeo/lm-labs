@@ -1,13 +1,26 @@
 @import "../../bootstrap/bootstrap.less";
 
+
+/* migration bootstrap 2.0 */
+/*
 @gridColumnWidth:   34px;
 @gridGutterWidth:   14px;
+*/
+@navbarHeight:            30px; /* Ca ne marche pas :-( */
+/*
+@fluidGridGutterWidth:    2%;
+*/
+@fluidGridColumnWidth:    6.2%;
 
-.span333     { width: 245px; }
+.span333     { width: 244px; }
 
+/* migration bootstrap 2.0 */
+/*
 a {
 	:focus{-moz-outline-style: none;}
 }
+*/
+@labsPageWidth: (@gridRowWidth + (2 * @gridGutterWidth));
 
 .bloc {
   word-wrap: break-word;
@@ -39,6 +52,10 @@ a {
 
 }
 
+[class*="span"] {
+    margin-left: 5px;
+}
+
 html>body {
   background-image: url(../../../images/theme/bg.jpg);
 }
@@ -51,7 +68,7 @@ html>body {
 }
 
 #FKtopContent,#FKfooter {
-  width: 980px;
+  width: @labsPageWidth;
 }
 
 #FKbacktointralm {
@@ -66,6 +83,11 @@ html>body {
   padding-top: 1px;
   float: left;
   background-repeat: no-repeat;
+}
+
+#FKerrorLogin {
+  color: red;
+  display:none;
 }
 
 #masthead {
@@ -238,7 +260,7 @@ li.labscomments {
 		text-decoration:underline; 
 	}
 	.title {
-		font-size: @basefont;
+		font-size: @baseFontSize;
     	font-weight:bold;
 	}
 	.desc {
@@ -246,7 +268,7 @@ li.labscomments {
 	}
 	a {
 		color: #404040;
-	    font-size: @basefont;
+	    font-size: @baseFontSize;
 	    font-weight: normal;
 	    line-height: 18px;
 	}
@@ -264,7 +286,7 @@ li.labscomments {
 }
 
 /*Override for GWTContainer*/
-.topbar div > ul,
+.navbar div > ul,
 .nav {
   a {
   	color: @grayLight;
@@ -327,8 +349,10 @@ li.labscomments {
 	}
 }
 
-.topbar{
+.navbar{
+/* migration bootstrap-2.0
 	width: 980px;
+	*/
 	z-index: 50;
 }
 

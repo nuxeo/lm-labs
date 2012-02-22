@@ -19,44 +19,43 @@
   </@block>
 
   <@block name="content">
-      <div id="content" class="container">
+      <div id="content" class="">
 
 
 
 <div id="editprops">
-<h1>Créer une news</h1>
-<form method="post" action="${This.path}" id="form-add-news-pageNews" >
+<h1>${Context.getMessage('label.labsNews.add.news.title')}</h1>
+<form class="form-horizontal" method="post" action="${This.path}" id="form-add-news-pageNews" >
   <fieldset>
-    <div class="clearfix">
-      <label for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
-      <div class="input">
+    <div class="control-group">
+      <label class="control-label" for="newsTitle">${Context.getMessage('label.labsNews.edit.title')}</label>
+      <div class="controls">
         <input type="text" class="xlarge required" required-error-text="${Context.getMessage('label.labsNews.edit.required.title')}" name="dc:title"/>
       </div>
     </div>
 
-    <div class="clearfix">
-      <label for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>&nbsp;:&nbsp;
-      <div class="input">
-        <input id="newsStartPublication" class="date-pick required" required-error-text="${Context.getMessage('label.labsNews.edit.required.startPublication')}" name="newsStartPublication" />
+    <div class="control-group">
+      <label class="control-label" for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>
+      <div class="controls">
+        <input id="newsStartPublication" class="input date-pick required" required-error-text="${Context.getMessage('label.labsNews.edit.required.startPublication')}" name="newsStartPublication" />
         ${Context.getMessage('label.labsNews.edit.au')}
-        <input id="newsEndPublication"  class="date-pick" name="newsEndPublication"/>
+        <input id="newsEndPublication"  class="input date-pick" name="newsEndPublication"/>
       </div>
     </div>
 
-    <div class="clearfix">
-      <label for="newsModel">${Context.getMessage('label.labsNews.edit.model')}</label>
-      <div class="input">
-        <label><input type="radio" name="newsModel"  value="1COL"> News simple</label>
-      </div>
-      <div class="input">
-        <label><input type="radio" name="newsModel" checked value="2COL"> News avec photo</label>
+    <div class="control-group">
+      <label class="control-label" for="newsModel">${Context.getMessage('label.labsNews.edit.model')}</label>
+      <div class="controls">
+        <label class="inline radio"><input type="radio" name="newsModel"  value="1COL"> ${Context.getMessage('label.labsNews.edit.model.simple')}</label>
+        <label class="inline radio"><input type="radio" name="newsModel" checked value="2COL"> ${Context.getMessage('label.labsNews.edit.model.picture')}</label>
       </div>
     </div>
 
-    <div class="actions">
-      <input type="submit" class="btn required-fields" form-id="form-add-news-pageNews" value="${Context.getMessage('label.labsNews.edit.valid')}" />
-  </div	>
   </fieldset>
+  <div class="form-actions">
+    <input type="submit" class="btn btn-primary required-fields" form-id="form-add-news-pageNews" value="${Context.getMessage('label.labsNews.edit.valid')}" />
+    <button class="btn" type="reset">Reset</button>
+  </div	>
 </form>
 
 </div>

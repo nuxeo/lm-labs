@@ -26,12 +26,13 @@
 			});
 			
 			function showError() {
-		       $(".clearfix").addClass("error");
-		       $(".clearfix").children(".help-inline").show();
+		       $(".control-group").addClass("error");
+		       $(".control-group").children(".help-inline").show();
 			}
 			
 		
 		  function doLogin() {
+		  	jQuery('#login').text('Connexion en cours ...');
  		    username = $('#username').val();
  		    password = $('#password').val();
 		  	if(username=='' || password == '') {
@@ -59,16 +60,18 @@
 	<@block name="content">
 		<div id="divLogin"  class="fixed-container dialog2" style="display: none;">
 			<h1>${Context.getMessage('label.unauthorized.popup.title')}</h1>
-			<form id="form-loginPopup" class="form" onsubmit="doLogin();return false;" action="">
+			<form id="form-loginPopup" class="form-horizontal" onsubmit="doLogin();return false;" action="">
 				<fieldset>
-					<div class="clearfix">
-						<label style="font-weight: bold;">${Context.getMessage('label.Username')}</label>
-						<div class="input">
-							<input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="listener text required" size="13" style="width:145px"/>
+					<div class="control-group">
+						<label class="control-label" style="font-weight: bold;">${Context.getMessage('label.Username')}</label>
+						<div class="controls">
+							<input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="required text input listener"/>
 						</div>
-						<label style="font-weight: bold;margin-top:15px">${Context.getMessage('label.Password')}</label>
-						<div class="input" style="margin-top:15px">
-							<input type="password" id="password" placeholder="Mot de passe" class="listener text required" size="13"  style="width:145px"/>
+                    </div>
+                    <div class="control-group">
+						<label class="control-label" style="font-weight: bold;margin-top:15px">${Context.getMessage('label.Password')}</label>
+						<div class="controls" style="margin-top:15px">
+							<input type="password" id="password" placeholder="${Context.getMessage('label.Password')}" class="required text input listener"/>
 						</div>
 						<span class="help-inline" style="display: none;">
 							<br /><br />
@@ -83,19 +86,25 @@
 					</div>
 				</fieldset>
 				<div  class="actions">
-					<button id="login" title="Login" form-id="form-loginPopup" class="btn primary">OK</button>
+					<button id="login" title="${Context.getMessage('tooltip.login')}" form-id="form-loginPopup" class="btn btn-primary">${Context.getMessage('label.login')}</button>
 				</div>
 			</form>
 		</div>
 	
-	  <div class="alert-message block-message error no-fade">
-	  <p><strong>${Context.getMessage('label.unauthorized.error.msg')}</p>
-	  <p>- ${Context.getMessage('label.unauthorized.choice.1')}</p>
-	  	<a class="btn small" href="#" onclick="$('#divLogin').dialog2('open');return false;">M'identifier</a>
-	  <p>- ${Context.getMessage('label.unauthorized.choice.2')}</p>
+	  <div class="alert alert-block alert-error no-fade">
+	  <p class="alert-heading"><strong>${Context.getMessage('label.unauthorized.error.msg')}</strong></p>
+	  <ul>
+	  <li>${Context.getMessage('label.unauthorized.choice.1')}
 	  <div class="alert-actions">
-	    <a class="btn small" href="${Context.modulePath}">Liste des sites</a>
+	  	<a class="btn btn-small" href="#" onclick="$('#divLogin').dialog2('open');return false;">M'identifier</a>
 	  </div>
+	  </li>
+	  <li>${Context.getMessage('label.unauthorized.choice.2')}
+	  <div class="alert-actions">
+	    <a class="btn btn-small" href="${Context.modulePath}">Liste des sites</a>
+	  </div>
+	  </li>
+	  </ul>
 	</div>
 	</@block>
 	

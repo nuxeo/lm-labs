@@ -5,14 +5,14 @@
   <@block name="title">${site.title}-${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
 
   <@block name="content">
-  <div class="container">
+  <div class="">
     <section>
       <div class="page-header">
         <h1>${Context.getMessage('title.LabsSite.latestuploads')}</h1>
       </div>
 
-  <div class="row">
-  <div class="span16 columns">
+  <div class="row-fluid">
+    <div class="">
       <#assign pp = latestUploadsPageProvider(Document, nbrElemPerPage) />
       <#assign currentPage = Context.request.getParameter('page')?number?long />
       <#assign uploads = pp.setCurrentPage(currentPage) />
@@ -20,7 +20,7 @@
       <@paging pageProvider=pp url=This.path+"/@views/latestuploads?page=" />
 
       <div class="latestuploads">
-        <table class="zebra-striped bs">
+        <table class="table table-striped table-bordered bs">
           <thead>
             <tr>
               <th>&nbsp;</th>
@@ -54,4 +54,5 @@
     </section>
     </div>
   </@block>
+  <@block name="pageCommentable"></@block>
 </@extends>

@@ -1,13 +1,16 @@
 @import "../labs/specific.less";
 
-@basefont:          13px;
+@baseFontSize:          13px;
 
 @baseFontFamily:"Trebuchet MS", "Helvetica", "Verdana", "Arial", "Sans-serif";
 
 @gray:#676D71;
 
+/* migration bootstrap 2.0 */
+/*
 @gridColumnWidth:   34px;
 @gridGutterWidth:   14px;
+*/
 
 /*Specific*/
 @bgcolortabs: #BB6C1A;
@@ -19,9 +22,11 @@
 
 @sidebarWidth:   180px;
 
-//Astuce afin de palier le probleme de less à intertréper les variables après avoir
-//ajouter le pathBase (http://....) alors que le pathBase pourrait être dans la variable
-//De meme pour XXXRelative
+/*
+Astuce afin de palier le probleme de less à intertréper les variables après avoir
+ajouter le pathBase (http://....) alors que le pathBase pourrait être dans la variable
+De meme pour XXXRelative
+*/
 .background-image() when (@backgroundURLRelative = false){ 
 	background-image: url("http://@{backgroundURL}");
 }
@@ -50,13 +55,13 @@ a:hover {
 }
 :focus{-moz-outline-style: none;}
 
-.tabs {
+.nav-tabs {
 	border-bottom: none;
 	margin-bottom: 2px;
 	margin-top: 20px;
 }
 
-.tabs > li > a{
+.nav-tabs > li > a{
 	padding-top: 1px;
 	border: 0px;
 	.border-radius(4px 4px 4px 4px);
@@ -74,7 +79,7 @@ a:hover {
      	color: @baseFontColorTabs
      }
 }
-.tabs > li.active > a{
+.nav-tabs > li.active > a{
 	 padding-top: 1px;
 	 border: 0px;
 	 color: @white;
@@ -89,9 +94,7 @@ a:hover {
      }
 }
 
-
-
-.tabs > li.active > div.star{
+.nav-tabs > li.active > div.star{
 
 		width:0; 
 		height:0; 
@@ -103,8 +106,11 @@ a:hover {
 		bottom: -4px; 
 		left: 46%;
 }
-.topbar {
+
+.navbar {
+/* migration bootstrap-2.0
   	width: 980px;
+*/
   	margin: auto;
  	position: relative;
  	vertical-align: top;
@@ -126,16 +132,16 @@ a:hover {
 	:focus{-moz-outline-style: none;}
  }
  
-.topbar-inner, .topbar-wrapper {
+.navbar-inner, .navbar-wrapper {
   background-image: url(images/bg-grey.gif);
   
 }
 
-.pills .active a {
+.nav-pills .active a {
 	background: @bgcolortabs;	
 }
 
-.pills a {	
+.nav-pills a {	
 	&:hover {
         background: lighten(@bgcolortabs, 35%);
     }
@@ -149,22 +155,22 @@ a:hover {
  
  
 h1 {
-  font-size: @basefont + 9;
+  font-size: @baseFontSize + 9;
   color: @baseFontColorTitle;
 } 
 
 h2 {
-  font-size: @basefont + 8;
+  font-size: @baseFontSize + 8;
   color: @baseFontColorTitle;
 } 
 
 h5 {
-  font-size: @basefont;
+  font-size: @baseFontSize;
   color: @baseFontColorTitle;
 }
 
 h6 {
-  font-size: @basefont - 2;
+  font-size: @baseFontSize - 2;
   color: @baseFontColorTitle;
 }
 
@@ -181,6 +187,7 @@ h6 {
   /*in-width: @siteWidth - @sidebarWidth;*/
   padding-left: 0px;
   padding-right: 0px;
+> .row-fluid {  /* migration bootstrap-2.0 */
   > .sidebar {
     	width: 20%;
   	}
@@ -190,6 +197,7 @@ h6 {
     margin-right: 0px;
     width: 79%;
   }
+}
 }
 
 
@@ -252,7 +260,7 @@ h6 {
   .border-radius(11px);
   
 
-	&.primary {
+	&.btn-primary {
 	    color: @white;
 	    .gradientBar(@gray, @gray)
 	  }
@@ -323,17 +331,12 @@ h6 {
 
 table.bs {
   width: 100%;
-  margin-bottom: @baseline;
+  margin-bottom: @baseLineHeight;
   padding: 0;
   border: 0;
   border-collapse: separate; // Done so we can round those corners!
   *border-collapse: collapse; /* IE7, collapse table to remove spacing */
-  font-size: @basefont;
-  th, td {
-    padding: 5px 5px 4px;
-    line-height: @baseline;
-    text-align: left;
-  }
+  font-size: @baseFontSize;
   th {
     padding-top: 9px;
     font-weight: bold;
@@ -370,7 +373,7 @@ table.bs {
   }
 }
 
-.zebra-striped {
+.table-striped {
   tbody {
     tr:nth-child(odd) td {
       background-color: lighten(@grayLight,15%);
@@ -459,7 +462,7 @@ li.active > a > h5.homepage{
   .box-shadow(0 0 0 @white);
 
   .header {
-  	font-size: @basefont + 2;
+  	font-size: @baseFontSize + 2;
     margin:-5px -5px 0px -5px;
     color: @bgcolortabs;
     min-height:20px;
@@ -541,7 +544,7 @@ li.active > a > h5.homepage{
 		text-indent: 22px;
 	}
 	.title {
-		font-size: @basefont;
+		font-size: @baseFontSize;
     	font-weight:bold;
 	}
 	.desc {
@@ -549,7 +552,7 @@ li.active > a > h5.homepage{
 	}
 	a {
 		color: #404040;
-	    font-size: @basefont;
+	    font-size: @baseFontSize;
 	    font-weight: normal;
 	    line-height: 18px;
 	}

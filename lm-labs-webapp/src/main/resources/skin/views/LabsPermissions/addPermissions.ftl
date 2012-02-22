@@ -1,9 +1,9 @@
 	<h1>${Context.getMessage('label.security.labs.addPermissions.title')}</h1>
 	<div class="container-fluid">
 		<section>
-			<a href="#" rel="twipsy" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">?</a>
+			<a href="#" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">?</a>
 		 	<input type="text" id="userNamePermissions" name="userNamePermissions" value="" class="span6" style="margin-left:20px;">
-			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn primary disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
+			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary btn-disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
 		</section>
 		<section>
 			<h5>
@@ -18,7 +18,7 @@
 	<div  class="actions">
 		<input type="hidden" id="permissionKey" value=""/>
 		<input type="hidden" id="permissionText" value=""/>
-		<button id="addPerm" onClick="javascript:addPerm();" title="${Context.getMessage('command.security.addPerm')}" class="btn primary" style="margin-left:20px;" >${Context.getMessage('command.security.addPerm')}</button>
+		<button id="addPerm" onClick="javascript:addPerm();" title="${Context.getMessage('command.security.addPerm')}" class="btn btn-primary" style="margin-left:20px;" >${Context.getMessage('command.security.addPerm')}</button>
 		<button id="cancel" class="btn" onClick="javascript:closeAddPerm();" title="${Context.getMessage('command.security.addPerm.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
 	</div>
 
@@ -123,8 +123,8 @@ function labsPermissionsAdd(username, permission){
 }
 
 $(function () {
-	$("a[rel=twipsy]")
-		.twipsy({live: true})
+	$("a[rel=tooltip]")
+		.tooltip({live: true})
 	}
 ) 
 

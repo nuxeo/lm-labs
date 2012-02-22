@@ -78,7 +78,7 @@ function slideAllFolders(imgObj) {
   <@block name="content">
   <@tableOfContents>
 
-  <div class="container">
+  <div class="">
     <#if classeur.folders?size &gt; 0>
 	<img class='allFoldersOpened' src="${skinPath}/images/toggle_minus.png" onclick="slideAllFolders(this);" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.allFolders.collapse')}" alt="${Context.getMessage('command.PageClasseur.allFolders.collapse')}" />
 	</#if>
@@ -134,43 +134,45 @@ function slideAllFolders(imgObj) {
       </div>
 
         <#if canWrite>
-        <div class="row editblock">
-          <div class="span16 columns">
-            <a href="#" rel="addfile_${folder.document.id}_modal" class="btn open-dialog" >Ajouter un fichier</a>
+        <div class="row-fluid editblock">
+          <div class="span12 columns">
+            <a href="#" rel="addfile_${folder.document.id}_modal" class="btn btn-small open-dialog" ><i class="icon-upload"></i>Ajouter un fichier</a>
 
           <#-- This button submits the hidden delete form -->
-          <button type="submit" class="btn danger" onclick="$('#delete_${folder.document.id}').submit();return false;">${Context.getMessage('command.PageClasseur.deleteFolder')}</button>
+          <button type="submit" class="btn btn-small btn-danger" onclick="$('#delete_${folder.document.id}').submit();return false;"><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteFolder')}</button>
 		  <#-- rename   -->
-		  <button class='btn' onClick='javascript:renameFolder("${This.path}/${folder.document.name}/@put", "${folder.document.id}");return false;'>${Context.getMessage("command." + Document.type + ".renameFolder" )}</button>
+		  <button class='btn btn-small' onClick='javascript:renameFolder("${This.path}/${folder.document.name}/@put", "${folder.document.id}");return false;'><i class="icon-edit"></i>${Context.getMessage("command." + Document.type + ".renameFolder" )}</button>
 
           <div id="addfile_${folder.document.id}_modal" >
               <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
-              <form id="form-upload-file-${folder.document.id}" action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
+              <form class="ajax form-horizontal form-upload-file" id="form-upload-file-${folder.document.id}"
+                onsubmit="window.location.reload();return false;"
+                action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
                 <fieldset>
-                  <div class="clearfix">
-                        <label for="title">${Context.getMessage('label.PageClasseur.form.title')}</label>
-                          <div class="input">
-                            <input type="text" name="title" class="large"/>
+                  <div class="control-group">
+                        <label class="control-label" for="title">${Context.getMessage('label.PageClasseur.form.title')}</label>
+                          <div class="controls">
+                            <input type="text" name="title" class="input-large"/>
                           </div>
-                        </div><!-- /clearfix -->
+                        </div>
                         
-                   <div class="clearfix">
-                        <label for="blob">Choisir le fichier</label>
-                          <div class="input">
-                            <input type="file" name="blob" class="required"/>
+                   <div class="control-group">
+                        <label class="control-label" for="blob">Choisir le fichier</label>
+                          <div class="controls">
+                            <input type="file" name="blob" class="required focused input-file"/>
                           </div>
-                        </div><!-- /clearfix -->
+                        </div>
 
-                   <div class="clearfix">
-                        <label for="description">${Context.getMessage('label.PageClasseur.form.description')}</label>
-                          <div class="input">
-                            <textarea name="description"></textarea>
+                   <div class="control-group">
+                        <label class="control-label" for="description">${Context.getMessage('label.PageClasseur.form.description')}</label>
+                          <div class="controls">
+                            <textarea class="input" name="description"></textarea>
                           </div>
-                        </div><!-- /clearfix -->
+                        </div>
                   </fieldset>
 
               <div class="actions">
-                <button class="btn primary required-fields" form-id="form-upload-file-${folder.document.id}">Envoyer</button>
+                <button class="btn btn-primary required-fields" form-id="form-upload-file-${folder.document.id}">Envoyer</button>
               </div>
               </form>
 
@@ -199,18 +201,18 @@ function slideAllFolders(imgObj) {
 <div id="div-addfolder" style="display: none;" >
     <h1>${Context.getMessage('label.PageClasseur.form.folder.title')}</h1>
 
-  <form class="ajax" id="form-folder" action="${This.path}" method="post" enctype="multipart/form-data">
+  <form class="ajax form-horizontal" id="form-folder" action="${This.path}" method="post" enctype="multipart/form-data">
       <fieldset>
-      <div class="clearfix">
-          <label for="dc:title">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
-            <div class="input">
-              <input id="folderName" name="dc:title" class="xlarge required"/>
+      <div class="control-group">
+          <label class="control-label" for="dc:title">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
+            <div class="controls">
+              <input id="folderName" name="dc:title" class="focused required input-xlarge"/>
             </div>
-          </div><!-- /clearfix -->
+          </div>
       </fieldset>
 
   <div class="actions">
-    <button class="btn primary required-fields" form-id="form-folder">Envoyer</button>
+    <button class="btn btn-primary required-fields" form-id="form-folder">Envoyer</button>
   </div>
   </form>
 
@@ -220,21 +222,21 @@ function slideAllFolders(imgObj) {
     <h1>${Context.getMessage('label.PageClasseur.form.rename.title')}</h1>
   <form id="form-renameTitleElement" action="" method="post">
       <fieldset>
-	      <div class="clearfix">
-	          <label for="dc:title">${Context.getMessage('label.PageClasseur.form.title')}</label>
-	          <div class="input">
-	            <input id="renameTitleElement" name="dc:title" class="xlarge required"/>
+	      <div class="control-group">
+	          <label class="control-label" for="dc:title">${Context.getMessage('label.PageClasseur.form.title')}</label>
+	          <div class="controls">
+	            <input id="renameTitleElement" name="dc:title" class="required input-xlarge"/>
 	          </div>
-	      </div><!-- /clearfix -->
-	      <div class="clearfix">
-	          <label for="dc:description">${Context.getMessage('label.PageClasseur.form.description')}</label>
-	          <div class="input">
-	            <textarea name="dc:description" id="descriptionElement" class="xlarge"></textarea>
+	      </div>
+	      <div class="control-group">
+	          <label class="control-label" for="dc:description">${Context.getMessage('label.PageClasseur.form.description')}</label>
+	          <div class="controls">
+	            <textarea name="dc:description" id="descriptionElement" class="input-xlarge"></textarea>
 	          </div>
-	      </div><!-- /clearfix -->
+	      </div>
       </fieldset>
 	  <div class="actions">
-	    <button class="btn primary required-fields" form-id="form-renameTitleElement">${Context.getMessage('label.PageClasseur.form.rename.save')}</button>
+	    <button class="btn btn-primary required-fields" form-id="form-renameTitleElement">${Context.getMessage('label.PageClasseur.form.rename.save')}</button>
 	  </div>
   </form>
 
@@ -244,16 +246,16 @@ function slideAllFolders(imgObj) {
     <#list This.getLinks("PageClasseur_ACTIONS") as link>
       <#assign btnClass = "" />
       <#if link.id == "addFolder" >
-        <#assign btnClass = "primary " + link.id />
+        <#assign btnClass = "btn-primary " + link.id />
       <#elseif link.id == "deleteSelection" >
-        <#assign btnClass = "danger" />
+        <#assign btnClass = "btn-danger" />
       </#if>
       <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >
         <#if link.id?ends_with("Selection") >
-          <#assign btnClass = btnClass + " " + link.id?split("Selection")[0] />
+          <#assign btnClass = btnClass + " " + link.id />
         </#if>
       </#if>
-      <button class="btn ${btnClass} <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >selectionActionsBt</#if>" <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") > disabled="disabled"</#if>>${Context.getMessage('command.' + Document.type + '.' + link.id)}</button>
+      <button class="btn ${btnClass} <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >selectionActionsBt</#if><#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") > disabled</#if>" >${Context.getMessage('command.' + Document.type + '.' + link.id)}</button>
     </#list>
 </#macro>
 
@@ -261,7 +263,7 @@ function slideAllFolders(imgObj) {
 
   <#if folder.files?size &gt; 0>
   <div class="folder-collapsable" >
-  <table class="zebra-striped classeurFiles bs" >
+  <table class="table table-striped classeurFiles bs" >
   <thead>
     <tr>
       <th class="header">&nbsp;</th>
@@ -322,13 +324,13 @@ function slideAllFolders(imgObj) {
       <#if canWrite>
       	<div <#if !child.facets?seq_contains("LabsHidden")> class="editblock"</#if>>
       		<button class="btn" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${child.dublincore.description?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@put');return false;">Renommer</button>
-            <button class="btn danger" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
+            <button class="btn btn-danger" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
             <br />
         </div>
       </#if>
-        <a rel="nofollow" class="btn small classeurDownload" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
+        <a rel="nofollow" class="btn btn-small classeurDownload" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
       <#if (max_lenght > blobLenght) && This.hasConvertersForHtml(blob.mimeType)>
-       	<a rel="nofollow" class="btn small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
+       	<a rel="nofollow" class="btn btn-small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
       </#if>
         <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">
         </form>

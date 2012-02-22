@@ -1,9 +1,9 @@
 	<h1>${Context.getMessage('label.admin.contact.addContact.title')}</h1>
 	<div class="container-fluid">
 		<section>
-			<a href="#" rel="twipsy" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">?</a>
-		 	<input type="text" id="usernameContacts" name="usernameContacts" value="" class="span6" style="margin-left:20px;">
-			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn primary disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
+			<a href="#" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">?</a>
+		 	<input type="text" id="usernameContacts" name="usernameContacts" value="" class="span4" style="margin-left:20px;">
+			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary btn-disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
 		</section>
 		<section>
 			<h5>${Context.getMessage('label.admin.contact.addContact.toSelect')}</h5>
@@ -13,7 +13,7 @@
 		</section>
 	</div>
 	<div  class="actions">
-		<button id="addPerm" onClick="javascript:addContact();" title="${Context.getMessage('command.contact.add')}" class="btn primary" style="margin-left:20px;" >${Context.getMessage('command.contact.add')}</button>
+		<button id="addPerm" onClick="javascript:addContact();" title="${Context.getMessage('command.contact.add')}" class="btn btn-primary" style="margin-left:20px;" >${Context.getMessage('command.contact.add')}</button>
 		<button id="cancel" class="btn" onClick="javascript:closeAddContact();" title="${Context.getMessage('command.contact.cancel')}">${Context.getMessage('command.contact.cancel')}</button>
 	</div>
 
@@ -60,8 +60,8 @@ function addContact(){
 }
 
 $(function () {
-	$("a[rel=twipsy]")
-		.twipsy({live: true})
+	$("a[rel=tooltip]")
+		.tooltip({live: true}) // TODO live still exists in 'tooltip' ??
 	}
 ) 
 
