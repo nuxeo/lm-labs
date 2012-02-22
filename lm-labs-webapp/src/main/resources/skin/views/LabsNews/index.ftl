@@ -41,16 +41,16 @@
 	                <small>${Context.getMessage('label.labsNews.display.publish')}...</small>
 	              </div>
 			  </#if>
-			  <section class="labsnews editblock">
-			  	<div class="row" id="summaryNews${news.documentModel.ref}">
+			  <section class="labsnews editblock well">
+			  	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
           			<#if news.hasSummaryPicture()>
-	          			<div class="span15">
+	          			<div class="span11">
 			          		<#-- Image -->
 			          		<div class="span3">
 			          			<@generateSummaryPictureNews news=news />
 			          		</div>
 			          		<#-- Central -->
-			          		<div class="span12">
+			          		<div class="span8">
 			          			<h2 style="line-height: 24px;">${news.title}</a></h2>
 		          				<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
 			          			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
@@ -60,7 +60,7 @@
 			          	</div>
 		          	<#else>
 		          		<#-- Central -->
-		          		<div class="span15">
+		          		<div class="span11">
 		          			<h2 style="line-height: 24px;">${news.title}</h2>
 			          		<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
 			          		<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
