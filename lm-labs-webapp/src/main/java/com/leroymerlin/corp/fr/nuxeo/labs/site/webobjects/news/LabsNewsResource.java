@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.news;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -13,6 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -21,12 +23,16 @@ import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 
 @WebObject(type = "LabsNews", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
 public class LabsNewsResource extends PageResource {
+
+    private static final Log log = LogFactory.getLog(LabsNewsResource.class);
     
     LabsNews labsNews;
 
@@ -72,8 +78,23 @@ public class LabsNewsResource extends PageResource {
             throw WebException.wrap(e);
         } catch (IOException e) {
             throw WebException.wrap(e);
+        }catch (LabsBlobHolderException e) {
+            log.info("The size of blob is too small !", e);
+            save();
+            return redirect(getPath()
+                    + "?message_success=label.labsNews.news_notupdated.size");
         }
 
+    }
+    
+    private void save(){
+        CoreSession session = ctx.getCoreSession();
+        try {
+            session.saveDocument(doc);
+            session.save();
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
     }
 
     @Path("s/{index}")
@@ -95,12 +116,13 @@ public class LabsNewsResource extends PageResource {
         return null;
     }
 
-    static void fillNews(FormData form, LabsNews news) throws ClientException, IOException {
+    static void fillNews(FormData form, LabsNews news) throws ClientException, IOException, LabsBlobHolderException {
         String pTitle = form.getString("dc:title");
         String startDate = form.getString("newsStartPublication");
         String endDate = form.getString("newsEndPublication");
         String content = form.getString("newsContent");
         String accroche = form.getString("newsAccroche");
+        String cropSummaryPicture = form.getString("cropSummaryPicture");
 
         news.setTitle(pTitle);
         news.setStartPublication(getDateFromStr(startDate));
@@ -110,11 +132,21 @@ public class LabsNewsResource extends PageResource {
         
         if (form.isMultipartContent()) {
             Blob blob = form.getBlob("newsPicture");
+            blob.persist();
             if(blob.getLength() > 0){
-                blob.persist();
-                news.setOriginalPicture(blob);
+                if (news.isValid(blob)){
+                    news.setOriginalPicture(blob);
+                }
+                else{
+                    throw new LabsBlobHolderException("Blob non valid");
+                }
             }
         }
+        //After setOriginalPicture if necessary
+        if (!StringUtils.isEmpty(cropSummaryPicture)){
+            news.setCropCoords(cropSummaryPicture);
+        }
+        
 
     }
 
@@ -134,6 +166,20 @@ public class LabsNewsResource extends PageResource {
     @GET
     @Path("summaryPicture")
     public Response getSummaryPicture() {
+        try {
+            Blob blob = getLabsNews().getBlobHolder().getBlob("OriginalJpeg");
+            if (blob != null) {
+                 return Response.ok().entity(blob).type(blob.getMimeType()).build();
+            }
+        } catch (Exception e) {
+            throw WebException.wrap(e);
+        }
+        throw new WebException(Response.Status.NOT_FOUND);
+    }
+    
+    @GET
+    @Path("summaryPictureTruncated")
+    public Response getSummaryPictureTruncated() {
         try {
             Blob blob = getLabsNews().getSummaryPicture();
             if (blob != null) {

@@ -30,7 +30,7 @@
         <#list pageNews.allNews as news>
           <section class="labsnews">
 	          	<div class="row" id="summaryNews${news.documentModel.ref}">
-	          		<#if news.hasSummaryPicture()>
+          			<#if news.hasSummaryPicture()>
 	          			<div class="span15">
 			          		<#-- Image -->
 			          		<div class="span3">
@@ -38,8 +38,9 @@
 			          		</div>
 			          		<#-- Central -->
 			          		<div class="span12">
-			          			<h2>${news.title}</h2>
-			          			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:3, alt_text_e:true, alt_text_t:true }">
+			          			<h2 style="line-height: 24px;"><a href="${This.path}/${news.documentModel.name}">${news.title}</a></h2>
+			          			<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
+			          			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
 			          				<@generateContentHtmlNews news=news />
 			          			</div>
 			          		</div>
@@ -47,8 +48,9 @@
 		          	<#else>
 		          		<#-- Central -->
 		          		<div class="span15">
-		          			<h2>${news.title}</h2>
-		          			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:3, alt_text_e:true, alt_text_t:true }">
+		          			<h2 style="line-height: 24px;"><a href="${This.path}/${news.documentModel.name}">${news.title}</a></h2>
+			          		<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
+			          		<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
 		          				<@generateContentHtmlNews news=news />
 					        </div>
 		          		</div>
@@ -122,5 +124,5 @@
 </#macro>
 
 <#macro generateSummaryPictureNews news>
-	<img src="${This.path}/${news.documentModel.name}/summaryPicture" style="width: 130px;height: 88px;margin-top: 5px;"/>
+	<img src="${This.path}/${news.documentModel.name}/summaryPictureTruncated" style="margin-top: 5px;"/>
 </#macro>

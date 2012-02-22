@@ -13,14 +13,36 @@ import static org.nuxeo.ecm.platform.picture.api.MetadataConstants.META_SOURCE;
 import static org.nuxeo.ecm.platform.picture.api.MetadataConstants.META_WIDTH;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.platform.picture.api.ImageInfo;
 import org.nuxeo.ecm.platform.picture.api.adapters.DefaultPictureAdapter;
 
 public class LabsNewsPictureAdapter extends DefaultPictureAdapter {
+
+    @Override
+    protected void clearViews() throws ClientException {
+        List<Map<String, Object>> viewsList = new ArrayList<Map<String, Object>>();
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> views = (List<Map<String, Object>>)doc.getProperty(VIEWS_PROPERTY).getValue();
+        for (Map<String, Object> property : views) {
+            if (isNotForSummary(property)) {
+                viewsList.add(property);
+            }
+        }
+        doc.getProperty(VIEWS_PROPERTY).setValue(viewsList);
+    }
+    
+    private boolean isNotForSummary(Map<String, Object> property) throws PropertyException{
+        boolean result = ((String)property.get("title")).equals("Original");
+        result = result || ((String)property.get("title")).equals("OriginalJpeg");
+        result = result || ((String)property.get("title")).equals("summary_truncated_picture");
+        return !result;
+    }
 
     @Override
     protected void addViews(List<Map<String, Object>> pictureTemplates,
@@ -93,5 +115,4 @@ public class LabsNewsPictureAdapter extends DefaultPictureAdapter {
                 (String) metadata.get(META_SOURCE));
 
     }
-
 }

@@ -111,3 +111,95 @@ function actionPropsNews(){
 		closePropsNews();
 	}
 }
+
+var cropCoords;
+var jcrop_api;
+var widthSummary;
+var heightSummary;
+
+$(document).ready(function() {
+	jQuery("#divCropPicture").dialog2({
+		width : '900px',
+		height : '600px',
+		overflowy : 'auto',
+		overflowx : 'auto',
+		autoOpen : false,
+		closeOnOverlayClick : true,
+		removeOnClose : false,
+		showCloseHandle : true,
+		buttons: {
+			"Annuler": function() { jQuery(this).dialog2("close"); },
+		    "Réinitialisation": function() { resetCropCoords(); },
+		    "Valider": function() { saveCropCoords(); }
+		},
+	});
+	
+	if (jQuery("#cropSummaryPicture").val() != ""){
+		cropCoords = eval('(' + jQuery("#cropSummaryPicture").val() + ')');
+	}
+});
+
+function openCropPicture(){
+	jQuery("#divCropPicture").dialog2("open");
+	widthSummary = jQuery("#summaryPicture").width();
+	heightSummary = jQuery("#summaryPicture").height();
+	$('#summaryPicture').Jcrop({
+		onSelect: setCoords,
+		onChange: setCoords,
+		aspectRatio: 4/3,
+		setSelect: extractTabCropCoords(),
+		minSize: [ 120, 90 ]
+	},function(){
+		  jcrop_api = this;
+		  setCoords(cropCoords);
+	});
+}
+
+function extractTabCropCoords(){
+	if (jQuery("#cropSummaryPicture").val() != ""){
+		return [
+				cropCoords.x,
+				cropCoords.y,
+				cropCoords.x2,
+				cropCoords.y2
+			];
+	}
+	else{
+		var width = jQuery("#summaryPicture").width();
+		var height = jQuery("#summaryPicture").height();
+		return [
+				(width / 2) - 60,
+				(height / 2) - 45,
+				(width / 2) + 60,
+				(height / 2) + 45
+			];
+	}
+}
+
+function setCoords(c){
+	cropCoords = c;
+	var rx = 120 / cropCoords.w;
+	var ry = 90 / cropCoords.h;
+
+	$('#summaryPicturePreview').css({
+		width: Math.round(rx * widthSummary) + 'px',
+		height: Math.round(ry * heightSummary) + 'px',
+		marginLeft: '-' + Math.round(rx * cropCoords.x) + 'px',
+		marginTop: '-' + Math.round(ry * cropCoords.y) + 'px'
+	});
+};
+
+function saveCropCoords(){
+	jQuery("#cropSummaryPicture").val(JSON.stringify(cropCoords));
+	jQuery("#divCropPicture").dialog2("close");
+}
+
+function resetCropCoords(){
+	if (jQuery("#cropSummaryPictureOrigin").val() != ""){
+		cropCoords = eval('(' + jQuery("#cropSummaryPictureOrigin").val() + ')');
+	}
+	else{
+		cropCoords = "";
+	}
+	jcrop_api.animateTo(extractTabCropCoords());
+}

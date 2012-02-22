@@ -53,4 +53,6 @@ public interface LabsNews  extends HtmlSection {
     String getCropCoords() throws ClientException;
 
     void setCropCoords(String cropCoords) throws ClientException;
+
+    boolean isValid(Blob blob) throws ClientException;
 }

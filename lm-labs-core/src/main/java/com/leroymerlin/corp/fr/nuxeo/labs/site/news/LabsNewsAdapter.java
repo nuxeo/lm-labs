@@ -283,19 +283,21 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     @Override
     public Blob getSummaryPicture() throws ClientException, IOException {
-        //TODO
-        return getBlobHolder().getBlob("OriginalJpeg");
+        return getBlobHolder().getBlob(LabsNewsBlobHolder.SUMMARY_TRUNCATED_PICTURE);
     }
 
     @Override
     public boolean hasSummaryPicture() {
-        // TODO 
         try {
-            return getBlobHolder().getBlob("OriginalJpeg") != null;
+            return getBlobHolder().getBlob(LabsNewsBlobHolder.SUMMARY_TRUNCATED_PICTURE) != null;
         } catch (ClientException e) {
             return false;
         }
-//        return true;
+    }
+
+    @Override
+    public boolean isValid(Blob blob) throws ClientException {
+        return getBlobHolder().isValid(blob);
     }
 
 }
