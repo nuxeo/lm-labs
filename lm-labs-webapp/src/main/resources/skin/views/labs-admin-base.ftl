@@ -48,7 +48,7 @@
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
           <script type="text/javascript" src="${skinPath}/js/asset_filedrop.js"></script>
           <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
           <script type="text/javascript">
@@ -90,8 +90,8 @@
 
         <#assign messages = This.getMessages() />
         <#list messages?keys as key >
-           <div class="alert-message ${key}">
-             <a class="close" href="#">x</a>
+           <div class="alert alert-block alert-${key}">
+             <a class="close" data-dismiss="alert" href="#">&times;</a>
              ${Context.getMessage(messages[key])}
            </div>
         </#list>
@@ -110,10 +110,6 @@
     </@block>
     
     <@block name="pageCommentable">
-	    <#assign pageCommentable = This.getPage()/>
-		<#if pageCommentable != null && pageCommentable.commentable>
-			<#include "/views/LabsComments/displayCommentsPage.ftl" />
-		</#if>
 	</@block>
 
     <div style="clear:both;"></div>

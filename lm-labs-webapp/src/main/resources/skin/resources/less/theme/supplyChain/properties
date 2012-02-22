@@ -1,6 +1,7 @@
 ;
 
 @baseFontFamily;Police du site;Séparé par -,- et délimité par -'-;font
+@baseFontSize;Taille de base;;size
 @basefont;Taille de base;;size
 @basefontTitleH1;Taille des titres h1;;size
 @basefontTitleH2;Taille des titres h2;;size

@@ -28,7 +28,7 @@
 
   <@block name="content">
     <#if news??>
-      <div id="content" class="container">
+      <div id="content" class="">
           <section>
           	  <#if news != null>
 	              <div class="page-header">
@@ -81,8 +81,8 @@
 				
 		  	<#assign section_index=0/>
 		  	<#list news.rows as row>
+		          <div class="row-fluid" id="row_s${section_index}_r${row_index}">
 		  		<#if isContributor >
-		          <div class="row" id="row_s${section_index}_r${row_index}">
 		              <#list row.contents as content>
 			              <div class="span${content.colNumber} columns editblock">
 			                <div id="s_${section_index}_r_${row_index}_c_${content_index}">${content.html}</div>
@@ -102,12 +102,10 @@
 		              </#list>
 		              <div style="margin-left:20px;clear:both;" class="editblock">
 			              <form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
-			              	<button type="submit" class="btn small danger">Supprimer la ligne</button>
+			              	<button type="submit" class="btn btn-small btn-danger">Supprimer la ligne</button>
 			              </form>
 		              </div>
-		          </div>
 		        <#else>
-		        	<div class="row" id="row_s${section_index}_r${row_index}">
 	                  <#list row.contents as content>
 	                    <div class="span${content.colNumber} columns">
 	                      <#if content.html == "">
@@ -117,32 +115,31 @@
 	                      </#if>
 	                    </div>
 	                  </#list>
-	                </div>
 		        </#if>
+	                </div>
 		    </#list>
 			
 			<#if isContributor >
 	          <div class="well editblock">
-	            <form id="addrow" action="${This.path}/s/0" method="post" >
+	            <form class="form-horizontal" id="addrow" action="${This.path}/s/0" method="post" >
 	              <input type="hidden" name="action" value="addrow"/>
 	              <fieldset>
 	                <legend>Ajouter une ligne</legend>
-	                <div class="clearfix">
-	                  <label for="title">Type de ligne</label>
-	                  <div class="input">
+	                <div class="control-group">
+	                  <label class="control-label" for="rowTemplate">Type de ligne</label>
+	                  <div class="controls">
 	                    <select name="rowTemplate">
 	                    <#list layouts?keys as layoutCode >
 	                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
 	                    </#list>
 		                </select>
-		                <button type="submit" class="btn small primary">Ajouter</button>
-		                <span class="help-block">
-		                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
-		                    parenthèses représentent des pourcentages de taille de colonne.
-		                 </span>
+	                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
+	                <p class="help-block">
+	                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
+	                    parenthèses représentent des pourcentages de taille de colonne.
+	                 </p>
 	                  </div>
-	
-	                </div><!-- /clearfix -->
+	                </div>
 	              </fieldset>
 	            </form>
 	          </div>

@@ -5,13 +5,13 @@
 
 <@block name="scripts">
     <@superBlock/>
-    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
     <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
 jQuery(document).ready(function() {
   jQuery('.btn').attr('disabled', false);
-  jQuery("table[class*='zebra-striped']").tablesorter({
+  jQuery("table[class*='table-striped']").tablesorter({
     headers: { 5: { sorter: false}},
       sortList: [[0,0]],
       textExtraction: function(node) {
@@ -49,10 +49,10 @@ jQuery(document).ready(function() {
       </div>
 
   <div class="row">
-  <div class="span16 columns">
+  <div class="span12 columns">
 
       <div class="subscriptions">
-        <table class="zebra-striped bs">
+        <table class="table table-striped table-bordered bs">
           <thead>
             <tr>
               <th>${Context.getMessage('label.lifeCycle.trash.page')}</th>

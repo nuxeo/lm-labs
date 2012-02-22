@@ -15,58 +15,59 @@
 
 <h1>${Context.getMessage('label.labssite.add.site')}</h1>
 
-<form method="post" enctype="multipart/form-data" id="form-labssite" action="${This.path}/"> <#-- trailing slash in form's URL is very important, DONT'T REMOVE !! -->
+<form class="form-horizontal" method="post" enctype="multipart/form-data" id="form-labssite" action="${This.path}/"> <#-- trailing slash in form's URL is very important, DONT'T REMOVE !! -->
   <fieldset>
-    <div class="clearfix">
-      <label for="labsSiteTitle">${Context.getMessage('label.labssite.edit.title')}</label>
-      <div class="input">
-        <input class="required" name="dc:title" id="labsSiteTitle" required-error-text="${Context.getMessage('label.labssites.edit.required.title')}"/>
+    <div class="control-group">
+      <label class="control-label" for="labsSiteTitle">${Context.getMessage('label.labssite.edit.title')}</label>
+      <div class="controls">
+        <input class="focused required input" name="dc:title" id="labsSiteTitle" required-error-text="${Context.getMessage('label.labssites.edit.required.title')}"/>
       </div>
-    </div><!-- /clearfix -->
+    </div>
 
-    <div class="clearfix">
-      <label for="labsSiteURL">${Context.getMessage('label.labssite.edit.url')}</label>
-      <div class="input">
-        ${This.URL}/<input class="required" name="webc:url" id="labsSiteURL" required-error-text="${Context.getMessage('label.labssites.edit.required.url')}"/>
-        <span class="help-block">C'est par ce lien que le site sera accessible</span>
+    <div class="control-group">
+      <label class="control-label" for="labsSiteURL">${Context.getMessage('label.labssite.edit.url')}</label>
+      <div class="controls">
+        <span>${This.URL}/</span><input class="input required" name="webc:url" id="labsSiteURL" required-error-text="${Context.getMessage('label.labssites.edit.required.url')}"/>
+        <p class="help-block">C'est par ce lien que le site sera accessible</p>
       </div>
-    </div><!-- /clearfix -->
+    </div>
 
-    <div class="clearfix">
-      <label for="labsSiteDescription">${Context.getMessage('label.labssite.edit.description')}</label>
-      <div class="input">
-        <textarea name="dc:description" id="labsSiteDescription" ></textarea>
+    <div class="control-group">
+      <label class="control-label" for="labsSiteDescription">${Context.getMessage('label.labssite.edit.description')}</label>
+      <div class="controls">
+        <textarea class="input" name="dc:description" id="labsSiteDescription" ></textarea>
       </div>
-    </div><!-- /clearfix -->
+    </div>
 
 <#--
-    <div class="clearfix">
-      <label for="piwik:piwikId">${Context.getMessage('label.labssite.edit.piwikId')}</label>
-      <div class="input">
-        <input name="piwik:piwikId" id="piwik:piwikId" />
+    <div class="control-group">
+      <label class="control-label" for="piwik:piwikId">${Context.getMessage('label.labssite.edit.piwikId')}</label>
+      <div class="controls">
+        <input class="input" name="piwik:piwikId" id="piwik:piwikId" />
       </div>
     </div>
 -->
 
 	<#if Common.canCreateTemplateSite(Context.principal.name, Session) >
-    <div class="clearfix">
-      <div class="input">
-        <input id="siteTemplate" type="checkbox" name="labssite:siteTemplate" />
-        <label for="siteTemplate">&nbsp;${Context.getMessage('label.labssite.edit.siteTemplate')}</label>
+    <div class="control-group">
+      <div class="controls">
+        <label class="checkbox" for="siteTemplate">
+          <input id="siteTemplate" type="checkbox" name="labssite:siteTemplate" />
+        &nbsp;${Context.getMessage('label.labssite.edit.siteTemplate')}</label>
       </div>
-    </div><!-- /clearfix -->
+    </div>
     </#if>
 
-    <div class="clearfix" id="siteTemplateRadioDiv">
-      <label for="siteTemplate">&nbsp;${Context.getMessage('label.labssite.edit.siteTemplateName')}</label>
-      <div class="input">
+    <div class="control-group" id="siteTemplateRadioDiv">
+      <label class="control-label" for="siteTemplate">&nbsp;${Context.getMessage('label.labssite.edit.siteTemplateName')}</label>
+      <div class="controls">
         <span class="radioSiteTemplate">
-          <input type="radio" name="siteTemplateId" value="" onclick="cleanPreview();" checked="checked" ></input>
+          <input class="radio" type="radio" name="siteTemplateId" value="" onclick="cleanPreview();" checked="checked" ></input>
           <span onclick="clickParentInput(this);" >${Context.getMessage('label.labssite.edit.siteTemplateName.none')}</span>
         </span>
         <#list Common.getTemplateSites(Session) as templateName >
         <span class="radioSiteTemplate">
-          <input type="radio" name="siteTemplateId" value="${templateName.document.id}" 
+          <input class="radio" type="radio" name="siteTemplateId" value="${templateName.document.id}" 
         	<#if templateName.hasSiteTemplatePreview()>
         	onclick="onSelectRadio(this, '${Context.modulePath}/@templatePreview/${templateName.URL}');"
         	<#else>
@@ -78,21 +79,22 @@
         </span>
         </#list>
       </div>
-    </div><!-- /clearfix -->
+    </div>
 
-    <div class="clearfix">
+    <div class="control-group">
       <div id="templatePreview" ></div>
-    </div><!-- /clearfix -->
+    </div>
 
-	<div class="clearfix" id="siteTemplatePreviewDiv" style="display:none;" >
-      <label for="siteTemplatePreview">${Context.getMessage('label.labssite.edit.siteTemplatePreview')}</label>
-      <div class="input">
-        <input name="labssite:siteTemplatePreview" type="file" size="30" id="siteTemplatePreview" />
+	<div class="control-group" id="siteTemplatePreviewDiv" style="display:none;" >
+      <label class="control-label" for="siteTemplatePreview">${Context.getMessage('label.labssite.edit.siteTemplatePreview')}</label>
+      <div class="controls">
+        <input class="input-file" name="labssite:siteTemplatePreview" type="file" size="30" id="siteTemplatePreview" />
       </div>
-    </div><!-- /clearfix -->
+    </div>
   </fieldset>
   <div class="actions">
-    <button class="btn primary required-fields" form-id="form-labssite">${Context.getMessage('label.labssites.edit.valid')}</button>
+    <button class="btn btn-primary required-fields" form-id="form-labssite">${Context.getMessage('label.labssites.edit.valid')}</button>
+    <button class="btn" type="reset">Reset</button>
   </div>
 </form>
 <script>

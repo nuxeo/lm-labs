@@ -3,13 +3,13 @@
 
 <@block name="scripts">
     <@superBlock/>
-    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
     <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
 	<script type="text/javascript">
 jQuery(document).ready(function() {
   jQuery('.btn').attr('disabled', false);
-  jQuery("table[class*='zebra-striped']").tablesorter({
+  jQuery("table[class*='table-striped']").tablesorter({
   	headers: { 0: { sorter: false}},
       sortList: [[5,0]],
       textExtraction: function(node) {
@@ -56,16 +56,16 @@ jQuery(document).ready(function() {
           <h3>
           	${Context.getMessage('label.lifeCycle.trash.title')} <#if (deletedDocs?size > 0)>(${deletedDocs?size})</#if>
           	<div style="text-align: right;margin-top: -37px;">
-				<button onClick="beEmptyTrash();" title="${Context.getMessage('label.lifeCycle.page.emptyTrash')}" class="btn danger" style="margin-left:20px;" >${Context.getMessage('label.lifeCycle.page.emptyTrash')}</button>
+				<button onClick="beEmptyTrash();" title="${Context.getMessage('label.lifeCycle.page.emptyTrash')}" class="btn btn-danger" style="margin-left:20px;" >${Context.getMessage('label.lifeCycle.page.emptyTrash')}</button>
 			</div>
           </h3>
         </div>
         <#if (deletedDocs?size > 0)>
             <div id="trashActions" >
-              <button class="btn danger" id="deleteSelection" onClick="processSelection(this, 'remove');">${Context.getMessage('command.trash.remove.bulk')}</button>
+              <button class="btn btn-danger" id="deleteSelection" onClick="processSelection(this, 'remove');">${Context.getMessage('command.trash.remove.bulk')}</button>
               <button class="btn" id="restoreSelection" onClick="processSelection(this, 'restore');">${Context.getMessage('command.trash.restore.bulk')}</button>
             </div>
-	        <table class="zebra-striped bs">
+	        <table class="table table-striped table-bordered bs">
 	            <thead>
 	            <tr>
 	              <th><input type="checkbox" name="checkoptionsHeader" title="${Context.getMessage('label.trash.checkbox')}"/></th>
@@ -101,7 +101,7 @@ jQuery(document).ready(function() {
 	              <td>
 	              	<#assign docUrl = Root.getLink(doc) />
 	              	<a  href="${docUrl}" class="btn" onclick="javascript:undeletePage(this);return false;">${Context.getMessage('command.trash.undelete')}</a>
-	              	<a  href="${docUrl}" class="btn danger" onclick="deletePage(this);return false;">${Context.getMessage('command.trash.delete')}</a>
+	              	<a  href="${docUrl}" class="btn btn-danger" onclick="deletePage(this);return false;">${Context.getMessage('command.trash.delete')}</a>
 	              </td>
 	            </tr>
 	          </#list>

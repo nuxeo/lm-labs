@@ -1,4 +1,4 @@
-  <script type="text/javascript">
+<script type="text/javascript">
     var usernameTmp = "";
     jQuery(document).ready(function() {
 	    bindFocus(jQuery("#username"), jQuery("#username").val());
@@ -15,7 +15,7 @@
 	    jQuery("#login").click(valid);
 	    jQuery("#logout").click(doLogout);
 	    
-	    $('input[placeholder], textarea[placeholder]').placeholder();
+	    //$('input[placeholder], textarea[placeholder]').placeholder();
 	  });
 
 
@@ -25,7 +25,7 @@
     var pwd = jQuery("#password").val();
 
     if(jQuery.trim(user) == "" || jQuery.trim(pwd) == "" || jQuery.trim(user) == usernameTmp) {
-      jQuery("#FKerrorLogin").show().html("${Context.getMessage('label.login.failed')}");
+      jQuery("#FKerrorLogin").show();
     } else {
       doLogin(user,pwd);
     }
@@ -35,7 +35,7 @@
   function bindFocus(elem, value){
     jQuery(elem).focus(function() {
         jQuery("#FKerrorLogin").hide();
-        if (this.value == value) this.value = "";
+        //if (this.value == value) this.value = "";
     });
   };
 
@@ -57,38 +57,21 @@
       url: "${Context.loginPath}",
       data: {caller: "login", nuxeo_login : "true", username : username, password : password},
       success: function(html, status) {
-        //succesRedirect();
         jQuery.cookie("LAST_ACTION", "LOGIN", {path: "/"});
-        return true;
+        document.location.reload();
       },
       error: function(html, status) {
-       jQuery("#FKerrorLogin").show().html("${Context.getMessage('label.login.failed')}");
+       jQuery("#FKerrorLogin").show();
        return false;
       }
     });
   }
-
-  function succesRedirect(){
-    jQuery.ajax({
-      url: document.location.href,
-      method: "GET",
-      success: function(data) {
-        document.location.reload();
-      },
-      error: function(){
-        var url = escape("${Context.loginPath}");
-      document.location.href = url.split("@")[0];
-      }
-    });
-  }
-
-  </script>
-
+</script>
 
 <#if Context.principal.isAnonymous() == true>
-    <form action="">
-    <input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="small listener" size="13"/>
-    <input type="password" id="password" placeholder="Mot de passe" class="small listener" size="13"/>
-    <button id="login" title="Login" class="btn listener">OK</button>
+    <form class="navbar-form form-horizontal pull-right" action="">
+    <input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="input-small listener" size="13"/>
+    <input type="password" id="password" placeholder="${Context.getMessage('label.Password')}" class="input-small listener" size="13"/>
+    <button id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" onclick="return false;">${Context.getMessage('command.login')}</button>
     </form> 
 </#if>

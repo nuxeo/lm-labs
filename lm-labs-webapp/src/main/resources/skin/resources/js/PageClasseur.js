@@ -177,7 +177,11 @@ jQuery(document).ready(function(){
 
   jQuery(".btn.addFolder").click(function() {
     jQuery("#div-addfolder").dialog2('open');
-    jQuery("#div-addfolder").dialog2("options", {title: "Ajouter un répertoire"});
+    jQuery("#div-addfolder").dialog2("options",
+    	{
+    	title: "Ajouter un répertoire"
+    	}
+    );
     jQuery("#form-folder").clearForm();
     return false;
   });
@@ -259,9 +263,9 @@ jQuery(document).ready(function(){
     return false;
   });
 
-  jQuery(".selectionActionsBt.hide, .selectionActionsBt.show").click(function(evt) {
+  jQuery(".selectionActionsBt.hideSelection, .selectionActionsBt.showSelection").click(function(evt) {
 	  var action = '';
-	  if (jQuery(this).hasClass('hide')) {
+	  if (jQuery(this).hasClass('hideSelection')) {
 		  action = 'hide';
 	  } else {
 		  action = 'show';
@@ -304,9 +308,11 @@ jQuery(document).ready(function(){
   function updateSelectionBts() {
 	  var checkboxes = jQuery('input[name="checkoptions"]:checked');
 	  if (jQuery(checkboxes).size() > 0) {
-		  jQuery('.selectionActionsBt').removeAttr('disabled');
+		  //jQuery('.selectionActionsBt').removeAttr('disabled');
+		  jQuery('.selectionActionsBt').removeClass('btn-disabled');
 	  } else {
-		  jQuery('.selectionActionsBt').attr('disabled', 'disabled');
+		  //jQuery('.selectionActionsBt').attr('disabled', 'disabled');
+		  jQuery('.selectionActionsBt').addClass('btn-disabled');
 	  }
   }
   
@@ -318,11 +324,12 @@ jQuery(document).ready(function(){
     jQuery('.dropzoneContainer').html("");
   }
 	
-	$('#form-folder').ajaxForm({ 
-        success: function() { 
-            location.reload();
-        } 
-    }); 
+  jQuery('#form-folder').ajaxForm({ 
+    success: function() { 
+        location.reload();
+    } 
+  }); 
+	
 });
 
 function renameFolder(url, id) {

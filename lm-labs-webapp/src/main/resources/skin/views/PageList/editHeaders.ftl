@@ -1,42 +1,47 @@
 <h1>${Context.getMessage('label.pageList.edit.manage.title')}</h1>
 <div class="container-fluid" style="padding-left: 0;height: 290px;">
-	<div class="sidebar" style="width: 222px;">
+  <div class="row-fluid">
+	<div class="sidebar span" style="width: 235px;">
 		<h4>${Context.getMessage('label.pageList.edit.listHeader.title')}</h4>
 		<ul id="ul_action_on_header"></ul>
 		<a href="#" onClick="javascript:addOneHeader();">${Context.getMessage('label.pageList.edit.listHeader.addHeader')}</a>
-		<form class="form">
+		<form class="form form-inline">
+		  <fieldset>
 			<!--         AllContibutors      ------->
-			<div class="clearfix" style="margin-bottom: 0px;">
-				<label for="allContributors" style="text-align: left;">${Context.getMessage('label.pageList.edit.listHeader.allContributors')}</label>
-				<div class="input">
-					<input style="margin-top: 8px;" id="allContributors" type="checkbox" name="allContributors" <#if This.allContributors >checked="true"</#if> />
+			<div class="control-group">
+				<div class="controls">
+				<label class="checkbox" for="allContributors">
+					<input id="allContributors" type="checkbox" name="allContributors" <#if This.allContributors >checked="true"</#if> />
+				${Context.getMessage('label.pageList.edit.listHeader.allContributors')}</label>
 				</div>
 			</div>
 			<!--         CommentableLines      ------->
-			<div class="clearfix">
-				<label for="commentableLines" style="text-align: left;">${Context.getMessage('label.pageList.edit.listHeader.commentableLines')}</label>
-				<div class="input">
-					<input style="margin-top: 8px;" id="commentableLines" type="checkbox" name="commentableLines" <#if This.commentableLines >checked="true"</#if> />
+			<div class="control-group">
+				<div class="controls">
+				<label class="checkbox" for="commentableLines">
+					<input id="commentableLines" type="checkbox" name="commentableLines" <#if This.commentableLines >checked="true"</#if> />
+				${Context.getMessage('label.pageList.edit.listHeader.commentableLines')}</label>
 				</div>
 			</div>
+		  </fieldset>
 		</form>
 	</div>
-	<div class="content">
+	<div class="content span">
 		<h4 style="padding-left: 10px;" >${Context.getMessage('label.pageList.edit.listHeader.editHeader')}</h4>
 		<div id="divEditHeader">
-			<form method="post" name="form-manageList" id="form-manageList" class="form-stacked">
+			<form method="post" name="form-manageList" id="form-manageList" class="form-inline">
 				<fieldset>
 					<!--         NAME      ------->
-					<div class="clearfix">
-						<label for="headerName">${Context.getMessage('label.pageList.edit.editHeader.name')}</label>
-						<div class="input">
-							<input id="headerName" class="error" type="text" size="20" name="headerName" onkeyup="javascript:changeHeaderName();" onblur="javascript:changeAllHeaderName();">
+					<div class="control-group">
+						<label class="control-label" for="headerName">${Context.getMessage('label.pageList.edit.editHeader.name')}</label>
+						<div class="controls">
+							<input id="headerName" class="input error" type="text" size="20" name="headerName" onkeyup="javascript:changeHeaderName();" onblur="javascript:changeAllHeaderName();">
 						</div>
 					</div>
 					<!--         TYPE      ------->
-					<div class="clearfix">
-						<label for="headerType">${Context.getMessage('label.pageList.edit.editHeader.type')}</label>
-						<div class="input">
+					<div class="control-group">
+						<label class="control-label" for="headerType">${Context.getMessage('label.pageList.edit.editHeader.type')}</label>
+						<div class="controls">
 							<select name="headerType" id="headerType" onChange="javascript:manageEditType();">
 			            		<#list This.getHeaderTypes() as type>
 			            			<option value="${type.name()}">${Context.getMessage(type.getI18n())}</option>
@@ -48,7 +53,7 @@
 		            		<a href="#" onClick="javascript:addOneOption();">${Context.getMessage('label.pageList.edit.editHeader.options.add')}</a>
 		            	</div>
 						<div id="div_edit_format_date" style="display: none;">
-							<label for="headerFormatDate">${Context.getMessage('label.pageList.edit.editHeader.formatDate')}</label>
+							<label class="control-label" for="headerFormatDate">${Context.getMessage('label.pageList.edit.editHeader.formatDate')}</label>
 							<select name="headerFormatDate" id="headerFormatDate" onChange="javascript:changeAllHeaderFormatDate();">
 			            		<#list This.getHeaderFormatDates() as formatDate>
 			            			<option value="${Context.getMessage(formatDate.getI18n())}">${Context.getMessage(formatDate.getI18n() + '.label')}</option>
@@ -57,9 +62,9 @@
 		            	</div>
 					</div>
 					<!--         WIDTH      ------->
-					<div class="clearfix">
-						<label for="headerWidth">${Context.getMessage('label.pageList.edit.editHeader.width')}</label>
-			            <div class="input">
+					<div class="control-group">
+						<label class="control-label" for="headerWidth">${Context.getMessage('label.pageList.edit.editHeader.width')}</label>
+			            <div class="controls">
 			            	<select name="headerWidth" id="headerWidth" onChange="javascript:changeAllHeaderWidth();">
 			            		<option value="${This.getDefault()}">${Context.getMessage('label.pageList.edit.editHeader.default')}</option>
 			            		<#list This.getHeaderWidths() as size>
@@ -69,9 +74,9 @@
 			            </div>
 		            </div>
 		            <!--         FONTNAME     ------->
-					<div class="clearfix">
-						<label for="headerFontName">${Context.getMessage('label.pageList.edit.editHeader.fontName')}</label>
-			            <div class="input">
+					<div class="control-group">
+						<label class="control-label" for="headerFontName">${Context.getMessage('label.pageList.edit.editHeader.fontName')}</label>
+			            <div class="controls">
 			            	<select name="headerFontName" id="headerFontName" onChange="javascript:changeAllHeaderFontName();">
 								<option value="${This.getDefault()}">${Context.getMessage('label.pageList.edit.editHeader.default')}</option>
 								<#list Common.getFontFamilies() as font>
@@ -81,9 +86,9 @@
 			            </div>
 		            </div>
 		            <!--         FONTSIZE      ------->
-					<div class="clearfix">
-						<label for="headerFontSize">${Context.getMessage('label.pageList.edit.editHeader.fontSize')}</label>
-			            <div class="input">
+					<div class="control-group">
+						<label class="control-label" for="headerFontSize">${Context.getMessage('label.pageList.edit.editHeader.fontSize')}</label>
+			            <div class="controls">
 			            	<select name="headerFontSize" id="headerFontSize" onChange="javascript:changeAllHeaderFontSize();">
 								<option value="${This.getDefault()}">${Context.getMessage('label.pageList.edit.editHeader.default')}</option>
 								<#list Common.getFontSizes() as size>
@@ -96,10 +101,11 @@
 			</form>
 		</div>
 	</div>
+  </div>
 </div>
 <div  class="actions">
-	<button id="saveHeaderList" class="btn primary" onClick="javascript:saveHeaderList('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
+	<button id="saveHeaderList" class="btn btn-primary" onClick="javascript:saveHeaderList('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
 	<button id="cancel" class="btn" onClick="javascript:closeManageList();" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
 	<!--<br /><br />
-	<button id="StructureJsHeaders" class="btn info" onClick="javascript:alert(headersCollection.toString());" >StructureJsHeaders</button>-->
+	<button id="StructureJsHeaders" class="btn btn-info" onClick="javascript:alert(headersCollection.toString());" >StructureJsHeaders</button>-->
 </div>

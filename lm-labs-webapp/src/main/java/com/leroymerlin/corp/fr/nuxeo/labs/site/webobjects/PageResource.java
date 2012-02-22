@@ -378,7 +378,7 @@ public class PageResource extends DocumentObject {
     @POST
     @Path("@addContent")
     public Response doAddContent() {
-        String name = ctx.getForm().getString("name");
+        String name = ctx.getForm().getString("dc:title");
         String location = ctx.getForm().getString("location");
         boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString("overwritePage"));
         return addContent(name, PageCreationLocation.fromString(location), overwrite);

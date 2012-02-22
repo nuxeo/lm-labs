@@ -12,22 +12,17 @@
 	
 	<@block name="scripts">
 	  <@superBlock/>
-	  	
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
-	  	
 		<script type="text/javascript" src="${skinPath}/js/Collection.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/PageListHeaders.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/PageList.js"></script>
-		
-		<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-twipsy.js"></script>
-		
 	</@block>
 	
 	<@block name="content">	
-		<div id="content" class="container">
+		<div id="content" class="">
 		
 			<#include "views/common/page_header.ftl">
-			<div id="divPageList" class="container">
+			<div id="divPageList" class="">
 				<#if isAuthorized>
 					<div id="divActionManageList">
 						<#if Context.principal.isAnonymous() != true>
@@ -47,14 +42,14 @@
 						<h1>${Context.getMessage('label.pageList.edit.line.title')}</h1>
 						<#include "/views/PageList/editLine.ftl" />
 						<div id="divActionsLine"  class="actions">
-							<button id="saveLine" class="btn primary" onClick="javascript:saveLine('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
+							<button id="saveLine" class="btn btn-primary" onClick="javascript:saveLine('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
 							<button id="cancelLine" class="btn" onClick="javascript:closeEditLine('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
 							<!--<button id="deleteLine" class="btn" onClick="javascript:if(confirm('${Context.getMessage('label.pageList.line_deleted.confirm')?js_string}')){deleteLine('${This.path}');}{return false;}" title="${Context.getMessage('label.pageList.edit.manage.delete')}">${Context.getMessage('label.pageList.edit.manage.delete')}</button>
-							<button id="StructureJsLine" class="btn info" onClick="javascript:alert(linesCollection.toString());" >line structure</button>-->
+							<button id="StructureJsLine" class="btn btn-info" onClick="javascript:alert(linesCollection.toString());" >line structure</button>-->
 						</div>
 					</div>
 				</#if>
-				<div id="divDisplayArray" class="container">
+				<div id="divDisplayArray" class="">
 					<#include "/views/PageList/displayArray.ftl" />
 					<#if (0 < bean.entriesLines?size)>
 						<div class="container" style="text-align: right;">
@@ -93,6 +88,5 @@
 				</script>
 			</div>
 		</div>
-		<hr />
 	</@block>
 </@extends>		
