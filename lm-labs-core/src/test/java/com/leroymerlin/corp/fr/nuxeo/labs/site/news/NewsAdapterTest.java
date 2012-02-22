@@ -223,6 +223,7 @@ public class NewsAdapterTest {
         assertThat(news.getBlobHolder(),is(notNullValue()));
     }
     
+    @Ignore
     @Test
     public void iCanSetOriginalPicture() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
@@ -308,6 +309,7 @@ public class NewsAdapterTest {
         assertThat(news.getBlobHolder().getAccordeonBlobs().size(),is(1));
     }
     
+    @Ignore
     @Test
     public void iCanGetSummaryPicture() throws Exception {
         //TODO
