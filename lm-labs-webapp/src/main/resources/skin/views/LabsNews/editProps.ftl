@@ -30,7 +30,7 @@
 						        <textarea class="input-xlarge" style="height:60px;" name="newsAccroche"><#if news?? && news != null >${news.accroche}</#if></textarea>
 						      </div>
 						    </div>
-						    <a style="cursor: pointer;" onclick="javascript:jQuery('#divPictureNews').slideDown('slow');">Ajouter une photo</a>
+						    <a style="cursor: pointer;" onclick="javascript:jQuery('#divPictureNews').slideDown('slow');">Affecter la photo du résumé</a>
 						    <#--Photo de la news-->
 						    <div id="divPictureNews" class="control-group" style="display: none;">
 						      <label class="control-label" for="newspicture">${Context.getMessage('label.labsNews.edit.picture')}</label>
@@ -38,9 +38,16 @@
 						        <input type="file" class="input-xlarge input-file" name="newsPicture"/>
 						      </div>
 						    </div>
-						
+						    <#if news?? && news != null && news.hasSummaryPicture() >
+							    <#--Editeur de la photo -->
+							    <div id="div-editPicture">
+								    <a style="cursor: pointer;" onclick="javascript:openCropPicture();">Découper la photo du résumé</a>
+								    <input type="hidden" name="cropSummaryPicture" id="cropSummaryPicture" value="${news.cropCoords?html?js_string}" />
+								    <input type="hidden" id="cropSummaryPictureOrigin" value="${news.cropCoords?html?js_string}" />
+								</div>
+							</#if>
 						    <div class="actions" style="margin-left: 10%;">
-						      <input type="submit" class="btn required-fields" form-id="form-editNews" value="${Context.getMessage('label.labsNews.edit.valid')}" />
+						      <input type="submit" class="btn required-fields" form-id="form-editNews" value="${Context.getMessage('label.labsNews.edit.save')}" />
 						      <a class="btn" id="btnCloseProps" onclick="javascript:closePropsNews();">Fermer</a>
 						  	</div>
 						  </fieldset>
@@ -55,6 +62,26 @@
 				  	  	jQuery("#form-editNews").clearForm();
 				  	  	jQuery("#btnModifyPropsNews").remove();
 				  	  	jQuery("#btnCloseProps").remove();
+				  	  	jQuery("#div-editPicture").remove();
 				  	  </#if>
 				  });
 			  	</script>
+			  	<#if news?? && news != null && news.hasSummaryPicture() >
+				  	<div id="divCropPicture" style="display: none;vertical-align: middle">
+				  		<img id="summaryPicture" src="${This.path}/summaryPicture"/>
+				  		<table cellpadding="0" cellspacing="0" border="0">
+				  			<tbody>
+				  				<trcellspacing="0">
+				  					<td>
+				      					<img  src="${This.path}/summaryPictureTruncated" style="margin: 5px;"/>
+				  					</td>
+				  					<td>
+				  						<div style="width:120px;height:90px;overflow:hidden;">
+				  							<img id="summaryPicturePreview" src="${This.path}/summaryPicture"/>
+				  						</div>
+				  					</td>
+				  				</tr>
+				  			</tbody>
+				  		</table>			  	
+				    </div>
+			    </#if>
