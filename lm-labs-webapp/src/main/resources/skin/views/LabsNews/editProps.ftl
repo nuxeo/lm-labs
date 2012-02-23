@@ -1,8 +1,8 @@
 				<div class="editblock">
 				  	<div style="width: 100%;text-align: right;">
-						<a id="btnModifyPropsNews" style="cursor: pointer;" onclick="javascript:actionPropsNews();">Ouvrir les propriétés</a>
+						<a id="btnModifyPropsNews" style="cursor: pointer;margin-right: 5px;" onclick="javascript:actionPropsNews();">Ouvrir les propriétés</a>
 					</div>
-					<div id="editprops" style="display: none; margin-left: 100px;margin-right: 100px;">
+					<div id="editprops" class="well" style="display: none; margin-left: 100px;margin-right: 100px;">
 						<#--<h1>Editer les information de l'actualité</h1>-->
 						<form class="form-horizontal" id="form-editNews" method="post" action="${This.path}" class="well" enctype="multipart/form-data" >
 						  <fieldset>
@@ -46,8 +46,8 @@
 								    <input type="hidden" id="cropSummaryPictureOrigin" value="${news.cropCoords?html?js_string}" />
 								</div>
 							</#if>
-						    <div class="actions" style="margin-left: 10%;">
-						      <input type="submit" class="btn required-fields" form-id="form-editNews" value="${Context.getMessage('label.labsNews.edit.save')}" />
+						    <div class="actions" style="text-align: center;">
+						      <input type="submit" class="btn required-fields" form-id="form-editNews" value="${Context.getMessage('label.labsNews.edit.valid')}" />
 						      <a class="btn" id="btnCloseProps" onclick="javascript:closePropsNews();">Fermer</a>
 						  	</div>
 						  </fieldset>

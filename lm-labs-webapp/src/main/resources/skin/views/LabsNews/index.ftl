@@ -27,6 +27,7 @@
   </#if>
 
   <@block name="content">
+  	<#include "views/LabsNews/macroNews.ftl">
     <#if news??>
       <div id="content" class="">
           <section>
@@ -43,33 +44,9 @@
 			  </#if>
 			  <section class="labsnews editblock well">
 			  	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
-          			<#if news.hasSummaryPicture()>
-	          			<div class="span11">
-			          		<#-- Image -->
-			          		<div class="span3">
-			          			<@generateSummaryPictureNews news=news />
-			          		</div>
-			          		<#-- Central -->
-			          		<div class="span8">
-			          			<h2 style="line-height: 24px;">${news.title}</a></h2>
-		          				<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
-			          			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
-			          				<@generateContentHtmlNews news=news />
-			          			</div>
-			          		</div>
-			          	</div>
-		          	<#else>
-		          		<#-- Central -->
-		          		<div class="span11">
-		          			<h2 style="line-height: 24px;">${news.title}</h2>
-			          		<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
-			          		<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
-		          				<@generateContentHtmlNews news=news />
-					        </div>
-		          		</div>
-		          	</#if>
+          			<@generateSummaryNews news=news path=This.path withHref=false />
 	          		<#-- Collapse -->
-	          		<div class="span1" style="margin-left: 15px;">
+	          		<div class="span1" style="margin-left: 15px;float: right;">
 	          			<img src="${skinPath}/images/newsOpen.png" style="margin-top:5px;"/>
 	          		</div>
 	          	</div>
@@ -150,25 +127,3 @@
     </#if>
   </@block>
 </@extends>
-
-<#macro generateContentHtmlNews news>
-	<#list news.rows as row>
-	    <div class="row" id="row_s${news_index}_r${row_index}">
-	      <#list row.contents as content>
-	        <div class="span${content.colNumber} columns">
-	          <#if content.html == "">
-	            &nbsp;
-	          <#else>
-	            ${content.html}
-	          </#if>
-	
-	        </div>
-	      </#list>
-	    </div>
-	  </#list>
-</#macro>
-
-
-<#macro generateSummaryPictureNews news>
-	<img src="${This.path}/summaryPictureTruncated" style="margin-top: 5px;"/>
-</#macro>

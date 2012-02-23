@@ -17,69 +17,45 @@
   </@block>
 
   <@block name="content">
+  	<#include "views/LabsNews/macroNews.ftl">
       <div id="content" class="">
 
     	<#include "views/common/page_header.ftl">
     	
         <#if isAuthorized>
         	<div class="editblock" style="width: 100%;text-align: right;margin-bottom: 5px;">
-          		<a href="${This.path}/@views/addnews">${Context.getMessage('label.labsNews.add.news')}</a>
+          		<a href="${This.path}/@views/addnews" style="margin-right: 5px;">${Context.getMessage('label.labsNews.add.news')}</a>
           	</div>
         </#if>
 
         <#list pageNews.allNews as news>
+          <#assign path=This.path + "/" + news.documentModel.name />
           <section class="labsnews">
 	          	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
-	          		<#if news.hasSummaryPicture()>
-	          			<div class="span11">
-			          		<#-- Image -->
-			          		<div class="span3">
-			          			<@generateSummaryPictureNews news=news />
-			          		</div>
-			          		<#-- Central -->
-			          		<div class="span8">
-			          			<h2 style="line-height: 24px;"><a href="${This.path}/${news.documentModel.name}">${news.title}</a></h2>
-			          			<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
-			          			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
-			          				<@generateContentHtmlNews news=news />
-			          			</div>
-			          		</div>
-			          	</div>
-		          	<#else>
-		          		<#-- Central -->
-		          		<div class="span11">
-		          			<h2 style="line-height: 24px;"><a href="${This.path}/${news.documentModel.name}">${news.title}</a></h2>
-			          		<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
-			          		<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
-		          				<@generateContentHtmlNews news=news />
-					        </div>
-		          		</div>
-		          	</#if>
-	          		<#-- Collapse -->
-	          		<div class="span1" style="margin-left: 15px;">
-	          			<img src="${skinPath}/images/newsOpen.png" style="cursor: pointer;margin-top:5px;" onclick="javascript:openNews('${news.documentModel.ref}', '${skinPath}');"/>
-	          		</div>
+	          		<@generateSummaryNews news=news path=path withHref=true/>
+				  	<#-- Collapse -->
+					<div class="span1" style="margin-left: 15px;float: right;">
+						<img src="${skinPath}/images/newsOpen.png" style="cursor: pointer;margin-top:5px;" onclick="javascript:openNews('${news.documentModel.ref}', '${skinPath}');"/>
+					</div>
 	          	</div>
 	          	
 	          	<div id="contentNews${news.documentModel.ref}" style="display: none;">
 	              <div class="row-fluid">
 	              	 <#if news.hasSummaryPicture()>
-	              	 	<div class="span11">
 			          		<#-- Image -->
-			          		<div class="span3">
-			          			<@generateSummaryPictureNews news=news />
+			          		<div class="span2">
+			          			<img src="${This.path}/${news.documentModel.name}/summaryPictureTruncated" style="margin-top: 5px;"/>
 			          		</div>
 			          		<#-- Central -->
-			          		<div class="span8">
-			          			<@generateHeaderNews news=news />
+			          		<div class="span9">
+			          			<@generateHeaderNews news=news path=path withHref=true withBy=true />
 				            </div>
-				        </div>
 		          	<#else>
 		              	<div class="span11">
-			                <@generateHeaderNews news=news />
+			                <@generateHeaderNews news=news path=path withHref=true withBy=true />
 			            </div>
 			        </#if>
-	                <div class="span1" style="margin-left: 15px;">
+	                <div class="span1" style="margin-left: 15px;float: right;">
 	                	<img src="${skinPath}/images/newsOpen.png" style="cursor: pointer;margin-top:5px;" onclick="javascript:closeNews('${news.documentModel.ref}', '${skinPath}');"/>
 	                </div>
 	              </div>
@@ -98,31 +74,3 @@
   </@block>
 </@extends>
 
-<#macro generateContentHtmlNews news>
-	<#list news.rows as row>
-	    <div class="row-fluid" id="row_s${news_index}_r${row_index}">
-	      <#list row.contents as content>
-	        <div class="span${content.colNumber} columns">
-	          <#if content.html == "">
-	            &nbsp;
-	          <#else>
-	            ${content.html}
-	          </#if>
-	
-	        </div>
-	      </#list>
-	    </div>
-	  </#list>
-</#macro>
-
-<#macro generateHeaderNews news>
-	<h2 style="width: 100%">
-    	<a href="${This.path}/${news.documentModel.name}">${news.title}</a> 
-    	<small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small>
-    </h2>
-   	<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
-</#macro>
-
-<#macro generateSummaryPictureNews news>
-	<img src="${This.path}/${news.documentModel.name}/summaryPictureTruncated" style="margin-top: 5px;"/>
-</#macro>
