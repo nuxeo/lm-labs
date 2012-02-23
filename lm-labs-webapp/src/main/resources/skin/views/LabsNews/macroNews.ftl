@@ -33,6 +33,17 @@
 	<img src="${path}/summaryPictureTruncated" style="margin-top: 5px;"/>
 </#macro>
 
+<#macro generateHeaderNewsEllipsis news path withHref withBy>
+	<@generateHeaderNews news=news path=path withHref=withHref withBy=false/>
+	<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
+		<#if (news.accroche?trim?length < 1)>
+			<@generateContentHtmlNews news=news />
+		<#else>
+			${news.accroche}
+		</#if>
+	</div>
+</#macro>
+
 <#macro generateSummaryNews news path withHref>
 	<#if news.hasSummaryPicture()>
       		<#-- Image -->
@@ -41,18 +52,12 @@
       		</div>
       		<#-- Central -->
       		<div class="span9">
-      			<@generateHeaderNews news=news path=path withHref=withHref withBy=false/>
-      			<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
-      				<@generateContentHtmlNews news=news />
-      			</div>
+      			<@generateHeaderNewsEllipsis news=news path=path withHref=withHref withBy=false/>
       		</div>
   	<#else>
   		<#-- Central -->
   		<div class="span11">
-  			<@generateHeaderNews news=news path=path withHref=withHref withBy=false/>
-      		<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
-  				<@generateContentHtmlNews news=news />
-	        </div>
+  			<@generateHeaderNewsEllipsis news=news path=path withHref=withHref withBy=false/>
   		</div>
   	</#if>
 </#macro>
