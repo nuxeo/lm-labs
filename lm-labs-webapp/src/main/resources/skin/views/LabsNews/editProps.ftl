@@ -67,13 +67,18 @@
 				  });
 			  	</script>
 			  	<#if news?? && news != null && news.hasSummaryPicture() >
-				  	<div id="divCropPicture" style="display: none;vertical-align: middle">
+				  	<div id="divCropPicture" class="jcrop" style="display: none;vertical-align: middle">
+				  		<h1>
+				  			Découper une image
+				  		</h1>
 				  		<img id="summaryPicture" src="${This.path}/summaryPicture"/>
-				  		<table cellpadding="0" cellspacing="0" border="0">
+				  		<table cellpadding="5" cellspacing="0" border="0">
 				  			<tbody>
 				  				<trcellspacing="0">
 				  					<td>
-				      					<img  src="${This.path}/summaryPictureTruncated" style="margin: 5px;"/>
+				  						<div style="width:120px;height:90px;overflow:hidden;">
+				      						<img  src="${This.path}/summaryPictureTruncated"/>
+				      					</div>
 				  					</td>
 				  					<td>
 				  						<div style="width:120px;height:90px;overflow:hidden;">
@@ -82,6 +87,6 @@
 				  					</td>
 				  				</tr>
 				  			</tbody>
-				  		</table>			  	
+				  		</table>		  	
 				    </div>
 			    </#if>
