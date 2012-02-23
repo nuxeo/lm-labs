@@ -41,7 +41,7 @@ public class PageClasseurResource extends NotifiablePageResource {
     private static final Log LOG = LogFactory.getLog(PageClasseurResource.class);
 
     private PageClasseur classeur;
-    
+
     @Deprecated
     private ConversionService conversionService = null;
 
@@ -56,18 +56,19 @@ public class PageClasseurResource extends NotifiablePageResource {
     public Object doGet() {
         return getView("index");
     }
-    
-    public boolean hasConvertersForHtml(String mimetype) throws Exception{
-        if (mimetype.startsWith("image")){
+
+    public boolean hasConvertersForHtml(String mimetype) throws Exception {
+        if (mimetype.startsWith("image")) {
             return true;
         }
         getConversionService();
-        List<String> converterNames = getConversionService().getConverterNames(mimetype, "text/html");
-        if (converterNames.size() < 1){
+        List<String> converterNames = getConversionService().getConverterNames(
+                mimetype, "text/html");
+        if (converterNames.size() < 1) {
             return false;
         }
-        for (String converterName: converterNames){
-            if (!getConversionService().isConverterAvailable(converterName).isAvailable()){
+        for (String converterName : converterNames) {
+            if (!getConversionService().isConverterAvailable(converterName).isAvailable()) {
                 return false;
             }
         }
@@ -75,7 +76,7 @@ public class PageClasseurResource extends NotifiablePageResource {
     }
 
     private ConversionService getConversionService() throws Exception {
-        if (conversionService == null){
+        if (conversionService == null) {
             conversionService = Framework.getService(ConversionService.class);
         }
         return conversionService;
@@ -88,46 +89,48 @@ public class PageClasseurResource extends NotifiablePageResource {
         String folderTitle = form.getString("dc:title");
         if (!StringUtils.isEmpty(folderTitle)) {
             try {
-                classeur.addFolder(folderTitle);
+                String escapedFolderTitle = escapeValue(folderTitle);
+                classeur.addFolder(escapedFolderTitle);
                 getCoreSession().save();
                 return Response.status(Status.OK).build();
             } catch (ClientException e) {
                 return Response.serverError().status(Status.FORBIDDEN).entity(
                         e.getMessage()).build();
             }
-
         } else {
             return Response.serverError().status(Status.FORBIDDEN).entity(
                     "Folder name is empty").build();
         }
     }
 
-//    @POST
-//    @Path("@rename/{id}")
-//    public Response doRename(@PathParam("id") String idRef) {
-//        FormData form = ctx.getForm();
-//        String folderTitle = form.getString("folderName");
-//        if (!StringUtils.isEmpty(folderTitle)) {
-//            try {
-//                classeur.renameFolder(idRef, folderTitle);
-//                getCoreSession().save();
-//                return Response.status(Status.OK).build();
-//            } catch (ClientException e) {
-//                return Response.serverError().status(Status.FORBIDDEN).entity(
-//                        e.getMessage()).build();
-//            }
-//
-//        } else {
-//            return Response.serverError().status(Status.FORBIDDEN).entity(
-//                    "Folder name is empty").build();
-//        }
-//    }
+    // @POST
+    // @Path("@rename/{id}")
+    // public Response doRename(@PathParam("id") String idRef) {
+    // FormData form = ctx.getForm();
+    // String folderTitle = form.getString("folderName");
+    // if (!StringUtils.isEmpty(folderTitle)) {
+    // try {
+    // classeur.renameFolder(idRef, folderTitle);
+    // getCoreSession().save();
+    // return Response.status(Status.OK).build();
+    // } catch (ClientException e) {
+    // return Response.serverError().status(Status.FORBIDDEN).entity(
+    // e.getMessage()).build();
+    // }
+    //
+    // } else {
+    // return Response.serverError().status(Status.FORBIDDEN).entity(
+    // "Folder name is empty").build();
+    // }
+    // }
 
     @Path(value = "{path}")
     @Override
     public Resource traverse(@PathParam("path") String path) {
         try {
-            PathRef pathRef = new PathRef(doc.getPath().append(path).toString());
+            String escapedPath = escapeValue(path);
+            PathRef pathRef = new PathRef(
+                    doc.getPath().append(escapedPath).toString());
             DocumentModel subDoc = ctx.getCoreSession().getDocument(pathRef);
             if (Docs.pageDocs().contains(Docs.fromString(subDoc.getType()))) {
                 return (DocumentObject) ctx.newObject(subDoc.getType(), subDoc);
@@ -141,7 +144,6 @@ public class PageClasseurResource extends NotifiablePageResource {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-
     }
 
     public BlobHolder getBlobHolder(final DocumentModel document) {
@@ -178,10 +180,11 @@ public class PageClasseurResource extends NotifiablePageResource {
         }
         return Response.status(Status.NO_CONTENT).build();
     }
-    
+
     @PUT
     @Path("@filesVisibility/{action}")
-    public Response doSetFilesVisibility(@PathParam("action") String action, @QueryParam("id") List<String> ids) throws ClientException {
+    public Response doSetFilesVisibility(@PathParam("action") String action,
+            @QueryParam("id") List<String> ids) throws ClientException {
         final String logPrefix = "<doSetFilesVisibility> ";
         LOG.debug(logPrefix);
         boolean modified = false;
@@ -190,15 +193,16 @@ public class PageClasseurResource extends NotifiablePageResource {
                 IdRef idRef = new IdRef(id);
                 if (getCoreSession().exists(idRef)) {
                     DocumentModel file = getCoreSession().getDocument(idRef);
-                    DocumentModel folderDoc = getCoreSession().getParentDocument(file.getRef());
+                    DocumentModel folderDoc = getCoreSession().getParentDocument(
+                            file.getRef());
                     PageClasseurFolder folder = folderDoc.getAdapter(PageClasseurFolder.class);
                     boolean done = false;
                     if (folder != null) {
-                    	if ("hide".equals(action)) {
-                    		done = folder.hide(file);
-                    	} else if ("show".equals(action)) {
-                    		done = folder.show(file);
-                    	}
+                        if ("hide".equals(action)) {
+                            done = folder.hide(file);
+                        } else if ("show".equals(action)) {
+                            done = folder.show(file);
+                        }
                     }
                     modified |= done;
                 }
@@ -208,11 +212,15 @@ public class PageClasseurResource extends NotifiablePageResource {
             return Response.serverError().status(Status.NOT_MODIFIED).entity(
                     e.getMessage()).build();
         }
-    	if (modified) {
-    		return Response.noContent().build();
-    	} else {
-    		return Response.notModified().build();
-    	}
+        if (modified) {
+            return Response.noContent().build();
+        } else {
+            return Response.notModified().build();
+        }
+    }
+
+    private String escapeValue(String value) {
+        return value.replaceAll("\"", "%22").replaceAll("'", "%27");
     }
 
 }

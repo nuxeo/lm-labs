@@ -7,57 +7,78 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+        
+        
+        
         <script type="text/javascript">
-function updateBtLabels(bt, title, alt) {
-	jQuery(bt).attr("title", title);
-	jQuery(bt).attr("alt", alt);
-}
-function changeFolderBt(imgObj, newStatus) {
-	if (newStatus === 'open') {
-		jQuery(imgObj).attr("src", "${skinPath}/images/toggle_plus.png");
-	} else {
-		jQuery(imgObj).attr("src", "${skinPath}/images/toggle_minus.png");
-	}
-}
-function slideFolder(imgObj, action) {
-	var collapsables = jQuery(imgObj).closest(".Folder").find("div[class*='folder-collapsable']");
-	if (action === '') {
-		if (collapsables.is(":visible")) {
-			action = 'open';
-		} else {
-			action = 'close';
+		jQuery(document).ready(function() {
+			jQuery.each(jQuery("[id^=spanFolderTitle]"), function(i, n){
+				var encoded = jQuery(this).html();
+				jQuery(this).html(decodeURIComponent(encoded.replace(/\+/g,  " ")));
+			 });
+			 
+			 <#list classeur.folders as folder>
+				jQuery("#form-upload-file-${folder.document.id}").ajaxForm(function() { 
+					reloadAfterAddingFile("${folder.document.id}");
+	            });
+	        </#list>
+		});
+		
+		function reloadAfterAddingFile(folderId) {
+			jQuery("#addfile_"+folderId+"_modal").dialog2('close');
+			window.location.reload();
 		}
-	}
-	if (action === "open") {
-		changeFolderBt(imgObj, 'open');
-		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.open')}", "${Context.getMessage('command.PageClasseur.open')}");
-		collapsables.slideUp("fast");
-	} else {
-		changeFolderBt(imgObj, 'close');
-		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.collapse')}", "${Context.getMessage('command.PageClasseur.collapse')}");
-		collapsables.slideDown("fast");
-		refreshDisplayMode(collapsables);
-	}
-}
-function slideAllFolders(imgObj) {
-	if (jQuery(imgObj).hasClass('allFoldersOpened')) {
-		jQuery(imgObj).removeClass('allFoldersOpened');
-		jQuery(imgObj).addClass('allFoldersClosed');
-		changeFolderBt(imgObj, 'open');
-		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.allFolders.open')}", "${Context.getMessage('command.PageClasseur.allFolders.open')}");
-		jQuery("img[class*='openCloseBt']").each(function(i, e) {
-			slideFolder(jQuery(this), 'open');
-		});
-	} else {
-		jQuery(imgObj).removeClass('allFoldersClosed');
-		jQuery(imgObj).addClass('allFoldersOpened');
-		changeFolderBt(imgObj, 'close');
-		updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.allFolders.collapse')}", "${Context.getMessage('command.PageClasseur.allFolders.collapse')}");
-		jQuery("img[class*='openCloseBt']").each(function(i, e) {
-			slideFolder(jQuery(this), 'close');
-		});
-	}
-}
+		
+		function updateBtLabels(bt, title, alt) {
+			jQuery(bt).attr("title", title);
+			jQuery(bt).attr("alt", alt);
+		}
+		function changeFolderBt(imgObj, newStatus) {
+			if (newStatus === 'open') {
+				jQuery(imgObj).attr("src", "${skinPath}/images/toggle_plus.png");
+			} else {
+				jQuery(imgObj).attr("src", "${skinPath}/images/toggle_minus.png");
+			}
+		}
+		function slideFolder(imgObj, action) {
+			var collapsables = jQuery(imgObj).closest(".Folder").find("div[class*='folder-collapsable']");
+			if (action === '') {
+				if (collapsables.is(":visible")) {
+					action = 'open';
+				} else {
+					action = 'close';
+				}
+			}
+			if (action === "open") {
+				changeFolderBt(imgObj, 'open');
+				updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.open')}", "${Context.getMessage('command.PageClasseur.open')}");
+				collapsables.slideUp("fast");
+			} else {
+				changeFolderBt(imgObj, 'close');
+				updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.collapse')}", "${Context.getMessage('command.PageClasseur.collapse')}");
+				collapsables.slideDown("fast");
+				refreshDisplayMode(collapsables);
+			}
+		}
+		function slideAllFolders(imgObj) {
+			if (jQuery(imgObj).hasClass('allFoldersOpened')) {
+				jQuery(imgObj).removeClass('allFoldersOpened');
+				jQuery(imgObj).addClass('allFoldersClosed');
+				changeFolderBt(imgObj, 'open');
+				updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.allFolders.open')}", "${Context.getMessage('command.PageClasseur.allFolders.open')}");
+				jQuery("img[class*='openCloseBt']").each(function(i, e) {
+					slideFolder(jQuery(this), 'open');
+				});
+			} else {
+				jQuery(imgObj).removeClass('allFoldersClosed');
+				jQuery(imgObj).addClass('allFoldersOpened');
+				changeFolderBt(imgObj, 'close');
+				updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.allFolders.collapse')}", "${Context.getMessage('command.PageClasseur.allFolders.collapse')}");
+				jQuery("img[class*='openCloseBt']").each(function(i, e) {
+					slideFolder(jQuery(this), 'close');
+				});
+			}
+		}
         </script>
 
   </@block>
@@ -106,7 +127,7 @@ function slideAllFolders(imgObj) {
       </#if>
       <div class="page-header">
         <a name="section_${folder_index}" />
-        <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title}</span></h1>
+        <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h1>
 	    
 	    <#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')> 
 	    <div id="arrowOrder" class="editblock">
@@ -146,7 +167,6 @@ function slideAllFolders(imgObj) {
           <div id="addfile_${folder.document.id}_modal" >
               <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
               <form class="ajax form-horizontal form-upload-file" id="form-upload-file-${folder.document.id}"
-                onsubmit="window.location.reload();return false;"
                 action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
                 <fieldset>
                   <div class="control-group">
