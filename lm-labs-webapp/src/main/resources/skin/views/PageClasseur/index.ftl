@@ -11,21 +11,25 @@
         
         
         <script type="text/javascript">
-		jQuery(document).ready(function() {
-			jQuery.each(jQuery("[id^=spanFolderTitle]"), function(i, n){
-				var encoded = jQuery(this).html();
-				jQuery(this).html(decodeURIComponent(encoded.replace(/\+/g,  " ")));
-			 });
-			 
-			 <#list classeur.folders as folder>
-				jQuery("#form-upload-file-${folder.document.id}").ajaxForm(function() { 
-					reloadAfterAddingFile("${folder.document.id}");
-	            });
-	        </#list>
+        jQuery(document).ready(function() {
+            jQuery.each(jQuery("[id^=spanFolderTitle]"), function(i, n){
+            	var encoded = jQuery(this).html();
+            	jQuery(this).html(decodeURIComponent(encoded.replace(/\+/g,  " ")));
+            });
+            jQuery.each(jQuery("form.form-upload-file"), function(i, n){
+                var encoded = jQuery(this).attr('action');
+                jQuery(this).attr('action', decodeURIComponent(encoded.replace(/\+/g,  " ")));
+            });
+            <#list classeur.folders as folder>
+            jQuery("#form-upload-file-${folder.document.id}").ajaxForm(function() {
+                reloadAfterAddingFile("${folder.document.id}");
+            });
+            </#list>
 		});
 		
 		function reloadAfterAddingFile(folderId) {
 			jQuery("#addfile_"+folderId+"_modal").dialog2('close');
+            jQuery('#waitingPopup').dialog2('open');
 			window.location.reload();
 		}
 		
@@ -126,11 +130,11 @@
       <img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideFolder(this, '');" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
       </#if>
       <div class="page-header">
-        <a name="section_${folder_index}" />
+        <a name="section_${folder_index}" ></a>
         <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h1>
-	    
+	    <div class="folder-actions row-fluid editblock">
 	    <#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')> 
-	    <div id="arrowOrder" class="editblock">
+	    <div id="arrowOrder" class="editblock" style="float: left; padding-right: 5px;">
 	        <#if i &gt; 0>
 	        	<a href="" onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false">
 	        		<img src="/nuxeo/icons/move_up.png"/>
@@ -151,12 +155,9 @@
 	        </#if>
 	    </div>
 	    </#if>
-	    
-      </div>
 
         <#if canWrite>
-        <div class="row-fluid editblock">
-          <div class="span12 columns">
+          <div class="">
             <a href="#" rel="addfile_${folder.document.id}_modal" class="btn btn-small open-dialog" ><i class="icon-upload"></i>Ajouter un fichier</a>
 
           <#-- This button submits the hidden delete form -->
@@ -203,8 +204,9 @@
 
           </div>
 
-        </div>
         </#if>
+        </div> <#-- folder-actions -->
+      </div> <#-- page-header -->
 
       <@displayChildren folder=folder />
     </section> <!-- Folder -->

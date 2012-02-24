@@ -276,6 +276,7 @@ h6 {
 			display: block;
 			background: none;
 			background-image: url(images/classeurDisplay.png);
+        background-repeat:no-repeat;
 			width: 22px;
 			height: 23px;
 			float: left;
@@ -294,6 +295,7 @@ h6 {
 		display: block;
 		background: none;
 		background-image: url(images/classeurDownload.png);
+		background-repeat:no-repeat;
 		width: 22px;
 		height: 23px;
 		float: left;
@@ -412,7 +414,7 @@ table {
 div.classeur{
 	margin: 0px;
 	>section.Folder {
-		background-color: lighten(@grayLight,15%);
+		background-color: @grayLighter;
 		padding: 3px;
 		margin-bottom: 10px;
 		>div.page-header {
@@ -425,6 +427,11 @@ div.classeur{
 				color: @gray;
 				margin-bottom: 0px;
 			}
+		}
+		> div.folder-collapsable {
+		  > table.classeurFiles {
+		      background-color: @grayLighter;
+		  }
 		}
 	}
 }
