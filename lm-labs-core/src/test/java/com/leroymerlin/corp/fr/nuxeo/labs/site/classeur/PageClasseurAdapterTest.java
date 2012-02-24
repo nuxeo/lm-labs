@@ -1,13 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.classeur;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.File;
 
@@ -94,6 +88,31 @@ public class PageClasseurAdapterTest extends LabstTest {
         classeur.removeFolder("My Folder");
         assertThat(classeur.getFolders().size(),is(0));
         
+    }
+    
+    @Test
+    public void iCanAddFolderWithQuotes() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        classeur.addFolder("Folder '1'");
+        session.save();
+        
+        assertThat(classeur.getFolders().size(),is(1));
+        String name = classeur.getFolders().get(0).getDocument().getName();
+        assertFalse(name.contains("'"));
+    }
+    
+    
+    @Test
+    public void iCanAddFolderWithDoubleQuotes() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        classeur.addFolder("Folder \"1\"");
+        session.save();
+        
+        assertThat(classeur.getFolders().size(),is(1));
+        String name = classeur.getFolders().get(0).getDocument().getName();
+        assertFalse(name.contains("\""));
     }
     
     @Test

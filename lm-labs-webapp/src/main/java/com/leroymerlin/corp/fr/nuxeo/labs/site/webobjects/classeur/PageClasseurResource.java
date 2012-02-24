@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -82,15 +81,13 @@ public class PageClasseurResource extends NotifiablePageResource {
         return conversionService;
     }
 
-    @POST
     @Override
     public Response doPost() {
         FormData form = ctx.getForm();
         String folderTitle = form.getString("dc:title");
         if (!StringUtils.isEmpty(folderTitle)) {
             try {
-                String escapedFolderTitle = escapeValue(folderTitle);
-                classeur.addFolder(escapedFolderTitle);
+                classeur.addFolder(folderTitle);
                 getCoreSession().save();
                 return Response.status(Status.OK).build();
             } catch (ClientException e) {
@@ -128,9 +125,8 @@ public class PageClasseurResource extends NotifiablePageResource {
     @Override
     public Resource traverse(@PathParam("path") String path) {
         try {
-            String escapedPath = escapeValue(path);
             PathRef pathRef = new PathRef(
-                    doc.getPath().append(escapedPath).toString());
+                    doc.getPath().append(path).toString());
             DocumentModel subDoc = ctx.getCoreSession().getDocument(pathRef);
             if (Docs.pageDocs().contains(Docs.fromString(subDoc.getType()))) {
                 return (DocumentObject) ctx.newObject(subDoc.getType(), subDoc);
@@ -217,10 +213,6 @@ public class PageClasseurResource extends NotifiablePageResource {
         } else {
             return Response.notModified().build();
         }
-    }
-
-    private String escapeValue(String value) {
-        return value.replaceAll("\"", "%22").replaceAll("'", "%27");
     }
 
 }

@@ -13,9 +13,12 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.model.PropertyException;
+import org.nuxeo.ecm.core.api.pathsegment.PathSegmentService;
 import org.nuxeo.ecm.core.query.sql.NXQL;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
@@ -99,6 +102,12 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
 
     @Override
     public PageClasseurFolder addFolder(String title) throws ClientException {
+        PathSegmentService pss;
+        try {
+            pss = Framework.getService(PathSegmentService.class);
+        } catch (Exception e) {
+            throw new ClasseurException("Unable to get PathSegmentService.");
+        }
         if (folderAlreadyExists(title)) {
             throw new ClasseurException(
                     "label.classeur.error.cant_add_two_folder_of_same_name");
@@ -107,8 +116,12 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
         if (!StringUtils.isEmpty(title)) {
             CoreSession session = doc.getCoreSession();
             DocumentModel folder = session.createDocumentModel(
-                    doc.getPathAsString(), title, "Folder");
+//                    doc.getPathAsString(), title, 
+                    LabsSiteConstants.Docs.PAGECLASSEURFOLDER.type());
             folder.setPropertyValue("dc:title", title);
+            String folderName = pss.generatePathSegment(folder);
+            folderName = folderName.replace('\'', '-').replace('"', '-');
+            folder.setPathInfo(doc.getPathAsString(), folderName);
             folder = session.createDocument(folder);
             return new PageClasseurFolderImpl(folder);
         }
