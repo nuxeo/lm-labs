@@ -1,5 +1,5 @@
 <hr />
-<div id="divCommentablePage" class="" >
+<div id="divCommentablePage"  >
 	<center><h4 id="titleCommentsPage">${Context.getMessage('label.comments.title')}</h4></center>
 	<div id="divEditCommentable"  class="fixed-container dialog2" style="display: none;">
 		<h1 id="titleComments">${Context.getMessage('label.comments.title')}</h1>
@@ -20,7 +20,7 @@
 	<#if !This.context.principal.anonymous>
 		<a href="#" class="btn btn-small open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();">${Context.getMessage('command.Page.CommentAdd')}</a>
 	</#if>
-	<div id="divListCommentsPage" class="container" style=""></div>
+	<div id="divListCommentsPage" class="container-fluid" style="width: 99%;"></div>
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
