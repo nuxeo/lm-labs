@@ -30,6 +30,11 @@
 
 @sidebarWidth:   180px;
 
+
+//@primaryButtonBackground: ;
+
+
+
 //Astuce afin de palier le probleme de less à intertréper les variables après avoir
 //ajouter le pathBase (http://....) alors que le pathBase pourrait être dans la variable
 //De meme pour XXXRelative
@@ -256,18 +261,18 @@ h6 {
 }
 
 .btn {
-  padding: 2px 8px 3px;
-  color: @white;
+	.border-radius(11px);
+	padding: 2px 8px 3px;
+  /*padding: 2px 8px 3px;
+  
   border: 1px solid #ccc;
   #gradient > .vertical-three-colors(@gray, @gray, 25%, darken(@gray, 10%));
-  text-shadow: 0 0px 0px rgba(255,255,255,.75);
-  
   .border-radius(11px);
-  
+  */
+  .buttonBackground(lighten(@black, 50%), lighten(@black, 25%));
 
 	&.btn-primary {
-	    color: @white;
-	    .gradientBar(@gray, @gray)
+	    padding: 2px 8px 3px;
 	  }
 	  
 	 &.classeurDisplay{
@@ -308,6 +313,54 @@ h6 {
 	}
   
  }
+ 
+ // Set the backgrounds
+// -------------------------
+.btn-primary {
+  .buttonBackground(lighten(@black, 50%), lighten(@black, 25%));
+}
+// Warning appears are orange
+.btn-warning {
+  .buttonBackground(darken(@orange, 15%), lighten(@orange, 15%));
+}
+// Danger and error appear as red
+.btn-danger {
+  .buttonBackground(lighten(@red, 25%), lighten(@red, 5%));
+}
+// Success appears as green
+.btn-success {
+  .buttonBackground(#62c462, #51a351);
+}
+// Info appears as a neutral blue
+.btn-info {
+  .buttonBackground(#5bc0de, #2f96b4);
+}
+// Inverse appears as dark gray
+.btn-inverse {
+  .buttonBackground(#454545, #262626);
+}
+
+// Set text color
+// -------------------------
+.btn,
+.btn:hover,
+.btn-primary,
+.btn-primary:hover,
+.btn-warning,
+.btn-warning:hover,
+.btn-danger,
+.btn-danger:hover,
+.btn-success,
+.btn-success:hover,
+.btn-info,
+.btn-info:hover,
+.btn-inverse,
+.btn-inverse:hover {
+  color: @white;
+  text-shadow: 0 0px 0px rgba(255,255,255,.75);
+}
+
+
  
 section{
 	width: 98%;

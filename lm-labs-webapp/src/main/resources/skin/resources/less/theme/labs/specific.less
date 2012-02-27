@@ -6,11 +6,12 @@
 @gridColumnWidth:   34px;
 @gridGutterWidth:   14px;
 */
-@navbarHeight:            30px; /* Ca ne marche pas :-( */
 /*
 @fluidGridGutterWidth:    2%;
 */
 @fluidGridColumnWidth:    6.2%;
+
+@navbarHeight:            30px;
 
 .span333     { width: 244px; }
 
@@ -21,6 +22,15 @@ a {
 }
 */
 @labsPageWidth: (@gridRowWidth + (2 * @gridGutterWidth));
+
+
+input,
+button,
+select,
+textarea {
+  font-family: @baseFontFamily;
+}
+
 
 .bloc {
   word-wrap: break-word;
