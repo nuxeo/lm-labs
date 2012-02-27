@@ -28,7 +28,11 @@
             <#assign title = "Sous-pages de " + parentDoc.title />
           </#if>
           <div class="header">
+            <#if parentDoc.id == Document.id >
+            ${title}
+            <#else>
             <a href="${Context.modulePath}/${Common.siteDoc(parentDoc).resourcePath}">${title}</a>
+            </#if>
           </div>
 
           <ul class="unstyled">
