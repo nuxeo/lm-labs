@@ -14,4 +14,9 @@
     <#include "views/common/latestuploads_area.ftl" />
     
     <div class="sidebarSeparator">&nbsp;</div>
+
+    <#include "macros/children_block.ftl" />
+    <@children_block parentDoc=Document title="Sous-pages" spanClass="" />
+    
+    <div class="sidebarSeparator">&nbsp;</div>
     
