@@ -56,7 +56,7 @@
 			            </div>
 			        </#if>
 	                <div class="span1" style="margin-left: 15px;float: right;">
-	                	<img src="${skinPath}/images/newsOpen.png" style="cursor: pointer;margin-top:5px;" onclick="javascript:closeNews('${news.documentModel.ref}', '${skinPath}');"/>
+	                	<img src="${skinPath}/images/newsClose.png" style="cursor: pointer;margin-top:5px;" onclick="javascript:closeNews('${news.documentModel.ref}', '${skinPath}');"/>
 	                </div>
 	              </div>
 	

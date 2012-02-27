@@ -126,15 +126,16 @@
   <#assign i=0 />
   <#list classeur.folders as folder>
     <section class="${folder.document.type}" id="${folder.document.id}" >
-      <#if folder.files?size &gt; 0>
-      <img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideFolder(this, '');" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
-      </#if>
-      <div class="page-header">
+      
+      <div>
+      	<#if folder.files?size &gt; 0>
+	      <img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideFolder(this, '');" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
+	    </#if>
         <a name="section_${folder_index}" ></a>
         <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h1>
 	    <div class="folder-actions row-fluid editblock">
 	    <#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')> 
-	    <div id="arrowOrder" class="editblock" style="float: left; padding-right: 5px;">
+	    <div id="arrowOrder" style="float: left; padding-right: 5px;">
 	        <#if i &gt; 0>
 	        	<a href="" onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false">
 	        		<img src="/nuxeo/icons/move_up.png"/>
@@ -285,7 +286,7 @@
 
   <#if folder.files?size &gt; 0>
   <div class="folder-collapsable" >
-  <table class="table table-striped classeurFiles bs" >
+  <table class="table table-striped classeurFiles bs table-bordered" >
   <thead>
     <tr>
       <th class="header">&nbsp;</th>
