@@ -19,7 +19,7 @@
 	</@block>
 	
 	<@block name="content">	
-		<div id="content" class="">
+		<div id="content" class="container-fluid" style="padding-right: 5px;">
 		
 			<#include "views/common/page_header.ftl">
 			<div id="divPageList" class="">
@@ -52,7 +52,7 @@
 				<div id="divDisplayArray" class="">
 					<#include "/views/PageList/displayArray.ftl" />
 					<#if (0 < bean.entriesLines?size)>
-						<div class="container" style="text-align: right;">
+						<div class="container-fluid" style="text-align: right;">
 							<a href="${This.path}/exportExcel/export.xls"><img title="export excel" alt="export excel" src="/nuxeo/icons/xls.png" /></a>
 						</div>
 					</#if>

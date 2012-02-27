@@ -1,3 +1,7 @@
+label{
+	font-weight: bold;	
+}
+
 .pageList {
 	border: 1px solid #BBB;
 }
@@ -56,6 +60,7 @@
 	background-image: url(../images/x.gif);
 	background-repeat: no-repeat;
 }
+
 #divEditHeader{
 	float: right;
 	position: absolute;
@@ -63,7 +68,7 @@
 	border: 3px solid #BBB;
 	margin-left: 0;
 	overflow-y: auto;
-	height: 350px;
+	height: 365px;
 }
 #divContainerEditHeader{
 	float: right;
@@ -83,10 +88,12 @@
 	background-repeat: no-repeat;
 }
 .div_edit_one_option{
-	position: relative;	
+	position: relative;
+	margin-left: 12px;	
 }
 .input_headerOption{
 	width: 180px;
+	margin-bottom: 0px;
 }
 .divActionManageList{
 	position: relative;
