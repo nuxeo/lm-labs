@@ -2,8 +2,8 @@
 	<div class="container-fluid">
 		<section>
 			<a href="#" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">?</a>
-		 	<input type="text" id="userNamePermissions" name="userNamePermissions" value="" class="span6" style="margin-left:20px;">
-			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary btn-disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
+		 	<input type="text" id="userNamePermissions" name="userNamePermissions" value="" class="span4" style="margin-left:20px;">
+			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
 		</section>
 		<section>
 			<h5>

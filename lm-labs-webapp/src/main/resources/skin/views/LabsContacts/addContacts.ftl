@@ -3,7 +3,7 @@
 		<section>
 			<a href="#" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">?</a>
 		 	<input type="text" id="usernameContacts" name="usernameContacts" value="" class="span4" style="margin-left:20px;">
-			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary btn-disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
+			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
 		</section>
 		<section>
 			<h5>${Context.getMessage('label.admin.contact.addContact.toSelect')}</h5>
