@@ -188,7 +188,7 @@
 	                <li><a href="${Context.modulePath}/${site.URL}/@views/edit"><i class="icon-cog"></i>${Context.getMessage('label.contextmenu.administration')}</a></li>
 	                </#if>
 	                <#if site??>
-	                  <li><a href="${Context.modulePath}/${site.URL}/@views/sitemap"><i class="icon-screenshot"></i>${Context.getMessage('label.contextmenu.sitemap')}</a></li>
+	                  <li><a href="${Context.modulePath}/${site.URL}/@views/sitemap"><i class="icon-map-marker"></i>${Context.getMessage('label.contextmenu.sitemap')}</a></li>
 	                </#if>
                 </@block>
 
