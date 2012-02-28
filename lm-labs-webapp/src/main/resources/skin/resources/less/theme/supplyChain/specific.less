@@ -9,6 +9,9 @@
 
 @baseFontFamily:"Trebuchet MS", "Helvetica", "Verdana", "Arial", "Sans-serif";
 
+// Sprite icons path
+@iconWhiteSpritePath:     "../../img/glyphicons-halflings-white.png";
+
 @gray:#676D71;
 
 /* migration bootstrap 2.0 */
@@ -360,7 +363,12 @@ h6 {
   text-shadow: 0 0px 0px rgba(255,255,255,.75);
 }
 
-
+.btn > [class*="icon-"] {
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  background-image: url("@{iconWhiteSpritePath}");
+}
  
 section{
 	width: 98%;
