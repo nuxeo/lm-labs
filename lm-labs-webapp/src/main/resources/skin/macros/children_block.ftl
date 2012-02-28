@@ -9,7 +9,7 @@
 </script>
 <#macro children_block parentDoc title="" spanClass="span5" uniqueId="1">
 	<#if parentDoc.id != Document.id || (parentDoc.id == Document.id && parentDoc.type != 'PageNews')  >
-	<#if This.isAuthorizedToDisplay(parentDoc) || parentDoc.type == 'Tree' >
+	<#if parentDoc.type != 'Site' && ((This.isInstanceOf("LabsPage") && This.isAuthorizedToDisplay(parentDoc)) || parentDoc.type == 'Tree') >
     	<#assign childrenNbr = 0 />
     	<#if parentDoc.type == 'PageNews'>
 	    	<#assign children = This.getNews(parentDoc.ref) />
@@ -31,7 +31,7 @@
             <#if parentDoc.id == Document.id >
             ${title}
             <#else>
-            <a href="${Context.modulePath}/${Common.siteDoc(parentDoc).resourcePath}">${title}</a>
+            <a href="${Context.modulePath}/${Common.siteDoc(parentDoc).resourcePath?html}">${title}</a>
             </#if>
           </div>
 
@@ -50,7 +50,7 @@
                   <#if child.type == 'Folder'>
                     <li>${child.title}</li>
                   <#else>
-                	<li><a href="${Context.modulePath}/${Common.siteDoc(child).resourcePath}"
+                	<li><a href="${Context.modulePath}/${Common.siteDoc(child).resourcePath?html}"
                 	  rel="popover" data-content="${child.dublincore.description?html}"
                 	  data-original-title="${Context.getMessage('label.description')}"
                 	>${child.title}</a></li>
