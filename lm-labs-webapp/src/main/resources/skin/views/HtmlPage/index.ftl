@@ -31,8 +31,8 @@
   <#list page.sections as section>
     <section id="section_${section_index}">
         <div class="page-header">
-            <a name="section_${section_index}" />
-            <h1>${section.title} <small>${section.description}</small></h1>
+            <a name="section_${section_index}"></a>
+            <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;"> <small>${section.description}</small></h2>
         </div>
 
 		<#if isContributor >
