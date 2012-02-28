@@ -41,7 +41,7 @@ jQuery(document).ready(function() {
             <#if isAdmin || (!site.isAdministrator(Context.principal.name) && page.visible) > 
             <tr>
               <#assign doc=page.document />
-              <td class="nameCol"><a href="${Context.modulePath}/${page.path}">${doc.title}</a></td>
+              <td class="nameCol"><a href="${Context.modulePath}/${page.path?html}">${doc.title}</a></td>
               <td class="createdCol">${userFullName(doc.dublincore.creator)}</td>
               <td class="createdCol">
                 ${doc.dublincore.created?string.medium}
