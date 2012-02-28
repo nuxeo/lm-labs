@@ -19,8 +19,8 @@
 	<div id="divEditParametersPageForm">
 		<form class="form-horizontal" id="form_editParameters" action="${This.path}/@managePage" method="post">
 			<div class="control-group">
+				<label class="control-label" for="updateTitlePage">${Context.getMessage('label.parameters.page.updateTitlePage')}</label>
 				<div class="controls">
-					<label class="control-label" for="updateTitlePage">${Context.getMessage('label.parameters.page.updateTitlePage')}</label>
 					<input id="updateTitlePage" type="text" name="updateTitlePage" value="${This.document.title?html}" maxlength="90"/>
 				</div>
 			</div>
