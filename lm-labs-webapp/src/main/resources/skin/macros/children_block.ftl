@@ -8,6 +8,7 @@
 	});
 </script>
 <#macro children_block parentDoc title="" spanClass="span5" uniqueId="1">
+    <#assign isContributor = site?? && site.isContributor(Context.principal.name) />
 	<#if parentDoc.id != Document.id || (parentDoc.id == Document.id && parentDoc.type != 'PageNews')  >
 	<#if parentDoc.type != 'Site' && ((This.isInstanceOf("LabsPage") && This.isAuthorizedToDisplay(parentDoc)) || parentDoc.type == 'Tree') >
     	<#assign childrenNbr = 0 />
@@ -15,9 +16,10 @@
 	    	<#assign children = This.getNews(parentDoc.ref) />
 	    	<#assign childrenNbr = children?size />
     	<#else>
-	    	<#assign children = Session.getChildren(parentDoc.ref) />
+	    	<#assign children = Common.siteDoc(parentDoc).childrenPageDocuments />
 	    	<#list children as child>
-	    		<#if !child.facets?seq_contains("HiddenInNavigation") >
+	    		<#if !child.facets?seq_contains("HiddenInNavigation")
+                    && (isContributor || (!isContributor && Common.sitePage(child).visible)) >
 	    			<#assign childrenNbr = childrenNbr + 1 />
 	    		</#if>
 	    	</#list>
@@ -46,15 +48,12 @@
               </#list>
             <#else>
               <#list children as child>
-                <#if !child.facets?seq_contains("HiddenInNavigation") >
-                  <#if child.type == 'Folder'>
-                    <li>${child.title}</li>
-                  <#else>
+                <#if !child.facets?seq_contains("HiddenInNavigation") 
+                    && (isContributor || (!isContributor && Common.sitePage(child).visible)) >
                 	<li><a href="${Context.modulePath}/${Common.siteDoc(child).resourcePath?html}"
                 	  rel="popover" data-content="${child.dublincore.description?html}"
                 	  data-original-title="${Context.getMessage('label.description')}"
                 	>${child.title}</a></li>
-                  </#if>
                 </#if>
               </#list>
             </#if>
