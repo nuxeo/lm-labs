@@ -12,8 +12,12 @@ jQuery(document).ready(function() {
         if (sortValues.length > 0) {
           return sortValues[0].innerHTML;
         }
-            return node.innerHTML;
+        var hRefs  = jQuery(node).find('a');
+        if (hRefs.length > 0) {
+          return hRefs[0].innerHTML;
         }
+        return node.innerHTML;
+      }
   });
 });
 </script>
