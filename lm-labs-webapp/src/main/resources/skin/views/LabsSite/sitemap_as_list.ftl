@@ -25,7 +25,7 @@ jQuery(document).ready(function() {
   </@block>
 
      <@block name="sitemap-content">
-        <table class="table table-striped bs">
+        <table class="table table-striped bs table-bordered">
             <thead>
             <tr>
               <th width="30%">Elément</th>
