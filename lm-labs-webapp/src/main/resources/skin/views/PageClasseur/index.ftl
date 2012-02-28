@@ -101,7 +101,7 @@
   </@block>
 
   <@block name="content">
-  <@tableOfContents>
+  <@tableOfContents anchorSelector="section > div > div.header-toc">
 
   <div class="">
     <#if classeur.folders?size &gt; 0>
@@ -131,8 +131,10 @@
       	<#if folder.files?size &gt; 0>
 	      <img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideFolder(this, '');" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
 	    </#if>
-        <a name="section_${folder_index}" ></a>
-        <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h1>
+	    <div class="header-toc">
+          <a name="section_${folder_index}" ></a>
+          <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h1>
+        </div>
 	    <div class="folder-actions row-fluid editblock">
 	    <#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')> 
 	    <div id="arrowOrder" style="float: left; padding-right: 5px;">
