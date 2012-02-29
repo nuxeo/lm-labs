@@ -7,7 +7,7 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
-        
+        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown.js"></script>
         
         
         <script type="text/javascript">
@@ -92,12 +92,6 @@
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
-	<style>
-	.arrowOpacity {
-		opacity:0.4;
-		cursor:default;
-	}
-	</style>
   </@block>
 
   <@block name="content">
@@ -268,20 +262,24 @@
 </div>
 
 <#macro mainButtons >
-    <#list This.getLinks("PageClasseur_ACTIONS") as link>
-      <#assign btnClass = "" />
-      <#if link.id == "addFolder" >
-        <#assign btnClass = "btn-primary " + link.id />
+    <button class="btn btn-primary btn-small addFolder" ><i class="icon-plus"></i>${Context.getMessage('command.' + Document.type + '.addFolder')}</button>
+    <div class="btn-group" style="margin-left: 11em;" >
+        <a class="btn btn-small dropdown-toggle arrowOpacity" data-toggle=""><i class="icon-cog"></i>${Context.getMessage('command.PageClasseur.selectionActions')} <span class="caret"></span></a>
+        <ul class="dropdown-menu" style="min-width: 40px;" >
+    <#assign iconName = "" />
+    <#list This.getLinks("PageClasseur_SELECTION_ACTIONS") as link>
+      <#if link.id == "showSelection" >
+        <#assign iconName = "eye-open" />
+      <#elseif link.id == "hideSelection" >
+        <#assign iconName = "eye-close" />
       <#elseif link.id == "deleteSelection" >
-        <#assign btnClass = "btn-danger" />
+        <#assign iconName = "remove" />
       </#if>
-      <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >
-        <#if link.id?ends_with("Selection") >
-          <#assign btnClass = btnClass + " " + link.id />
-        </#if>
-      </#if>
-      <button class="btn ${btnClass} <#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") >selectionActionsBt</#if><#if link.categories?seq_contains("PageClasseur_SELECTION_ACTIONS") > disabled</#if>" >${Context.getMessage('command.' + Document.type + '.' + link.id)}</button>
+      <li><a href="#" class="selectionActionsBt ${link.id}" ><i class="icon-${iconName}"></i>${Context.getMessage('command.' + Document.type + '.' + link.id)}</a>
+      </li>
     </#list>
+        </ul>
+    </div>
 </#macro>
 
 <#macro displayChildren folder recurse=false>

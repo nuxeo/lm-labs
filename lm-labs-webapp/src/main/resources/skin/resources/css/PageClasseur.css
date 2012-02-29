@@ -85,3 +85,13 @@ table.classeurFiles tr.hidden td {
 	border-color: white;
 	color: white;
 }
+
+.arrowOpacity {
+    opacity:0.4;
+    cursor:default;
+}
+
+button.addFolder {
+	float: left;
+	margin-right: 1em;
+}

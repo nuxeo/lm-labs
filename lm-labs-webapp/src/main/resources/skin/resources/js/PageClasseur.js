@@ -208,6 +208,7 @@ jQuery(document).ready(function(){
     if (confirm("Etes-vous sûr de vouloir effacer le répertoire '" + jQuery(this).closest("div").find(".colFolderTitle").text() + "' ?")) {
       var buttonDomElement = evt.target;
       $(buttonDomElement).attr('disabled', true);
+      jQuery('#waitingPopup').dialog2('open');
       jQuery.ajax({
         url: jQuery(this).closest("form").attr("action"),
         type: "DELETE",
@@ -237,6 +238,7 @@ jQuery(document).ready(function(){
 
   jQuery(".selectionActionsBt.delete").click(function(evt) {
     if (confirm("Etes-vous sûr de vouloir effacer les fichiers sélectionnés ?")) {
+      jQuery('#waitingPopup').dialog2('open');
       var buttonDomElement = evt.target;
       jQuery(buttonDomElement).attr('disabled', true);
       var url = jQuery('.classeur').attr("id") + "/bulk?";
@@ -249,6 +251,7 @@ jQuery(document).ready(function(){
         url: url,
         type: "DELETE",
         complete: function(jqXHR, textStatus) {
+        	jQuery('#waitingPopup').dialog2('close');	
           jQuery('input[name="checkoptions"]').attr('checked', false);
         },
         success: function (data, textStatus, jqXHR) {
@@ -259,11 +262,13 @@ jQuery(document).ready(function(){
           alert(errorThrown + ": " + "," + jqXHR.responseText);
         }
       });
+      jQuery('#waitingPopup').dialog2('close');
     }
     return false;
   });
 
   jQuery(".selectionActionsBt.hideSelection, .selectionActionsBt.showSelection").click(function(evt) {
+	  jQuery('#waitingPopup').dialog2('open');
 	  var action = '';
 	  if (jQuery(this).hasClass('hideSelection')) {
 		  action = 'hide';
@@ -308,11 +313,11 @@ jQuery(document).ready(function(){
   function updateSelectionBts() {
 	  var checkboxes = jQuery('input[name="checkoptions"]:checked');
 	  if (jQuery(checkboxes).size() > 0) {
-		  //jQuery('.selectionActionsBt').removeAttr('disabled');
-		  jQuery('.selectionActionsBt').removeClass('btn-disabled');
+		  jQuery('.selectionActionsBt').closest('ul.dropdown-menu').siblings('a.dropdown-toggle').removeClass('arrowOpacity');
+		  jQuery('.selectionActionsBt').closest('ul.dropdown-menu').siblings('a.dropdown-toggle').attr('data-toggle', 'dropdown');
 	  } else {
-		  //jQuery('.selectionActionsBt').attr('disabled', 'disabled');
-		  jQuery('.selectionActionsBt').addClass('btn-disabled');
+		  jQuery('.selectionActionsBt').closest('ul.dropdown-menu').siblings('a.dropdown-toggle').addClass('arrowOpacity');
+		  jQuery('.selectionActionsBt').closest('ul.dropdown-menu').siblings('a.dropdown-toggle').attr('data-toggle', '');
 	  }
   }
   
