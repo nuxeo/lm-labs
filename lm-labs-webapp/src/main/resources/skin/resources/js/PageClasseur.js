@@ -346,6 +346,7 @@ function renameFolder(url, id) {
   }
   
 function moveFolder(path, parentId, srcId, destId) {
+    jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		async : false,
 		type: 'POST',

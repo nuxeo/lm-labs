@@ -7,7 +7,6 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown.js"></script>
         
         
         <script type="text/javascript">
@@ -20,7 +19,7 @@
                 var encoded = jQuery(this).attr('action');
                 jQuery(this).attr('action', decodeURIComponent(encoded.replace(/\+/g,  " ")));
             });
-            <#list classeur.folders as folder>
+            <#list folders as folder>
             jQuery("#form-upload-file-${folder.document.id}").ajaxForm(function() {
                 reloadAfterAddingFile("${folder.document.id}");
             });
@@ -28,7 +27,7 @@
 		});
 		
 		function reloadAfterAddingFile(folderId) {
-			jQuery("#addfile_"+folderId+"_modal").dialog2('close');
+			//jQuery("#addfile_"+folderId+"_modal").dialog2('close');
             jQuery('#waitingPopup').dialog2('open');
 			window.location.reload();
 		}
@@ -97,13 +96,14 @@
   <@block name="content">
   <@tableOfContents anchorSelector="section > div > div.header-toc">
 
+  <#assign folders = classeur.folders />
   <div class="">
-    <#if classeur.folders?size &gt; 0>
+    <#if folders?size &gt; 0>
 	<img class='allFoldersOpened' src="${skinPath}/images/toggle_minus.png" onclick="slideAllFolders(this);" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.allFolders.collapse')}" alt="${Context.getMessage('command.PageClasseur.allFolders.collapse')}" />
 	</#if>
 	<#include "views/common/page_header.ftl">
 
-  <#if classeur.folders?size &gt; 0>
+  <#if folders?size &gt; 0>
   <div id="classeurTopActions" class="editblock">
     <@mainButtons />
   </div>
@@ -116,9 +116,9 @@
   <#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
   <#assign children = Session.getChildren(Document.ref, "Folder")>
 
-  <#if classeur.folders?size &gt; 0>
+  <#if folders?size &gt; 0>
   <#assign i=0 />
-  <#list classeur.folders as folder>
+  <#list folders as folder>
     <section class="${folder.document.type}" id="${folder.document.id}" >
       
       <div>
@@ -129,42 +129,28 @@
           <a name="section_${folder_index}" ></a>
           <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h1>
         </div>
-	    <div class="folder-actions row-fluid editblock">
-	    <#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')> 
-	    <div id="arrowOrder" style="float: left; padding-right: 5px;">
-	        <#if i &gt; 0>
-	        	<a href="" onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false">
-	        		<img src="/nuxeo/icons/move_up.png"/>
-	        	</a>
-	        <#else>
-	        	<a href="" onclick="return false">
-	        		<img src="/nuxeo/icons/move_up.png" class="arrowOpacity"/>
-	        	</a>
-	        </#if>
-	        <#if (i+1) &lt; classeur.folders?size>
-	        	<a href="" onclick="moveFolder('${This.path}', '${Document.ref}', $('#${folder.document.id}').next('section').attr('id'), '${folder.document.id}');return false">
-	        		<img src="/nuxeo/icons/move_down.png"/>
-	        	</a>
-	        <#else>
-	        	<a href="" onclick="return false">
-	        		<img src="/nuxeo/icons/move_down.png" class="arrowOpacity"/>
-	        	</a>
-	        </#if>
-	    </div>
-	    </#if>
-
         <#if canWrite>
-          <div class="">
-            <a href="#" rel="addfile_${folder.document.id}_modal" class="btn btn-small open-dialog" ><i class="icon-upload"></i>Ajouter un fichier</a>
-
-          <#-- This button submits the hidden delete form -->
-          <button type="submit" class="btn btn-small btn-danger" onclick="$('#delete_${folder.document.id}').submit();return false;"><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteFolder')}</button>
-		  <#-- rename   -->
-		  <button class='btn btn-small' onClick='javascript:renameFolder("${This.path}/${folder.document.name}/@put", "${folder.document.id}");return false;'><i class="icon-edit"></i>${Context.getMessage("command." + Document.type + ".renameFolder" )}</button>
+	    <div class="folder-actions row-fluid editblock">
+          <div class="btn-group">
+            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
+            <ul class="dropdown-menu" >
+              <li><a 
+                <#if folders?first.document.id == folder.document.id>class="arrowOpacity" onclick="return false" <#else> onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false"</#if>
+                href=""><i class="icon-arrow-up"></i>${Context.getMessage("command." + Document.type + ".moveup" )}</a></li>
+              <li><a 
+                <#if folders?last.document.id == folder.document.id>class="arrowOpacity" onclick="return false" <#else> onclick="moveFolder('${This.path}', '${Document.ref}', $('#${folder.document.id}').next('section').attr('id'), '${folder.document.id}');return false"</#if>
+                href=""><i class="icon-arrow-down"></i>${Context.getMessage("command." + Document.type + ".movedown" )}</a></li>
+              <li><a href="#" rel="addfile_${folder.document.id}_modal" class="open-dialog" ><i class="icon-upload"></i>${Context.getMessage("command." + Document.type + ".addFile" )}</a></li>
+              <#-- This button submits the hidden delete form -->
+              <li><a href="#" onclick="$('#delete_${folder.document.id}').submit();return false;"><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteFolder')}</a></li>
+		      <#-- rename   -->
+		      <li><a href="#" onClick='javascript:renameFolder("${This.path}/${folder.document.name}/@put", "${folder.document.id}");return false;'><i class="icon-edit"></i>${Context.getMessage("command." + Document.type + ".renameFolder" )}</a></li>
+            </ul>
+          </div> <#-- btn-group -->
 
           <div id="addfile_${folder.document.id}_modal" >
               <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
-              <form class="ajax form-horizontal form-upload-file" id="form-upload-file-${folder.document.id}"
+              <form class="form-horizontal form-upload-file" id="form-upload-file-${folder.document.id}"
                 action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
                 <fieldset>
                   <div class="control-group">
@@ -175,7 +161,7 @@
                         </div>
                         
                    <div class="control-group">
-                        <label class="control-label" for="blob">Choisir le fichier</label>
+                        <label class="control-label" for="blob">${Context.getMessage('label.PageClasseur.choosefile')}</label>
                           <div class="controls">
                             <input type="file" name="blob" class="required focused input-file"/>
                           </div>
@@ -196,13 +182,11 @@
 
             </div> <#-- /modal -->
 
-              <form id="delete_${folder.document.id}" onsubmit="return confirm('Voulez vous vraiment supprimer ce répertoire ?');" action="${This.path}/${folder.document.name}/@delete" method="get" enctype="multipart/form-data">
+              <form id="delete_${folder.document.id}" onsubmit="return confirm('${Context.getMessage('label.PageClasseur.delete.folder.confirm')}');" action="${This.path}/${folder.document.name}/@delete" method="get" enctype="multipart/form-data">
               </form>
 
-          </div>
-
-        </#if>
         </div> <#-- folder-actions -->
+        </#if> <#-- canWrite -->
       </div> <#-- page-header -->
 
       <@displayChildren folder=folder />
@@ -219,7 +203,6 @@
 
 <div id="div-addfolder" style="display: none;" >
     <h1>${Context.getMessage('label.PageClasseur.form.folder.title')}</h1>
-
   <form class="ajax form-horizontal" id="form-folder" action="${This.path}" method="post" enctype="multipart/form-data">
       <fieldset>
       <div class="control-group">
@@ -345,17 +328,19 @@
       <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
       <td>
       <#if canWrite>
-      	<div <#if !child.facets?seq_contains("LabsHidden")> class="editblock"</#if>>
-      		<button class="btn" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${child.dublincore.description?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@put');return false;">Renommer</button>
-            <button class="btn btn-danger" onclick="$('#docdelete_${child.id}').submit()">${ Context.getMessage('command.PageClasseur.deleteFile')}</button>
-            <br />
+      	<div  class="<#if !child.facets?seq_contains("LabsHidden")>editblock</#if> btn-group" >
+        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
+        <ul class="dropdown-menu" style="min-width: 40px;" >
+      		<li><a href="#" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${child.dublincore.description?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@put');return false;"><i class="icon-edit"></i>${Context.getMessage('command.PageClasseur.renameFile')}</a></li>
+            <li><a href="#" onclick="$('#docdelete_${child.id}').submit()"><i class="icon-remove"></i>${ Context.getMessage('command.PageClasseur.deleteFile')}</a></li>
+        </ul>
         </div>
       </#if>
         <a rel="nofollow" class="btn btn-small classeurDownload" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
       <#if (max_lenght > blobLenght) && This.hasConvertersForHtml(blob.mimeType)>
        	<a rel="nofollow" class="btn btn-small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
       </#if>
-        <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@delete" onsubmit="return confirm('Voulez vous vraiment supprimer le document ?')">
+        <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@delete" onsubmit="return confirm('${Context.getMessage('label.PageClasseur.delete.file.confirm')}')">
         </form>
        	</td>
 
