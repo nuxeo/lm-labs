@@ -73,7 +73,7 @@ public class LabsNewsResource extends PageResource {
             session.save();
 
             return redirect(getPath()
-                    + "?message_success=label.labsNews.news_updated");
+                    + "?message_success=label.labsNews.news_updated&props=open");
         } catch (ClientException e) {
             throw WebException.wrap(e);
         } catch (IOException e) {
@@ -82,7 +82,7 @@ public class LabsNewsResource extends PageResource {
             log.info("The size of blob is too small !", e);
             save();
             return redirect(getPath()
-                    + "?message_success=label.labsNews.news_notupdated.size");
+                    + "?message_success=label.labsNews.news_notupdated.size&props=open");
         }
 
     }
@@ -132,13 +132,15 @@ public class LabsNewsResource extends PageResource {
         
         if (form.isMultipartContent()) {
             Blob blob = form.getBlob("newsPicture");
-            blob.persist();
-            if(blob.getLength() > 0){
-                if (news.isValid(blob)){
-                    news.setOriginalPicture(blob);
-                }
-                else{
-                    throw new LabsBlobHolderException("Blob non valid");
+            if (blob != null){
+                blob.persist();
+                if(blob.getLength() > 0){
+                    if (news.isValid(blob)){
+                        news.setOriginalPicture(blob);
+                    }
+                    else{
+                        throw new LabsBlobHolderException("Blob non valid");
+                    }
                 }
             }
         }

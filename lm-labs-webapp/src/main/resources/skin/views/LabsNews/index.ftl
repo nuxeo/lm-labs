@@ -35,6 +35,9 @@
 	              <div class="page-header">
 	                <h1>${news.title} <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
 	                <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
+	              	<div class="editblock" style="margin-top: -15px;width: 100%;text-align: right;float: right">
+						<a id="btnModifyPropsNews" class="btn" style="cursor: pointer;margin-right: 5px;" onclick="javascript:actionPropsNews();">Modifier les propriétés</a>
+				  	</div>
 	              </div>
 	          <#else>
 	              <div class="page-header">
@@ -42,15 +45,6 @@
 	                <small>${Context.getMessage('label.labsNews.display.publish')}...</small>
 	              </div>
 			  </#if>
-			  <section class="labsnews editblock well">
-			  	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
-          			<@generateSummaryNews news=news path=This.path withHref=false />
-	          		<#-- Collapse -->
-	          		<div class="span1" style="margin-left: 15px;float: right;">
-	          			<img src="${skinPath}/images/newsOpen.png" style="margin-top:5px;"/>
-	          		</div>
-	          	</div>
-	          </section>
 			  <#if isContributor >
 			  	<#assign news=news/>
 			  	<#include "views/LabsNews/editProps.ftl" />

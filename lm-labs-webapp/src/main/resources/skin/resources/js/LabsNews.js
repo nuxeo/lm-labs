@@ -78,6 +78,7 @@ function initFields(){
 	$("#newsContent").val("");
 	$("#newsStartPublication").val("");
 	$("#newsEndPublication").val("");
+	$("#newsAccroche").val("");
 	$("#newsId").val("");
 	CKEDITOR.instances.newsContent.setData("");
 }
@@ -92,14 +93,17 @@ function removeCheckeditor(){
 
 var isOpen = false;
 function openPropsNews(){
-	jQuery("#editprops").slideDown("slow");
+	jQuery("#editprops").slideDown("slow", function(){
+		doEllipsisText();
+		doEllipsisText();
+	});
 	jQuery("#btnModifyPropsNews").html("Fermer les propriétés");
 	isOpen = true;
 }
 
 function closePropsNews(){
 	jQuery("#editprops").slideUp("slow");
-	jQuery("#btnModifyPropsNews").html("Ouvrir les propriétés");
+	jQuery("#btnModifyPropsNews").html("Modifier les propriétés");
 	isOpen = false;
 }
 
@@ -192,6 +196,7 @@ function setCoords(c){
 function saveCropCoords(){
 	jQuery("#cropSummaryPicture").val(JSON.stringify(cropCoords));
 	jQuery("#divCropPicture").dialog2("close");
+	jQuery("#form-editNews").submit();
 }
 
 function resetCropCoords(){
@@ -202,4 +207,25 @@ function resetCropCoords(){
 		cropCoords = "";
 	}
 	jcrop_api.animateTo(extractTabCropCoords());
+}
+
+$(document).ready(function() {
+	jQuery("#divDownloadPicture").dialog2({
+		autoOpen : false,
+		buttons: {
+			"Annuler": function() { jQuery(this).dialog2("close"); }
+		},
+	});
+});
+
+function openDownloadPicture(){
+	jQuery("#divDownloadPicture").dialog2("open");
+	jQuery("#form-downloadPicture").clearForm();
+}
+
+function savePicture(){
+	jQuery("#newsPicture").appendTo('#form-editNews');
+	jQuery("#divDownloadPicture").dialog2("close");
+	jQuery("#form-editNews").submit();
+
 }

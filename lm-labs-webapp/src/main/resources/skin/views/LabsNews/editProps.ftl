@@ -1,8 +1,23 @@
-				<div class="editblock">
-				  	<div style="width: 100%;text-align: right;">
-						<a id="btnModifyPropsNews" style="cursor: pointer;margin-right: 5px;" onclick="javascript:actionPropsNews();">Ouvrir les propriétés</a>
-					</div>
-					<div id="editprops" class="well" style="display: none; margin-left: 100px;margin-right: 100px;">
+			<div class="editblock" style="width: 772px;">
+				<div id="editprops" style="display: none;">
+					  <#if news != null>
+					  	<div>
+  					  	  <h4>Prévisualisation du résumé</h4>
+						  <section class="labsnews well">
+						  	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
+			          			<@generateSummaryNews news=news path=This.path withHref=false />
+				          		<#-- Collapse -->
+				          		<div class="span1" style="margin-left: 15px;float: right;">
+				          			<img src="${skinPath}/images/newsOpen.png" style="margin-top:5px;"/>
+				          		</div>
+				          	</div>
+				          </section>
+				        </div>
+				       </#if>
+				  	<#--<div style="width: 100%;text-align: right;">
+						<a id="btnModifyPropsNews" class="btn" style="cursor: pointer;margin-right: 5px;" onclick="javascript:actionPropsNews();">Modifier les propriétés</a>
+					</div>-->
+					<div class="well" style="width: 94%;">
 						<#--<h1>Editer les information de l'actualité</h1>-->
 						<form class="form-horizontal" id="form-editNews" method="post" action="${This.path}" class="well" enctype="multipart/form-data" >
 						  <fieldset>
@@ -11,7 +26,7 @@
 						    <div class="control-group">
 						      <label class="control-label" for="dc:title">${Context.getMessage('label.labsNews.edit.title')}</label>
 						      <div class="controls">
-						        <input type="text" required-error-text="Le titre est obligatoire !" class="focused required input-xlarge" name="dc:title"  value="<#if news?? && news != null >${news.title?html}</#if>" />
+						        <input type="text" required-error-text="Le titre est obligatoire !" class="focused required span7" name="dc:title"  value="<#if news?? && news != null >${news.title?html}</#if>" />
 						      </div>
 						    </div>
 							<#--Périodes de publication de la news-->
@@ -27,42 +42,47 @@
 						    <div class="control-group">
 						      <label class="control-label" for="newsAccroche">${Context.getMessage('label.labsNews.edit.accroche')}</label>
 						      <div class="controls">
-						        <textarea class="input-xlarge" style="height:60px;" name="newsAccroche"><#if news?? && news != null >${news.accroche}</#if></textarea>
+						        <textarea class="span7" style="height:60px;" id="newsAccroche" name="newsAccroche"><#if news?? && news != null >${news.accroche}</#if></textarea>
 						      </div>
 						    </div>
-						    <a style="cursor: pointer;" onclick="javascript:jQuery('#divPictureNews').slideDown('slow');">Affecter la photo du résumé</a>
+						    <a id="btnSetSummaryPicture" style="cursor: pointer;" onclick="javascript:openDownloadPicture();">Associer une image au résumé</a>
 						    <#--Photo de la news-->
-						    <div id="divPictureNews" class="control-group" style="display: none;">
+						    <#-- <div id="divPictureNews" class="control-group" style="display: none;">
 						      <label class="control-label" for="newspicture">${Context.getMessage('label.labsNews.edit.picture')}</label>
 						      <div class="controls">
-						        <input type="file" class="input-xlarge input-file" name="newsPicture"/>
+						        <input type="file" class="input-xlarge input-file" name="newsPicture" id="newsPicture" style="display: none;" />
 						      </div>
-						    </div>
+						    </div> -->
 						    <#if news?? && news != null && news.hasSummaryPicture() >
 							    <#--Editeur de la photo -->
-							    <div id="div-editPicture">
-								    <a style="cursor: pointer;" onclick="javascript:openCropPicture();">Découper la photo du résumé</a>
+							    <div id="div-editPicture" style="float: right;">
+							    	<img src="${This.path}/summaryPictureTruncated" style="width:20ps;height: 20px;"/>
+								    <a style="cursor: pointer;" onclick="javascript:openCropPicture();">Recadrer l'image du résumé</a>
 								    <input type="hidden" name="cropSummaryPicture" id="cropSummaryPicture" value="${news.cropCoords?html?js_string}" />
 								    <input type="hidden" id="cropSummaryPictureOrigin" value="${news.cropCoords?html?js_string}" />
 								</div>
 							</#if>
-						    <div class="actions" style="text-align: center;">
-						      <input type="submit" class="btn required-fields" form-id="form-editNews" value="${Context.getMessage('label.labsNews.edit.valid')}" />
+						    <div class="actions" style="margin-left: 200px;">
+						      <input type="submit" class="btn required-fields" form-id="form-editNews" value="${Context.getMessage('label.labsNews.edit.save')}" />
 						      <a class="btn" id="btnCloseProps" onclick="javascript:closePropsNews();">Fermer</a>
 						  	</div>
 						  </fieldset>
 						</form>
 					</div>
 				</div>
+			</div>
 		      	<script type="text/javascript">
 				  $(document).ready(function() {				  		
 				  	  initEditDateNews();
+				  	  if (location.search.indexOf("props=open") > -1){
+				  	  	actionPropsNews();
+				  	  }
 				  	  <#if !(news?? && news != null)>
 				  	  	actionPropsNews();
 				  	  	jQuery("#form-editNews").clearForm();
 				  	  	jQuery("#btnModifyPropsNews").remove();
 				  	  	jQuery("#btnCloseProps").remove();
-				  	  	jQuery("#div-editPicture").remove();
+				  	  	jQuery("#btnSetSummaryPicture").remove();
 				  	  </#if>
 				  });
 			  	</script>
@@ -88,5 +108,26 @@
 				  				</tr>
 				  			</tbody>
 				  		</table>		  	
+				    </div>
+			    </#if>
+			    
+			  	<#if news?? && news != null >
+				  	<div id="divDownloadPicture" style="display: none;">
+				  		<h1>
+				  			Télécharger une image
+				  		</h1>
+				  		<form class="form-horizontal" id="form-downloadPicture" enctype="multipart/form-data" onSubmit="javascript:return false;" >
+						  <fieldset>
+						    <div id="divPictureNews" class="control-group">
+						      <label class="control-label" for="newspicture">${Context.getMessage('label.labsNews.edit.picture')}</label>
+						      <div class="controls">
+						        <input type="file" class="input-xlarge input-file required" name="newsPicture" id="newsPicture"/>
+						      </div>
+						    </div>
+						    <div class="actions">
+						      <input type="submit" class="btn required-fields" form-id="form-downloadPicture" onClick="javascript:savePicture();" value="${Context.getMessage('label.labsNews.edit.save')}" />
+						  	</div>
+						  </fieldset>
+						</form>  	
 				    </div>
 			    </#if>
