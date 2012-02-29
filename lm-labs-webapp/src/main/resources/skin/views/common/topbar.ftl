@@ -22,7 +22,7 @@
             <li><#include "common/labsLogin.ftl" /></li>
             <#if Context.principal.isAnonymous() == false>
             <li class="dropdown	">
-              <a href="#" class="dropdown-toggle">${Context.principal.firstName} ${Context.principal.lastName}<b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">${Context.principal.firstName} ${Context.principal.lastName}<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <@block name="docactions">
 	                <#if site?? && site.isContributor(Context.principal.name) >
