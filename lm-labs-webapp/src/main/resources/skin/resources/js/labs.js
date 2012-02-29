@@ -1,7 +1,8 @@
 $(document).ready(function() {
   // Dropdown for navbar nav
   // ===============================
-  $("body").bind("click", function(e) {
+/* Migration bootstrap 2.0 - conflit
+	$("body").bind("click", function(e) {
     $('.dropdown-toggle, .menu').parent("li").removeClass("open");
   });
 
@@ -9,7 +10,7 @@ $(document).ready(function() {
     var $li = $(this).parent("li").toggleClass('open');
     return false;
   });
-
+ */
   // Alert message close button handling
   $(".alter-message, .close").click(function(e) {
     $(this).parent().fadeOut();
