@@ -123,7 +123,7 @@
     };
     
     var __DIALOG_HTML = "<div class='overlay modal-overlay'>" + 
-        "<div class='modal' style='position: relative; top: auto; left: auto; margin: 10% auto; z-index: 1'>" + 
+        "<div class='modal' style='position: relative; top: auto; left: auto; margin: 10% auto; z-index: 199'>" + 
         "<div class='modal-header'>" +
         "<h3></h3><span class='loader'></span>" + 
         "<a href='#' class='close'></a>" + 
