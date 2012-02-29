@@ -1,3 +1,3 @@
 <div id="siteMap" >
-  <a href="${Context.modulePath}/${site.document.webcontainer.url}/@views/sitemap" class="btn btn-primary">Plan du site</a>
+  <a href="${Context.modulePath}/${site.document.webcontainer.url}/@views/sitemap" class="btn btn-primary"><i class="icon-map-marker"></i>Plan du site</a>
 </div>

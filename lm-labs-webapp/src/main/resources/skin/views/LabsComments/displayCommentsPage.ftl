@@ -18,7 +18,7 @@
 		</form>
 	</div>
 	<#if !This.context.principal.anonymous>
-		<a href="#" class="btn btn-small open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();">${Context.getMessage('command.Page.CommentAdd')}</a>
+		<a href="#" class="btn btn-small open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();"><i class="icon-comment"></i>${Context.getMessage('command.Page.CommentAdd')}</a>
 	</#if>
 	<div id="divListCommentsPage" class="container-fluid" style="width: 99%;"></div>
 </div>

@@ -37,9 +37,9 @@
 
 		<#if isContributor >
 	        <div class="well editblock">
-	          <a href="#" rel="editsection_${section_index}" class="btn btn-small open-dialog" >Modifier la section</a>
+	          <a href="#" rel="editsection_${section_index}" class="btn btn-small open-dialog" ><i class="icon-edit"></i>Modifier la section</a>
 	          <!-- This button submits the hidden delete form -->
-	          <button type="submit" class="btn btn-small btn-danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;">Supprimer la section</button>
+	          <button type="submit" class="btn btn-small btn-danger" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;"><i class="icon-remove"></i>Supprimer la section</button>
 	
 	          <div id="editsection_${section_index}" >
 	          	  <h1>Modifier la section</h1>
@@ -104,9 +104,9 @@
 	              </#list>
 	
 	               <div style="margin-left:20px;clear:both;" class="editblock">
-	               	  <a href="#" class="btn btn-small" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;">Modifier la classe CSS</a>
+	               	  <a href="#" class="btn btn-small" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
 		              <form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
-		                    <button type="submit" style="margin-left: 10px;" class="btn btn-small btn-danger">Supprimer la ligne</button>
+		                    <button type="submit" style="margin-left: 10px;" class="btn btn-small btn-danger"><i class="icon-remove-circle"></i>Supprimer la ligne</button>
 		              </form>
 	               </div>
 	          </div>
@@ -172,7 +172,7 @@
 		<#if isContributor >
 		    <#-- Add Section -->
 		    <div class="form-actions editblock">
-		    <a id="addsectionlink" href="#" rel="addsection" class="btn btn-small open-dialog" >Ajouter une section</a>
+		    <a id="addsectionlink" href="#" rel="addsection" class="btn btn-small open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
 		    </div>
 	
 		    <div id="addsection">

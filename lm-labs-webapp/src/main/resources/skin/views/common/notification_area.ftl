@@ -1,7 +1,7 @@
 <#if Context.principal.isAnonymous() == false>
 	<div id="notification" >
 		<#if Common.getNotifiableTypes()?seq_contains(Document.type) >
-			<a id="subscribeBt" class="btn btn-primary" <#if This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(true);">
+			<a id="subscribeBt" class="btn btn-primary" <#if This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(true);"><i class="icon-envelope"></i>
 				<#if Document.type == "PageNews">
 					 ${Context.getMessage('command.contextmenu.PageNews.subscribe')}
 				<#elseif Document.type == "Site">
@@ -10,7 +10,7 @@
                     ${Context.getMessage('command.contextmenu.Page.subscribe')}
 				</#if>
 			</a>
-			<a id="unsubscribeBt" class="btn btn-primary" <#if !This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(false);">
+			<a id="unsubscribeBt" class="btn btn-primary" <#if !This.isSubscribed() >style="display:none;"</#if> href="#" onclick="javascript:return subscribePage(false);"><i class="icon-envelope"></i>
 				<#if Document.type == "PageNews">
 					${Context.getMessage('command.contextmenu.PageNews.unsubscribe')}
                 <#elseif Document.type == "Site">
