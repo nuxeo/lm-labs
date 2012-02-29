@@ -13,6 +13,9 @@
 
 @navbarHeight:            30px;
 
+// Sprite icons path
+@iconWhiteSpritePath:     "../../img/glyphicons-halflings-white.png";
+
 .span333     { width: 244px; }
 
 /* migration bootstrap 2.0 */
@@ -492,6 +495,13 @@ section.labsnews {
 	max-width: none
 }
 
+.btn-primary > [class*="icon-"], .btn-danger > [class*="icon-"] {
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  background-image: url("@{iconWhiteSpritePath}");
+}
+ 
 table {
   // Tablesorting styles w/ jQuery plugin
   .header {
@@ -592,4 +602,9 @@ table {
   .headerSortDown.purple {
     background-color: lighten(@purple, 40%);
   }
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+    padding-right: 2px;
 }
