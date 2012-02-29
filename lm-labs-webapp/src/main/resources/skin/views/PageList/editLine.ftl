@@ -4,17 +4,10 @@
 		<fieldset>
 			<#list bean.headersSet as header>
 				<div class="control-group">
-				<#if header.type?lower_case == 'checkbox' >
-				  <#include "/views/PageList/" + header.type?lower_case + "/edit.ftl" />
-				<#else>
 					<label class="control-label" for="${header.idHeader}">${header.name}</label>
-						<div class="controls">
-						<#-- ???????? 
-							<#assign header = header />
-						-->
-							<#include "/views/PageList/" + header.type?lower_case + "/edit.ftl" />
-						</div>
-				</#if>
+					<div class="controls">
+						<#include "/views/PageList/" + header.type?lower_case + "/edit.ftl" />
+					</div>
 				</div>
 			</#list>
 		</fieldset>
