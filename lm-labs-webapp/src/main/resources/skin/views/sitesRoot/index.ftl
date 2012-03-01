@@ -90,7 +90,7 @@ function deleteDefinitelySite(url){
     <@superBlock/>
     <#if canCreateSite>
       <li>
-        <a class="open-dialog" rel="divEditSite" href="#">${Context.getMessage('label.labssite.add.site')}</a>
+        <a class="open-dialog" modal-height="365px" modal-overflowy="auto" rel="divEditSite" href="#">${Context.getMessage('label.labssite.add.site')}</a>
         <div id="divEditSite" class="dialog2" style="display:none;">
             <#include "/views/sitesRoot/addSite.ftl" />
         </div>

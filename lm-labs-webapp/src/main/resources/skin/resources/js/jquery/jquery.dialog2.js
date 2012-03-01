@@ -123,7 +123,7 @@
     };
     
     var __DIALOG_HTML = "<div class='overlay modal-overlay'>" + 
-        "<div class='modal' style='position: relative; top: -80px; left: auto; margin: 10% auto; z-index: 199'>" + 
+        "<div class='modal' style='position: relative; top: -80px; left: auto; margin: 10% auto; z-index: 199;'>" + 
         "<div class='modal-header'>" +
         "<h3></h3><span class='loader'></span>" + 
         "<a href='#' class='close'></a>" + 
@@ -497,6 +497,18 @@
 
                 if (a.attr("title")) {
                     options.title = a.attr("title");
+                }
+                if (a.attr("modal-height")) {
+                    options.height = a.attr("modal-height");
+                }
+                if (a.attr("modal-width")) {
+                    options.width = a.attr("modal-width");
+                }
+                if (a.attr("modal-overflowx")) {
+                    options.overflowx = a.attr("modal-overflowx");
+                }
+                if (a.attr("modal-overflowy")) {
+                    options.overflowy = a.attr("modal-overflowy");
                 }
                 $.each($.fn.dialog2.defaults, function(key, value) {
                     if (a.attr(key)) {
