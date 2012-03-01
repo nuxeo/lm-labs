@@ -95,7 +95,7 @@
 			        <#include "views/common/breadcrumbs.ftl" >
 				  </@block>
 				  </div>
-					    <div class="row">
+					    <div class="row-fluid">
 					        <#assign messages = This.getMessages() />
 					        <#list messages?keys as key >
 					           <div class="alert alert-block alert-${key}">
