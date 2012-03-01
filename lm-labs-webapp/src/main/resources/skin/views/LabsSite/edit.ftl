@@ -105,7 +105,6 @@ jQuery(document).ready(function() {
               </fieldset>
               <div class="form-actions">
                 <button class="btn btn-primary">${Context.getMessage('label.labssites.edit.valid')}</button>
-                <button class="btn" type="reset">Reset</button>
               </div>
             </form>
           </div>
