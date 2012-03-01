@@ -15,7 +15,7 @@
 	    jQuery("#login").click(valid);
 	    jQuery("#logout").click(doLogout);
 	    
-	    //$('input[placeholder], textarea[placeholder]').placeholder();
+	    $('input[placeholder], textarea[placeholder]').placeholder();
 	  });
 
 
