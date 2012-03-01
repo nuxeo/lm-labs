@@ -9,7 +9,8 @@
         <title>
             <@block name="title">Labs</@block>
         </title>
-
+		
+		
         <@block name="css">
           <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
           <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
@@ -37,6 +38,12 @@
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
       		<script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
         </@block>
+        
+        <style type="text/css">
+		  label {
+			font-weight: bold;
+		  }
+		</style>
     </head>
     <body>
     <#-- timeout -->
