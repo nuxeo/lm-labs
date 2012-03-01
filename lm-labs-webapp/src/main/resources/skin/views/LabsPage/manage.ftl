@@ -48,7 +48,7 @@
   </fieldset>
 
   <div class="actions">
-    <button class="btn btn-primary required-fields btnCreatePage" >Créer</button>
+    <button class="btn btn-primary required-fields btnCreatePage" form-id="add_doc_form" >Créer</button>
   </div>
 </form>
 
