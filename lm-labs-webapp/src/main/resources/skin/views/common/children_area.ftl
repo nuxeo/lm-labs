@@ -1,2 +1,2 @@
 <#include "macros/children_block.ftl" />
-<@children_block parentDoc=Common.siteDoc(Document).site.tree title="Top Pages" spanClass="" />
+<@children_block parentDoc=Document title="Sous-pages" spanClass="" />

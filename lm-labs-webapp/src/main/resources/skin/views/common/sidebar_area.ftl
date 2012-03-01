@@ -10,6 +10,5 @@
     <#-- LATEST UPLOADS AREA --> 
     <#include "views/common/latestuploads_area.ftl" />
     <#include "views/common/toppages_area.ftl" />
-    <#include "macros/children_block.ftl" />
-    <@children_block parentDoc=Document title="Sous-pages" spanClass="" />
+    <#include "views/common/children_area.ftl" />
     
