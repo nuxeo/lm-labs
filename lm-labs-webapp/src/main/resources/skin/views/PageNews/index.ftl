@@ -24,7 +24,7 @@
     	
         <#if isAuthorized>
         	<div class="editblock" style="width: 100%;text-align: right;margin-bottom: 5px;">
-          		<a href="${This.path}/@views/addnews" class="btn" style="margin-right: 5px;">${Context.getMessage('label.labsNews.add.news')}</a>
+          		<a href="${This.path}/@views/addnews" class="btn" style="margin-right: 5px;"><i class="icon-plus"></i>${Context.getMessage('label.labsNews.add.news')}</a>
           	</div>
         </#if>
 
