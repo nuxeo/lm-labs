@@ -30,7 +30,7 @@
 		<h4 style="padding-left: 10px;" >${Context.getMessage('label.pageList.edit.listHeader.editHeader')}</h4>
 		<div id="divEditHeader">
 			<form method="post" name="form-manageList" id="form-manageList">
-				<fieldset>
+				<fieldset style="padding: 5px 0 0 20px;">
 					<!--         NAME      ------->
 					<div class="control-group">
 						<label class="control-label" for="headerName">${Context.getMessage('label.pageList.edit.editHeader.name')}</label>
