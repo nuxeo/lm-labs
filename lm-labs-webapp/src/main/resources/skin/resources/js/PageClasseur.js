@@ -236,7 +236,7 @@ jQuery(document).ready(function(){
       return url;
   }
 
-  jQuery(".selectionActionsBt.delete").click(function(evt) {
+  jQuery(".selectionActionsBt.deleteSelection").click(function(evt) {
     if (confirm("Etes-vous sûr de vouloir effacer les fichiers sélectionnés ?")) {
       jQuery('#waitingPopup').dialog2('open');
       var buttonDomElement = evt.target;
