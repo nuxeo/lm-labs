@@ -1,6 +1,6 @@
 <h1>Ajouter du contenu</h1>
 
-<form class="form-horizontal" id="add_doc_form" action="${This.path}" method="post">
+<form class="form-horizontal" onsubmit="addDoc(null);return false;" id="add_doc_form" action="${This.path}" method="post">
   <input name="overwritePage" id="overwritePage" type="hidden" value="false" />
   <fieldset>
     <div class="control-group">
@@ -48,7 +48,7 @@
   </fieldset>
 
   <div class="actions">
-    <button class="btn btn-primary required-fields btnCreatePage" form-id="add_doc_form">Créer</button>
+    <button class="btn btn-primary required-fields btnCreatePage" >Créer</button>
   </div>
 </form>
 
@@ -56,11 +56,16 @@
 
 jQuery(document).ready(function(){
 	initRequiredFields();
-	$(".btnCreatePage").click(function(event) {
+});
+
+function addDoc(event) {
 	if(hasError) {
 		return;
 	}
-    event.preventDefault();
+	jQuery('#waitingPopup').dialog2('open');
+	if (event != null) {
+        event.preventDefault();
+	}
     jQuery(".btnCreatePage").attr("disabled", true);
 	jQuery.ajax({
 		type: "POST",
@@ -88,8 +93,8 @@ jQuery(document).ready(function(){
 			alert(msg);
 		}
 	});
-  });
-});
+	jQuery('#waitingPopup').dialog2('close');
+}
 	
 function addDocWithDelete(){
 	jQuery("#overwritePage").val("true");
