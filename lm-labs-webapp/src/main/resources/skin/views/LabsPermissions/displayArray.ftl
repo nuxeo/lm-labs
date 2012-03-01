@@ -1,6 +1,6 @@
 <section>
     <@displayPermTypeHeader permType='Everything' permsList=permissionsAdmin >
-        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Everything')?js_string}', 'Everything');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Everything')}" class="btn" style="margin-left:20px;" >+</button>
+        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Everything')?js_string}', 'Everything');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Everything')}" class="btn" style="margin-left:20px;" ><i class="icon-plus"></i></button>
     </@displayPermTypeHeader>
 	<#list permissionsAdmin as perm>
        <@displayPermRow perm=perm />
@@ -9,7 +9,7 @@
 
 <section>
     <@displayPermTypeHeader permType='Write' permsList=permissionsWrite >
-        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn " style="margin-left:20px;" >+</button>
+        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn " style="margin-left:20px;" ><i class="icon-plus"></i></button>
     </@displayPermTypeHeader>
 	<#list permissionsWrite as perm>
        <@displayPermRow perm=perm />
@@ -18,8 +18,8 @@
 
 <section>
     <@displayPermTypeHeader permType='Read' permsList=permissionsRead >
-        <button id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}" class="btn btn-warning">${Context.getMessage('label.security.labs.button.vomitPublic')}</button>
-        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Read')?js_string}', 'Read');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Read')}" class="btn">+</button>
+        <button id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}" class="btn btn-warning"><i class="icon-fire"></i>${Context.getMessage('label.security.labs.button.vomitPublic')}</button>
+        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Read')?js_string}', 'Read');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Read')}" class="btn"><i class="icon-plus"></i></button>
     </@displayPermTypeHeader>
 	<#list permissionsRead as perm>
 	   <@displayPermRow perm=perm />
@@ -44,9 +44,8 @@
     </div>
     <div class="span2 columns">
         <#if perm.inherited == false >
-            <span onclick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}', '${Context.getMessage('label.security.labs.permission.confirm_delete', permText, permName)?js_string}');" style="cursor: pointer;">
-                <img alt="${Context.getMessage('command.security.removePerm')}" src="${skinPath}/images/x.gif"/>
-            </span>
+        	<button class="btn btn-danger" onClick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}', '${Context.getMessage('label.security.labs.permission.confirm_delete', permText, permName)?js_string}');"><i class="icon-remove"></i></button>
+            
         <#else>
             &nbsp;
         </#if>

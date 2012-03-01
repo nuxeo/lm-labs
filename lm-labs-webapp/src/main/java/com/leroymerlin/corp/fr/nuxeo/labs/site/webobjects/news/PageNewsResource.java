@@ -60,7 +60,7 @@ public class PageNewsResource extends NotifiablePageResource {
             DocumentModel newDocNews = session.saveDocument(news.getDocumentModel());
             session.save();
 
-            return redirect(getPath() + "/" + newDocNews.getName());
+            return redirect(getPath() + "/" + newDocNews.getName() + "?props=open");
         } catch (ClientException e) {
             throw WebException.wrap(e);
         } catch (IOException e) {
@@ -69,7 +69,7 @@ public class PageNewsResource extends NotifiablePageResource {
             log.info("The size of blob is too small !", e);
             DocumentModel newDocNews = save(news);
             return redirect(getPath() + "/" + newDocNews.getName()
-                    + "?message_success=label.labsNews.news_notupdated.size");
+                    + "?message_success=label.labsNews.news_notupdated.size&props=open");
         }
 
     }
