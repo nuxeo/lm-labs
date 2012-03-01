@@ -45,18 +45,16 @@
 						        <textarea class="span7" style="height:60px;" id="newsAccroche" name="newsAccroche"><#if news?? && news != null >${news.accroche}</#if></textarea>
 						      </div>
 						    </div>
-						    <a id="btnSetSummaryPicture" style="cursor: pointer;" onclick="javascript:openDownloadPicture();">Associer une image au résumé</a>
 						    <#--Photo de la news-->
-						    <#-- <div id="divPictureNews" class="control-group" style="display: none;">
-						      <label class="control-label" for="newspicture">${Context.getMessage('label.labsNews.edit.picture')}</label>
-						      <div class="controls">
-						        <input type="file" class="input-xlarge input-file" name="newsPicture" id="newsPicture" style="display: none;" />
-						      </div>
-						    </div> -->
+						    <a id="btnSetSummaryPicture" style="cursor: pointer;" onclick="javascript:openDownloadPicture();">Associer une image au résumé</a>
 						    <#if news?? && news != null && news.hasSummaryPicture() >
-							    <#--Editeur de la photo -->
 							    <div id="div-editPicture" style="float: right;">
+							    	<#--Suppression de la photo -->
 							    	<img src="${This.path}/summaryPictureTruncated" style="width:20ps;height: 20px;"/>
+							    	<span onclick="javascript:deleteSummaryPicture('Voulez-vous supprimer l\'image?');" style="cursor: pointer;">
+								    	<img title="${Context.getMessage('label.delete')}" src="${skinPath}/images/x.gif"/>
+								  	</span>
+								    <#--Editeur de la photo -->
 								    <a style="cursor: pointer;" onclick="javascript:openCropPicture();">Recadrer l'image du résumé</a>
 								    <input type="hidden" name="cropSummaryPicture" id="cropSummaryPicture" value="${news.cropCoords?html?js_string}" />
 								    <input type="hidden" id="cropSummaryPictureOrigin" value="${news.cropCoords?html?js_string}" />
@@ -64,10 +62,11 @@
 							</#if>
 						    <div class="actions" style="margin-left: 200px;">
 						      <input type="submit" class="btn required-fields" form-id="form-editNews" value="${Context.getMessage('label.labsNews.edit.save')}" />
-						      <a class="btn" id="btnCloseProps" onclick="javascript:closePropsNews();">Fermer</a>
+						      <a class="btn" id="btnCloseProps" onclick="javascript:closePropsNews();"><i class='icon-eye-close'></i>Fermer</a>
 						  	</div>
 						  </fieldset>
 						</form>
+						<form id="formDeleteSummaryPicture" method="post" action="${This.path}/deleteSummaryPicture"></form>
 					</div>
 				</div>
 			</div>

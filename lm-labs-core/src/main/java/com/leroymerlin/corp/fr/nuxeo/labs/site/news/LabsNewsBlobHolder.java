@@ -411,4 +411,26 @@ public class LabsNewsBlobHolder extends PictureBlobHolder {
         }
         return imageInfo.getWidth() >= MAX_SUMMARY_WIDTH && imageInfo.getHeight() >= MAX_SUMMARY_HEIGHT;
     }
+
+    public void deleteSummaryPicture() throws ClientException {
+        @SuppressWarnings("unchecked")
+        List<Map<String, Serializable>> views = (List<Map<String, Serializable>>)doc.getPropertyValue("picture:views");
+        List<Map<String, Serializable>> newViews = new ArrayList<Map<String,Serializable>>();
+        for(Map<String, Serializable> view:views){
+            if (!isSummaryPicture((String)view.get("title"))){
+                newViews.add(view);
+            }
+        }
+        doc.getProperty("picture:views").setValue(newViews);
+    }
+
+    private boolean isSummaryPicture(String string) {
+        if (StringUtils.isEmpty(string)){
+            return false;
+        }
+        boolean result = string.equals("Original");
+        result = result || string.equals("OriginalJpeg");
+        result = result || string.equals("summary_truncated_picture");
+        return result;
+    }
 }

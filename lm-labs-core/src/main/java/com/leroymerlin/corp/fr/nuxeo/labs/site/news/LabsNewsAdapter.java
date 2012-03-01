@@ -300,4 +300,9 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
         return getBlobHolder().isValid(blob);
     }
 
+    @Override
+    public void deleteSummaryPicture() throws ClientException {
+        getBlobHolder().deleteSummaryPicture();
+    }
+
 }

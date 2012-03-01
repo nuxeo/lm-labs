@@ -179,6 +179,18 @@ public class LabsNewsResource extends PageResource {
         throw new WebException(Response.Status.NOT_FOUND);
     }
     
+    @POST
+    @Path("deleteSummaryPicture")
+    public Response deleteSummaryPicture() {
+        try {
+            getLabsNews().deleteSummaryPicture();
+            save();
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        return redirect(this.getPath() + "?message_success=label.labsNews.summaryPicture_deleted&props=open");
+    }
+    
     @GET
     @Path("summaryPictureTruncated")
     public Response getSummaryPictureTruncated() {

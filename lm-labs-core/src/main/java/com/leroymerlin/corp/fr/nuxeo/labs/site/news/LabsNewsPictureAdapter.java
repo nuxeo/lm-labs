@@ -37,7 +37,7 @@ public class LabsNewsPictureAdapter extends DefaultPictureAdapter {
         doc.getProperty(VIEWS_PROPERTY).setValue(viewsList);
     }
     
-    private boolean isNotForSummary(Map<String, Object> property) throws PropertyException{
+    protected boolean isNotForSummary(Map<String, Object> property) throws PropertyException{
         boolean result = ((String)property.get("title")).equals("Original");
         result = result || ((String)property.get("title")).equals("OriginalJpeg");
         result = result || ((String)property.get("title")).equals("summary_truncated_picture");

@@ -97,13 +97,13 @@ function openPropsNews(){
 		doEllipsisText();
 		doEllipsisText();
 	});
-	jQuery("#btnModifyPropsNews").html("Fermer les propriétés");
+	jQuery("#btnModifyPropsNews").html("<i class='icon-eye-close'></i>Fermer les propriétés");
 	isOpen = true;
 }
 
 function closePropsNews(){
 	jQuery("#editprops").slideUp("slow");
-	jQuery("#btnModifyPropsNews").html("Modifier les propriétés");
+	jQuery("#btnModifyPropsNews").html("<i class='icon-eye-open'></i>Modifier les propriétés");
 	isOpen = false;
 }
 
@@ -227,5 +227,10 @@ function savePicture(){
 	jQuery("#newsPicture").appendTo('#form-editNews');
 	jQuery("#divDownloadPicture").dialog2("close");
 	jQuery("#form-editNews").submit();
+}
 
+function deleteSummaryPicture(message){
+	if (confirm(message)){
+		jQuery("#formDeleteSummaryPicture").submit();
+	}
 }
