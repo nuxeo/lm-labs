@@ -76,7 +76,6 @@
     <@block name="logo">
     </@block>
     <@block name="banner">
-      <#include "views/common/banner.ftl" />
     </@block>
     </div>
 
