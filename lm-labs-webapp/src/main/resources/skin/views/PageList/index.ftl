@@ -26,7 +26,7 @@
 				<#if isAuthorized>
 					<div id="divActionManageList">
 						<#if Context.principal.isAnonymous() != true>
-							<a href="#" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine();"><i class="icon-plus"></i>${Context.getMessage('label.pageList.addLine')}</a>
+							<a href="#" style="margin-bottom: 3px;margin-top: 3px;" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine();"><i class="icon-plus"></i>${Context.getMessage('label.pageList.addLine')}</a>
 						</#if>
 						<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
 							<a href="#" class="editblock open-dialog" rel="divManageList" onClick="javascript:manageList();">${Context.getMessage('label.pageList.manageList')}</a>
