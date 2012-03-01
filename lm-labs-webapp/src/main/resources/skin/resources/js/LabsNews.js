@@ -124,7 +124,7 @@ var heightSummary;
 $(document).ready(function() {
 	jQuery("#divCropPicture").dialog2({
 		width : '900px',
-		height : '600px',
+		height : '450px',
 		overflowy : 'auto',
 		overflowx : 'auto',
 		autoOpen : false,
