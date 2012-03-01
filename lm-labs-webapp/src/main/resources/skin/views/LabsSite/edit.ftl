@@ -47,7 +47,7 @@ jQuery(document).ready(function() {
 }
 </style>
           
-            <form class="form-horizontal" action="${This.path}/@put" method="post" id="form-labssite" enctype="multipart/form-data">
+            <form class="form-horizontal well" action="${This.path}/@put" method="post" id="form-labssite" enctype="multipart/form-data">
               <fieldset>
                 <legend>Mettez à jour les propriétés du site</legend>
                 <div class="control-group">
@@ -103,7 +103,7 @@ jQuery(document).ready(function() {
 			    </div>
                 
               </fieldset>
-              <div class="form-actions">
+              <div class="form-actions" style="margin-left: 60px;">
                 <button class="btn btn-primary">${Context.getMessage('label.labssites.edit.valid')}</button>
               </div>
             </form>

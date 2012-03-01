@@ -39,7 +39,7 @@
 			&nbsp;
           </div>
           <div class="span8 columns">
-            <form class="form-horizontal" action="${This.path}/appearance" method="post" id="form-appearance">
+            <form class="form-horizontal well" action="${This.path}/appearance" method="post" id="form-appearance">
               <fieldset>
                 <div class="control-group">
                   <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
@@ -67,7 +67,7 @@
                 </div>
 
                </fieldset>
-              <div class="form-actions">
+              <div class="form-actions" style="margin-left: 40px;">
                 <button class="btn btn-primary">${Context.getMessage('label.labssites.appearance.save')}</button>
               </div>
             </form>
