@@ -29,7 +29,9 @@
           </div>
           <div class="">
             <#include "views/LabsSite/sitemap_switch_control.ftl">
+            <hr/>
             <@block name="sitemap-content"/>
+            <hr/>
             <#include "views/LabsSite/sitemap_switch_control.ftl" >
         </div> <!-- /row -->
         </section>
