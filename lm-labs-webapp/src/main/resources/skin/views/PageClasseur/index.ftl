@@ -103,6 +103,7 @@
 	</#if>
 	<#include "views/common/page_header.ftl">
 
+  <#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
   <#if folders?size &gt; 0>
   <div id="classeurTopActions" class="editblock">
     <@mainButtons />
@@ -113,7 +114,6 @@
 
     <div class="classeur" id="${This.path}">
 
-  <#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
   <#assign children = Session.getChildren(Document.ref, "Folder")>
 
   <#if folders?size &gt; 0>
@@ -245,7 +245,10 @@
 </div>
 
 <#macro mainButtons >
+    <#if canWrite && Session.hasPermission(Document.ref, 'AddChildren') >
     <button class="btn btn-primary btn-small addFolder" ><i class="icon-plus"></i>${Context.getMessage('command.' + Document.type + '.addFolder')}</button>
+    </#if>
+    <#if canWrite>
     <div class="btn-group" style="margin-left: 11em;" >
         <a class="btn btn-small dropdown-toggle arrowOpacity" data-toggle=""><i class="icon-cog"></i>${Context.getMessage('command.PageClasseur.selectionActions')} <span class="caret"></span></a>
         <ul class="dropdown-menu" style="min-width: 40px;" >
@@ -263,6 +266,7 @@
     </#list>
         </ul>
     </div>
+    </#if>
 </#macro>
 
 <#macro displayChildren folder recurse=false>
