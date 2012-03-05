@@ -36,4 +36,6 @@
         </div> <!-- /row -->
         </section>
   </@block>
+  <@block name="pageCommentable">
+  </@block>
 </@extends>
