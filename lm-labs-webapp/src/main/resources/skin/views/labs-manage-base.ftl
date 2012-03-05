@@ -34,6 +34,7 @@
 	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.validate.min.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
       		<script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
