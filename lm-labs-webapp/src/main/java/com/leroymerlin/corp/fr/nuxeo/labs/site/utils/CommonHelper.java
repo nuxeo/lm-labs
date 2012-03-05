@@ -14,6 +14,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
+import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -111,7 +112,7 @@ public final class CommonHelper {
         return URIUtils.quoteURIPathComponent(s, false);
     }
 
-    public static final List<LabsSite> getTemplateSites(CoreSession session)
+    public static final List<LabsSite> getTemplateSites()
             throws ClientException {
         SiteManager sm;
         List<LabsSite> adaptersList = new ArrayList<LabsSite>();
@@ -125,23 +126,22 @@ public final class CommonHelper {
                 " WHERE ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(
                 State.PUBLISH.getState()).append("'").append(" AND ").append(
                 NXQL.ECM_PATH).append(" STARTSWITH '").append(
-                sm.getSiteRoot(session).getPathAsString()).append("'").append(
+                sm.getSiteRoot(getCoreSession()).getPathAsString()).append("'").append(
                 " AND ").append(LabsSiteAdapter.PROPERTY_SITE_TEMPLATE).append(
                 " = 1");
-        DocumentModelList list = session.query(query.toString());
+        DocumentModelList list = getCoreSession().query(query.toString());
         for (DocumentModel site : list) {
             adaptersList.add(site.getAdapter(LabsSite.class));
         }
         return adaptersList;
     }
 
-    public static final boolean canCreateSite(String principalId,
-            CoreSession session) {
+    public static final boolean canCreateSite(String principalId) {
         SiteManager sm = getSiteManager();
         if (sm != null) {
             try {
-                DocumentModel siteRoot = sm.getSiteRoot(session);
-                if (session.hasPermission(siteRoot.getRef(),
+                DocumentModel siteRoot = sm.getSiteRoot(getCoreSession());
+                if (getCoreSession().hasPermission(siteRoot.getRef(),
                         SecurityConstants.ADD_CHILDREN)) {
                     return true;
                 }
@@ -152,13 +152,12 @@ public final class CommonHelper {
         return false;
     }
 
-    public static final boolean canCreateTemplateSite(String principalId,
-            CoreSession session) {
+    public static final boolean canCreateTemplateSite(String principalId) {
         SiteManager sm = getSiteManager();
         if (sm != null) {
             try {
-                DocumentModel siteRoot = sm.getSiteRoot(session);
-                if (session.hasPermission(siteRoot.getRef(),
+                DocumentModel siteRoot = sm.getSiteRoot(getCoreSession());
+                if (getCoreSession().hasPermission(siteRoot.getRef(),
                         SecurityConstants.EVERYTHING)) {
                     return true;
                 }
@@ -169,13 +168,12 @@ public final class CommonHelper {
         return false;
     }
 
-    public static final boolean canDeleteSite(String principalId,
-            CoreSession session) {
+    public static final boolean canDeleteSite(String principalId) {
         SiteManager sm = getSiteManager();
         if (sm != null) {
             try {
-                DocumentModel siteRoot = sm.getSiteRoot(session);
-                if (session.hasPermission(siteRoot.getRef(),
+                DocumentModel siteRoot = sm.getSiteRoot(getCoreSession());
+                if (getCoreSession().hasPermission(siteRoot.getRef(),
                         SecurityConstants.REMOVE_CHILDREN)) {
                     return true;
                 }
@@ -216,5 +214,10 @@ public final class CommonHelper {
         }
 
         return properties;
+    }
+
+    private static CoreSession getCoreSession() {
+        return WebEngine.getActiveContext()
+                .getCoreSession();
     }
 }

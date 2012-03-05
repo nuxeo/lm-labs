@@ -1,5 +1,5 @@
 <@extends src="/views/labs-manage-base.ftl">
-  <#assign canCreateSite = Common.canCreateSite(Context.principal.name, Session)>
+  <#assign canCreateSite = Common.canCreateSite(Context.principal.name)>
 
   <@block name="scripts">
     <@superBlock/>
@@ -90,7 +90,7 @@ function deleteDefinitelySite(url){
     <@superBlock/>
     <#if canCreateSite>
       <li>
-        <a class="open-dialog" modal-height="365px" modal-overflowy="auto" rel="divEditSite" href="#">${Context.getMessage('label.labssite.add.site')}</a>
+        <a class="open-dialog" modal-height="365px" modal-overflowy="auto" rel="divEditSite" href="#"><i class="icon-plus"></i>${Context.getMessage('label.labssite.add.site')}</a>
         <div id="divEditSite" class="dialog2" style="display:none;">
             <#include "/views/sitesRoot/addSite.ftl" />
         </div>
@@ -249,8 +249,8 @@ function deleteDefinitelySite(url){
 			              </td>
 			              <#if hasAtLeastOneAdminSite>
 			              <td>
-			              <a href="#" class="btn btn-danger<#if !Common.canDeleteSite(Context.principal.name, Session) > btn-disabled</#if>"
-			              <#if Common.canDeleteSite(Context.principal.name, Session) >
+			              <a href="#" class="btn btn-danger<#if !Common.canDeleteSite(Context.principal.name) > disabled</#if>"
+			              <#if Common.canDeleteSite(Context.principal.name) >
 			                onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');"
 			              <#else>
 			                title="${Context.getMessage('label.labssite.list.deletion.not.allowed')}"
