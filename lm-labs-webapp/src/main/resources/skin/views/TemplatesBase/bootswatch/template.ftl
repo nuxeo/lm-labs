@@ -44,6 +44,7 @@
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
           <script type="text/javascript">
             jQuery(document).ready(function() {
@@ -133,4 +134,5 @@
 &nbsp;
 </div>
     </body>
+    
 </html>

@@ -13,7 +13,7 @@
 	    });
 	
 	    jQuery("#login").click(valid);
-	    jQuery("#logout").click(doLogout);
+	    jQuery("#logoutLnk").click(doLogout);
 	    
 	    $('input[placeholder], textarea[placeholder]').placeholder();
 	  });
@@ -21,7 +21,7 @@
 
 
   function valid(){
-    jQuery(this).button('loading');
+    jQuery('#login').button('loading');
     var user = jQuery("#username").val();
     var pwd = jQuery("#password").val();
 
@@ -79,6 +79,6 @@
     <form class="navbar-form form-horizontal pull-right" action="">
     <input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="input-small listener" size="13"/>
     <input type="password" id="password" placeholder="${Context.getMessage('label.Password')}" class="input-small listener" size="13"/>
-    <button id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" onclick="return false;" data-loading-text="${Context.getMessage('command.login.ongoing')}">${Context.getMessage('command.login')}</button>
+    <button id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" onclick="valid();return false;" data-loading-text="${Context.getMessage('command.login.ongoing')}">${Context.getMessage('command.login')}</button>
     </form> 
 </#if>

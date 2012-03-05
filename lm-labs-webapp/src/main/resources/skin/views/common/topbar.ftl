@@ -196,7 +196,7 @@
                 <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.document.title}/tree@view_documents?tabIds=%3A" target="_blank" ><i class="icon-edit"></i>${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
-                <li><a id="logout" href="#"><i class="icon-off"></i>${Context.getMessage('command.contextmenu.logout')}</a></li>
+                <li><a id="logoutLnk" href="#"<#-- onclick="doLogout();return false;"-->><i class="icon-off"></i>${Context.getMessage('command.contextmenu.logout')}</a></li>
               </ul>
             </li>
             </#if>
