@@ -89,13 +89,13 @@
                 <td>
                   <#if !hasFile>
                   <a href="#" class="btn disabled">
-                  <#elseif sd.document.type != "LabsNews">
+                  <#elseif doc.type != "LabsNews">
                   <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">
                   </#if>
                   <i class="icon-eye-open"></i>${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
                   <#if !hasFile>
                   <a disabled="disabled" href="#" class="btn disabled">
-                  <#elseif sd.document.type != "LabsNews">
+                  <#elseif doc.type != "LabsNews">
                   <a href="${Context.modulePath}/${sd.resourcePath}/@blob" target="_blank" class="btn">
                   </#if>
                   <i class="icon-download"></i>${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
@@ -115,6 +115,8 @@
 
   </section>
 </div>
+</@block>
+<@block name="pageCommentable">
 </@block>
 </@extends>
 
