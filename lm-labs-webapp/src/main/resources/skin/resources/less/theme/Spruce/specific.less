@@ -2,3 +2,18 @@
 @import "./bootswatch.less";
 @import "./variables.less";
 @import "../labs.less";
+
+.btn > [class*="icon-"], .btn-danger > [class*="icon-"] {
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  background-image: url("@{iconWhiteSpritePath}");
+}
+
+.navbar-form input, .navbar-form .btn {
+    margin-top: 15px;
+}
+
+.modal, .modal-footer {
+    background-color: #AEAD8E;
+}
