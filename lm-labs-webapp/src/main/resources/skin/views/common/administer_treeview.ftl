@@ -22,20 +22,6 @@
 
 <#assign canManage = Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')/>
 
-	<@block name="css">
-	<@superBlock/>
-	<style>
-	#jstree {
-		background-color: white;
-	}
-	.dropzonehighlighted {
-		background-color: lightgrey;
-		border-color: white;
-		color: white;
-	}
-	</style>
-	</@block>
-	
 	<@block name="scripts">
 	<@superBlock/>
 	<#if adminTreeviewType=="Assets">

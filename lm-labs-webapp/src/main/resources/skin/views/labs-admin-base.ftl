@@ -13,9 +13,6 @@
         <@block name="css">
           <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
           <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
-          <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" /><#-- TODO still needed ?? -->
-          <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/><#-- TODO still needed ?? -->
-          <!--<link rel="stylesheet/less" href="${skinPath}/less/theme/labs/specific.less">-->
           <link rel="stylesheet/less" href="${This.path}/generatedAdmin.less">
           <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.2.1.min.js"></script>
           <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
@@ -30,11 +27,8 @@
           <![endif]-->
 
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.min.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script><#-- TODO still needed ?? -->
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.js"></script><#-- TODO still needed ?? -->
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
-          <#--script type="text/javascript" src="${skinPath}/js/jquery/jquery.validate.min.js"></script--><#-- TODO still needed ?? -->
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
           <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
