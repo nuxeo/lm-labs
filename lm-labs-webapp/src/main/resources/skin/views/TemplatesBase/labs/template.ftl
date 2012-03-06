@@ -1,3 +1,4 @@
+<#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
     "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="fr">
@@ -38,11 +39,13 @@
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
           <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
+          <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script>
+          <#if canWrite>
           <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
           <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
           <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
           <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
+          </#if>
           <script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.pagination.js"></script>
