@@ -153,7 +153,7 @@ jQuery(document).ready(function(){
 		autoOpen : false,
 		closeOnOverlayClick : true,
 		removeOnClose : false,
-		showCloseHandle : true,
+		showCloseHandle : true
 	});
 	jQuery(".actionExternalURL.actionAdd > img").click(function() {
 		jQuery("#div_persistExternalURL").dialog2('open');
