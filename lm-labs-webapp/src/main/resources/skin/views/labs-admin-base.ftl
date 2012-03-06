@@ -33,7 +33,7 @@
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script><#-- TODO still needed ?? -->
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.js"></script><#-- TODO still needed ?? -->
-          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script><#-- TODO still needed ?? -->
+          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
           <#--script type="text/javascript" src="${skinPath}/js/jquery/jquery.validate.min.js"></script--><#-- TODO still needed ?? -->
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
