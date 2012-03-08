@@ -19,8 +19,6 @@ import com.leroymerlin.common.core.utils.Slugify;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
-import com.sun.syndication.feed.synd.SyndContent;
-import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -139,28 +137,9 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
             entry.setTitle(news.getTitle());
             entry.setLink(pPathBase + "/" + news.getDocumentModel().getName());
             entry.setPublishedDate(news.getStartPublication().getTime());
-            entry.setDescription(createRssNewsDescription(news));
+            entry.setDescription(NewsTools.createRssNewsDescription(news));
             entries.add(entry);
         }
         return entries;
-    }
-    
-    private SyndContent createRssNewsDescription(LabsNews news) throws ClientException {
-        SyndContent description;
-        description = new SyndContentImpl();
-        description.setType("text/html");
-        if (contentNewsIsInRow(news)){
-            description.setValue(news.getRows().get(0).content(0).getHtml());
-        }
-        else{
-            description.setValue(news.getContent());
-        }
-        return description;
-    }
-    
-    private boolean contentNewsIsInRow(LabsNews news) {
-        return news.getRows() != null && news.getRows().size() > 0 
-                && news.getRows().get(0) != null && news.getRows().get(0).content(0) != null 
-                && !StringUtils.isEmpty(news.getRows().get(0).content(0).getHtml());
     }
 }
