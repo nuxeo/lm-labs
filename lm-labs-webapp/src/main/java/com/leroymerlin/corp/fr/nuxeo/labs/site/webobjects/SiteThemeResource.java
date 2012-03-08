@@ -47,7 +47,6 @@ public class SiteThemeResource extends PageResource {
 
     private static final String THE_THEMES_SHOULD_NOT_BE_EMPTY = "The themes should not be empty !";
 
-    private static final String THE_TEMPLATES_SHOULD_NOT_BE_EMPTY = "The templates should not be empty !";
 
     private static final Log LOG = LogFactory.getLog(SiteThemeResource.class);
 
@@ -73,20 +72,6 @@ public class SiteThemeResource extends PageResource {
         return null;
     }
 
-    public List<String> getTemplates() {
-        LabsThemeManager themeService = getThemeService();
-        List<String> entriesTemplate = new ArrayList<String>();
-        if (themeService != null) {
-            entriesTemplate = themeService.getTemplateList(getModule().getRoot().getAbsolutePath());
-        }
-        if (entriesTemplate.isEmpty()) {
-            LOG.error(THE_THEMES_SHOULD_NOT_BE_EMPTY);
-            LOG.error("Verify the package "
-                    + LabsSiteWebAppUtils.DIRECTORY_THEME);
-        }
-        return entriesTemplate;
-    }
-
     /**
      * @throws Exception
      */
@@ -105,9 +90,8 @@ public class SiteThemeResource extends PageResource {
             entriesTheme = themeService.getThemeList(getModule().getRoot().getAbsolutePath());
         }
         if (entriesTheme.isEmpty()) {
-            LOG.error(THE_TEMPLATES_SHOULD_NOT_BE_EMPTY);
-            LOG.error("Verify the package "
-                    + LabsSiteWebAppUtils.DIRECTORY_TEMPLATE);
+            LOG.error(THE_THEMES_SHOULD_NOT_BE_EMPTY);
+            LOG.error("Verify the package " + LabsSiteWebAppUtils.DIRECTORY_THEME);
         }
         return entriesTheme;
     }

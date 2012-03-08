@@ -45,7 +45,7 @@
                   <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
                   <div class="controls">
                     <select name="template" id="template">
-	            		<#list This.getTemplates() as template>
+	            		<#list Common.getTemplates() as template>
 	            			<option value="${template}"  <#if site.template.templateName == template >selected</#if>>${template}</option>
 	            		</#list>
 	            	</select>
