@@ -60,6 +60,7 @@
 	}
 
 	function saveComment(){
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type : "POST",
 			url : urlActionBase,
@@ -67,30 +68,36 @@
 			success : function(msg) {
 				hasChangedCommentsPopup = true;
 				jQuery("#form-commentable").clearForm();
+				jQuery('#waitingPopup').dialog2('close');
 				getComments();
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);
+				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
 	}
 
 	function deleteComment(url, id){
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type : "DELETE",
 			url : url + '?property=' + id,
 			data : '',
 			success : function(msg) {
 				hasChangedCommentsPopup = true;
+				jQuery('#waitingPopup').dialog2('close');
 				getComments();
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);
+				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
 	}
 	
 	function getComments() {
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type : "GET",
 			url : urlActionBase,
@@ -98,9 +105,11 @@
 			success : function(msg) {
 				jQuery("#divListComments")[0].innerHTML = msg;
 				jQuery("#divCommentable").dialog2("options", {title: $('#divTitleComments')[0].innerHTML});
+				jQuery('#waitingPopup').dialog2('close');
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);
+				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
 	}

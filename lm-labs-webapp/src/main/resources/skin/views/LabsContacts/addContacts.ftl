@@ -28,12 +28,18 @@ jQuery(document).ready(function(){
   });
   
   jQuery("#searchUsersBt").click(function() {
+  	jQuery('#waitingPopup').dialog2('open');
     jQuery.ajax({
       type: 'GET',
       async: false,
       url: '${This.path}' + '/@labscontacts/suggestedUsers/' + jQuery("#usernameContacts").val() ,
       success: function(data) {
 	      jQuery("#divSelectedUsers").html(data);
+	      jQuery('#waitingPopup').dialog2('close');
+	  },
+      error: function(data) {
+      	alert('ERROR' + data.responseText);
+	    jQuery('#waitingPopup').dialog2('close');
 	  }
     });
     return false;
@@ -46,6 +52,7 @@ function addContact(){
 	if (username == undefined) {
   		alert("Pas d'utilisateur selectionn\u00E9");
 	} else {
+		jQuery('#waitingPopup').dialog2('open');
     	jQuery.ajax({
 			type: 'GET',
 		    async: false,
@@ -54,7 +61,11 @@ function addContact(){
 		    	closeAddContact();
 		    	//jQuery("#divDislayArray").load('${This.path}/@labscontacts');
 		    	window.location.reload();
-		    }
+		    },
+		      error: function(data) {
+		      	alert('ERROR' + data.responseText);
+			    jQuery('#waitingPopup').dialog2('close');
+			  }
 		});
 	}
 }

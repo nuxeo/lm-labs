@@ -27,6 +27,7 @@ jQuery(document).ready(function() {
 
 function deleteSite(url){
 	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type: 'PUT',
 		    async: false,
@@ -38,13 +39,19 @@ function deleteSite(url){
 		        }
 		        else {
 		          alert("${Context.getMessage('label.lifeCycle.site.hasNotDeleted')}");
+      		      jQuery('#waitingPopup').dialog2('close');
 		        }
+		    },
+		    error: function(data) {
+		    	alert(data);
+		    	jQuery('#waitingPopup').dialog2('close');
 		    }
 		});
 	}
 }
 function undeleteSite(url){
 	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouUndelete')}")){
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type: 'PUT',
 		    async: false,
@@ -56,13 +63,19 @@ function undeleteSite(url){
 		        }
 		        else {
 		          alert("${Context.getMessage('label.lifeCycle.site.hasNotUndeleted')}");
+		          jQuery('#waitingPopup').dialog2('close');
 		        }
+		    },
+		    error: function(data) {
+		    	alert(data);
+		    	jQuery('#waitingPopup').dialog2('close');
 		    }
 		});
 	}
 }
 function deleteDefinitelySite(url){
 	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDefinitelyDelete')}")){
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type: 'DELETE',
 		    async: false,
@@ -73,6 +86,7 @@ function deleteDefinitelySite(url){
 		    },
 		    error: function(data) {
 	          alert("${Context.getMessage('label.lifeCycle.site.hasNotDefinitelyDelete')}");
+	          jQuery('#waitingPopup').dialog2('close');
 		    }
 		});
 	}

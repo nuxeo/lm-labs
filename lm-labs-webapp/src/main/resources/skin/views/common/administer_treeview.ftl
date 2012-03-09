@@ -31,9 +31,11 @@
 	<script type="text/javascript">
 		function refreshTreeview() {
 			jQuery("#jstree").jstree("refresh");
+			jQuery('#waitingPopup').dialog2('close');
 		}
 		function deletePicture(id) {
 			if (confirm("${Context.getMessage('label.admin.asset.deleteConfirm')}")) {
+				jQuery('#waitingPopup').dialog2('open');
 				jQuery.ajax({
 					async : false,
 					type: 'GET',
@@ -43,6 +45,7 @@
 					}, 
 					error : function (r, responseData) {
 						//jQuery.jstree.rollback(data.rlbk);
+						jQuery('#waitingPopup').dialog2('close');
 					}
 				});
 			}
@@ -52,6 +55,7 @@
 			jQuery("#addFileDialog").dialog2('open');
 		}
 		function createFolder(title, doctype, destId) {
+			 jQuery('#waitingPopup').dialog2('open');
 			 jQuery.ajax({
 					async : false,
 					type: 'POST',
@@ -64,7 +68,10 @@
 					success : function (r) {
 						jQuery("#addFolderDialog").dialog2('close');
 			        	refreshTreeview();
-			        }
+			        }, 
+					error : function (r, responseData) {
+						jQuery('#waitingPopup').dialog2('close');
+					}
 			  });
 			return false;
 		}
@@ -149,17 +156,23 @@
 			}
 			
 			function labsPublish(operation, url, node) {
+			    jQuery('#waitingPopup').dialog2('open');
     			jQuery.ajax({
 					type: 'PUT',
 				    async: false,
 				    url: '${Context.modulePath}/' + url + '/@labspublish/' + operation,
 				    success: function(data) {
 				    	refreshTreeview();
-				    }
+				    },
+					error: function(msg){
+						alert( msg.responseText );
+						jQuery('#waitingPopup').dialog2('close');
+					}
 				});
 			}
 			
 			function setAsHome(url, node) {
+			    jQuery('#waitingPopup').dialog2('open');
     			jQuery.ajax({
 					type: 'PUT',
 				    async: false,
@@ -170,6 +183,7 @@
 				    },
 				    error: function(jqXHR, textStatus, errorThrown) {
 				    	alert(jqXHR.statusText);
+						jQuery('#waitingPopup').dialog2('close');
 				    }
 				});
 			}

@@ -32,6 +32,7 @@
 				        return;
 				    }
 				    </#if>
+				    jQuery('#waitingPopup').dialog2('open');
 					jQuery.ajax({
 						type: 'GET',
 					    async: false,
@@ -45,11 +46,13 @@
 					    		jQuery('#subscribeBt').show();
 					    		jQuery('#unsubscribeBt').hide();
 					        }
+					        jQuery('#waitingPopup').dialog2('close');
 					    },
 					    error: function() {
 				    		<#-- TODO alert
 					    	console.log('subscribe failed.');
 					        -->
+					        jQuery('#waitingPopup').dialog2('close');
 					    }
 					});
 					return false;

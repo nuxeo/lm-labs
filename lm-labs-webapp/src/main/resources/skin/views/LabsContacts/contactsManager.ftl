@@ -34,6 +34,7 @@ function closeAddContact() {
 
 function labsContactDelete(url, confirme){
 	if (confirm(confirme)) {
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 	        type: 'DELETE',
 	        async: false,
@@ -49,6 +50,7 @@ function labsContactDelete(url, confirme){
 	        },
 	        error: function(xhr, status, ex){
 	          alert(ex);
+	          jQuery('#waitingPopup').dialog2('close');
 	        }
 	    });
 	}

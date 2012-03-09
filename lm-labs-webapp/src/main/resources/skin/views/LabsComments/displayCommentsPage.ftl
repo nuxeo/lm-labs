@@ -47,20 +47,24 @@
 	}
 
 	function deleteCommentPage(url, id){
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type : "DELETE",
 			url : url + '?property=' + id,
 			data : '',
 			success : function(msg) {
+				jQuery('#waitingPopup').dialog2('close');
 				getCommentsPage();
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);
+				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
 	}
 	
 	function getCommentsPage() {
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type : "GET",
 			url : '${This.path}/@labscomments?isPage=yes',
@@ -68,9 +72,11 @@
 			success : function(msg) {
 				jQuery("#divListCommentsPage")[0].innerHTML = msg;
 				jQuery("#titleCommentsPage")[0].innerHTML = $('#divTitleCommentsPage')[0].innerHTML;
+				jQuery('#waitingPopup').dialog2('close');
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);
+				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
 	}

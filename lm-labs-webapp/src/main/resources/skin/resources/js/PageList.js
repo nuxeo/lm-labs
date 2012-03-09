@@ -50,6 +50,7 @@ function initEditLinesDates(){
 } 
 
 function saveLine(path) {
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "POST",
 		url: $('#form-editLine').attr("action"),
@@ -59,11 +60,13 @@ function saveLine(path) {
 		},
 		error: function(msg){
 			alert( msg.responseText );
+			jQuery('#waitingPopup').dialog2('close');
 		}
 	});
 }
 
 function deleteLine(path){
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "DELETE",
 		url: $('#form-editLine').attr("action"),
@@ -73,11 +76,13 @@ function deleteLine(path){
 		},
 		error: function(msg){
 			alert( msg.responseText );
+			jQuery('#waitingPopup').dialog2('close');
 		}
 	});
 }
 
 function modifyLine(url){
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "GET",
 		url: url,
@@ -89,6 +94,7 @@ function modifyLine(url){
 		},
 		error: function(msg){
 			alert( msg.responseText );
+			jQuery('#waitingPopup').dialog2('close');
 		}
 	});
 }

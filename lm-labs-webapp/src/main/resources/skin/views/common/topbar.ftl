@@ -75,6 +75,7 @@
 								
 								function publishPage(){
 									//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouPublish')}")){
+										jQuery('#waitingPopup').dialog2('open');
 										jQuery.ajax({
 											type: 'PUT',
 										    async: false,
@@ -87,6 +88,10 @@
 										        else {
 										          alert("${Context.getMessage('label.lifeCycle.page.hasNotPublished')}");
 										        }*/
+										        jQuery('#waitingPopup').dialog2('close');
+										    },
+										    error: function(data) {
+										        jQuery('#waitingPopup').dialog2('close');
 										    }
 										});
 									//}
@@ -94,6 +99,7 @@
 								
 								function draftPage(){
 									//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouDraft')}")){
+										jQuery('#waitingPopup').dialog2('open');
 										jQuery.ajax({
 											type: 'PUT',
 										    async: false,
@@ -106,6 +112,10 @@
 										        else {
 										          alert("${Context.getMessage('label.lifeCycle.page.hasNotDrafted')}");
 										        }*/
+										        jQuery('#waitingPopup').dialog2('close');
+										    },
+										    error: function(data) {
+										        jQuery('#waitingPopup').dialog2('close');
 										    }
 										});
 									//}
@@ -128,6 +138,7 @@
 	                	<script type="text/javascript">
 	                		function publishSite(){
 	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouPublish')}")){
+	                				jQuery('#waitingPopup').dialog2('open');
 		                			jQuery.ajax({
 										type: 'PUT',
 									    async: false,
@@ -139,7 +150,11 @@
 									        }
 									        else {
 									          alert("${Context.getMessage('label.lifeCycle.site.hasNotPublished')}");
+									          jQuery('#waitingPopup').dialog2('open');
 									        }
+									    },
+									    error: function(data) {
+									    	jQuery('#waitingPopup').dialog2('close');
 									    }
 									});
 								}
@@ -147,6 +162,7 @@
 	                		
 	                		function draftSite(){
 	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDraft')}")){
+	                				jQuery('#waitingPopup').dialog2('open');
 		                			jQuery.ajax({
 										type: 'PUT',
 									    async: false,
@@ -158,7 +174,11 @@
 									        }
 									        else {
 									          alert("${Context.getMessage('label.lifeCycle.site.hasNotDrafted')}");
+									          jQuery('#waitingPopup').dialog2('open');
 									        }
+									    },
+									    error: function(data) {
+									    	jQuery('#waitingPopup').dialog2('close');
 									    }
 									});
 								}
@@ -166,6 +186,7 @@
 	                		
 	                		function deleteSite(){
 	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
+	                				jQuery('#waitingPopup').dialog2('open');
 		                			jQuery.ajax({
 										type: 'PUT',
 									    async: false,
@@ -177,7 +198,11 @@
 									        }
 									        else {
 									          alert("${Context.getMessage('label.lifeCycle.site.hasNotDeleted')}");
+									          jQuery('#waitingPopup').dialog2('close');
 									        }
+									    },
+									    error: function(data) {
+									    	jQuery('#waitingPopup').dialog2('close');
 									    }
 									});
 								}

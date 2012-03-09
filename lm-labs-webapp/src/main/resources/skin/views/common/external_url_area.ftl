@@ -51,6 +51,7 @@
 
 function deleteExternalURL(url, path) {
 	if (confirm("${Context.getMessage('label.externalURL.delete.confirm')}")) {
+	    jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type: "DELETE",
 			url: url,
@@ -60,6 +61,7 @@ function deleteExternalURL(url, path) {
 			},
 			error: function(msg){
 				alert( msg.responseText );
+				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
 	}
@@ -109,12 +111,14 @@ function moveUpExternalURL(url, path, id){
 }
 
 function ajaxMoveExtURL(url){
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "GET",
 		url: url,
 		data: '',
 		success: function(msg){
 			//alert('Sauvegardé');
+			jQuery('#waitingPopup').dialog2('close');
 		},
 		error: function(msg){
 			//alert( msg.responseText );
