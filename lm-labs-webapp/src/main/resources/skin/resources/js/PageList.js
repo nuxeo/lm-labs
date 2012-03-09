@@ -21,7 +21,10 @@ function addLine() {
 	jQuery("#divEditLine").dialog2("options", {title: title_add_line});
 	$('#form-editLine').clearForm();
 	$("#divBtnDeleteLine").attr("style", "display:none;");
-	$('#form-editLine').attr('action', $('#form-editLine').attr('action') + '/line');
+	var action = $('#form-editLine').attr('action');
+	if (action.indexOf('/line') == -1){
+		$('#form-editLine').attr('action', action + '/line');
+	}
 }
 
 function openEditLine() {
@@ -89,6 +92,7 @@ function modifyLine(url){
 		data: '',
 		success: function(msg){
 			$("#divEditLine")[0].innerHTML = msg;
+			jQuery('#waitingPopup').dialog2('close');
 			openEditLine();
 			jQuery("#divEditLine").dialog2("options", {title: title_modify_line});
 		},
