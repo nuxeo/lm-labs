@@ -45,9 +45,11 @@
                   <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
                   <div class="controls">
                     <select name="template" id="template">
-	            		<#list Common.getTemplates() as template>
-	            			<option value="${template}"  <#if site.template.templateName == template >selected</#if>>${template}</option>
-	            		</#list>
+                    <#include "views/common/getTemplatesMap.ftl">
+                    <#assign templatesMap = getTemplatesMap() />
+                    <#list templatesMap?sort_by('title') as template>
+            			<option value="${template.name}"  <#if site.template.templateName == template.name >selected</#if>>${template.title}</option>
+            		</#list>
 	            	</select>
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
                   </div>
@@ -58,8 +60,18 @@
                   <div class="controls">
 	            	<a href="#" id="modifyThemeParameters"><br/>${Context.getMessage('label.labssites.appearance.theme.parameters')}</a> 
                     <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${site.getThemeManager().getTheme().getName()}');">
+                        <#assign themesMap = [] />
 	            		<#list This.getThemes() as theme>
-	            			<option value="${theme}"  <#if site.getThemeManager().getTheme().getName() == theme >selected</#if>>${theme}</option>
+                            <#assign trad = Context.getMessage('label.labssites.appearance.themes.' + theme) />
+                            <#if trad?starts_with('!') >
+                                <#assign themeName = theme />
+                            <#else>
+                                <#assign themeName = trad />
+                            </#if>
+                            <#assign themesMap = themesMap + [ {"name" : theme, "title" : themeName} ] />
+                        </#list>
+	            		<#list themesMap?sort_by('title') as theme>
+	            			<option value="${theme.name}"  <#if site.getThemeManager().getTheme().getName() == theme.name >selected</#if>>${theme.title}</option>
 	            		</#list>
 	            	</select>
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.help.block')}</p>
