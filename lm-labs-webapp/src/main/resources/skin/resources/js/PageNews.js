@@ -1,6 +1,7 @@
 
 
 function deleteNews(url, path){
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "DELETE",
 		url: url,
@@ -10,11 +11,13 @@ function deleteNews(url, path){
 		},
 		error: function(msg){
 			alert( msg.responseText );
+			jQuery('#waitingPopup').dialog2('close');
 		}
 	});
 }
 
 function modifyNews(url){
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "GET",
 		url: url,
@@ -25,9 +28,11 @@ function modifyNews(url){
 			removeCheckeditor();
 			initCheckeditor();
 			displayEdit();
+			jQuery('#waitingPopup').dialog2('close');
 		},
 		error: function(msg){
 			alert( msg.responseText );
+			jQuery('#waitingPopup').dialog2('close');
 		}
 	});
 }

@@ -14,24 +14,6 @@ function deleteNews(url, path){
 	});
 }
 
-function modifyNews(url){
-	jQuery.ajax({
-		type: "GET",
-		url: url,
-		data: '',
-		success: function(msg){
-			$("#editNews")[0].innerHTML = msg;	
-			initEditDateNews();
-			removeCheckeditor();
-			initCheckeditor();
-			displayEdit();
-		},
-		error: function(msg){
-			alert( msg.responseText );
-		}
-	});
-}
-
 function manageDisplayEdit(){
 	if ($("#editNews")[0].style.display == "block"){
 		hideEdit();
@@ -196,6 +178,7 @@ function setCoords(c){
 function saveCropCoords(){
 	jQuery("#cropSummaryPicture").val(JSON.stringify(cropCoords));
 	jQuery("#divCropPicture").dialog2("close");
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery("#form-editNews").submit();
 }
 
@@ -226,11 +209,13 @@ function openDownloadPicture(){
 function savePicture(){
 	jQuery("#newsPicture").appendTo('#form-editNews');
 	jQuery("#divDownloadPicture").dialog2("close");
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery("#form-editNews").submit();
 }
 
 function deleteSummaryPicture(message){
 	if (confirm(message)){
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery("#formDeleteSummaryPicture").submit();
 	}
 }

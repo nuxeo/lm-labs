@@ -115,7 +115,7 @@ jQuery(document).ready(function() {
 		function deletePage(bt){
 			var url = jQuery(bt).attr('href');
 			if (confirm("${Context.getMessage('label.trash.remove.confirm')}")){
-				jQuery('.btn').attr('disabled', true);
+				jQuery('#waitingPopup').dialog2('open');
     			jQuery.ajax({
 					type: 'DELETE',
 				    async: false,
@@ -127,6 +127,7 @@ jQuery(document).ready(function() {
 					error: function(jqXHR, textStatus, errorThrown) {
 						<#--alert(errorThrown + ": " + "," + jqXHR.responseText);-->
 						alert("${Context.getMessage('label.trash.remove.failed')}");
+						jQuery('#waitingPopup').dialog2('close');
 					}
 				});
 			}
@@ -134,6 +135,7 @@ jQuery(document).ready(function() {
 		function undeletePage(bt){
 			var url = jQuery(bt).attr('href');
 			if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouUndelete')}")){
+				jQuery('#waitingPopup').dialog2('open');
     			jQuery.ajax({
 					type: 'PUT',
 				    async: false,
@@ -145,13 +147,18 @@ jQuery(document).ready(function() {
 				        }
 				        else {
 				          alert("${Context.getMessage('label.lifeCycle.page.hasNotUndeleted')}");
+				          jQuery('#waitingPopup').dialog2('close');
 				        }
+				    },
+				    error: function(data){
+				    	jQuery('#waitingPopup').dialog2('close');
 				    }
 				});
 			}
 		}
 		function beEmptyTrash(){
 			if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouBeEmptyTrash')}")){
+				jQuery('#waitingPopup').dialog2('open');
     			jQuery.ajax({
 					type: 'DELETE',
 				    async: false,
@@ -163,7 +170,11 @@ jQuery(document).ready(function() {
 				        }
 				        else {
 				          alert("${Context.getMessage('label.lifeCycle.page.notBeEmpty')}");
+				          jQuery('#waitingPopup').dialog2('close');
 				        }
+				    },
+				    error: function(data){
+				    	jQuery('#waitingPopup').dialog2('close');
 				    }
 				});
 			}
@@ -189,7 +200,7 @@ jQuery(document).ready(function() {
 				failureMsg = "${Context.getMessage('label.trash.restore.bulk.failed')}";
 			}
 			if (confirm(confirmMsg)) {
-				jQuery('.btn').attr('disabled', true);
+				jQuery('#waitingPopup').dialog2('open');
 				var actionUrl = '';
 				var ajaxAction = '';
 				if (action == "remove") {
@@ -219,6 +230,7 @@ jQuery(document).ready(function() {
 					error: function(jqXHR, textStatus, errorThrown) {
 						<#--alert(errorThrown + ": " + "," + jqXHR.responseText);-->
 						alert(failureMsg);
+						jQuery('#waitingPopup').dialog2('close');
 					}
 				});
 			}

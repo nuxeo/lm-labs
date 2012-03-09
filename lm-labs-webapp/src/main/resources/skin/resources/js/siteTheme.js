@@ -1,5 +1,4 @@
 jQuery(document).ready(function(){
-	
 	jQuery("#div-editTheme").dialog2({
 		width : '570px',
 		height : '394px',
@@ -23,6 +22,7 @@ jQuery(document).ready(function(){
 
 function deleteBanner(url, path, msgConfirm){
 	if (confirm(msgConfirm)){
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type: "DELETE",
 			url: url,
@@ -32,6 +32,7 @@ function deleteBanner(url, path, msgConfirm){
 			},
 			error: function(msg){
 				alert( msg.responseText );
+				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
 	}
@@ -68,6 +69,7 @@ function hidePropertyImage(propertyName){
 
 function deleteElement(url, callFunction, msgConfirm){
 	if (confirm(msgConfirm)){
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type: "DELETE",
 			url: url,
@@ -75,9 +77,11 @@ function deleteElement(url, callFunction, msgConfirm){
 			success: function(msg){
 				//document.location.href=path + msg;
 				eval(callFunction);
+				jQuery('#waitingPopup').dialog2('close');
 			},
 			error: function(msg){
 				alert( msg.responseText );
+				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
 	}

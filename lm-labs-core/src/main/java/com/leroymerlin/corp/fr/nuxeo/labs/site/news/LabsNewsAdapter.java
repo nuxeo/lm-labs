@@ -30,7 +30,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     static final String START_PUBLICATION = "ln:startPublication";
     static final String END_PUBLICATION = "ln:endPublication";
-    static final String ACCROCHE = "ln:accroche";
+    static public final String ACCROCHE = "ln:accroche";
     static final String CONTENT = "ln:content";
     static final String NEWS_TEMPLATE = "ln:template";
 

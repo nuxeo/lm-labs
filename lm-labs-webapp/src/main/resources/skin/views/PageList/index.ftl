@@ -12,6 +12,7 @@
 	
 	<@block name="scripts">
 	  <@superBlock/>
+	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/Collection.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/PageListHeaders.js"></script>
@@ -53,7 +54,7 @@
 					<#include "/views/PageList/displayArray.ftl" />
 					<#if (0 < bean.entriesLines?size)>
 						<div class="container-fluid" style="text-align: right;">
-							<a href="${This.path}/exportExcel/export.xls"><img title="export excel" alt="export excel" src="/nuxeo/icons/xls.png" /></a>
+							<a href="${This.path}/exportExcel/${This.document.title}.xls"><img title="export excel" alt="export excel" src="/nuxeo/icons/xls.png" /></a>
 						</div>
 					</#if>
 				</div>

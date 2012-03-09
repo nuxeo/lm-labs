@@ -46,11 +46,6 @@
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
-          <script type="text/javascript">
-            jQuery(document).ready(function() {
-              jQuery('#waitingPopup').dialog2({autoOpen : false, closeOnOverlayClick : false, removeOnClose : false, showCloseHandle : false});
-            });
-          </script>
 
         </@block>
         <style>

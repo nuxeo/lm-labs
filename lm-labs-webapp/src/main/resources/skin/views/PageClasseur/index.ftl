@@ -222,7 +222,7 @@
 
 <div id="div-renameTitleElement" style="display: none;" >
     <h1>${Context.getMessage('label.PageClasseur.form.rename.title')}</h1>
-  <form id="form-renameTitleElement" action="" method="post">
+  <form id="form-renameTitleElement" class="form-horizontal" action="" method="post">
       <fieldset>
 	      <div class="control-group">
 	          <label class="control-label" for="dc:title">${Context.getMessage('label.PageClasseur.form.title')}</label>

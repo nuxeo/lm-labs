@@ -33,13 +33,18 @@ jQuery(document).ready(function(){
   });
   
   jQuery("#searchUsersBt").click(function() {
+  	jQuery('#waitingPopup').dialog2('open');
     jQuery.ajax({
       type: 'GET',
       async: false,
       url: '${This.path}' + '/@labspermissions/suggestedUsers/' + jQuery("#userNamePermissions").val() ,
       success: function(data) {
-      jQuery("#divSelectedUsers").html(data);
-    }
+	      jQuery("#divSelectedUsers").html(data);
+	      jQuery('#waitingPopup').dialog2('open');
+	    },
+      error: function(data) {
+	      jQuery('#waitingPopup').dialog2('close');
+	    }
     });
     return false;
   });
@@ -60,24 +65,30 @@ function addPerm(){
 	      operationConfirmed = confirm(["Souhaitez-vous r\u00E9ellement ajouter la permission '", permissionText, "' \u00E0 '", username, "' \u00E0 ce site ? Dans ce cas, votre site sera accessible par cet utilisateur."].join(""));
 	    }
 	    if (operationConfirmed) {
+	    	jQuery('#waitingPopup').dialog2('open');
 	    	jQuery.ajax({
 				type: 'GET',
 			    async: false,
 			    url: "${This.path}/@labspermissions/haspermission?permission=" + permission +"&id=" + username,
 			    success: function(data) {
+			    	jQuery('#waitingPopup').dialog2('close');
 			    	if (data === 'true') {
 			          alert(["permission '", permissionText, "' d\u00E9j\u00E0 assign\u00E9e \u00E0 l'utilisateur '", username, "' !"].join(""));
 			        }
 			        else {
 			          labsPermissionsHigherpermission(permission, username);
 			        }
-			    }
+			    },
+		        error: function(data) {
+		        	jQuery('#waitingPopup').dialog2('close');
+		        }
 			});
 		}
 	}
 }
 
 function labsPermissionsHigherpermission(permission, username){
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
         type: 'GET',
         async: false,
@@ -86,22 +97,27 @@ function labsPermissionsHigherpermission(permission, username){
             var hashigher = (data === 'true');
             var doAdd = false;
             if (hashigher) {
-            if (confirm(["L'utilisateur '", username, "' a d\u00E9j\u00E0 cette permission ou une permission sup\u00E9rieure. Voulez-vous forcer la permission choisie ?"].join("")))
-              {
-                doAdd = true;
-              }
+	            if (confirm(["L'utilisateur '", username, "' a d\u00E9j\u00E0 cette permission ou une permission sup\u00E9rieure. Voulez-vous forcer la permission choisie ?"].join("")))
+	              {
+	                doAdd = true;
+	              }
             } else {
               doAdd = true;
             }
+            jQuery('#waitingPopup').dialog2('close');
             if (doAdd)
             {
               labsPermissionsAdd(username, permission);
             }
+        },
+        error: function(data) {
+        	jQuery('#waitingPopup').dialog2('close');
         }
     });
 }
 
 function labsPermissionsAdd(username, permission){
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
         type: 'POST',
         async: false,
@@ -115,9 +131,11 @@ function labsPermissionsAdd(username, permission){
             jQuery("#divDislayArray").load('${This.path}/@labspermissions');
             closeAddPerm();
           }
+          jQuery('#waitingPopup').dialog2('close');
         },
         error: function(xhr, status, ex){
           alert(ex);
+          jQuery('#waitingPopup').dialog2('close');
         }
     });
 }

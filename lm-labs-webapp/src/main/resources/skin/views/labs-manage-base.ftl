@@ -79,6 +79,7 @@
 
     <div id="FKfooter">
         <#include "views/footer-manage-base.ftl">
+        <#include "views/common/loading.ftl">
     </div><!--FKfooter-->
 <div>
 &nbsp;

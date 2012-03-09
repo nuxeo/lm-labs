@@ -14,6 +14,7 @@
 			<#include "/resources/js/dragHtmlElt.js" />
 		
 			function updateLogoXY(posX, posY) {
+				jQuery('#waitingPopup').dialog2('open');
 				jQuery.ajax({
 						async : false,
 						type: 'POST',
@@ -24,6 +25,10 @@
 						},
 						success : function (r) {
 							//alert(r);
+							jQuery('#waitingPopup').dialog2('close');
+				        },
+						error : function (r) {
+							jQuery('#waitingPopup').dialog2('close');
 				        }
 				  });
 			}
