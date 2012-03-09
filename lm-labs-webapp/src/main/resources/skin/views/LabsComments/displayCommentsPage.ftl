@@ -64,7 +64,7 @@
 	}
 	
 	function getCommentsPage() {
-		jQuery('#waitingPopup').dialog2('open');
+		jQuery("#divListCommentsPage")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
 		jQuery.ajax({
 			type : "GET",
 			url : '${This.path}/@labscomments?isPage=yes',
@@ -72,11 +72,10 @@
 			success : function(msg) {
 				jQuery("#divListCommentsPage")[0].innerHTML = msg;
 				jQuery("#titleCommentsPage")[0].innerHTML = $('#divTitleCommentsPage')[0].innerHTML;
-				jQuery('#waitingPopup').dialog2('close');
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);
-				jQuery('#waitingPopup').dialog2('close');
+				jQuery("#divListCommentsPage")[0].innerHTML = '';
 			}
 		});
 	}
