@@ -61,7 +61,7 @@
 								</div>
 							</#if>
 						    <div class="actions" style="margin-left: 200px;">
-						      <input type="submit" class="btn required-fields" form-id="form-editNews" value="${Context.getMessage('label.labsNews.edit.save')}" />
+						      <button class="btn required-fields" form-id="form-editNews"><i class='icon-ok'></i>${Context.getMessage('label.labsNews.edit.save')}</button>
 						      <a class="btn" id="btnCloseProps" onclick="javascript:closePropsNews();"><i class='icon-eye-close'></i>Fermer</a>
 						  	</div>
 						  </fieldset>
