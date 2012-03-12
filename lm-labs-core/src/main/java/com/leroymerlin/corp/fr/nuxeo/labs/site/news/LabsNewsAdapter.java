@@ -17,6 +17,7 @@ import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.ChangeListener;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
@@ -296,8 +297,8 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     }
 
     @Override
-    public boolean isValid(Blob blob) throws ClientException {
-        return getBlobHolder().isValid(blob);
+    public void checkPicture(Blob blob) throws LabsBlobHolderException, ClientException {
+        getBlobHolder().checkPicture(blob);
     }
 
     @Override

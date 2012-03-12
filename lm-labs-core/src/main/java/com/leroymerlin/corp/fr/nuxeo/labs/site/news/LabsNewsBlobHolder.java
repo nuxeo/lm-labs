@@ -41,6 +41,7 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.bean.CropCoord;
 
 public class LabsNewsBlobHolder extends PictureBlobHolder {
@@ -404,12 +405,21 @@ public class LabsNewsBlobHolder extends PictureBlobHolder {
         return new Point(minWidth, minHeight);
     }
     
-    public boolean isValid(Blob blob) throws ClientException{
+    public void checkPicture(Blob blob) throws LabsBlobHolderException, ClientException{
+        if (blob == null){
+            throw new ClientException("The blob is null !");
+        }
+        if (!blob.getMimeType().startsWith("image/")){
+            //log.in
+            throw new LabsBlobHolderException("label.labsNews.news_notupdated.notimage");
+        }
         ImageInfo imageInfo = getImagingService().getImageInfo(blob);
         if (imageInfo == null){
-            throw new ClientException("Impossible to extract info on " + blob.getFilename());
+            throw new LabsBlobHolderException("label.labsNews.news_notupdated.notinfoimage");
         }
-        return imageInfo.getWidth() >= MAX_SUMMARY_WIDTH && imageInfo.getHeight() >= MAX_SUMMARY_HEIGHT;
+        if(!(imageInfo.getWidth() >= MAX_SUMMARY_WIDTH && imageInfo.getHeight() >= MAX_SUMMARY_HEIGHT)){
+            throw new LabsBlobHolderException("label.labsNews.news_notupdated.size");
+        }
     }
 
     public void deleteSummaryPicture() throws ClientException {
