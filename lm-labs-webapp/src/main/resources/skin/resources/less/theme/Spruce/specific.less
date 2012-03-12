@@ -3,6 +3,8 @@
 @import "./variables.less";
 @import "../labs.less";
 
+// Labs
+// buttons' icons color
 .btn > [class*="icon-"], .btn-danger > [class*="icon-"] {
 /*
   background-image: url(@iconWhiteSpritePath);
@@ -10,14 +12,27 @@
   background-image: url("@{iconWhiteSpritePath}");
 }
 
+// search input in nav bar
 .navbar-form input, .navbar-form .btn {
     margin-top: 15px;
 }
 
+// modal popups
 .modal, .modal-footer {
     background-color: #AEAD8E;
 }
 
+// sidebar blocks
 .bloc {
     background-color: #AEAD8E;
+}
+
+// Button Group
+.btn-group > .dropdown-menu {
+    background-color: @linkColor;
+    color: @textColor;
+}
+.btn-group > .dropdown-menu a:hover {
+    background-color: darken(#90A38F, 10%);
+    color: @linkColor;
 }
