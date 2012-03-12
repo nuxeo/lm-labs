@@ -715,7 +715,7 @@
 		</div>
 		</#if>
 	
-		<div id="content" class="container" style="float:left;max-width:269px;">
+		<div id="content" class="container jsTreeControlsContent">
 			<section>
 				<div>
 					<@jsTreeControls id="jsTreeControlsTop" />

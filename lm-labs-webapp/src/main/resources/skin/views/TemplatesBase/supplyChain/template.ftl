@@ -55,7 +55,7 @@
 			  new EllipsisText().init();
 		    });
 		  </script>
-
+		  <#include "views/common/subscribe_js.ftl" />
         </@block>
     </head>
     <body>
