@@ -1,1 +1,1 @@
-${newsTitlesList?size} new News in News Page '${htmlEscape(docTitle)}'
+${newsTitlesList?size} new News in News Page '${docTitle?html}'
