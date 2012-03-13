@@ -36,8 +36,8 @@ function parseXml(xml) {
 		items_per_page:2,
 		num_display_entries:0,
 		num_edge_entries:0,
-		prev_text:'<',
-		next_text:'>',
+		prev_text:'&larr;',
+		next_text:'&rarr;',
 		callback:loadContents
 	});
 }
