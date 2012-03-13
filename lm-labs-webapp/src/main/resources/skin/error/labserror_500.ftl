@@ -5,11 +5,6 @@
        500 - Erreur interne
 </@block>
 
-	<@block name="css">
-		<@superBlock/>
-        <link rel="stylesheet/less" href="${skinPath}/less/theme/labs/specific.less">
-    </@block>
-
 
 
 <@block name="content">
