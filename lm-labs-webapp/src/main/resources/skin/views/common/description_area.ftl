@@ -7,7 +7,7 @@
 		<script type="text/javascript">
 function reloadPageData(response, ckeObj, ckeip_html) {
     reloadPageForTocIfNeeded(response, ckeObj, ckeip_html);
-    refreshPageTitle();
+    refreshPageTitle(ckeip_html);
 }
 function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
 <#if This.type.name == "PageClasseur" || This.type.name == "HtmlPage" >

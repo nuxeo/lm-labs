@@ -14,7 +14,8 @@
 	</#if>
 </div>
 <script type="text/javascript">
-function refreshPageTitle() {
-    jQuery('.page-title').load('${This.path}/@views/page_title');
+function refreshPageTitle(description) {
+    //jQuery('.page-title').load('${This.path}/@views/page_title');
+    jQuery('#pageHeaderTitle').attr('data-content', description);
 }
 </script>
