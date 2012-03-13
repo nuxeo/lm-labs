@@ -6,7 +6,7 @@
 <#else>
 <div style="clear: both;" />
 </#if>
-<div class="page-description">
+<div class="row-ckeditor">
 	<#if site?? && site.isContributor(Context.principal.name) >
 		<#include "views/common/description_area.ftl">
 	<#elseif page.isDisplayable(This.DC_DESCRIPTION)>

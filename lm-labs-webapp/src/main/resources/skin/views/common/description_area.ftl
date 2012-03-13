@@ -16,7 +16,7 @@ function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
         window.location.reload();
     }
 </#if>
-    jQuery(ckeObj).closest('div.page-description').children('.viewblock').html(ckeip_html);
+    jQuery(ckeObj).closest('div.row-ckeditor').children('.viewblock').html(ckeip_html);
     return false;
 }
 		</script>

@@ -77,7 +77,7 @@
 
         <#list section.rows as row>
         	<#if isContributor >
-	          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
+	          <div class="row-ckeditor row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 	              <#list row.contents as content>
                     <div class="span${content.colNumber} columns viewblock">
                     <#if content.html == "">
