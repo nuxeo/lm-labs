@@ -39,10 +39,6 @@ jQuery(document).ready(function() {
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
  </@block>
 
-  <@block name="breadcrumbs">
-    <#include "views/common/breadcrumbs_siteadmin.ftl" >
-  </@block>
-
   <@block name="docactions"></@block>
 
 

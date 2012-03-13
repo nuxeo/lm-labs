@@ -25,6 +25,8 @@ $(document).ready(function() {
   if (jQuery('#waitingPopup')){
  	jQuery('#waitingPopup').dialog2({autoOpen : false, closeOnOverlayClick : false, removeOnClose : false, showCloseHandle : false});
   }
+  
+  new EllipsisText().init();
 
 });
 

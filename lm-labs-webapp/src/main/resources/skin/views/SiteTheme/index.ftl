@@ -19,10 +19,6 @@
 	<@adminMenu item="theme" basePath="${This.previous.path}"/>
   </@block>
 
-  <@block name="breadcrumbs">
-    <#include "views/common/breadcrumbs_siteadmin.ftl" >
-  </@block>
-
   <@block name="content">
     <div class="container">
       

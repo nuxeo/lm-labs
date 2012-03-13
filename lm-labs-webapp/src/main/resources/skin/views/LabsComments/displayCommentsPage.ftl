@@ -1,82 +1,85 @@
-<hr />
-<div id="divCommentablePage"  >
-	<center><h4 id="titleCommentsPage">${Context.getMessage('label.comments.title')}</h4></center>
-	<div id="divEditCommentable"  class="fixed-container dialog2" style="display: none;">
-		<h1 id="titleComments">${Context.getMessage('label.comments.title')}</h1>
-		<form id="form-commentablePage" method="post" class="form form-horizontal" action="${This.path}/@labscomments">
-			<fieldset>
-				<!--         Comment      ------->
-				<div class="control-group">
-					<div class="controls" style="margin-bottom: 0px;margin-left: 0px;">
-						<textarea name="text" id="text" class="labscomments text required" required-error-text="${Context.getMessage('label.comments.required')}"></textarea>
+<#assign pageCommentable = This.getPage()/>
+<#if pageCommentable != null && pageCommentable.commentable>
+	<hr />
+	<div id="divCommentablePage"  >
+		<center><h4 id="titleCommentsPage">${Context.getMessage('label.comments.title')}</h4></center>
+		<div id="divEditCommentable"  class="fixed-container dialog2" style="display: none;">
+			<h1 id="titleComments">${Context.getMessage('label.comments.title')}</h1>
+			<form id="form-commentablePage" method="post" class="form form-horizontal" action="${This.path}/@labscomments">
+				<fieldset>
+					<!--         Comment      ------->
+					<div class="control-group">
+						<div class="controls" style="margin-bottom: 0px;margin-left: 0px;">
+							<textarea name="text" id="text" class="labscomments text required" required-error-text="${Context.getMessage('label.comments.required')}"></textarea>
+						</div>
 					</div>
+				</fieldset>
+				<div  class="actions">
+					<button class="btn btn-primary required-fields" form-id="form-commentablePage" title="${Context.getMessage('label.comments.save')}">${Context.getMessage('label.comments.save')}</button>
 				</div>
-			</fieldset>
-			<div  class="actions">
-				<button class="btn btn-primary required-fields" form-id="form-commentablePage" title="${Context.getMessage('label.comments.save')}">${Context.getMessage('label.comments.save')}</button>
-			</div>
-		</form>
+			</form>
+		</div>
+		<#if !This.context.principal.anonymous>
+			<a href="#" class="btn btn-small open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();"><i class="icon-comment"></i>${Context.getMessage('command.Page.CommentAdd')}</a>
+		</#if>
+		<div id="divListCommentsPage" class="container-fluid" style="width: 99%;"></div>
 	</div>
-	<#if !This.context.principal.anonymous>
-		<a href="#" class="btn btn-small open-dialog" rel="divEditCommentable" onClick="javascript:openCommentsPage();"><i class="icon-comment"></i>${Context.getMessage('command.Page.CommentAdd')}</a>
-	</#if>
-	<div id="divListCommentsPage" class="container-fluid" style="width: 99%;"></div>
-</div>
-<script type="text/javascript">
-	jQuery(document).ready(function(){
-			initCommentsPage('divEditCommentable');
-			getCommentsPage();
-		});
-	
-	function initCommentsPage(name){
-		jQuery("#" + name).dialog2({
-			autoOpen : false, 
-        	closeOnOverlayClick : true, 
-        	removeOnClose : false, 
-        	showCloseHandle : true
-		});
-	}
-
-	function openCommentsPage(){
-		jQuery("#divEditCommentable").dialog2('open');
-		jQuery("#form-commentablePage").clearForm();
-	}
-
-	function closeCommentsPage(){
-		jQuery("#divEditCommentable").dialog2('close');
-	}
-
-	function deleteCommentPage(url, id){
-		jQuery('#waitingPopup').dialog2('open');
-		jQuery.ajax({
-			type : "DELETE",
-			url : url + '?property=' + id,
-			data : '',
-			success : function(msg) {
-				jQuery('#waitingPopup').dialog2('close');
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+				initCommentsPage('divEditCommentable');
 				getCommentsPage();
-			},
-			error : function(msg) {
-				alert('ERROR' + msg.responseText);
-				jQuery('#waitingPopup').dialog2('close');
-			}
-		});
-	}
+			});
+		
+		function initCommentsPage(name){
+			jQuery("#" + name).dialog2({
+				autoOpen : false, 
+	        	closeOnOverlayClick : true, 
+	        	removeOnClose : false, 
+	        	showCloseHandle : true
+			});
+		}
 	
-	function getCommentsPage() {
-		jQuery("#divListCommentsPage")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
-		jQuery.ajax({
-			type : "GET",
-			url : '${This.path}/@labscomments?isPage=yes',
-			data : '',
-			success : function(msg) {
-				jQuery("#divListCommentsPage")[0].innerHTML = msg;
-				jQuery("#titleCommentsPage")[0].innerHTML = $('#divTitleCommentsPage')[0].innerHTML;
-			},
-			error : function(msg) {
-				alert('ERROR' + msg.responseText);
-				jQuery("#divListCommentsPage")[0].innerHTML = '';
-			}
-		});
-	}
-</script>
+		function openCommentsPage(){
+			jQuery("#divEditCommentable").dialog2('open');
+			jQuery("#form-commentablePage").clearForm();
+		}
+	
+		function closeCommentsPage(){
+			jQuery("#divEditCommentable").dialog2('close');
+		}
+	
+		function deleteCommentPage(url, id){
+			jQuery('#waitingPopup').dialog2('open');
+			jQuery.ajax({
+				type : "DELETE",
+				url : url + '?property=' + id,
+				data : '',
+				success : function(msg) {
+					jQuery('#waitingPopup').dialog2('close');
+					getCommentsPage();
+				},
+				error : function(msg) {
+					alert('ERROR' + msg.responseText);
+					jQuery('#waitingPopup').dialog2('close');
+				}
+			});
+		}
+		
+		function getCommentsPage() {
+			jQuery("#divListCommentsPage")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
+			jQuery.ajax({
+				type : "GET",
+				url : '${This.path}/@labscomments?isPage=yes',
+				data : '',
+				success : function(msg) {
+					jQuery("#divListCommentsPage")[0].innerHTML = msg;
+					jQuery("#titleCommentsPage")[0].innerHTML = $('#divTitleCommentsPage')[0].innerHTML;
+				},
+				error : function(msg) {
+					alert('ERROR' + msg.responseText);
+					jQuery("#divListCommentsPage")[0].innerHTML = '';
+				}
+			});
+		}
+	</script>
+</#if>

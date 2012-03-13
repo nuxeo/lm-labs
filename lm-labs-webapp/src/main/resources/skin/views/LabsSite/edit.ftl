@@ -1,10 +1,6 @@
 <#if site?? && (Session.hasPermission(site.document.ref, "Everything") || Session.hasPermission(site.document.ref, "ReadWrite"))>
 <@extends src="/views/labs-admin-base.ftl">
 
-  <@block name="breadcrumbs">
-    <#include "views/common/breadcrumbs_siteadmin.ftl" >
-  </@block>
-
   <@block name="docactions"></@block>
 
   <@block name="tabs">
