@@ -5,6 +5,10 @@
 	<div class="well editblock toc-noreplace" id="pageDescription">
 		<div id="description">${Document.dublincore.description}</div>
 		<script type="text/javascript">
+function reloadPageData(response, ckeObj, ckeip_html) {
+    reloadPageForTocIfNeeded(response, ckeObj, ckeip_html);
+    refreshPageTitle();
+}
 function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
 <#if This.type.name == "PageClasseur" || This.type.name == "HtmlPage" >
     if (ckeip_html.indexOf('[[TOC]]') != -1) {
@@ -12,7 +16,7 @@ function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
         window.location.reload();
     }
 </#if>
-    jQuery(ckeObj).closest('div.row').children('.viewblock').html(ckeip_html);
+    jQuery(ckeObj).closest('div.page-description').children('.viewblock').html(ckeip_html);
     return false;
 }
 		</script>
@@ -33,6 +37,6 @@ function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
 	        view_style: "cke_hidden",
 	        emptyedit_message: "${Context.getMessage('label.ckeditor.double_click_to_edit_content')}"<#if (!This.page.isDisplayable(This.DC_DESCRIPTION))>,
 	        display_ckeipTex: false</#if>
-	        }, reloadPageForTocIfNeeded);
+	        }, reloadPageData);
 	    </script>
 	</div>
