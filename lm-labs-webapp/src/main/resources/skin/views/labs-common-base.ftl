@@ -13,6 +13,8 @@
         <@block name="css">
           <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
           <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
+          <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
+          <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
         </@block>
 
         <@block name="scripts">
@@ -22,6 +24,10 @@
           <![endif]-->
           
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.min.js"></script>
+      	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
+      	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
+	      <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown.js"></script>

@@ -5,15 +5,11 @@
 	<@block name="css">
 		<@superBlock/>
         <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
 		<link rel="stylesheet/less" href="${This.path}/generatedAdmin.less">
 	</@block>
 	
 	<@block name="scripts">
 		<@superBlock/>
-        	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
-          	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
           	<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
           	<script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
           	<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
@@ -22,8 +18,6 @@
           	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
           	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
           	<script type="text/javascript" src="${skinPath}/js/asset_filedrop.js"></script>
-          	<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
-          	<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
           	<script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
 	</@block>
 	
