@@ -370,6 +370,8 @@
 						}
 						if(jQuery(node).data('ishomepage') == 'true') {
 							delete items.home;
+							delete items.markasdeleted;
+							delete items.remove;
 						}
 					</#if>
 				}
