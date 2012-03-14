@@ -6,7 +6,7 @@
     <#-- SITEMAP AREA --> 
     <@block name="siteMap">
     	<#include "views/common/sitemap_area.ftl" />
-    	<div style="height: 5px;">&nbsp;</div>
+    	<div style="height: 10px;">&nbsp;</div>
     </@block>
     <#-- TOP NAVIGATION --> 
     <@block name="topPage">
