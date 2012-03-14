@@ -118,20 +118,15 @@ public class SiteThemeResource extends PageResource {
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         }
     }
-
+    
     @GET
     @Path("banner")
     public Response getImgBanner() throws ClientException {
-        Response response = null;
         Blob blob = doc.getAdapter(SiteDocument.class).getSite().getThemeManager().getTheme().getBanner();
         if (blob != null) {
-            response = Response.ok().entity(blob).type(blob.getMimeType()).build();
+            return Response.ok().entity(blob).type(blob.getMimeType()).build();
         }
-        if (response == null) {
-            response = redirect(LabsSiteWebAppUtils.getPathDefaultBanner(
-                    getModule(), ctx));
-        }
-        return response;
+        return Response.noContent().build();
     }
 
     @POST
