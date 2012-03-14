@@ -40,9 +40,10 @@
 				<#--  sidebar -->
 				<div class="sidebar span2"> 
 					<@block name="sidebar">
+					    	<@block name="subPages"/>
 					    	<#include "views/common/sidebar_area.ftl" />
-					    	<@block name="subPages" />
 				    </@block>
+				    
 				</div>
 			
 			    <div style="clear:both;"></div>

@@ -1,7 +1,3 @@
-    <#-- TOP NAVIGATION --> 
-    <@block name="topPage">
-    	<#include "views/common/toppages_area.ftl" />
-    </@block>
     <#-- NOTIFICATION AREA --> 
     <@block name="notification">
     	<#include "views/common/notification_area.ftl" />
@@ -10,6 +6,11 @@
     <#-- SITEMAP AREA --> 
     <@block name="siteMap">
     	<#include "views/common/sitemap_area.ftl" />
+    	<div style="height: 5px;">&nbsp;</div>
+    </@block>
+    <#-- TOP NAVIGATION --> 
+    <@block name="topPage">
+    	<#include "views/common/toppages_area.ftl" />
     </@block>
     <#-- LAST MESSAGE AREA --> 
     <@block name="lastActivities">
