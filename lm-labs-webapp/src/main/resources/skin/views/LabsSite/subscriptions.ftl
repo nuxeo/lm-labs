@@ -52,15 +52,15 @@ jQuery(document).ready(function() {
   <div class="span12 columns">
 
       <div class="subscriptions">
-        <table class="table table-striped table-bordered bs">
+        <table class="table table-striped table-bordered bs labstable">
           <thead>
             <tr>
-              <th>${Context.getMessage('label.lifeCycle.trash.page')}</th>
-              <th>${Context.getMessage('label.lifeCycle.trash.createdBy')}</th>
-              <th>${Context.getMessage('label.lifeCycle.trash.the')}</th>
-              <th>${Context.getMessage('label.lifeCycle.trash.lastModifiedBy')}</th>
-              <th>${Context.getMessage('label.lifeCycle.trash.the')}</th>
-              <th>&nbsp;</th>
+              <th class="header">${Context.getMessage('label.lifeCycle.trash.page')}</th>
+              <th class="header">${Context.getMessage('label.lifeCycle.trash.createdBy')}</th>
+              <th class="header">${Context.getMessage('label.lifeCycle.trash.the')}</th>
+              <th class="header">${Context.getMessage('label.lifeCycle.trash.lastModifiedBy')}</th>
+              <th class="header">${Context.getMessage('label.lifeCycle.trash.the')}</th>
+              <th class="header">&nbsp;</th>
             </tr>
           </thead>
           <tbody>

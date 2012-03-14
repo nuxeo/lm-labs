@@ -29,14 +29,14 @@ jQuery(document).ready(function() {
   </@block>
 
      <@block name="sitemap-content">
-        <table class="table table-striped bs table-bordered">
+        <table class="table table-striped bs table-bordered labstable">
             <thead>
             <tr>
-              <th width="30%">Elément</th>
-              <th>Créé par</th>
-              <th>le</th>
-              <th>Dernière mise à jour par</th>
-              <th>le</th>
+              <th class="header" width="30%">Elément</th>
+              <th class="header">Créé par</th>
+              <th class="header">le</th>
+              <th class="header">Dernière mise à jour par</th>
+              <th class="header">le</th>
             </tr>
           </thead>
           <tbody>

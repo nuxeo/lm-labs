@@ -273,7 +273,7 @@
 
   <#if folder.files?size &gt; 0>
   <div class="folder-collapsable" >
-  <table class="table table-striped classeurFiles bs table-bordered" >
+  <table class="table table-striped classeurFiles bs table-bordered labstable" >
   <thead>
     <tr>
       <th class="header">&nbsp;</th>

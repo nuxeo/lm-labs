@@ -1,4 +1,4 @@
-<table id="sortArray" class="table table-striped table-bordered bs arrayPageList">
+<table id="sortArray" class="table labstable table-striped table-bordered bs arrayPageList">
   <thead>
     <tr>
       <#list bean.headersSet as header>

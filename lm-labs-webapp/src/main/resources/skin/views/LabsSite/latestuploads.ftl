@@ -20,14 +20,14 @@
       <@paging pageProvider=pp url=This.path+"/@views/latestuploads?page=" />
 
       <div class="latestuploads">
-        <table class="table table-striped table-bordered bs">
+        <table class="table table-striped table-bordered bs labstable">
           <thead>
             <tr>
-              <th>&nbsp;</th>
-              <th>Titre</th>
-              <th>Modifié le</th>
-              <th>${Context.getMessage('label.LabsSite.latestuploads.onpage')} </th>
-              <th>&nbsp;</th>
+              <th class="header">&nbsp;</th>
+              <th class="header">Titre</th>
+              <th class="header">Modifié le</th>
+              <th class="header">${Context.getMessage('label.LabsSite.latestuploads.onpage')} </th>
+              <th class="header">&nbsp;</th>
           </thead>
           <tbody>
           <#list uploads as upload >

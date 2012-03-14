@@ -48,15 +48,15 @@
         </#if>
       </div>
     <#if result?size &gt; 0>
-      <table class="table table-striped table-bordered bs" id="resultsSearch" >
+      <table class="table table-striped table-bordered bs labstable" id="resultsSearch" >
         <thead>
           <tr>
-          	<th></th>
-          	<th>${Context.getMessage('label.search.head.title')}</th>
-          	<th>${Context.getMessage('label.search.head.lastModification')}</th>
-          	<th>${Context.getMessage('label.search.head.size')}</th>
-          	<th>${Context.getMessage('label.search.head.page')}</th>
-          	<th></th>
+          	<th class="header">&nbsp;</th>
+          	<th class="header">${Context.getMessage('label.search.head.title')}</th>
+          	<th class="header">${Context.getMessage('label.search.head.lastModification')}</th>
+          	<th class="header">${Context.getMessage('label.search.head.size')}</th>
+          	<th class="header">${Context.getMessage('label.search.head.page')}</th>
+          	<th class="header">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
