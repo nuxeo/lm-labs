@@ -1,6 +1,23 @@
+/*-------------------------------------------
+------------------VARIABLES LESS-------------
+*/
+
+
+@labsBlockBackgroundColor: @white;
+@labsBlockHeaderBackgroundColor: @labsBlockBackgroundColor;
+
+@labsModalBackgroundColor: @labsBlockBackgroundColor;
+
 
 // Sprite icons path
 @iconWhiteSpritePath:     "../../img/glyphicons-halflings-white.png";
+
+
+
+/*---------------------------------------------------
+---------------------FK------------------------------
+*/
+
 
 #FKerrorLogin {
   color: @errorText;
@@ -15,40 +32,37 @@
   margin-bottom: 1.5em;*/
 }
 
+
+
+/*---------------------------------------------------------
+---------------------SIDEBAR--------------------------------
+*/
+
+
+//siteMap
 div#siteMap {
     margin-top: 6px;
 }
 
+// External URL
 .actionExternalURL {
     text-align: right;
-}
-.actionExternalURL>IMG {
-    //float: left;
-    padding: 0 0 0 0;
-    margin: 0 0 0 -3px;
-    cursor:pointer;
-}
-.actionExternalURL {
     float: right;
+    >IMG {
+	    //float: left;
+	    padding: 0 0 0 0;
+	    margin: 0 0 0 -3px;
+	    cursor:pointer;
+	}
+	&.actionAdd {
+	    width: 100%;
+	}
 }
 
-.actionExternalURL.actionAdd {
-    width: 100%;
-}
-
-#jstree {
-    background-color: transparent;
-}
-
-.dropzonehighlighted {
-    background-color: lightgrey;
-    border-color: white;
-    color: white;
-}
-
+// sidebar blocks
 .bloc {
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: @labsBlockBackgroundColor;
   margin-bottom: 10px;
   min-height: 40px;
   border: 1px solid #eee;
@@ -62,7 +76,7 @@ div#siteMap {
     min-height:20px;
     padding-left:1em;
     .border-radius(4px 4px 0px 0px);
-    #gradient > .vertical-three-colors(#ffffff, #ffffff, 25%, darken(#ffffff, 10%));
+    #gradient > .vertical-three-colors(@labsBlockHeaderBackgroundColor, @labsBlockHeaderBackgroundColor, 25%, darken(@labsBlockHeaderBackgroundColor, 10%));
 
     a {
       color: @gray;
@@ -76,11 +90,7 @@ div#siteMap {
 
 }
 
-.jsTreeControlsContent {
-    float: left;
-    max-width: 269px;
-}
-
+//Comments
 .labscomments {
 
 	&.text{
@@ -167,6 +177,32 @@ li.labscomments {
   padding-bottom: 15px;
 }
 
+
+/*--------------------------------------------------------
+-------------------------MODAL DIALOG2--------------------
+*/
+
+// modal popups
+.modal, .modal-footer {
+    background-color: @labsModalBackgroundColor;
+}
+
+
+#jstree {
+    background-color: transparent;
+}
+
+.dropzonehighlighted {
+    background-color: lightgrey;
+    border-color: white;
+    color: white;
+}
+
 .jcrop img{
 	max-width: none
+}
+
+.jsTreeControlsContent {
+    float: left;
+    max-width: 269px;
 }
