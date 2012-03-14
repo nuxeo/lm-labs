@@ -311,6 +311,47 @@ public final class LabsSiteConstants {
         }
         
     }
+    
+    public enum Directories {
+        COLUMNS_LAYOUT("columns_layout", "columns_layout", "code", "order"),
+        PAGE_TEMPLATES("labs_page_templates", "vocabulary", "id", "ordering"),
+        THEMES("labs_themes", "vocabulary", "id", "ordering");
+
+        private String dirName;
+        private String schema;
+        private String idField;
+        private String orderingField;
+
+        private Directories(String name, String prefix, String idField, String orderingField) {
+            this.dirName = name;
+            this.schema = prefix;
+            this.idField = idField;
+            this.orderingField = orderingField;
+        }
+
+        /**
+         * @return directory name
+         */
+        public String dirName() {
+            return dirName;
+        }
+
+        /**
+         * @return schema name
+         */
+        public String schema() {
+            return schema;
+        }
+        
+        public String idField() {
+            return idField;
+        }
+        
+        public String orderingField() {
+            return orderingField;
+        }
+    }
+
 
     private LabsSiteConstants() {}
 
