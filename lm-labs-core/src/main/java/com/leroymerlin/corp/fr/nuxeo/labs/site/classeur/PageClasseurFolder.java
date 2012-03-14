@@ -1,20 +1,14 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.classeur;
 
-import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.DocumentModelList;
 
-public interface PageClasseurFolder {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SubDocument;
+
+public interface PageClasseurFolder extends SubDocument {
     DocumentModel getDocument();
 
     String getTitle() throws ClientException;
-
-    DocumentModel addFile(Blob blob, String description, String title) throws ClientException;
-
-    DocumentModelList getFiles() throws ClientException;
-
-    void removeFile(String title) throws ClientException;
     
     boolean setAsDeleted() throws ClientException;
     
