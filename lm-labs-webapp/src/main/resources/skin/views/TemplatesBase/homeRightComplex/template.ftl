@@ -41,6 +41,7 @@
 				<div class="sidebar span2"> 
 					<@block name="sidebar">
 					    	<#include "views/common/sidebar_area.ftl" />
+					    	<@block name="subPages" />
 				    </@block>
 				</div>
 			
