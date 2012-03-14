@@ -7,12 +7,13 @@
 				    <@breadcrumb resource.previous/>
 				  </#if>
 				  <#if resource.document??>
-				    <li<#if resource.document.id == Document.id> class="active"</#if>><a href="${resource.path}">${resource.document.title}
-				    </a>
 		    		<@pageStatusLabel resource />
 				    <#if resource.document.id != Document.id>
-				    <span class="divider"></span></li>
+				    	<li<#if resource.document.id == Document.id> class="active"</#if>><span class="divider"><a href="${resource.path}">${resource.document.title}</a>&nbsp;&nbsp;</span></li>
+				    <#else>
+				    	<li<#if resource.document.id == Document.id> class="active"</#if>><a href="${resource.path}">${resource.document.title}</a></li>
 				    </#if>
+				    
 				  </#if>
 				
 				</#macro>
