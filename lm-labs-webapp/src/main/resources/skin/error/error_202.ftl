@@ -56,6 +56,7 @@
   		</script>
 	</@block>
 	
+	<@block name="topbar" />
 	
 	<@block name="content">
 		<div id="divLogin"  class="fixed-container dialog2" style="display: none;">
