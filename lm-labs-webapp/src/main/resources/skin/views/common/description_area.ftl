@@ -2,7 +2,7 @@
 	<div class="viewblock">${Document.dublincore.description}</div>
 </#if>
 		
-	<div class="well editblock toc-noreplace" id="pageDescription">
+	<div class="row-ckeditor well editblock toc-noreplace" id="pageDescription">
 		<div id="description">${Document.dublincore.description}</div>
 		<script type="text/javascript">
 function reloadPageData(response, ckeObj, ckeip_html) {
@@ -16,7 +16,7 @@ function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
         window.location.reload();
     }
 </#if>
-    jQuery(ckeObj).closest('div.row-ckeditor').children('.viewblock').html(ckeip_html);
+    jQuery(ckeObj).closest('div.row-ckeditor').siblings('.viewblock').html(ckeip_html);
     return false;
 }
 		</script>
