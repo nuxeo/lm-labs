@@ -21,6 +21,8 @@
     	</div>
     	
     	<div class="container" style="width: 960px;">
+			<#--  action-message -->
+			<#include "views/common/action_message.ftl" >
     		<@block name="content" />
     	</div>
 	</@block>
