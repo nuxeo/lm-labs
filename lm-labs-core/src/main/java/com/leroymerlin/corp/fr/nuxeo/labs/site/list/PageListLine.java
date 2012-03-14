@@ -5,10 +5,11 @@ import java.util.List;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SubDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 
 
-public interface PageListLine {
+public interface PageListLine extends SubDocument {
 
     /**
      * Set a line with a EntriesLine
