@@ -232,6 +232,17 @@ li.labscomments {
     background-color: @labsModalBackgroundColor;
 }
 
+.modal {
+  max-height: none;
+  overflow: hidden;
+  top: 25%;
+  left: 50%;
+ }
+ 
+.modal-overlay{
+  z-index: 100;
+}
+
 .treeview ul {
     background-color: transparent;
 }
@@ -306,5 +317,14 @@ section.labsnews {
 	margin-bottom: 8px;
 	padding: 4px;
 	width: @labsNewsSummaryWidth;
+}
+
+
+
+input,
+button,
+select,
+textarea {
+  font-family: @baseFontFamily;
 }
 
