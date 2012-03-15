@@ -1,7 +1,7 @@
-			<div class="editblock" style="width: 772px;">
-				<div id="editprops" style="display: none;">
+			<div class="editblock">
+				<div id="editprops">
 					  <#if news != null>
-					  	<div>
+					  	<div style="width: auto;">
   					  	  <h4>Prévisualisation du résumé</h4>
 						  <section class="labsnews well">
 						  	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
@@ -17,7 +17,7 @@
 				  	<#--<div style="width: 100%;text-align: right;">
 						<a id="btnModifyPropsNews" class="btn" style="cursor: pointer;margin-right: 5px;" onclick="javascript:actionPropsNews();">Modifier les propriétés</a>
 					</div>-->
-					<div class="well" style="width: 94%;">
+					<div class="well" style="width: 730px;margin-left: auto;margin-right: auto;">
 						<#--<h1>Editer les information de l'actualité</h1>-->
 						<form class="form-horizontal" id="form-editNews" method="post" action="${This.path}" class="well" enctype="multipart/form-data" >
 						  <fieldset>

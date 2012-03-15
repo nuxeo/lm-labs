@@ -439,6 +439,9 @@
 						});
 					}
 				},
+				"themes" : {
+		            "theme" : "classic"
+		        },
 				"plugins" : [ "json_data", "themes", "ui", "types"
 				<#if canManage >
 				, "crrm", "hotkeys", "contextmenu", "dnd"

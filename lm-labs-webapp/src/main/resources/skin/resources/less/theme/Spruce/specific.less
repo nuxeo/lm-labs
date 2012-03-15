@@ -6,6 +6,15 @@
 
 @labsBlockBackgroundColor: #AEAD8E;
 
+@labsCkeipHoverBackgroundColor: @linkColor;
+
+
+.lastMessage {
+
+	hr {
+	  border-bottom: 1px solid darken(@labsBlockHeaderBackgroundColor, 10%);
+	}
+}
 
 
 // Labs
@@ -31,4 +40,12 @@
 .btn-group > .dropdown-menu a:hover {
     background-color: darken(#90A38F, 10%);
     color: @linkColor;
+}
+
+section.labsnews {
+	border: 1px solid lighten(#AEAD8E, 10%);
+}
+
+.labsNewsDate > small{
+	color: #F5F3DC;
 }

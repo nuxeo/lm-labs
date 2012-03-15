@@ -28,7 +28,7 @@
     		<small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small>
     	</#if>
     </h2>
-   	<p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p>
+   	<h3 style="line-height: 5px;min-height: 20px;"><p class="labsNewsDate"><small>${Context.getMessage('label.labsNews.display.publish')} <#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if></small></p></h3>
 </#macro>
 
 <#-- genere l'image du résumé de la news -->

@@ -8,6 +8,12 @@
 
 @labsModalBackgroundColor: @labsBlockBackgroundColor;
 
+@labsCkeipHoverBackgroundColor: #eeeeee;
+
+@labsNewsSummaryWidth: auto;
+
+/*@labsBodyBackgroundColor: @white;*/
+
 
 // Sprite icons path
 @iconWhiteSpritePath:     "../../img/glyphicons-halflings-white.png";
@@ -178,18 +184,64 @@ li.labscomments {
 }
 
 
+//Last message
+.lastMessage {
+
+	height:196px;
+	.itemList {
+		height:155px;
+
+	}
+	.item {
+		cursor:pointer;
+		border-radius:10px;
+		margin-top:10px;
+	}
+	.item:hover {
+		text-decoration:underline; 
+	}
+	.browseLastMsg {
+		float:right;
+	}
+	.date {
+		text-decoration:underline; 
+	}
+	.title {
+		font-size: @baseFontSize;
+    	font-weight:bold;
+	}
+	.desc {
+		font-style:italic;
+	}
+	hr {
+	  border-bottom: 1px solid lighten(@hrBorder, 25%);
+	}
+	a:hover{
+		.opacity(50);
+	}
+}
+
+
 /*--------------------------------------------------------
 -------------------------MODAL DIALOG2--------------------
 */
+
 
 // modal popups
 .modal, .modal-footer {
     background-color: @labsModalBackgroundColor;
 }
 
+.treeview ul {
+    background-color: transparent;
+}
+
 
 #jstree {
-    background-color: transparent;
+   background-color: transparent;
+   a {
+    	color: @textColor;
+    }
 }
 
 .dropzonehighlighted {
@@ -206,3 +258,53 @@ li.labscomments {
     float: left;
     max-width: 269px;
 }
+
+.ckeipHoverBackgroundColor{
+	background-color: @labsCkeipHoverBackgroundColor;
+}
+
+#modifyThemeParameters{
+	float: right;
+}
+
+#logoImgId {
+	position:absolute;
+	z-index:99;
+}
+
+.logoDragMsg {
+	font-size:150%;
+	position:absolute;
+	z-index:98;
+}
+
+.logoDragMsg span {
+	background:#DFDFDF;
+	font-weight:bold;
+}
+
+.logoImgId-move {
+	border: 3px dashed #989898;
+	padding: 20px;
+	cursor:pointer;
+}
+
+.logoImgId-notmove {
+	border: 0;
+	padding: 23px;
+	cursor: normal;
+}
+
+.labssite-logo-move {
+	position:absolute;
+	z-index:99;
+}
+
+section.labsnews {
+	border: 1px solid @grayLight;
+	.border-radius(8px);
+	margin-bottom: 8px;
+	padding: 4px;
+	width: @labsNewsSummaryWidth;
+}
+

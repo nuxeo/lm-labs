@@ -11,6 +11,7 @@ $.fn.ckeip = function (options, callback) {
         e_height: '10',
         data: {}, e_url: '',
         e_hover_color: '#eeeeee',
+        e_hover_class: 'ckeipHoverBackgroundColor',
         ckeditor_config: '',
         e_width: '50',
         emptyedit_message: 'Double click to edit content',
@@ -42,7 +43,7 @@ $.fn.ckeip = function (options, callback) {
 
         });
 
-        $(this).hover(function () {
+        /*$(this).hover(function () {
             $(this).css({
                 backgroundColor: settings.e_hover_color
             });
@@ -50,6 +51,12 @@ $.fn.ckeip = function (options, callback) {
             $(this).css({
                 backgroundColor: ''
             });
+        });*/
+
+        $(this).hover(function () {
+            $(this).addClass(settings.e_hover_class);
+        }, function () {
+            $(this).removeClass(settings.e_hover_class);
         });
 
 

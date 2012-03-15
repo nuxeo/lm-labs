@@ -5,3 +5,27 @@
 
 @labsBlockBackgroundColor: @grayDark;
 
+@labsCkeipHoverBackgroundColor: lighten(@labsBlockBackgroundColor, 10%);
+
+
+.treeview .hitarea {
+	background-color: white;
+}
+
+.btn:hover {
+  background-position: 0 -40px;
+}
+
+[class*="icon-"]{
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  background-image: url("@{iconWhiteSpritePath}");
+  .opacity(80);
+}
+
+section.labsnews {
+	border: 1px solid lighten(#060606, 25%);
+}
+
+

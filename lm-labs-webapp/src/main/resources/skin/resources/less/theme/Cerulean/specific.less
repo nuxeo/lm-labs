@@ -3,9 +3,10 @@
 @import "./variables.less";
 @import "../labs.less";
 
+
 // Labs
 // buttons' icons color
-.btn-primary > [class*="icon-"], .btn-danger > [class*="icon-"] {
+.btn-primary > [class*="icon-"], .btn-danger > [class*="icon-"], .btn-warning > [class*="icon-"] {
 /*
   background-image: url(@iconWhiteSpritePath);
   */
@@ -18,4 +19,8 @@
 }
 .btn-group > .dropdown-menu a:hover {
     color: @white;
+}
+
+.btn:hover {
+  background-position: 0 -40px;
 }
