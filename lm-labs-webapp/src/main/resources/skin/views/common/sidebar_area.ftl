@@ -12,6 +12,10 @@
     <@block name="topPage">
     	<#include "views/common/toppages_area.ftl" />
     </@block>
+    <#-- SUB PAGE --> 
+    <@block name="subPages">
+    	<#include "views/common/children_area.ftl" />
+    </@block>
     <#-- LAST MESSAGE AREA --> 
     <@block name="lastActivities">
     	<#include "views/common/last_message_area.ftl" />
@@ -23,9 +27,5 @@
     <#-- LATEST UPLOADS AREA --> 
     <@block name="lastUploads">
     	<#include "views/common/latestuploads_area.ftl" />
-    </@block>
-    <#-- SUB PAGE --> 
-    <@block name="subPages">
-    	<#include "views/common/children_area.ftl" />
     </@block>
     
