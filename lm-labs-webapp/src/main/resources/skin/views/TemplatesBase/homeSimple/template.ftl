@@ -22,7 +22,9 @@
 				<#--  sidebar -->
 				<div class="sidebar span2"> 
 					<@block name="sidebar">
-					    	<#include "views/common/sidebar_area.ftl" />
+					   <@block name="lastActivities" />
+					   <@block name="lastUploads" />
+					   <#include "views/common/sidebar_area.ftl" />
 				    </@block>
 				</div>
 			    <#--
