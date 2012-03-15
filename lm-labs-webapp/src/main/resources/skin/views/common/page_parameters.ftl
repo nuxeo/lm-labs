@@ -55,7 +55,7 @@
             <div class="control-group">
               <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
               <div class="controls">
-                <select name="template" id="template">
+                <select name="template" id="template" class="span4" >
                     <#include "views/common/getTemplatesMap.ftl">
                     <#assign templatesMap = getTemplatesMap() />
                     <#list templatesMap?sort_by('title') as template>
