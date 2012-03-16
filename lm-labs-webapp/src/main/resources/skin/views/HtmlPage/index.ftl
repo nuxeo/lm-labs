@@ -19,7 +19,7 @@
   <@block name="content">
   <@tableOfContents>
 
-   	<div class="">
+   	<div class="container-fluid">
    
    	<#include "views/common/page_header.ftl">
   	

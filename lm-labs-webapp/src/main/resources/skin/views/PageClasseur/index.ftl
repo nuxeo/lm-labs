@@ -94,6 +94,7 @@
   </@block>
 
   <@block name="content">
+  <div class="container-fluid">
   <@tableOfContents anchorSelector="section > div > div.header-toc">
 
   <#assign folders = classeur.folders />
@@ -359,5 +360,6 @@
 </#macro>
   </div>
   </@tableOfContents>
+  </div>
   </@block>
 </@extends>
