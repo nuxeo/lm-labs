@@ -4,16 +4,17 @@
 			<ul class="breadcrumb">
 				<#macro breadcrumb resource>
 				  <#if resource.previous?? && resource.document.type != "Site" >
-				    <@breadcrumb resource.previous/>
+				      <@breadcrumb resource.previous/>
 				  </#if>
 				  <#if resource.document??>
-		    		<@pageStatusLabel resource />
-				    <#if resource.document.id != Document.id>
-				    	<li<#if resource.document.id == Document.id> class="active"</#if>><span class="divider"><a href="${resource.path}">${resource.document.title}</a>&nbsp;&nbsp;</span></li>
-				    <#else>
-				    	<li<#if resource.document.id == Document.id> class="active"</#if>><a href="${resource.path}">${resource.document.title}</a></li>
-				    </#if>
-				    
+				    <li<#if resource.document.id == Document.id> class="active"</#if>>
+				    	<#if resource.document.id != Document.id>
+				    		<span class="divider"><a href="${resource.path}">${resource.document.title}</a>&nbsp;&nbsp;</span>
+				    	<#else>
+				    		<a href="${resource.path}">${resource.document.title}</a>
+				    	</#if>
+		    			<@pageStatusLabel resource />
+					</li>
 				  </#if>
 				
 				</#macro>
