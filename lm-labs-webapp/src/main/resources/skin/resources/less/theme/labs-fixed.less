@@ -2,7 +2,16 @@
 
 @fluidGridColumnWidth:    6.2%;
 
+/*@gridGutterWidth, @gridColumnWidth, @gridRowWidth*/
+
+@gridColumnWidth:         60px;
+@gridGutterWidth:         20px;
+
+/*@gridColumnWidth:			80px;*/
+
+
 @labsPageWidth: (@gridRowWidth + (2 * @gridGutterWidth));
+//@labsPageWidth: @gridRowWidth;
 
 @labsNewsSummaryWidth: auto;
 
@@ -20,15 +29,16 @@
 #FKfooter {
   margin: auto;
 }
- 
+
 .sidebar, #sidebar {
-  >div{
-  	margin-left: 10px;
-  	margin-right: 0px;
-  }
+	&[class*="span"] {margin-left: 0px;width: 18%;}
+ 	>div{
+  		margin-left: 10px;
+  		margin-right: 0px;
+  	}
 }
 
 .container-fluid {
-  padding-left: 0px;
-  padding-right: 0px;
+  	padding-left: 0px;
+  	padding-right: 8px;
 }

@@ -36,7 +36,7 @@
 		        </div>
 				
 				<#--  sidebar -->
-				<div class="sidebar span2"> 
+				<div class="sidebar span2" style="margin-left: 5px;"> 
 					<@block name="sidebar">
 					    	<@block name="topPage"/>
 					    	<#include "views/common/sidebar_area.ftl" />
