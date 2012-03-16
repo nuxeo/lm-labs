@@ -11,19 +11,17 @@
 			<#include "views/common/banner.ftl" />
 		</div>
 		
-		<#--  breadcrumbs  -->
-		<#include "views/common/breadcrumbs.ftl" >
-		
-		<#--  action-message -->
-		<#include "views/common/action_message.ftl" >
-		
 		<#--  content -->
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<#--  central content -->
 		        <div class="span10">
+
 				    <#--  horizontal Navigation  -->
 			      	<#include "views/common/topnavigation_area.ftl" />
+			      	
+					<#--  breadcrumbs  -->
+					<#include "views/common/breadcrumbs.ftl" >
 			
 					<#--  action-message -->
 					<#include "views/common/action_message.ftl" >
