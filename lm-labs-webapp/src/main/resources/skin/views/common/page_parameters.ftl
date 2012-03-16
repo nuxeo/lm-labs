@@ -1,4 +1,5 @@
 <#if This.page??>
+<#include "views/common/template_description_js.ftl">
 	<style>
 		#form_editParameters .input {
 			width: 45%;
@@ -55,7 +56,7 @@
             <div class="control-group">
               <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
               <div class="controls">
-                <select name="template" id="template" class="span4" >
+                <select name="template" id="template" class="span4" onchange="updateTemplateDescription(this, 'template-description');" >
                     <#include "views/common/getTemplatesMap.ftl">
                     <#assign templatesMap = getTemplatesMap() />
                     <#list templatesMap?sort_by('title') as template>
@@ -63,6 +64,7 @@
                     </#list>
                     <option value="" <#if This.page.template.documentTemplateName == template >selected</#if>>${Context.getMessage('label.labssites.appearance.templates.none')}</option>
                 </select>
+                <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + This.page.template.documentTemplateName + '.description')}</small></p>
                 <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
               </div>
             </div>

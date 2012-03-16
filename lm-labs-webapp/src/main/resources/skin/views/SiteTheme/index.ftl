@@ -5,6 +5,7 @@
 	    <@superBlock/>
 	    <script type="text/javascript" src="${skinPath}/js/siteTheme.js"></script>
 	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.miniColors.min.js"></script>
+	    <#include "views/common/template_description_js.ftl">
 	</@block>
 	
 	<@block name="css">
@@ -62,13 +63,14 @@
                 <div class="control-group">
                   <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
                   <div class="controls">
-                    <select name="template" id="template">
+                    <select name="template" id="template" onchange="updateTemplateDescription(this, 'template-description');" >
                     <#include "views/common/getTemplatesMap.ftl">
                     <#assign templatesMap = getTemplatesMap() />
                     <#list templatesMap?sort_by('title') as template>
             			<option value="${template.name}"  <#if site.template.templateName == template.name >selected</#if>>${template.title}</option>
             		</#list>
 	            	</select>
+                    <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + site.template.templateName + '.description')}</small></p>
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
                   </div>
                 </div>
