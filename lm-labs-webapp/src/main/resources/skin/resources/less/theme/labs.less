@@ -12,18 +12,19 @@
 
 @labsNewsSummaryWidth: auto;
 
-/*@labsBodyBackgroundColor: @white;*/
+@navbarHeight:            30px;
+@zindexDropdown:          1; /* pour que les dropdowns soient cachées quand la popup 'waitingPopup' est affichée */
 
+
+@labsContentBackgroundColor: @white;
 
 // Sprite icons path
 @iconWhiteSpritePath:     "../../img/glyphicons-halflings-white.png";
 
 
-
 /*---------------------------------------------------
 ---------------------FK------------------------------
 */
-
 
 #FKerrorLogin {
   color: @errorText;
@@ -32,10 +33,56 @@
 }
 
 #FKtopContent {
-  margin: auto;
-  /*background-color: white;
-  .box-shadow(1px 1px 1.2em #555);
-  margin-bottom: 1.5em;*/
+    margin: auto;
+	margin-bottom: 8px;
+	.box-shadow(1px 1px 12px #555);
+}
+
+#FKbacktointralm {
+  /* On fixe la taille en pixel car on a un fond  fixé en px */
+  font-size: 11px;
+  background-image: url(../../images/theme/backIntralm.png);
+  width: 110px;
+  height: 25px;
+  margin-top: 5px;
+  margin-left: 5px;
+  padding-left: 27px;
+  padding-top: 1px;
+  float: left;
+  background-repeat: no-repeat;
+}
+
+#FKfooter {
+  background: url(../../images/theme/footer_bg.png) repeat-x scroll center
+    bottom #FFFFFF;
+  background-color: white;
+  color: @textColor;
+  text-decoration: none;
+  .box-shadow(1px 1px 12px #555);
+  text-align: left;
+}
+
+#FKfooter_logo_lm {
+  background-image: url(../../images/theme/footer_logo_lm.png);
+  height: 71px;
+  width: 77px;
+  float: right;
+  margin: 10px 10px 10px 10px;
+}
+
+#FKfooter_bottom {
+  background: url(../../images/theme/footer_liseret.png) no-repeat scroll
+    0 0 transparent;
+  height: 35px;
+}
+
+#FKfooter_logo_adeo {
+  background: url(../../images/theme/footer_adeo.png) no-repeat scroll 0 0
+    transparent;
+  margin-right:10px;
+  width: 160px;
+  height: 28px;
+  float: right;
 }
 
 
@@ -320,6 +367,10 @@ section.labsnews {
 }
 
 
+[class^="icon-"],
+[class*=" icon-"] {
+    padding-right: 2px;
+}
 
 input,
 button,

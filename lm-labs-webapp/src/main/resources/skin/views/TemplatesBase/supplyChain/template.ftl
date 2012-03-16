@@ -2,6 +2,7 @@
 
 	<@block name="topbar">
 		<@superBlock/>
+		&nbsp;
 		<div class="topJagged">&nbsp;</div>
 	</@block>
 	
@@ -52,7 +53,6 @@
 	
 	<@block name="FKfooter">
 		<div id="FKfooter">
-			&nbsp;&nbsp;
 	        <#include "views/common/loading.ftl">
 	        <#include "views/common/footer.ftl">
 	        <#include "views/common/labsPiwik.ftl">

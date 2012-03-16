@@ -1,4 +1,6 @@
-@import "../labs/specific.less";
+@import "../../bootstrap/bootstrap.less";
+@import "../customBackgroundImage.less";
+@import "../labs-fixed.less";
 
 @baseFontSize:          13px;
 @basefont:          13px;
@@ -25,8 +27,7 @@
 @baseFontColorTitleH5: @gray;
 @baseFontColorTitleH6: @gray;
 @baseFontColorTabs: @gray;
-@backgroundURL: "images/bg-brown.gif";
-@backgroundURLRelative: true;
+
 
 @sidebarWidth:   180px;
 
@@ -36,25 +37,347 @@
 //@primaryButtonBackground: ;
 
 
+@backgroundURL: "supplyChain/images/bg-brown.gif";
 
-//Astuce afin de palier le probleme de less à intertréper les variables après avoir
-//ajouter le pathBase (http://....) alors que le pathBase pourrait être dans la variable
-//De meme pour XXXRelative
-.background-image() when (@backgroundURLRelative = false){ 
-	background-image: url("http://@{backgroundURL}");
-}
 
-.background-image() when (@backgroundURLRelative = true){
-	background-image: url("@{backgroundURL}");
+/*------------------  a nettoyer------------------*/
+
+[class*="span"] {
+    margin-left: 5px;
 }
 
 
-html {
-  .background-image;
+#FKtopContent {
+  /*margin: auto;*/
+  background-color: white;
+  .box-shadow(1px 1px 1.2em #555);
+  margin-bottom: 1.5em;
 }
+
+
+
+#FKbacktointralm {
+  /* On fixe la taille en pixel car on a un fond  fixé en px */
+  font-size: 11px;
+  background-image: url(../../../images/theme/backIntralm.png);
+  width: 110px;
+  height: 25px;
+  margin-top: 5px;
+  margin-left: 5px;
+  padding-left: 27px;
+  padding-top: 1px;
+  float: left;
+  background-repeat: no-repeat;
+}
+
+#masthead {
+   margin-top: -18px;
+}
+
+
+
+#FKfooter {
+  background: url(../../../images/theme/footer_bg.png) repeat-x scroll center
+    bottom #FFFFFF;
+  background-color: white;
+  color: #0087C0;
+  text-decoration: none;
+  -moz-box-shadow: 1px 1px 12px #555;
+  -webkit-box-shadow: 1px 1px 12px #555;
+  text-align: left;
+}
+
+#FKfooter_logo_lm {
+  background-image: url(../../../images/theme/footer_logo_lm.png);
+  height: 71px;
+  width: 77px;
+  float: right;
+  margin: 10px 10px 10px 10px;
+}
+
+#FKfooter_bottom {
+  background: url(../../../images/theme/footer_liseret.png) no-repeat scroll
+    0 0 transparent;
+  height: 35px;
+}
+
+#FKfooter_logo_adeo {
+  background: url(../../../images/theme/footer_adeo.png) no-repeat scroll 0 0
+    transparent;
+  margin-right:10px;
+  width: 160px;
+  height: 28px;
+  float: right;
+}
+
+
+.lastMessage {
+	.browseLastMsg .prev {
+		border: 1px solid #AAAAEE;
+		border-color: #999999;
+		margin-right: 5px;
+    	padding: 1px 4px;
+	}
+	.browseLastMsg .next {
+		border: 1px solid #AAAAEE;
+		border-color: #999999;
+		margin-right: 5px;
+    	padding: 1px 4px;
+	}
+	.browseLastMsg .prev:hover {
+		background-color:#ABD7FE;
+	}
+	.browseLastMsg .next:hover {
+		background-color:#ABD7FE;
+	}
+	.browseLastMsg .current:hover {
+		background-color:white;
+	}
+	a {
+		color: #404040;
+	    font-size: @baseFontSize;
+	    font-weight: normal;
+	    line-height: 18px;
+	}
+}
+
+/*Override for GWTContainer*/
+.breadcrumb {
+  a {
+  	color: @linkColor !important;
+  }
+  .active a {
+    color: @gray !important;
+    font-style:italic;
+  }
+}
+
+/*Override for GWTContainer*/
+.navbar div > ul,
+.nav {
+  a {
+  	color: @grayLight;
+  	}
+}
+
+.homepage {
+	background-image: url(/nuxeo/icons/home.gif);
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding: 0 0 0 20px;
+}
+
+.breadcrumb span.divider:after {
+	content: "/";
+}
+
+.container-fluid {
+	padding-left: 10px;
+    padding-right: 10px;
+    > .sidebar {
+  	  width: 180px;
+    }
+    > .container {
+  	  position: relative;
+      float: right;
+      width: 760px;
+    }
+}
+
+.navbar{
+    margin-bottom: 0;
+	z-index: 100;
+	// Website or project name
+    .brand {
+	    padding: 0;
+	    padding-top : 4px
+    }
+    input {
+	    background-color: #444;
+	    background-color: rgba(255,255,255,.3);
+	    #font > .sans-serif(13px, normal, 1);
+	    padding: 1px 9px;
+	    color: @white;
+	    color: rgba(255,255,255,.75);
+	    border: 1px solid #111;
+	    .border-radius(4px);
+	    @shadow: inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0px rgba(255,255,255,.25);
+	    .box-shadow(@shadow);
+	    .transition(none);
+	
+	    // Placeholder text gets special styles; can't be bundled together though for some reason
+	    &:-moz-placeholder {
+	      color: @grayLighter;
+	    }
+	    &::-webkit-input-placeholder {
+	      color: @grayLighter;
+	    }
+	    // Hover states
+	    &:hover {
+	      background-color: @grayLight;
+	      background-color: rgba(255,255,255,.5);
+	      color: @white;
+	    }
+	    // Focus states (we use .focused since IE8 and down doesn't support :focus)
+	    &:focus,
+	    &.focused {
+	      outline: 0;
+	      background-color: @white;
+	      color: @grayDark;
+	      text-shadow: 0 1px 0 @white;
+	      //border: 0;
+	      padding: 1px 9px;
+	      .box-shadow(0 0 3px rgba(0,0,0,.15));
+	    }
+	 }
+}
+
+.navbar-search .search-query {
+	padding: 0;
+}
+
+.navbar-inner{
+    height: @navbarHeight;
+    .border-radius(0);
+}
+
+.navbar-form {
+	margin-right: -15px;
+}
+
+.navbar-form input, .navbar-form .btn {
+	margin-top: 4px;
+	margin-bottom: 0;
+	padding: 1px 9px;
+}
+
+.navbar .nav > li > a {
+  padding: 0;
+  padding-top: 4px;
+  margin-right: -10px;
+}
+
+
+.btn-primary > [class*="icon-"], .btn-danger > [class*="icon-"] {
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  background-image: url("@{iconWhiteSpritePath}");
+}
+ 
+table {
+  // Tablesorting styles w/ jQuery plugin
+  .header {
+    cursor: pointer;
+    &:after {
+      content: "";
+      float: right;
+      margin-top: 7px;
+      border-width: 0 4px 4px;
+      border-style: solid;
+      border-color: #000 transparent;
+      visibility: hidden;
+    }
+  }
+  // Style the sorted column headers (THs)
+  .headerSortUp,
+  .headerSortDown {
+    background-color: rgba(141,192,219,.25);
+    text-shadow: 0 1px 1px rgba(255,255,255,.75);
+  }
+  // Style the ascending (reverse alphabetical) column header
+  .header:hover {
+    &:after {
+      visibility:visible;
+    }
+  }
+  // Style the descending (alphabetical) column header
+  .headerSortDown,
+  .headerSortDown:hover {
+    &:after {
+      visibility:visible;
+      .opacity(60);
+    }
+  }
+  // Style the ascending (reverse alphabetical) column header
+  .headerSortUp {
+    &:after {
+      border-bottom: none;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 4px solid #000;
+      visibility:visible;
+      .box-shadow(none); //can't add boxshadow to downward facing arrow :(
+      .opacity(60);
+    }
+  }
+  // Blue Table Headings
+  .blue {
+    color: @blue;
+    border-bottom-color: @blue;
+  }
+  .headerSortUp.blue,
+  .headerSortDown.blue {
+    background-color: lighten(@blue, 40%);
+  }
+  // Green Table Headings
+  .green {
+    color: @green;
+    border-bottom-color: @green;
+  }
+  .headerSortUp.green,
+  .headerSortDown.green {
+    background-color: lighten(@green, 40%);
+  }
+  // Red Table Headings
+  .red {
+    color: @red;
+    border-bottom-color: @red;
+  }
+  .headerSortUp.red,
+  .headerSortDown.red {
+    background-color: lighten(@red, 50%);
+  }
+  // Yellow Table Headings
+  .yellow {
+    color: @yellow;
+    border-bottom-color: @yellow;
+  }
+  .headerSortUp.yellow,
+  .headerSortDown.yellow {
+    background-color: lighten(@yellow, 40%);
+  }
+  // Orange Table Headings
+  .orange {
+    color: @orange;
+    border-bottom-color: @orange;
+  }
+  .headerSortUp.orange,
+  .headerSortDown.orange {
+    background-color: lighten(@orange, 40%);
+  }
+  // Purple Table Headings
+  .purple {
+    color: @purple;
+    border-bottom-color: @purple;
+  }
+  .headerSortUp.purple,
+  .headerSortDown.purple {
+    background-color: lighten(@purple, 40%);
+  }
+}
+
+
+
+
+/*---------------------Fin de à netttttoyer-------------*/
+
+
+
+
+
 
 html>body {
-  .background-image;
   font-family: @baseFontFamily;
   color: @baseFontColor;
 }
@@ -216,7 +539,6 @@ h6 {
 #FKtopContent{
 	position: relative;
 	margin-top: 17px;
-	margin-bottom: 5px;
 	.box-shadow(0px 0px 0em #555);
 	.top{
 		background-image: url(images/bg-ocre.gif);
