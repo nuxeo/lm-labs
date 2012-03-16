@@ -23,11 +23,11 @@
 	
 	<@block name="topbar" />
 	
-	
 	<@block name="FKtopContent">
 		<style type="text/css">
 			  #FKtopContent {
 			  	margin-top: 0px;
+			  	padding-top: 0px;
 			  	width: 980px;
 			  }
 			  .container{
