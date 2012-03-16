@@ -12,10 +12,10 @@
 		</div>
 		
 		<#--  content -->
-		<div class="container-fluid" style="padding-left: 5px;">
+		<div class="container-fluid">
 			<div class="row-fluid">
 				<#--  central content -->
-		        <div class="span10">
+		        <div class="central span10">
 
 				    <#--  horizontal Navigation  -->
 			      	<#include "views/common/topnavigation_area.ftl" />
@@ -36,7 +36,7 @@
 		        </div>
 				
 				<#--  sidebar -->
-				<div class="sidebar span2" style="margin-left: 5px;"> 
+				<div class="sidebar span2"> 
 					<@block name="sidebar">
 					    	<@block name="topPage"/>
 					    	<#include "views/common/sidebar_area.ftl" />

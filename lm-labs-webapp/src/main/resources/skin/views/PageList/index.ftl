@@ -20,7 +20,7 @@
 	</@block>
 	
 	<@block name="content">	
-		<div id="content" class="container-fluid" style="padding-right: 5px;">
+		<div id="content" class="container-fluid">
 		
 			<#include "views/common/page_header.ftl">
 			<div id="divPageList" class="">

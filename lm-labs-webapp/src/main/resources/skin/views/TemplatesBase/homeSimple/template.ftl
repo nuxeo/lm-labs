@@ -32,7 +32,7 @@
 		      	-->
 				
 				<#--  central content -->
-		        <div class="span10">
+		        <div class="central span10">
 		        	<#--  Content  -->
 				    <@block name="content" />
 				    

@@ -23,7 +23,7 @@
 				</div>
 				
 				<#--  central content -->
-		        <div class="span10" style="margin-left: 5px;">
+		        <div class="central span10">
 				    <#--  horizontal Navigation  -->
 			      	<#include "views/common/topnavigation_area.ftl" />
 			      	

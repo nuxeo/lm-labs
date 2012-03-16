@@ -12,7 +12,7 @@
 		</div>
 		
 		<#--  content -->
-		<div class="container-fluid" style="padding-left: 20px;">
+		<div class="container-fluid">
 			<div class="row-fluid">
 				<#--  sidebar 
 				<div class="sidebar span2"> 
