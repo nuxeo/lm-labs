@@ -128,7 +128,7 @@
 	    </#if>
 	    <div class="header-toc">
           <a name="section_${folder_index}" ></a>
-          <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h1>
+          <h2><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h2>
         </div>
         <#if canWrite>
 	    <div class="folder-actions row-fluid editblock">
