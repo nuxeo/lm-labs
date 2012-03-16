@@ -38,6 +38,28 @@
             <form class="form-horizontal well" action="${This.path}/appearance" method="post" id="form-appearance">
               <fieldset>
                 <div class="control-group">
+                  <label class="control-label" for="theme">${Context.getMessage('label.labssites.appearance.theme.label')}</label>
+                  <div class="controls">
+                    <a href="#" id="modifyThemeParameters"><br/>${Context.getMessage('label.labssites.appearance.theme.parameters')}</a> 
+                    <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${site.getThemeManager().getTheme().getName()}');">
+                        <#assign themesMap = [] />
+                        <#list This.getThemes() as theme>
+                            <#assign trad = Context.getMessage('label.labssites.appearance.themes.' + theme) />
+                            <#if trad?starts_with('!') >
+                                <#assign themeName = theme />
+                            <#else>
+                                <#assign themeName = trad />
+                            </#if>
+                            <#assign themesMap = themesMap + [ {"name" : theme, "title" : themeName} ] />
+                        </#list>
+                        <#list themesMap?sort_by('title') as theme>
+                            <option value="${theme.name}"  <#if site.getThemeManager().getTheme().getName() == theme.name >selected</#if>>${theme.title}</option>
+                        </#list>
+                    </select>
+                    <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.help.block')}</p>
+                  </div>
+                </div>
+                <div class="control-group">
                   <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
                   <div class="controls">
                     <select name="template" id="template">
@@ -50,30 +72,6 @@
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
                   </div>
                 </div>
-                
-                <div class="control-group">
-                  <label class="control-label" for="theme">${Context.getMessage('label.labssites.appearance.theme.label')}</label>
-                  <div class="controls">
-	            	<a href="#" id="modifyThemeParameters"><br/>${Context.getMessage('label.labssites.appearance.theme.parameters')}</a> 
-                    <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${site.getThemeManager().getTheme().getName()}');">
-                        <#assign themesMap = [] />
-	            		<#list This.getThemes() as theme>
-                            <#assign trad = Context.getMessage('label.labssites.appearance.themes.' + theme) />
-                            <#if trad?starts_with('!') >
-                                <#assign themeName = theme />
-                            <#else>
-                                <#assign themeName = trad />
-                            </#if>
-                            <#assign themesMap = themesMap + [ {"name" : theme, "title" : themeName} ] />
-                        </#list>
-	            		<#list themesMap?sort_by('title') as theme>
-	            			<option value="${theme.name}"  <#if site.getThemeManager().getTheme().getName() == theme.name >selected</#if>>${theme.title}</option>
-	            		</#list>
-	            	</select>
-                    <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.help.block')}</p>
-                  </div>
-                </div>
-
                </fieldset>
               <div class="form-actions" style="margin-left: 40px;">
                 <button class="btn btn-primary">${Context.getMessage('label.labssites.appearance.save')}</button>
