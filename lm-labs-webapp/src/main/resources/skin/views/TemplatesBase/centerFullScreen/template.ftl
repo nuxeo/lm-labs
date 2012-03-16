@@ -10,6 +10,10 @@
 			<#--  Banner  -->
 			<#include "views/common/banner.ftl" />
 		</div>
+        <div class="top">
+            <#include "views/common/sitemap_area.ftl" />
+            <#include "views/common/notification_area.ftl" />
+        </div>  
 		
 		<#--  content -->
 		<div class="container-fluid">
