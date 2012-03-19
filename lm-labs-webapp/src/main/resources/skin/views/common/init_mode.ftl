@@ -3,7 +3,7 @@
 		
 		var IS_MODE_EDITION = true;
 		var pathCookie = '${Context.modulePath}/${site.URL}';
-		var tmpDragDrop = null;
+		var dragDrop = null;
 		
 		$(document).ready(function() {
 			  // handling shorcut for mode previsualisation
