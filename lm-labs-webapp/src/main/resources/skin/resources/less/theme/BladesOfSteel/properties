@@ -14,7 +14,9 @@
 @baseFontColorTitleH5;Couleur des titres h5;Couleur des titres h5;color
 @baseFontColorTitleH6;Couleur des titres h6;Couleur des titres h6;color
 
-@backgroundURL;Image de fond;Image de fond constituant tout le contour du site;image
+/* desactivée pour le moment, sera ré-activée dans le sprint R3S7
+/*@backgroundURL;Image de fond;Image de fond constituant tout le contour du site;image*/
+*/
 
 /*@background-url;URL de l'image de fond;*/
 
