@@ -7,12 +7,12 @@
 	  <@superBlock/>
 	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageList.css"/>
 	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
+		<#include "views/common/datepicker_css.ftl">
 	</@block>
 	
 	<@block name="scripts">
 	  <@superBlock/>
-	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
+	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.18.datepicker.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/Collection.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/PageListHeaders.js"></script>

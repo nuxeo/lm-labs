@@ -5,14 +5,14 @@
 
   <@block name="scripts">
     <@superBlock/>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.18.datepicker.min.js"></script>
       <script type="text/javascript" src="${skinPath}/js/LabsNews.js"></script>
   </@block>
 
   <@block name="css">
     <@superBlock/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
+      <#include "views/common/datepicker_css.ftl">
   </@block>
   
   <@block name="docactions">
