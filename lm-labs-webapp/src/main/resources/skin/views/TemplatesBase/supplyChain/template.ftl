@@ -24,9 +24,7 @@
 			<div class="row-fluid">
 				
 				<div id="sidebar" class="sidebar span">
-				      <@block name="sidebar">
-					        <#include "views/TemplatesBase/supplyChain/sidebar.ftl" />
-				      </@block>
+				      <#include "views/TemplatesBase/supplyChain/sidebar.ftl" />
                 </div>
                   
 				<div class="body container">

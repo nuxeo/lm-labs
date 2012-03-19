@@ -22,7 +22,7 @@
   <@block name="content">
   	<#-- timeout -->
 	<input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
-    <div id="content" class="">
+    <div id="content" style="margin-bottom: 5px;">
         <section>
           <div class="page-header">
             <h1>PLAN DU SITE 

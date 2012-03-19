@@ -1,4 +1,7 @@
     <#-- NOTIFICATION AREA --> 
+    <@block name="displayLogo"></@block>
+    
+    <#-- NOTIFICATION AREA --> 
     <@block name="notification">
     	<#include "views/common/notification_area.ftl" />
     </@block>

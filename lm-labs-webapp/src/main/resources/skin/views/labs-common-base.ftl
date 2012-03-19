@@ -49,7 +49,7 @@
 			<#include "views/common/topbar.ftl" />
 		</@block>
 		
-		<div id="FKtopContent">
+		<div id="FKtopContent" style="position: relative;">
 			<@block name="FKtopContent" />
 		</div><#-- /FKtopContent -->
 		
