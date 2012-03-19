@@ -4,11 +4,16 @@ function getTemplateDescription(name) {
 <#list Common.getTemplates() as template>
     templates["${template}"] = "${Context.getMessage('label.labssites.appearance.templates.' + template + '.description')}";
 </#list>
+    templates["none"] = "${Context.getMessage('label.labssites.appearance.templates.none.description')}";
     return templates[name];
 }
 
 function updateTemplateDescription(selectObj, objId) {
-    var desc = getTemplateDescription(jQuery('#' + selectObj.id + ' option:selected').val());
+    var selectedValue = jQuery('#' + selectObj.id + ' option:selected').val();
+    if (selectedValue === "") {
+        selectedValue = "none";
+    }
+    var desc = getTemplateDescription(selectedValue);
     if (desc.indexOf('!') == 0) {
         desc = "(Pas de description)";
     }
