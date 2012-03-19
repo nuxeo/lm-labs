@@ -35,8 +35,9 @@
             <@block name="sitemap-content"/>
             <hr/>
             <#include "views/LabsSite/sitemap_switch_control.ftl" >
-        </div> <!-- /row -->
+          </div> <!-- /row -->
         </section>
+    </div>
   </@block>
   <@block name="pageCommentable">
   </@block>
