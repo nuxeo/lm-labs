@@ -1,4 +1,4 @@
-<div id="waitingPopup" style="display:none;font-weight:bold;text-align:center" >
+<div id="waitingPopup" style="display:none;font-weight:bold;text-align:center;z-index: 150;" >
 	<h1>${Context.getMessage('label.waiting')}</h1>
 	<#--
 	<br/>
