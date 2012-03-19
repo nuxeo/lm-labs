@@ -1,10 +1,10 @@
-<table id="sortArray" class="table table-striped table-bordered bs arrayPageList">
+<table id="sortArray" class="table labstable table-striped table-bordered bs arrayPageList">
   <thead>
     <tr>
       <#list bean.headersSet as header>
         <th class="header headerSortDown" ${This.getLineStyle(header)} >${header.name}</th>
       </#list>
-      <#if This.isCommantableLines()>
+      <#if This.commentableLines>
 	      <th class="header" style="width: 15px;">&nbsp;</th>
 	     </#if>
     </tr>
@@ -21,7 +21,7 @@
             </#if>
           </td>
         </#list>
-      	<#if This.isCommantableLines()>
+      	<#if This.commentableLines >
      		<!--  --------------------COMMENTS OF LINE --------------->
      		<#assign nbComments = entriesLine.nbComments/>
      		<#if 0 < nbComments>
@@ -52,7 +52,7 @@
       });
   </script>
 </#if>
-<#if This.isCommantableLines()>
+<#if This.commentableLines >
 <script type="text/javascript">
 	$(function () {
 		$("td[rel=tooltip]").tooltip({live: true})

@@ -15,6 +15,26 @@
       <createTablePolicy>on_missing_columns</createTablePolicy>
     </directory>
 
+    <directory name="labs_page_templates">
+      <schema>vocabulary</schema>
+      <dataSource>java:/nxsqldirectory</dataSource>
+      <table>dir_labs_page_templates</table>
+      <idField>id</idField>
+      <autoincrementIdField>false</autoincrementIdField>
+      <dataFile>directories/labs_page_templates.csv</dataFile>
+      <createTablePolicy>on_missing_columns</createTablePolicy>
+    </directory>
+
+    <directory name="labs_themes">
+      <schema>vocabulary</schema>
+      <dataSource>java:/nxsqldirectory</dataSource>
+      <table>dir_labs_themes</table>
+      <idField>id</idField>
+      <autoincrementIdField>false</autoincrementIdField>
+      <dataFile>directories/labs_themes.csv</dataFile>
+      <createTablePolicy>on_missing_columns</createTablePolicy>
+    </directory>
+
   </extension>
 
 </component>

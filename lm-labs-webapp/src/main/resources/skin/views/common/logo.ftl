@@ -14,6 +14,7 @@
 			<#include "/resources/js/dragHtmlElt.js" />
 		
 			function updateLogoXY(posX, posY) {
+				jQuery('#waitingPopup').dialog2('open');
 				jQuery.ajax({
 						async : false,
 						type: 'POST',
@@ -24,6 +25,10 @@
 						},
 						success : function (r) {
 							//alert(r);
+							jQuery('#waitingPopup').dialog2('close');
+				        },
+						error : function (r) {
+							jQuery('#waitingPopup').dialog2('close');
 				        }
 				  });
 			}
@@ -42,7 +47,7 @@
 
 	<img
 		id="logoImgId"
-		style="left:${site.themeManager.theme.logoPosX+logoBorderPadding}px;top:${site.themeManager.theme.logoPosY+logoBorderPadding}px;width:${logoWidth}px;" 
+		style="left:${(site.themeManager.theme.logoPosX+logoBorderPadding)?string("########")}px;top:${(site.themeManager.theme.logoPosY+logoBorderPadding)?string("########")}px;width:${logoWidth}px;" 
 		<#if canDrop>
 			class="logoImgId-move"
 		</#if>
@@ -52,8 +57,8 @@
 		<div 
 			id="logoDragMsgId" 
 			class="logoDragMsg"
-			style="top:${site.themeManager.theme.logoPosY+logoBorderPadding+4}px;left:${site.themeManager.theme.logoPosX+logoBorderPadding}px;width:${logoWidth+46}px;">
-	        	<center><span>${Context.getMessage("label.labssites.appearance.theme.edit.drag_n_drop")}</span></center>
+			style="top:${(site.themeManager.theme.logoPosY+logoBorderPadding-14)?string("########")}px;left:${(site.themeManager.theme.logoPosX+logoBorderPadding)?string("########")}px;width:${logoWidth}px;">
+	        	<span>${Context.getMessage("label.labssites.appearance.theme.edit.drag_n_drop")}</span>
 	    </div>
 	</#if>
 </#if>

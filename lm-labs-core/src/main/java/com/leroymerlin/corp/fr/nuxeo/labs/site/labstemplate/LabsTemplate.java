@@ -10,4 +10,6 @@ public interface LabsTemplate {
     void setTemplateName(String name) throws ClientException;
 
     DocumentModel getDocument();
+
+    String getDocumentTemplateName() throws ClientException;
 }

@@ -10,15 +10,17 @@ import java.util.Map;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractSubDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
-public class PageListLineAdapter implements PageListLine {
+public class PageListLineAdapter extends AbstractSubDocument implements PageListLine {
 
     private static final String URL = "url";
     private static final String NAME = "name";
@@ -184,5 +186,25 @@ public class PageListLineAdapter implements PageListLine {
     public List<DocumentModel> getComments() throws ClientException {
         return doc.getAdapter(CommentableDocument.class)
         .getComments();
+    }
+
+    @Override
+    public DocumentModelList getFiles() throws ClientException {
+
+        StringBuilder sb = new StringBuilder("SELECT * From Document");
+        sb.append(" WHERE ecm:parentId = '")
+                .append(doc.getId())
+                .append("'");
+        sb.append(" AND ecm:isProxy = 0 AND ecm:isCheckedInVersion = 0");
+        sb.append(" AND ecm:currentLifeCycleState <> 'deleted'");
+//        if (!doc.getCoreSession().hasPermission(doc.getParentRef(), SecurityConstants.EVERYTHING)) {
+//            sb.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(" <> '").append(FacetNames.LABSHIDDEN).append("'");
+//        }
+        sb.append(" ORDER BY dc:title ASC");
+
+        DocumentModelList list = doc.getCoreSession()
+                .query(sb.toString());
+        return list;
+
     }
 }

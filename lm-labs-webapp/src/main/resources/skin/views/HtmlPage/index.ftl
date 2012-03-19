@@ -19,7 +19,7 @@
   <@block name="content">
   <@tableOfContents>
 
-   	<div class="">
+   	<div class="container-fluid">
    
    	<#include "views/common/page_header.ftl">
   	
@@ -79,14 +79,15 @@
         	<#if isContributor >
 	          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 	              <#list row.contents as content>
-                    <div class="span${content.colNumber} columns viewblock">
+	              <div class="span${content.colNumber}">
+                    <div class="columns viewblock">
                     <#if content.html == "">
                         &nbsp;
                     <#else>
                       ${content.html}
                     </#if>
                     </div>
-		              <div class="span${content.colNumber} columns editblock toc-noreplace ">
+		            <div class="row-ckeditor columns editblock toc-noreplace ">
 		                <div id="s_${section_index}_r_${row_index}_c_${content_index}" >${content.html}</div>
 		                <script type="text/javascript">
 		                  $('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
@@ -100,7 +101,8 @@
 		                  <a  class="btn" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
 		                </noscript>
 		                &nbsp; <!-- Needed to give an empty cell a content -->
-		              </div>
+		            </div>
+		          </div>
 	              </#list>
 	
 	               <div style="margin-left:20px;clear:both;" class="editblock">

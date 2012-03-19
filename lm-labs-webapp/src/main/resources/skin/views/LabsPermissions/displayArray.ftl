@@ -86,17 +86,22 @@ function vomitPublic(){
 	      operationConfirmed = confirm(["Souhaitez-vous r\u00E9ellement ajouter la permission '", permissionText, "' \u00E0 '", username, "' \u00E0 ce site ? Dans ce cas, votre site sera accessible par cet utilisateur."].join(""));
 	    }
 	    if (operationConfirmed) {
+	    	jQuery('#waitingPopup').dialog2('open');
 	    	jQuery.ajax({
 				type: 'GET',
 			    async: false,
 			    url: "${This.path}/@labspermissions/haspermission?permission=" + permission +"&id=" + username,
 			    success: function(data) {
+			    	jQuery('#waitingPopup').dialog2('close');
 			    	if (data === 'true') {
 			          alert(["permission '", permissionText, "' d\u00E9j\u00E0 assign\u00E9e \u00E0 l'utilisateur '", username, "' !"].join(""));
 			        }
 			        else {
 			          labsPermissionsHigherpermission(permission, username);
 			        }
+			    },
+			    error: function(data){
+			    	jQuery('#waitingPopup').dialog2('close');
 			    }
 			});
 		}
@@ -105,6 +110,7 @@ function vomitPublic(){
 
 function labsPermissionsDelete(url, confirme){
 	if (confirm(confirme)) {
+		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 	        type: 'DELETE',
 	        async: false,
@@ -116,9 +122,11 @@ function labsPermissionsDelete(url, confirme){
 	          else {
 	            jQuery("#divDislayArray").load('${This.path}/@labspermissions');
 	          }
+	          jQuery('#waitingPopup').dialog2('close');
 	        },
 	        error: function(xhr, status, ex){
 	          alert(ex);
+	          jQuery('#waitingPopup').dialog2('close');
 	        }
 	    });
 	}

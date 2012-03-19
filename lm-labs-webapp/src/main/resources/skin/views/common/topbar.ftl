@@ -53,6 +53,22 @@
 										showCloseHandle : false,
 									});
 								});
+                                function setAsHomePage() {
+                                    jQuery('#waitingPopup').dialog2('open');
+                                    jQuery.ajax({
+                                        type: 'PUT',
+                                        async: false,
+                                        url: '${This.path}' + '/@setHome',
+                                        success: function(data) {
+                                            window.location.reload();
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            alert(jqXHR.statusText);
+                                            jQuery('#waitingPopup').dialog2('close');
+                                        }
+                                    });
+                                    return false;
+                                }
 								
 								function openParametersPage(){
 									jQuery("#divEditParametersPage").dialog2('open');
@@ -75,6 +91,7 @@
 								
 								function publishPage(){
 									//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouPublish')}")){
+										jQuery('#waitingPopup').dialog2('open');
 										jQuery.ajax({
 											type: 'PUT',
 										    async: false,
@@ -87,6 +104,10 @@
 										        else {
 										          alert("${Context.getMessage('label.lifeCycle.page.hasNotPublished')}");
 										        }*/
+										        jQuery('#waitingPopup').dialog2('close');
+										    },
+										    error: function(data) {
+										        jQuery('#waitingPopup').dialog2('close');
 										    }
 										});
 									//}
@@ -94,6 +115,7 @@
 								
 								function draftPage(){
 									//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouDraft')}")){
+										jQuery('#waitingPopup').dialog2('open');
 										jQuery.ajax({
 											type: 'PUT',
 										    async: false,
@@ -106,6 +128,10 @@
 										        else {
 										          alert("${Context.getMessage('label.lifeCycle.page.hasNotDrafted')}");
 										        }*/
+										        jQuery('#waitingPopup').dialog2('close');
+										    },
+										    error: function(data) {
+										        jQuery('#waitingPopup').dialog2('close');
 										    }
 										});
 									//}
@@ -128,6 +154,7 @@
 	                	<script type="text/javascript">
 	                		function publishSite(){
 	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouPublish')}")){
+	                				jQuery('#waitingPopup').dialog2('open');
 		                			jQuery.ajax({
 										type: 'PUT',
 									    async: false,
@@ -139,7 +166,11 @@
 									        }
 									        else {
 									          alert("${Context.getMessage('label.lifeCycle.site.hasNotPublished')}");
+									          jQuery('#waitingPopup').dialog2('open');
 									        }
+									    },
+									    error: function(data) {
+									    	jQuery('#waitingPopup').dialog2('close');
 									    }
 									});
 								}
@@ -147,6 +178,7 @@
 	                		
 	                		function draftSite(){
 	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDraft')}")){
+	                				jQuery('#waitingPopup').dialog2('open');
 		                			jQuery.ajax({
 										type: 'PUT',
 									    async: false,
@@ -158,7 +190,11 @@
 									        }
 									        else {
 									          alert("${Context.getMessage('label.lifeCycle.site.hasNotDrafted')}");
+									          jQuery('#waitingPopup').dialog2('open');
 									        }
+									    },
+									    error: function(data) {
+									    	jQuery('#waitingPopup').dialog2('close');
 									    }
 									});
 								}
@@ -166,6 +202,7 @@
 	                		
 	                		function deleteSite(){
 	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
+	                				jQuery('#waitingPopup').dialog2('open');
 		                			jQuery.ajax({
 										type: 'PUT',
 									    async: false,
@@ -177,7 +214,11 @@
 									        }
 									        else {
 									          alert("${Context.getMessage('label.lifeCycle.site.hasNotDeleted')}");
+									          jQuery('#waitingPopup').dialog2('close');
 									        }
+									    },
+									    error: function(data) {
+									    	jQuery('#waitingPopup').dialog2('close');
 									    }
 									});
 								}
@@ -196,7 +237,7 @@
                 <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.document.title}/tree@view_documents?tabIds=%3A" target="_blank" ><i class="icon-edit"></i>${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
-                <li><a id="logout" href="#"><i class="icon-off"></i>${Context.getMessage('command.contextmenu.logout')}</a></li>
+                <li><a id="logoutLnk" href="#"<#-- onclick="doLogout();return false;"-->><i class="icon-off"></i>${Context.getMessage('command.contextmenu.logout')}</a></li>
               </ul>
             </li>
             </#if>
@@ -206,4 +247,4 @@
       </div><#-- /fill -->
     </div><#-- /navbar -->
     </div><#-- /navbar-wrapper -->
-    &nbsp;
+    

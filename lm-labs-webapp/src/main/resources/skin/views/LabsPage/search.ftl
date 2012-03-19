@@ -48,15 +48,15 @@
         </#if>
       </div>
     <#if result?size &gt; 0>
-      <table class="table table-striped table-bordered bs" id="resultsSearch" >
+      <table class="table table-striped table-bordered bs labstable" id="resultsSearch" >
         <thead>
           <tr>
-          	<th></th>
-          	<th>${Context.getMessage('label.search.head.title')}</th>
-          	<th>${Context.getMessage('label.search.head.lastModification')}</th>
-          	<th>${Context.getMessage('label.search.head.size')}</th>
-          	<th>${Context.getMessage('label.search.head.page')}</th>
-          	<th></th>
+          	<th class="header">&nbsp;</th>
+          	<th class="header">${Context.getMessage('label.search.head.title')}</th>
+          	<th class="header">${Context.getMessage('label.search.head.lastModification')}</th>
+          	<th class="header">${Context.getMessage('label.search.head.size')}</th>
+          	<th class="header">${Context.getMessage('label.search.head.page')}</th>
+          	<th class="header">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -89,13 +89,13 @@
                 <td>
                   <#if !hasFile>
                   <a href="#" class="btn disabled">
-                  <#elseif sd.document.type != "LabsNews">
+                  <#elseif doc.type != "LabsNews">
                   <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">
                   </#if>
                   <i class="icon-eye-open"></i>${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
                   <#if !hasFile>
                   <a disabled="disabled" href="#" class="btn disabled">
-                  <#elseif sd.document.type != "LabsNews">
+                  <#elseif doc.type != "LabsNews">
                   <a href="${Context.modulePath}/${sd.resourcePath}/@blob" target="_blank" class="btn">
                   </#if>
                   <i class="icon-download"></i>${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
@@ -115,6 +115,8 @@
 
   </section>
 </div>
+</@block>
+<@block name="pageCommentable">
 </@block>
 </@extends>
 

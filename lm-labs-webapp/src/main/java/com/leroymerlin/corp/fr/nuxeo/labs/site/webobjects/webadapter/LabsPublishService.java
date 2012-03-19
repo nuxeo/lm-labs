@@ -27,6 +27,7 @@ import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -65,6 +66,13 @@ public class LabsPublishService extends DefaultAdapter {
             if (LabsSiteConstants.State.DRAFT.getState().equals(document.getCurrentLifeCycleState())){
                 LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
                 publisherAdapter.publish();
+                if (Docs.SITE.type().equals(document.getType())) {
+                    LabsSite site = document.getAdapter(LabsSite.class);
+                    LabsPublisher publisher = site.getIndexDocument().getAdapter(LabsPublisher.class);
+                    if (publisher.isDraft()) {
+                        publisher.publish();
+                    }
+                }
                 return Response.ok(PUBLISH).build();
             }
         } catch (ClientException e) {

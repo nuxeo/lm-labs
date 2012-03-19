@@ -5,20 +5,20 @@
 
   <@block name="scripts">
     <@superBlock/>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.18.datepicker.min.js"></script>
     <script type="text/javascript" src="${skinPath}/js/PageNews.js"></script>
   </@block>
 
   <@block name="css">
     <@superBlock/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
+      <#include "views/common/datepicker_css.ftl">
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
   </@block>
 
   <@block name="content">
   	<#include "views/LabsNews/macroNews.ftl">
-      <div id="content" class="">
+      <div id="content" class="container-fluid">
 
     	<#include "views/common/page_header.ftl">
     	
@@ -69,7 +69,7 @@
             </section>
         </#list>
         <hr />
-        <a href="${This.path}/@labsrss/topnews" target="_blank"><img src="${skinPath}/images/iconRss.gif"/></a>
+        <a href="${This.path}/@labsrss/topnews" title="${Context.getMessage('tooltip.PageNews.rss')}<#if !site.visible> ${Context.getMessage('tooltip.PageNews.rss.siteNotPublish')}</#if>" target="_blank"><img src="${skinPath}/images/iconRss.gif"/></a>
       </div>
   </@block>
 </@extends>

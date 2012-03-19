@@ -2,7 +2,8 @@
 
 
 function sendForm(path, msgError){
-  $("#form-labssite").validate();
+	jQuery('#waitingPopup').dialog2('open');
+    $("#form-labssite").validate();
     var options = {
 	    beforeSubmit: function(){
 	      return $("#form-labssite").valid();
@@ -11,12 +12,14 @@ function sendForm(path, msgError){
           if (statusText == "notmodified"){
             $("#labsSiteURL").val($("#oldURL").val());
             alert(msgError);
+            jQuery('#waitingPopup').dialog2('close');
           }else{
             document.location.href=path + '?homepage=display';
           }
         },
         error: function(){
           alert("ERROR");
+          jQuery('#waitingPopup').dialog2('close');
         }
     };
     $('#form-labssite').ajaxForm(options);

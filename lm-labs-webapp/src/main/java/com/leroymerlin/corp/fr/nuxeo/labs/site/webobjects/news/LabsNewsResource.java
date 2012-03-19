@@ -79,10 +79,10 @@ public class LabsNewsResource extends PageResource {
         } catch (IOException e) {
             throw WebException.wrap(e);
         }catch (LabsBlobHolderException e) {
-            log.info("The size of blob is too small !", e);
+            log.info("Summary picture not save : " + ctx.getMessage(e.getMessage()), e);
             save();
             return redirect(getPath()
-                    + "?message_success=label.labsNews.news_notupdated.size&props=open");
+                    + "?message_warning=" + e.getMessage() + "&props=open");
         }
 
     }
@@ -135,12 +135,9 @@ public class LabsNewsResource extends PageResource {
             if (blob != null){
                 blob.persist();
                 if(blob.getLength() > 0){
-                    if (news.isValid(blob)){
-                        news.setOriginalPicture(blob);
-                    }
-                    else{
-                        throw new LabsBlobHolderException("Blob non valid");
-                    }
+                    //return an LabsBlobHolderException if no valid
+                    news.checkPicture(blob);
+                    news.setOriginalPicture(blob);
                 }
             }
         }

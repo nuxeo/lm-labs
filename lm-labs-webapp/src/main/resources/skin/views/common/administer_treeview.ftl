@@ -22,20 +22,6 @@
 
 <#assign canManage = Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')/>
 
-	<@block name="css">
-	<@superBlock/>
-	<style>
-	#jstree {
-		background-color: white;
-	}
-	.dropzonehighlighted {
-		background-color: lightgrey;
-		border-color: white;
-		color: white;
-	}
-	</style>
-	</@block>
-	
 	<@block name="scripts">
 	<@superBlock/>
 	<#if adminTreeviewType=="Assets">
@@ -45,9 +31,11 @@
 	<script type="text/javascript">
 		function refreshTreeview() {
 			jQuery("#jstree").jstree("refresh");
+			jQuery('#waitingPopup').dialog2('close');
 		}
 		function deletePicture(id) {
 			if (confirm("${Context.getMessage('label.admin.asset.deleteConfirm')}")) {
+				jQuery('#waitingPopup').dialog2('open');
 				jQuery.ajax({
 					async : false,
 					type: 'GET',
@@ -57,6 +45,7 @@
 					}, 
 					error : function (r, responseData) {
 						//jQuery.jstree.rollback(data.rlbk);
+						jQuery('#waitingPopup').dialog2('close');
 					}
 				});
 			}
@@ -66,6 +55,7 @@
 			jQuery("#addFileDialog").dialog2('open');
 		}
 		function createFolder(title, doctype, destId) {
+			 jQuery('#waitingPopup').dialog2('open');
 			 jQuery.ajax({
 					async : false,
 					type: 'POST',
@@ -78,7 +68,10 @@
 					success : function (r) {
 						jQuery("#addFolderDialog").dialog2('close');
 			        	refreshTreeview();
-			        }
+			        }, 
+					error : function (r, responseData) {
+						jQuery('#waitingPopup').dialog2('close');
+					}
 			  });
 			return false;
 		}
@@ -163,17 +156,23 @@
 			}
 			
 			function labsPublish(operation, url, node) {
+			    jQuery('#waitingPopup').dialog2('open');
     			jQuery.ajax({
 					type: 'PUT',
 				    async: false,
 				    url: '${Context.modulePath}/' + url + '/@labspublish/' + operation,
 				    success: function(data) {
 				    	refreshTreeview();
-				    }
+				    },
+					error: function(msg){
+						alert( msg.responseText );
+						jQuery('#waitingPopup').dialog2('close');
+					}
 				});
 			}
 			
 			function setAsHome(url, node) {
+			    jQuery('#waitingPopup').dialog2('open');
     			jQuery.ajax({
 					type: 'PUT',
 				    async: false,
@@ -184,6 +183,7 @@
 				    },
 				    error: function(jqXHR, textStatus, errorThrown) {
 				    	alert(jqXHR.statusText);
+						jQuery('#waitingPopup').dialog2('close');
 				    }
 				});
 			}
@@ -370,6 +370,8 @@
 						}
 						if(jQuery(node).data('ishomepage') == 'true') {
 							delete items.home;
+							delete items.markasdeleted;
+							delete items.remove;
 						}
 					</#if>
 				}
@@ -437,6 +439,9 @@
 						});
 					}
 				},
+				"themes" : {
+		            "theme" : "classic"
+		        },
 				"plugins" : [ "json_data", "themes", "ui", "types"
 				<#if canManage >
 				, "crrm", "hotkeys", "contextmenu", "dnd"
@@ -644,10 +649,6 @@
 
 	<@block name="docactions"></@block>
 
-  <@block name="breadcrumbs">
-    <#include "views/common/breadcrumbs_siteadmin.ftl" >
-  </@block>
-
   <@block name="tabs">
 	<#include "macros/admin_menu.ftl" />
 	<#if adminTreeviewType=="Assets">
@@ -715,7 +716,7 @@
 		</div>
 		</#if>
 	
-		<div id="content" class="container" style="float:left;max-width:269px;">
+		<div id="content" class="container jsTreeControlsContent">
 			<section>
 				<div>
 					<@jsTreeControls id="jsTreeControlsTop" />

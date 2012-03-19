@@ -1,0 +1,31 @@
+@import "../../bootstrap/bootstrap.less";
+@import "./app.less";
+@import "./variables.less";
+@import "../labs-fixed.less";
+
+// Labs
+// buttons' icons color
+.btn-danger > [class*="icon-"] {
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  background-image: url("@{iconWhiteSpritePath}");
+}
+
+// buttons
+.btn {
+    color: #4F281B;
+}
+
+// modal popups
+.modal, .modal-footer {
+    //background-color: #AEAD8E;
+}
+
+// sidebar blocks
+.bloc {
+    //background-color: #AEAD8E;
+    > ul > li > a {
+        color: #4F281B;
+    }
+}

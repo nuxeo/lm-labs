@@ -94,6 +94,7 @@
   </@block>
 
   <@block name="content">
+  <div class="container-fluid">
   <@tableOfContents anchorSelector="section > div > div.header-toc">
 
   <#assign folders = classeur.folders />
@@ -103,6 +104,7 @@
 	</#if>
 	<#include "views/common/page_header.ftl">
 
+  <#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
   <#if folders?size &gt; 0>
   <div id="classeurTopActions" class="editblock">
     <@mainButtons />
@@ -113,7 +115,6 @@
 
     <div class="classeur" id="${This.path}">
 
-  <#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
   <#assign children = Session.getChildren(Document.ref, "Folder")>
 
   <#if folders?size &gt; 0>
@@ -127,7 +128,7 @@
 	    </#if>
 	    <div class="header-toc">
           <a name="section_${folder_index}" ></a>
-          <h1><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h1>
+          <h2><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h2>
         </div>
         <#if canWrite>
 	    <div class="folder-actions row-fluid editblock">
@@ -222,7 +223,7 @@
 
 <div id="div-renameTitleElement" style="display: none;" >
     <h1>${Context.getMessage('label.PageClasseur.form.rename.title')}</h1>
-  <form id="form-renameTitleElement" action="" method="post">
+  <form id="form-renameTitleElement" class="form-horizontal" action="" method="post">
       <fieldset>
 	      <div class="control-group">
 	          <label class="control-label" for="dc:title">${Context.getMessage('label.PageClasseur.form.title')}</label>
@@ -245,7 +246,10 @@
 </div>
 
 <#macro mainButtons >
+    <#if canWrite && Session.hasPermission(Document.ref, 'AddChildren') >
     <button class="btn btn-primary btn-small addFolder" ><i class="icon-plus"></i>${Context.getMessage('command.' + Document.type + '.addFolder')}</button>
+    </#if>
+    <#if canWrite>
     <div class="btn-group" style="margin-left: 11em;" >
         <a class="btn btn-small dropdown-toggle arrowOpacity" data-toggle=""><i class="icon-cog"></i>${Context.getMessage('command.PageClasseur.selectionActions')} <span class="caret"></span></a>
         <ul class="dropdown-menu" style="min-width: 40px;" >
@@ -263,13 +267,14 @@
     </#list>
         </ul>
     </div>
+    </#if>
 </#macro>
 
 <#macro displayChildren folder recurse=false>
 
   <#if folder.files?size &gt; 0>
   <div class="folder-collapsable" >
-  <table class="table table-striped classeurFiles bs table-bordered" >
+  <table class="table table-striped classeurFiles bs table-bordered labstable" >
   <thead>
     <tr>
       <th class="header">&nbsp;</th>
@@ -355,5 +360,6 @@
 </#macro>
   </div>
   </@tableOfContents>
+  </div>
   </@block>
 </@extends>

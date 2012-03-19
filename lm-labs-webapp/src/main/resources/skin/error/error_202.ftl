@@ -1,4 +1,4 @@
-<@extends src="/views/labs-error-base.ftl"> 
+<@extends src="/views/labs-manage-base.ftl"> 
 
 	<@block name="title">
 	       Identification requise
@@ -56,6 +56,7 @@
   		</script>
 	</@block>
 	
+	<@block name="topbar" />
 	
 	<@block name="content">
 		<div id="divLogin"  class="fixed-container dialog2" style="display: none;">

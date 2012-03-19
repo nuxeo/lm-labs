@@ -136,6 +136,9 @@
     <schema name="page_list_line" />
     <facet name="Commentable" />
     <facet name="HiddenInNavigation" />
+    <subtypes>
+        <type>File</type>
+    </subtypes>
   </doctype>
 
   <doctype name="PageClasseur" extends="Page">

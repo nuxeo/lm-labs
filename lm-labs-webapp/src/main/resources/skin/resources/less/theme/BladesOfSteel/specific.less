@@ -1,0 +1,25 @@
+@import "../../bootstrap/bootstrap.less";
+@import "./app.less";
+@import "./variables.less";
+@import "../labs-fixed.less";
+
+@labsBlockBackgroundColor: #FFFFFF;
+
+@labsCkeipHoverBackgroundColor: @labsBlockBackgroundColor;
+
+
+// Labs
+// buttons' icons color
+.btn-primary > [class*="icon-"], .btn-danger > [class*="icon-"], .btn-warning > [class*="icon-"] {
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  background-image: url("@{iconWhiteSpritePath}");
+}
+
+#FKtopContent, #FKfooter {
+	background-color: none;
+	background: none;
+}
+
+

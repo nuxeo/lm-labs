@@ -1,10 +1,6 @@
 <#if site?? && (Session.hasPermission(site.document.ref, "Everything") || Session.hasPermission(site.document.ref, "ReadWrite"))>
 <@extends src="/views/labs-admin-base.ftl">
 
-  <@block name="breadcrumbs">
-    <#include "views/common/breadcrumbs_siteadmin.ftl" >
-  </@block>
-
   <@block name="docactions"></@block>
 
   <@block name="tabs">
@@ -92,7 +88,7 @@ jQuery(document).ready(function() {
 			      <div style="float: right; margin-right: 25px;" >
 			        <img style="width:400px;cursor:pointer;"
 			          title="${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete')}" 
-			          onclick="if (confirm('${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete.confirm')?js_string}')) jQuery.ajax({url:'${Root.getLink(site.document)}/@blob', type:'DELETE', success:function() {window.location.reload();}});"
+			          onclick="if (confirm('${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete.confirm')?js_string}')){jQuery('#waitingPopup').dialog2('open'); jQuery.ajax({url:'${Root.getLink(site.document)}/@blob', type:'DELETE', success:function() {window.location.reload();}, error:function(data){jQuery('#waitingPopup').dialog2('close');}});}"
 			          src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@blob"/>
 			      </div>
 			      </#if>

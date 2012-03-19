@@ -16,6 +16,9 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.model.WebContext;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.NewsTools;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNewsAdapter;
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -76,7 +79,15 @@ public final class SyndicationUtils {
                                 doc.getRef())));
             }
             entry.setPublishedDate(((GregorianCalendar) doc.getPropertyValue("dc:modified")).getTime());
-            entry.setDescription(createRssDescription((String) doc.getPropertyValue("dc:description")));
+            String description = null;
+            if (LabsSiteConstants.Docs.LABSNEWS.type().equals(doc.getType())){
+                LabsNews news = doc.getAdapter(LabsNews.class);
+                entry.setDescription(NewsTools.createRssNewsDescription(news));
+            }
+            else{
+                description = (String) doc.getPropertyValue("dc:description");
+                entry.setDescription(createRssDescription(description));
+            }
             entries.add(entry);
         }
         return entries;

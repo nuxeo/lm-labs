@@ -9,7 +9,7 @@
 
 <@block name="content">
   <div class="alert alert-block alert-error no-fade">
-  <p><strong>Une erreur inatendue est survenue</strong> Merci de contacter l'administrateur
+  <p><strong>Une erreur inattendue est survenue</strong> Merci de contacter l'administrateur
 
   <div id="stacktrace" style="display:none">
     <pre class="prettyprint">

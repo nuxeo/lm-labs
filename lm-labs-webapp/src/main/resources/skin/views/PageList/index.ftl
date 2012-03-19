@@ -7,11 +7,12 @@
 	  <@superBlock/>
 	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageList.css"/>
 	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
-		<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.datePicker.css"/>
+		<#include "views/common/datepicker_css.ftl">
 	</@block>
 	
 	<@block name="scripts">
 	  <@superBlock/>
+	  	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.18.datepicker.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/Collection.js"></script>
 		<script type="text/javascript" src="${skinPath}/js/PageListHeaders.js"></script>
@@ -19,7 +20,7 @@
 	</@block>
 	
 	<@block name="content">	
-		<div id="content" class="container-fluid" style="padding-right: 5px;">
+		<div id="content" class="container-fluid">
 		
 			<#include "views/common/page_header.ftl">
 			<div id="divPageList" class="">
@@ -53,7 +54,7 @@
 					<#include "/views/PageList/displayArray.ftl" />
 					<#if (0 < bean.entriesLines?size)>
 						<div class="container-fluid" style="text-align: right;">
-							<a href="${This.path}/exportExcel/export.xls"><img title="export excel" alt="export excel" src="/nuxeo/icons/xls.png" /></a>
+							<a href="${This.path}/exportExcel/${This.document.title}.xls"><img title="export excel" alt="export excel" src="/nuxeo/icons/xls.png" /></a>
 						</div>
 					</#if>
 				</div>

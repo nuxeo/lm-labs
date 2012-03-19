@@ -1,4 +1,5 @@
 <#if This.page??>
+<#include "views/common/template_description_js.ftl">
 	<style>
 		#form_editParameters .input {
 			width: 45%;
@@ -52,6 +53,25 @@
 					${Context.getMessage('label.parameters.page.displayableDescriptionPage')}</label>
 				</div>
 			</div>
+            <div class="control-group">
+              <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
+              <div class="controls">
+                <select name="template" id="template" class="span4" onchange="updateTemplateDescription(this, 'template-description');" >
+                    <#include "views/common/getTemplatesMap.ftl">
+                    <#assign templatesMap = getTemplatesMap() />
+                    <#list templatesMap?sort_by('title') as template>
+                        <option value="${template.name}" <#if This.page.template.documentTemplateName == template.name >selected</#if>>${template.title}</option>
+                    </#list>
+                    <option value="" <#if This.page.template.documentTemplateName == "" >selected</#if>>${Context.getMessage('label.labssites.appearance.templates.none')}</option>
+                </select>
+                <#assign selectedTemplateName = This.page.template.documentTemplateName />
+                <#if This.page.template.documentTemplateName == "" >
+                    <#assign selectedTemplateName = "none" />
+                </#if>
+                <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + selectedTemplateName + '.description')}</small></p>
+                <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
+              </div>
+            </div>
 		</form>
 		<hr />
 		${Context.getMessage('label.parameters.page.usedModel')} <strong>${Context.getMessage('label.doctype.'+This.document.type)}</strong>

@@ -1,0 +1,22 @@
+@import "../../bootstrap/bootstrap.less";
+@import "./bootswatch.less";
+@import "./variables.less";
+@import "../labs-fixed.less";
+
+[class*="icon-"] {
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  background-image: url("@{iconWhiteSpritePath}");
+}
+
+.modal, .modal-footer {
+    background-color: @grayDark;
+}
+
+.bloc {
+    background-color: @grayDark;
+    .header {
+        #gradient > .vertical-three-colors(@gray, @grayDark, 70%, @grayDark);
+    }
+}

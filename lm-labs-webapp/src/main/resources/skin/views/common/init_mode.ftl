@@ -3,6 +3,7 @@
 		
 		var IS_MODE_EDITION = true;
 		var pathCookie = '${Context.modulePath}/${site.URL}';
+		var dragDrop = null;
 		
 		$(document).ready(function() {
 			  // handling shorcut for mode previsualisation
@@ -31,9 +32,13 @@
 			  } else {
 			     jQuery(".viewblock").hide();
 			  }
+			  
 		});
 		
 		function displayEditMode(){
+			if (dragDrop != null){
+				dragDrop.unlock();
+			}
 			$("#logoDragMsgId").show();
 			$("#logoImgId").removeClass("logoImgId-notmove");
 			$("#logoImgId").addClass("logoImgId-move");
@@ -45,6 +50,9 @@
 			$("#logoDragMsgId").hide();
 			$("#logoImgId").removeClass("logoImgId-move");
 			$("#logoImgId").addClass("logoImgId-notmove");
+			if (dragDrop != null){
+				dragDrop.lock();
+			}
 			$(".viewblock").show();
 			jQuery(".cke_hidden").hide();
 		}

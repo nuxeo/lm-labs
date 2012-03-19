@@ -98,6 +98,7 @@ function addDoc(event) {
 	
 function addDocWithDelete(){
 	jQuery("#overwritePage").val("true");
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "POST",
 		url: jQuery("#add_doc_form").attr("action") + '/@addContent',
@@ -107,6 +108,7 @@ function addDocWithDelete(){
 		},
 		error: function(msg){
 			alert(msg);
+			jQuery('#waitingPopup').dialog2('close');
 		}
 	});
 }

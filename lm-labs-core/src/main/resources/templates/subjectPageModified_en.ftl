@@ -1,1 +1,1 @@
-Page '${htmlEscape(docTitle)}' modified
+Page '${docTitle?html}' modified

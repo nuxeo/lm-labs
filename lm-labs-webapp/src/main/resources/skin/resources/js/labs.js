@@ -21,6 +21,12 @@ $(document).ready(function() {
   setTimeout("hideAlerts()", 5000);
 
   $(document).controls();
+  
+  if (jQuery('#waitingPopup')){
+ 	jQuery('#waitingPopup').dialog2({autoOpen : false, closeOnOverlayClick : false, removeOnClose : false, showCloseHandle : false});
+  }
+  
+  new EllipsisText().init();
 
 });
 

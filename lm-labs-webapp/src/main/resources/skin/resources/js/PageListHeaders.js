@@ -322,6 +322,7 @@ function createNewHeader() {
 }
 
 function saveHeaderList(url) {
+	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type : "POST",
 		url : url + '/saveheaders',
@@ -331,6 +332,7 @@ function saveHeaderList(url) {
 		},
 		error : function(msg) {
 			alert('ERROR' + msg.responseText);
+			jQuery('#waitingPopup').dialog2('close');
 		}
 	});
 }

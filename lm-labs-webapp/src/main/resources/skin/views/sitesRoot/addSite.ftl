@@ -48,7 +48,7 @@
     </div>
 -->
 
-	<#if Common.canCreateTemplateSite(Context.principal.name, Session) >
+	<#if Common.canCreateTemplateSite(Context.principal.name) >
     <div class="control-group">
       <div class="controls">
         <label class="checkbox" for="siteTemplate">
@@ -65,7 +65,7 @@
           <input class="radio" type="radio" name="siteTemplateId" value="" onclick="cleanPreview();" checked="checked" ></input>
           <span onclick="clickParentInput(this);" >${Context.getMessage('label.labssite.edit.siteTemplateName.none')}</span>
         </span>
-        <#list Common.getTemplateSites(Session) as templateName >
+        <#list Common.getTemplateSites() as templateName >
         <span class="radioSiteTemplate">
           <input class="radio" type="radio" name="siteTemplateId" value="${templateName.document.id}" 
         	<#if templateName.hasSiteTemplatePreview()>

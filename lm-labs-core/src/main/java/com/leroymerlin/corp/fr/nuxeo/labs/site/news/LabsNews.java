@@ -7,6 +7,7 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 
 
@@ -56,5 +57,5 @@ public interface LabsNews  extends HtmlSection {
 
     void setCropCoords(String cropCoords) throws ClientException;
 
-    boolean isValid(Blob blob) throws ClientException;
+    void checkPicture(Blob blob) throws LabsBlobHolderException, ClientException;
 }

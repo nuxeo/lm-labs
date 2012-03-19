@@ -40,6 +40,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
@@ -349,10 +350,12 @@ public class PageResource extends DocumentObject {
 
             boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString(
             "commentablePage"));
+            String templateName = ctx.getForm().getString("template");
             Page page = doc.getAdapter(Page.class);
             page.setCommentable(isCheckedCommentable);
             page.setNotDisplayableParameters(fieldsNotDisplayable);
             page.setTitle(pageTitle);
+            doc.getAdapter(LabsTemplate.class).setTemplateName(templateName);
             CoreSession session = getCoreSession();
             session.saveDocument(doc);
             session.save();

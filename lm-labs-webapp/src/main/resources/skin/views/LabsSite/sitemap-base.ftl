@@ -4,6 +4,7 @@
 
   <@block name="scripts">
     <@superBlock/>
+    <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
@@ -12,13 +13,16 @@
 
   <@block name="css">
     <@superBlock/>
+    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
   </@block>
 
+  <@block name="docactions" />
+  
   <@block name="content">
   	<#-- timeout -->
 	<input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
-    <div id="content" class="">
+    <div id="content" style="margin-bottom: 5px;">
         <section>
           <div class="page-header">
             <h1>PLAN DU SITE 
@@ -33,7 +37,10 @@
             <@block name="sitemap-content"/>
             <hr/>
             <#include "views/LabsSite/sitemap_switch_control.ftl" >
-        </div> <!-- /row -->
+          </div> <!-- /row -->
         </section>
+    </div>
+  </@block>
+  <@block name="pageCommentable">
   </@block>
 </@extends>
