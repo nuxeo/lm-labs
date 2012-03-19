@@ -62,9 +62,13 @@
                     <#list templatesMap?sort_by('title') as template>
                         <option value="${template.name}" <#if This.page.template.documentTemplateName == template.name >selected</#if>>${template.title}</option>
                     </#list>
-                    <option value="" <#if This.page.template.documentTemplateName == template >selected</#if>>${Context.getMessage('label.labssites.appearance.templates.none')}</option>
+                    <option value="" <#if This.page.template.documentTemplateName == "" >selected</#if>>${Context.getMessage('label.labssites.appearance.templates.none')}</option>
                 </select>
-                <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + This.page.template.documentTemplateName + '.description')}</small></p>
+                <#assign selectedTemplateName = This.page.template.documentTemplateName />
+                <#if This.page.template.documentTemplateName == "" >
+                    <#assign selectedTemplateName = "none" />
+                </#if>
+                <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + selectedTemplateName + '.description')}</small></p>
                 <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
               </div>
             </div>
