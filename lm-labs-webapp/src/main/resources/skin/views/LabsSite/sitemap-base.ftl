@@ -17,6 +17,8 @@
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
   </@block>
 
+  <@block name="docactions" />
+  
   <@block name="content">
   	<#-- timeout -->
 	<input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
