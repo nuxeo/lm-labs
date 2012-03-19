@@ -35,7 +35,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
             throws ClientException {
         CoreSession session = doc.getCoreSession();
 
-        String name = Slugify.slugify(pTitle);
+        String name = Slugify.slugify(pTitle).replace('\'', '-').replace('"', '-');
         DocumentModel document = session
                 .createDocumentModel(doc.getPathAsString(), name,
                         LabsSiteConstants.Docs.LABSNEWS.type());
