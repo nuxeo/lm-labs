@@ -50,6 +50,8 @@
 		style="left:${(site.themeManager.theme.logoPosX+logoBorderPadding)?string("########")}px;top:${(site.themeManager.theme.logoPosY+logoBorderPadding)?string("########")}px;width:${logoWidth}px;" 
 		<#if canDrop>
 			class="logoImgId-move"
+		<#else>
+            class="logoImgId-notmove"
 		</#if>
 		src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/logo" />
 	
