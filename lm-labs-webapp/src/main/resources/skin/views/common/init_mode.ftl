@@ -1,8 +1,11 @@
-<#if site?? && site.isContributor(Context.principal.name) >
+<#if !isSiteRoot>
+	<#assign mySite=Common.siteDoc(Document).site />
+</#if>
+<#if mySite?? && mySite.isContributor(Context.principal.name) >
 	<script type="text/javascript">
 		
 		var IS_MODE_EDITION = true;
-		var pathCookie = '${Context.modulePath}/${site.URL}';
+		var pathCookie = '${Context.modulePath}/${mySite.URL}';
 		var dragDrop = null;
 		
 		$(document).ready(function() {

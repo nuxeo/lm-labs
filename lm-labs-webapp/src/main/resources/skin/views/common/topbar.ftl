@@ -1,19 +1,22 @@
+<#if !isSiteRoot>
+	<#assign mySite=Common.siteDoc(Document).site />
+</#if>
 <#include "views/common/init_mode.ftl" />
     <div class="navbar-wrapper" style="z-index: 5;">
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container-fluid">
-            <#if site??>
-              <a class="brand" href="${Context.modulePath}/${site.document.webcontainer.url}">${site.title}</a>
+            <#if mySite??>
+              <a class="brand" href="${Context.modulePath}/${mySite.document.webcontainer.url}">${mySite.title}</a>
             <#else>
               <a class="brand" href="${Context.modulePath}">LABS</a>
             </#if>
 
           <div class="nav-collapse" >
           <ul class="nav pull-right">
-            <#if site?? >
+            <#if mySite?? >
             <li>
-              <form class="navbar-form pull-right" style="margin-right: 15px;" accept-charset="ISO-8859-1" action="${Context.modulePath}/${site.URL}/@search">
+              <form class="navbar-form pull-right" style="margin-right: 15px;" accept-charset="ISO-8859-1" action="${Context.modulePath}/${mySite.URL}/@search">
               <input placeholder="${Context.getMessage('label.search')}" name="fullText"/>
               </form>
             </li>
@@ -25,7 +28,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">${Context.principal.firstName} ${Context.principal.lastName}<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <@block name="docactions">
-	                <#if site?? && site.isContributor(Context.principal.name) >
+	                <#if mySite?? && mySite.isContributor(Context.principal.name) >
 	                	<@block name="docactionsaddpage">
 	                		<!--   add page     -->
 	                		<li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView"><i class="icon-plus"></i>${Context.getMessage('command.docactions.addcontent')}</a></li>
@@ -40,7 +43,7 @@
 							</div>
 							<!--   set homePage     -->
 							<li>
-								<#if This.page?? && !(Common.siteDoc(Document).site.indexDocument.id == This.page.document.id)>
+								<#if This.page?? && !(mySite.indexDocument.id == This.page.document.id)>
 									<a href="#" onclick="javascript:setAsHomePage();" ><i class="icon-home"></i>${Context.getMessage('command.docactions.homePage')}</a>
 								</#if>
 							</li>
@@ -143,8 +146,8 @@
 	                
                 </@block>
                 <@block name="siteactions">
-	                <#if site?? && site.isAdministrator(Context.principal.name) >
-	                	<#if site.visible>
+	                <#if mySite?? && mySite.isAdministrator(Context.principal.name) >
+	                	<#if mySite.visible>
 	                		<li><a href="#" onclick="javascript:draftSite();"><i class="icon-file"></i>${Context.getMessage('command.siteactions.draft')}</a></li>
 	                	<#else>
 	                		<li><a href="#" onclick="javascript:publishSite();"><i class="icon-share-alt"></i>${Context.getMessage('command.siteactions.publish')}</a></li>
@@ -158,7 +161,7 @@
 		                			jQuery.ajax({
 										type: 'PUT',
 									    async: false,
-									    url: '${Context.modulePath}/${site.URL}/@labspublish/publish',
+									    url: '${Context.modulePath}/${mySite.URL}/@labspublish/publish',
 									    success: function(data) {
 									    	if (data == 'publish') {
 									          alert("${Context.getMessage('label.lifeCycle.site.hasPublished')}");
@@ -182,7 +185,7 @@
 		                			jQuery.ajax({
 										type: 'PUT',
 									    async: false,
-									    url: '${Context.modulePath}/${site.URL}/@labspublish/draft',
+									    url: '${Context.modulePath}/${mySite.URL}/@labspublish/draft',
 									    success: function(data) {
 									    	if (data == 'draft') {
 									          alert("${Context.getMessage('label.lifeCycle.site.hasDrafted')}");
@@ -206,7 +209,7 @@
 		                			jQuery.ajax({
 										type: 'PUT',
 									    async: false,
-									    url: '${Context.modulePath}/${site.URL}/@labspublish/delete',
+									    url: '${Context.modulePath}/${mySite.URL}/@labspublish/delete',
 									    success: function(data) {
 									    	if (data == 'delete') {
 									          alert("${Context.getMessage('label.lifeCycle.site.hasDeleted')}");
@@ -225,16 +228,16 @@
 	                		}
 	                	</script>
 	                </#if>
-	                <#if site?? && site.isContributor(Context.principal.name) >
-	                <li><a href="${Context.modulePath}/${site.URL}/@views/edit"><i class="icon-cog"></i>${Context.getMessage('label.contextmenu.administration')}</a></li>
+	                <#if mySite?? && mySite.isContributor(Context.principal.name) >
+	                <li><a href="${Context.modulePath}/${mySite.URL}/@views/edit"><i class="icon-cog"></i>${Context.getMessage('label.contextmenu.administration')}</a></li>
 	                </#if>
-	                <#if site??>
-	                  <li><a href="${Context.modulePath}/${site.URL}/@views/sitemap"><i class="icon-map-marker"></i>${Context.getMessage('label.contextmenu.sitemap')}</a></li>
+	                <#if mySite??>
+	                  <li><a href="${Context.modulePath}/${mySite.URL}/@views/sitemap"><i class="icon-map-marker"></i>${Context.getMessage('label.contextmenu.sitemap')}</a></li>
 	                </#if>
                 </@block>
 
-              <#if site?? && site.isAdministrator(Context.principal.name) >
-                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${site.document.title}/tree@view_documents?tabIds=%3A" target="_blank" ><i class="icon-edit"></i>${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
+              <#if mySite?? && mySite.isAdministrator(Context.principal.name) >
+                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${mySite.document.title}/tree@view_documents?tabIds=%3A" target="_blank" ><i class="icon-edit"></i>${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
                 <li><a id="logoutLnk" href="#"<#-- onclick="doLogout();return false;"-->><i class="icon-off"></i>${Context.getMessage('command.contextmenu.logout')}</a></li>

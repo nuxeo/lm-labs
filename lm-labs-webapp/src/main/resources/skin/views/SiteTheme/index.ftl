@@ -1,4 +1,5 @@
-<#if site?? && Session.hasPermission(site.document.ref, "Everything")>
+<#assign mySite=Common.siteDoc(Document).site />
+<#if mySite?? && Session.hasPermission(mySite.document.ref, "Everything")>
 <@extends src="/views/labs-admin-base.ftl">
 
 	<@block name="scripts">
@@ -28,7 +29,7 @@
         <div class="page-header">
           <h3>
           	${Context.getMessage('label.labssites.appearance.title')}
-          	<small><a href="${Context.modulePath}/${Common.siteDoc(Document).site.URL}" target="_blank">${Context.getMessage('label.labssites.appearance.preview')}</a></small>
+          	<small><a href="${Context.modulePath}/${mySite.URL}" target="_blank">${Context.getMessage('label.labssites.appearance.preview')}</a></small>
           </h3>
         </div>
         <div class="row">
@@ -42,7 +43,7 @@
                   <label class="control-label" for="theme">${Context.getMessage('label.labssites.appearance.theme.label')}</label>
                   <div class="controls">
                     <a href="#" id="modifyThemeParameters"><br/>${Context.getMessage('label.labssites.appearance.theme.parameters')}</a> 
-                    <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${site.getThemeManager().getTheme().getName()}');">
+                    <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${mySite.getThemeManager().getTheme().getName()}');">
                         <#assign themesMap = [] />
                         <#list This.getThemes() as theme>
                             <#assign trad = Context.getMessage('label.labssites.appearance.themes.' + theme) />
@@ -54,7 +55,7 @@
                             <#assign themesMap = themesMap + [ {"name" : theme, "title" : themeName} ] />
                         </#list>
                         <#list themesMap?sort_by('title') as theme>
-                            <option value="${theme.name}"  <#if site.getThemeManager().getTheme().getName() == theme.name >selected</#if>>${theme.title}</option>
+                            <option value="${theme.name}"  <#if mySite.getThemeManager().getTheme().getName() == theme.name >selected</#if>>${theme.title}</option>
                         </#list>
                     </select>
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.help.block')}</p>
@@ -67,10 +68,10 @@
                     <#include "views/common/getTemplatesMap.ftl">
                     <#assign templatesMap = getTemplatesMap() />
                     <#list templatesMap?sort_by('title') as template>
-            			<option value="${template.name}"  <#if site.template.templateName == template.name >selected</#if>>${template.title}</option>
+            			<option value="${template.name}"  <#if mySite.template.templateName == template.name >selected</#if>>${template.title}</option>
             		</#list>
 	            	</select>
-                    <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + site.template.templateName + '.description')}</small></p>
+                    <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + mySite.template.templateName + '.description')}</small></p>
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
                   </div>
                 </div>
@@ -93,7 +94,7 @@
 	      		<div class="control-group">
                   <label class="control-label" for="banner">${Context.getMessage('label.labssites.appearance.theme.edit.banner.label')}</label>
                   <div class="controls">
-                  	<#if (site.themeManager.theme.banner != null)>
+                  	<#if (mySite.themeManager.theme.banner != null)>
 	                  	<div id="actionMediaBanner" style="float: right;">
 		                  	<span onclick="javascript:deleteElement('${This.path}/banner', 'hideBanner()', '${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete.confirm')}');" style="cursor: pointer;">
 						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete')}" src="${skinPath}/images/x.gif"/>
@@ -109,10 +110,10 @@
                 <div class="control-group">
                   <label class="control-label" for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
                   <div class="controls">
-                  	 <#assign logoWidth = site.themeManager.theme.logoWidth />
+                  	 <#assign logoWidth = mySite.themeManager.theme.logoWidth />
                   	 <#if logoWidth &gt; 0 >
 	                    <div id="actionMediaLogo" style="float: right;">
-	                    	<img src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/logo" style="width: 40px;border:1px dashed black;"/>
+	                    	<img src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.theme.name}/logo" style="width: 40px;border:1px dashed black;"/>
 		                  	<span onclick="javascript:deleteElement('${This.path}/logo', 'hideLogo()', '${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete.confirm')}');" style="cursor: pointer;">
 						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete')}" src="${skinPath}/images/x.gif"/>
 						  	</span>                  
@@ -163,7 +164,7 @@
 		      		<div class="control-group">
 	                  <label class="control-label" for="style">${Context.getMessage('label.labssites.appearance.theme.edit.style.label')}</label>
 	                  <div class="controls">
-			      		 <textarea class="input" name="style" style="width: 350px;height: 135px;">${site.themeManager.theme.style}</textarea>
+			      		 <textarea class="input" name="style" style="width: 350px;height: 135px;">${mySite.themeManager.theme.style}</textarea>
 	                    <p class="help-block" style="color: red;">${Context.getMessage('label.labssites.appearance.theme.edit.style.help.block')}</p>
 	                  </div>
 	                </div>
@@ -176,19 +177,19 @@
 	                <div class="control-group">
 	                  <label class="control-label" for="logo_posx">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posx')}</label>
 	                  <div class="controls">
-	                    <input class="input" id="logo_posx" name="logo_posx" type="text" value="${site.themeManager.theme.logoPosX}" class="small" />
+	                    <input class="input" id="logo_posx" name="logo_posx" type="text" value="${mySite.themeManager.theme.logoPosX}" class="small" />
 	                  </div>
                     </div>
                     <div class="control-group">
 	                  <label class="control-label" for="logo_posy">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posy')}</label>
 	                  <div class="controls">
-	                    <input class="input" id="logo_posy" name="logo_posy" type="text" value="${site.themeManager.theme.logoPosY}" class="small" />
+	                    <input class="input" id="logo_posy" name="logo_posy" type="text" value="${mySite.themeManager.theme.logoPosY}" class="small" />
 	                  </div>
                     </div>
                     <div class="control-group">
 	                  <label class="control-label" for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
 	                  <div class="controls">
-	                    <input class="input" id="resize_ratio" name="resize_ratio" type="text" value="${site.themeManager.theme.logoResizeRatio}" class="small" />
+	                    <input class="input" id="resize_ratio" name="resize_ratio" type="text" value="${mySite.themeManager.theme.logoResizeRatio}" class="small" />
 	                  </div>
 	                </div>
 	              </div>

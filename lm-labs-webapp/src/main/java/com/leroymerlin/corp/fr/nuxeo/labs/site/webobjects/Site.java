@@ -70,7 +70,6 @@ public class Site extends NotifiablePageResource {
         super.initialize(args);
         site = doc.getAdapter(LabsSite.class);
 
-        ctx.getEngine().getRendering().setSharedVariable("site", site);
         ctx.setProperty("site", site);
     }
 

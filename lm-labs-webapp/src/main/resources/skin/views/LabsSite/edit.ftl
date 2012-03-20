@@ -1,4 +1,5 @@
-<#if site?? && (Session.hasPermission(site.document.ref, "Everything") || Session.hasPermission(site.document.ref, "ReadWrite"))>
+<#assign mySite=Common.siteDoc(Document).site />
+<#if mySite?? && (Session.hasPermission(mySite.document.ref, "Everything") || Session.hasPermission(mySite.document.ref, "ReadWrite"))>
 <@extends src="/views/labs-admin-base.ftl">
 
   <@block name="docactions"></@block>
@@ -49,14 +50,14 @@ jQuery(document).ready(function() {
                 <div class="control-group">
                   <label class="control-label" for="labsSiteTitle">${Context.getMessage('label.labssite.edit.title')}</label>
                   <div class="controls">
-                    <input class="required" name="dc:title" value="${site.title}" id="labsSiteTitle"/>
+                    <input class="required" name="dc:title" value="${mySite.title}" id="labsSiteTitle"/>
                   </div>
                 </div>
 
                 <div class="control-group">
                   <label class="control-label" for="labsSiteURL">${Context.getMessage('label.labssite.edit.url')}</label>
                   <div class="controls">
-                    ${Context.modulePath}/<input class="required" name="webc:url" value="${site.URL}" id="labsSiteURL" />
+                    ${Context.modulePath}/<input class="required" name="webc:url" value="${mySite.URL}" id="labsSiteURL" />
                     <p class="help-block">C'est par ce lien que le site sera accessible</p>
                   </div>
                 </div>
@@ -64,32 +65,32 @@ jQuery(document).ready(function() {
                 <div class="control-group">
                   <label class="control-label" for="labsSiteDescription">${Context.getMessage('label.labssite.edit.description')}</label>
                   <div class="controls">
-                    <textarea name="dc:description" id="labsSiteDescription" >${site.description}</textarea>
+                    <textarea name="dc:description" id="labsSiteDescription" >${mySite.description}</textarea>
                   </div>
                 </div>
 
                 <div class="control-group">
                   <label class="control-label" for="piwik:piwikId">${Context.getMessage('label.labssite.edit.piwikId')}</label>
                   <div class="controls">
-                    <textarea name="piwik:piwikId" id="piwik:piwikId" >${site.piwikId}</textarea>
+                    <textarea name="piwik:piwikId" id="piwik:piwikId" >${mySite.piwikId}</textarea>
                   </div>
                 </div>
 
 			    <div class="control-group">
 			      <div class="controls">
 			        <label class="checkbox" for="siteTemplate">
-			          <input class="checkbox" id="siteTemplate" type="checkbox" name="labssite:siteTemplate" <#if site.siteTemplate>checked="true"</#if> />
+			          <input class="checkbox" id="siteTemplate" type="checkbox" name="labssite:siteTemplate" <#if mySite.siteTemplate>checked="true"</#if> />
 			        &nbsp;${Context.getMessage('label.labssite.edit.siteTemplate')}</label>
 			      </div>
 			    </div>
 			
-				<div class="control-group" id="siteTemplatePreviewDiv" <#if !site.siteTemplate>style="display:none;"</#if>>
-			      <#if site.siteTemplate && site.siteTemplatePreview?? >
+				<div class="control-group" id="siteTemplatePreviewDiv" <#if !mySite.siteTemplate>style="display:none;"</#if>>
+			      <#if mySite.siteTemplate && mySite.siteTemplatePreview?? >
 			      <div style="float: right; margin-right: 25px;" >
 			        <img style="width:400px;cursor:pointer;"
 			          title="${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete')}" 
-			          onclick="if (confirm('${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete.confirm')?js_string}')){jQuery('#waitingPopup').dialog2('open'); jQuery.ajax({url:'${Root.getLink(site.document)}/@blob', type:'DELETE', success:function() {window.location.reload();}, error:function(data){jQuery('#waitingPopup').dialog2('close');}});}"
-			          src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@blob"/>
+			          onclick="if (confirm('${Context.getMessage('label.labssite.edit.siteTemplatePreview.delete.confirm')?js_string}')){jQuery('#waitingPopup').dialog2('open'); jQuery.ajax({url:'${Root.getLink(mySite.document)}/@blob', type:'DELETE', success:function() {window.location.reload();}, error:function(data){jQuery('#waitingPopup').dialog2('close');}});}"
+			          src="${Context.modulePath}/${mySite.URL}/@blob"/>
 			      </div>
 			      </#if>
 			      <label class="control-label" for="siteTemplatePreview">${Context.getMessage('label.labssite.edit.siteTemplatePreview')}</label>

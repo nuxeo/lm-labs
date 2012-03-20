@@ -2,7 +2,7 @@
 <#include "views/common/paging.ftl" />
 <#assign nbrElemPerPage = 20 />
 
-  <@block name="title">${site.title}-${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
+  <@block name="title">${Common.siteDoc(Document).site.title}-${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
 
   <@block name="content">
   <div class="">

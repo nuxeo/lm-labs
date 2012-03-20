@@ -1,6 +1,7 @@
+<#assign mySite=Common.siteDoc(Document).site />
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
 
-  <@block name="title">${site.title}-${This.document.title}</@block>
+  <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="scripts">
     <@superBlock/>
@@ -26,7 +27,7 @@
         <section>
           <div class="page-header">
             <h1>PLAN DU SITE 
-          	<#if site?? && (Session.hasPermission(site.document.ref, 'Everything') || Session.hasPermission(site.document.ref, 'ReadWrite')) >
+          	<#if mySite?? && (Session.hasPermission(mySite.document.ref, 'Everything') || Session.hasPermission(mySite.document.ref, 'ReadWrite')) >
           	<a href="${This.path}/@views/administer_pages"><button id="adminPagesBt" class="btn btn-danger btn-small">${Context.getMessage('command.sitemap.goToPageAdmin')}</button></a>
           	</#if>
           	</h1>

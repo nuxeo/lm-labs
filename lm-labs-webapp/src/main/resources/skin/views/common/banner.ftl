@@ -1,5 +1,6 @@
-<#if site.themeManager.theme.getBanner() != null >	
+<#assign mySite=Common.siteDoc(Document).site />
+<#if mySite.themeManager.theme.getBanner() != null >	
 	<div id="labssite-banner" style="text-align: center">
-	    <img src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/banner" id="bannerImgId" />
+	    <img src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.theme.name}/banner" id="bannerImgId" />
 	</div>
 </#if>

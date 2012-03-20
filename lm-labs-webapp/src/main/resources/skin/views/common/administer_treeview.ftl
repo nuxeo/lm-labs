@@ -1,7 +1,8 @@
 <@extends src="/views/labs-admin-base.ftl">
 
 <#if adminTreeviewType == "Pages" >
-	<#assign homepageDoc = Common.siteDoc(Document).site.indexDocument />
+	<#assign mySite=Common.siteDoc(Document).site />
+	<#assign homepageDoc = mySite.indexDocument />
 	<#assign parents = Session.getParentDocuments(homepageDoc.ref) />
 	<#assign ids = [] />
 	<#list parents?reverse as parent>
@@ -325,7 +326,7 @@
 				<#if !Session.hasPermission(Document.ref, 'Everything')>
 					delete items.remove;
 				</#if>
-				<#if !(site?? && site.isAdministrator(Context.principal.name)) >
+				<#if !(mySite?? && mySite.isAdministrator(Context.principal.name)) >
 					delete items.home;
 				</#if>
 				

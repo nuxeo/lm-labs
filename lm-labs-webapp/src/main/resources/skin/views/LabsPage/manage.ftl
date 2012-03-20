@@ -1,3 +1,4 @@
+<#assign mySite=Common.siteDoc(Document).site />
 <h1>Ajouter du contenu</h1>
 
 <form class="form-horizontal" onsubmit="addDoc(null);return false;" id="add_doc_form" action="${This.path}" method="post">
@@ -73,12 +74,12 @@ function addDoc(event) {
 		data: $("#add_doc_form").serialize(),		
 		success: function(msg){
 			if (msg == "existedPageName"){
-					<#if site?? && site.isAdministrator(Context.principal.name)>
+					<#if mySite?? && mySite.isAdministrator(Context.principal.name)>
 						if (confirm("${Context.getMessage('label.page.creation.existDeletedPageName.administrator')?js_string}")){
 							addDocWithDelete();
 						}
 					<#else>
-						<#if site?? && site.isContributor(Context.principal.name)>
+						<#if mySite?? && mySite.isContributor(Context.principal.name)>
 							alert("${Context.getMessage('label.page.creation.existDeletedPageName.contributor')?js_string}");
 						</#if>
 					</#if>

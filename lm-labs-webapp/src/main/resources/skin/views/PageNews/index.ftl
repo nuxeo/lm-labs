@@ -1,7 +1,8 @@
+<#assign mySite=Common.siteDoc(Document).site />
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
   <#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
 
-  <@block name="title">${site.title}-${This.document.title}</@block>
+  <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="scripts">
     <@superBlock/>
@@ -69,7 +70,7 @@
             </section>
         </#list>
         <hr />
-        <a href="${This.path}/@labsrss/topnews" title="${Context.getMessage('tooltip.PageNews.rss')}<#if !site.visible> ${Context.getMessage('tooltip.PageNews.rss.siteNotPublish')}</#if>" target="_blank"><img src="${skinPath}/images/iconRss.gif"/></a>
+        <a href="${This.path}/@labsrss/topnews" title="${Context.getMessage('tooltip.PageNews.rss')}<#if !mySite.visible> ${Context.getMessage('tooltip.PageNews.rss.siteNotPublish')}</#if>" target="_blank"><img src="${skinPath}/images/iconRss.gif"/></a>
       </div>
   </@block>
 </@extends>
