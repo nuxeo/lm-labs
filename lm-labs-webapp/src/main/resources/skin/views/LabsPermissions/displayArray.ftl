@@ -1,6 +1,6 @@
 <section>
     <@displayPermTypeHeader permType='Everything' permsList=permissionsAdmin >
-        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Everything')?js_string}', 'Everything');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Everything')}" class="btn btn-small" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
+        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Everything')?js_string}', 'Everything');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Everything')}" class="btn btn-mini" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
     </@displayPermTypeHeader>
 	<#list permissionsAdmin as perm>
        <@displayPermRow perm=perm />
@@ -9,7 +9,7 @@
 
 <section>
     <@displayPermTypeHeader permType='Write' permsList=permissionsWrite >
-        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn btn-small" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
+        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn btn-mini" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
     </@displayPermTypeHeader>
 	<#list permissionsWrite as perm>
        <@displayPermRow perm=perm />
@@ -18,8 +18,8 @@
 
 <section>
     <@displayPermTypeHeader permType='Read' permsList=permissionsRead >
-        <button id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}" class="btn btn-small btn-warning"><i class="icon-fire"></i>${Context.getMessage('label.security.labs.button.vomitPublic')}</button>
-        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Read')?js_string}', 'Read');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Read')}" class="btn btn-small"><i class="icon-plus" style="padding-right:0px;"></i></button>
+        <button id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}" class="btn btn-mini btn-warning"><i class="icon-fire"></i>${Context.getMessage('label.security.labs.button.vomitPublic')}</button>
+        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Read')?js_string}', 'Read');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Read')}" class="btn btn-mini"><i class="icon-plus" style="padding-right:0px;"></i></button>
     </@displayPermTypeHeader>
 	<#list permissionsRead as perm>
 	   <@displayPermRow perm=perm />
@@ -44,7 +44,7 @@
     </div>
     <div class="span2 columns">
         <#if perm.inherited == false >
-        	<button class="btn btn-small btn-danger" onClick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}', '${Context.getMessage('label.security.labs.permission.confirm_delete', permText, permName)?js_string}');"><i class="icon-remove" style="padding-right:0px;"></i></button>
+        	<button class="btn btn-mini btn-danger" onClick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}', '${Context.getMessage('label.security.labs.permission.confirm_delete', permText, permName)?js_string}');"><i class="icon-remove" style="padding-right:0px;"></i></button>
             
         <#else>
             &nbsp;
