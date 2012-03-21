@@ -1,15 +1,16 @@
+<#assign mySite=Common.siteDoc(Document).site />
 <div id="div_externalURL" class="bloc" >
     <div class="header">${Context.getMessage('label.externalURL.title')}</div>
     <ul id="ulExtURL" class="unstyled">
-	     <#list Common.siteDoc(Document).site.externalURLs as e >
+	     <#list mySite.externalURLs as e >
 	       <li id="${e.document.id}">
 			    <a href="${e.getURL()}" style="word-wrap: break-word;" target="_blank" title="${e.getURL()}">${e.name}</a>
 			    <#if Session.hasPermission(This.document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite')>
 			      <div class="actionExternalURL editblock">
-			        <img onClick="javascript:moveUpExternalURL('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Monter" alt="Monter" src="${skinPath}/images/arrow-up.png" />
-			        <img onClick="javascript:moveDownExternalURL('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Descendre" alt="Descendre" src="${skinPath}/images/arrow-down.png" />
+			        <img onClick="javascript:moveUpExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Monter" alt="Monter" src="${skinPath}/images/arrow-up.png" />
+			        <img onClick="javascript:moveDownExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Descendre" alt="Descendre" src="${skinPath}/images/arrow-down.png" />
 			        <img onClick="javascript:modifyExternalURL('${e.name?js_string}', '${e.getURL()}', '0', '${e.document.id}');" title="Modifier" alt="Modifier" src="${skinPath}/images/edit.gif" />
-			        <img onClick="javascript:deleteExternalURL('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@externalURL/${e.document.id}', '${This.path}');" title="Supprimer" alt="Supprimer" src="${skinPath}/images/x.gif" />
+			        <img onClick="javascript:deleteExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}');" title="Supprimer" alt="Supprimer" src="${skinPath}/images/x.gif" />
 			      </div>
 			    </#if>
 		    </li>
@@ -26,7 +27,7 @@
 <div id="div_persistExternalURL" style="display: none;" >
   <h1>${Context.getMessage('label.externalURL.edit.title')}</h1>
   <form class="form-horizontal" method="post" id="form-externalURL" enctype="multipart/form-data"
-  	action="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@externalURL">
+  	action="${Context.modulePath}/${mySite.URL}/@externalURL">
   	<fieldset>
   	  <div class="control-group">
         <label class="control-label" for="exturl:name">${Context.getMessage('label.externalURL.edit.name')}</label>

@@ -1,6 +1,6 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
-
-  <@block name="title">${site.title}-${This.document.title}</@block>
+  <#assign mySite=Common.siteDoc(Document).site />
+  <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="scripts">
     <@superBlock/>
@@ -23,7 +23,7 @@
    
    	<#include "views/common/page_header.ftl">
   	
-  <#assign isContributor = site?? && site.isContributor(Context.principal.name) />
+  <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
   </#if>

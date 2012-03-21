@@ -15,7 +15,7 @@
         if (targetType != "Site") {
             subsUrl = "${This.path}";
         } else {
-            subsUrl = "${Context.modulePath}/${site.URL}";
+            subsUrl = "${Context.modulePath}/${Common.siteDoc(Document).site.URL}";
         }
         jQuery.ajax({
             type: 'GET',

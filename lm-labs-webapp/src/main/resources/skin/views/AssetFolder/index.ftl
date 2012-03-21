@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
     "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="fr">
+<#assign mySite=Common.siteDoc(Document).site />
     <head>
     	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       	<title>Interface des médias</title>
@@ -18,7 +19,7 @@
         <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
         <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
 
-	  <link rel="stylesheet/less" href="${Context.modulePath}/${site.URL}/generated.less">
+	  <link rel="stylesheet/less" href="${Context.modulePath}/${mySite.URL}/generated.less">
       <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.2.1.min.js"></script>
 
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
@@ -91,11 +92,11 @@
    var currentPath = "${This.path}";
    $(document).ready(function() {
      $('#treenav').treeview({
-       url: "${Context.modulePath}/${site.URL}/@assets/json",
+       url: "${Context.modulePath}/${mySite.URL}/@assets/json",
        persist: "cookie",
        control: "#navtreecontrol",
        collapsed: true,
-       cookieId: "${site.document.id}-assets-navtree"
+       cookieId: "${mySite.document.id}-assets-navtree"
       }
     );    
   });

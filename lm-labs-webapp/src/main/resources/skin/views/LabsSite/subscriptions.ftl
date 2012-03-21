@@ -1,7 +1,8 @@
-<#if site?? && !Context.principal.anonymous>
+<#assign mySite=Common.siteDoc(Document).site />
+<#if mySite?? && !Context.principal.anonymous>
 <@extends src="/views/labs-admin-base.ftl">
 
-  <@block name="title">${site.title}-${This.document.title} - ${Context.getMessage('title.LabsSite.subscriptions')}</@block>
+  <@block name="title">${mySite.title}-${This.document.title} - ${Context.getMessage('title.LabsSite.subscriptions')}</@block>
 
 <@block name="scripts">
     <@superBlock/>
@@ -74,7 +75,7 @@ jQuery(document).ready(function() {
               <td>&nbsp;</td>
             </tr>
           </#if> 
-          <#list site.subscribedPages as page >
+          <#list mySite.subscribedPages as page >
             <#assign doc = page.document />
           <tr>
             <td>

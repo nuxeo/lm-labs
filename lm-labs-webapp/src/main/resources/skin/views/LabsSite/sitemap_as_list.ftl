@@ -1,3 +1,4 @@
+<#assign mySite=Common.siteDoc(Document).site />
 <@extends src="views/LabsSite/sitemap-base.ftl">
      <@block name="scripts">
       <@superBlock/>
@@ -40,9 +41,9 @@ jQuery(document).ready(function() {
             </tr>
           </thead>
           <tbody>
-          <#list site.allPages as page>
-            <#assign isAdmin = site.isAdministrator(Context.principal.name) />
-            <#if isAdmin || (!site.isAdministrator(Context.principal.name) && page.visible) > 
+          <#list mySite.allPages as page>
+            <#assign isAdmin = mySite.isAdministrator(Context.principal.name) />
+            <#if isAdmin || (!mySite.isAdministrator(Context.principal.name) && page.visible) > 
             <tr>
               <#assign doc=page.document />
               <td class="nameCol"><a href="${Context.modulePath}/${page.path?html}">${doc.title}</a></td>

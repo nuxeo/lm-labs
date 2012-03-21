@@ -100,7 +100,7 @@ public class SitesRoot extends ModuleRoot {
         rendering.setSharedVariable("userFullName",
                 new UserFullNameTemplateMethod());
         rendering.setSharedVariable("dateInWords", new DateInWordsMethod());
-        rendering.setSharedVariable("site", null);
+        rendering.setSharedVariable("isSiteRoot", true);
         rendering.setSharedVariable("Common", new CommonHelper());
         rendering.setSharedVariable(
                 "serverTimeout",

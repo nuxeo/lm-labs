@@ -1,4 +1,5 @@
-<#assign logoWidth = site.themeManager.theme.logoWidth />
+<#assign mySite=Common.siteDoc(Document).site />
+<#assign logoWidth = mySite.themeManager.theme.logoWidth />
 <#assign canDrop = Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')/>
 
 <#if canDrop>
@@ -6,7 +7,6 @@
 <#else>
 	<#assign logoBorderPadding=23 />
 </#if>
-
 <#if logoWidth &gt; 0>
 	<#if canDrop>
 		<script type="text/javascript">
@@ -18,7 +18,7 @@
 				jQuery.ajax({
 						async : false,
 						type: 'POST',
-						url: "${Context.modulePath}/${site.URL}/@theme/${site.themeManager.theme.name}/logoXY",
+						url: "${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.theme.name}/logoXY",
 						data : {
 							"posX" : posX,
 							"posY" : posY
@@ -47,19 +47,19 @@
 
 	<img
 		id="logoImgId"
-		style="left:${(site.themeManager.theme.logoPosX+logoBorderPadding)?string("########")}px;top:${(site.themeManager.theme.logoPosY+logoBorderPadding)?string("########")}px;width:${logoWidth}px;" 
+		style="left:${(mySite.themeManager.theme.logoPosX+logoBorderPadding)?string("########")}px;top:${(mySite.themeManager.theme.logoPosY+logoBorderPadding)?string("########")}px;width:${logoWidth}px;" 
 		<#if canDrop>
 			class="logoImgId-move"
 		<#else>
             class="logoImgId-notmove"
 		</#if>
-		src="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@theme/${site.themeManager.theme.name}/logo" />
+		src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.theme.name}/logo" />
 	
 	<#if canDrop>
 		<div 
 			id="logoDragMsgId" 
 			class="logoDragMsg"
-			style="top:${(site.themeManager.theme.logoPosY+logoBorderPadding-14)?string("########")}px;left:${(site.themeManager.theme.logoPosX+logoBorderPadding)?string("########")}px;width:${logoWidth}px;">
+			style="top:${(mySite.themeManager.theme.logoPosY+logoBorderPadding-14)?string("########")}px;left:${(mySite.themeManager.theme.logoPosX+logoBorderPadding)?string("########")}px;width:${logoWidth}px;">
 	        	<span>${Context.getMessage("label.labssites.appearance.theme.edit.drag_n_drop")}</span>
 	    </div>
 	</#if>

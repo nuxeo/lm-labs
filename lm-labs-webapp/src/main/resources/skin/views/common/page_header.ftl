@@ -1,3 +1,4 @@
+<#assign mySite=Common.siteDoc(Document).site />
 <#assign page = This.page />
 <#if page.isDisplayable(This.DC_TITLE)>
 <div class="page-title">
@@ -7,7 +8,7 @@
 <div style="clear: both;" />
 </#if>
 <div>
-	<#if site?? && site.isContributor(Context.principal.name) >
+	<#if mySite?? && mySite.isContributor(Context.principal.name) >
 		<#include "views/common/description_area.ftl">
 	<#elseif page.isDisplayable(This.DC_DESCRIPTION)>
 		${page.description}

@@ -151,13 +151,19 @@ public class PageResource extends DocumentObject {
     }
 
     public boolean isAuthorizedToDisplay() throws ClientException {
-        return labsBaseAdapter.isAuthorizedToDisplay();
+        if (!Docs.LABSNEWS.type().equals(doc.getType())) {
+            return labsBaseAdapter.isAuthorizedToDisplay();
+        }
+        return true;
     }
 
     public boolean isAuthorizedToDisplay(DocumentModel pDocument)
             throws ClientException {
-        return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(
+        if (!Docs.LABSNEWS.type().equals(doc.getType())) {
+            return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(
                 Page.class).isAuthorizedToDisplay() : false;
+        }
+        return true;
     }
 
     public boolean isVisible() throws ClientException {

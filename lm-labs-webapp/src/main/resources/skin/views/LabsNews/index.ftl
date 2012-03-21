@@ -1,7 +1,8 @@
-<@extends src="/views/TemplatesBase/" + site.template.templateName + "/template.ftl">
+<#assign mySite=Common.siteDoc(Document).site />
+<@extends src="/views/TemplatesBase/" + mySite.template.templateName + "/template.ftl">
   <#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
 
-  <@block name="title">${site.title}-${This.document.title}</@block>
+  <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="scripts">
     <@superBlock/>
@@ -21,7 +22,7 @@
   <@block name="docactionsaddpage"></@block>
   <@block name="docactionsonpage"></@block>
   
-  <#assign isContributor = site?? && site.isContributor(Context.principal.name) />
+  <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
   </#if>

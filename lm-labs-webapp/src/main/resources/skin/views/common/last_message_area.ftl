@@ -1,6 +1,7 @@
+<#assign mySite=Common.siteDoc(Document).site />
 <div id="lastMessage" class="lastMessage bloc">
 	<div class="header">${Context.getMessage('label.last_message.title')}</div>
-	<#if site.lastUpdatedDocs?size &gt; 0>
+	<#if mySite.lastUpdatedDocs?size &gt; 0>
 		<div class="itemList">
 		</div>
 		<div class="browseLastMsg">
@@ -17,7 +18,7 @@ var mois = new Array("janv.","f&eacute;v.","mars","avr.","mai","juin","juil.","a
 $(".itemList").ready(function() {  
   $.ajax({  
     type: "GET",  
-    url: "${Context.modulePath}/${site.URL}/@labsrss",  
+    url: "${Context.modulePath}/${mySite.URL}/@labsrss",  
     dataType: "xml",  
     success: parseXml  
   });

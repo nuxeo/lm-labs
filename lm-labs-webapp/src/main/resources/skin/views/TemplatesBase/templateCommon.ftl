@@ -41,6 +41,9 @@
 	        <#include "views/common/footer.ftl">
 	        <#include "views/common/labsPiwik.ftl">
 	        <#include "views/common/loading.ftl">
+	        
+	        	<#include "/views/common/audioReader.ftl" />
+	        
     	</div><#-- /FKfooter -->
     	<div>&nbsp;</div>
 	</@block>

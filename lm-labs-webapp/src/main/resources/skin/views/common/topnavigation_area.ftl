@@ -1,3 +1,5 @@
+<#assign mySite=Common.siteDoc(Document).site />
+
 <#function isCurrentPage id>
 	<#if id == Document.id >
 		<#return true>
@@ -15,7 +17,7 @@
 </#function>
 
 	<ul class="nav nav-tabs topnavpages">
-		<#assign topPages = Common.getTopNavigationPages(site.tree, Context.principal.name) />
+		<#assign topPages = Common.getTopNavigationPages(mySite.tree, Context.principal.name) />
 		<#if topPages?size &gt; 0 >
 			<#assign tabActivated = false />
 			<#assign homePageId = Common.siteDoc((topPages?first).document).site.indexDocument.id />
@@ -39,7 +41,7 @@
 				</li>
 			</#list>
 		<#else>
-			<#assign url = Context.modulePath + "/" + site.URL />
+			<#assign url = Context.modulePath + "/" + mySite.URL />
 			<li class="active"><a href="${url}"><h5>${Context.getMessage('label.homePage')}</h5></a></li>
 		</#if> 
 	</ul>
