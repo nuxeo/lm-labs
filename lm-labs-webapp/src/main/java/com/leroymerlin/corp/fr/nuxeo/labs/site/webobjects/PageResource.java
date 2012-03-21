@@ -159,7 +159,7 @@ public class PageResource extends DocumentObject {
 
     public boolean isAuthorizedToDisplay(DocumentModel pDocument)
             throws ClientException {
-        if (!Docs.LABSNEWS.type().equals(doc.getType())) {
+        if (pDocument != null && !Docs.LABSNEWS.type().equals(pDocument.getType())) {
             return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(
                 Page.class).isAuthorizedToDisplay() : false;
         }
