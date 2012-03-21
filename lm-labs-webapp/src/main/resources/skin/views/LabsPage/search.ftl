@@ -92,13 +92,17 @@
                   <#elseif doc.type != "LabsNews">
                   <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">
                   </#if>
+                  <#if !hasFile || doc.type != "LabsNews">
                   <i class="icon-eye-open"></i>${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
+                  </#if>
                   <#if !hasFile>
                   <a disabled="disabled" href="#" class="btn disabled">
                   <#elseif doc.type != "LabsNews">
                   <a href="${Context.modulePath}/${sd.resourcePath}/@blob" target="_blank" class="btn">
                   </#if>
+                  <#if !hasFile || doc.type != "LabsNews">
                   <i class="icon-download"></i>${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
+                  </#if>
                 </td>
             </tr>
           </#list>
