@@ -1,5 +1,5 @@
 			<div class="editblock">
-				<div id="editprops">
+				<div id="editprops" style="display: none;">
 					  <#if news != null>
 					  	<div style="width: auto;">
   					  	  <h4>Prévisualisation du résumé</h4>
