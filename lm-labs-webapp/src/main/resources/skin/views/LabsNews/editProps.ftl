@@ -56,8 +56,8 @@
 								  	</span>
 								    <#--Editeur de la photo -->
 								    <a style="cursor: pointer;" onclick="javascript:openCropPicture();">Recadrer l'image du résumé</a>
-								    <input type="hidden" name="cropSummaryPicture" id="cropSummaryPicture" value="${news.cropCoords?html?js_string}" />
-								    <input type="hidden" id="cropSummaryPictureOrigin" value="${news.cropCoords?html?js_string}" />
+								    <input type="hidden" name="cropSummaryPicture" id="cropSummaryPicture" value="${news.cropCoords?html}" />
+								    <input type="hidden" id="cropSummaryPictureOrigin" value="${news.cropCoords?html}" />
 								</div>
 							</#if>
 						    <div class="actions" style="margin-left: 200px;">
