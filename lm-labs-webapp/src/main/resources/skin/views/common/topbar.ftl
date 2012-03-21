@@ -43,7 +43,7 @@
 							</div>
 							<!--   set homePage     -->
 							<li>
-								<#if This.page?? && !(mySite.indexDocument.id == This.page.document.id)>
+								<#if This.page?? && !(mySite.indexDocument.id == This.page.document.id)  && mySite.isContributor(Context.principal.name)>
 								    <script type="text/javascript">
                                     function setAsHomePage() {
                                         jQuery('#waitingPopup').dialog2('open');
