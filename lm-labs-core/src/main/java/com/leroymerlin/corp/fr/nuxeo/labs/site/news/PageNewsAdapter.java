@@ -98,7 +98,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
 
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM ").append(Docs.LABSNEWS.type()).append(" WHERE ");
-        query.append(NXQL.ECM_PATH).append(" STARTSWITH '").append(doc.getPathAsString()).append("'");
+        query.append(NXQL.ECM_PATH).append(" STARTSWITH '").append(doc.getPathAsString().replace("'", "\\'")).append("'");
         query.append(" AND ").append(LabsNewsAdapter.START_PUBLICATION).append(" >= TIMESTAMP '").append(dateStr).append(" 00:00:00").append("'");
         query.append(" AND ").append(LabsNewsAdapter.START_PUBLICATION).append(" <= TIMESTAMP '").append(dateStr).append(" 23:59:59").append("'");
         

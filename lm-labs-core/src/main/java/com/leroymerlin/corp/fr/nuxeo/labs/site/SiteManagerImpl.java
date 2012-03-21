@@ -113,8 +113,9 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
     @Override
     public LabsSite getSite(CoreSession session, String url)
             throws ClientException, SiteManagerException {
+        final String escapedUrl = url.replace("'", "\\'");
         String query = String.format("SELECT * FROM %s WHERE webc:url = '%s' AND ecm:path STARTSWITH '%s'",
-                LabsSiteConstants.Docs.SITE.type(), url, SITES_ROOT_REF.toString());
+                LabsSiteConstants.Docs.SITE.type(), escapedUrl, SITES_ROOT_REF.toString());
         DocumentModelList sites = session.query(query);
         assert sites.size() <= 1;
         if (sites.size() == 1) {

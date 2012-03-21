@@ -37,7 +37,7 @@ public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentMode
             try {
                 SiteDocument sd = doc.getAdapter(SiteDocument.class);
                 query.append("SELECT * FROM Document WHERE ")
-                .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite().getTree().getPathAsString() + "'")
+                .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite().getTree().getPathAsString().replace("'", "\\'") + "'")
                 .append(" ORDER BY " + UPLOADS_SORT_FIELD + " DESC");
                 List<DocumentModel> documents = doc.getCoreSession().query(query.toString(), new PageClasseurDocsFilter());
                 if (!hasError()) {

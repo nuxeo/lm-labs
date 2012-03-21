@@ -127,7 +127,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     public List<Page> getAllPages() throws ClientException {
         DocumentModelList docs = getCoreSession().query(
                 "SELECT * FROM Page, Space where ecm:currentLifeCycleState <> 'deleted' AND ecm:path STARTSWITH '"
-                        + getTree().getPathAsString() + "'");
+                        + getTree().getPathAsString().replace("'", "\\'") + "'");
 
         List<Page> pages = new ArrayList<Page>();
         for (DocumentModel doc : docs) {
@@ -150,7 +150,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM ").append(docTypeStr).append(" WHERE ").append(
                 NXQL.ECM_PATH).append(" STARTSWITH ").append("'").append(
-                doc.getPathAsString()).append("'");
+                doc.getPathAsString().replace("'", "\\'")).append("'");
         if (lifecycleState != null) {
             query.append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(
                     lifecycleState.getState()).append("'");
@@ -164,7 +164,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     public List<Page> getAllDeletedPages() throws ClientException {
         DocumentModelList docs = getCoreSession().query(
                 "SELECT * FROM Page, Space where ecm:currentLifeCycleState = 'deleted' AND ecm:path STARTSWITH '"
-                        + doc.getPathAsString() + "'");
+                        + doc.getPathAsString().replace("'", "\\'") + "'");
 
         List<Page> pages = new ArrayList<Page>();
         for (DocumentModel doc : docs) {
@@ -183,7 +183,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                 NXQL.ECM_LIFECYCLESTATE).append(" = '").append(
                 LifeCycleConstants.DELETED_STATE).append("'").append(" AND ").append(
                 NXQL.ECM_PATH).append(" STARTSWITH '").append(
-                doc.getPathAsString()).append("'");
+                doc.getPathAsString().replace("'", "\\'")).append("'");
         DocumentModelList docs = getCoreSession().query(query.toString(),
                 new Filter() {
                     private static final long serialVersionUID = 1L;
@@ -331,7 +331,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     public DocumentModelList getLastUpdatedDocs() throws ClientException {
         StringBuilder query = new StringBuilder("SELECT * FROM Document");
         query.append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(
-                doc.getPathAsString()).append("/").append(
+                doc.getPathAsString().replace("'", "\\'")).append("/").append(
                 LabsSiteConstants.Docs.TREE.docName()).append("'");
         query.append(" AND ecm:isCheckedInVersion = 0");
         query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
@@ -355,7 +355,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         StringBuilder query = new StringBuilder("SELECT * FROM ");
         query.append(Docs.LABSNEWS.type());
         query.append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(
-                doc.getPathAsString()).append("/").append(
+                doc.getPathAsString().replace("'", "\\'")).append("/").append(
                 LabsSiteConstants.Docs.TREE.docName()).append("'");
         query.append(" AND ecm:isCheckedInVersion = 0");
         query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
@@ -427,7 +427,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         StringBuilder queryFormat = new StringBuilder();
         queryFormat.append("SELECT * FROM ").append(Docs.PAGE.type()).append(
                 " WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(
-                doc.getPathAsString()).append("'").append(" AND ").append("%s").append(
+                doc.getPathAsString().replace("'", "\\'")).append("'").append(" AND ").append("%s").append(
                 " LIKE '%%").append(oldUrl).append("%%'");
         String queryFormatStr = queryFormat.toString();
 

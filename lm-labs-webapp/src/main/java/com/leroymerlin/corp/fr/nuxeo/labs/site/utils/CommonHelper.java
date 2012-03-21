@@ -131,7 +131,7 @@ public final class CommonHelper {
                 " WHERE ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(
                 State.PUBLISH.getState()).append("'").append(" AND ").append(
                 NXQL.ECM_PATH).append(" STARTSWITH '").append(
-                sm.getSiteRoot(getCoreSession()).getPathAsString()).append("'").append(
+                sm.getSiteRoot(getCoreSession()).getPathAsString().replace("'", "\\'")).append("'").append(
                 " AND ").append(LabsSiteAdapter.PROPERTY_SITE_TEMPLATE).append(
                 " = 1");
         DocumentModelList list = getCoreSession().query(query.toString());

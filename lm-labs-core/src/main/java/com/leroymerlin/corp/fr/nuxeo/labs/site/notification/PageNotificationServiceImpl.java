@@ -215,7 +215,7 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM ").append(Docs.NOTIFACTIVITIES.type())
             .append(" WHERE ")
-            .append(NXQL.ECM_PATH).append(" STARTSWITH '").append(site.getPathAsString()).append("'")
+            .append(NXQL.ECM_PATH).append(" STARTSWITH '").append(site.getPathAsString().replace("'", "\\'")).append("'")
             .append(" AND ")
             .append(PROPERTY_TONOTIFY).append(" = 1")
         ;
