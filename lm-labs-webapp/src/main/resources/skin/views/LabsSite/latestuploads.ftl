@@ -5,7 +5,7 @@
   <@block name="title">${Common.siteDoc(Document).site.title}-${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
 
   <@block name="content">
-  <div class="">
+  <div class="container-fluid">
     <section>
       <div class="page-header">
         <h1>${Context.getMessage('title.LabsSite.latestuploads')}</h1>
@@ -50,7 +50,7 @@
         </div>
 
       </div>
-    </div>
+
     </section>
     </div>
   </@block>
