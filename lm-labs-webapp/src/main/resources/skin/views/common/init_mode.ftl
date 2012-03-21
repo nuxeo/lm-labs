@@ -1,8 +1,8 @@
 <#if !isSiteRoot>
 	<#assign mySite=Common.siteDoc(Document).site />
 </#if>
-<#if mySite?? && mySite.isContributor(Context.principal.name) >
 	<script type="text/javascript">
+<#if mySite?? && mySite.isContributor(Context.principal.name) >
 		
 		var IS_MODE_EDITION = true;
 		var pathCookie = '${Context.modulePath}/${mySite.URL}';
@@ -67,17 +67,17 @@
 			  $("body").trigger(press);
 		}
 		
-		function refreshDisplayMode(obj){
-			jQuery(obj).find(".editblock").each(
-				function(i){
-					if(IS_MODE_EDITION){
-						jQuery(this).show();
-					}
-					else{
-						jQuery(this).hide();
-					}
-				}
-			);
-		}
-	</script>
 </#if>
+function refreshDisplayMode(obj){
+	jQuery(obj).find(".editblock").each(
+		function(i){
+			if(IS_MODE_EDITION){
+				jQuery(this).show();
+			}
+			else{
+				jQuery(this).hide();
+			}
+		}
+	);
+}
+	</script>
