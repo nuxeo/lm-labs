@@ -36,9 +36,11 @@
 	              <div class="page-header">
 	                <h1>${news.title} <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
 	                <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
-	              	<div class="editblock" style="margin-top: -15px;width: 100%;text-align: right;float: right">
-						<a id="btnModifyPropsNews" class="btn" style="cursor: pointer;margin-right: 5px;" onclick="javascript:actionPropsNews();"><i class="icon-eye-open"></i>Modifier les propriétés</a>
-				  	</div>
+	              	<#if isContributor >
+		              	<div class="editblock" style="margin-top: -15px;width: 100%;text-align: right;float: right">
+							<a id="btnModifyPropsNews" class="btn" style="cursor: pointer;margin-right: 5px;" onclick="javascript:actionPropsNews();"><i class="icon-eye-open"></i>Modifier les propriétés</a>
+					  	</div>
+				  	</#if>
 	              </div>
 	          <#else>
 	              <div class="page-header">

@@ -76,8 +76,10 @@
 				  	  if (location.search.indexOf("props=open") > -1){
 				  	  	actionPropsNews();
 				  	  }
+				  	  else{
+				  	  	closePropsNews();
+				  	  }
 				  	  <#if !(news?? && news != null)>
-				  	  	actionPropsNews();
 				  	  	jQuery("#form-editNews").clearForm();
 				  	  	jQuery("#btnModifyPropsNews").remove();
 				  	  	jQuery("#btnCloseProps").remove();
