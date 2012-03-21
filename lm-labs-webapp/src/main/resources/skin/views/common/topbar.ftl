@@ -44,6 +44,24 @@
 							<!--   set homePage     -->
 							<li>
 								<#if This.page?? && !(mySite.indexDocument.id == This.page.document.id)>
+								    <script type="text/javascript">
+                                    function setAsHomePage() {
+                                        jQuery('#waitingPopup').dialog2('open');
+                                        jQuery.ajax({
+                                            type: 'PUT',
+                                            async: false,
+                                            url: '${This.path}' + '/@setHome',
+                                            success: function(data) {
+                                                window.location.reload();
+                                            },
+                                            error: function(jqXHR, textStatus, errorThrown) {
+                                                alert(jqXHR.statusText);
+                                                jQuery('#waitingPopup').dialog2('close');
+                                            }
+                                        });
+                                        return false;
+                                    }
+								    </script>
 									<a href="#" onclick="javascript:setAsHomePage();" ><i class="icon-home"></i>${Context.getMessage('command.docactions.homePage')}</a>
 								</#if>
 							</li>
@@ -56,22 +74,6 @@
 										showCloseHandle : false,
 									});
 								});
-                                function setAsHomePage() {
-                                    jQuery('#waitingPopup').dialog2('open');
-                                    jQuery.ajax({
-                                        type: 'PUT',
-                                        async: false,
-                                        url: '${This.path}' + '/@setHome',
-                                        success: function(data) {
-                                            window.location.reload();
-                                        },
-                                        error: function(jqXHR, textStatus, errorThrown) {
-                                            alert(jqXHR.statusText);
-                                            jQuery('#waitingPopup').dialog2('close');
-                                        }
-                                    });
-                                    return false;
-                                }
 								
 								function openParametersPage(){
 									jQuery("#divEditParametersPage").dialog2('open');
