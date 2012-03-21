@@ -691,16 +691,28 @@ h6 {
 	}
 }
 
+.supplychain-li() {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-image: url(images/li.png);
+    background-repeat: no-repeat;
+    background-position: 0px 3px;
+    text-indent: 0px;
+    padding-left: 16px;
+}
+
+div.body {
+    section {
+        ul:not(.dropdown-menu) > li {
+           .supplychain-li
+        }
+    }
+}
+
 .viewblock {
 	ul:not(.dropdown-menu) > li {
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		background-image: url(images/li.png);
-		background-repeat: no-repeat;
-		background-position: 0px 3px;
-		text-indent: 0px;
-		padding-left: 16px;
+	   .supplychain-li
 	}
 }
 

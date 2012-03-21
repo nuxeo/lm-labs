@@ -8,6 +8,6 @@
     </li>
   </#list>
   </ul>
-  <u><a href="${detailedPageUrl}">Détails</a></u>
+  <a class="btn btn-mini" href="${detailedPageUrl}"><i class="icon-list"></i>Détails</a>
 </div>
 

@@ -229,7 +229,7 @@
 	                	</script>
 	                </#if>
 	                <#if mySite?? && mySite.isContributor(Context.principal.name) >
-	                <li><a href="${Context.modulePath}/${mySite.URL}/@views/edit"><i class="icon-cog"></i>${Context.getMessage('label.contextmenu.administration')}</a></li>
+	                <li><a href="${Context.modulePath}/${mySite.URL}/@views/edit"><i class="icon-cogs"></i>${Context.getMessage('label.contextmenu.administration')}</a></li>
 	                </#if>
 	                <#if mySite??>
 	                  <li><a href="${Context.modulePath}/${mySite.URL}/@views/sitemap"><i class="icon-map-marker"></i>${Context.getMessage('label.contextmenu.sitemap')}</a></li>
@@ -237,10 +237,10 @@
                 </@block>
 
               <#if mySite?? && mySite.isAdministrator(Context.principal.name) >
-                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${mySite.document.title}/tree@view_documents?tabIds=%3A" target="_blank" ><i class="icon-edit"></i>${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
+                <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${mySite.document.title}/tree@view_documents?tabIds=%3A" target="_blank" ><i class="icon-pushpin"></i>${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
-                <li><a id="logoutLnk" href="#"<#-- onclick="doLogout();return false;"-->><i class="icon-off"></i>${Context.getMessage('command.contextmenu.logout')}</a></li>
+                <li><a id="logoutLnk" href="#"<#-- onclick="doLogout();return false;"-->><i class="icon-signout"></i>${Context.getMessage('command.contextmenu.logout')}</a></li>
               </ul>
             </li>
             </#if>
