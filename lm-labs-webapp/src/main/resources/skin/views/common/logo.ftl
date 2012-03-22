@@ -5,7 +5,7 @@
 <#if canDrop>
 	<#assign logoBorderPadding=0 />
 <#else>
-	<#assign logoBorderPadding=23 />
+	<#assign logoBorderPadding=0 />
 </#if>
 <#if logoWidth &gt; 0>
 	<#if canDrop>
