@@ -3,7 +3,7 @@
   targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/labstemplate"
   xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/labstemplate">
 
-  <xs:element name="name" type="xs:string" default="labs"></xs:element>
+  <xs:element name="name" type="xs:string" default="homeSimple"></xs:element>
 
 </xs:schema>
 
