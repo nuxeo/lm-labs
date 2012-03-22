@@ -1,6 +1,9 @@
 <#if !isSiteRoot>
 	<#assign mySite=Common.siteDoc(Document).site />
 </#if>
+<#assign isAdministrator = (mySite?? && mySite.isAdministrator(Context.principal.name) ) />
+<#assign canSetHomePage = (isAdministrator && This.page?? && !(mySite.indexDocument.id == This.page.document.id) ) />
+<#assign isContributor = (mySite?? && mySite.isContributor(Context.principal.name) ) />
 <#include "views/common/init_mode.ftl" />
     <div class="navbar-wrapper" style="z-index: 5;">
     <div class="navbar">
@@ -28,13 +31,13 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">${Context.principal.firstName} ${Context.principal.lastName}<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <@block name="docactions">
-	                <#if mySite?? && mySite.isContributor(Context.principal.name) >
+	                <#if isContributor >
 	                	<@block name="docactionsaddpage">
 	                		<!--   add page     -->
 	                		<li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView"><i class="icon-plus"></i>${Context.getMessage('command.docactions.addcontent')}</a></li>
 	                	</@block>
 	                	<!--   Mode page     -->
-	                	<li><a id="page_edit" href="#" onclick="javascript:simulateKeyup69();"><i class="icon-eye-open"></i>Visualiser</a></li>
+	                	<li><a id="page_edit" href="#" ><i class="icon-eye-open"></i>Visualiser</a></li>
 	                	<@block name="docactionsonpage">
 		                	<!--   Manage parameter's page     -->
 							<li><a href="#" onclick="javascript:openParametersPage();"><i class="icon-adjust"></i>${Context.getMessage('command.docactions.parameters')}</a></li>
@@ -43,26 +46,8 @@
 							</div>
 							<!--   set homePage     -->
 							<li>
-								<#if mySite.isAdministrator(Context.principal.name) && This.page?? && !(mySite.indexDocument.id == This.page.document.id) >
-								    <script type="text/javascript">
-                                    function setAsHomePage() {
-                                        jQuery('#waitingPopup').dialog2('open');
-                                        jQuery.ajax({
-                                            type: 'PUT',
-                                            async: false,
-                                            url: '${This.path}' + '/@setHome',
-                                            success: function(data) {
-                                                window.location.reload();
-                                            },
-                                            error: function(jqXHR, textStatus, errorThrown) {
-                                                alert(jqXHR.statusText);
-                                                jQuery('#waitingPopup').dialog2('close');
-                                            }
-                                        });
-                                        return false;
-                                    }
-								    </script>
-									<a href="#" onclick="javascript:setAsHomePage();" ><i class="icon-home"></i>${Context.getMessage('command.docactions.homePage')}</a>
+								<#if canSetHomePage >
+									<a id="set-home-page" href="#" ><i class="icon-home"></i>${Context.getMessage('command.docactions.homePage')}</a>
 								</#if>
 							</li>
 							<script type="text/javascript">
@@ -75,72 +60,6 @@
 									});
 								});
 								
-								function openParametersPage(){
-									jQuery("#divEditParametersPage").dialog2('open');
-									divEditParametersPageForm = jQuery("#divEditParametersPage")[0].innerHTML;
-								}
-								
-								function closeParametersPage(){
-									jQuery("#divEditParametersPage").dialog2('close');
-									jQuery("#divEditParametersPage")[0].innerHTML = divEditParametersPageForm;
-								}
-								
-								function submitParametersPage(){
-									if(jQuery("#publishPage").attr("checked")=="checked") {
-										publishPage();
-									} else {
-										draftPage();
-									}
-									jQuery("#form_editParameters").submit();
-								}
-								
-								function publishPage(){
-									//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouPublish')}")){
-										jQuery('#waitingPopup').dialog2('open');
-										jQuery.ajax({
-											type: 'PUT',
-										    async: false,
-										    url: '${This.path}/@labspublish/publish',
-										    success: function(data) {
-										    	/*if (data == 'publish') {
-										          alert("${Context.getMessage('label.lifeCycle.page.hasPublished')}");
-										          document.location.href = '${This.path}';
-										        }
-										        else {
-										          alert("${Context.getMessage('label.lifeCycle.page.hasNotPublished')}");
-										        }*/
-										        jQuery('#waitingPopup').dialog2('close');
-										    },
-										    error: function(data) {
-										        jQuery('#waitingPopup').dialog2('close');
-										    }
-										});
-									//}
-								}
-								
-								function draftPage(){
-									//if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouDraft')}")){
-										jQuery('#waitingPopup').dialog2('open');
-										jQuery.ajax({
-											type: 'PUT',
-										    async: false,
-										    url: '${This.path}/@labspublish/draft',
-										    success: function(data) {
-										    	/*if (data == 'draft') {
-										          alert("${Context.getMessage('label.lifeCycle.page.hasDrafted')}");
-										          document.location.href = '${This.path}';
-										        }
-										        else {
-										          alert("${Context.getMessage('label.lifeCycle.page.hasNotDrafted')}");
-										        }*/
-										        jQuery('#waitingPopup').dialog2('close');
-										    },
-										    error: function(data) {
-										        jQuery('#waitingPopup').dialog2('close');
-										    }
-										});
-									//}
-								}
 							</script>
 						</@block>
                 <li class="divider"></li>
@@ -148,7 +67,7 @@
 	                
                 </@block>
                 <@block name="siteactions">
-	                <#if mySite?? && mySite.isAdministrator(Context.principal.name) >
+	                <#if isAdministrator >
 	                	<#if mySite.visible>
 	                		<li><a href="#" onclick="javascript:draftSite();"><i class="icon-file"></i>${Context.getMessage('command.siteactions.draft')}</a></li>
 	                	<#else>
@@ -157,80 +76,9 @@
 	                	<!--   delete     -->
 	                	<!--li><a href="#" onclick="javascript:deleteSite();"><i class="icon-remove"></i>${Context.getMessage('command.siteactions.delete')}</a></li-->
 	                	<script type="text/javascript">
-	                		function publishSite(){
-	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouPublish')}")){
-	                				jQuery('#waitingPopup').dialog2('open');
-		                			jQuery.ajax({
-										type: 'PUT',
-									    async: false,
-									    url: '${Context.modulePath}/${mySite.URL}/@labspublish/publish',
-									    success: function(data) {
-									    	if (data == 'publish') {
-									          alert("${Context.getMessage('label.lifeCycle.site.hasPublished')}");
-									          document.location.href = '${This.path}';
-									        }
-									        else {
-									          alert("${Context.getMessage('label.lifeCycle.site.hasNotPublished')}");
-									          jQuery('#waitingPopup').dialog2('open');
-									        }
-									    },
-									    error: function(data) {
-									    	jQuery('#waitingPopup').dialog2('close');
-									    }
-									});
-								}
-	                		}
-	                		
-	                		function draftSite(){
-	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDraft')}")){
-	                				jQuery('#waitingPopup').dialog2('open');
-		                			jQuery.ajax({
-										type: 'PUT',
-									    async: false,
-									    url: '${Context.modulePath}/${mySite.URL}/@labspublish/draft',
-									    success: function(data) {
-									    	if (data == 'draft') {
-									          alert("${Context.getMessage('label.lifeCycle.site.hasDrafted')}");
-									          document.location.href = '${This.path}';
-									        }
-									        else {
-									          alert("${Context.getMessage('label.lifeCycle.site.hasNotDrafted')}");
-									          jQuery('#waitingPopup').dialog2('open');
-									        }
-									    },
-									    error: function(data) {
-									    	jQuery('#waitingPopup').dialog2('close');
-									    }
-									});
-								}
-	                		}
-	                		
-	                		function deleteSite(){
-	                			if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
-	                				jQuery('#waitingPopup').dialog2('open');
-		                			jQuery.ajax({
-										type: 'PUT',
-									    async: false,
-									    url: '${Context.modulePath}/${mySite.URL}/@labspublish/delete',
-									    success: function(data) {
-									    	if (data == 'delete') {
-									          alert("${Context.getMessage('label.lifeCycle.site.hasDeleted')}");
-									          document.location.href = '${Context.modulePath}';
-									        }
-									        else {
-									          alert("${Context.getMessage('label.lifeCycle.site.hasNotDeleted')}");
-									          jQuery('#waitingPopup').dialog2('close');
-									        }
-									    },
-									    error: function(data) {
-									    	jQuery('#waitingPopup').dialog2('close');
-									    }
-									});
-								}
-	                		}
 	                	</script>
 	                </#if>
-	                <#if mySite?? && mySite.isContributor(Context.principal.name) >
+	                <#if isContributor >
 	                <li><a href="${Context.modulePath}/${mySite.URL}/@views/edit"><i class="icon-cogs"></i>${Context.getMessage('label.contextmenu.administration')}</a></li>
 	                </#if>
 	                <#if mySite??>
@@ -238,7 +86,7 @@
 	                </#if>
                 </@block>
 
-              <#if mySite?? && mySite.isAdministrator(Context.principal.name) >
+              <#if isAdministrator >
                 <li><a href="${Context.baseURL}/nuxeo/nxpath/default/default-domain/sites/${mySite.document.title}/tree@view_documents?tabIds=%3A" target="_blank" ><i class="icon-pushpin"></i>${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
               </#if>
                 <li class="divider"></li>
@@ -253,3 +101,18 @@
     </div><#-- /navbar -->
     </div><#-- /navbar-wrapper -->
     
+<script>
+jQuery(document).ready(function() {
+<#if canSetHomePage >
+    jQuery("#set-home-page").click(function() {
+        setAsHomePage('${This.path}');
+    });
+</#if>
+<#if isContributor >
+    jQuery("#page_edit").click(function() {
+        simulateKeyup69();
+    });
+</#if>
+});
+</script>
+   
