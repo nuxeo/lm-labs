@@ -77,7 +77,19 @@
 		${Context.getMessage('label.parameters.page.usedModel')} <strong>${Context.getMessage('label.doctype.'+This.document.type)}</strong>
 	</div>
 	<div class="actions">
-	    <button class="btn btn-primary" onclick="javascript:submitParametersPage();">${Context.getMessage('label.parameters.page.save')}</button>
-	    <button class="btn" onclick="javascript:closeParametersPage();">${Context.getMessage('label.parameters.page.cancel')}</button>
+	    <button id="page-parameters-submit" class="btn btn-primary" >${Context.getMessage('label.parameters.page.save')}</button>
+	    <button id="page-parameters-close" class="btn" >${Context.getMessage('label.parameters.page.cancel')}</button>
 	</div>
 </#if>
+<script>
+jQuery(document).ready(function() {
+<#if This.page?? >
+    jQuery("#page-parameters-submit").click(function() {
+        submitParametersPage();
+    });
+    jQuery("#page-parameters-close").click(function() {
+        closeParametersPage();
+    });
+</#if>
+});
+</script>
