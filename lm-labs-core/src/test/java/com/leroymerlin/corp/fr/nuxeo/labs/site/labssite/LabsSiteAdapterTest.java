@@ -43,10 +43,12 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 
 @RunWith(FeaturesRunner.class)
@@ -55,7 +57,12 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 @RepositoryConfig(cleanup = Granularity.METHOD, init = DefaultRepositoryInit.class)
 public class LabsSiteAdapterTest {
 
+    private static final String PAGE_TEMPLATE_DEFAULT = "homeSimple";
+    private static final String PAGE_TEMPLATE_CUSTOM = "customTemplate";
+    private static final String PAGE_TEMPLATE_CUSTOM2 = "customTemplate2";
+
     private static final String LABSSITE_TYPE = LabsSiteConstants.Docs.SITE.type();
+
 
     private final String USERNAME1 = "CGM";
 
@@ -500,6 +507,9 @@ public class LabsSiteAdapterTest {
         session.saveDocument(template1.getDocument());
         session.save();
         assertEquals(themeName, template1.getThemeName());
+        assertEquals(templateName, template1.getTemplate().getTemplateName());
+        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(template1.getTree().getRef(), "pagehtml").getAdapter(LabsTemplate.class).getDocumentTemplateName());
+        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(template1.getTree().getRef(), "pagehtml").getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
 
         CoreSession cgmSession = changeUser(USERNAME1);
         assertNotNull(cgmSession);
@@ -511,6 +521,8 @@ public class LabsSiteAdapterTest {
         assertNotNull(cgmTemplateSite);
         final String templateWelcomeId = cgmTemplateSite.getIndexDocument().getId();
         cgmSite.applyTemplateSite(cgmTemplateSite.getDocument());
+        session.saveDocument(cgmSite.getDocument());
+        session.save();
         assertFalse(templateWelcomeId.equals(welcomeId));
         assertEquals(templateName, cgmSite.getTemplate().getTemplateName());
         assertEquals(themeName, cgmTemplateSite.getThemeName());
@@ -521,6 +533,11 @@ public class LabsSiteAdapterTest {
         assetsList = cgmSession.getChildren(cgmSite.getAssetsDoc().getRef(),
                 "File");
         assertEquals(0, assetsList.size());
+        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree().getRef(), "pagehtml").getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
+        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree().getRef(), "pagehtml").getAdapter(LabsTemplate.class).getDocumentTemplateName());
+        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree().getRef(), "pagehtml").getAdapter(LabsTemplate.class).getTemplateName());
+        assertEquals("", session.getChild(cgmSite.getTree().getRef(), "pagenews").getAdapter(LabsTemplate.class).getDocumentTemplateName());
+        assertEquals(templateName, session.getChild(cgmSite.getTree().getRef(), "pagenews").getAdapter(LabsTemplate.class).getTemplateName());
         // TODO more tests
     }
 
@@ -614,6 +631,19 @@ public class LabsSiteAdapterTest {
         DocumentModel asset2 = session.createDocumentModel(
                 folder2.getPathAsString(), "asset2", "File");
         session.createDocument(asset2);
+        site.getTemplate().setTemplateName(PAGE_TEMPLATE_CUSTOM2);
+        session.saveDocument(site.getDocument());
+        DocumentModel htmlPage = session.createDocumentModel(Docs.HTMLPAGE.type());
+        htmlPage.setPathInfo(site.getTree().getPathAsString(), "pagehtml");
+        htmlPage = session.createDocument(htmlPage);
+        LabsTemplate templatedPage = htmlPage.getAdapter(LabsTemplate.class);
+        templatedPage.setTemplateName(PAGE_TEMPLATE_CUSTOM);
+        session.saveDocument(htmlPage);
+        
+        DocumentModel pageNews = session.createDocumentModel(Docs.PAGENEWS.type());
+        pageNews.setPathInfo(site.getTree().getPathAsString(), "pagenews");
+        pageNews = session.createDocument(pageNews);
+        
         return site;
     }
 }

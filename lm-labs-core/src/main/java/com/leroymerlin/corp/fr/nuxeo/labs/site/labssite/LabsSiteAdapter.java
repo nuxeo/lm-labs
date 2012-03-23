@@ -46,6 +46,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManagerImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
@@ -613,8 +614,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                     setHomePageRef(session.getDocument(
                             new PathRef(indexPath.toString())).getId());
                     setThemeName(templateThemeName);
-                    getTemplate().setTemplateName(
-                            labsSiteTemplate.getTemplate().getTemplateName());
+                    getTemplate().setTemplateName(labsSiteTemplate.getTemplate().getTemplateName());
+                    // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!!
+                    copyFacetSchemas(doc, templateSite, session);
                 } else {
                     throw new IllegalArgumentException(
                             templateSite.getPathAsString()
@@ -624,6 +626,27 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             }
         };
         sessionRunner.runUnrestricted();
+    }
+
+    protected void copyFacetSchemas(DocumentModel site, final DocumentModel templateSite, CoreSession session) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM ").append(Docs.PAGE.type())
+            .append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(templateSite.getPathAsString()).append("'")
+            .append(" AND ").append(NXQL.ECM_MIXINTYPE).append(" = '").append(FacetNames.LABSTEMPLATE).append("'");
+        try {
+            DocumentModelList facetedDocs = session.query(query.toString());
+            for(DocumentModel facetedDoc : facetedDocs) {
+                String endPath = StringUtils.substringAfter(facetedDoc.getPathAsString(), templateSite.getPathAsString());
+                DocumentModel document = session.getDocument(new PathRef(site.getPathAsString() + endPath));
+                document.addFacet(FacetNames.LABSTEMPLATE);
+                document.setProperties(Schemas.LABSTEMPLATE.getName(), facetedDoc.getProperties(Schemas.LABSTEMPLATE.getName()));
+                session.saveDocument(document);
+            }
+        } catch (ClientException e) {
+            LOG.error(e, e);
+        }
+        // TODO Auto-generated method stub
+        
     }
 
     @Override
