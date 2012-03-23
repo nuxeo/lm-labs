@@ -59,13 +59,14 @@
                 <select name="template" id="template" class="span4" onchange="updateTemplateDescription(this, 'template-description');" >
                     <#include "views/common/getTemplatesMap.ftl">
                     <#assign templatesMap = getTemplatesMap() />
+                    <#assign documentTemplateName = This.page.template.documentTemplateName />
                     <#list templatesMap?sort_by('title') as template>
-                        <option value="${template.name}" <#if This.page.template.documentTemplateName == template.name >selected</#if>>${template.title}</option>
+                        <option value="${template.name}" <#if documentTemplateName == template.name >selected</#if>>${template.title}</option>
                     </#list>
-                    <option value="" <#if This.page.template.documentTemplateName == "" >selected</#if>>${Context.getMessage('label.labssites.appearance.templates.none')}</option>
+                    <option value="" <#if documentTemplateName == "" >selected</#if>>${Context.getMessage('label.labssites.appearance.templates.none')}</option>
                 </select>
-                <#assign selectedTemplateName = This.page.template.documentTemplateName />
-                <#if This.page.template.documentTemplateName == "" >
+                <#assign selectedTemplateName = documentTemplateName />
+                <#if selectedTemplateName == "" >
                     <#assign selectedTemplateName = "none" />
                 </#if>
                 <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + selectedTemplateName + '.description')}</small></p>

@@ -24,12 +24,16 @@ public class LabsTemplateAdapter implements LabsTemplate {
 
     @Override
     public String getDocumentTemplateName() throws ClientException {
-        return StringUtils.defaultString(StringUtils.trim((String) doc.getPropertyValue(Schemas.LABSTEMPLATE.prefix() + ":name")));
+        if (doc.hasSchema(Schemas.LABSTEMPLATE.getName())) {
+            return StringUtils.defaultString(StringUtils.trim((String) doc.getPropertyValue(Schemas.LABSTEMPLATE.prefix() + ":name")));
+        }
+        return StringUtils.EMPTY;
     }
 
     @Override
     public String getTemplateName() throws ClientException {
-        String siteTemplateName = doc.getAdapter(SiteDocument.class).getSite().getTemplate().getDocumentTemplateName();
+        LabsTemplate siteTemplate = doc.getAdapter(SiteDocument.class).getSite().getTemplate();
+        String siteTemplateName = siteTemplate.getDocumentTemplateName();
         if (doc.hasSchema(Schemas.LABSTEMPLATE.getName())) {
             return StringUtils.defaultIfEmpty(StringUtils.trim((String) doc.getPropertyValue(Schemas.LABSTEMPLATE.prefix() + ":name")), siteTemplateName);
         } else {

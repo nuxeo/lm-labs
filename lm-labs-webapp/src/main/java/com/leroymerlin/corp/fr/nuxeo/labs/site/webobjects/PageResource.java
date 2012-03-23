@@ -361,7 +361,10 @@ public class PageResource extends DocumentObject {
             page.setCommentable(isCheckedCommentable);
             page.setNotDisplayableParameters(fieldsNotDisplayable);
             page.setTitle(pageTitle);
-            doc.getAdapter(LabsTemplate.class).setTemplateName(templateName);
+            String documentTemplateName = doc.getAdapter(LabsTemplate.class).getDocumentTemplateName();
+            if (!StringUtils.isEmpty(templateName) || (StringUtils.isEmpty(templateName) && !StringUtils.isEmpty(documentTemplateName))) {
+                doc.getAdapter(LabsTemplate.class).setTemplateName(templateName);
+            }
             CoreSession session = getCoreSession();
             session.saveDocument(doc);
             session.save();
