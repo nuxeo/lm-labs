@@ -615,7 +615,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                             new PathRef(indexPath.toString())).getId());
                     setThemeName(templateThemeName);
                     getTemplate().setTemplateName(labsSiteTemplate.getTemplate().getTemplateName());
-                    // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!!
+                    // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.4.2-HF15
                     copyFacetSchemas(doc, templateSite, session);
                 } else {
                     throw new IllegalArgumentException(
