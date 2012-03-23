@@ -13,7 +13,7 @@
     <#list bean.entriesLines as entriesLine>
       <tr>
         <#list bean.headersSet as header>
-          <td ${This.getLineStyle(header)} ${This.getLineOnclick(entriesLine)}>
+          <td ${This.getLineStyle(header, entriesLine)} ${This.getLineOnclick(entriesLine)}>
             <#assign entry = entriesLine.getEntryByIdHead(header.idHeader) />
             <#if entry != null>
               <#assign formatDate = header.formatDate />

@@ -120,6 +120,10 @@ public class PageListResource extends NotifiablePageResource {
     }
     
     public String getLineStyle(Header pHead) throws ClientException{
+        return getLineStyle(pHead, null);
+    }
+    
+    public String getLineStyle(Header pHead, EntriesLine pLine) throws ClientException{
         StringBuilder style = new StringBuilder("style=\"");
         boolean hasOneStyle = false;
         if(!Header.DEFAULT.equals(pHead.getWidth())){
@@ -138,7 +142,7 @@ public class PageListResource extends NotifiablePageResource {
             style.append("font-size: ").append(pHead.getFontSize()).append(";");
             hasOneStyle = true;
         }
-        if (isAuthorized()){
+        if (pLine != null && isAuthorizedToModifyLine(pLine)){
             style.append("cursor: pointer;");
             hasOneStyle = true;
         }
@@ -151,10 +155,16 @@ public class PageListResource extends NotifiablePageResource {
     
     public String getLineOnclick(EntriesLine pLine) throws ClientException{
         StringBuilder onclick = new StringBuilder();
-        if(isAuthorized()){
+        if(isAuthorizedToModifyLine(pLine)){
             onclick.append("onclick=\"javascript:modifyLine('").append(getPath()).append("/line/").append(pLine.getDocLine().getRef().reference()).append("');\" ");
         }
         return onclick.toString();
+    }
+    
+    private boolean isAuthorizedToModifyLine(EntriesLine pLine) throws ClientException{
+        
+        
+        return getCoreSession().hasPermission(pLine.getDocLine().getRef(), "Write");
     }
     
     public boolean isAuthorized() throws ClientException{

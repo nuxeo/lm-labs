@@ -214,7 +214,7 @@ public class PageListAdapterTest {
         
         assertThat(pageList.getLines().size(), is(0));
         
-        pageList.saveLine(line);
+        pageList.saveLine(line, null);
 
         assertThat(pageList.getLines().size(), is(1));
         assertThat(pageList.getLines().get(0).getEntries(), notNullValue());
@@ -256,7 +256,7 @@ public class PageListAdapterTest {
         
         line.getEntries().add(entry);
         
-        pageList.saveLine(line);
+        pageList.saveLine(line, null);
         assertThat(pageList.getLines().size(), is(1));
         assertThat(pageList.getLines().get(0).getDocLine(), notNullValue());
         pageList.removeLine(pageList.getLines().get(0).getDocLine().getRef());
@@ -290,7 +290,7 @@ public class PageListAdapterTest {
         
         line.getEntries().add(entry);
         
-        pageList.saveLine(line);
+        pageList.saveLine(line, null);
         EntriesLine line2 = pageList.getLine(pageList.getLines().get(0).getDocLine().getRef());
         assertThat(line2, notNullValue());
         assertThat(line2.getEntries().size(), is(2));
@@ -367,10 +367,10 @@ public class PageListAdapterTest {
         
         pageList.setHeaders(createHeadersOnPageList());
 
-        pageList.saveLine(createLine("texte1"));
-        pageList.saveLine(createLine("texte2"));
-        pageList.saveLine(createLine("texte3"));
-        pageList.saveLine(createLine("texte4"));
+        pageList.saveLine(createLine("texte1"), null);
+        pageList.saveLine(createLine("texte2"), null);
+        pageList.saveLine(createLine("texte3"), null);
+        pageList.saveLine(createLine("texte4"), null);
  
         File testFile = null;
         //For local tests

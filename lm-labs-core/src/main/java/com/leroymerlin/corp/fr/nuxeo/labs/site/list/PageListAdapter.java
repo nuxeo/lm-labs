@@ -32,13 +32,14 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageListAdapter extends AbstractPage implements PageList {
@@ -245,7 +246,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine)
      */
     @Override
-    public void saveLine(EntriesLine pLine) throws ClientException {
+    public void saveLine(EntriesLine pLine, LabsSite pSite) throws ClientException {
         CoreSession session = doc.getCoreSession();
         DocumentModel lineDoc = null;
         boolean isNew = pLine.getDocLine() == null;
@@ -258,10 +259,40 @@ public class PageListAdapter extends AbstractPage implements PageList {
         line.setLine(pLine);
         if (isNew) {
             lineDoc = session.createDocument(lineDoc);
+            pLine.setDocLine(lineDoc);
         } else {
             lineDoc = session.saveDocument(lineDoc);
         }
         session.save();
+        if (isNew) {
+            manageAddedPermission(pLine, pSite);
+        }
+    }
+    
+    private void manageAddedPermission(final EntriesLine pLine, final LabsSite site) throws ClientException{
+        if (site == null){
+            return;
+        }
+        final boolean isAllContributors = isAllContributors();
+        if (!isAllContributors || site.isAdministrator(pLine.getUserName()) || site.isContributor(pLine.getUserName())){       
+            return;
+        }
+        final DocumentRef ref = pLine.getDocLine().getRef();
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(doc.getCoreSession()){
+            @Override
+            public void run() throws ClientException {
+                DocumentModel docu = session.getDocument(ref);
+                SecurityData data = SecurityDataHelper.buildSecurityData(docu);
+                data.addModifiablePrivilege(pLine.getUserName(), SecurityConstants.READ_WRITE, true);
+                data.addModifiablePrivilege(pLine.getUserName(), SecurityConstants.ADD_CHILDREN, true);
+                data.addModifiablePrivilege(pLine.getUserName(), SecurityConstants.REMOVE_CHILDREN, true);
+                SecurityDataHelper.updateSecurityOnDocument(docu, data);
+                session.save();
+            }
+            
+        };
+        runner.runUnrestricted();
+
     }
 
     /*
@@ -331,9 +362,11 @@ public class PageListAdapter extends AbstractPage implements PageList {
                     SecurityData data = SecurityDataHelper.buildSecurityData(docu);
                     if (isAllContributors){
                         data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
+                        data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.REMOVE_CHILDREN, true);
                     }
                     else{
                         data.removeModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
+                        data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.REMOVE_CHILDREN, true);
                     }
                     SecurityDataHelper.updateSecurityOnDocument(docu, data);
                     session.save();
