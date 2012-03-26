@@ -1,0 +1,38 @@
+@labsCkeipHoverBackgroundColor: lighten(@labsBlockBackgroundColor, 10%);
+
+
+.treeview .hitarea {
+    background-color: white;
+}
+
+.btn:hover {
+  background-position: 0 -40px;
+}
+
+[class*="icon-"]{
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  /* font-awesome
+  background-image: url("@{iconWhiteSpritePath}");
+  */
+  .opacity(80);
+}
+
+section.labsnews {
+    border: 1px solid lighten(#060606, 25%);
+}
+
+.breadcrumb .active a {
+    color: #33B5E5;
+}
+
+#FKtopContent, #FKfooter {
+    .box-shadow(1px 1px 12px darken(#FFFFFF, 50%));
+    background-color: none;
+    background: none;
+}
+
+#FKfooter_bottom{
+    background-image: none;
+}
