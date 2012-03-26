@@ -31,7 +31,7 @@
 							<a href="#" style="margin-bottom: 3px;margin-top: 3px;" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine();"><i class="icon-plus"></i>${Context.getMessage('label.pageList.addLine')}</a>
 						</#if>
 						<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
-							<a href="#" class="editblock open-dialog" rel="divManageList" onClick="javascript:manageList();"><i class="icon-edit"></i>${Context.getMessage('label.pageList.manageList')}</a>
+							<a href="#" id="PageList-editcolumns" class="editblock open-dialog" rel="divManageList" onClick="javascript:manageList();"><i class="icon-edit"></i>${Context.getMessage('label.pageList.manageList')}</a>
 						</#if>
 					</div>
 				</#if>
@@ -90,5 +90,9 @@
 				</script>
 			</div>
 		</div>
+	</@block>
+	<@block name="bottom-page-js" >
+        <@superBlock/>
+        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-collapse.js"></script>
 	</@block>
 </@extends>		

@@ -22,7 +22,7 @@
           </td>
         </#list>
       	<#if This.commentableLines >
-     		<!--  --------------------COMMENTS OF LINE --------------->
+     		<#--  --------------------COMMENTS OF LINE --------------->
      		<#assign nbComments = entriesLine.nbComments/>
      		<#if 0 < nbComments>
       			<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${Context.getMessage('label.comments.nbComments', nbComments)}"  alt="${Context.getMessage('label.comments.title')}">
@@ -33,11 +33,21 @@
       				<a href="#" class="labscomments noComments open-dialog" rel="divCommentable" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
       			</td>
       		</#if>
+      		<#--
+      		<td style="vertical-align: middle;width: 15px;" >
+      		    <a id="openLineFiles" href="#" class="open-dialog" rel="lineFiles"><img src="${skinPath}/images/comments.png" /></a>
+      		</td>
+      		-->
       	</#if>
       </tr>
     </#list>
   </tbody>
 </table>
+<div id="lineFiles">
+<#--
+<#include "/views/PageListLine/files.ftl" />
+-->
+</div>
 <#if 0 < bean.entriesLines?size>
   <script type="text/javascript">
     $("table#sortArray").tablesorter({
@@ -54,10 +64,17 @@
 </#if>
 <#if This.commentableLines >
 <script type="text/javascript">
-	$(function () {
-		$("td[rel=tooltip]").tooltip({live: true})
-		}
-	) 
+$(function () {
+	$("td[rel=tooltip]").tooltip({live: true})
+	}
+)
+jQuery(document).ready(function () {
+<#--
+    jQuery('#openLineFiles').click(function() {
+        //jQuery("#divDislayArray").load('${This.path}/???/@views/files');
+    });
+-->
+});
 </script>
 </#if>
 <!--  --------------------COMMENTS OF LINE --------------->

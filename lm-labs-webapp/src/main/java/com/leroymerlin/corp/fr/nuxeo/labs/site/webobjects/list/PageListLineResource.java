@@ -21,6 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 import org.nuxeo.ecm.webengine.WebException;
@@ -118,9 +119,8 @@ public class PageListLineResource extends DocumentObject {
      * @param pId
      * @return
      */
-    @POST
     @Override
-    public Response doPost() {
+    public Response doPut() {
         FormData form = ctx.getForm();
         String value = null;
         
@@ -177,5 +177,9 @@ public class PageListLineResource extends DocumentObject {
         }
         return Response.ok("?message_success=label.pageList.line_updated",
                 MediaType.TEXT_PLAIN).status(Status.CREATED).build();
+    }
+    
+    public DocumentModelList getFiles() throws ClientException {
+        return doc.getAdapter(PageListLine.class).getFiles();
     }
 }

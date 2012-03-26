@@ -56,7 +56,7 @@ function saveLine(path) {
 	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "POST",
-		url: $('#form-editLine').attr("action"),
+		url: $('#form-editLine').attr("action") + '/@put',
 		data: $("#form-editLine").serialize(),
 		success: function(msg){
 			document.location.href=path + msg;
