@@ -27,7 +27,7 @@
               <th class="header">Titre</th>
               <th class="header">Modifié le</th>
               <th class="header">${Context.getMessage('label.LabsSite.latestuploads.onpage')} </th>
-              <th class="header">&nbsp;</th>
+              <th class="header" style="width: 55px;">&nbsp;</th>
           </thead>
           <tbody>
           <#list uploads as upload >
@@ -39,8 +39,8 @@
             <#assign sd = Common.siteDoc(upload) />
             <td><a href="${Context.modulePath}/${sd.parentPagePath}">${sd.parentPage.title}</a></td>
             <td>
-                <a rel="nofollow" href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
-                <a rel="nofollow" href="${Context.modulePath}/${sd.resourcePath}/@blob" class="btn">${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
+                <a rel="nofollow" href="${Context.modulePath}/${sd.resourcePath}/@blob" class="btn btn-small classeurDownload">${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
+                <a rel="nofollow" href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn btn-small classeurDisplay">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
               </td>
           </tr>
           </#list>
