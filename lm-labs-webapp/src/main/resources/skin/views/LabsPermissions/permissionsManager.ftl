@@ -2,10 +2,10 @@
 <div id="divAddPermissions" style="display: none;">
 	<#include "views/LabsPermissions/addPermissions.ftl" >
 </div>
-</div>
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
+	jQuery("#divDislayArray")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
 	jQuery("#divDislayArray").load('${This.path}/@labspermissions');
 	initModalLabsPermissions();
   
