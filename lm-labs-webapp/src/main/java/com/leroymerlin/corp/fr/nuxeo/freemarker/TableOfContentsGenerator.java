@@ -9,12 +9,14 @@ public class TableOfContentsGenerator {
     public static final String DEFAULT_UL_CLASS = "page-toc";
     public static final String DEFAULT_TOC_TAG = "[[TOC]]";
     public static final String DEFAULT_SELECTOR = "section > div.page-header";
+    public static final String DEFAULT_TITLE_SELECTOR = "h1";
     public static final String DEFAULT_NO_REPLACE_CLASS = "toc-noreplace";
 
     private final String html;
     private final String tag;
     private final String ulClass;
     private final String selector;
+    private final String titleSelector;
     private final String noReplaceParentClass;
     private final String processedHtml;
     private final String tocHtml;
@@ -27,6 +29,7 @@ public class TableOfContentsGenerator {
         private String tag = DEFAULT_TOC_TAG;
         private String ulClass = DEFAULT_UL_CLASS;
         private String selector = DEFAULT_SELECTOR;
+        private String titleSelector = DEFAULT_TITLE_SELECTOR;
         private String noReplaceParentClass = DEFAULT_NO_REPLACE_CLASS;
         private final Document htmlDoc;
         
@@ -52,6 +55,13 @@ public class TableOfContentsGenerator {
         public Builder selector(String val) {
             if (val != null) {
                 selector = val;
+            }
+            return this;
+        }
+        
+        public Builder titleSelector(String val) {
+            if (val != null) {
+                titleSelector = val;
             }
             return this;
         }
@@ -82,6 +92,7 @@ public class TableOfContentsGenerator {
         tag = builder.tag;
         ulClass = builder.ulClass;
         selector = builder.selector;
+        titleSelector = builder.titleSelector;
         noReplaceParentClass = builder.noReplaceParentClass;
         tocHtml = generateToc();
         processedHtml = replaceTag();
@@ -93,7 +104,7 @@ public class TableOfContentsGenerator {
             StringBuilder sb = new StringBuilder();
             sb.append("<ul class=\"").append(ulClass).append("\">");
             for (Element elem : anchorElements) {
-                sb.append("<li><a href=\"#").append(elem.select("a[name]").attr("name")).append("\">").append(elem.select("h1").html()).append("</a></li>");
+                sb.append("<li><a href=\"#").append(elem.select("a[name]").attr("name")).append("\">").append(elem.select(titleSelector).html()).append("</a></li>");
             }
             sb.append("</ul>");
             return sb.toString();

@@ -95,7 +95,7 @@
 
   <@block name="content">
   <div class="container-fluid">
-  <@tableOfContents anchorSelector="section > div > div.header-toc">
+  <@tableOfContents anchorSelector="section > div > div.header-toc" anchorTitleSelector="h2 > span">
 
   <#assign folders = classeur.folders />
   <div class="">

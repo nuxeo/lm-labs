@@ -24,6 +24,7 @@ public class TableOfContentsDirective implements TemplateDirectiveModel {
     private static final String PARAM_NAME_TAG = "tocTag";
     private static final String PARAM_NAME_UL_CLASS = "ulClass";
     private static final String PARAM_NAME_SELECTOR = "anchorSelector";
+    private static final String PARAM_NAME_TITLE_SELECTOR = "anchorTitleSelector";
     private static final String PARAM_NAME_NO_REPLACE_CLASS = "noReplaceClass";
     
     private static final List<String> paramKeys = new ArrayList<String>(
@@ -31,6 +32,7 @@ public class TableOfContentsDirective implements TemplateDirectiveModel {
                     PARAM_NAME_TAG,
                     PARAM_NAME_UL_CLASS,
                     PARAM_NAME_SELECTOR,
+                    PARAM_NAME_TITLE_SELECTOR,
                     PARAM_NAME_NO_REPLACE_CLASS
                     ));
 
@@ -50,6 +52,7 @@ public class TableOfContentsDirective implements TemplateDirectiveModel {
             TableOfContentsGenerator generator = new TableOfContentsGenerator.Builder(html)
             .noReplaceParentClass(getParamStringValue(params, PARAM_NAME_NO_REPLACE_CLASS))
             .selector(getParamStringValue(params, PARAM_NAME_SELECTOR))
+            .titleSelector(getParamStringValue(params, PARAM_NAME_TITLE_SELECTOR))
             .tag(getParamStringValue(params, PARAM_NAME_TAG))
             .ulClass(getParamStringValue(params, PARAM_NAME_UL_CLASS))
             .build();
