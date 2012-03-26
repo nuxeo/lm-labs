@@ -22,7 +22,9 @@
     	
     	<div class="container" style="width: 960px;">
 			<#--  action-message -->
+			<#if This.type.superType.name == "LabsPage" >
 			<#include "views/common/action_message.ftl" >
+			</#if>
     		<@block name="content" />
     	</div>
 	</@block>
