@@ -28,6 +28,7 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
@@ -35,6 +36,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBean;
 
@@ -169,7 +171,10 @@ public class PageListLineResource extends DocumentObject {
                 entry.setIdHeader(head.getIdHeader());
                 entriesLine.getEntries().add(entry);
             }
-            parent.saveLine(entriesLine);
+            String principalName = ctx.getPrincipal().getName();
+            entriesLine.setUserName(principalName);
+            LabsSite site = CommonHelper.siteDoc(doc).getSite();
+            parent.saveLine(entriesLine, site);
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_LINE, e);
             return Response.ok("?message_error=label.pageList.line_updated_error",
@@ -182,4 +187,8 @@ public class PageListLineResource extends DocumentObject {
     public DocumentModelList getFiles() throws ClientException {
         return doc.getAdapter(PageListLine.class).getFiles();
     }
+
+//    private void manageAddedPermission(EntriesLine entriesLine){
+//        if(entries)
+//    }
 }

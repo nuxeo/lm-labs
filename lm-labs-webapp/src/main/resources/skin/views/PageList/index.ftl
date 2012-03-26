@@ -36,10 +36,12 @@
 					</div>
 				</#if>
 				<#assign bean = This.getFreemarkerBean() />
-				<#if isAuthorized>
+				<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
 					<div id="divManageList" class="dialog2" style="display: none;">
 						<#include "/views/PageList/editHeaders.ftl" />
 					</div>
+				</#if>
+				<#if isAuthorized>
 					<div id="divEditLine" class="dialog2" style="display: none;">
 						<h1>${Context.getMessage('label.pageList.edit.line.title')}</h1>
 						<#include "/views/PageList/editLine.ftl" />

@@ -10,6 +10,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 
@@ -60,7 +61,7 @@ public interface PageList extends Page {
      * @param pLine
      * @throws ClientException
      */
-    void saveLine(EntriesLine pLine) throws ClientException;
+    void saveLine(EntriesLine pLine, LabsSite site) throws ClientException;
     
     /**
      * Remove a PageListLine by this reference

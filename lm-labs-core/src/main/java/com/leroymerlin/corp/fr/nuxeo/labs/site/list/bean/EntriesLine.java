@@ -21,6 +21,8 @@ public class EntriesLine {
     
     private DocumentModel docLine;
     
+    private String userName;
+    
     public EntriesLine() {
         this.entries = new ArrayList<Entry>();
         this.docLine = null;
@@ -61,6 +63,14 @@ public class EntriesLine {
     
     public int getNbComments() throws ClientException, Exception{
         return docLine.getAdapter(CommentableDocument.class).getComments().size();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 
