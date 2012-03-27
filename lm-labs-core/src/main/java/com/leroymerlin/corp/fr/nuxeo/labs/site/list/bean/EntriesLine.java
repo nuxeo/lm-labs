@@ -10,6 +10,8 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
+
 
 /**
  * @author fvandaele
@@ -73,5 +75,7 @@ public class EntriesLine {
         this.userName = userName;
     }
 
-
+    public int getNbrFiles() throws ClientException, Exception{
+        return docLine.getAdapter(PageListLine.class).getFiles().size();
+    }
 }

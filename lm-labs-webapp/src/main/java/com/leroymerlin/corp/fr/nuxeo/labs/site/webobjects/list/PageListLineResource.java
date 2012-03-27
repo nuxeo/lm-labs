@@ -10,18 +10,20 @@ import java.util.Set;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 import org.nuxeo.ecm.webengine.WebException;
@@ -182,6 +184,36 @@ public class PageListLineResource extends DocumentObject {
         }
         return Response.ok("?message_success=label.pageList.line_updated",
                 MediaType.TEXT_PLAIN).status(Status.CREATED).build();
+    }
+    
+    @Override
+    public Response doPost() {
+        FormData form = ctx.getForm();
+        String desc = form.getString("description");
+        String title = form.getString("title");
+        Blob blob = form.getFirstBlob();
+        try {
+            blob.persist();
+            if (blob.getLength() > 0) {
+                doc.getAdapter(PageListLine.class).addFile(blob, desc, title);
+                getCoreSession().save();
+            }
+        } catch (Exception e) {
+            return Response.serverError()
+                    .status(Status.FORBIDDEN)
+                    .entity(e.getMessage())
+                    .build();
+        }
+        String redirect = form.getString("redirect");
+        if (redirect == null || BooleanUtils.toBoolean(redirect)) {
+            return redirect(prev.getPath());
+        } else {
+            return Response.status(Status.CREATED).build();
+        }
+    }
+
+    public BlobHolder getBlobHolder(final DocumentModel document) {
+        return document.getAdapter(BlobHolder.class);
     }
     
     public DocumentModelList getFiles() throws ClientException {

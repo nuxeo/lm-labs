@@ -138,6 +138,7 @@
     <facet name="HiddenInNavigation" />
     <subtypes>
         <type>File</type>
+        <type>Picture</type>
     </subtypes>
   </doctype>
 

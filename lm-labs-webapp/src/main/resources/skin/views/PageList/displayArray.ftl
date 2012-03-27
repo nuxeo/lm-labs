@@ -33,21 +33,23 @@
       				<a href="#" class="labscomments noComments open-dialog" rel="divCommentable" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
       			</td>
       		</#if>
-      		<#--
-      		<td style="vertical-align: middle;width: 15px;" >
-      		    <a id="openLineFiles" href="#" class="open-dialog" rel="lineFiles"><img src="${skinPath}/images/comments.png" /></a>
-      		</td>
-      		-->
       	</#if>
+      	<#assign nbrAttachedFiles = entriesLine.nbrFiles />
+  		<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${Context.getMessage('label.PageList.line.nbAttachedFiles', nbrAttachedFiles)}" >
+  		    <input type="hidden" value="${entriesLine.docLine.name}" />
+  		    <a href="#" class="btn btn-mini<#if This.allContributors > openLineFiles open-dialog</#if>" rel="lineFiles" style="padding-right:3px;" >
+  		        <i class="icon-file" ></i>
+  		    </a>
+  		</td>
       </tr>
     </#list>
   </tbody>
 </table>
+<#if This.allContributors >
 <div id="lineFiles">
-<#--
-<#include "/views/PageListLine/files.ftl" />
--->
+<img src="${skinPath}/images/loading.gif" />
 </div>
+</#if>
 <#if 0 < bean.entriesLines?size>
   <script type="text/javascript">
     $("table#sortArray").tablesorter({
@@ -62,20 +64,31 @@
       });
   </script>
 </#if>
-<#if This.commentableLines >
 <script type="text/javascript">
-$(function () {
-	$("td[rel=tooltip]").tooltip({live: true})
+jQuery(function () {
+	jQuery("td[rel=tooltip]").tooltip({live: true})
 	}
 )
 jQuery(document).ready(function () {
-<#--
-    jQuery('#openLineFiles').click(function() {
-        //jQuery("#divDislayArray").load('${This.path}/???/@views/files');
+<#if This.allContributors >
+    jQuery("#lineFiles").dialog2({
+        title: '${Context.getMessage('label.PageList.line.files.form.title')}',
+        closeOnOverlayClick: false,
+        buttons: {
+            '${Context.getMessage('command.PageList.line.files.form.close')}': { 
+                primary: false, 
+                click: function() {
+                    jQuery(this).dialog2("close");
+                }
+            }
+        },
+        autoOpen: false
     });
--->
+    jQuery('table.arrayPageList').on('click', 'a.openLineFiles', function() {
+        jQuery("#lineFiles").load('${This.path}/' + jQuery(this).siblings('input[type=hidden]').val() + '/@views/files');
+    });
+</#if>
 });
 </script>
-</#if>
-<!--  --------------------COMMENTS OF LINE --------------->
+<#--  --------------------COMMENTS OF LINE --------------->
 <#include "/views/LabsComments/displayCommentsPopup.ftl" />

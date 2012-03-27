@@ -31,8 +31,6 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
     private static final String ID_HEADER = "idHeader";
     private static final String ENTRIES_LINE = LabsSiteConstants.Schemas.PAGELIST_LINE.prefix() + ":entriesLine";
     
-    protected DocumentModel doc;
-
     public PageListLineAdapter(DocumentModel doc) {
         this.doc = doc;
     }
