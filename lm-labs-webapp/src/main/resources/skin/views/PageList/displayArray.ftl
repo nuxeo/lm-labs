@@ -5,8 +5,9 @@
         <th class="header headerSortDown" ${This.getLineStyle(header)} >${header.name}</th>
       </#list>
       <#if This.commentableLines>
-	      <th class="header" style="width: 15px;">&nbsp;</th>
-	     </#if>
+	    <th class="header" style="width: 15px;">&nbsp;</th>
+	  </#if>
+	    <th class="header" style="width: 15px;">&nbsp;</th>
     </tr>
   </thead>
   <tbody>
@@ -37,7 +38,7 @@
       	<#assign nbrAttachedFiles = entriesLine.nbrFiles />
   		<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${Context.getMessage('label.PageList.line.nbAttachedFiles', nbrAttachedFiles)}" >
   		    <input type="hidden" value="${entriesLine.docLine.name}" />
-  		    <a href="#" class="btn btn-mini<#if This.allContributors > openLineFiles open-dialog</#if>" rel="lineFiles" style="padding-right:3px;" >
+  		    <a href="#" class="btn btn-mini<#if This.allContributors > openLineFiles open-dialog</#if>" rel="lineFiles" style="padding-right:3px;<#if nbrAttachedFiles == 0> opacity: 0.5</#if>" >
   		        <i class="icon-file" ></i>
   		    </a>
   		</td>
@@ -47,7 +48,7 @@
 </table>
 <#if This.allContributors >
 <div id="lineFiles">
-<img src="${skinPath}/images/loading.gif" />
+    <img src="${skinPath}/images/loading.gif" />
 </div>
 </#if>
 <#if 0 < bean.entriesLines?size>
@@ -78,14 +79,23 @@ jQuery(document).ready(function () {
             '${Context.getMessage('command.PageList.line.files.form.close')}': { 
                 primary: false, 
                 click: function() {
+                    <#-- TODO
+                    var lineName = jQuery('#linename').val();
+                    var nbrFiles = jQuery('#lineNbrFiles').val();
+                    -->
                     jQuery(this).dialog2("close");
+                    jQuery(this).html('');
+                    <#-- TODO
+                    //jQuery('#sortArray tr.' + lineName + ' > td > a[rel=lineFiles]').closest('td').attr('data-original-title', nbrFiles);
+                    -->
                 }
             }
         },
         autoOpen: false
     });
     jQuery('table.arrayPageList').on('click', 'a.openLineFiles', function() {
-        jQuery("#lineFiles").load('${This.path}/' + jQuery(this).siblings('input[type=hidden]').val() + '/@views/files');
+        var lineName = jQuery(this).siblings('input[type=hidden]').val();
+        jQuery("#lineFiles").load('${This.path}/' + lineName + '/@views/files?linename=' + lineName);
     });
 </#if>
 });

@@ -8,8 +8,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -105,7 +106,6 @@ public class PageListLineResource extends DocumentObject {
         return getTemplate(EDIT_VIEW).arg("line", line).arg("key", "/" + doc.getRef().reference()).arg("bean", bean);
     }
 
-    @DELETE
     @Override
     public Response doDelete() {
         try {
@@ -204,16 +204,21 @@ public class PageListLineResource extends DocumentObject {
                     .entity(e.getMessage())
                     .build();
         }
-        String redirect = form.getString("redirect");
-        if (redirect == null || BooleanUtils.toBoolean(redirect)) {
-            return redirect(prev.getPath());
-        } else {
+        String ajaxEnabled = form.getString("ajax");
+        if (BooleanUtils.toBoolean(ajaxEnabled)) {
             return Response.status(Status.CREATED).build();
         }
+        return redirect(prev.getPath());
     }
 
     public BlobHolder getBlobHolder(final DocumentModel document) {
         return document.getAdapter(BlobHolder.class);
+    }
+    
+    @Path("@file/{filename}")
+    public Object saveLine(@PathParam("filename") final String filename) throws ClientException {
+        DocumentModel lineFile = getCoreSession().getChild(doc.getRef(), filename);
+        return newObject("PageListLineFile", lineFile);
     }
     
     public DocumentModelList getFiles() throws ClientException {
