@@ -22,8 +22,9 @@ function addLine() {
 	$('#form-editLine').clearForm();
 	$("#divBtnDeleteLine").attr("style", "display:none;");
 	var action = $('#form-editLine').attr('action');
-	if (action.indexOf('/line') == -1){
-		$('#form-editLine').attr('action', action + '/line');
+	var addLineSuffix = '/addline/@put';
+	if (action.indexOf('/@put') == -1){
+		$('#form-editLine').attr('action', action + addLineSuffix);
 	}
 }
 
@@ -54,9 +55,13 @@ function initEditLinesDates(){
 
 function saveLine(path) {
 	jQuery('#waitingPopup').dialog2('open');
+	var action = $('#form-editLine').attr('action');
+	if (action.indexOf('/@put') == -1){
+		action = action + '/@put';
+	}
 	jQuery.ajax({
 		type: "POST",
-		url: $('#form-editLine').attr("action") + '/@put',
+		url: action,
 		data: $("#form-editLine").serialize(),
 		success: function(msg){
 			document.location.href=path + msg;
