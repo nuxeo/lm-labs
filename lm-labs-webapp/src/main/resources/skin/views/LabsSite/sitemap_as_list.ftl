@@ -43,7 +43,7 @@ jQuery(document).ready(function() {
           <tbody>
           <#list mySite.allPages as page>
             <#assign isAdmin = mySite.isAdministrator(Context.principal.name) />
-            <#if isAdmin || (!mySite.isAdministrator(Context.principal.name) && page.visible) > 
+            <#if isAdmin || (!mySite.isAdministrator(Context.principal.name) && page.document.type != "LabsNews" && page.visible) > 
             <tr>
               <#assign doc=page.document />
               <td class="nameCol"><a href="${Context.modulePath}/${page.path?html}">${doc.title}</a></td>
