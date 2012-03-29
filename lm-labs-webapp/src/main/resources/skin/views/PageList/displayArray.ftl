@@ -1,17 +1,18 @@
+<#assign entriesLines = bean.entriesLines />
 <table id="sortArray" class="table labstable table-striped table-bordered bs arrayPageList">
   <thead>
     <tr>
       <#list bean.headersSet as header>
-        <th class="header headerSortDown" ${This.getLineStyle(header)} >${header.name}</th>
+        <th <#if entriesLines?size == 0 >class="header noSort" </#if>${This.getLineStyle(header)} >${header.name}</th>
       </#list>
       <#if This.commentableLines>
-	    <th class="header" style="width: 15px;">&nbsp;</th>
+	    <th class="header noSort" style="width: 15px;">&nbsp;</th>
 	  </#if>
-	    <th class="header" style="width: 15px;">&nbsp;</th>
+	    <th class="header noSort" style="width: 15px;">&nbsp;</th>
     </tr>
   </thead>
   <tbody>
-    <#list bean.entriesLines as entriesLine>
+    <#list entriesLines as entriesLine>
       <tr>
         <#list bean.headersSet as header>
           <td ${This.getLineStyle(header, entriesLine)} ${This.getLineOnclick(entriesLine)}>
@@ -51,7 +52,7 @@
     <img src="${skinPath}/images/loading.gif" />
 </div>
 </#if>
-<#if 0 < bean.entriesLines?size>
+<#if 0 < entriesLines?size>
   <script type="text/javascript">
     $("table#sortArray").tablesorter({
         textExtraction: function(node) {

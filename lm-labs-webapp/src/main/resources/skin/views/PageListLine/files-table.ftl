@@ -3,9 +3,9 @@
 <table class="table table-striped bs table-bordered labstable attached-files-table" style="margin-top:3px;">
   <thead>
       <tr>
-          <th>${Context.getMessage('label.PageList.line.files.form.table.title.filename')}</th>
-          <th>${Context.getMessage('label.PageList.line.files.form.table.title.filesize')}</th>
-          <th>&nbsp;</th>
+          <th <#if lineFiles?size == 0 >class="header noSort" </#if>>${Context.getMessage('label.PageList.line.files.form.table.title.filename')}</th>
+          <th <#if lineFiles?size == 0 >class="header noSort" </#if>>${Context.getMessage('label.PageList.line.files.form.table.title.filesize')}</th>
+          <th class="header noSort">&nbsp;</th>
       </tr>
   </thead>
   <tbody>
@@ -28,7 +28,7 @@
   </tbody>
 </table>
 
-<#-- TODO does not work when table is empty 
+<#if lineFiles?size &gt; 0 >
 <script type="text/javascript">
 jQuery("table.attached-files-table").ready(function() {
     jQuery("table.attached-files-table").tablesorter({
@@ -45,4 +45,4 @@ jQuery("table.attached-files-table").ready(function() {
     });
 });
 </script>
--->
+</#if>
