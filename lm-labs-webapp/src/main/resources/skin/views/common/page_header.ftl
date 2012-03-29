@@ -11,7 +11,7 @@
 	<#if mySite?? && mySite.isContributor(Context.principal.name) >
 		<#include "views/common/description_area.ftl">
 	<#elseif page.isDisplayable(This.DC_DESCRIPTION)>
-		${page.description}
+		<div class="page-description">${page.description}</div>
 	</#if>
 </div>
 <script type="text/javascript">

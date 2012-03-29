@@ -1,4 +1,8 @@
     <div style="height:165px;">&nbsp;</div>
+
+    <#include "views/common/children_area.ftl" />
+    
+    <div class="sidebarSeparator">&nbsp;</div>
     
     <#-- LAST MESSAGE AREA --> 
     <#include "views/common/last_message_area.ftl" />
@@ -12,8 +16,4 @@
 
     <#-- LAST PageClasseur Uploads AREA --> 
     <#include "views/common/latestuploads_area.ftl" />
-    
-    <div class="sidebarSeparator">&nbsp;</div>
-
-    <#include "views/common/children_area.ftl" />
     

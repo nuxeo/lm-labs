@@ -234,7 +234,7 @@ public class PageListResource extends NotifiablePageResource {
         
     }
     
-    @Path(value="line")
+    @Path(value="addline")
     public Object saveLine() throws ClientException {
         return newObject(LabsSiteConstants.Docs.PAGELIST_LINE.type(), doc);
     }
