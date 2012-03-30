@@ -531,7 +531,6 @@
 								"after" : jQuery(after).attr("id")
 							},
 							success : function (r) {
-								alert("success");
 						        if (r.redirect) {
 						            // data.redirect contains the string URL to redirect to
 						            window.location.replace(r.redirect);
