@@ -23,7 +23,7 @@
   <@block name="docactionsaddpage"></@block>
   <@block name="docactionsonpage"></@block>
   
-  <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
+  <#assign isContributor = This.previous.page?? && This.previous.page.isContributor(Context.principal.name) />
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
   </#if>

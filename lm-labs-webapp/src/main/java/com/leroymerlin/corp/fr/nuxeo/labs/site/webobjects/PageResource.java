@@ -405,9 +405,10 @@ public class PageResource extends DocumentObject {
             if (site.isAdministrator(ctx.getPrincipal().getName())) {
                 site.setHomePageRef(doc.getId());
                 doc.getCoreSession().saveDocument(site.getDocument());
+                LabsSiteUtils.unblockInherits("", doc);
                 setAsHome = true;
             }
-        } catch (ClientException e) {
+        } catch (Exception e) {
             throw WebException.wrap(e);
         }
         if (setAsHome) {

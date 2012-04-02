@@ -23,7 +23,7 @@
    
    	<#include "views/common/page_header.ftl">
   	
-  <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
+  <#assign isContributor = This.page?? && This.page.isContributor(Context.principal.name) />
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
   </#if>

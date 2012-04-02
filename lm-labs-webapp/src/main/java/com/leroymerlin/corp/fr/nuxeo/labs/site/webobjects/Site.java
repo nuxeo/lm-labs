@@ -32,6 +32,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.HomePageException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
@@ -60,8 +61,10 @@ public class Site extends NotifiablePageResource {
                                     site.getIndexDocument().getAdapter(
                                             SiteDocument.class).getResourcePath()).removeFirstSegments(1)).toString(),
                             false));
+        } catch (HomePageException e) {
+            throw WebException.wrap(e);
         } catch (ClientException e) {
-            return super.doGet();
+            throw WebException.wrap(e);
         }
     }
 

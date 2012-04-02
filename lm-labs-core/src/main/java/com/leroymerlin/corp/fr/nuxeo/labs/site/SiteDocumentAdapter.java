@@ -8,13 +8,13 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 public class SiteDocumentAdapter implements SiteDocument {
 
@@ -99,13 +99,7 @@ public class SiteDocumentAdapter implements SiteDocument {
 
     @Override
     public DocumentModelList getChildrenPageDocuments() throws ClientException {
-        @SuppressWarnings("serial")
-        DocumentModelList children = doc.getCoreSession().getChildren(doc.getRef(), null, new Filter() {
-            @Override
-            public boolean accept(DocumentModel document) {
-                return Docs.pageDocs().contains(Docs.fromString(document.getType()));
-            }}, null);
-        return children;
+        return LabsSiteUtils.getChildrenPageDocuments(doc);
     }
 
 }

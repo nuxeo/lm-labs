@@ -1,6 +1,6 @@
 <#assign mySite=Common.siteDoc(Document).site />
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
-  <#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
+  <#assign isAuthorized = This.page?? && This.page.isContributor(Context.principal.name)>
 
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 

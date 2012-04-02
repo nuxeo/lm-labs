@@ -74,8 +74,9 @@ public final class CommonHelper {
         return list;
     }
 
+    @SuppressWarnings("unchecked")
     public static final List<Page> getTopNavigationPages(DocumentModel siteDoc,
-            String userName) throws ClientException {
+            final String userName) throws ClientException {
         List<Page> pages = new ArrayList<Page>();
         LabsSite site = siteDoc(siteDoc).getSite();
         Collection<Page> allTopPages = siteDoc(site.getTree()).getChildrenPages();
@@ -93,7 +94,11 @@ public final class CommonHelper {
                         return false;
                     }
                     try {
-                        return (page.isVisible() && !page.isDeleted());
+                        boolean result = true;
+                        if (!page.isContributor(userName)){
+                            result = page.isVisible();
+                        }
+                        return (result && !page.isDeleted());
                     } catch (ClientException e) {
                         return false;
                     }

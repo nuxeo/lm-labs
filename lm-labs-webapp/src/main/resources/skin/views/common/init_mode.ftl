@@ -1,8 +1,10 @@
 <#if !isSiteRoot>
 	<#assign mySite=Common.siteDoc(Document).site />
 </#if>
+<#assign siteContributor = mySite?? && mySite.isContributor(Context.principal.name) />
+<#assign siteAdministrator = mySite?? && mySite.isAdministrator(Context.principal.name) />
 	<script type="text/javascript">
-<#if mySite?? && mySite.isContributor(Context.principal.name) >
+<#if siteContributor || (This.page != null && This.page.isContributor(Context.principal.name)) >
 		
 		var IS_MODE_EDITION = true;
 		var pathCookie = '${Context.modulePath}/${mySite.URL}';
@@ -39,23 +41,27 @@
 		});
 		
 		function displayEditMode(){
-			if (dragDrop != null){
-				dragDrop.unlock();
-			}
-			$("#logoDragMsgId").show();
-			$("#logoImgId").removeClass("logoImgId-notmove");
-			$("#logoImgId").addClass("logoImgId-move");
+			<#if siteAdministrator>
+				if (dragDrop != null){
+					dragDrop.unlock();
+				}
+				$("#logoDragMsgId").show();
+				$("#logoImgId").removeClass("logoImgId-notmove");
+				$("#logoImgId").addClass("logoImgId-move");
+			</#if>
 			$(".viewblock").hide();
 			jQuery(".cke_hidden").hide();
 		}
 		
 		function displayViewMode(){
-			$("#logoDragMsgId").hide();
-			$("#logoImgId").removeClass("logoImgId-move");
-			$("#logoImgId").addClass("logoImgId-notmove");
-			if (dragDrop != null){
-				dragDrop.lock();
-			}
+			<#if siteAdministrator>
+				$("#logoDragMsgId").hide();
+				$("#logoImgId").removeClass("logoImgId-move");
+				$("#logoImgId").addClass("logoImgId-notmove");
+				if (dragDrop != null){
+					dragDrop.lock();
+				}
+			</#if>
 			$(".viewblock").show();
 			jQuery(".cke_hidden").hide();
 		}

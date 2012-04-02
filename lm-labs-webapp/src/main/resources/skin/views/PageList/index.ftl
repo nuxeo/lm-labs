@@ -25,17 +25,17 @@
 		
 			<#include "views/common/page_header.ftl">
 			<div id="divPageList" class="">
+				<#assign bean = This.getFreemarkerBean() />
 				<#if isAuthorized>
 					<div id="divActionManageList">
-						<#if Context.principal.isAnonymous() != true>
+						<#if Context.principal.isAnonymous() != true && (bean.headersSet?size > 0)>
 							<a href="#" style="margin-bottom: 3px;margin-top: 3px;" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine();"><i class="icon-plus"></i>${Context.getMessage('label.pageList.addLine')}</a>
 						</#if>
-						<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
+						<#if This.page?? && This.page.isContributor(Context.principal.name)>
 							<a href="#" id="PageList-editcolumns" class="editblock open-dialog" rel="divManageList" onClick="javascript:manageList();"><i class="icon-edit"></i>${Context.getMessage('label.pageList.manageList')}</a>
 						</#if>
 					</div>
 				</#if>
-				<#assign bean = This.getFreemarkerBean() />
 				<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')>
 					<div id="divManageList" class="dialog2" style="display: none;">
 						<#include "/views/PageList/editHeaders.ftl" />

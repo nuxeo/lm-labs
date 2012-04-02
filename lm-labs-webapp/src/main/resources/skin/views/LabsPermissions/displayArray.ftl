@@ -1,6 +1,13 @@
+<#assign isPage =  This.activeAdapter.pageForPermissions />
+<#if !mySite??>
+	<#assign mySite = Common.siteDoc(Document).site />
+</#if>
+<#if !(isHomePage)??>
+	<#assign isHomePage = This.page?? && (mySite.homePageRef == This.page.document.id) />
+</#if>
 <section>
     <@displayPermTypeHeader permType='Everything' permsList=permissionsAdmin >
-        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Everything')?js_string}', 'Everything');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Everything')}" class="btn btn-mini" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
+        <button onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Everything')?js_string}', 'Everything');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Everything')}" class="btn btn-mini" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
     </@displayPermTypeHeader>
 	<#list permissionsAdmin as perm>
        <@displayPermRow perm=perm />
@@ -9,7 +16,26 @@
 
 <section>
     <@displayPermTypeHeader permType='Write' permsList=permissionsWrite >
-        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn btn-mini" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
+    	<#if isPage  && !isHomePage>
+    		<div style="position:relative;float: right;margin-top: -8px;">
+		    	<div class="btn-group">
+				    <a class="btn dropdown-toggle" data-toggle="dropdown" ><i class="icon-cog"></i>Actions <span class="caret"></span></a>
+				    <ul class="dropdown-menu pull-right" style="text-align: left;left: -245%;">
+				        <li>
+							<a href="#" onclick="javascript:unblockInherits('ReadWrite');"><i class="icon-plus"></i><i class="icon-plus"></i>Récupérer l'héritage parent contributeur</a>
+						</li>
+				        <li>
+							<a href="#" onclick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" ><i class="icon-plus"></i>${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}</a>
+						</li>
+				        <!-- <li>
+							<a href="#" onclick="javascript:blockInherits('ReadWrite');"><i class="icon-minus"></i>Bloquer l'héritage contributeur</a>
+						</li> -->
+				    </ul>
+				</div>
+			</div>
+        <#else>
+        	<button onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn btn-mini" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
+    	</#if>
     </@displayPermTypeHeader>
 	<#list permissionsWrite as perm>
        <@displayPermRow perm=perm />
@@ -18,13 +44,36 @@
 
 <section>
     <@displayPermTypeHeader permType='Read' permsList=permissionsRead >
-        <button id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}" class="btn btn-mini btn-warning"><i class="icon-fire"></i>${Context.getMessage('label.security.labs.button.vomitPublic')}</button>
-        <button id="displayAddPerm" onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Read')?js_string}', 'Read');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Read')}" class="btn btn-mini"><i class="icon-plus" style="padding-right:0px;"></i></button>
+    	<#if isPage  && !isHomePage>
+    		<div style="position:relative;float: right;margin-top: -8px;">
+		    	<div class="btn-group">
+				    <a class="btn dropdown-toggle" data-toggle="dropdown" ><i class="icon-cog"></i>Actions <span class="caret"></span></a>
+				    <ul class="dropdown-menu pull-right" style="text-align: left;left: -215%;">
+				        <li>
+							<a href="#" onclick="javascript:unblockInherits('Read');"><i class="icon-plus"></i><i class="icon-plus"></i>Récupérer l'héritage parent visiteur</a>
+						</li>
+				        <li>
+							<a href="#" onclick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Read')?js_string}', 'Read');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Read')}" ><i class="icon-plus"></i>${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Read')}</a>
+						</li>
+				        <!-- <li>
+							<a href="#" onclick="javascript:blockInherits('Read');"><i class="icon-minus"></i>Bloquer l'héritage Visiteur</a>
+						</li> -->
+						<li>
+							<a href="#" id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}"><i class="icon-fire"></i>${Context.getMessage('label.security.labs.button.vomitPublic')}</a>
+						</li>
+				    </ul>
+				</div>
+			</div>
+        <#else>
+        	<button id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}" class="btn btn-mini btn-warning"><i class="icon-fire"></i>${Context.getMessage('label.security.labs.button.vomitPublic')}</button>
+        	<button onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn btn-mini" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
+    	</#if>
     </@displayPermTypeHeader>
 	<#list permissionsRead as perm>
 	   <@displayPermRow perm=perm />
 	</#list>
 </section>
+<div>&nbsp;</div>
 
 <#macro displayPermRow perm >
 <#assign permName = "" />
@@ -43,7 +92,7 @@
         </#if>
     </div>
     <div class="span2 columns">
-        <#if perm.inherited == false >
+        <#if perm.inherited == false && Context.principal.name != perm.name>
         	<button class="btn btn-mini btn-danger" onClick="javascript:labsPermissionsDelete('${This.path}/@labspermissions/delete?permission=${perm.permission}&id=${perm.name}', '${Context.getMessage('label.security.labs.permission.confirm_delete', permText, permName)?js_string}');"><i class="icon-remove" style="padding-right:0px;"></i></button>
             
         <#else>
@@ -55,19 +104,24 @@
 
 <#macro displayPermTypeHeader permType permsList >
 <#assign permText = Context.getMessage('label.security.labs.permission.' + permType) />
-<div class="page-header">
+<div class="page-header" style="padding-bottom: 2px;">
     <h4>
         ${permText} 
         <small>
-            <#if 0 < permsList?size >
+            <#if (0 < permsList?size) >
                 (${permsList?size})&nbsp;
             </#if>
-            <a href="#" rel="popover" data-content="${Context.getMessage('label.security.labs.permission.' + permType + '.description')}" data-original-title="${Context.getMessage('label.security.labs.permission.' + permType)}">Description</a>
+            <#if isPage>
+            	<#assign description = ".descriptionPage" />
+            <#else>
+            	<#assign description = ".description" />
+            </#if>
+            <a href="#" rel="popover" data-content="${Context.getMessage('label.security.labs.permission.' + permType + description)}" data-original-title="${Context.getMessage('label.security.labs.permission.' + permType)}">Description</a>
         </small>
-        <div style="text-align: right;margin-top: -36px;">
-            <#nested>
-        </div>
     </h4>
+    <div style="text-align: right;margin-top: -19px;height: 20px;">
+        <#nested>
+    </div>
 </div>
 </#macro>
 
@@ -120,6 +174,7 @@ function labsPermissionsDelete(url, confirme){
 	            alert(data);
 	          }
 	          else {
+	          	jQuery("#divDislayArray")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
 	            jQuery("#divDislayArray").load('${This.path}/@labspermissions');
 	          }
 	          jQuery('#waitingPopup').dialog2('close');
