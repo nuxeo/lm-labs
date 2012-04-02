@@ -13,7 +13,7 @@
       <div class="navbar-inner">
         <div class="container-fluid">
             <#if mySite??>
-              <a class="brand" href="${Context.modulePath}/${mySite.document.webcontainer.url}">${mySite.title}</a>
+              <a class="brand" href="${Context.modulePath}/${mySite.document.webcontainer.url}">${mySite.title}<#if !mySite.visible>&nbsp;<i class="icon-eye-close"></i></#if></a>
             <#else>
               <a class="brand" href="${Context.modulePath}">LABS</a>
             </#if>
