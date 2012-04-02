@@ -8,6 +8,8 @@
    <directory name="columns_layout" layout="columns_layout" sortField="label" />
    <directory name="labs_page_templates" layout="vocabulary" sortField="id" />
    <directory name="labs_themes" layout="vocabulary" sortField="id" />
+   <directory name="labs_fontsizes" layout="vocabulary" sortField="id" />
+   <directory name="labs_fontfamilies" layout="vocabulary" sortField="id" />
 
  </extension>
 

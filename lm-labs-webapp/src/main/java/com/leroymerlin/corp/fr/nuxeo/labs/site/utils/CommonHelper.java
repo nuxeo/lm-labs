@@ -14,6 +14,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.webengine.WebEngine;
@@ -25,11 +26,12 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.FontFamily;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.FontSize;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.ThemePropertiesManage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Directories;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FontFamily;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FontSize;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
 
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -198,11 +200,33 @@ public final class CommonHelper {
     }
 
     public static List<FontFamily> getFontFamilies() {
-        return LabsSiteConstants.FontFamily.getFontFamilies();
+        List<FontFamily> list = new ArrayList<FontFamily>();
+        Directories dir = Directories.FONT_FAMILIES;
+        for (DocumentModel entry : getThemeService().getDirFontFamilies()) {
+            try {
+                list.add(new FontFamily((String) entry.getPropertyValue(dir.idField()), (String) entry.getPropertyValue(dir.labelField())));
+            } catch (PropertyException e) {
+                LOG.error(e, e);
+            } catch (ClientException e) {
+                LOG.error(e, e);
+            }
+        }
+        return list;
     }
 
     public static List<FontSize> getFontSizes() {
-        return LabsSiteConstants.FontSize.getFontSizes();
+        List<FontSize> list = new ArrayList<FontSize>();
+        Directories dir = Directories.FONT_SIZES;
+        for (DocumentModel entry : getThemeService().getDirFontSizes()) {
+            try {
+                list.add(new FontSize((String) entry.getPropertyValue(dir.idField()), (String) entry.getPropertyValue(dir.labelField())));
+            } catch (PropertyException e) {
+                LOG.error(e, e);
+            } catch (ClientException e) {
+                LOG.error(e, e);
+            }
+        }
+        return list;
     }
 
     public static List<ThemeProperty> getThemeProperties(

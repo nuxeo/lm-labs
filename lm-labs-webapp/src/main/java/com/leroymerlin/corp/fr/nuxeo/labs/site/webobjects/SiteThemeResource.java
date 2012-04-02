@@ -36,6 +36,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.ThemePropertiesManage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
@@ -166,6 +167,20 @@ public class SiteThemeResource extends PageResource {
             return Response.notModified().build();
         }
         return Response.notModified().build();
+    }
+    
+    @GET
+    @Path(value = "resetCurrentTheme")
+    public Response doResetCurrentTheme() {
+        try {
+            theme.setProperties(SiteThemeAdapter.EMPTY_PROPERTIES);
+            CoreSession session = ctx.getCoreSession();
+            session.saveDocument(theme.getDocument());
+//            session.save();
+            return Response.ok().status(Status.OK).build();
+        } catch (Exception e) {
+            return Response.notModified().build();
+        }
     }
 
     @POST

@@ -23,6 +23,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteThemeAdapter implements SiteTheme {
 
+    public static final Map<String, ThemeProperty> EMPTY_PROPERTIES = new HashMap<String, ThemeProperty>();
+    
     private static final Log LOG = LogFactory.getLog(SiteThemeAdapter.class);
 
     private static final String PROPERTY_NAME = "dc:title";
