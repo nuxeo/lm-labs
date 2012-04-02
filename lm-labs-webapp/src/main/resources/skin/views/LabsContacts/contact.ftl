@@ -4,7 +4,7 @@
 	<#list contactsAdmin as contact>
 		<a href="mailto:${contact.email}">${contact.displayName} (${contact.ldap})</a><#if contact != contactsAdmin?last>, </#if>
 	</#list>
-	<#if Session.hasPermission(Document.ref, 'Everything') >
+	<#if mySite.isAdministrator(Context.principal.name)> 
         <a class="editblock" href="${Context.modulePath}/${mySite.URL}/@views/edit_contacts" >
             <img style="vertical-align: middle;" title="${Context.getMessage("label.footer.contact.goToAdminContact")}" alt="${Context.getMessage("label.footer.contact.goToAdminContact")}" src="${skinPath}/images/edit.gif" />
         </a>

@@ -1,4 +1,4 @@
-<div id="divDislayArray" class="container"></div>
+<div id="divDislayArray" class="container-fluid"></div>
 <div id="divAddPermissions" style="display: none;">
 	<#include "views/LabsPermissions/addPermissions.ftl" >
 </div>

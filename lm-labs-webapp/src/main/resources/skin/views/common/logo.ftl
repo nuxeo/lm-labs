@@ -1,6 +1,6 @@
 <#assign mySite=Common.siteDoc(Document).site />
 <#assign logoWidth = mySite.themeManager.theme.logoWidth />
-<#assign canDrop = Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')/>
+<#assign canDrop = mySite.isAdministrator(Context.principal.name)/>
 
 <#if canDrop>
 	<#assign logoBorderPadding=0 />

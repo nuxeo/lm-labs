@@ -2,8 +2,7 @@
 
 <#if adminTreeviewType == "Pages" >
 	<#assign mySite=Common.siteDoc(Document).site />
-	<#assign homepageDoc = mySite.indexDocument />
-	<#assign parents = Session.getParentDocuments(homepageDoc.ref) />
+	<#assign parents = Session.getParentDocuments(mySite.indexDocument.ref) />
 	<#assign ids = [] />
 	<#list parents?reverse as parent>
 		<#if parent.type == "Tree" >
@@ -77,7 +76,7 @@
 			return false;
 		}
 	
-		var homePageId = '<#if adminTreeviewType == "Pages">${homepageDoc.id}</#if>';
+		var homePageId = '<#if adminTreeviewType == "Pages" && mySite?? && mySite != null >${mySite.homePageRef}</#if>';
 		
 		jQuery().ready(function() {
 			jQuery("#currentNodeId").val(jQuery("li[rel=Assets]").attr("id"));

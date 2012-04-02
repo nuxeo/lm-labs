@@ -25,16 +25,14 @@ import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.model.PropertyException;
-import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
-import org.nuxeo.ecm.webengine.WebException;
-import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.corp.fr.nuxeo.labs.filter.DocUnderVisiblePageFilter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.HomePageException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
@@ -274,7 +272,25 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     @Override
     public DocumentModel getIndexDocument() throws ClientException {
-        return getCoreSession().getDocument(new IdRef(getHomePageRef()));
+        DocumentModel welcome = null;
+        String ref = getHomePageRef();
+        if (!StringUtils.isEmpty(ref)){
+            try {
+                welcome = doc.getCoreSession().getDocument(new IdRef(ref));
+            } catch (ClientException e) {
+                LOG.error("No document for id : '" + ref);
+            }
+        }
+        if (welcome == null){
+            LOG.warn("No setted home page for site '" + getURL());
+            DocumentModelList list = LabsSiteUtils.getChildrenPageDocuments(getTree());
+            if (list.isEmpty()){
+                LOG.error("Unable to get home page for site '" + getURL());
+                throw new HomePageException("Unable to get home page for site '" + getURL());
+            }
+            welcome = list.get(0);
+        }
+        return welcome;
     }
 
     @Override
@@ -294,38 +310,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     @Override
     public String getHomePageRef() throws ClientException {
-        // return (String) doc.getPropertyValue(HOME_PAGE_REF);
-        try {
-            String ref = (String) doc.getPropertyValue(PROPERTY_HOME_PAGE_REF);
-            // TODO this is temporary
-            if (StringUtils.isEmpty(ref)) {
-                ref = getWelcomePageId();
-            }
-            if (doc.getId().equals(ref)) {
-                LOG.warn("Wrong home page.");
-            }
-            return ref;
-        } catch (Exception e) {
-            LOG.error("Unable to get home page for site '" + getURL() + "': " + e);
-            // TODO this is temporary
-            return getWelcomePageId();
-        }
-    }
-
-    private String getWelcomePageId() throws ClientException {
-        if (doc.getCoreSession().hasPermission(doc.getRef(),
-                SecurityConstants.WRITE)) {
-            PathRef ref = new PathRef(doc.getPathAsString() + "/"
-                    + LabsSiteConstants.Docs.TREE.docName(),
-                    LabsSiteConstants.Docs.WELCOME.docName());
-            DocumentModel welcome = doc.getCoreSession().getDocument(ref);
-            setHomePageRef(welcome.getId());
-            doc.getCoreSession().saveDocument(doc);
-            doc.getCoreSession().save();
             return (String) doc.getPropertyValue(PROPERTY_HOME_PAGE_REF);
-        }
-        throw WebException.wrap(new WebResourceNotFoundException(
-                "home page not set."));
     }
 
     @Override

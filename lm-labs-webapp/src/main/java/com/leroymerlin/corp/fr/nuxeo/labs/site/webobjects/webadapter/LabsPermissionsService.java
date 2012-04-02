@@ -22,12 +22,11 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
+import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.ecm.webengine.WebException;
@@ -36,10 +35,14 @@ import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.LMPermission;
+import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils.Action;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 
 /**
  * @author fvandaele
@@ -48,13 +51,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 @WebAdapter(name = "labspermissions", type = "LabsPermissions")
 public class LabsPermissionsService extends DefaultAdapter {
 
-    public enum Action {
-        GRANT, REMOVE;
-    }
-
-    private static final Log log = LogFactory.getLog(LabsPermissionsService.class);
-
-    private static final String THE_RIGHT_LIST_DONT_BE_NULL = "The right'list dont be null !";
+    //private static final Log log = LogFactory.getLog(LabsPermissionsService.class);
 
     @GET
     public Object doGet() {
@@ -122,6 +119,10 @@ public class LabsPermissionsService extends DefaultAdapter {
         DocumentModel document = dobj.getDocument();
         return document;
     }
+    
+    public boolean isPageForPermissions(){
+        return !getDocument().hasSchema(LabsSiteConstants.Schemas.LABSSITE.getName());
+    }
 
     @GET
     @Path("suggestedUsers/{string}")
@@ -152,7 +153,7 @@ public class LabsPermissionsService extends DefaultAdapter {
     public Response hasHigherPermission(
             @QueryParam(value = "permission") String permission,
             @QueryParam(value = "id") String id) {
-        List<String> labsRightsString = getListRights();
+        List<String> labsRightsString = LabsSiteUtils.getListRights();
         DocumentModel document = getDocument();
         try {
             PermissionsHelper helper = new PermissionsHelper(labsRightsString);
@@ -162,21 +163,6 @@ public class LabsPermissionsService extends DefaultAdapter {
         } catch (Exception e) {
             throw WebException.wrap(e);
         }
-    }
-
-    /**
-     * @return
-     */
-    private List<String> getListRights() {
-        List<String> labsRightsString = new ArrayList<String>();
-
-        for (Rights labsRight : Rights.values()) {
-            labsRightsString.add(labsRight.getRight());
-        }
-        if (labsRightsString.isEmpty()) {
-            throw new WebException(THE_RIGHT_LIST_DONT_BE_NULL);
-        }
-        return labsRightsString;
     }
 
     @POST
@@ -190,7 +176,7 @@ public class LabsPermissionsService extends DefaultAdapter {
             boolean override = BooleanUtils.toBoolean(overrideStr);
             assert StringUtils.isNotEmpty(permission);
             assert StringUtils.isNotEmpty(id);
-            setPermission(document, permission, id, Action.GRANT, override);
+            LabsSiteUtils.setPermission(document, permission, id, Action.GRANT, override);
             return Response.ok().build();
 
         } catch (IllegalStateException e1) {
@@ -201,78 +187,6 @@ public class LabsPermissionsService extends DefaultAdapter {
         }
     }
 
-    /**
-     * Sets a permission on a element.
-     * 
-     * @param doc {@link DocumentModel}
-     * @param permission permission name
-     * @param id user or group name
-     * @param action <code>Action.GRANT</code> or <code>Action.REMOVE</code>
-     * @param override
-     * @throws IllegalStateException when current user has a higher permission
-     * @throws Exception
-     */
-    public void setPermission(DocumentModel doc, final String permission,
-            final String id, Action action, boolean override)
-            throws IllegalStateException, Exception {
-        if (doc != null) {
-            CoreSession session = ctx.getCoreSession();
-            if (!PermissionsHelper.hasPermission(doc, permission, id)) {
-                if (!PermissionsHelper.groupOrUserExists(id)) {
-                    // // TODO throw exception to notify unknow group/user
-                    // log.error("Failed to get principal:" + e);
-                    throw new WebException("Unknown group or user");
-                    // return;
-                }
-                boolean granted = Action.GRANT.equals(action);
-                if (granted) {
-                    List<String> labsRightsString = getListRights();
-                    try {
-                        PermissionsHelper helper = new PermissionsHelper(
-                                labsRightsString);
-                        if (!override
-                                && helper.hasHigherPermission(doc, permission,
-                                        id)) {
-                            throw new IllegalStateException(
-                                    "message.security.permission.hasHigherPermission");
-                        }
-                        helper.grantPermission(doc, permission, id, override);
-                        session.save();
-                    } catch (ClientException e) {
-                        // TODO throw exception to notify unknow group/user
-                        log.error("Failed to save session:" + e);
-                        return;
-                    }
-                }
-            } else {
-                if (Action.REMOVE.equals(action)) {
-                    // if (username.equals(ctx.getPrincipal().getName()) &&
-                    // SpacePermissionsHelper.Right.GESTIONNAIRE.name.equals(permission))
-                    // {
-                    // throw new WebException("permission removal forbidden (" +
-                    // username + "/" + permission + ")");
-                    // }
-                    try {
-                        PermissionsHelper.removePermission(doc, permission, id);
-                        session.save();
-                    } catch (Exception e) {
-                        // TODO throw exception to notify unknown group/user
-                        log.error("Failed to remove permission (" + id + "/"
-                                + permission + ") on " + doc, e);
-                        return;
-                    }
-
-                } else {
-                    log.warn("principal " + id + " has already permission "
-                            + permission);
-                }
-            }
-        } else {
-            // throw WebException.wrap("set permission on null document", new
-            // NullPointerException());
-            log.error("set permission on null document");
-        }
-    }
 
     @DELETE
     @Path("delete")
@@ -283,7 +197,76 @@ public class LabsPermissionsService extends DefaultAdapter {
         DocumentModel document = getDocument();
         assert StringUtils.isNotEmpty(permission);
         assert StringUtils.isNotEmpty(id);
-        setPermission(document, permission, id, Action.REMOVE, false);
+        LabsSiteUtils.setPermission(document, permission, id, Action.REMOVE, false);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("blockInherits")
+    public Response blockInherits(@QueryParam(value = "permission") final String permission) throws IllegalStateException,
+            Exception {
+        DocumentModel document = getDocument();
+        
+        final List<LMPermission> permissions = extractPermissions(document);
+        
+        SecurityData sd = SecurityDataHelper.buildSecurityData(document);         
+        sd.setBlockRightInheritance(true, null);
+        SecurityDataHelper.updateSecurityOnDocument(document, sd);
+        final DocumentRef ref = document.getRef();
+        
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(document.getCoreSession()){
+            
+
+            @Override
+            public void run() throws ClientException {
+                DocumentModel docu = session.getDocument(ref);
+                List<LMPermission> permissionsAdmin = new ArrayList<LMPermission>();
+                List<LMPermission> permissionsWrite = new ArrayList<LMPermission>();
+                List<LMPermission> permissionsRead = new ArrayList<LMPermission>();
+                for (LMPermission perm : permissions) {
+                    if (Rights.EVERYTHING.getRight().equals(perm.getPermission())) {
+                        permissionsAdmin.add(perm);
+                    } else if (Rights.WRITE.getRight().equals(perm.getPermission())) {
+                        permissionsWrite.add(perm);
+                    } else if (Rights.READ.getRight().equals(perm.getPermission())) {
+                        permissionsRead.add(perm);
+                    }
+                }
+                try {
+                    for (LMPermission perm : permissionsAdmin) {
+                        LabsSiteUtils.setPermission(docu, perm.permission, perm.getName(), Action.GRANT, true);
+                    }
+                    if (!StringUtils.isEmpty(permission)){
+                        if (Rights.WRITE.getRight().equals(permission)){
+                            for (LMPermission perm : permissionsRead) {
+                                LabsSiteUtils.setPermission(docu, perm.permission, perm.getName(), Action.GRANT, true);
+                            }
+                        }
+                        if (Rights.READ.getRight().equals(permission)){
+                            for (LMPermission perm : permissionsWrite) {
+                                LabsSiteUtils.setPermission(docu, perm.permission, perm.getName(), Action.GRANT, true);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    throw WebException.wrap("Problem for change permissions", e);
+                }
+                session.save();
+            }
+            
+        };
+        runner.runUnrestricted();
+        
+        document.getCoreSession().save();
+        
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("unblockInherits")
+    public Response unblockInherits(@QueryParam(value = "permission") String permission) throws IllegalStateException,
+            Exception {
+        LabsSiteUtils.unblockInherits(permission, getDocument());
         return Response.ok().build();
     }
 

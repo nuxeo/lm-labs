@@ -104,7 +104,8 @@
 	</#if>
 	<#include "views/common/page_header.ftl">
 
-  <#assign canWrite = Session.hasPermission(Document.ref, 'Write')>
+  <#-- assign canWrite = Session.hasPermission(Document.ref, 'Write') -->
+  <#assign canWrite = This.page?? && This.page.isContributor(Context.principal.name)>
   <#if folders?size &gt; 0>
   <div id="classeurTopActions" class="editblock">
     <@mainButtons />

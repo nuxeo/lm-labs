@@ -5,7 +5,7 @@
 	     <#list mySite.externalURLs as e >
 	       <li id="${e.document.id}">
 			    <a href="${e.getURL()}" style="word-wrap: break-word;" target="_blank" title="${e.getURL()}">${e.name}</a>
-			    <#if Session.hasPermission(This.document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite')>
+			    <#if mySite.isContributor(Context.principal.name)>
 			      <div class="actionExternalURL editblock">
 			        <img onClick="javascript:moveUpExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Monter" alt="Monter" src="${skinPath}/images/arrow-up.png" />
 			        <img onClick="javascript:moveDownExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Descendre" alt="Descendre" src="${skinPath}/images/arrow-down.png" />
@@ -16,7 +16,7 @@
 		    </li>
 	  	</#list>
     </ul>
-	  <#if Session.hasPermission(This.document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite')>
+	  <#if mySite.isContributor(Context.principal.name)>
 	    <div class="actionExternalURL actionAdd editblock">
 	    	<img class="actionExternalURL" title="Ajouter" alt="Ajouter" src="${skinPath}/images/add.png" />
 	    </div>

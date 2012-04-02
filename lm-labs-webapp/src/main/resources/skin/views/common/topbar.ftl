@@ -2,8 +2,9 @@
 	<#assign mySite=Common.siteDoc(Document).site />
 </#if>
 <#assign isAdministrator = (mySite?? && mySite.isAdministrator(Context.principal.name) ) />
-<#assign canSetHomePage = (isAdministrator && This.page?? && !(mySite.indexDocument.id == This.page.document.id) ) />
-<#assign isContributor = (mySite?? && mySite.isContributor(Context.principal.name) ) />
+<#assign canSetHomePage = (isAdministrator && This.page?? && !(mySite.homePageRef == This.page.document.id) ) />
+<#-- site'contributor = page'contributor (same rights)  -->
+<#assign isContributor = ((mySite?? && mySite.isContributor(Context.principal.name)) || (This.page != null && This.page.isContributor(Context.principal.name)) ) />
 <#include "views/common/init_mode.ftl" />
     <div class="navbar-wrapper" style="z-index: 5;">
     <div class="navbar">
@@ -31,7 +32,9 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">${Context.principal.firstName} ${Context.principal.lastName}<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <@block name="docactions">
+                	<#assign hasDocActions = false />
 	                <#if isContributor >
+	                	<#assign hasDocActions = true />
 	                	<@block name="docactionsaddpage">
 	                		<!--   add page     -->
 	                		<li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView"><i class="icon-plus"></i>${Context.getMessage('command.docactions.addcontent')}</a></li>
@@ -61,10 +64,18 @@
 								});
 								
 							</script>
+			                <#if This.page != null && This.page.isAdministrator(Context.principal.name) >
+			                	<#assign hasDocActions = true />
+			                	<#--   Manage permissions's page     -->
+			                	<li><a href="${This.path}/@views/pagePermissions"><i class="icon-share"></i>Permissions</a></li>
+			                </#if>
+							
 						</@block>
-                <li class="divider"></li>
 	                </#if>
-	                
+					<#if hasDocActions >
+						<li class="divider"></li>
+					</#if>
+		                
                 </@block>
                 <@block name="siteactions">
 	                <#if isAdministrator >
@@ -78,7 +89,7 @@
 	                	<script type="text/javascript">
 	                	</script>
 	                </#if>
-	                <#if isContributor >
+	                <#if mySite?? && mySite.isContributor(Context.principal.name) >
 	                <li><a href="${Context.modulePath}/${mySite.URL}/@views/edit"><i class="icon-cogs"></i>${Context.getMessage('label.contextmenu.administration')}</a></li>
 	                </#if>
 	                <#if mySite??>
