@@ -6,19 +6,24 @@
 	       <li id="${e.document.id}">
 			    <a href="${e.getURL()}" style="word-wrap: break-word;" target="_blank" title="${e.getURL()}">${e.name}</a>
 			    <#if mySite.isContributor(Context.principal.name)>
-			      <div class="actionExternalURL editblock">
-			        <img onClick="javascript:moveUpExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Monter" alt="Monter" src="${skinPath}/images/arrow-up.png" />
-			        <img onClick="javascript:moveDownExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Descendre" alt="Descendre" src="${skinPath}/images/arrow-down.png" />
-			        <img onClick="javascript:modifyExternalURL('${e.name?js_string}', '${e.getURL()}', '0', '${e.document.id}');" title="Modifier" alt="Modifier" src="${skinPath}/images/edit.gif" />
-			        <img onClick="javascript:deleteExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}');" title="Supprimer" alt="Supprimer" src="${skinPath}/images/x.gif" />
+			      <div class="actionExternalURL editblock btn-group">
+			      	<a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+    				<ul class="dropdown-menu" >
+    					<li>
+    						<a href="#" onClick="javascript:moveUpExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
+    						<a href="#" onClick="javascript:moveDownExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Descendre" alt="Descendre"><i class="icon-arrow-down"></i>Descendre</a>
+    						<a href="#" onClick="javascript:modifyExternalURL('${e.name?js_string}', '${e.getURL()}', '0', '${e.document.id}');" title="Modifier" alt="Modifier"><i class="icon-edit"></i>Modifier</a>
+    						<a href="#" onClick="javascript:deleteExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}');" title="Supprimer" alt="Supprimer"><i class="icon-remove"></i>Supprimer</a>
+    					</li>
+    				</ul>
 			      </div>
 			    </#if>
 		    </li>
 	  	</#list>
     </ul>
 	  <#if mySite.isContributor(Context.principal.name)>
-	    <div class="actionExternalURL actionAdd editblock">
-	    	<img class="actionExternalURL" title="Ajouter" alt="Ajouter" src="${skinPath}/images/add.png" />
+	    <div class="editblock">
+	    	<a href="#" id="addExternalURL" title="Ajouter" alt="Ajouter"><i class="icon-plus"></i></a>
 	    </div>
 	  	<br />
 	  </#if>
@@ -160,7 +165,7 @@ jQuery(document).ready(function(){
 		removeOnClose : false,
 		showCloseHandle : true
 	});
-	jQuery(".actionExternalURL.actionAdd > img").click(function() {
+	jQuery("#addExternalURL").click(function() {
 		jQuery("#div_persistExternalURL").dialog2('open');
 		initFieldsExternalURL();
 		return false;
