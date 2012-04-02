@@ -11,6 +11,12 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
 public final class LabsSiteConstants {
     
+    public final class Comments{
+        public static final String COMMENT_AUTHOR = "comment:author";
+        public static final String COMMENT_TEXT = "comment:text"; 
+        public static final String COMMENT_CREATION_DATE = "comment:creationDate"; 
+    }
+    
     public final class NotifNames {
         public static final String NEWS_PUBLISHED = "News published";
         public static final String PAGE_MODIFIED = "Page modified";
