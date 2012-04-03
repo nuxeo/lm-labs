@@ -18,7 +18,7 @@ import org.nuxeo.ecm.webengine.model.WebContext;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.NewsTools;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNewsAdapter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -74,9 +74,14 @@ public final class SyndicationUtils {
             if (doc.isFolder()) {
                 entry.setLink(context.getBaseURL() + context.getUrlPath(doc));
             } else {
-                entry.setLink(context.getBaseURL()
-                        + context.getUrlPath(context.getCoreSession().getParentDocument(
-                                doc.getRef())));
+                DocumentModel parentDocument = context.getCoreSession().getParentDocument(doc.getRef());
+                if (Docs.PAGELIST_LINE.type().equals(parentDocument.getType())) {
+                    entry.setLink(context.getBaseURL()
+                            + context.getUrlPath(context.getCoreSession().getParentDocument(parentDocument.getRef())));
+                } else {
+                    entry.setLink(context.getBaseURL()
+                            + context.getUrlPath(parentDocument));
+                }
             }
             entry.setPublishedDate(((GregorianCalendar) doc.getPropertyValue("dc:modified")).getTime());
             String description = null;
