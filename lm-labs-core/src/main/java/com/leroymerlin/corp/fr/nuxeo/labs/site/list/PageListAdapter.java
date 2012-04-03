@@ -28,6 +28,7 @@ import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
@@ -39,6 +40,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
@@ -432,6 +434,10 @@ public class PageListAdapter extends AbstractPage implements PageList {
             cell.setCellValue(head.getName());
             numCell ++;
         }
+        //Add hearder for comments
+        cell = headerRow.createCell(numCell);
+        cell.setCellStyle(style);
+        cell.setCellValue("Commentaires");
         
         numCell = 0;
         numRow ++;
@@ -488,6 +494,17 @@ public class PageListAdapter extends AbstractPage implements PageList {
                     cell.setCellValue("");
                 }
                 numCell++;
+            }
+            //Write comments of line
+            List<DocumentModel> comments = line.getDocLine().getAdapter(CommentableDocument.class).getComments();
+            if (!comments.isEmpty()){
+                AuthorFullName afn = new AuthorFullName(new HashMap<String, String>(), LabsSiteConstants.Comments.COMMENT_AUTHOR);
+                afn.loadFullName(comments);
+                for (DocumentModel comment : comments){
+                    cell = row.createCell(numCell);
+                    cell.setCellValue(afn.getFullName((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_AUTHOR)) + " : " + (String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT));
+                    numCell++;
+                }
             }
             numCell = 0;
             numRow++;
