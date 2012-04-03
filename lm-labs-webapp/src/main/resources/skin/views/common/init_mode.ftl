@@ -1,4 +1,4 @@
-<#if !isSiteRoot>
+<#if This.type.name != "sitesRoot" && !mySite?? >
 	<#assign mySite=Common.siteDoc(Document).site />
 </#if>
 <#assign siteContributor = mySite?? && mySite.isContributor(Context.principal.name) />

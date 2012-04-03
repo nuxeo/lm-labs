@@ -1,4 +1,4 @@
-<#if !isSiteRoot>
+<#if This.type.name != "sitesRoot" && !mySite?? >
 	<#assign mySite=Common.siteDoc(Document).site />
 </#if>
 <#assign isAdministrator = (mySite?? && mySite.isAdministrator(Context.principal.name) ) />
