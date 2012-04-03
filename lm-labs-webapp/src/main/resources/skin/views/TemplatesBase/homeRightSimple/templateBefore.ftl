@@ -8,28 +8,23 @@
 			<#--  Logo  -->
 			<#include "views/common/logo.ftl" />
 			<#--  Banner  -->
-			</div>
-		
-		<#--  breadcrumbs  -->
-		<#include "views/common/breadcrumbs.ftl" >
-		
-		<#--  action-message -->
-		<#include "views/common/action_message.ftl" >
+		</div>
 		
 		<#--  content -->
 		<div class="container-fluid">
 			<div class="row-fluid">
-				
-				<#--  sidebar -->
-				<div class="sidebar span2"> 
-					<#include "views/common/sidebar_area.ftl" />
-				</div>
-			    <#--
-		      		<#include "views/common/topnavigation_area.ftl" />
-		      	-->
-				
 				<#--  central content -->
 		        <div class="central span10">
+
+				    <#--  horizontal Navigation  >
+			      	<#include "views/common/topnavigation_area.ftl" /-->
+			      	
+					<#--  breadcrumbs  -->
+					<#include "views/common/breadcrumbs.ftl" >
+			
+					<#--  action-message -->
+					<#include "views/common/action_message.ftl" >
+					
 		        	<#--  Content  -->
 				    <@block name="content" />
 				    
@@ -38,6 +33,11 @@
 						<#include "/views/LabsComments/displayCommentsPage.ftl" />
 					</@block>
 		        </div>
+				
+				<#--  sidebar -->
+				<div class="sidebar span2"> 
+					<#include "views/common/sidebar_area.ftl" />
+				</div>
 			
 			    <div style="clear:both;"></div>
 			    

@@ -77,6 +77,9 @@ function deleteElement(url, callFunction, msgConfirm){
 			success: function(msg){
 				//document.location.href=path + msg;
 				eval(callFunction);
+				if ($("#div_logo_area_height")){
+					$("#div_logo_area_height").hide();
+				}
 				jQuery('#waitingPopup').dialog2('close');
 			},
 			error: function(msg){
