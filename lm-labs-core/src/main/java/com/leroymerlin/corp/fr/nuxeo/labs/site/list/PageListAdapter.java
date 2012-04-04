@@ -38,9 +38,9 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
@@ -132,11 +132,42 @@ public class PageListAdapter extends AbstractPage implements PageList {
     @Override
     public void setHeaders(List<Header> headersToSave) throws ClientException {
         List<Map<String, Object>> listHeaders = new ArrayList<Map<String, Object>>();
+        Map<Integer, EntryType> linePropIdHeaders = new HashMap<Integer, EntryType>();
         for (Header head : headersToSave) {
             listHeaders.add(getHeaderMap(head));
+            if (EntryType.linePropTypes().contains(EntryType.valueOf(head.getType()))
+            ) {
+                linePropIdHeaders.put(head.getIdHeader(), EntryType.valueOf(head.getType()));
+            }
         }
-        doc.getProperty(PGL_HEADERLIST)
-                .setValue(listHeaders);
+        doc.getProperty(PGL_HEADERLIST).setValue(listHeaders);
+        // in case a 'lineProp' column is added on a existing PageList we have to check cells' content of 'lineProp' columns
+        if (!linePropIdHeaders.isEmpty()) {
+            checkLinePropDataConsistency(linePropIdHeaders);
+        }
+    }
+
+    private void checkLinePropDataConsistency(Map<Integer, EntryType> idHeaders) throws ClientException {
+        for(EntriesLine line : getLines()) {
+            boolean lineModified = false;
+            for (int idHeader : idHeaders.keySet()) {
+                Entry entry = line.getEntryByIdHead(idHeader);
+                if (entry == null) {
+                    Entry newEntry = new Entry();
+                    newEntry.setIdHeader(idHeader);
+                    newEntry.setText("");
+                    line.addEntry(newEntry);
+                    entry = newEntry;
+                }
+                if (entry.getText().isEmpty()) {
+                    entry.setText(idHeaders.get(idHeader).xpath());
+                    lineModified = true;
+                }
+            }
+            if (lineModified) {
+                saveLine(line, null);
+            }
+        }
     }
 
     /**
@@ -476,6 +507,10 @@ public class PageListAdapter extends AbstractPage implements PageList {
                         break;
                     case TEXT:
                         cell.setCellValue(entry.getText());
+                        break;
+                    case CREATOR:
+                        String creator = (String) line.getDocLine().getPropertyValue(StringUtils.defaultIfEmpty(entry.getText(), EntryType.CREATOR.xpath()));
+                        cell.setCellValue(AuthorFullName.getFormattedUserName(creator, null));
                         break;
                     case URL:
                         if (entry.getUrl() != null) {

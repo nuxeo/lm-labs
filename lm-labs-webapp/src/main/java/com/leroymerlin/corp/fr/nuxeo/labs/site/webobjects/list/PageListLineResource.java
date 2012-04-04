@@ -142,33 +142,38 @@ public class PageListLineResource extends DocumentObject {
                 value = form.getString(new Integer(head.getIdHeader()).toString());
                 entry = new Entry();
                 
-                switch(EntryType.valueOf(head.getType())){
-                case CHECKBOX:
-                    if ("on".equalsIgnoreCase(value)){
-                        entry.setCheckbox(true);
+                EntryType entryType = EntryType.valueOf(head.getType());
+                if (EntryType.linePropTypes().contains(entryType)) {
+                    entry.setText(entryType.xpath());
+                } else {
+                    switch(entryType){
+                    case CHECKBOX:
+                        if ("on".equalsIgnoreCase(value)){
+                            entry.setCheckbox(true);
+                        }
+                        else{
+                            entry.setCheckbox(false);
+                        }
+                        break;
+                    case DATE:
+                        if (!StringUtils.isEmpty(value.trim())){
+                            cal.setTimeInMillis((sdf.parse(value)).getTime());
+                            entry.setDate(cal);
+                        }
+                        else{
+                            entry.setDate(null);
+                        }
+                        break;
+                    case SELECT:
+                        entry.setText(value);
+                        break;
+                    case TEXT:
+                        entry.setText(value);
+                        break;
+                    case URL:
+                        entry.setUrl(new UrlType(form.getString(head.getIdHeader() + "DisplayText"), value));
+                        break;
                     }
-                    else{
-                        entry.setCheckbox(false);
-                    }
-                    break;
-                case DATE:
-                    if (!StringUtils.isEmpty(value.trim())){
-                        cal.setTimeInMillis((sdf.parse(value)).getTime());
-                        entry.setDate(cal);
-                    }
-                    else{
-                        entry.setDate(null);
-                    }
-                    break;
-                case SELECT:
-                    entry.setText(value);
-                    break;
-                case TEXT:
-                    entry.setText(value);
-                    break;
-                case URL:
-                    entry.setUrl(new UrlType(form.getString(head.getIdHeader() + "DisplayText"), value));
-                    break;
                 }
                 entry.setIdHeader(head.getIdHeader());
                 entriesLine.getEntries().add(entry);
