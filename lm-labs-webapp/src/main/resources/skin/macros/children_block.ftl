@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery(function () {
-			jQuery("a[rel=popover]").popover({offset: 10, html:true});
+			jQuery("a[rel=popover]").popover({offset: 10, html:true${popoverPlacement}});
 		});
 	});
 </script>
@@ -56,8 +56,10 @@
                 <#if !child.facets?seq_contains("HiddenInNavigation") 
                     && (isContributor || (!isContributor && Common.sitePage(child).visible)) >
                 	<li><a href="${Context.modulePath}/${Common.siteDoc(child).resourcePath?html}"
-                	  rel="popover" data-content="${child.dublincore.description?html}"
-                	  data-original-title="${Context.getMessage('label.description')}"
+                		<#if (child.dublincore.description?length > 0) >
+                	  		rel="popover" data-content="${child.dublincore.description?html}"
+                	  		data-original-title="${Context.getMessage('label.description')}"
+                	  	</#if>
                 	>${child.title}</a></li>
                 </#if>
               </#list>

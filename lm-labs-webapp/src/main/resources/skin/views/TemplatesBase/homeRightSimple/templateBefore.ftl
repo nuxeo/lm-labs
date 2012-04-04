@@ -8,7 +8,6 @@
 			<#--  Logo  -->
 			<#include "views/common/logo.ftl" />
 			<#--  Banner  -->
-			<#include "views/common/banner.ftl" />
 		</div>
 		
 		<#--  content -->
@@ -17,8 +16,8 @@
 				<#--  central content -->
 		        <div class="central span10">
 
-				    <#--  horizontal Navigation  -->
-			      	<#include "views/common/topnavigation_area.ftl" />
+				    <#--  horizontal Navigation  >
+			      	<#include "views/common/topnavigation_area.ftl" /-->
 			      	
 					<#--  breadcrumbs  -->
 					<#include "views/common/breadcrumbs.ftl" >

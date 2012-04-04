@@ -6,6 +6,7 @@
   <xs:include schemaLocation="core-types.xsd" />
   <xs:element name="banner" type="tns:content"/>
   <xs:element name="logo" type="tns:content"/>
+  <xs:element name="logoAreaHeight" type="xs:integer" default="165"/>
   <xs:element name="logo_posx" type="xs:integer" default="0" />
   <xs:element name="logo_posy" type="xs:integer" default="0" />
   <xs:element name="logo_resize_ratio" type="xs:integer" default="100" /> <!-- percentage -->

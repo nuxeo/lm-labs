@@ -35,6 +35,9 @@ public class SiteThemeAdapter implements SiteTheme {
     private static final String PROPERTY_LOGO_BLOB = Schemas.SITETHEME.prefix()
             + ":logo";
 
+    private static final String PROPERTY_LOGO_AREA_HEIGHT = Schemas.SITETHEME.prefix()
+            + ":logoAreaHeight";
+
     private static final String PROPERTY_LOGO_POSX = Schemas.SITETHEME.prefix()
             + ":logo_posx";
 
@@ -222,6 +225,16 @@ public class SiteThemeAdapter implements SiteTheme {
     @Override
     public void setLastRead(long lastRead) throws ClientException {
         doc.setPropertyValue(LAST_READ, lastRead);
+    }
+
+    @Override
+    public int getLogoAreaHeight() throws ClientException {
+        return ((Long) doc.getPropertyValue(PROPERTY_LOGO_AREA_HEIGHT)).intValue();
+    }
+
+    @Override
+    public void setLogoAreaHeight(int height) throws ClientException {
+        doc.setPropertyValue(PROPERTY_LOGO_AREA_HEIGHT, new Long(height));
     }
 
 }

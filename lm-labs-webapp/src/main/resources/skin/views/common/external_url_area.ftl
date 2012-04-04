@@ -3,11 +3,11 @@
     <div class="header">${Context.getMessage('label.externalURL.title')}</div>
     <ul id="ulExtURL" class="unstyled">
 	     <#list mySite.externalURLs as e >
-	       <li id="${e.document.id}">
+	       <li id="${e.document.id}" class="oneExternalURL">
 			    <a href="${e.getURL()}" style="word-wrap: break-word;" target="_blank" title="${e.getURL()}">${e.name}</a>
 			    <#if mySite.isContributor(Context.principal.name)>
 			      <div class="actionExternalURL editblock btn-group">
-			      	<a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+			      	<a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" style="padding: 0px 4px 2px 3px;margin-top: 4px;"><span class="caret"></span></a>
     				<ul class="dropdown-menu" >
     					<li>
     						<a href="#" onClick="javascript:moveUpExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>

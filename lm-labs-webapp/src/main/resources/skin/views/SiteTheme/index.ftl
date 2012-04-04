@@ -123,6 +123,16 @@
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.logo.help.block')}</p>
                   </div>
                 </div>
+                
+                <#if logoWidth &gt; 0 >
+                	<!--   LOGO AREA HEIGHT -->
+                	<div class="control-group" id="div_logo_area_height">
+	                  <label class="control-label" for="logo_area_height">${Context.getMessage('label.labssites.appearance.theme.edit.logo_area_height')}</label>
+	                  <div class="controls">
+	                    <input id="logo_area_height" name="logo_area_height" type="text" value="${mySite.themeManager.theme.logoAreaHeight}" class="input-small" />
+	                  </div>
+                    </div>
+                </#if>
                 <hr style="margin: 20px 0 0px;">
                 
                 <#assign properties = This.getThemeProperties() />
@@ -177,19 +187,19 @@
 	                <div class="control-group">
 	                  <label class="control-label" for="logo_posx">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posx')}</label>
 	                  <div class="controls">
-	                    <input class="input" id="logo_posx" name="logo_posx" type="text" value="${mySite.themeManager.theme.logoPosX}" class="small" />
+	                    <input id="logo_posx" name="logo_posx" type="text" value="${mySite.themeManager.theme.logoPosX}" class="input-small" />
 	                  </div>
                     </div>
                     <div class="control-group">
 	                  <label class="control-label" for="logo_posy">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posy')}</label>
 	                  <div class="controls">
-	                    <input class="input" id="logo_posy" name="logo_posy" type="text" value="${mySite.themeManager.theme.logoPosY}" class="small" />
+	                    <input id="logo_posy" name="logo_posy" type="text" value="${mySite.themeManager.theme.logoPosY}" class="input-small" />
 	                  </div>
                     </div>
                     <div class="control-group">
 	                  <label class="control-label" for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
 	                  <div class="controls">
-	                    <input class="input" id="resize_ratio" name="resize_ratio" type="text" value="${mySite.themeManager.theme.logoResizeRatio}" class="small" />
+	                    <input id="resize_ratio" name="resize_ratio" type="text" value="${mySite.themeManager.theme.logoResizeRatio}" class="input-small" />
 	                  </div>
 	                </div>
 	              </div>

@@ -188,6 +188,7 @@ public class SiteThemeResource extends PageResource {
     public Response doPostParameters() {
         FormData form = ctx.getForm();
         String posx = form.getString("logo_posx");
+        String logoAreaHeight = form.getString("logo_area_height");
         String posy = form.getString("logo_posy");
         String ratio = form.getString("resize_ratio");
         String style = form.getString("style");
@@ -201,6 +202,9 @@ public class SiteThemeResource extends PageResource {
                 if (banner != null
                         && !StringUtils.isEmpty(banner.getFilename())) {
                     theme.setBanner(banner);
+                }
+                if (StringUtils.isNotBlank(logoAreaHeight) && StringUtils.isNumeric(logoAreaHeight)) {
+                    theme.setLogoAreaHeight(Integer.parseInt(logoAreaHeight));
                 }
                 if (StringUtils.isNotBlank(posx) && StringUtils.isNumeric(posx)) {
                     theme.setLogoPosX(Integer.parseInt(posx));

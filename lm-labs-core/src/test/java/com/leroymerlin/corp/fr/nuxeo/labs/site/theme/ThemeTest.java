@@ -99,6 +99,33 @@ public class ThemeTest {
     }
 
     @Test
+    public void cantGetDefaultLogoAreaHeightFromTheme() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        assertThat(theme.getLogoAreaHeight(), is(165));
+    }
+
+    @Test
+    public void cantSetAndGetLogoAreaHeightFromTheme() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme();
+        theme.setLogoAreaHeight(50);
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+        site = sm.getSite(session, "myurl");
+        tm = site.getThemeManager();
+        theme = tm.getTheme();
+        assertThat(theme.getLogoAreaHeight(), is(50));
+    }
+
+    @Test
     public void cantSetAndGetResizedLogoFromTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
         SiteTheme theme = tm.getTheme();

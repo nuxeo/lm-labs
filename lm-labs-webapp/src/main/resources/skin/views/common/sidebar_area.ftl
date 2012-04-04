@@ -1,5 +1,10 @@
     <#-- NOTIFICATION AREA --> 
-    <@block name="displayLogo"></@block>
+    <@block name="displayLogo">
+		<#assign theme=Common.siteDoc(Document).site.themeManager.theme />
+		<#if theme.logo != null>
+			<div style="height:${theme.logoAreaHeight}px;">&nbsp;</div>
+		</#if>
+    </@block>
     
     <#-- NOTIFICATION AREA --> 
     <@block name="notification">

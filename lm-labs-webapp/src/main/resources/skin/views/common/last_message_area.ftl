@@ -1,6 +1,7 @@
 <#assign mySite=Common.siteDoc(Document).site />
 <div id="lastMessage" class="lastMessage bloc">
 	<div class="header">${Context.getMessage('label.last_message.title')}</div>
+	<div id="lastMessageLoading"><img src="${skinPath}/images/loading.gif" /></div>
 	<#if mySite.lastUpdatedDocs?size &gt; 0>
 		<div class="itemList">
 		</div>
@@ -15,7 +16,7 @@
 var last_messages = new Array(); 
 var mois = new Array("janv.","f&eacute;v.","mars","avr.","mai","juin","juil.","ao&ucirc;t","sept.","oct.","nov.","déc.");
 
-$(".itemList").ready(function() {  
+$(".itemList").ready(function() {
   $.ajax({  
     type: "GET",  
     url: "${Context.modulePath}/${mySite.URL}/@labsrss",  
@@ -23,7 +24,8 @@ $(".itemList").ready(function() {
     success: parseXml  
   });
 }); 
-function parseXml(xml) {  
+function parseXml(xml) {
+	$("#lastMessageLoading").remove();
 	$(xml).find("item").each(function(i) {  
 		var item = new Array(
 			$(this).find("pubDate").text(), 
