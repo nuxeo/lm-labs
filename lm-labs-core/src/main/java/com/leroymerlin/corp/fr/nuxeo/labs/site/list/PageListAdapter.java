@@ -135,9 +135,10 @@ public class PageListAdapter extends AbstractPage implements PageList {
         Map<Integer, EntryType> linePropIdHeaders = new HashMap<Integer, EntryType>();
         for (Header head : headersToSave) {
             listHeaders.add(getHeaderMap(head));
-            if (EntryType.linePropTypes().contains(EntryType.valueOf(head.getType()))
+            String headerType = head.getType();
+            if (headerType != null && EntryType.linePropTypes().contains(EntryType.valueOf(headerType))
             ) {
-                linePropIdHeaders.put(head.getIdHeader(), EntryType.valueOf(head.getType()));
+                linePropIdHeaders.put(head.getIdHeader(), EntryType.valueOf(headerType));
             }
         }
         doc.getProperty(PGL_HEADERLIST).setValue(listHeaders);
