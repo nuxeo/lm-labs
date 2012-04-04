@@ -496,14 +496,17 @@ public class PageListAdapter extends AbstractPage implements PageList {
                 numCell++;
             }
             //Write comments of line
-            List<DocumentModel> comments = line.getDocLine().getAdapter(CommentableDocument.class).getComments();
-            if (!comments.isEmpty()){
-                AuthorFullName afn = new AuthorFullName(new HashMap<String, String>(), LabsSiteConstants.Comments.COMMENT_AUTHOR);
-                afn.loadFullName(comments);
-                for (DocumentModel comment : comments){
-                    cell = row.createCell(numCell);
-                    cell.setCellValue(afn.getFullName((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_AUTHOR)) + " : " + (String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT));
-                    numCell++;
+            CommentableDocument adapterComments = line.getDocLine().getAdapter(CommentableDocument.class);
+            if (adapterComments != null){
+                List<DocumentModel> comments = adapterComments.getComments();
+                if (!comments.isEmpty()){
+                    AuthorFullName afn = new AuthorFullName(new HashMap<String, String>(), LabsSiteConstants.Comments.COMMENT_AUTHOR);
+                    afn.loadFullName(comments);
+                    for (DocumentModel comment : comments){
+                        cell = row.createCell(numCell);
+                        cell.setCellValue(afn.getFullName((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_AUTHOR)) + " : " + (String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT));
+                        numCell++;
+                    }
                 }
             }
             numCell = 0;
