@@ -1,5 +1,5 @@
 <@extends src="/views/TemplatesBase/templateCommon.ftl">
-
+<#assign popoverPlacement = ", placement:'left'" />
 	<@block name="FKtopContent">
 		<@superBlock/>
 		
