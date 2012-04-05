@@ -3,18 +3,22 @@
 //@baseFontFamily;Police du site;Séparé par -,- et délimité par -'-;font
 //@baseFontSize;Taille de base;;size
 //@basefont;Taille de base;;size
-@basefontTitleH1;Taille des titres h1;;size
-@basefontTitleH2;Taille des titres h2;;size
-@basefontTitleH5;Taille des titres h5;;size
-@basefontTitleH6;Taille des titres h6;;size
+@basefontTitleH1;label.labssites.appearance.theme.property.h1.fontsize;help.labssites.appearance.theme.property.h1.fontsize;size
+@baseFontColorTitleH1;label.labssites.appearance.theme.property.h1.color;help.labssites.appearance.theme.property.h1.color;color
+@basefontTitleH2;label.labssites.appearance.theme.property.h2.fontsize;help.labssites.appearance.theme.property.h2.fontsize;size
+@baseFontColorTitleH2;label.labssites.appearance.theme.property.h2.color;help.labssites.appearance.theme.property.h2.color;color
+@basefontTitleH3;label.labssites.appearance.theme.property.h3.fontsize;help.labssites.appearance.theme.property.h3.fontsize;size
+@baseFontColorTitleH3;label.labssites.appearance.theme.property.h3.color;help.labssites.appearance.theme.property.h3.color;color
+@basefontTitleH4;label.labssites.appearance.theme.property.h4.fontsize;help.labssites.appearance.theme.property.h4.fontsize;size
+@baseFontColorTitleH4;label.labssites.appearance.theme.property.h4.color;help.labssites.appearance.theme.property.h4.color;color
+@basefontTitleH5;label.labssites.appearance.theme.property.h5.fontsize;help.labssites.appearance.theme.property.h5.fontsize;size
+@baseFontColorTitleH5;label.labssites.appearance.theme.property.h5.color;help.labssites.appearance.theme.property.h5.color;color
+@basefontTitleH6;label.labssites.appearance.theme.property.h6.fontsize;help.labssites.appearance.theme.property.h6.fontsize;size
+@baseFontColorTitleH6;label.labssites.appearance.theme.property.h6.color;help.labssites.appearance.theme.property.h6.color;color
 
 //@bgcolortabs;Couleur de navigation;Couleur de base pour chaque onglets de navigation;color
 //@baseFontColorTabs;Couleur texte nav.;Couleur des textes des onglets de navigation;color
 //@baseFontColor;Couleur des textes;Couleur de base des textes;color
-@baseFontColorTitleH1;Couleur des titres h1;Couleur des titres h1;color
-@baseFontColorTitleH2;Couleur des titres h2;Couleur des titres h2;color
-@baseFontColorTitleH5;Couleur des titres h5;Couleur des titres h5;color
-@baseFontColorTitleH6;Couleur des titres h6;Couleur des titres h6;color
 
 // desactivée pour le moment, sera ré-activée dans le sprint R3S7
 //@backgroundURL;Image de fond;Image de fond constituant tout le contour du site;image

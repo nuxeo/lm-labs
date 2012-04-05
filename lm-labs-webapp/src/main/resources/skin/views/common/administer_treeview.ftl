@@ -666,9 +666,9 @@
 		</#if>
 	
 		<div class="page-header">
-			<h1><#if adminTreeviewType=="Assets">Gérer les médias<#else>Gérer les Pages</#if>	
+			<h3><#if adminTreeviewType=="Assets">Gérer les médias<#else>Gérer les Pages</#if>	
 			<img style="cursor:pointer;" src="${skinPath}/images/theme/header_help.png" onclick="jQuery('#help-jstree').show();return false;"/>
-			</h1>
+			</h3>
 		</div>
 		<div id="help-jstree" class="alert alert-block alert-success" style="display:none;">
 			<a class="close" href="#">&times;</a>

@@ -142,7 +142,11 @@
 		      		<#assign cptProperties = 0 />
 		      		<#list properties as property>
 			      		<#if (property.key != null)>
-		                    <label class="control-label" for="property${cptProperties}">${property.label}</label>
+			      		    <#assign propLabel = Context.getMessage(property.label?html) />
+			      		    <#if propLabel?starts_with('!') >
+			      		        <#assign propLabel = property.label />
+			      		    </#if>
+		                    <label class="control-label" for="property${cptProperties}">${propLabel}</label>
 				      		<div class="control-group">
 			                  <#assign property = property />
 			                  <#assign typeProperty = "string" />
@@ -152,7 +156,11 @@
 			                  
 			                  <div class="controls">
 					      		 <#include "views/SiteTheme/typeProperty/input-" + typeProperty + ".ftl" >
-			                     <p class="help-block">${property.description?html}</p>
+                                 <#assign propDesc = Context.getMessage(property.description) />
+                                 <#if propDesc?starts_with('!') >
+                                  <#assign propDesc = property.description />
+                                 </#if>
+			                     <p class="help-block">${propDesc?html}</p>
 			                  </div>
 			                </div><!-- /control-group -->
 			                <input type="hidden" name="keyProperty${cptProperties}" value="${property.key}"/>

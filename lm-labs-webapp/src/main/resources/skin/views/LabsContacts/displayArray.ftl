@@ -1,6 +1,6 @@
 <section>
 	<div class="page-header">
-		<h4>
+		<h3>
 			${Context.getMessage("label.contact")}
 			<small>
 				<#if contactsAdmin?size &gt; 0 >
@@ -8,7 +8,7 @@
 				</#if>
 				<a href="#" rel="popover" data-content="${Context.getMessage('label.admin.contact.explanation')}" data-original-title="${Context.getMessage('label.security.labs.permission.Everything')}">Description</a>
 			</small>
-		</h4>
+		</h3>
 	</div>
 	<div style="text-align: right;margin-top: -46px;">
 		<button id="displayAddPerm" onClick="javascript:displayAddContact();" title="${Context.getMessage('label.admin.contact.addContact.title')}" class="btn " style="margin-left:20px;" >+</button>

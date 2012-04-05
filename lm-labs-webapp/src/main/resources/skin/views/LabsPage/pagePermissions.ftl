@@ -11,7 +11,7 @@
 
   <@block name="content">
   	<div class="page-header">
-    	<h1>Permissions de la page ${This.document.title} &nbsp;</h1>
+    	<h3>Permissions de la page <i>${This.document.title}</i> &nbsp;</h3>
     	<div style="position: relative; float: right;margin-top: -19px;">
     		<a href="${This.path}" class="btn btn-mini btn-primary"><i class="icon-share-alt"></i>Retour</a>
     		<#if !isHomePage>
