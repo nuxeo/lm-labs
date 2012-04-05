@@ -105,8 +105,13 @@
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.banner.help.block')}</p>
                   </div>
                 </div>
-                
-                <!--   LOGO  -->
+                <hr style="margin: 20px 0 0px;">
+                <!--    LOGO PARAMETERS  -->
+                <h5 style="color: black;">
+	      			${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}
+	      		</h5>
+		      		
+                <!--   LOGO Picture -->
                 <div class="control-group">
                   <label class="control-label" for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
                   <div class="controls">
@@ -125,6 +130,13 @@
                 </div>
                 
                 <#if logoWidth &gt; 0 >
+                	<!--   LOGO ratio -->
+                    <div class="control-group">
+	                  <label class="control-label" for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
+	                  <div class="controls">
+	                    <input id="resize_ratio" name="resize_ratio" type="text" value="${mySite.themeManager.theme.logoResizeRatio}" class="input-small" />
+	                  </div>
+	                </div>
                 	<!--   LOGO AREA HEIGHT -->
                 	<div class="control-group" id="div_logo_area_height">
 	                  <label class="control-label" for="logo_area_height">${Context.getMessage('label.labssites.appearance.theme.edit.logo_area_height')}</label>
@@ -204,12 +216,6 @@
 	                    <input id="logo_posy" name="logo_posy" type="text" value="${mySite.themeManager.theme.logoPosY}" class="input-small" />
 	                  </div>
                     </div>
-                    <div class="control-group">
-	                  <label class="control-label" for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
-	                  <div class="controls">
-	                    <input id="resize_ratio" name="resize_ratio" type="text" value="${mySite.themeManager.theme.logoResizeRatio}" class="input-small" />
-	                  </div>
-	                </div>
 	              </div>
                 
 	      	</fieldset>

@@ -18,13 +18,13 @@ function openModifiyCSSLine(url, cssName){
 var isOpenAddLine = {};
 function openAddLine(section_index){
 	jQuery("#divAddRow_" + section_index).slideDown("slow");
-	jQuery("#actionAddLineOnSection_" + section_index).html("<i class='icon-eye-close'></i>Fermer l'ajout de ligne");
+	jQuery("#actionAddLineOnSection_" + section_index).hide();
 	isOpenAddLine[section_index] = true;
 }
 
 function closeAddLine(section_index){
 	jQuery("#divAddRow_" + section_index).slideUp("slow");
-	jQuery("#actionAddLineOnSection_" + section_index).html("<i class='icon-eye-open'></i>Ouvrir l'ajout de ligne");
+	jQuery("#actionAddLineOnSection_" + section_index).show();
 	isOpenAddLine[section_index] = false;
 }
 

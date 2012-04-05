@@ -26,7 +26,7 @@
 		  </fieldset>
 		</form>
 	</div>
-	<div class="content span">
+	<div class="content span" style="width: 280px;">
 		<h4 style="padding-left: 10px;" >${Context.getMessage('label.pageList.edit.listHeader.editHeader')}</h4>
 		<div id="divEditHeader">
 			<form method="post" name="form-manageList" id="form-manageList">
