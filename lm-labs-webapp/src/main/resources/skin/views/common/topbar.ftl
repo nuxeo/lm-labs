@@ -69,7 +69,7 @@
 			                <#if This.page?? && This.page != null && This.page.isAdministrator(Context.principal.name) >
 			                	<#assign hasDocActions = true />
 			                	<#--   Manage permissions's page     -->
-			                	<li><a href="${This.path}/@views/pagePermissions"><i class="icon-share"></i>Permissions</a></li>
+			                	<li><a href="${This.path}/@views/pagePermissions"><i class="icon-share"></i>${Context.getMessage('command.admin.rights')}</a></li>
 			                </#if>
 							
 						</@block>
