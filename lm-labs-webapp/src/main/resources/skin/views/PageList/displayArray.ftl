@@ -26,20 +26,21 @@
       	<#if This.commentableLines >
      		<#--  --------------------COMMENTS OF LINE --------------->
      		<#assign nbComments = entriesLine.nbComments/>
-     		<#if 0 < nbComments>
-      			<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${Context.getMessage('label.comments.nbComments', nbComments)}"  alt="${Context.getMessage('label.comments.title')}">
-      				<a href="#" class="open-dialog" rel="divCommentable" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
-      			</td>
-      		<#else>
-      			<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${Context.getMessage('label.comments.null.nbComments')}"  alt="${Context.getMessage('label.comments.title')}">
-      				<a href="#" class="labscomments noComments open-dialog" rel="divCommentable" onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');"><img src="${skinPath}/images/comments.png" /></a>
-      			</td>
-      		</#if>
+     		<#assign commentLabel = Context.getMessage('label.comments.nbComments', nbComments) />
+     		<#if nbComments == 0 >
+                <#assign commentLabel = Context.getMessage('label.comments.null.nbComments') />
+     		</#if>
+  			<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${commentLabel}" alt="${Context.getMessage('label.comments.title')}">
+  				<a href="#" class="btn btn-mini <#if nbComments == 0 >labscomments noComments</#if> open-dialog" rel="divCommentable" 
+  				  onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');">
+  				  <i class="icon-comments" ></i>
+			  </a>
+  			</td>
       	</#if>
       	<#assign nbrAttachedFiles = entriesLine.nbrFiles />
   		<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${Context.getMessage('label.PageList.line.nbAttachedFiles', nbrAttachedFiles)}" >
   		    <input type="hidden" value="${entriesLine.docLine.name}" />
-  		    <a href="#" class="btn btn-mini<#if This.allContributors > openLineFiles open-dialog</#if>" rel="lineFiles" style="padding-right:3px;<#if nbrAttachedFiles == 0> opacity: 0.5</#if>" >
+  		    <a href="#" class="btn btn-mini<#if This.allContributors > openLineFiles open-dialog</#if><#if nbrAttachedFiles == 0> noFileAttached</#if>" rel="lineFiles" style="padding-right:3px;" >
   		        <i class="icon-file" ></i>
   		    </a>
   		</td>

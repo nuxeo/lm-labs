@@ -166,6 +166,10 @@ div#siteMap {
 
 }
 
+.labs-disabled() {
+    opacity:0.3;
+}
+
 //Comments
 .labscomments {
 	&.text{
@@ -194,12 +198,12 @@ div#siteMap {
 		width: 15px;
 		
 			&.noComments{
-				opacity:0.3;
+				.labs-disabled;
 			}
 	}
 	
 	&.noComments{
-		opacity:0.3;
+		.labs-disabled;
 	}
 
 	&.delete{
@@ -247,6 +251,10 @@ li.labscomments {
   padding-bottom: 15px;
 }
 
+// PageList
+.noFileAttached {
+    .labs-disabled;
+}
 
 //Last message
 .lastMessage {
