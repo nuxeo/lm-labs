@@ -13,10 +13,16 @@ function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
 <#if This.type.name == "PageClasseur" || This.type.name == "HtmlPage" >
     if (ckeip_html.indexOf('[[TOC]]') != -1) {
         jQuery('#waitingPopup').dialog2('open');
+<#if This.type.name == "HtmlPage" >
+        scrollToRowAfterCkeip(response, ckeObj, ckeip_html);
+</#if>
         window.location.reload();
     }
 </#if>
     jQuery(ckeObj).closest('div.row-ckeditor').siblings('.viewblock').html(ckeip_html);
+<#if This.type.name == "HtmlPage" >
+    scrollToRowAfterCkeip(response, ckeObj, ckeip_html);
+</#if>
     return false;
 }
 		</script>

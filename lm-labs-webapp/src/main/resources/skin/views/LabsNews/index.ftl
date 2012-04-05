@@ -67,7 +67,7 @@
 			                    ckeditor_config: ckeditorconfig,
 			                    emptyedit_message: "${Context.getMessage('label.PageHtml.double_click_to_edit_content')}",
 			                    view_style: "span${content.colNumber} columns "
-			                    });
+			                    }, scrollToRowAfterCkeip);
 			                </script>
 			                <noscript>
 			                  <a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
