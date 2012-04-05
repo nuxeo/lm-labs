@@ -35,15 +35,15 @@
             <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;"> <small>${section.description}</small></h2>
 	        <#if isContributor >
 		        <div class=" editblock btn-group" style="float: right;margin-top: 7px;">
-			      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section</a>
-			      	<button class="btn dropdown-toggle" data-toggle="dropdown">
+			      	<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section</a>
+			      	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 					    <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
 						<li>
 							<a id="addsectionlink" href="#" rel="addsection" class="open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
 							<a href="#" rel="editsection_${section_index}" class="open-dialog" ><i class="icon-edit"></i>Modifier la section</a>
-							<a href="#" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-eye-open"></i>Ouvrir l'ajout de ligne</a>
+							<a href="#" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-eye-open"></i>Ajouter une ligne</a>
 							<a href="#" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;"><i class="icon-remove"></i>Supprimer la section</a>
 						</li>
 					</ul>
@@ -54,6 +54,9 @@
         <#if isContributor >
         	<div class="editblock">
 		        <div id="divAddRow_${section_index}" class="well" style="padding: 5px;display: none;">
+		          <div style="float: right;">
+		          	<a href="#" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-remove"></i></a>
+		          </div>
 		          <form class="form-horizontal" id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
 		          	  <input type="hidden" name="action" value="addrow"/>
 		              <fieldset>
@@ -137,12 +140,12 @@
 	                    </#if>
 	                    </div>
 			            <div class="row-ckeditor columns editblock toc-noreplace ">
-			                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" >${content.html}</div>
+			                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer" >${content.html}</div>
 			                <script type="text/javascript">
 			                  $('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
 			                    e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
 			                    ckeditor_config: ckeditorconfig,
-			                    emptyedit_message: "<div style='font-weight:bold;font-size: 18px;padding:5px;'>${Context.getMessage('label.ckeditor.double_click_to_edit_content')}</div>",
+			                    emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.ckeditor.double_click_to_edit_content')}</div>",
 			                    view_style: "span${content.colNumber} columns cke_hidden "
 			                    }, reloadPageForTocIfNeeded);
 			                </script>
@@ -154,7 +157,8 @@
 			          </div>
 	              </#list>
 					
-				<div class=" editblock btn-group" style="float: right;margin-top: 7px;">
+	          </div>
+			  <div class=" editblock btn-group" style="float: right;">
 			      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Ligne</a>
 			      	<button class="btn dropdown-toggle" data-toggle="dropdown">
 					    <span class="caret"></span>
@@ -167,9 +171,9 @@
 							</form>
 						</li>
 					</ul>
-			    </div>
-	          </div>
-	          <hr class="editblock" />
+			  </div>
+			  <br />
+	          <hr class="editblock"/>
 	        <#else>
 	           <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 	              <#list row.contents as content>
