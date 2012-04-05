@@ -667,7 +667,7 @@
 	
 		<div class="page-header">
 			<h3><#if adminTreeviewType=="Assets">Gérer les médias<#else>Gérer les Pages</#if>	
-			<img style="cursor:pointer;" src="${skinPath}/images/theme/header_help.png" onclick="jQuery('#help-jstree').show();return false;"/>
+			<i style="cursor:pointer;" class="icon-question-sign" onclick="jQuery('#help-jstree').show();return false;" ></i>
 			</h3>
 		</div>
 		<div id="help-jstree" class="alert alert-block alert-success" style="display:none;">
