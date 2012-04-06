@@ -43,5 +43,12 @@
 			    
 			</div><#--  /row-fluid -->
 		</div><#-- /container-fluid -->
+		
+		<@block name="returnTopPage" >
+			<div id="returnTopPage" style="float: left;margin-top: -19px;margin-left: 5px;">
+				<a href="#" title="Haut de page"><i class="icon-arrow-up"></i></a>
+			</div>
+		</@block>
+		
 	</@block>
 </@extends>

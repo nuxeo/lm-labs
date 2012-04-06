@@ -52,18 +52,25 @@
 		
 		<div id="FKtopContent" style="position: relative;">
 			<@block name="FKtopContent" />
+			<@block name="returnTopPage" >
+				<div id="returnTopPage" style="float: right;margin-top: -20px;margin-right: 5px;">
+					<a href="#" title="Haut de page"><i class="icon-arrow-up"></i></a>
+				</div>
+			</@block>
 		</div><#-- /FKtopContent -->
+		
+		
 		
 		<@block name="FKfooter" />
 		
 		<@block name="bottom-page-js" >
-		<#include "views/common/topbar_js.ftl" />
-		<#if (mySite?? && mySite.isContributor(Context.principal.name) ) >
-        <script type="text/javascript" src="${skinPath}/js/page_parameters.js"></script>
-        </#if>
-        <#if mySite?? && mySite.isContributor(Context.principal.name) && This.page?? && !(mySite.homePageRef == This.page.document.id) >
-        <script type="text/javascript" src="${skinPath}/js/setHomePage.js"></script>
-        </#if>
+			<#include "views/common/topbar_js.ftl" />
+			<#if (mySite?? && mySite.isContributor(Context.principal.name) ) >
+	        	<script type="text/javascript" src="${skinPath}/js/page_parameters.js"></script>
+	        </#if>
+	        <#if mySite?? && mySite.isContributor(Context.principal.name) && This.page?? && !(mySite.homePageRef == This.page.document.id) >
+	        	<script type="text/javascript" src="${skinPath}/js/setHomePage.js"></script>
+	        </#if>
 		</@block>
     </body>
 </html>
