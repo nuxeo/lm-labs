@@ -9,6 +9,7 @@
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery.ui.datepicker-fr.js"></script>
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.18.datepicker.min.js"></script>
       <script type="text/javascript" src="${skinPath}/js/LabsNews.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
       <script type="text/javascript" src="${skinPath}/js/jcrop/jquery.Jcrop.min.js"></script>
   </@block>
 
@@ -31,7 +32,7 @@
   <@block name="content">
   	<#include "views/LabsNews/macroNews.ftl">
     <#if news??>
-      <div id="content" class="">
+      <div class="container-fluid">
           <section>
           	  <#if news != null>
 	              <div class="page-header">
@@ -53,73 +54,109 @@
 			  	<#assign news=news/>
 			  	<#include "views/LabsNews/editProps.ftl" />
 			  </#if>
-				
+			  
 		  	<#assign section_index=0/>
+				
+			
+			
 		  	<#list news.rows as row>
-		          <div class="row-fluid" id="row_s${section_index}_r${row_index}">
 		  		<#if isContributor >
-		              <#list row.contents as content>
-			              <div class="span${content.colNumber} columns editblock">
-			                <div id="s_${section_index}_r_${row_index}_c_${content_index}">${content.html}</div>
-			                <script type="text/javascript">
-			                  $('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
-			                    e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
-			                    ckeditor_config: ckeditorconfig,
-			                    emptyedit_message: "${Context.getMessage('label.PageHtml.double_click_to_edit_content')}",
-			                    view_style: "span${content.colNumber} columns "
-			                    }, scrollToRowAfterCkeip);
-			                </script>
-			                <noscript>
-			                  <a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
-			                </noscript>
-			                &nbsp; <!-- Needed to give an empty cell a content -->
-			              </div>
-		              </#list>
-		              <div style="margin-left:20px;clear:both;" class="editblock">
-			              <form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');">
-			              	<button type="submit" class="btn btn-small btn-danger">Supprimer la ligne</button>
-			              </form>
-		              </div>
-		        <#else>
-	                  <#list row.contents as content>
-	                    <div class="span${content.colNumber} columns">
-	                      <#if content.html == "">
-	                        &nbsp;
-	                      <#else>
-	                        ${content.html}
-	                      </#if>
-	                    </div>
-	                  </#list>
-		        </#if>
-	                </div>
+			        <div class="row-fluid" id="row_s${section_index}_r${row_index}">
+			              <#list row.contents as content>
+			              	  <div class="span${content.colNumber}">
+				                    <div class="columns viewblock">
+					                    <#if content.html == "">
+					                        &nbsp;
+					                    <#else>
+					                      ${content.html}
+					                    </#if>
+				                    </div>
+	                    
+						              <div class="row-ckeditor columns editblock">
+						                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer" >${content.html}</div>
+						                <script type="text/javascript">
+						                  $('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
+						                    e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
+						                    ckeditor_config: ckeditorconfig,
+						                    emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.PageHtml.double_click_to_edit_content')}</div>",
+						                    view_style: "span${content.colNumber} columns cke_hidden "
+											}, reloadPageLabsNews);
+											
+											function reloadPageLabsNews(response, ckeObj, ckeip_html) {
+												jQuery(ckeObj).closest('div.row-ckeditor').siblings('.viewblock').html(ckeip_html);
+												scrollToRowAfterCkeip(response, ckeObj, ckeip_html);
+											}
+						                </script>
+						                <noscript>
+						                  <a  class="btn editblock" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
+						                </noscript>
+						                &nbsp; <!-- Needed to give an empty cell a content -->
+						              </div>
+						         </div>
+			              </#list>
+			         </div>
+			         <div class=" editblock btn-group" style="float: right;">
+					      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Ligne</a>
+					      	<button class="btn dropdown-toggle" data-toggle="dropdown">
+							    <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
+								</li>
+							</ul>
+					  </div>
+					  <form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');" >
+					  </form>
+					  <br />
+			          <hr class="editblock"/>
+			    <#else>
+			    	<div class="row-fluid" id="row_s${section_index}_r${row_index}">
+		                  <#list row.contents as content>
+		                    <div class="span${content.colNumber} columns">
+		                      <#if content.html == "">
+		                        &nbsp;
+		                      <#else>
+		                        ${content.html}
+		                      </#if>
+		                    </div>
+		                  </#list>
+		            </div>
+			     </#if>
 		    </#list>
 			
 			<#if isContributor >
-	          <div class="well editblock">
-	            <form class="form-horizontal" id="addrow" action="${This.path}/s/0" method="post" >
-	              <input type="hidden" name="action" value="addrow"/>
-	              <fieldset>
-	                <legend>Ajouter une ligne</legend>
-	                <div class="control-group">
-	                  <label class="control-label" for="rowTemplate">Type de ligne</label>
-	                  <div class="controls">
-	                    <select name="rowTemplate">
-	                    <#list layouts?keys as layoutCode >
-	                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
-	                    </#list>
-		                </select>
-	                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
-	                <p class="help-block">
-	                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
-	                    parenthèses représentent des pourcentages de taille de colonne.
-	                 </p>
-	                  </div>
-	                </div>
-	              </fieldset>
-	            </form>
+	          <div class="editblock">
+			    <a href="#" class="btn btn-primary btn-small" style="margin-bottom: 5px" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-plus"></i>Ajouter une ligne</a>
+		        <div id="divAddRow_${section_index}" class="well" style="padding: 5px;display: none;">
+		            <div style="float: right;">
+		          		<a href="#" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-remove"></i></a>
+		            </div>
+		            <form class="form-horizontal" id="addrow" action="${This.path}/s/0" method="post" >
+		              <input type="hidden" name="action" value="addrow"/>
+		              <fieldset>
+		                <legend>Ajouter une ligne</legend>
+		                <div class="control-group">
+		                  <label class="control-label" for="rowTemplate">Type de ligne</label>
+		                  <div class="controls">
+		                    <select name="rowTemplate">
+		                    <#list layouts?keys as layoutCode >
+		                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
+		                    </#list>
+			                </select>
+		                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
+		                <p class="help-block">
+		                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
+		                    parenthèses représentent des pourcentages de taille de colonne.
+		                 </p>
+		                  </div>
+		                </div>
+		              </fieldset>
+		            </form>
+		         </div>
 	          </div>
-	        </#if>
-
+	        </#if>	
+			
 		  </section>
       </div>
     </#if>
