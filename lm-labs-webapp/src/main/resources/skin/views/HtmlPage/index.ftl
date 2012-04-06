@@ -198,6 +198,7 @@
 		<#if isContributor >
 			<#if (page.sections?size == 0)>
 				<div class="editblock">
+					<br />
 			    	<a id="addsectionlink" href="#" rel="addsection" class="btn btn-small open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
 			    </div>
 			</#if>
