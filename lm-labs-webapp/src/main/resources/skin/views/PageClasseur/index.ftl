@@ -1,6 +1,15 @@
+<#-- assign canWrite = Session.hasPermission(Document.ref, 'Write') -->
+<#assign canWrite = This.page?? && This.page.isContributor(Context.principal.name)>
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
   <#assign mySite=Common.siteDoc(Document).site />
   <@block name="title">${ mySite.title}-${This.document.title}</@block>
+
+  <@block name="css">
+    <@superBlock/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/> <#-- ??? -->
+        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
+  </@block>
 
   <@block name="scripts">
     <@superBlock/>
@@ -8,9 +17,36 @@
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
         
-        
         <script type="text/javascript">
         jQuery(document).ready(function() {
+            // Select columns to sort
+            jQuery("table[class*='classeurFiles']").tablesorter({
+                sortList: [[2,0]],
+                headers: {
+                    0: {
+                        sorter:false
+                    },
+<#if canWrite >
+                    1: {
+                        sorter:false
+                    },
+                    6:        
+<#else>
+                    5:
+</#if>
+                    {
+                        sorter:false
+                    }
+                },
+                textExtraction: function(node) {
+                    // extract data from markup and return it
+                    var sortValues = jQuery(node).find('span[class=sortValue]');
+                    if (sortValues.length > 0) {
+                        return sortValues[0].innerHTML;
+                    }
+                    return node.innerHTML;
+                }
+            });
             jQuery.each(jQuery("[id^=spanFolderTitle]"), function(i, n){
             	var encoded = jQuery(this).html();
             	jQuery(this).html(decodeURIComponent(encoded.replace(/\+/g,  " ")));
@@ -86,13 +122,6 @@
 
   </@block>
 
-  <@block name="css">
-    <@superBlock/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
-  </@block>
-
   <@block name="content">
   <div class="container-fluid">
   <@tableOfContents anchorSelector="section > div > div.header-toc" anchorTitleSelector="h2 > span">
@@ -104,8 +133,6 @@
 	</#if>
 	<#include "views/common/page_header.ftl">
 
-  <#-- assign canWrite = Session.hasPermission(Document.ref, 'Write') -->
-  <#assign canWrite = This.page?? && This.page.isContributor(Context.principal.name)>
   <#if folders?size &gt; 0>
   <div id="classeurTopActions" class="editblock">
     <@mainButtons />
@@ -278,9 +305,9 @@
   <table class="table table-striped classeurFiles bs table-bordered labstable" >
   <thead>
     <tr>
-      <th class="header">&nbsp;</th>
+      <th class="header noSort">&nbsp;</th>
       <#if canWrite>
-      <th class="header editblock" style="min-width: 25px">
+      <th class="noSort header editblock" style="min-width: 25px">
         <input type="checkbox" name="checkoptionsFolder" value="${folder.document.id}" title="${Context.getMessage('label.PageClasseur.folder.checkbox')}"/>
       </th>
       </#if>
@@ -289,7 +316,7 @@
       <#-- <th>${Context.getMessage('label.PageClasseur.tableheader.version')}</th> -->
       <th class="header">${Context.getMessage('label.PageClasseur.tableheader.modified')}</th>
       <th class="header">${Context.getMessage('label.PageClasseur.tableheader.creator')}</th>
-      <th class="header" style="width: 55px;">&nbsp;</th>
+      <th class="header noSort actions" <#--style="min-width: 69px; width: 104px;"-->>&nbsp;</th>
     </tr>
   </thead>
   <tbody>
@@ -332,24 +359,23 @@
       <#-- <td>${child.versionLabel}</span></td> -->
       <td><span title="${modifDateStr}" >${Context.getMessage('label.PageClasseur.table.dateInWordsFormat',[dateInWords(modifDate)])}</span><span class="sortValue">${modifDate?string("yyyyMMddHHmmss")}</span></td>
       <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
-      <td>
+      <td class="actions" >
+        <@fileDownloadLink url="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/" />
+        <#if (max_lenght > blobLenght) && This.hasConvertersForHtml(blob.mimeType)>
+          <@fileDisplayLink url="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" />
+        </#if>
       <#if canWrite>
-      	<div  class="<#if !child.facets?seq_contains("LabsHidden")>editblock</#if> btn-group" >
+      	<div  class="<#if !child.facets?seq_contains("LabsHidden")>editblock</#if> btn-group" style=" float:right;" >
         <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
         <ul class="dropdown-menu" style="min-width: 40px;" >
       		<li><a href="#" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${child.dublincore.description?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@put');return false;"><i class="icon-edit"></i>${Context.getMessage('command.PageClasseur.renameFile')}</a></li>
             <li><a href="#" onclick="$('#docdelete_${child.id}').submit()"><i class="icon-remove"></i>${ Context.getMessage('command.PageClasseur.deleteFile')}</a></li>
         </ul>
         </div>
-      </#if>
-        <a rel="nofollow" class="btn btn-small classeurDownload" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/">${Context.getMessage('command.PageClasseur.download')}</a>
-      <#if (max_lenght > blobLenght) && This.hasConvertersForHtml(blob.mimeType)>
-       	<a rel="nofollow" class="btn btn-small classeurDisplay" href="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" target="_blank">${Context.getMessage('command.PageClasseur.display')}</a>
-      </#if>
         <form id="docdelete_${child.id}" action="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@delete" onsubmit="return confirm('${Context.getMessage('label.PageClasseur.delete.file.confirm')}')">
         </form>
-       	</td>
-
+      </#if>
+      </td>
 
     </#if>
   </tr>
@@ -358,6 +384,20 @@
   </table>
   </div>
   </#if>
+</#macro>
+<#macro fileDownloadLink url inBtnGroup=false>
+    <#if inBtnGroup>
+        <a rel="nofollow" class="classeurDownload" href="${url}" ><i class="icon-download"></i>${Context.getMessage('command.PageClasseur.download')}</a>
+    <#else>
+        <a rel="nofollow" class="btn btn-primary btn-mini classeurDownload" href="${url}" title="${Context.getMessage('command.PageClasseur.download')}" ><i class="icon-download"></i></a>
+    </#if>
+</#macro>
+<#macro fileDisplayLink url inBtnGroup=false>
+    <#if inBtnGroup>
+        <a rel="nofollow" class="classeurDisplay" href="${url}" target="_blank" ><i class="icon-eye-open"></i>${Context.getMessage('command.PageClasseur.display')}</a>
+    <#else>
+        <a rel="nofollow" class="btn btn-mini classeurDisplay" href="${url}" target="_blank" title="${Context.getMessage('command.PageClasseur.display')}" ><i class="icon-eye-open"></i></a>
+    </#if>
 </#macro>
   </div>
   </@tableOfContents>

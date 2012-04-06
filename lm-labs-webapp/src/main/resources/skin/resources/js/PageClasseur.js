@@ -1,29 +1,5 @@
 jQuery(document).ready(function(){
 
-  // Select columns to sort
-  $("table[class*='classeurFiles']").tablesorter({
-        sortList: [[2,0]],
-        headers: {
-          0: {
-            sorter:false
-          },
-          1: {
-            sorter:false
-          },
-          6: {
-            sorter:false
-          }
-        },
-        textExtraction: function(node) {
-              // extract data from markup and return it
-          var sortValues = jQuery(node).find('span[class=sortValue]');
-          if (sortValues.length > 0) {
-            return sortValues[0].innerHTML;
-          }
-              return node.innerHTML;
-          }
-      });
-
 
   var nbPictUploaded=0;
   var link ="";

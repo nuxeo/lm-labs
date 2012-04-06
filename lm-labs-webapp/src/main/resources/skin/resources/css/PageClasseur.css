@@ -9,6 +9,10 @@
 	margin: 3px;
 }
 
+.classeurFiles form {
+    margin-bottom: 0px;
+}
+
 .classeur.folderActions {
 	width: auto;
 }
