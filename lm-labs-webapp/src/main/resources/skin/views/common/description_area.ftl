@@ -1,9 +1,10 @@
+<div>
 <#if page.isDisplayable(This.DC_DESCRIPTION)>
-	<div class="viewblock">${Document.dublincore.description}</div>
+	<div class="columns viewblock">${Document.dublincore.description}</div>
 </#if>
 		
-	<div class="row-ckeditor well editblock toc-noreplace" id="pageDescription">
-		<div id="description">${Document.dublincore.description}</div>
+	<div class="row-ckeditor editblock toc-noreplace" id="pageDescription">
+		<div id="description" class="ckeditorBorder" style="cursor: pointer">${Document.dublincore.description}</div>
 		<script type="text/javascript">
 function reloadPageData(response, ckeObj, ckeip_html) {
     reloadPageForTocIfNeeded(response, ckeObj, ckeip_html);
@@ -41,8 +42,9 @@ function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
 	        e_url: '${This.path}/updateDescriptionCKEIP',
 	        ckeditor_config: ckeditorconfig,
 	        view_style: "cke_hidden",
-	        emptyedit_message: "${Context.getMessage('label.ckeditor.double_click_to_edit_content')}"<#if (!This.page.isDisplayable(This.DC_DESCRIPTION))>,
+	        emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.ckeditor.double_click_to_edit_content')}</div>"<#if (!This.page.isDisplayable(This.DC_DESCRIPTION))>,
 	        display_ckeipTex: false</#if>
 	        }, reloadPageData);
 	    </script>
 	</div>
+</div>

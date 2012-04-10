@@ -8,6 +8,7 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
   </@block>
 
   <@block name="css">
@@ -133,11 +134,11 @@
 	              <#list row.contents as content>
 		              <div class="span${content.colNumber}">
 	                    <div class="columns viewblock">
-	                    <#if content.html == "">
-	                        &nbsp;
-	                    <#else>
-	                      ${content.html}
-	                    </#if>
+		                    <#if content.html == "">
+		                        &nbsp;
+		                    <#else>
+		                      ${content.html}
+		                    </#if>
 	                    </div>
 			            <div class="row-ckeditor columns editblock toc-noreplace ">
 			                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer" >${content.html}</div>
@@ -167,11 +168,11 @@
 						<li>
 							<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
 							<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
-							<form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');" >
-							</form>
 						</li>
 					</ul>
 			  </div>
+			  <form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');" >
+			  </form>
 			  <br />
 	          <hr class="editblock"/>
 	        <#else>
@@ -195,6 +196,12 @@
   </#list>
 
 		<#if isContributor >
+			<#if (page.sections?size == 0)>
+				<div class="editblock">
+					<br />
+			    	<a id="addsectionlink" href="#" rel="addsection" class="btn btn-small open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
+			    </div>
+			</#if>
 		    <#-- Add Section -->	
 		    <div id="addsection">
 		    	<h1>Ajouter une section</h1>

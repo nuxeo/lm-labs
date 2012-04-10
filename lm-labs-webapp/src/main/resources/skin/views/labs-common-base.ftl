@@ -33,6 +33,7 @@
 	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button.js"></script>
+      	  <script type="text/javascript" src="${skinPath}/js/scroll-startstop.events.jquery.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
       	  <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
@@ -54,16 +55,19 @@
 			<@block name="FKtopContent" />
 		</div><#-- /FKtopContent -->
 		
+		<div style="display:none;" class="nav_up" id="nav_up"></div>
+		<div style="display:none;" class="nav_down" id="nav_down"></div>
+		
 		<@block name="FKfooter" />
 		
 		<@block name="bottom-page-js" >
-		<#include "views/common/topbar_js.ftl" />
-		<#if (mySite?? && mySite.isContributor(Context.principal.name) ) >
-        <script type="text/javascript" src="${skinPath}/js/page_parameters.js"></script>
-        </#if>
-        <#if mySite?? && mySite.isContributor(Context.principal.name) && This.page?? && !(mySite.homePageRef == This.page.document.id) >
-        <script type="text/javascript" src="${skinPath}/js/setHomePage.js"></script>
-        </#if>
+			<#include "views/common/topbar_js.ftl" />
+			<#if (mySite?? && mySite.isContributor(Context.principal.name) ) >
+	        	<script type="text/javascript" src="${skinPath}/js/page_parameters.js"></script>
+	        </#if>
+	        <#if mySite?? && mySite.isContributor(Context.principal.name) && This.page?? && !(mySite.homePageRef == This.page.document.id) >
+	        	<script type="text/javascript" src="${skinPath}/js/setHomePage.js"></script>
+	        </#if>
 		</@block>
     </body>
 </html>

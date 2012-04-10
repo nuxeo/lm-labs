@@ -43,5 +43,6 @@
 			    
 			</div><#--  /row-fluid -->
 		</div><#-- /container-fluid -->
+		
 	</@block>
 </@extends>
