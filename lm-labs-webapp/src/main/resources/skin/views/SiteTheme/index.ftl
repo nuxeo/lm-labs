@@ -66,7 +66,7 @@
                   <div class="controls">
                     <select name="template" id="template" onchange="updateTemplateDescription(this, 'template-description');" >
                     <#include "views/common/getTemplatesMap.ftl">
-                    <#assign templatesMap = getTemplatesMap() />
+                    <#assign templatesMap = getTemplatesMap(theme.name) />
                     <#list templatesMap?sort_by('title') as template>
             			<option value="${template.name}"  <#if mySite.template.templateName == template.name >selected</#if>>${template.title}</option>
             		</#list>

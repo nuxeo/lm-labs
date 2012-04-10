@@ -1,6 +1,6 @@
-<#function getTemplatesMap >
+<#function getTemplatesMap theme >
     <#assign templatesMap = [] />
-    <#list Common.getTemplates() as template>
+    <#list Common.getTemplates(theme) as template>
         <#assign trad = Context.getMessage('label.labssites.appearance.templates.' + template) />
         <#if trad?starts_with('!') >
             <#assign templateName = template />

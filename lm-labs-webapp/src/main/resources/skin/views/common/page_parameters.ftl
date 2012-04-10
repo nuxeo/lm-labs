@@ -58,7 +58,7 @@
               <div class="controls">
                 <select name="template" id="template" class="span4" onchange="updateTemplateDescription(this, 'template-description');" >
                     <#include "views/common/getTemplatesMap.ftl">
-                    <#assign templatesMap = getTemplatesMap() />
+                    <#assign templatesMap = getTemplatesMap("") />
                     <#assign documentTemplateName = This.page.template.documentTemplateName />
                     <#list templatesMap?sort_by('title') as template>
                         <option value="${template.name}" <#if documentTemplateName == template.name >selected</#if>>${template.title}</option>

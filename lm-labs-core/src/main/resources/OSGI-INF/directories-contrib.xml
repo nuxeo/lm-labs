@@ -2,6 +2,8 @@
 
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.site.directories">
 
+  <require>org.nuxeo.ecm.directory.sql.SQLDirectoryFactory</require>
+  
   <extension target="org.nuxeo.ecm.directory.sql.SQLDirectoryFactory"
     point="directories">
 
@@ -14,25 +16,50 @@
       <dataFile>directories/columns_layout.csv</dataFile>
       <createTablePolicy>on_missing_columns</createTablePolicy>
     </directory>
-
+    
     <directory name="labs_page_templates">
+    <!-- 
+      <schema>dir_template</schema>
+     -->
       <schema>vocabulary</schema>
       <dataSource>java:/nxsqldirectory</dataSource>
+      <!-- 
+      <dataSource>jdbc/nxsqldirectory</dataSource>
+       -->
       <table>dir_labs_page_templates</table>
       <idField>id</idField>
       <autoincrementIdField>false</autoincrementIdField>
       <dataFile>directories/labs_page_templates.csv</dataFile>
       <createTablePolicy>on_missing_columns</createTablePolicy>
+      <!-- 
+      <references>
+        <inverseReference field="themes" directory="labs_themes"
+          dualReferenceField="templates" />
+      </references>
+       -->
     </directory>
 
     <directory name="labs_themes">
+    <!-- 
+      <schema>dir_template</schema>
+     -->
       <schema>vocabulary</schema>
       <dataSource>java:/nxsqldirectory</dataSource>
+      <!-- 
+      <dataSource>jdbc/nxsqldirectory</dataSource>
+       -->
       <table>dir_labs_themes</table>
       <idField>id</idField>
       <autoincrementIdField>false</autoincrementIdField>
       <dataFile>directories/labs_themes.csv</dataFile>
       <createTablePolicy>on_missing_columns</createTablePolicy>
+      <!-- 
+      <references>
+        <tableReference field="templates" directory="labs_page_templates"
+          table="dir_labs_template2theme" sourceColumn="themeId" targetColumn="templateId" 
+          schema="template2theme" dataFile="directories/template2theme.csv" />
+      </references>
+       -->
     </directory>
 
     <directory name="labs_fontsizes">

@@ -22,6 +22,13 @@
     <schema name="labstemplate" prefix="labstemplate" src="schemas/labstemplate.xsd" />
     <schema name="mailnotif" prefix="mailnotif" src="schemas/mailnotif.xsd" />
     <schema name="piwik" prefix="piwik" src="schemas/piwik.xsd" />
+
+    <schema name="dir_theme" prefix="dir_theme" src="schemas/dir_theme.xsd" />
+    <schema name="dir_template" prefix="dir_template" src="schemas/dir_template.xsd" />
+    <!--
+    <schema name="base" src="schema/base.xsd"/>
+    <schema name="template2theme" src="schemas/template2theme.xsd" />
+    -->
   </extension>
 
   <extension target="org.nuxeo.ecm.core.schema.TypeService"

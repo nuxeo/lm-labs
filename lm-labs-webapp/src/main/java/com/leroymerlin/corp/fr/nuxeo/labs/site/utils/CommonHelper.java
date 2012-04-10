@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.common.utils.URIUtils;
@@ -258,7 +259,26 @@ public final class CommonHelper {
         }
         if (entriesTemplate.isEmpty()) {
             LOG.error("The themes should not be empty !");
-            LOG.error("Verify the package " + LabsSiteWebAppUtils.DIRECTORY_THEME);
+            LOG.error("Verify the package " + LabsSiteWebAppUtils.DIRECTORY_THEME
+            + " and diretory " + Directories.PAGE_TEMPLATES.dirName());
+        }
+        return entriesTemplate;
+    }
+
+    public static List<String> getTemplates(String theme) {
+        LabsThemeManager themeService = getThemeService();
+        List<String> entriesTemplate = new ArrayList<String>();
+        if (themeService != null) {
+            if (StringUtils.isEmpty(StringUtils.trim(theme))) {
+                entriesTemplate = themeService.getTemplateList(WebEngine.getActiveContext().getModule().getRoot().getAbsolutePath());
+            } else {
+                entriesTemplate = themeService.getTemplateList(WebEngine.getActiveContext().getModule().getRoot().getAbsolutePath(), theme);
+            }
+        }
+        if (entriesTemplate.isEmpty()) {
+            LOG.error("The themes should not be empty !");
+            LOG.error("Verify the package " + LabsSiteWebAppUtils.DIRECTORY_THEME
+            + " and diretory " + Directories.PAGE_TEMPLATES.dirName());
         }
         return entriesTemplate;
     }

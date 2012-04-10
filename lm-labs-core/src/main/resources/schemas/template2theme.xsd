@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<xs:schema
+    targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/template2theme"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    >
+
+    <xs:element name="templateId" type="xs:string"/>
+    <xs:element name="themeId" type="xs:string"/>
+
+</xs:schema>
+
+

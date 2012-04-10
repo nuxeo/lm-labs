@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<xs:schema
+    targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/dir_theme"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:nxs="http://labs.fr.corp.leroymerlin.com/schemas/labs/dir_theme">
+
+<!-- 
+    <xs:include schemaLocation="base.xsd" />
+ -->
+
+    <xs:element name="id" type="xs:string"/>
+    <xs:element name="label" type="xs:string"/>
+    <xs:element name="obsolete" type="xs:integer" default="0"/>
+    <xs:element name="ordering" type="xs:integer" default="10000000"/>
+    <!-- references
+    <xs:element name="templates" type="nxs:stringList" />
+     -->
+
+</xs:schema>

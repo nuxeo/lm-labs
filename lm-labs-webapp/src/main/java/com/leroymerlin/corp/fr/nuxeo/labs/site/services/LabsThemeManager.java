@@ -9,6 +9,8 @@ public interface LabsThemeManager {
     List<String> getThemeList(String pathBase);
     
     List<String> getTemplateList(String pathBase);
+    
+    List<String> getTemplateList(String pathBase, String theme);
 
     DocumentModelList getDirFontSizes();
     

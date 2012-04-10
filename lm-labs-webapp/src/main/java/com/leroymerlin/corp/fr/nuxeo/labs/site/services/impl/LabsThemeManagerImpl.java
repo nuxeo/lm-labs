@@ -15,7 +15,9 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
+import org.nuxeo.ecm.directory.Directory;
 import org.nuxeo.ecm.directory.DirectoryException;
+import org.nuxeo.ecm.directory.Reference;
 import org.nuxeo.ecm.directory.Session;
 import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.runtime.api.Framework;
@@ -46,6 +48,12 @@ public class LabsThemeManagerImpl extends DefaultComponent implements LabsThemeM
         return (List<String>) CollectionUtils.intersection(getDirPageTemplates(), LabsSiteWebAppUtils.getFoldersUnderFolder(pathBase + LabsSiteWebAppUtils.DIRECTORY_TEMPLATE));
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<String> getTemplateList(String pathBase, String theme) {
+        return (List<String>) CollectionUtils.intersection(getDirPageTemplates(theme), LabsSiteWebAppUtils.getFoldersUnderFolder(pathBase + LabsSiteWebAppUtils.DIRECTORY_TEMPLATE));
+    }
+
     public static List<String> getDirThemes() {
         return getDirList(Directories.THEMES);
     }
@@ -54,14 +62,34 @@ public class LabsThemeManagerImpl extends DefaultComponent implements LabsThemeM
         return getDirList(Directories.PAGE_TEMPLATES);
     }
 
+    @SuppressWarnings("unchecked")
+    public static List<String> getDirPageTemplates(String theme) {
+//        Map<String, Serializable> filter = new HashMap<String, Serializable>();
+//        filter.put("id", theme);
+        try {
+            Directory directory = getDirectoryService().getDirectory(Directories.THEMES.dirName());
+            Reference templatesRef = directory.getReference("templates");
+            return templatesRef.getTargetIdsForSource(theme);
+        } catch (DirectoryException e) {
+            LOG.error(e, e);
+        } catch (Exception e) {
+            LOG.error(e, e);
+        }
+        return (List<String>) CollectionUtils.EMPTY_COLLECTION;
+    }
+
     public static List<String> getDirList(Directories directory) {
+        Map<String, Serializable> filter = Collections.emptyMap();
+        return getDirList(directory, filter);
+    }
+
+    public static List<String> getDirList(Directories directory, Map<String, Serializable> filter) {
         List<String> list = new LinkedList<String>();
         Session session = null;
         try {
-            DirectoryService directoryService = Framework.getService(DirectoryService.class);
+            DirectoryService directoryService = getDirectoryService();
             session = directoryService.open(directory.dirName());
             Map<String, String> orderBy = new LinkedHashMap<String, String>();
-            Map<String, Serializable> filter = Collections.emptyMap();
             Set<String> fulltext = Collections.emptySet();
             orderBy.put(directory.orderingField(), "asc");
             for (DocumentModel entry : session.query(filter, fulltext, orderBy)) {
@@ -80,6 +108,10 @@ public class LabsThemeManagerImpl extends DefaultComponent implements LabsThemeM
         }
         return list;
     }
+
+    private static DirectoryService getDirectoryService() throws Exception {
+        return Framework.getService(DirectoryService.class);
+    }
     
     @Override
     public DocumentModelList getDirFontSizes() {
@@ -92,13 +124,17 @@ public class LabsThemeManagerImpl extends DefaultComponent implements LabsThemeM
     }
 
     public static DocumentModelList getDirDocumentModelList(Directories directory) {
+        Map<String, Serializable> filter = Collections.emptyMap();
+        return getDirDocumentModelList(directory, filter);
+    }
+
+    public static DocumentModelList getDirDocumentModelList(Directories directory, Map<String, Serializable> filter) {
         DocumentModelList list = new DocumentModelListImpl();
         Session session = null;
         try {
-            DirectoryService directoryService = Framework.getService(DirectoryService.class);
+            DirectoryService directoryService = getDirectoryService();
             session = directoryService.open(directory.dirName());
             Map<String, String> orderBy = new LinkedHashMap<String, String>();
-            Map<String, Serializable> filter = Collections.emptyMap();
             Set<String> fulltext = Collections.emptySet();
             orderBy.put(directory.orderingField(), "asc");
             list = session.query(filter, fulltext, orderBy);
@@ -120,7 +156,7 @@ public class LabsThemeManagerImpl extends DefaultComponent implements LabsThemeM
         Map<String, String> map = new HashMap<String, String>();
         Session session = null;
         try {
-            DirectoryService directoryService = Framework.getService(DirectoryService.class);
+            DirectoryService directoryService = getDirectoryService();
             session = directoryService.open(directory.dirName());
             Map<String, String> orderBy = new LinkedHashMap<String, String>();
             Map<String, Serializable> filter = Collections.emptyMap();
