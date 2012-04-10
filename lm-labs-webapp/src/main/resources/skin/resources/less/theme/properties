@@ -3,18 +3,30 @@
 //@baseFontFamily;Police du site;Séparé par -,- et délimité par -'-;font
 //@baseFontSize;Taille de base;;size
 //@basefont;Taille de base;;size
-@basefontTitleH1;label.labssites.appearance.theme.property.h1.fontsize;help.labssites.appearance.theme.property.h1.fontsize;size
-@baseFontColorTitleH1;label.labssites.appearance.theme.property.h1.color;help.labssites.appearance.theme.property.h1.color;color
-@basefontTitleH2;label.labssites.appearance.theme.property.h2.fontsize;help.labssites.appearance.theme.property.h2.fontsize;size
-@baseFontColorTitleH2;label.labssites.appearance.theme.property.h2.color;help.labssites.appearance.theme.property.h2.color;color
-@basefontTitleH3;label.labssites.appearance.theme.property.h3.fontsize;help.labssites.appearance.theme.property.h3.fontsize;size
-@baseFontColorTitleH3;label.labssites.appearance.theme.property.h3.color;help.labssites.appearance.theme.property.h3.color;color
-@basefontTitleH4;label.labssites.appearance.theme.property.h4.fontsize;help.labssites.appearance.theme.property.h4.fontsize;size
-@baseFontColorTitleH4;label.labssites.appearance.theme.property.h4.color;help.labssites.appearance.theme.property.h4.color;color
-@basefontTitleH5;label.labssites.appearance.theme.property.h5.fontsize;help.labssites.appearance.theme.property.h5.fontsize;size
-@baseFontColorTitleH5;label.labssites.appearance.theme.property.h5.color;help.labssites.appearance.theme.property.h5.color;color
-@basefontTitleH6;label.labssites.appearance.theme.property.h6.fontsize;help.labssites.appearance.theme.property.h6.fontsize;size
-@baseFontColorTitleH6;label.labssites.appearance.theme.property.h6.color;help.labssites.appearance.theme.property.h6.color;color
+
+@voidTitleH1;label.labssites.appearance.theme.property.h1;help.labssites.appearance.theme.property.h1;void
+@basefontTitleH1;label.labssites.appearance.theme.property.h.fontsize;;size
+@baseFontColorTitleH1;label.labssites.appearance.theme.property.h.color;;color
+
+@voidTitleH2;label.labssites.appearance.theme.property.h2;help.labssites.appearance.theme.property.h2;void
+@basefontTitleH2;label.labssites.appearance.theme.property.h.fontsize;;size
+@baseFontColorTitleH2;label.labssites.appearance.theme.property.h.color;;color
+
+@voidTitleH3;label.labssites.appearance.theme.property.h3;help.labssites.appearance.theme.property.h3;void
+@basefontTitleH3;label.labssites.appearance.theme.property.h.fontsize;;size
+@baseFontColorTitleH3;label.labssites.appearance.theme.property.h.color;;color
+
+@voidTitleH4;label.labssites.appearance.theme.property.h4;help.labssites.appearance.theme.property.h4;void
+@basefontTitleH4;label.labssites.appearance.theme.property.h.fontsize;;size
+@baseFontColorTitleH4;label.labssites.appearance.theme.property.h.color;;color
+
+@voidTitleH5;label.labssites.appearance.theme.property.h5;help.labssites.appearance.theme.property.h5;void
+@basefontTitleH5;label.labssites.appearance.theme.property.h.fontsize;;size
+@baseFontColorTitleH5;label.labssites.appearance.theme.property.h.color;;color
+
+@voidTitleH6;label.labssites.appearance.theme.property.h6;help.labssites.appearance.theme.property.h6;void
+@basefontTitleH6;label.labssites.appearance.theme.property.h.fontsize;;size
+@baseFontColorTitleH6;label.labssites.appearance.theme.property.h.color;;color
 
 //@bgcolortabs;Couleur de navigation;Couleur de base pour chaque onglets de navigation;color
 //@baseFontColorTabs;Couleur texte nav.;Couleur des textes des onglets de navigation;color
