@@ -158,13 +158,19 @@
 			      		    <#if propLabel?starts_with('!') >
 			      		        <#assign propLabel = property.label />
 			      		    </#if>
-		                    <label class="control-label" for="property${cptProperties}">${propLabel}</label>
+                            <#assign property = property />
+                            <#assign typeProperty = "string" />
+                            <#if (property.type != null)>
+                              <#assign typeProperty = property.type />
+                            </#if>
+                            <label class="control-label" for="property${cptProperties}">
+                            <#if typeProperty == "void" >
+                            <strong>${propLabel}</strong>
+                            <#else>
+                            ${propLabel}
+                            </#if>
+                            </label>
 				      		<div class="control-group">
-			                  <#assign property = property />
-			                  <#assign typeProperty = "string" />
-			                  <#if (property.type != null)>
-			                  	<#assign typeProperty = property.type />
-			                  </#if>
 			                  
 			                  <div class="controls">
 					      		 <#include "views/SiteTheme/typeProperty/input-" + typeProperty + ".ftl" >
