@@ -33,6 +33,7 @@
 	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button.js"></script>
+      	  <script type="text/javascript" src="${skinPath}/js/scroll-startstop.events.jquery.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
       	  <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
@@ -52,14 +53,10 @@
 		
 		<div id="FKtopContent" style="position: relative;">
 			<@block name="FKtopContent" />
-			<@block name="returnTopPage" >
-				<div id="returnTopPage" style="float: right;margin-top: -20px;margin-right: 5px;">
-					<a href="#" title="Haut de page"><i class="icon-arrow-up"></i></a>
-				</div>
-			</@block>
 		</div><#-- /FKtopContent -->
 		
-		
+		<div style="display:none;" class="nav_up" id="nav_up"></div>
+		<div style="display:none;" class="nav_down" id="nav_down"></div>
 		
 		<@block name="FKfooter" />
 		
