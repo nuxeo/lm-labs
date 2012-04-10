@@ -2,7 +2,6 @@
 
 @baseFontFamily;Police du site;Séparé par -,- et délimité par -'-;font
 @baseFontSize;Taille de base;;size
-@basefont;Taille de base;;size
 @basefontTitleH1;label.labssites.appearance.theme.property.h1.fontsize;help.labssites.appearance.theme.property.h1.fontsize;size
 @baseFontColorTitleH1;label.labssites.appearance.theme.property.h1.color;help.labssites.appearance.theme.property.h1.color;color
 @basefontTitleH2;label.labssites.appearance.theme.property.h2.fontsize;help.labssites.appearance.theme.property.h2.fontsize;size
