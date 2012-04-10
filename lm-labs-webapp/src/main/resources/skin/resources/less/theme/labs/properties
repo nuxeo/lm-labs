@@ -1,5 +1,0 @@
-;
-
-@baseFontFamily;Police du site;Séparé par ',' et délimité par '"'
-@baseFontSize;Taille de base;Finir par px, em ou %
-
