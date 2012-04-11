@@ -1,5 +1,6 @@
 <#-- assign canWrite = Session.hasPermission(Document.ref, 'Write') -->
 <#assign canWrite = This.page?? && This.page.isContributor(Context.principal.name)>
+<#assign isAdministrator = This.page?? && This.page.isAdministrator(Context.principal.name)>
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
   <#assign mySite=Common.siteDoc(Document).site />
   <@block name="title">${ mySite.title}-${This.document.title}</@block>
@@ -281,18 +282,13 @@
     <div class="btn-group" style="margin-left: 11em;" >
         <a class="btn btn-small dropdown-toggle arrowOpacity" data-toggle=""><i class="icon-cog"></i>${Context.getMessage('command.PageClasseur.selectionActions')} <span class="caret"></span></a>
         <ul class="dropdown-menu" style="min-width: 40px;" >
-    <#assign iconName = "" />
-    <#list This.getLinks("PageClasseur_SELECTION_ACTIONS") as link>
-      <#if link.id == "showSelection" >
-        <#assign iconName = "eye-open" />
-      <#elseif link.id == "hideSelection" >
-        <#assign iconName = "eye-close" />
-      <#elseif link.id == "deleteSelection" >
-        <#assign iconName = "remove" />
-      </#if>
-      <li><a href="#" class="selectionActionsBt ${link.id}" ><i class="icon-${iconName}"></i>${Context.getMessage('command.' + Document.type + '.' + link.id)}</a>
-      </li>
-    </#list>
+        <#if canWrite && Session.hasPermission(Document.ref, 'RemoveChildren') >
+          <li><a href="#" class="selectionActionsBt deleteSelection" ><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteSelection')}</a></li>
+        </#if>
+        <#if isAdministrator >
+          <li><a href="#" class="selectionActionsBt showSelection" ><i class="icon-eye-open"></i>${Context.getMessage('command.PageClasseur.showSelection')}</a></li>
+          <li><a href="#" class="selectionActionsBt hideSelection" ><i class="icon-eye-close"></i>${Context.getMessage('command.PageClasseur.hideSelection')}</a></li>
+        </#if>
         </ul>
     </div>
     </#if>
