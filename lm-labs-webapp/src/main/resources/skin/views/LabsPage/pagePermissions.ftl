@@ -28,7 +28,7 @@
     		<a href="${This.path}" class="btn btn-mini btn-primary"><i class="icon-share-alt"></i>${Context.getMessage('command.admin.page.rights.back')}</a>
     		<#if !isHomePage>
     			<a href="javascript:blockInherits('');" class="btn btn-mini">${Context.getMessage('command.admin.page.rights.block')}</a>
-    			<a href="javascript:unblockInherits('');" class="btn btn-mini">${Context.getMessage('command.admin.page.rights.unblock')}</a>
+    			<a href="javascript:unblockInherits('');" class="btn btn-mini btn-danger">${Context.getMessage('command.admin.page.rights.unblock')}</a>
     		</#if>
     	</div>
     </div>
