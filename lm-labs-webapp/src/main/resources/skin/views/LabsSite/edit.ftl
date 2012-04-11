@@ -76,6 +76,7 @@ jQuery(document).ready(function() {
                   </div>
                 </div>
 
+			    <#if Context.principal.administrator >
 			    <div class="control-group">
 			      <div class="controls">
 			        <label class="checkbox" for="siteTemplate">
@@ -83,6 +84,7 @@ jQuery(document).ready(function() {
 			        &nbsp;${Context.getMessage('label.labssite.edit.siteTemplate')}</label>
 			      </div>
 			    </div>
+			    </#if>
 			
 				<div class="control-group" id="siteTemplatePreviewDiv" <#if !mySite.siteTemplate>style="display:none;"</#if>>
 			      <#if mySite.siteTemplate && mySite.siteTemplatePreview?? >
