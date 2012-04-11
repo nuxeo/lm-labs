@@ -108,6 +108,8 @@ public final class LabsSiteUtils {
             sd.setBlockRightInheritance(false, null);
             SecurityDataHelper.updateSecurityOnDocument(document, sd);
             session.save();
+            List<LMPermission> permissions = extractPermissions(document);
+            deletePagePermissions(document, permissions);
         }
         else{
             DocumentModel docParent = session.getDocument(document.getParentRef());
@@ -210,6 +212,19 @@ public final class LabsSiteUtils {
         
         for (LMPermission perm : permToDelete){
             setPermission(document, perm.permission, perm.getName(), Action.REMOVE, true);
+        }
+    }
+
+    /**
+     * @param document
+     * @throws Exception
+     */
+    private static void deletePagePermissions(DocumentModel document, List<LMPermission> permissions) throws Exception {
+        for (LMPermission perm : permissions) {
+            if(!perm.isInherited()){
+                setPermission(document, perm.permission, perm.getName(), Action.REMOVE, true);
+            }
+
         }
     }
     

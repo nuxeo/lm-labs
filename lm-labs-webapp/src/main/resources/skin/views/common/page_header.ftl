@@ -8,7 +8,7 @@
 <div style="clear: both;" />
 </#if>
 <div>
-	<#if mySite?? && mySite.isContributor(Context.principal.name) >
+	<#if page?? && page.isContributor(Context.principal.name) >
 		<#include "views/common/description_area.ftl">
 	<#elseif page.isDisplayable(This.DC_DESCRIPTION)>
 		<div class="page-description">${page.description}</div>
