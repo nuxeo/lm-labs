@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -98,9 +99,9 @@ public class LabsNewsResource extends PageResource {
     }
 
     @Path("s/{index}")
-    public Object doGetSection() {
+    public Object doGetSection(@PathParam("index") int sectionIndex) {
         // For the news there is only one section
-        return newObject("HtmlSection", doc, getLabsNews());
+        return newObject("HtmlSection", doc, getLabsNews(), sectionIndex);
     }
 
     static Calendar getDateFromStr(String strDate) {
