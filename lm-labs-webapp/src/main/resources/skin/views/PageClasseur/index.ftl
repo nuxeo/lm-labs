@@ -130,15 +130,15 @@
   <#assign folders = classeur.folders />
   <div class="">
     <#if folders?size &gt; 0>
-	<img class='allFoldersOpened' src="${skinPath}/images/toggle_minus.png" onclick="slideAllFolders(this);" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.allFolders.collapse')}" alt="${Context.getMessage('command.PageClasseur.allFolders.collapse')}" />
+		<img class='allFoldersOpened' src="${skinPath}/images/toggle_minus.png" onclick="slideAllFolders(this);" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.allFolders.collapse')}" alt="${Context.getMessage('command.PageClasseur.allFolders.collapse')}" />
 	</#if>
 	<#include "views/common/page_header.ftl">
 
-  <#if folders?size &gt; 0>
-  <div id="classeurTopActions" class="editblock" style="margin-top: 5px;">
-    <@mainButtons />
-  </div>
-  </#if>
+    <#if folders?size &gt; 0>
+	  <div id="classeurTopActions" class="editblock" style="margin-top: 5px;">
+	    <@mainButtons />
+	  </div>
+    </#if>
 
     <input type="hidden" id="folderPath" value="" />
 
@@ -155,24 +155,26 @@
       	<#if folder.files?size &gt; 0>
 	      <img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideFolder(this, '');" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
 	    </#if>
-      	<div class="editblock">
-	      	<div class="btn-group" style="float:right;margin-top: 8px;">
-	            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
-	            <ul class="dropdown-menu" >
-	              <li><a 
-	                <#if folders?first.document.id == folder.document.id>class="arrowOpacity" onclick="return false" <#else> onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false"</#if>
-	                href=""><i class="icon-arrow-up"></i>${Context.getMessage("command." + Document.type + ".moveup" )}</a></li>
-	              <li><a 
-	                <#if folders?last.document.id == folder.document.id>class="arrowOpacity" onclick="return false" <#else> onclick="moveFolder('${This.path}', '${Document.ref}', $('#${folder.document.id}').next('section').attr('id'), '${folder.document.id}');return false"</#if>
-	                href=""><i class="icon-arrow-down"></i>${Context.getMessage("command." + Document.type + ".movedown" )}</a></li>
-	              <li><a href="#" rel="addfile_${folder.document.id}_modal" class="open-dialog" ><i class="icon-upload"></i>${Context.getMessage("command." + Document.type + ".addFile" )}</a></li>
-	              <#-- This button submits the hidden delete form -->
-	              <li><a href="#" onclick="$('#delete_${folder.document.id}').submit();return false;"><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteFolder')}</a></li>
-			      <#-- rename   -->
-			      <li><a href="#" onClick='javascript:renameFolder("${This.path}/${folder.document.name}/@put", "${folder.document.id}");return false;'><i class="icon-edit"></i>${Context.getMessage("command." + Document.type + ".renameFolder" )}</a></li>
-	            </ul>
-	          </div> <#-- btn-group -->
-	    </div>
+	    <#if canWrite>
+	      	<div class="editblock">
+		      	<div class="btn-group" style="float:right;margin-top: 8px;">
+		            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
+		            <ul class="dropdown-menu" >
+		              <li><a 
+		                <#if folders?first.document.id == folder.document.id>class="arrowOpacity" onclick="return false" <#else> onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false"</#if>
+		                href=""><i class="icon-arrow-up"></i>${Context.getMessage("command." + Document.type + ".moveup" )}</a></li>
+		              <li><a 
+		                <#if folders?last.document.id == folder.document.id>class="arrowOpacity" onclick="return false" <#else> onclick="moveFolder('${This.path}', '${Document.ref}', $('#${folder.document.id}').next('section').attr('id'), '${folder.document.id}');return false"</#if>
+		                href=""><i class="icon-arrow-down"></i>${Context.getMessage("command." + Document.type + ".movedown" )}</a></li>
+		              <li><a href="#" rel="addfile_${folder.document.id}_modal" class="open-dialog" ><i class="icon-upload"></i>${Context.getMessage("command." + Document.type + ".addFile" )}</a></li>
+		              <#-- This button submits the hidden delete form -->
+		              <li><a href="#" onclick="$('#delete_${folder.document.id}').submit();return false;"><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteFolder')}</a></li>
+				      <#-- rename   -->
+				      <li><a href="#" onClick='javascript:renameFolder("${This.path}/${folder.document.name}/@put", "${folder.document.id}");return false;'><i class="icon-edit"></i>${Context.getMessage("command." + Document.type + ".renameFolder" )}</a></li>
+		            </ul>
+		          </div> <#-- btn-group -->
+		    </div>
+		   </#if>
 	      
 	    <div class="header-toc">
           <a name="section_${folder_index}" ></a>
