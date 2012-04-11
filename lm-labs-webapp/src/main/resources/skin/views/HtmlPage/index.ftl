@@ -56,7 +56,7 @@
         	<div class="editblock">
 		        <div id="divAddRow_${section_index}" class="well" style="padding: 5px;display: none;">
 		          <div style="float: right;">
-		          	<a href="#" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-remove"></i></a>
+		          	<a href="#section_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-remove"></i></a>
 		          </div>
 		          <form class="form-horizontal" id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
 		          	  <input type="hidden" name="action" value="addrow"/>
