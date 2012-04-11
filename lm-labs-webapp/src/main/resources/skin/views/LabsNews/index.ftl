@@ -106,7 +106,7 @@
 								</li>
 							</ul>
 					  </div>
-					  <form id="rowdelete_s${section_index}_r${row_index}" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');" >
+					  <form id="rowdelete_s${section_index}_r${row_index}" style="margin: 0px 0px 0px;" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');" >
 					  </form>
 					  <br />
 			          <hr class="editblock"/>
