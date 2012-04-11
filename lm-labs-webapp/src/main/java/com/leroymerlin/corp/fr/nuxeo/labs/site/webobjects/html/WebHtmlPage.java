@@ -79,7 +79,7 @@ public class WebHtmlPage extends NotifiablePageResource {
     public Object getSection(@PathParam("index") int sectionIndex) {
         try {
             HtmlSection section = getHtmlPage().section(sectionIndex);
-            return newObject("HtmlSection", doc, section);
+            return newObject("HtmlSection", doc, section, sectionIndex);
         } catch (ClientException e) {
             return Response.serverError().build();
         }

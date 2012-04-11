@@ -22,12 +22,16 @@ public class WebHtmlSection extends DocumentObject {
     private static final String FAILED_TO_POST_SECTION = "Failed to post html section ";
     private static final String FAILED_TO_DELETE_SECTION = "Failed to delete html section ";
     private HtmlSection section;
+    private int sectionIndex = -1;
 
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        assert args != null && args.length == 2;
+        assert args != null && args.length >= 2;
         section = (HtmlSection) args[1];
+        if (args.length > 2) {
+            sectionIndex = (Integer) args[2];
+        }
     }
 
     @DELETE
@@ -68,7 +72,7 @@ public class WebHtmlSection extends DocumentObject {
             throw WebException.wrap(
                     FAILED_TO_POST_SECTION + doc.getPathAsString(), e);
         }
-        return redirect(prev.getPath());
+        return redirect(prev.getPath() + "#row_s" + sectionIndex + "_r" + (section.getRows().size() - 1));
     }
 
     @Path("r/{index}")
