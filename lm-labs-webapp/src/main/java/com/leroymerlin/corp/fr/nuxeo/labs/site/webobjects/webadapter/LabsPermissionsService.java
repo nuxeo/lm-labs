@@ -259,6 +259,10 @@ public class LabsPermissionsService extends DefaultAdapter {
         
         document.getCoreSession().save();
         
+        //get Read and ReadWrite rights on parents
+        LabsSiteUtils.unblockInherits("Read", getDocument());
+        LabsSiteUtils.unblockInherits("ReadWrite", getDocument());
+        
         return Response.ok().build();
     }
 

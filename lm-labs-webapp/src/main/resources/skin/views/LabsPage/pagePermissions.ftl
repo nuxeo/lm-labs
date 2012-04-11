@@ -60,21 +60,23 @@
   <@superBlock/>
   <script type="text/javascript">
 function unblockInherits(permission){
-	jQuery('#waitingPopup').dialog2('open');
-	jQuery.ajax({
-		type: 'GET',
-	    async: false,
-	    url: "${This.path}/@labspermissions/unblockInherits?permission=" + permission,
-	    success: function(data) {
-	    	jQuery('#waitingPopup').dialog2('close');
-	    	jQuery("#divDislayArray")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
-			jQuery("#divDislayArray").load('${This.path}/@labspermissions');
-			initModalLabsPermissions();
-	    },
-	    error: function(data){
-	    	jQuery('#waitingPopup').dialog2('close');
-	    }
-	});
+	if(confirm("Vous allez supprimer les droits spécifiques à la page et restaurer les droits parents, continuez ?")){
+		jQuery('#waitingPopup').dialog2('open');
+		jQuery.ajax({
+			type: 'GET',
+		    async: false,
+		    url: "${This.path}/@labspermissions/unblockInherits?permission=" + permission,
+		    success: function(data) {
+		    	jQuery('#waitingPopup').dialog2('close');
+		    	jQuery("#divDislayArray")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
+				jQuery("#divDislayArray").load('${This.path}/@labspermissions');
+				initModalLabsPermissions();
+		    },
+		    error: function(data){
+		    	jQuery('#waitingPopup').dialog2('close');
+		    }
+		});
+	}
 }
   </script>
   </@block>
