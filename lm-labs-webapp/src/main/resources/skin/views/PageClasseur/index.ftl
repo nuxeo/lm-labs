@@ -1,4 +1,5 @@
 <#-- assign canWrite = Session.hasPermission(Document.ref, 'Write') -->
+<#include "macros/PageClasseur_file_links.ftl" >
 <#assign canWrite = This.page?? && This.page.isContributor(Context.principal.name)>
 <#assign isAdministrator = This.page?? && This.page.isAdministrator(Context.principal.name)>
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
@@ -362,9 +363,9 @@
       <td><span title="${modifDateStr}" >${Context.getMessage('label.PageClasseur.table.dateInWordsFormat',[dateInWords(modifDate)])}</span><span class="sortValue">${modifDate?string("yyyyMMddHHmmss")}</span></td>
       <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
       <td class="actions" >
-        <@fileDownloadLink url="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/" />
+        <@fileDownloadLink url="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/" tooltip="${Context.getMessage('command.PageClasseur.download')}" />
         <#if (max_lenght > blobLenght) && This.hasConvertersForHtml(blob.mimeType)>
-          <@fileDisplayLink url="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" />
+          <@fileDisplayLink url="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/preview" tooltip="${Context.getMessage('command.PageClasseur.display')}" />
         </#if>
       <#if canWrite>
       	<div  class="<#if !child.facets?seq_contains("LabsHidden")>editblock</#if> btn-group" style=" float:right;" >
@@ -386,20 +387,6 @@
   </table>
   </div>
   </#if>
-</#macro>
-<#macro fileDownloadLink url inBtnGroup=false>
-    <#if inBtnGroup>
-        <a rel="nofollow" class="classeurDownload" href="${url}" ><i class="icon-download"></i>${Context.getMessage('command.PageClasseur.download')}</a>
-    <#else>
-        <a rel="nofollow" class="btn btn-primary btn-mini classeurDownload" href="${url}" title="${Context.getMessage('command.PageClasseur.download')}" ><i class="icon-download"></i></a>
-    </#if>
-</#macro>
-<#macro fileDisplayLink url inBtnGroup=false>
-    <#if inBtnGroup>
-        <a rel="nofollow" class="classeurDisplay" href="${url}" target="_blank" ><i class="icon-eye-open"></i>${Context.getMessage('command.PageClasseur.display')}</a>
-    <#else>
-        <a rel="nofollow" class="btn btn-mini classeurDisplay" href="${url}" target="_blank" title="${Context.getMessage('command.PageClasseur.display')}" ><i class="icon-eye-open"></i></a>
-    </#if>
 </#macro>
   </div>
   </@tableOfContents>

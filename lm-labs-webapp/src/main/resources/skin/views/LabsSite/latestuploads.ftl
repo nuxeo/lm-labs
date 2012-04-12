@@ -1,5 +1,6 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
 	
+<#include "macros/PageClasseur_file_links.ftl" >
 <#include "views/common/paging.ftl" />
 <#assign nbrElemPerPage = 20 />
 
@@ -43,8 +44,8 @@
             <#assign sd = Common.siteDoc(upload) />
             <td><a href="${Context.modulePath}/${sd.parentPagePath}">${sd.parentPage.title}</a></td>
             <td>
-                <a rel="nofollow" href="${Context.modulePath}/${sd.resourcePath}/@blob" class="btn btn-small classeurDownload">${Context.getMessage('command.LabsSite.latestuploads.download')}</a>
-                <a rel="nofollow" href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn btn-small classeurDisplay">${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
+        <@fileDownloadLink url="${Context.modulePath}/${sd.resourcePath}/@blob" tooltip="${Context.getMessage('command.LabsSite.latestuploads.download')}" />
+        <@fileDisplayLink url="${Context.modulePath}/${sd.resourcePath}/@blob/preview" tooltip="${Context.getMessage('command.LabsSite.latestuploads.display')}" />
               </td>
           </tr>
           </#list>
