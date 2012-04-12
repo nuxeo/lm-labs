@@ -135,7 +135,7 @@
 	<#include "views/common/page_header.ftl">
 
     <#if folders?size &gt; 0>
-	  <div id="classeurTopActions" class="editblock" style="margin-top: 5px;">
+	  <div id="classeurTopActions" class="editblock" style="margin-top: 5px;margin-bottom: 5px;">
 	    <@mainButtons />
 	  </div>
     </#if>
@@ -158,7 +158,7 @@
 	    <#if canWrite>
 	      	<div class="editblock">
 		      	<div class="btn-group" style="float:right;margin-top: 8px;">
-		            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
+		            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Actions <span class="caret"></span></a>
 		            <ul class="dropdown-menu" style="left: -162px;" >
 		              <li><a 
 		                <#if folders?first.document.id == folder.document.id>class="arrowOpacity" onclick="return false" <#else> onclick="moveFolder('${This.path}', '${Document.ref}', '${folder.document.id}', $('#${folder.document.id}').prev('section').attr('id'));return false"</#if>
@@ -368,7 +368,7 @@
         </#if>
       <#if canWrite>
       	<div  class="<#if !child.facets?seq_contains("LabsHidden")>editblock</#if> btn-group" style=" float:right;" >
-        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
+        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i> <span class="caret"></span></a>
         <ul class="dropdown-menu" style="min-width: 40px; left: -91px;" >
       		<li><a href="#" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${child.dublincore.description?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@put');return false;"><i class="icon-edit"></i>${Context.getMessage('command.PageClasseur.renameFile')}</a></li>
             <li><a href="#" onclick="$('#docdelete_${child.id}').submit()"><i class="icon-remove"></i>${ Context.getMessage('command.PageClasseur.deleteFile')}</a></li>

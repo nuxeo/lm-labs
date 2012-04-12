@@ -36,10 +36,7 @@
             <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;"> <small>${section.description}</small></h2>
 	        <#if isContributor >
 		        <div class=" editblock btn-group" style="float: right;margin-top: 7px;">
-			      	<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section</a>
-			      	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-					    <span class="caret"></span>
-					</button>
+			      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li>
 							<a id="addsectionlink" href="#" rel="addsection" class="open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
@@ -160,10 +157,7 @@
 					
 	          </div>
 			  <div class=" editblock btn-group" style="float: right;">
-			      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Ligne</a>
-			      	<button class="btn dropdown-toggle" data-toggle="dropdown">
-					    <span class="caret"></span>
-					</button>
+			      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"> </i>Ligne <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li>
 							<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
