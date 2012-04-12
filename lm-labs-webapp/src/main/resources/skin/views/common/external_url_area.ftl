@@ -25,7 +25,6 @@
 	    <div class="editblock">
 	    	<a href="#" id="addExternalURL" title="Ajouter" alt="Ajouter"><i class="icon-plus"></i></a>
 	    </div>
-	  	<br />
 	  </#if>
 </div>
 
