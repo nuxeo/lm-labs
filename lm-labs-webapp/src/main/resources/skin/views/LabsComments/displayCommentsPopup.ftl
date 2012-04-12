@@ -20,6 +20,9 @@
 		</form>
 	<#else>
 			${Context.getMessage('label.comments.mandatory.connexion')}
+			<div  class="actions">
+				<a href="#" class="btn" onClick="javascript:closeComments();" title="${Context.getMessage('label.comments.cancel')}">${Context.getMessage('label.comments.cancel')}</a>
+			</div>
 	</#if>
 	<div id="divListComments" class="fixed-container"  style="margin-bottom: 0px;margin-left: 0px;"></div>
 </div>
