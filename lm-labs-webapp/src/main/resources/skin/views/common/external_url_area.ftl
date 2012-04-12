@@ -8,7 +8,7 @@
 			    <#if mySite.isContributor(Context.principal.name)>
 			      <div class="actionExternalURL editblock btn-group">
 			      	<a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" style="padding: 0px 4px 2px 3px;margin-top: 4px;"><span class="caret"></span></a>
-    				<ul class="dropdown-menu" >
+    				<ul class="dropdown-menu"  style="left: auto;right: 0px;min-width: 0px;">
     					<li>
     						<a href="#" onClick="javascript:moveUpExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
     						<a href="#" onClick="javascript:moveDownExternalURL('${Context.modulePath}/${mySite.URL}/@externalURL/${e.document.id}', '${This.path}', '${e.document.id}');" title="Descendre" alt="Descendre"><i class="icon-arrow-down"></i>Descendre</a>

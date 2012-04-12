@@ -97,7 +97,7 @@
 			         </div>
 			         <div class=" editblock btn-group" style="float: right;">
 					      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Ligne <span class="caret"></span></a>
-							<ul class="dropdown-menu">
+							<ul class="dropdown-menu" style="left: auto;right: 0px;">
 								<li>
 									<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
 								</li>
