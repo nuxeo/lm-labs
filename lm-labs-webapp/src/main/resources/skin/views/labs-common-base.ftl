@@ -24,7 +24,7 @@
             <script type="text/javascript" src="${skinPath}/js/assets/html5.js"></script>
           <![endif]-->
           
-          <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.min.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.2.min.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
@@ -37,7 +37,7 @@
 	      <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
       	  <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.2.1.min.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.3.0.min.js"></script>
 
         </@block>
     </head>
