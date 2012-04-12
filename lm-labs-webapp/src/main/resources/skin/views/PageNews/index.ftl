@@ -23,7 +23,7 @@
     	<#include "views/common/page_header.ftl">
     	
         <#if isAuthorized>
-        	<div class="editblock" style="width: 100%;text-align: right;margin-bottom: 5px;">
+        	<div class="editblock" style="width: 100%;text-align: right;margin-bottom: 5px;margin-top: 5px;">
           		<a href="${This.path}/@views/addnews?props=open" class="btn" style="margin-right: 5px;"><i class="icon-plus"></i>${Context.getMessage('label.labsNews.add.news')}</a>
           	</div>
         </#if>
