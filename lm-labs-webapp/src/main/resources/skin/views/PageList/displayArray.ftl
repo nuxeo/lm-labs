@@ -19,7 +19,7 @@
             <#if header.type?lower_case != 'files'>${lineOnclick} </#if>
             <#if header.type?lower_case == 'files'><#include "/views/PageList/" + header.type?lower_case + "/td-attributes.ftl" /></#if>>
             <#assign entry = entriesLine.getEntryByIdHead(header.idHeader) />
-            <#if entry != null>
+            <#if entry != null || header.type?lower_case == 'files' >
               <#assign formatDate = header.formatDate />
               <#include "/views/PageList/" + header.type?lower_case + "/display.ftl" />
             </#if>
