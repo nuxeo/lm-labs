@@ -19,6 +19,7 @@ public enum EntryType {
     //CHECKBOXSEVERAL("label.pageList.edit.editHeader.options.checkboxSeveral", ""),
     SELECT("label.pageList.edit.editHeader.options.select", ""),
     CREATOR("label.pageList.edit.editHeader.options.creator", "dc:creator"),
+    FILES("label.pageList.edit.editHeader.options.attachedFiles", ""),
     URL("label.pageList.edit.editHeader.options.url", "");
     
     private String i18n;

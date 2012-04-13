@@ -124,33 +124,24 @@ public class PageListResource extends NotifiablePageResource {
     }
     
     public String getLineStyle(Header pHead, EntriesLine pLine) throws ClientException{
-        StringBuilder style = new StringBuilder("style=\"");
-        boolean hasOneStyle = false;
+        StringBuilder style = new StringBuilder("");
         if(!Header.DEFAULT.equals(pHead.getWidth())){
             // For the old values
             try {
                 int size = ColSize.valueOf(pHead.getWidth()).getSize();
                 style.append("width: ").append(size).append("px;");
-                hasOneStyle = true;
             } catch (Exception e) {}
         }
         if(!Header.DEFAULT.equals(pHead.getFontName())){
             style.append("font-family: ").append(pHead.getFontName()).append(";");
-            hasOneStyle = true;
         }
         if(!Header.DEFAULT.equals(pHead.getFontSize())){
             style.append("font-size: ").append(pHead.getFontSize()).append(";");
-            hasOneStyle = true;
         }
         if (pLine != null && isAuthorizedToModifyLine(pLine)){
             style.append("cursor: pointer;");
-            hasOneStyle = true;
         }
-        if (hasOneStyle){
-            style.append("\" ");
-            return style.toString();
-        }
-        return "";
+        return style.toString();
     }
     
     public String getLineOnclick(EntriesLine pLine) throws ClientException{
