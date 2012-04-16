@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
     "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="fr">
+<#assign bsMinified = ".min" />
 <#assign popoverPlacement = "" />
     <head>
         <@block name="meta">
@@ -27,12 +28,12 @@
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.2.min.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
-	      <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
+	      <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown${bsMinified}.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button${bsMinified}.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/scroll-startstop.events.jquery.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
