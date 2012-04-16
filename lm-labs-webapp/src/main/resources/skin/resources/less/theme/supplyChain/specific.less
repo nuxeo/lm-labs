@@ -1,11 +1,11 @@
 @import "../../bootstrap/bootstrap.less";
-@import "../customBackgroundImage.less";
 @import "../tablesorter.less";
 @import "./variables.less";
 @import "../labs-fixed.less";
 
 @baseFontSize:          13px;
 @basefont:          13px;
+@textColor: #595959;
 @basefontTitleH1:   22px;
 @basefontTitleH2:   21px;
 @basefontTitleH5:   13px;
@@ -15,10 +15,15 @@
 
 @gray:#676D71;
 
+//--------------customBackgroundImage-------------------
+@bodyBackgroundIsColor: false;
+@bodyBackgroundIsGradient: false;
+@bodyBackgroundIsImage: true;
+@backgroundURL: "supplyChain/images/bg-brown.gif";
 
-/*Specific*/
+
+//---------------Specific-------------------------------
 @bgcolortabs: #BB6C1A;
-@baseFontColor: #595959;
 @baseFontColorTitleH1: @gray;
 @baseFontColorTitleH2: @gray;
 @baseFontColorTitleH5: @gray;
@@ -31,16 +36,14 @@
 
 @sidebarWidth:   180px;
 
-/*@labsNewsSummaryWidth: 760px;*/
+//@labsNewsSummaryWidth: 760px;
 
 
 //@primaryButtonBackground: ;
 
 
-@backgroundURL: "supplyChain/images/bg-brown.gif";
 
-
-/*------------------  a nettoyer------------------*/
+//------------------  a nettoyer------------------
 
 /*[class*="span"] {
     margin-left: 5px;
@@ -266,7 +269,7 @@
 
 html>body {
   font-family: @baseFontFamily;
-  color: @baseFontColor;
+  color: @textColor;
 }
 
 a {
@@ -449,10 +452,10 @@ h6 {
 	padding: 7px 1px;
 	
 	.divider{
-		color:@baseFontColor;
+		color:@textColor;
 	}
 	a {
-		color:@baseFontColor !important;
+		color:@textColor !important;
 		text-decoration: none;
 	}
 	.active a {

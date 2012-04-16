@@ -1,7 +1,8 @@
 @import "tablesorter.less";
-//-------------------------------------------
-//----------------VARIABLES LESS-------------
-//-------------------------------------------
+@import "customBackgroundImage.less";
+/*-------------------------------------------
+------------------VARIABLES LESS-------------
+*/
 
 
 @labsBlockBackgroundColor: @white;
@@ -14,7 +15,7 @@
 @labsNewsSummaryWidth: auto;
 
 @navbarHeight:            30px;
-@zindexDropdown:          1; /* pour que les dropdowns soient cachées quand la popup 'waitingPopup' est affichée */
+@zindexDropdown:          1; // pour que les dropdowns soient cachées quand la popup 'waitingPopup' est affichée 
 
 
 @labsContentBackgroundColor: @white;
@@ -27,9 +28,15 @@
 // Sprite icons path
 @iconWhiteSpritePath:     "../../img/glyphicons-halflings-white.png";
 
+
+//--------------customBackgroundImage-------------------
+@bodyBackgroundIsColor: false;
+@bodyBackgroundIsGradient: false;
+@bodyBackgroundIsImage: false;
+
 //---------------------------------------------------
 //---------------------FK----------------------------
-//---------------------------------------------------
+//---
 
 #FKerrorLogin {
   color: @errorText;
@@ -38,6 +45,7 @@
 }
 
 #FKtopContent{
+	background-color: @labsContentBackgroundColor;
     margin: auto;
 	margin-bottom: 8px;
 	.box-shadow(1px 1px 12px #555);

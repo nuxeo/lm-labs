@@ -5,10 +5,26 @@
 /*@backgroundURL: "";*/
 @backgroundURL: "../../images/theme/bg.jpg";
 @backgroundURLRelative: true;
+@bodyBackgroundIsImage: false;
+@bodyBackgroundIsDesactivedImage: false;
+@bodyBackgroundIsGradient: false;
+@bodyBackgroundIsColor: true;
+@labsBodyBackgroundColor: @white;
+@labsBodyBackgroundFirstColor: @white;
+@labsBodyBackgroundLastColor: @black;
 
-//Astuce afin de palier le probleme de less à intertréper les variables après avoir
+//Astuce afin de palier le probleme de less à interpréter les variables après avoir
 //ajouter le pathBase (http://....) alors que le pathBase pourrait être dans la variable
 //De meme pour XXXRelative
+
+.background-stateImage() when (@bodyBackgroundIsDesactivedImage = false){ 
+	.background-image;
+}
+
+//Sinon erreur less
+.background-stateImage() when (@bodyBackgroundIsDesactivedImage = true){
+}
+
 .background-image() when (@backgroundURLRelative = false){ 
 	background-image: url("http://@{backgroundURL}");
 }
@@ -17,6 +33,35 @@
 	background-image: url("@{backgroundURL}");
 }
 
+
+
+
+.bodyBackground() when (@bodyBackgroundIsColor = true){
+	background-color: @labsBodyBackgroundColor;
+}
+
+//Sinon erreur less
+.bodyBackground() when (@bodyBackgroundIsColor = false){}
+
+
+
+
+.bodyBackground() when (@bodyBackgroundIsImage = true){
+	.background-stateImage;
+}
+
+//Sinon erreur less
+.bodyBackground() when (@bodyBackgroundIsImage = false){}
+
+
+
+.bodyBackground() when (@bodyBackgroundIsGradient = true){
+	#gradient > .vertical(@labsBodyBackgroundFirstColor, @labsBodyBackgroundLastColor);
+}
+
+//Sinon erreur less
+.bodyBackground() when (@bodyBackgroundIsGradient = false){}
+
 html>body {
-  .background-image;
+  .bodyBackground;
 }

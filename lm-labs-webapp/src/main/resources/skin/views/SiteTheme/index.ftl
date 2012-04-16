@@ -242,6 +242,9 @@
 			<#assign cptProperties = 0 />
 		    <#list properties as property>
 		    	jQuery('#valueProperty${cptProperties}').val("");
+		    	if(jQuery('#valueProperty${cptProperties}').attr("checked") == "checked"){
+		    		jQuery('#valueProperty${cptProperties}').removeAttr("checked");
+		    	}
 		    	if (jQuery('input[name=quizBackgroundColorEdit${cptProperties}]')){
 		    		jQuery('input[name=quizBackgroundColorEdit${cptProperties}]').val("");
 		    		jQuery("input[name=quizBackgroundColorEdit${cptProperties}]").miniColors('value', '');

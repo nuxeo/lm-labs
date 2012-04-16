@@ -40,7 +40,7 @@ jQuery(document).ready(function(){
       url: '${This.path}' + '/@labspermissions/suggestedUsers/' + jQuery("#userNamePermissions").val() ,
       success: function(data) {
 	      jQuery("#divSelectedUsers").html(data);
-	      jQuery('#waitingPopup').dialog2('open');
+	      jQuery('#waitingPopup').dialog2('close');
 	    },
       error: function(data) {
 	      jQuery('#waitingPopup').dialog2('close');

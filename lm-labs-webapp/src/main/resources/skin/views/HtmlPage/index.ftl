@@ -36,7 +36,7 @@
             <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;"> <small>${section.description}</small></h2>
 	        <#if isContributor >
 		        <div class=" editblock btn-group pull-right" style="float: right;margin-top: 7px;">
-			      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section <span class="caret"></span></a>
+			      	<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section <span class="caret"></span></a>
 					<ul class="dropdown-menu" style="left: auto;right: 0px;">
 						<li>
 							<a id="addsectionlink" href="#" rel="addsection" class="open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
