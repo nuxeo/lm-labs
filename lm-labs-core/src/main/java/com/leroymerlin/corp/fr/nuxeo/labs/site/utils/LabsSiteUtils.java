@@ -24,6 +24,7 @@ import org.nuxeo.ecm.webengine.WebException;
 
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 
@@ -324,7 +325,7 @@ public final class LabsSiteUtils {
         DocumentModelList children = document.getCoreSession().getChildren(document.getRef(), null, new Filter() {
             @Override
             public boolean accept(DocumentModel document) {
-                return Docs.pageDocs().contains(Docs.fromString(document.getType()));
+                return (document.getAdapter(Page.class) != null);
             }}, null);
         return children;
     }
