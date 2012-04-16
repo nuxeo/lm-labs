@@ -47,6 +47,12 @@ function manageDisplayModifyParameters(value){
 	}
 }
 
+function linkThemeTemplate(){
+	if(jQuery("#theme").val() == "supplyChain"){
+		jQuery('#template option[value="supplyChain"]').attr('selected', 'selected');
+	}
+}
+
 function setCallFunction(calledRef, value){
 	jQuery("#valueProperty" + calledRef).val(value);
 	jQuery("#spanTextAsset" + calledRef).html("(loading ...)");

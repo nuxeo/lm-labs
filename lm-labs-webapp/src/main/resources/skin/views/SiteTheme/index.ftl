@@ -43,7 +43,7 @@
                   <label class="control-label" for="theme">${Context.getMessage('label.labssites.appearance.theme.label')}</label>
                   <div class="controls">
                     <a href="#" id="modifyThemeParameters"><br/>${Context.getMessage('label.labssites.appearance.theme.parameters')}</a> 
-                    <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${mySite.getThemeManager().getTheme().getName()}');">
+                    <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${mySite.getThemeManager().getTheme().getName()}');linkThemeTemplate();">
                         <#assign themesMap = [] />
                         <#list This.getThemes() as theme>
                             <#assign trad = Context.getMessage('label.labssites.appearance.themes.' + theme) />
