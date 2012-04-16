@@ -1,12 +1,16 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
-import org.nuxeo.ecm.core.schema.DocumentType;
-import org.nuxeo.ecm.core.schema.SchemaManager;
+import org.nuxeo.ecm.platform.types.Type;
+import org.nuxeo.ecm.platform.types.TypeManager;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
@@ -62,9 +66,13 @@ public abstract class AbstractLabsBase  implements LabsBase{
 
     protected String[] getAllowedSubtypes(DocumentModel doc) throws ClientException {
         try {
-            SchemaManager sm = Framework.getService(SchemaManager.class);
-            DocumentType documentType = sm.getDocumentType(doc.getType());
-            return documentType.getChildrenTypes();
+            TypeManager typeManager = Framework.getService(TypeManager.class);
+            Collection<Type> allowedSubTypes = typeManager.getAllowedSubTypes(doc.getType(), doc);
+            List<String> list = new ArrayList<String>(allowedSubTypes.size());
+            for (Type type : allowedSubTypes) {
+                list.add(type.getId());
+            }
+            return list.toArray(new String[0]);
         } catch (Exception e) {
             throw ClientException.wrap(e);
         }

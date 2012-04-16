@@ -55,6 +55,7 @@
       <schema name="page" />
       <schema name="labstemplate" />
       <schema name="piwik" />
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
       <subtypes>
         <type>Tree</type>
         <type>Assets</type>
@@ -66,6 +67,7 @@
     </doctype>
 
     <doctype name="Tree" extends="OrderedFolder">
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
       <subtypes>
         <type>PageNews</type>
         <type>PageClasseur</type>
@@ -88,6 +90,7 @@
     <doctype name="PageBlocs" extends="Page">
       <schema name="file" />
       <schema name="page_blocs" />
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
       <subtypes>
         <type>PageNews</type>
         <type>PageClasseur</type>
@@ -100,6 +103,7 @@
     <doctype name="PageNews" extends="Page">
       <schema name="file" />
       <schema name="page_news" />
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
       <subtypes>
         <type>PageNews</type>
         <type>PageClasseur</type>
@@ -116,13 +120,12 @@
       <schema name="labsnews" />
       <schema name="page_html"/>
       <schema name="picture" />
-      <subtypes>
-      </subtypes>
     </doctype>
 
   <doctype name="PageList" extends="Page">
     <schema name="file" />
     <schema name="page_list" />
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
     <subtypes>
         <type>PageNews</type>
         <type>PageClasseur</type>
@@ -136,6 +139,7 @@
     <schema name="page_list_line" />
     <facet name="Commentable" />
     <facet name="HiddenInNavigation" />
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
     <subtypes>
         <type>File</type>
         <type>Picture</type>
@@ -143,12 +147,13 @@
   </doctype>
 
   <doctype name="PageClasseur" extends="Page">
-        <type>Folder</type>
-        <type>Picture</type>
-        <!-- <type>Audio</type> -->
-        <!-- <type>Video</type> -->
-        <type>File</type>
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
 	    <subtypes>
+	        <type>Folder</type>
+	        <type>Picture</type>
+	        <!-- <type>Audio</type> -->
+	        <!-- <type>Video</type> -->
+	        <type>File</type>
 	        <type>PageNews</type>
 	        <type>PageClasseur</type>
 	        <type>PageList</type>
@@ -158,6 +163,7 @@
     </doctype>
 
   <doctype name="Assets" extends="Folder">
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
       <subtypes>
         <type>Folder</type>
         <type>Picture</type>
@@ -169,6 +175,7 @@
 
     <doctype name="HtmlPage" extends="Page">
       <schema name="page_html"/>
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
       <subtypes>
         <type>PageNews</type>
         <type>PageClasseur</type>
