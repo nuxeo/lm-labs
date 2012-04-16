@@ -123,6 +123,7 @@ public class PageListResource extends NotifiablePageResource {
         return getLineStyle(pHead, null);
     }
     
+    // TODO move this to a FTL
     public String getLineStyle(Header pHead, EntriesLine pLine) throws ClientException{
         StringBuilder style = new StringBuilder("");
         if(!Header.DEFAULT.equals(pHead.getWidth())){
@@ -144,6 +145,7 @@ public class PageListResource extends NotifiablePageResource {
         return style.toString();
     }
     
+    // TODO move this to a FTL
     public String getLineOnclick(EntriesLine pLine) throws ClientException{
         StringBuilder onclick = new StringBuilder();
         if(isAuthorizedToModifyLine(pLine)){
