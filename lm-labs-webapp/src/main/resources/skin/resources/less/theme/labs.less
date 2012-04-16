@@ -1,7 +1,7 @@
 @import "tablesorter.less";
-/*-------------------------------------------
-------------------VARIABLES LESS-------------
-*/
+//-------------------------------------------
+//----------------VARIABLES LESS-------------
+//-------------------------------------------
 
 
 @labsBlockBackgroundColor: @white;
@@ -27,10 +27,9 @@
 // Sprite icons path
 @iconWhiteSpritePath:     "../../img/glyphicons-halflings-white.png";
 
-
-/*---------------------------------------------------
----------------------FK------------------------------
-*/
+//---------------------------------------------------
+//---------------------FK----------------------------
+//---------------------------------------------------
 
 #FKerrorLogin {
   color: @errorText;
@@ -66,7 +65,7 @@
 
 // tag with this ID does not exist in Labs !!!
 #FKbacktointralm {
-  /* On fixe la taille en pixel car on a un fond  fixé en px */
+  // On fixe la taille en pixel car on a un fond  fixé en px
   font-size: 11px;
   background-image: url(../../images/theme/backIntralm.png);
   width: 110px;
@@ -114,9 +113,9 @@
 
 
 
-/*---------------------------------------------------------
----------------------SIDEBAR--------------------------------
-*/
+//---------------------------------------------------------
+//---------------------SIDEBAR------------------------------
+//---------------------------------------------------------
 
 
 //siteMap
@@ -293,10 +292,9 @@ li.labscomments {
 	}
 }
 
-
-/*--------------------------------------------------------
--------------------------MODAL DIALOG2--------------------
-*/
+//--------------------------------------------------------
+//-------------------------MODAL DIALOG2------------------
+//--------------------------------------------------------
 
 
 // modal popups
@@ -329,8 +327,8 @@ li.labscomments {
 	background-position: left center;
 	padding: 0 0 0 20px;
 	//TODO
-	/*background-image: url("less/@{iconWhiteSpritePath}");
-	background-position: 0      -24px;*/
+	//background-image: url("less/@{iconWhiteSpritePath}");
+	//background-position: 0      -24px;
 }
 
 .breadcrumb span.divider:after {
@@ -340,7 +338,6 @@ li.labscomments {
 .treeview ul {
     background-color: transparent;
 }
-
 
 #jstree {
    background-color: transparent;
@@ -421,7 +418,7 @@ section.labsnews {
 
 .ui-datepicker
 {
-    z-index: 102 !important; /* must be > than .btn (201) */
+    z-index: 102 !important; // must be > than .btn (201)
 }
 
 [class^="icon-"],
@@ -446,9 +443,9 @@ textarea {
   font-family: @baseFontFamily;
 }
 
-/*--------------------------------------------------------
--------------------------PAGE CLASSEUR--------------------
-*/
+//--------------------------------------------------------
+//-------------------------PAGE CLASSEUR------------------
+//--------------------------------------------------------
 
 table.classeurFiles {
     td.actions, th.actions {
@@ -461,15 +458,16 @@ table.classeurFiles {
 	padding-right: 6px;
 }
 
-/*--------------------------------------------------------
--------------------------Navigation up/down--------------------
-*/
+//--------------------------------------------------------
+//------------------Navigation up/down--------------------
+//--------------------------------------------------------
+
 .nav_up{
 	padding:7px;
 	background-color:white;
 	border:1px solid #CCC;
 	position:fixed;
-	background:transparent url(../img/arrow_up.png) no-repeat top left;
+	background:transparent url(../../images/theme/arrow_up.png) no-repeat top left;
 	background-position:50% 50%;
 	width:4px;
 	height:15px;
@@ -486,7 +484,7 @@ table.classeurFiles {
 	background-color:white;
 	border:1px solid #CCC;
 	position:fixed;
-	background:transparent url(../img/arrow_down.png) no-repeat top left;
+	background:transparent url(../../images/theme/arrow_down.png) no-repeat top left;
 	background-position:50% 50%;
 	width:4px;
 	height:15px;
