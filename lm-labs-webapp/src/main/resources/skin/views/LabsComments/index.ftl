@@ -6,7 +6,9 @@
 				<div class="labscomments by">
 					<span>${This.activeAdapter.getFullName(comment.comment.author)}</span>
 					<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == comment.comment.author>
-						<p class="labscomments delete" onClick="javascript:if(confirm('${Context.getMessage('label.comments.deleted.confirm')?js_string}')){${deleteComment}('${This.path}/@labscomments', '${comment.id}');}{return false;}">&nbsp;</p>
+						<p class="labscomments delete">
+							<button class="btn btn-mini btn-danger" onClick="javascript:if(confirm('${Context.getMessage('label.comments.deleted.confirm')?js_string}')){${deleteComment}('${This.path}/@labscomments', '${comment.id}');}{return false;}"><i class="icon-remove" style="padding-right:0px;"></i></button>
+						</p>
 					</#if>
 				</div>
 				<div class="labscomments comment">

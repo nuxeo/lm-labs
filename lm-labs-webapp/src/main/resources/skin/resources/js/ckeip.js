@@ -22,9 +22,11 @@ $.fn.ckeip = function (options, callback) {
 
     return this.each(function () {
         var eip_html = $(this).html();
+        var eip_html_isEmpty = false;
 
         if(eip_html == "") {
           $(this).html(settings.emptyedit_message);
+          eip_html_isEmpty = true;
         }
         var u_id = Math.floor(Math.random() * 99999999);
         
@@ -61,7 +63,12 @@ $.fn.ckeip = function (options, callback) {
 
 
         $("#cancel_ckeip_" + u_id + "").click(function () {
-        	$('#ckeip_e_' + u_id + '').val($(original_html).html());
+        	if(!eip_html_isEmpty){
+        		$('#ckeip_e_' + u_id + '').val($(original_html).html());
+        	}
+        	else{
+        		$('#ckeip_e_' + u_id + '').val('');
+        	}
             $('#ckeip_' + u_id + '').hide();
             $(original_html).fadeIn();
             return false;

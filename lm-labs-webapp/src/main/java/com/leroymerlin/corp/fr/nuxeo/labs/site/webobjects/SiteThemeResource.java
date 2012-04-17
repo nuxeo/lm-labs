@@ -182,6 +182,12 @@ public class SiteThemeResource extends PageResource {
             return Response.notModified().build();
         }
     }
+    
+    @GET
+    @Path(value = "editParameters")
+    public Template getEditParameters() {
+        return getView("editParameters");
+    }
 
     @POST
     @Path(value = "parameters")
