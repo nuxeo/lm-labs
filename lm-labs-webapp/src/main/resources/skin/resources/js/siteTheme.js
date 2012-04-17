@@ -1,4 +1,23 @@
-jQuery(document).ready(function(){
+function loadEditParameters (url) {
+	jQuery("#div-editTheme-container").html('<div id="div-editTheme" style="display:none;"></div>');
+	jQuery('#waitingPopup').dialog2('open');
+	jQuery.ajax({
+		type: "GET",
+		url: url,
+		data: '',
+		success: function(msg){
+			jQuery("#div-editTheme").html(msg);
+			openEditParameters();
+			jQuery('#waitingPopup').dialog2('close');
+		},
+		error: function(msg){
+			alert( msg.responseText );
+			jQuery('#waitingPopup').dialog2('close');
+		}
+	});
+}
+
+function openEditParameters(){
 	jQuery("#div-editTheme").dialog2({
 		width : '570px',
 		height : '394px',
@@ -6,19 +25,11 @@ jQuery(document).ready(function(){
 		overflowx : 'hidden',
 	    autoOpen : false,
 		closeOnOverlayClick : true,
-		removeOnClose : false,
+		removeOnClose : true,
 		showCloseHandle : true
 	  });
-	
-	jQuery("#modifyThemeParameters").click(function() {
-	    jQuery("#div-editTheme").dialog2('open');
-	    //jQuery("#div-editTheme").clearForm();
-	    return false;
-	  });
-	
-	 
-	
-});
+    jQuery("#div-editTheme").dialog2('open');
+}
 
 function deleteBanner(url, path, msgConfirm){
 	if (confirm(msgConfirm)){
@@ -47,10 +58,21 @@ function manageDisplayModifyParameters(value){
 	}
 }
 
+var oldTemplate = null;
+
+$(document).ready(function() {
+	oldTemplate = jQuery('#template option:selected').val();
+});
+
 function linkThemeTemplate(){
 	if(jQuery("#theme").val() == "supplyChain"){
+		oldTemplate = jQuery('#template option:selected').val();
 		jQuery('#template option[value="supplyChain"]').attr('selected', 'selected');
 	}
+	else if(oldTemplate != null && jQuery("#template").val() == "supplyChain"){
+		jQuery('#template option[value="' + oldTemplate + '"]').attr('selected', 'selected');
+	}
+	
 }
 
 function setCallFunction(calledRef, value){
