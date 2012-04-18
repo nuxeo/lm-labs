@@ -1,11 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
     "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="fr">
+<#assign bsMinified = ".min" />
+<#assign popoverPlacement = "" />
 <#assign mySite=Common.siteDoc(Document).site />
     <head>
     	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       	<title>Interface des médias</title>
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.min.js"></script>
+      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.2.min.js"></script>
       	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
       	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
       	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
@@ -16,11 +18,11 @@
         <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
         <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
 
 	  <link rel="stylesheet/less" href="${Context.modulePath}/${mySite.URL}/generated.less">
-      <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.2.1.min.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.3.0.min.js"></script>
 
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
