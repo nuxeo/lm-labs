@@ -39,8 +39,8 @@ function parseXml(xml) {
 		items_per_page:2,
 		num_display_entries:0,
 		num_edge_entries:0,
-		prev_text:'&laquo;&nbsp;',
-		next_text:'&nbsp;&raquo;',
+		prev_text:'<i class="icon-backward"></i>&nbsp;&nbsp;',
+		next_text:'<i class="icon-forward"></i>',
 		callback:loadContents
 	});
 }
