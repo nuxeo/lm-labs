@@ -1,110 +1,145 @@
 // Bootswatch.less
 // Swatch: Slate
+// Version: 2.0.2
 // -----------------------------------------------------
 
 // SCAFFOLDING
 // -----------------------------------------------------
 
-body {
-	background-color: @grayDarker;
-}
-
 h1, h2, h3, h4, h5, h6, body, legend, label {
-	color: @grayLight;
-	text-shadow: -1px -1px 0 #111;
+	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
 }
 
 // NAVBAR
 // -----------------------------------------------------
 
-.navbar .brand {
-	font-weight: bold;
-}
-
-.navbar .navbar-inner,
-div.subnav {
-	#gradient > .vertical-three-colors(@gray, @grayDark, 70%, @grayDark);
-}
-
-.navbar .divider-vertical {
-	background-color: transparent;
-	border-right: none;
-}
-
-.navbar .brand,
-.navbar .nav > li > a,
-div.subnav .nav > li > a {
-	color: @grayLighter;
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-	border-right: 1px solid darken(@gray, 15%);
-}
-
-.navbar .nav > li > a,
-div.subnav .nav > li > a {
-	border-left: 1px solid @gray;
+.navbar {
 	
-	&:hover {
+	.navbar-inner {
+		#gradient > .vertical-three-colors(@gray, @grayDark, 70%, @grayDark);		
+	}
+	
+	.brand {	
+		color: @grayLighter;
+		font-weight: bold;
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+		border-right: 1px solid darken(@gray, 15%);	
+	}
+	
+	.nav > li > a  {
+		color: @grayLighter;
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+		border-right: 1px solid darken(@gray, 15%);
+		border-left: 1px solid @gray;
+		
+		&:hover {
+			color: @grayLighter;
+			background-color: @grayDark;
+			#gradient > .directional(@grayDarker, @grayDark, 280deg);
+			border-left: 1px solid transparent;
+			border-right: 1px solid transparent;
+		}
+	}
+	
+	.nav > li.active > a,
+	.nav > li.active > a:hover {
 		color: @grayLighter;
 		background-color: @grayDark;
-		#gradient > .directional(@grayDarker, @grayDark, 280deg);
-		border-left: 1px solid transparent;
-		border-right: 1px solid transparent;
+		#gradient > .directional(lighten(@grayDarker, 4%), lighten(@grayDark, 4%), 280deg);
+		border-right: 1px solid darken(@gray, 15%);
 	}
-}
+	
+	.navbar-search .search-query {
+		border: 1px solid darken(@gray, 15%);
+	}
 
-.navbar .nav > li.active > a,
-div.subnav .nav > li.active > a,
-.navbar .nav > li.active > a:hover,
-div.subnav .nav > li.active > a:hover {
-	color: @grayLighter;
-	background-color: @grayDark;
-	#gradient > .directional(lighten(@grayDarker, 4%), lighten(@grayDark, 4%), 280deg);
-	border-right: 1px solid darken(@gray, 15%);
-}
+	.divider-vertical {
+		background-color: transparent;
+		border-right: none;
+	}
+	
+	.dropdown-menu::after {
+		border-bottom: 6px solid @grayDark;
+	}
+	
+	.nav-collapse.in > .nav > li > a,
+	.nav-collapse.in > .nav > li.active > a,
+	.nav-collapse.in > .nav > li > a:hover,
+	.nav-collapse.in > .nav > li.active > a:hover {
+		.box-shadow(none);
+		color: @grayLighter;
+		border: 1px solid transparent;
+		background-color: transparent;
+		background-image: none;
+	}
 
-div.subnav .nav > li:first-child > a,
-div.subnav .nav > li:first-child > a:hover {
-	border-left: 1px solid transparent;
-}
-
-div.subnav.subnav-fixed .nav > li.active:first-child > a,
-div.subnav.subnav-fixed .nav > li:first-child > a:hover {
-	border-left: 1px solid darken(@gray, 15%);
-}
-
-div.subnav .nav > li.active:last-child > a,
-div.subnav .nav > li:last-child > a:hover {
-	border-right: 1px solid darken(@gray, 15%);
-}
-
-div.subnav {
-	border: 1px solid transparent;
-	.box-shadow(0 1px 3px rgba(0, 0, 0, 0.25),inset 0 -1px 0 rgba(0, 0, 0, 0.1));
-}
-
-.navbar-search .search-query {
-	border: 1px solid darken(@gray, 15%);
-}
-
-.navbar .nav-collapse.collapse > .nav > li > a,
-.navbar .nav-collapse.collapse > .nav > li.active > a,
-.navbar .nav-collapse.collapse > .nav > li > a:hover,
-.navbar .nav-collapse.collapse > .nav > li.active > a:hover {
-	color: @grayLighter;
-	border: 1px solid transparent;
-	.box-shadow(none);
-	background-color: transparent;
-	background-image: none;
-}
-
-.navbar .nav-collapse.collapse > .nav > li > a:hover, 
-.navbar .nav-collapse.collapse > .nav > li.active > a:hover {
-	background-color: @grayDarker;
+	.nav-collapse.in > .nav > li > a:hover, 
+	.nav-collapse.in > .nav > li.active > a:hover {
+		background-color: @grayDarker;
+	}
+	
 }
 
 @media (max-width: 979px) {
 	.navbar .brand {
 		border-right: none;
+	}
+}
+
+
+div.subnav {
+	#gradient > .vertical-three-colors(@gray, @grayDark, 70%, @grayDark);
+	border: 1px solid transparent;
+	.box-shadow('0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1)');
+	
+	.nav > li > a {
+		color: @grayLighter;
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+		border-right: 1px solid darken(@gray, 15%);
+		border-left: 1px solid @gray;
+	
+		&:hover {
+			color: @grayLighter;
+			background-color: @grayDark;
+			#gradient > .directional(@grayDarker, @grayDark, 280deg);
+			border-left: 1px solid transparent;
+			border-right: 1px solid transparent;
+		}
+	}
+
+
+	.nav > li.active > a,
+	.nav > li.active > a:hover {
+		color: @grayLighter;
+		background-color: @grayDark;
+		#gradient > .directional(lighten(@grayDarker, 4%), lighten(@grayDark, 4%), 280deg);
+		border-right: 1px solid darken(@gray, 15%);
+	}
+
+	.nav > li:first-child > a,
+	.nav > li:first-child > a:hover {
+		border-left: 1px solid transparent;
+	}
+
+	&.subnav-fixed .nav > li.active:first-child > a,
+	&.subnav-fixed .nav > li:first-child > a:hover {
+		border-left: 1px solid darken(@gray, 15%);
+	}
+
+	.nav > li.active:last-child > a,
+	.nav > li:last-child > a:hover {
+		border-right: 1px solid darken(@gray, 15%);
+	}
+	
+	&.subnav-fixed {
+		.box-shadow(none);
+	}
+}
+
+
+@media (max-width: 768px) {
+	div.subnav .nav > li + li > a {
+		border-top: 1px solid transparent;
 	}
 }
 
@@ -123,28 +158,26 @@ div.subnav {
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-// Set the backgrounds
-// -------------------------
 .btn-primary {
-  .buttonBackground(@primaryButtonBackground, spin(@primaryButtonBackground, 20));
+  .buttonBackground(@btnPrimaryBackground, spin(@btnPrimaryBackground, 20));
 }
-// Warning appears are orange
+
 .btn-warning {
   .buttonBackground(lighten(@orange, 15%), @orange);
 }
-// Danger and error appear as red
+
 .btn-danger {
   .buttonBackground(#ee5f5b, #bd362f);
 }
-// Success appears as green
+
 .btn-success {
   .buttonBackground(#62c462, #51a351);
 }
-// Info appears as a neutral blue
+
 .btn-info {
   .buttonBackground(#5bc0de, #2f96b4);
 }
-// Inverse appears as dark gray
+
 .btn-inverse {
   .buttonBackground(#454545, #262626);
 }
@@ -156,41 +189,7 @@ div.subnav {
 // TABLES
 // -----------------------------------------------------
 
-.table th, .table td, .table tbody + tbody {
-	border-top: 1px solid darken(@grayDarker, 5%);
-}
 
-.table-bordered {
-  border: 1px solid darken(@grayDarker, 5%);
-  th + th,
-  td + td,
-  th + td,
-  td + th {
-    border-left: 1px solid darken(@grayDarker, 5%);
-  }
-  // Prevent a double border
-  thead:first-child tr:first-child th,
-  tbody:first-child tr:first-child th,
-  tbody:first-child tr:first-child td {
-    border-top: 0;
-  }
-}
-
-.table-striped {
-  tbody {
-    tr:nth-child(odd) td,
-    tr:nth-child(odd) th {
-      background-color: darken(@grayDark, 5%);
-    }
-  }
-}
-
-.table {
-  tbody tr:hover td,
-  tbody tr:hover th {
-    background-color: @grayDark;
-  }
-}
 
 // NAVIGATION
 // -----------------------------------------------------
@@ -199,9 +198,13 @@ div.subnav {
 	.box-shadow(none);
 }
 
+.breadcrumb {
+	.box-shadow(none);
+}
+
 .breadcrumb, .pagination > ul a, .pager a {
 	border: 1px solid transparent;
-	.box-shadow(0 1px 3px rgba(0, 0, 0, 0.25),inset 0 -1px 0 rgba(0, 0, 0, 0.1));
+	.box-shadow('0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1)');
 	#gradient > .vertical-three-colors(@gray, @grayDark, 70%, @grayDark);	
 }
 
@@ -246,56 +249,53 @@ div.subnav {
 	border: 1px solid transparent;
 }
 
-.nav > li > a,
-.nav > li > a:hover,
-.nav > li.active > a,
-.nav > li.active > a:hover,
-.nav-tabs.nav-stacked > li > a,
-.nav-tabs.nav-stacked > li > a:hover {
-	border: none;
-	background-color: transparent;
-	color: @grayLighter;
-	font-weight: bold;
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);	
-}
-
-.dropdown-menu {
-	.box-shadow(0 5px 5px rgba(0, 0, 0, 0.2));
-}
-
-.dropdown-menu,
-.dropdown-menu li.active a,
-.dropdown-menu li.active a:hover {
-	background-color: @grayDark;
-}
-
-.dropdown-menu a,
-.dropdown-menu li.active a,
-.dropdown-menu li a:hover,
-.dropdown-menu li.active a:hover,
-.dropdown.open .dropdown-toggle {
-	color: @grayLighter;
-}
-
-.dropdown-menu li a:hover,
-.dropdown-menu li.active a:hover {
-	background-color: @grayDarker;
-}
-
-.navbar .dropdown-menu::after {
-	border-bottom: 6px solid @grayDark;
+.nav .nav-header {
+	text-shadow: none;
 }
 
 .nav > li > a {
-	border: none;
-	.box-shadow(0 1px 3px rgba(0, 0, 0, 0.25),inset 0 -1px 0 rgba(0, 0, 0, 0.1));
 	#gradient > .vertical-three-colors(@gray, @grayDark, 70%, @grayDark);
-
+	.box-shadow('0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1)');
+	border: none;
+	color: @grayLight;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-.nav.nav-list .nav-header {
-	color: @grayLight;
-	text-shadow: -1px -1px 0 #111;
+.nav > li.active > a,
+.nav > li.active > a:hover {
+	background-color: transparent;
+	border: none;
+	color: @white;
+}
+
+.nav > li > a:hover {
+	background-color: transparent;
+	color: @grayLighter;
+}
+
+.nav-list {
+	background-color: @grayDark;
+	.box-shadow(1px 1px 1px rgba(0, 0, 0, 0.4));
+	
+	li > a {
+		background-image: none;
+		text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+	}
+
+	.nav-header {
+		color: @gray;
+		text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+	}
+
+	.divider {
+		border-bottom: 1px solid darken(@grayDarker, 5%);
+		background-color: transparent;
+	}
+}
+
+.nav-tabs {
+	border-bottom: none;
 }
 
 .tabs-below .nav-tabs {
@@ -310,8 +310,31 @@ div.subnav {
 	border-left: none;
 }
 
+.nav-tabs.nav-stacked > li > a,
+.nav-tabs.nav-stacked > li > a:hover {
+	border: none;
+}
+
+.dropdown-menu {
+	.box-shadow(0 5px 5px rgba(0, 0, 0, 0.2));
+	
+	li.active a,
+	li.active a:hover {
+		background-color: @grayDark;
+	}
+}
+
+.dropdown.open .dropdown-toggle {
+	background-color: @grayDark;
+	color: @grayLighter;
+}
+
 // FORMS
 // -----------------------------------------------------
+
+label, input, button, select, textarea, legend {
+	color: @textColor;
+}
 
 .form-actions {
 	background-color: darken(@grayDarker, 3%);
@@ -319,6 +342,8 @@ div.subnav {
 }
 
 .input-prepend .add-on, .input-append .add-on {
+	vertical-align: top;
+	height: 19px;
 	background-color: @gray;
 	border-top: 1px solid @grayLight;
 	border-left: 1px solid @grayLight;
@@ -336,19 +361,19 @@ div.subnav {
 // -----------------------------------------------------
 
 .label, .alert {
-  	color: rgba(256, 256, 256, 0.9);
-	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.4);
+  	color: rgba(255, 255, 255, 0.9);
+	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
 	.box-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
 }
 
 .alert-heading {
-  	color: rgba(256, 256, 256, 0.9);
+  	color: rgba(255, 255, 255, 0.9);
 	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.4);
 }
 
 .alert {
-  background-color: @warningText;
-  border-color: @warningText;  
+  background-color: @orange;
+  border-color: @orange;  
 }
 
 .alert-success {
@@ -356,7 +381,6 @@ div.subnav {
   border-color: @successText;  
 }
 
-.alert-danger,
 .alert-error {
   background-color: @errorText;
   border-color: @errorText;
@@ -365,6 +389,27 @@ div.subnav {
 .alert-info {
   background-color: @infoText;
   border-color: @infoText;
+}
+
+// MODALS
+// -----------------------------------------------------
+
+.modal {
+	background-color: darken(@grayDark, 5%);
+}
+
+.modal-header {
+	border-bottom: none;
+}
+
+.modal-body {
+	border-bottom: 1px solid #1C1E22;
+}
+
+.modal-footer {
+	border-top: none;
+	background-color: @grayDarker;
+	.box-shadow(none);
 }
 
 // MISCELLANEOUS
@@ -384,9 +429,13 @@ hr, legend, .page-header, .dropdown-menu .divider {
 
 footer.footer {
 	border-top: 1px solid darken(@grayDarker, 5%);
+	
+	p {
+		color: @textColor;
+	}
 }
 
-.well, .progress {
+.well, .progress, .hero-unit {
 	background-color: darken(@grayDarker, 3%);
 	.box-shadow(inset 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
