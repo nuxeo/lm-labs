@@ -1,10 +1,16 @@
 	<h1>${Context.getMessage('label.security.labs.addPermissions.title')}</h1>
-	<div class="container-fluid">
-		<section>
-			<a href="#" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">?</a>
-		 	<input type="text" id="userNamePermissions" name="userNamePermissions" value="" class="span4" style="margin-left:20px;">
-			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
-		</section>
+	<fieldset>
+		<div class="control-group"><div class="controls">
+			<div class="input-prepend input-append">
+			<span class="add-on" style="margin-right: -4px;" >
+			  <a href="#" style="text-decoration: none;cursor: default;" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">
+			    <i class="icon-question-sign" style="font-size: 24px;" ></i>
+			  </a>
+			</span>
+		 	<input type="text" id="userNamePermissions" name="userNamePermissions" value="" class="span4 focused" style="vertical-align: top;" />
+			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" style="margin-left: -4px;" >${Context.getMessage('command.security.searchUsers')}</button>
+			</div>
+		</div></div>
 		<section>
 			<h5>
 				${Context.getMessage('label.security.labs.addPermissions.toSelect')} 
@@ -12,14 +18,12 @@
 			<div id="divSelectedUsers">
 				<#include "views/LabsPermissions/selectUsers.ftl" >
 			</div>
-			
 		</section>
-	</div>
+	</fieldset>
 	<div  class="actions">
 		<input type="hidden" id="permissionKey" value=""/>
 		<input type="hidden" id="permissionText" value=""/>
 		<button id="addPerm" onClick="javascript:addPerm();" title="${Context.getMessage('command.security.addPerm')}" class="btn btn-primary" style="margin-left:20px;" >${Context.getMessage('command.security.addPerm')}</button>
-		<button id="cancel" class="btn" onClick="javascript:closeAddPerm();" title="${Context.getMessage('command.security.addPerm.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
 	</div>
 
 <script type="text/javascript">
