@@ -251,7 +251,7 @@
       	<#if (isModifiedFilename)>
       		<span title="${blob.filename} - ${child.name} - ${child.dublincore.description?html}">${filename?substring(0, max_len_word)}...</span>
       	<#else>
-      		<span title="${blob.filename} - ${child.dublincore.description?html}">${filename?html}</span>
+      		<span title="${blob.filename} - ${child.dublincore.description?html}">${filename?html}</span><span class="sortValue">${filename?html}</span>
       	</#if>
       </td>
       <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${blobLenght?string.computer}</span></td>
