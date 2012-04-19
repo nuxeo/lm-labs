@@ -2,13 +2,13 @@
 	<fieldset>
 		<div class="control-group"><div class="controls">
 			<div class="input-prepend input-append">
-			<span class="add-on" style="margin-right: -4px;" >
+			<span class="add-on" style="margin-right: -5px;" >
 			  <a href="#" style="text-decoration: none;cursor: default;" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">
 			    <i class="icon-question-sign" style="font-size: 24px;" ></i>
 			  </a>
 			</span>
 		 	<input type="text" id="userNamePermissions" name="userNamePermissions" value="" class="span4 focused" style="vertical-align: top;" />
-			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" style="margin-left: -4px;" >${Context.getMessage('command.security.searchUsers')}</button>
+			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" style="margin-left: -5px;" >${Context.getMessage('command.security.searchUsers')}</button>
 			</div>
 		</div></div>
 		<section>
