@@ -31,7 +31,7 @@
 	      <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
-	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
+	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form-3.09.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown${bsMinified}.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button${bsMinified}.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/scroll-startstop.events.jquery.js"></script>

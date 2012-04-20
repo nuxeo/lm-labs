@@ -12,7 +12,7 @@
       	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
       	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
       	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form-3.09.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
         <script type="text/javascript" src="${skinPath}/js/labs.js"></script>

@@ -32,7 +32,7 @@
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form-3.09.js"></script>
           <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script>
           <#if canWrite>
