@@ -116,7 +116,9 @@
 	    <@block name="pageCommentable">
 		    <#assign pageCommentable = This.getPage()/>
 			<#if pageCommentable != null && pageCommentable.commentable>
-				<#include "/views/LabsComments/displayCommentsPage.ftl" />
+				<#--  Commentaires  -->
+			   	<#include "views/LabsComments/macroComments.ftl">
+				<@displayAddComment ckeditor=false pageCommentable=pageCommentable />
 			</#if>
 		</@block>
         </div>

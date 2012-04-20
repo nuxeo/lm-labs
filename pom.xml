@@ -221,6 +221,11 @@
         <artifactId>lm-labs-core</artifactId>
         <version>${project.version}</version>
       </dependency>
+	<dependency>
+        <groupId>com.leroymerlin.labs</groupId>
+        <artifactId>lm-forums-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.leroymerlin.labs</groupId>
         <artifactId>lm-labs-webapp</artifactId>
@@ -660,28 +665,33 @@
 	 <dependency>
 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
 	    <artifactId>nuxeo-opensocial-spaces</artifactId>
-<!-- use this one to be able to debug in eclipse
 	    <version>${nuxeo.version}</version>
--->
+
+<!-- use this one to be able to debug in eclipse
 	    <version>5.4.3-SNAPSHOT</version>
+-->
 	  </dependency>
 	
 	<dependency>
 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
 	    <artifactId>nuxeo-opensocial-features</artifactId>
-<!-- use this one to be able to debug in eclipse
+
 	    <version>${nuxeo.version}</version>
--->
+
+	   <!-- use this one to be able to debug in eclipse
 	    <version>5.4.3-SNAPSHOT</version>
+-->
 	  </dependency>
 	
 	<dependency>
 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
 	    <artifactId>nuxeo-opensocial-container</artifactId>
-<!-- use this one to be able to debug in eclipse
+
 	    <version>${nuxeo.version}</version>
--->
+
+	   <!-- use this one to be able to debug in eclipse
 	    <version>5.4.3-SNAPSHOT</version>
+-->
 	  </dependency>
 
 
