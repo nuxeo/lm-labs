@@ -288,6 +288,11 @@
        <artifactId>rome</artifactId>
      </dependency>
     
+ 	<dependency>
+      <groupId>com.leroymerlin.labs</groupId>
+      <artifactId>lm-forums-core</artifactId>
+    </dependency>    
+    
   </dependencies>
 
 </project>

@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <parent>
+  <groupId>com.leroymerlin.labs</groupId>
+  <artifactId>lm-forums-parent</artifactId>
+  <version>2.5-SNAPSHOT</version>
+  </parent>
+  
+
+  <artifactId>lm-forums-core</artifactId>
+  <name>LM Labs :: Forums Core  Objects</name>
+  <description></description>
+
+  <dependencies>
+     <dependency>
+       <groupId>org.nuxeo.ecm.core</groupId>
+       <artifactId>nuxeo-core-test</artifactId>
+     </dependency>
+    <dependency>
+		<groupId>org.nuxeo.ecm.platform</groupId>
+		<artifactId>nuxeo-platform-comment-core</artifactId>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.nuxeo.ecm.platform</groupId>
+		<artifactId>nuxeo-platform-comment</artifactId>
+	</dependency>
+	
+	
+	<dependency>
+		<groupId>org.nuxeo.ecm.platform</groupId>
+		<artifactId>nuxeo-platform-comment-api</artifactId>
+	</dependency>
+	
+	
+	<dependency>
+		<groupId>com.leroymerlin.labs</groupId>
+		<artifactId>lm-labs-core</artifactId>
+	</dependency>
+	
+	<dependency>
+      <groupId>org.nuxeo.ecm.platform</groupId>
+      <artifactId>nuxeo-platform-relations-core-listener</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.nuxeo.ecm.platform</groupId>
+      <artifactId>nuxeo-platform-relations-jena-plugin</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+     <dependency>
+      <groupId>org.nuxeo.ecm.platform</groupId>
+      <artifactId>nuxeo-platform-imaging-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.nuxeo.ecm.platform</groupId>
+      <artifactId>nuxeo-platform-imaging-convert</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.nuxeo.ecm.opensocial</groupId>
+      <artifactId>nuxeo-opensocial-spaces</artifactId>
+      <scope>test</scope>
+      <!--
+       <exclusions>
+        <exclusion>
+          <groupId>org.nuxeo.runtime</groupId>
+          <artifactId>nuxeo-launcher-commons</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.nuxeo.ecm.opensocial</groupId>
+          <artifactId>nuxeo-opensocial-server</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.nuxeo.ecm.core</groupId>
+          <artifactId>nuxeo-core</artifactId>
+        </exclusion>	
+      </exclusions>
+     -->
+    </dependency>
+  </dependencies>
+</project>

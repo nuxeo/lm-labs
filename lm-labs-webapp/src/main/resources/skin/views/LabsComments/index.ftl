@@ -12,7 +12,14 @@
 					</#if>
 				</div>
 				<div class="labscomments comment">
-    				<span>${comment.comment.text}</span>
+					<div class="row-fluid">
+						<div class="span2">
+							<span><img src="http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture"></span>
+						</div>
+						<div class="span10">
+							<span>${comment.comment.text}</span>
+						</div>
+					</div>
 	      			<p class="labscomments footer" >${Context.getMessage('label.comment.date')} ${comment.comment.creationDate}</p>
     			</div>
     		</li>

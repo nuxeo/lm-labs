@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 1
+Bundle-Name: lm-forums-core
+Bundle-SymbolicName: com.leroymerlin.labs.forums.core;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: Leroy Merlin
+Require-Bundle: org.nuxeo.ecm.core.api
+Nuxeo-Component: OSGI-INF/core-types-contrib.xml,
+ OSGI-INF/adapter-contrib.xml

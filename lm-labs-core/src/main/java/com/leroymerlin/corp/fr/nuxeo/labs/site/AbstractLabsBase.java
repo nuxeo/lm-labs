@@ -22,7 +22,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 public abstract class AbstractLabsBase  implements LabsBase{
 
-    protected DocumentModel doc;
+    public static final String DC_TITLE = "dc:title";
+
+	public static final String DC_DESCRIPTION = "dc:description";
+    
+	protected DocumentModel doc;
 
     @Override
     public DocumentModel getDocument() {
@@ -35,12 +39,12 @@ public abstract class AbstractLabsBase  implements LabsBase{
         if (title == null) {
             throw new IllegalArgumentException("title cannot be null.");
         }
-        doc.setPropertyValue("dc:title", title);
+        doc.setPropertyValue(DC_TITLE, title);
     }
 
     @Override
     public String getTitle() throws PropertyException, ClientException {
-        return (String) doc.getPropertyValue("dc:title");
+        return (String) doc.getPropertyValue(DC_TITLE);
     }
 
     @Override
@@ -54,12 +58,12 @@ public abstract class AbstractLabsBase  implements LabsBase{
         if (description == null) {
             return;
         }
-        document.setPropertyValue("dc:description", description);
+        document.setPropertyValue(DC_DESCRIPTION, description);
     }
 
     @Override
     public String getDescription() throws PropertyException, ClientException {
-        return (String) doc.getPropertyValue("dc:description");
+        return (String) doc.getPropertyValue(DC_DESCRIPTION);
     }
     
     public abstract String[] getAllowedSubtypes() throws ClientException;

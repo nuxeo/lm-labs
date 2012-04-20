@@ -94,6 +94,7 @@ public final class LabsSiteConstants {
         NOTIFACTIVITIES("NotificationActivities", "notifActivities"),
         SITETHEMESROOT("Folder", "themes"),
         SITETHEME("SiteTheme",StringUtils.EMPTY),
+        PAGEFORUM("PageForum", StringUtils.EMPTY),
         WELCOME(HTMLPAGE.type(), "Accueil"); // TODO
 
         private String docType;
@@ -132,15 +133,15 @@ public final class LabsSiteConstants {
         }
 
         public static EnumSet<Docs> pageDocs() {
-            return EnumSet.of(HTMLPAGE, PAGE, DASHBOARD, PAGEBLOCS, PAGECLASSEUR, PAGELIST, PAGENEWS, WELCOME);
+            return EnumSet.of(HTMLPAGE, PAGE, DASHBOARD, PAGEBLOCS, PAGECLASSEUR, PAGELIST, PAGENEWS, PAGEFORUM, WELCOME);
         }
 
         public static EnumSet<Docs> notifiableDocs() {
-            return EnumSet.of(HTMLPAGE, DASHBOARD, PAGECLASSEUR, PAGELIST, PAGENEWS, SITE);
+            return EnumSet.of(HTMLPAGE, DASHBOARD, PAGECLASSEUR, PAGELIST, PAGENEWS, PAGEFORUM, SITE);
         }
 
         public static EnumSet<Docs> labsLifeCycleDocs() {
-            return EnumSet.of(SITE, PAGE, PAGEBLOCS, PAGENEWS, PAGECLASSEUR, PAGELIST, HTMLPAGE, DASHBOARD);
+            return EnumSet.of(SITE, PAGE, PAGEBLOCS, PAGENEWS, PAGECLASSEUR, PAGELIST, HTMLPAGE, PAGEFORUM, DASHBOARD);
         }
     }
     

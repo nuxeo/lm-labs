@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.site.forum.core.types"
+  version="1.0">
+  <require>com.leroymerlin.corp.fr.nuxeo.labs.site.core.types</require>
+
+  <extension target="org.nuxeo.ecm.core.schema.TypeService"
+    point="doctype">
+
+    <doctype name="PageForum" extends="Page">
+      <subtypes>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+        <type>HtmlPage</type>
+        <type>PageForum</type>
+      </subtypes>
+    </doctype>
+    
+    <doctype name="LMForumTopic" extends="Page">
+    </doctype>
+
+  </extension>
+
+
+  <extension target="org.nuxeo.ecm.core.lifecycle.LifeCycleService"
+    point="types">
+    <types>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="PageForum">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="LMForumTopic">labs</type>
+    </types>
+  </extension>
+</component>
