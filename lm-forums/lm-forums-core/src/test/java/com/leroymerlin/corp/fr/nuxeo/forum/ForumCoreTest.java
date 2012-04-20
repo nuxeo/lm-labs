@@ -44,7 +44,7 @@ public class ForumCoreTest {
 	
 	@Test
 	public void iCanCreateAForumDoc() throws Exception {
-		DocumentModel doc = session.createDocumentModel("/","myForum","LMForum");
+		DocumentModel doc = session.createDocumentModel("/","myForum","PageForum");
 		doc = session.createDocument(doc);
 		LMForum forum = doc.getAdapter(LMForum.class);
 		
