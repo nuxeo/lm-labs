@@ -96,8 +96,7 @@ public class PageAdapterTest {
     }
 
     @Test
-    @Ignore("Exception in commentManager - the repositoryName is null !")
-    public void canAddAndGetComments() throws Exception {
+   public void canAddAndGetComments() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
         assertTrue(doc.hasFacet("Commentable"));
         Page page = doc.getAdapter(Page.class);
@@ -107,9 +106,7 @@ public class PageAdapterTest {
         assertNotNull(commentable.getComments());
         DocumentModel newComment = newComment("Un commentaire");
         commentable.addComment(newComment);
-        session.save();
-        doc = session.getDocument(new PathRef("/page_classeur"));
-        commentable = doc.getAdapter(CommentableDocument.class);
+             
         assertNotNull(commentable);
         assertNotNull(commentable.getComments());
         assertThat(commentable.getComments().size(), is(1));
@@ -124,7 +121,6 @@ public class PageAdapterTest {
                 session.getPrincipal().getName());
         comment.setPropertyValue("comment:text", cText);
         comment.setPropertyValue("comment:creationDate", new Date());
-        comment = session.createDocument(comment);
         return comment;
     }
 

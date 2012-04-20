@@ -27,15 +27,19 @@
 			    <#--
 		      		<#include "views/common/topnavigation_area.ftl" />
 		      	-->
-				
+								
 				<#--  central content -->
 		        <div class="central span10">
 		        	<#--  Content  -->
 				    <@block name="content" />
 				    
 				    <#--  Commentaires  -->
-				    <@block name="pageCommentable">
-						<#include "/views/LabsComments/displayCommentsPage.ftl" />
+				   	<#include "views/LabsComments/macroComments.ftl">
+					<@block name="pageCommentable">
+						<#assign pageCommentable = This.getPage()/>
+						<#if pageCommentable != null && pageCommentable.commentable>
+							<@displayAddComment ckeditor=false pageCommentable=pageCommentable />
+						</#if>
 					</@block>
 		        </div>
 			
