@@ -83,7 +83,8 @@
        -->
         <type>PageNews</type>
         <type>PageClasseur</type>
-        <type>PageListe</type>
+        <type>PageList</type>
+        <type>PageForum</type>
         <type>HtmlPage</type>
       </subtypes>
       <contentViews category="content">
