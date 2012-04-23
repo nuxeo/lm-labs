@@ -83,8 +83,9 @@
        -->
         <type>PageNews</type>
         <type>PageClasseur</type>
-        <type>PageListe</type>
+        <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageForum</type>
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -141,8 +142,9 @@
         <type>PageBlocs</type>
         <type>PageNews</type>
         <type>PageClasseur</type>
-        <type>PageListe</type>
+        <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageForum</type> 
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -171,8 +173,9 @@
        -->
         <type>PageNews</type>
         <type>PageClasseur</type>
-        <type>PageListe</type>
+        <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageForum</type>
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -232,6 +235,7 @@
         <type>PageClasseur</type>
         <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageForum</type>
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -265,6 +269,7 @@
         <type>PageClasseur</type>
         <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageForum</type>
         <!--type>Space</type-->
       </subtypes>
       <contentViews category="content">
@@ -292,6 +297,35 @@
         <type>PageClasseur</type>
         <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageForum</type>
+        <!--type>Space</type-->
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+    
+     <type id="PageForum">
+      <label>PageForum</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+        <type>HtmlPage</type>
+        <type>PageForum</type>
         <!--type>Space</type-->
       </subtypes>
       <contentViews category="content">
