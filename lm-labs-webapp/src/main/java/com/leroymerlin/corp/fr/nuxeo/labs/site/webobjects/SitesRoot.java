@@ -297,8 +297,17 @@ public class SitesRoot extends ModuleRoot {
                 if (session.exists(templateRef)) {
                     templateToCopy = true;
                     try {
-                        labSite.applyTemplateSite(session.getDocument(templateRef));
+                        DocumentModel docTemplate = session.getDocument(templateRef);
+                        labSite.applyTemplateSite(docTemplate);
                         session.saveDocument(labSite.getDocument());
+
+                        //Change URLs in contents with URLs on template
+                        String separator = "/";
+                        String path = getPath() + separator;
+                        String newURL = path + labSite.getDocument().getAdapter(SiteDocument.class).getResourcePath()+ separator;
+                        String oldURL = path + docTemplate.getAdapter(SiteDocument.class).getResourcePath()+ separator;
+                        labSite.updateUrls(oldURL, newURL);
+                        
                         copied = true;
                     } catch (ClientException e) {
                         log.error("Copy of site template failed. "

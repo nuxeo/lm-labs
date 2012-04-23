@@ -171,7 +171,7 @@ function deleteDefinitelySite(url){
 	      </table>
 	    </#if>
 	    <#-- template sites -->
-    	<#if (templateLabsSites?size > 0) >
+    	<#if (Context.principal.isAnonymous() == false && templateLabsSites?size > 0) >
     	<section>
 			<div class="page-header">
 				<h4>${Context.getMessage('label.labssite.list.template.sites.title')}</h4>
