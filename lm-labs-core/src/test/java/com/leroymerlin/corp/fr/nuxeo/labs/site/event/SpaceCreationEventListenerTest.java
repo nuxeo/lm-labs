@@ -18,7 +18,9 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
-@Deploy({ "org.nuxeo.ecm.opensocial.spaces" })
+@Deploy({ "org.nuxeo.ecm.opensocial.spaces",
+    "com.leroymerlin.labs.core.test:OSGI-INF/core-types-contribTest.xml"
+    })
 public class SpaceCreationEventListenerTest {
 
     @Inject
