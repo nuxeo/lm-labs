@@ -17,6 +17,7 @@
 
   <modules>
     <module>lm-labs-core</module>
+    <module>lm-forums</module>
     <module>lm-labs-gadgets</module>
     <module>lm-labs-webapp</module>
     <module>lm-labs-web</module>
