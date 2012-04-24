@@ -118,8 +118,6 @@
   float: right;
 }
 
-
-
 //---------------------------------------------------------
 //---------------------SIDEBAR------------------------------
 //---------------------------------------------------------
@@ -151,7 +149,7 @@ div#siteMap {
   border: 1px solid rgba(0,0,0,.05);
   padding:5px;
   .border-radius(4px);
-  .box-shadow();
+  .box-shadow(none);
 
   .header {
     margin:-5px -5px 0px -5px;
@@ -169,7 +167,6 @@ div#siteMap {
     float:left;
     margin-right:8px;
   }
-
 }
 
 .labs-disabled() {
@@ -263,7 +260,7 @@ li.labscomments {
 .labs-hr-border-bottom(@hrBColor) when not (@hrBColor = transparent) {
       border-bottom: 1px solid lighten(@hrBColor, 25%);
 }
- 
+
 .lastMessage {
 
 	height:196px;
