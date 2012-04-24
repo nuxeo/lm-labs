@@ -76,8 +76,9 @@ function removeCheckeditor(){
 var isOpen = false;
 function openPropsNews(){
 	jQuery("#editprops").slideDown("slow", function(){
-		doEllipsisText();
-		doEllipsisText();
+		jQuery('.ellipsisText[rel=news]').each(function(i) {
+			doEllipsisText(this);
+	    });
 	});
 	jQuery("#btnModifyPropsNews").html("<i class='icon-eye-close'></i>Fermer les propriétés");
 	isOpen = true;

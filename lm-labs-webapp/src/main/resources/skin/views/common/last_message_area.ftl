@@ -59,8 +59,8 @@ function loadContents(page_index, jq){
     
     	newcontent += '<a href="'+last_messages[i][3]+'"><div class="item">';
         newcontent += '<div class="date">' + dateAsString(last_messages[i][0]) + '</div>';
-		newcontent += '<div class="title"><div class="ellipsisText" ellipsisTextOptions="{ max_rows:1, alt_text_e:true, alt_text_t:true }">' + last_messages[i][1] + '</div></div>';
-		newcontent += '<div class="ellipsisText desc" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">' + jQuery("<div>" + desc + "</div>").text() + '</div>';
+		newcontent += '<div class="title"><div id="lastMessageTitleEllipsisText' + i +'" class="ellipsisText" ellipsisTextOptions="{ max_rows:1, alt_text_e:true, alt_text_t:true }">' + last_messages[i][1] + '</div></div>';
+		newcontent += '<div class="ellipsisText desc" id="lastMessageDescEllipsisText' + i +'"" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">' + jQuery("<div>" + desc + "</div>").text() + '</div>';
 		newcontent += '</div></a>';
 		if (i < max_elem - 1){
 			newcontent += '<hr style="margin:0;">';
@@ -70,7 +70,10 @@ function loadContents(page_index, jq){
     
     // Replace old content with new content
     $('.itemList').html(newcontent);
-    doEllipsisText();
+    for(var i=page_index*items_per_page;i<max_elem;i++) {
+    	doEllipsisTextId("lastMessageTitleEllipsisText" + i);
+    	doEllipsisTextId("lastMessageDescEllipsisText" + i);
+    }
     
     // Prevent click eventpropagation
     return false;

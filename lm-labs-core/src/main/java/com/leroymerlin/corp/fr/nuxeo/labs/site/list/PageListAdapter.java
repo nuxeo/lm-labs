@@ -521,6 +521,9 @@ public class PageListAdapter extends AbstractPage implements PageList {
                             cell.setCellValue("");
                         }
                         break;
+                    case TEXTAREA:
+                        cell.setCellValue(entry.getText());
+                        break;
                     default:
                         cell.setCellValue("");
                         break;

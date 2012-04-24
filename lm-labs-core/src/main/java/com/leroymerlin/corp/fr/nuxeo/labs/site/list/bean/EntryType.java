@@ -20,7 +20,8 @@ public enum EntryType {
     SELECT("label.pageList.edit.editHeader.options.select", ""),
     CREATOR("label.pageList.edit.editHeader.options.creator", "dc:creator"),
     FILES("label.pageList.edit.editHeader.options.attachedFiles", ""),
-    URL("label.pageList.edit.editHeader.options.url", "");
+    URL("label.pageList.edit.editHeader.options.url", ""),
+    TEXTAREA("label.pageList.edit.editHeader.options.textarea", "");
     
     private String i18n;
     private String xpath;
