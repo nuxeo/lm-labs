@@ -1,5 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.classeur;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -8,6 +11,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -22,6 +27,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 
 @WebObject(type = "PageClasseurFolder")
 public class PageClasseurFolderResource extends DocumentObject {
+
+    private static final Log LOG = LogFactory.getLog(PageClasseurFolderResource.class);
 
     private PageClasseurFolder folder;
 
@@ -44,25 +51,27 @@ public class PageClasseurFolderResource extends DocumentObject {
     @POST
     @Override
     public Response doPost() {
-
         FormData form = ctx.getForm();
         if (form.isMultipartContent()) {
             String desc = form.getString("description");
             String title = form.getString("title");
-            Blob blob = form.getFirstBlob();
-            try {
-                blob.persist();
-                if (blob.getLength() > 0) {
-                    folder.addFile(blob, desc, title);
-                    getCoreSession().save();
+            List<Blob> failedBlobs = new ArrayList<Blob>();
+            for (Blob blob : form.getBlobs("blob[]")) {
+                blob.getFilename();
+                try {
+                    blob.persist();
+                    if (blob.getLength() > 0) {
+                        folder.addFile(blob, desc, title);
+                    }
+                } catch (Exception e) {
+                    failedBlobs.add(blob);
+                    LOG.error(e, e);
                 }
-                return redirect(prev.getPath());
-            } catch (Exception e) {
-                return Response.serverError()
-                        .status(Status.FORBIDDEN)
-                        .entity(e.getMessage())
-                        .build();
             }
+            if (!failedBlobs.isEmpty()) {
+                return redirect(prev.getPath() + "?message_error=error.PageClasseur.upload.files" );
+            }
+            return redirect(prev.getPath() + "#" + folder.getDocument().getId());
         }
         return Response.serverError()
                 .status(Status.FORBIDDEN)
@@ -108,5 +117,4 @@ public class PageClasseurFolderResource extends DocumentObject {
         }
 
     }
-
 }
