@@ -215,8 +215,12 @@ public class PageClasseurResource extends NotifiablePageResource {
         }
     }
 
+    public int getMaxTotalFileSizeInMB() {
+        return Integer.parseInt(getProperty("labs.PageClasseur.maxTotalFileSize", "200"));
+    }
+
     public int getMaxNbrUploadFiles() {
-        return Integer.parseInt(getProperty("labs.PageClasseur.maxNbrUploadFiles", "10"));
+        return Integer.parseInt(getProperty("labs.PageClasseur.maxNbrUploadFiles", "20"));
     }
 
 }
