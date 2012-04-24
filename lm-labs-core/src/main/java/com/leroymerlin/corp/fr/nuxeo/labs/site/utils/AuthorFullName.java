@@ -57,12 +57,21 @@ public class AuthorFullName {
         return "";
     }
 
+    public static NuxeoPrincipal getNuxeoPrincipal(final String id) throws ClientException {
+        try {
+            UserManager userManager = Framework.getService(UserManager.class);
+            return userManager.getPrincipal(id);
+        } catch (Exception e) {
+            throw new ClientException(IMPOSSIBLE_TO_GET_SERVICE_USER_MANAGER, e);
+        }
+    }
+
+    
     public static String getFormattedUserName(final String id, final String format) throws ClientException {
         String userFormat = StringUtils.defaultIfEmpty(format, DEFAULT_FORMAT);
         String displayName = id;
         try {
-            UserManager userManager = Framework.getService(UserManager.class);
-            NuxeoPrincipal principal = userManager.getPrincipal(id);
+            NuxeoPrincipal principal = getNuxeoPrincipal(id);
             if (principal != null) {
                 if (!StringUtils.isEmpty(principal.getFirstName())
                         || !StringUtils.isEmpty(principal.getLastName())) {
