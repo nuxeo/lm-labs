@@ -63,7 +63,7 @@
 		              <li><a 
 		                <#if folders?last.document.id == folder.document.id>class="arrowOpacity" onclick="return false" <#else> onclick="moveFolder('${This.path}', '${Document.ref}', $('#${folder.document.id}').next('section').attr('id'), '${folder.document.id}');return false"</#if>
 		                href=""><i class="icon-arrow-down"></i>${Context.getMessage("command." + Document.type + ".movedown" )}</a></li>
-		              <li><a href="#" rel="addfile_${folder.document.id}_modal" class="open-dialog" ><i class="icon-upload"></i>${Context.getMessage("command." + Document.type + ".addFile" )}</a></li>
+		              <li><a href="#" rel="addfile_${folder.document.id}_modal" class="open-dialog" ><i class="icon-upload"></i>${Context.getMessage("command." + Document.type + ".addFiles" )}</a></li>
 		              <#-- This button submits the hidden delete form -->
 		              <li><a href="#" onclick="$('#delete_${folder.document.id}').submit();return false;"><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteFolder')}</a></li>
 				      <#-- rename   -->
@@ -80,11 +80,16 @@
         <#if canWrite>
 	    <div class="folder-actions row-fluid editblock">
           
-
           <div id="addfile_${folder.document.id}_modal" >
               <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
               <form class="form-horizontal form-upload-file" id="form-upload-file-${folder.document.id}"
                 action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
+                <div class="alert alert-block no-fade" style="display:none;" >
+                <a class="close" data-dismiss="alert">×</a>
+                <h4 class="alert-heading"><i class="icon-warning-sign" style="font-size: 24px;" ></i>${Context.getMessage('label.PageClasseur.form.fileapi.notsupported.warning')}</h4>
+                <p>${Context.getMessage('label.PageClasseur.form.fileapi.notsupported.full-message')}</p>
+                </div>
+    
                 <fieldset>
                   <div class="control-group">
                         <label class="control-label" for="title">${Context.getMessage('label.PageClasseur.form.title')}</label>
@@ -94,11 +99,19 @@
                         </div>
                         
                    <div class="control-group">
-                        <label class="control-label" for="blob">${Context.getMessage('label.PageClasseur.choosefile')}</label>
+                        <label class="control-label" for="blob[]">${Context.getMessage('label.PageClasseur.choosefile')}</label>
                           <div class="controls">
-                            <input type="file" name="blob" class="required focused input-file"/>
+                            <input type="file" name="blob[]" class="required focused input-file" multiple="multiple" onchange="filesSelected(event);return false;" />
+                            <p class="help-block files-size" style="display:none;" ></p>
+                            <p class="help-block files-nbr" style="display:none;" ></p>
+                            <p class="help-block" ><strong>${Context.getMessage('label.note')}: </strong>${Context.getMessage('help.PageClasseur.choosefile')}</p>
+                            <p class="help-block" ><strong>${Context.getMessage('label.warning')}: </strong>${Context.getMessage('help.PageClasseur.choosefile.limits', This.maxNbrUploadFiles, This.maxTotalFileSizeInMB)}</p>
                           </div>
                         </div>
+                   <div class="control-group" style="display:none;" >
+                        <label class="control-label" >${Context.getMessage('label.PageClasseur.form.selectedFiles')}</label>
+                        <div class="controls selectedFiles" ></div>
+                   </div>
 
                    <div class="control-group">
                         <label class="control-label" for="description">${Context.getMessage('label.PageClasseur.form.description')}</label>
@@ -109,7 +122,7 @@
                   </fieldset>
 
               <div class="actions">
-                <button class="btn btn-primary required-fields" form-id="form-upload-file-${folder.document.id}">Envoyer</button>
+                <button class="btn btn-primary required-fields addFilesBtn" form-id="form-upload-file-${folder.document.id}" >Envoyer</button>
               </div>
               </form>
 
@@ -232,20 +245,20 @@
 	    </td>
     </#if>
     <#if child.facets?seq_contains("Folderish") == false >
-      <#assign modifDate = child.dublincore.modified?datetime >
-      <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") >
-      <#assign filename = child.dublincore.title >
-      <#assign words = filename?word_list>
-      <#assign isModifiedFilename = false>
-      <#assign max_len_word = 50>
+      <#assign modifDate = child.dublincore.modified?datetime />
+      <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") />
+      <#assign filename = child.dublincore.title />
+      <#assign words = filename?word_list />
+      <#assign isModifiedFilename = false />
+      <#assign max_len_word = 50 />
       <#list words as word>
       	<#if (word?length > max_len_word)>
-      		<#assign isModifiedFilename = true>
+      		<#assign isModifiedFilename = true />
       		<#break>
       	</#if>
       </#list>
-      <#assign blob = This.getBlobHolder(child).blob >
-      <#assign blobLenght = blob.length >
+      <#assign blob = This.getBlobHolder(child).blob />
+      <#assign blobLenght = blob.length />
       <#assign max_lenght = This.getPropertyMaxSizeFileRead() />
       <td>
       	<#if (isModifiedFilename)>

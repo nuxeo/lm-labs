@@ -173,6 +173,9 @@ public class PageListLineResource extends DocumentObject {
                     case URL:
                         entry.setUrl(new UrlType(form.getString(head.getIdHeader() + "DisplayText"), value));
                         break;
+                    case TEXTAREA:
+                        entry.setText(value);
+                        break;
                     }
                 }
                 entry.setIdHeader(head.getIdHeader());

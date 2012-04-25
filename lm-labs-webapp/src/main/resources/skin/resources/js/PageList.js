@@ -49,9 +49,17 @@ function initEditLinesDates(){
 				changeMonth: true,
 				numberOfMonths: 1,
 				firstDay: 1,
-			});		
+			});
 		});
+	openFirstDatePicker();
 } 
+
+function openFirstDatePicker(){
+	var inputFirstDate = $("#form-editLine input:first");
+	if(inputFirstDate && $(inputFirstDate).hasClass('date-pick')){
+		$(inputFirstDate).datepicker( "show" );
+	}
+}
 
 function saveLine(path) {
 	jQuery('#waitingPopup').dialog2('open');

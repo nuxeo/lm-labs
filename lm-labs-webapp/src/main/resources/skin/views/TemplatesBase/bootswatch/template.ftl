@@ -51,9 +51,6 @@
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button${bsMinified}.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
           <script type="text/javascript">
-            jQuery(document).ready(function() {
-			  new EllipsisText().init();
-		    });
 		  </script>
           <#include "views/common/subscribe_js.ftl" />
         </@block>

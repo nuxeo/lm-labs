@@ -40,7 +40,7 @@
 <#macro generateHeaderNewsEllipsis news path withHref withBy>
 	<@generateHeaderNews news=news path=path withHref=withHref withBy=false/>
 	<#if (news.accroche?trim?length < 1)>
-		<div class="ellipsisText" id="ellipsisTextNews" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">
+		<div class="ellipsisText" rel="news" ellipsisTextOptions="{ max_rows:2, alt_text_e:false, alt_text_t:false }">
 			<@generateContentHtmlNews news=news />
 		</div>
 	<#else>

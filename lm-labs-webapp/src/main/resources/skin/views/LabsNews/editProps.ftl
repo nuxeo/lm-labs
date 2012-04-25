@@ -46,7 +46,7 @@
 						      </div>
 						    </div>
 						    <#--Photo de la news-->
-						    <a id="btnSetSummaryPicture" style="cursor: pointer;" onclick="javascript:openDownloadPicture();">Associer une image au résumé</a>
+						    <a class="btn" id="btnSetSummaryPicture" style="cursor: pointer;" onclick="javascript:openDownloadPicture();"><i class="icon-plus"></i>Associer une miniature</a>
 						    <#if news?? && news != null && news.hasSummaryPicture() >
 							    <div id="div-editPicture" style="float: right;">
 							    	<#--Suppression de la photo -->
@@ -61,7 +61,7 @@
 								</div>
 							</#if>
 						    <div class="actions" style="margin-left: 200px;">
-						      <button class="btn required-fields" form-id="form-editNews"><i class='icon-ok'></i>${Context.getMessage('label.labsNews.edit.save')}</button>
+						      <button class="btn btn-primary required-fields" form-id="form-editNews"><i class='icon-ok'></i>${Context.getMessage('label.labsNews.edit.save')}</button>
 						      <a class="btn" id="btnCloseProps" onclick="javascript:closePropsNews();"><i class='icon-eye-close'></i>Fermer</a>
 						  	</div>
 						  </fieldset>

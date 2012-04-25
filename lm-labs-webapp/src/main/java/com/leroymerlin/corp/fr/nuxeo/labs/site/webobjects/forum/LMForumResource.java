@@ -7,8 +7,6 @@ import java.util.List;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -26,7 +24,7 @@ import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
 @WebObject(type = "PageForum", superType = "LabsPage")
 public class LMForumResource extends NotifiablePageResource{
 	
-private static final Log log = LogFactory.getLog(LMForumResource.class);
+//private static final Log log = LogFactory.getLog(LMForumResource.class);
     
 	LMForum lmForum;
 	
