@@ -82,7 +82,7 @@
 				jQuery("#divListCommentsPage")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
 				jQuery.ajax({
 					type : "GET",
-					url : '${This.path}/@labscomments?isPage=yes',
+					url : '${This.path}/@labscomments?isPage=yes&reverseComments=<#if ckeditor>false<#else>true</#if>',
 					data : '',
 					success : function(msg) {
 						jQuery("#divListCommentsPage")[0].innerHTML = msg;

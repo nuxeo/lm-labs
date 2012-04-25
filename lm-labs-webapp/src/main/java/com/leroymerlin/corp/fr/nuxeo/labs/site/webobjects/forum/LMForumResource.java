@@ -1,5 +1,9 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.forum;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Response;
 
@@ -12,6 +16,8 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.forum.LMForum;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
 
@@ -31,9 +37,22 @@ public class LMForumResource extends NotifiablePageResource{
     }
 
     public LMForum getLabsForum() {
-        return doc.getAdapter(LMForum.class);
+        LMForum forum = doc.getAdapter(LMForum.class);
+        afn = new AuthorFullName(new HashMap<String, String>(), LabsSiteConstants.Forum.FORUM_CREATOR);
+        List<DocumentModel> listModelDoc = new LinkedList<DocumentModel>();
+        try {
+            for (LMTopic aLmTopic : forum.getTopics(getCoreSession()))
+                listModelDoc.add(aLmTopic.getDocument());
+            
+            afn.loadFullName(listModelDoc);
+        } catch (ClientException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+       
+        return forum;
     }
-	
+    
     @Override
     @POST
     public Response doPost() {
@@ -61,7 +80,7 @@ public class LMForumResource extends NotifiablePageResource{
      * @return a {@link DocumentModel}
      */
     private DocumentModel save(LMTopic topic){
-        CoreSession session = ctx.getCoreSession();
+        CoreSession session = getCoreSession();
         DocumentModel newDoctopic = null;
         try {
             newDoctopic = session.saveDocument(topic.getDocument());

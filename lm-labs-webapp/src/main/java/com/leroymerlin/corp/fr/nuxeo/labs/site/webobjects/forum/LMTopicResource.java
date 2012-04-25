@@ -1,5 +1,9 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.forum;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -42,7 +46,12 @@ private static final Log log = LogFactory.getLog(LMTopicResource.class);
         }
         return lmTopic;
     }
-	
+    
+    @GET
+    @Path("@modify")
+    public Object modify() {
+        return getView("index");
+    }
 	
 //	@GET
 //    public Object doGet() {
