@@ -21,6 +21,8 @@ import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
+import net.sf.ehcache.CacheManager;
+
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +33,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.core.storage.sql.coremodel.SQLBlob;
@@ -56,6 +59,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.freemarker.CacheBlock;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -105,6 +109,7 @@ public class SitesRoot extends ModuleRoot {
                 "serverTimeout",
                 String.valueOf(getContext().getRequest().getSession().getMaxInactiveInterval()));
         rendering.setSharedVariable("tableOfContents", new TableOfContentsDirective());
+        rendering.setSharedVariable("cache", new CacheBlock());
     }
 
     public List<LabsSite> getUndeletedLabsSites() {
@@ -250,6 +255,17 @@ public class SitesRoot extends ModuleRoot {
         } catch (ClientException e) {
             throw new WebResourceNotFoundException(e.getMessage(), e);
         }
+    }
+
+    @GET
+    @Path("clearCache")
+    public Response doClearCache() throws Exception {
+        CoreSession session = ctx.getCoreSession();
+        NuxeoPrincipal principal = (NuxeoPrincipal) session.getPrincipal();
+        if (principal.isAdministrator()) {
+            Framework.getService(CacheManager.class).removalAll();
+        }
+        return redirect(getPath());
     }
 
     private List<LabsSite> getLabsSites() throws ClientException {
