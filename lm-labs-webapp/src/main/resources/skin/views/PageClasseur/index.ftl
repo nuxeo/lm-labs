@@ -102,6 +102,8 @@
                         <label class="control-label" for="blob[]">${Context.getMessage('label.PageClasseur.choosefile')}</label>
                           <div class="controls">
                             <input type="file" name="blob[]" class="required focused input-file" multiple="multiple" onchange="filesSelected(event);return false;" />
+                            <p class="help-block files-size" style="display:none;" ></p>
+                            <p class="help-block files-nbr" style="display:none;" ></p>
                             <p class="help-block" ><strong>${Context.getMessage('label.note')}: </strong>${Context.getMessage('help.PageClasseur.choosefile')}</p>
                             <p class="help-block" ><strong>${Context.getMessage('label.warning')}: </strong>${Context.getMessage('help.PageClasseur.choosefile.limits', This.maxNbrUploadFiles, This.maxTotalFileSizeInMB)}</p>
                           </div>
@@ -120,7 +122,7 @@
                   </fieldset>
 
               <div class="actions">
-                <button class="btn btn-primary required-fields" form-id="form-upload-file-${folder.document.id}" >Envoyer</button>
+                <button class="btn btn-primary required-fields addFilesBtn" form-id="form-upload-file-${folder.document.id}" >Envoyer</button>
               </div>
               </form>
 

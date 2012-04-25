@@ -130,12 +130,35 @@
                     input = event.srcElement;
                 }
                 otherInputs = jQuery(input).closest('form').find('input[type=text],textarea').closest('div.control-group');
+                var totalBytes = 0;
+                for (var x = 0; x < input.files.length; x++) {
+                    totalBytes += input.files[x].size;
+                }
+                var addBtn = jQuery(input).closest('form').closest('div').siblings('div').find('.addFilesBtn');
+                var filesSizeError = jQuery(input).siblings('.files-size');
+                var filesNbrError = jQuery(input).siblings('.files-nbr');
+                var totalMB = Math.round(totalBytes/(1024 * 1024));
+                var filesLimitsError = false;
+                jQuery(filesNbrError).hide();
+                jQuery(filesNbrError).html('');
+                jQuery(filesSizeError).hide();
+                jQuery(filesSizeError).html('');
+                if ( totalMB > ${This.maxTotalFileSizeInMB} ) {
+                    filesLimitsError = true;
+                    jQuery(input).closest('div.control-group').addClass('error');
+                    jQuery(filesSizeError).html('<strong>${Context.getMessage('label.error')}: ${Context.getMessage('help.PageClasseur.choosefile.limits.size.error')} (' + totalMB + ' Mo) !</strong>');
+                    jQuery(filesSizeError).show();
+                    jQuery(addBtn).hide();
+                } else if (input.files.length > ${This.maxNbrUploadFiles}) {
+                    filesLimitsError = true;
+                    jQuery(input).closest('div.control-group').addClass('error');
+                    jQuery(filesNbrError).html('<strong>${Context.getMessage('label.error')}: ${Context.getMessage('help.PageClasseur.choosefile.limits.nbr.error')} (' + input.files.length + ') !</strong>');
+                    jQuery(filesNbrError).show();
+                    jQuery(addBtn).hide();
+                }
+                var infoDiv = jQuery(input).closest('div.control-group').siblings('div.control-group').find('div.selectedFiles');
                 if (input.files.length > 1) {
                     otherInputs.hide();
-                    var totalBytes = 0;
-                    for (var x = 0; x < input.files.length; x++) {
-                        totalBytes += input.files[x].size;
-                    }
                     var htmlStr = input.files.length + " ${Context.getMessage('label.PageClasseur.form.word.files')} (" + Math.round(totalBytes/1024) + " Ko)";
                     //htmlStr += "(${This.maxNbrUploadFiles} fichiers maximum)"
                     htmlStr += "\n";
@@ -147,7 +170,6 @@
                     htmlStr += '<tbody>';
                     
                     for (var x = 0; x < input.files.length; x++) {
-                        totalBytes += input.files[x].size;
                         htmlStr += "<tr><td>" + input.files[x].name + "</td><td>" + Math.round(input.files[x].size/1024) + " Ko</td></tr>";
                         <#--
                         if (x >= ${This.maxNbrUploadFiles}) {
@@ -165,11 +187,20 @@
                         input.files.removeChild(input.files[x]);
                     }
                     -->
-                    var infoDiv = jQuery(input).closest('div.control-group').siblings('div.control-group').find('div.selectedFiles');
                     jQuery(infoDiv).html(htmlStr);
                     jQuery(infoDiv).closest('div.control-group').show();
                 } else {
                     otherInputs.show();
+                    jQuery(infoDiv).closest('div.control-group').hide();
+                    jQuery(infoDiv).html('');
+                }
+                if (filesLimitsError == false) {
+                    jQuery(input).closest('div.control-group').removeClass('error');
+                    jQuery(filesSizeError).hide();
+                    jQuery(filesSizeError).html('');
+                    jQuery(filesNbrError).hide();
+                    jQuery(filesNbrError).html('');
+                    jQuery(addBtn).show();
                 }
             }
         } else {
