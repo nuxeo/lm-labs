@@ -17,6 +17,10 @@ public final class LabsSiteConstants {
         public static final String COMMENT_CREATION_DATE = "comment:creationDate"; 
     }
     
+    public final class Forum{
+        public static final String FORUM_CREATOR = "dc:creator";
+    }
+    
     public final class NotifNames {
         public static final String NEWS_PUBLISHED = "News published";
         public static final String PAGE_MODIFIED = "Page modified";
@@ -84,6 +88,7 @@ public final class LabsSiteConstants {
         EXTERNAL_URLS("OrderedFolder", "externalUrls"),
         PAGENEWS("PageNews", StringUtils.EMPTY),
         LABSNEWS("LabsNews", StringUtils.EMPTY),
+        LABSTOPIC("LMForumTopic", StringUtils.EMPTY),
         PAGECLASSEUR("PageClasseur", StringUtils.EMPTY),
         PAGECLASSEURFOLDER("Folder", StringUtils.EMPTY),
         PAGELIST("PageList", StringUtils.EMPTY),

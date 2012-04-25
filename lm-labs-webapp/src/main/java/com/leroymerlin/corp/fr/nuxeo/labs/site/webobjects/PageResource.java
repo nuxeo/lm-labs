@@ -43,6 +43,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -65,12 +66,14 @@ public class PageResource extends DocumentObject {
 
     private static final String GENERATED_LESS_TEMPLATE = "resources/less/generatedLess.ftl";
 
-     private static final Log LOG = LogFactory.getLog(PageResource.class);
+    private static final Log LOG = LogFactory.getLog(PageResource.class);
 
     private static final String[] MESSAGES_TYPE = new String[] { "error",
             "info", "success", "warning" };
 
     private LabsBase labsBaseAdapter;
+    
+    public AuthorFullName afn;
 
     protected enum PageCreationLocation {
         TOP("top"),
@@ -125,7 +128,9 @@ public class PageResource extends DocumentObject {
                     || (site.isContributor(principalName) && !site.isSiteTemplate())) {
                 return;
             }
-            if (!Docs.LABSNEWS.type().equals(document.getType())) {
+            //TODO use facet instead
+            if (!Docs.LABSNEWS.type().equals(document.getType()) &&
+                    !Docs.LABSTOPIC.type().equals(document.getType())) {
                 boolean authorized = labsBaseAdapter.isAuthorizedToDisplay();
                 authorized = authorized && !labsBaseAdapter.isDeleted() && !site.isSiteTemplate();
                 if (!authorized) {
@@ -475,5 +480,16 @@ public class PageResource extends DocumentObject {
         DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
         return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
     }
-
+    
+    /**
+     * don't forget to complete the afn in your doGet
+     * @param pAuthor
+     * @return
+     */
+    public String getFullName(String pAuthor){
+        if (afn != null){
+            return afn.getFullName(pAuthor);
+        }
+        return "";
+    }
 }
