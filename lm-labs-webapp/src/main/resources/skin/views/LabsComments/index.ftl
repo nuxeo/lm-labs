@@ -33,6 +33,6 @@
 		</#list>
 	</ul>
 	<div id="${divTitleComments}" style="display: none">
-		${Context.getMessage('label.comments')} (${comments?size})
+		${Context.getMessage('label.comments')} <span class="badge badge-info">${comments?size}</span>
 	</div>
 </div>
