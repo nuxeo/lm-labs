@@ -26,7 +26,7 @@
 				</div> -->
 				
 				<#--  central content -->
-		        <div class="span12">
+		        <div>
 		        
 				    <#--  horizontal Navigation  -->
 			      	<#include "views/common/topnavigation_area.ftl" />
