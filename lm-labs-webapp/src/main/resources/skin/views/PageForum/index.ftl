@@ -6,6 +6,7 @@
 
   <@block name="css">
     <@superBlock/>
+    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageForum.css"/>
   </@block>
 
   <@block name="scripts">
@@ -20,64 +21,64 @@
 	  		<a style="margin-right: 5px;" class="btn" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>
 		</div>
 		<#if 0 < allTopics?size>
-  			<div class="hero-unit" style="margin-bottom: 5px;">
+  			<div style="margin-bottom: 5px;">
 			  <center><h4 id="titleCommentsPage">Liste des topics :</h4></center>
-			  <table class="table table-striped bs table-bordered labstable" >
+			  <table class="table table-striped forumTopics bs table-bordered labstable" >
 			  	<thead>
 	          		<tr>
 	            		<th width="25%">Sujet</th>
 			            <th width="20%"><center>Auteur</center></th>
 			            <th width="10%">Réponses</th>
-			            <#if (Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == topic.document.author)>
-				            <th width="37%">Dernier message</th>
-				            <th width="8%"></th>
-				        <#else>
-				       		<th width="45%">Dernier message</th>
-				        </#if>
+			            <th width="37%">Dernier message</th>
+			            <th width="8%"></th>
 	          		</tr>
 		        </thead>
 			  	
 				<#list allTopics as topic>
-				  	<tr>
-				  		<td>
-				  			<a href="${This.path}/${topic.title}">
-					  			<strong>${topic.title}</strong><br/>
-							  	${topic.description}
-							</a>
-				  		</td>
-				  		<td>
-				  			<center>
-					  			<#if topic.document.author != 'Administrator'>
-					  				<span><img width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${topic.document.author}/picture"></span><br/>
-					  			<#else>
-					  				<span><img width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture"></span><br/>
-					  			</#if>
-								<span>${This.getFullName(topic.document.author)}</span>
-							</center>
-				  		</td>
-				  		<td>
-				  			<center>${topic.nbComments}</center>
-				  		</td>
-				  		<td>
-				  			<#if 0 <  topic.comments?size>
-					  			${topic.comments?last.comment.author} (${topic.comments?last.comment.creationDate}) :<br/>
-								${topic.comments?last.comment.text}
-							</#if>
-				  		</td>
-				  		<#if (Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == topic.document.author)>
+					<#if !topic.document.facets?seq_contains("LabsHidden") || (Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == topic.document.author)>
+					  	<tr <#if topic.document.facets?seq_contains("LabsHidden")> class="hidden"</#if>>
 					  		<td>
-							  	<div class=" editblock btn-group" style="float: right;">
-							      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
-									<ul class="dropdown-menu" style="left: auto;right: 0px;">
-										<li>
-											<a href="${This.path}/${topic.title}/@modify"><i class="icon-edit"></i>Editer</a>
-											<a href="#"><i class="icon-eye-close"></i>Masquer</a>
-										</li>
-									</ul>
-								</div>
+					  			<a href="${This.path}/${topic.document.name}">
+						  			<strong>${topic.title}</strong><br/>
+								  	${topic.description}
+								</a>
 					  		</td>
-					  	</#if>
-					</tr>
+					  		<td>
+					  			<center>
+						  			<span><img class="imgTopic" width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${topic.document.author}/picture"></span><br/>
+									<span>${This.getFullName(topic.document.author)}</span>
+								</center>
+					  		</td>
+					  		<td>
+					  			<center>${topic.nbComments}</center>
+					  		</td>
+					  		<td>
+					  			<#if 0 <  topic.comments?size>
+						  			${This.getFullName(topic.comments?last.comment.author)} (${topic.comments?last.comment.creationDate}) :<br/>
+									${topic.comments?last.comment.text}
+								</#if>
+					  		</td>
+					  		<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == topic.document.author>
+						  		<td>
+								  	<div class="btn-group">
+								      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
+										<ul class="dropdown-menu" style="left: auto;right: 0px;">
+											<li>
+												<a href="${This.path}/${topic.document.name}/@modify"><i class="icon-edit"></i>Editer</a>
+												<#if topic.document.facets?seq_contains("LabsHidden")>
+													<a href="${This.path}/${topic.document.name}/@visibility/show"><i class="icon-eye-open"></i>Afficher</a>
+												<#else>
+													<a href="${This.path}/${topic.document.name}/@visibility/hide"><i class="icon-eye-close"></i>Masquer</a>
+												</#if>
+											</li>
+										</ul>
+									</div>
+						  		</td>
+						  	<#else>
+						  		<td></td>
+						  	</#if>
+						</tr>
+					</#if>
 				</#list>
 			  </table>
 			  <div style="width: 100%; text-align: right; margin-bottom: 5px;">
@@ -88,3 +89,13 @@
 	</div>	 	
   </@block>
 </@extends>
+
+<script type="text/javascript">
+	$(document).ready(function() {				  		
+		$(".imgTopic").each(function(i){
+			$(this).error(function(){
+				$(this).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture");
+			});
+		});
+	});
+</script>

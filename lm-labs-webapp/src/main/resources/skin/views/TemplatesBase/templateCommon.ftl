@@ -4,7 +4,9 @@
 	<@block name="css">
 		<@superBlock/>
         <link rel="stylesheet/less" href="${This.path}/generated.less">
-        <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
+        <#if canWrite>
+        	<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
+        </#if>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/pagination.css"/>
 	</@block>
 

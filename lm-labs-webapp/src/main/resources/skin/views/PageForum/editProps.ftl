@@ -19,25 +19,13 @@
 		    </div>
 		    <div class="actions" style="margin-left: 200px;">
 		      <button class="btn required-fields" form-id="form-editTopic"><i class='icon-ok'></i>${Context.getMessage('label.labsNews.edit.save')}</button>
-		      <a class="btn" id="btnCloseProps" onclick="javascript:closePropsNews();"><i class='icon-eye-close'></i>Fermer</a>
+		      <#if topic?? && topic != null >
+		     	 <a class="btn" href="${This.previous.path}"><i class='icon-eye-close'></i>Annuler</a>
+		      <#else>
+		       	 <a class="btn" href="${This.path}"><i class='icon-eye-close'></i>Annuler</a>
+		      </#if>
 		  	</div>
 		  </fieldset>
 		</form>
 	</div>
 </div>
-<script type="text/javascript">
-  $(document).ready(function() {				  		
-  	  if (location.search.indexOf("props=open") > -1){
-  	  	actionPropsNews();
-  	  }
-  	  else{
-  	  	closePropsNews();
-  	  }
-  	  <#if !(news?? && news != null)>
-  	  	jQuery("#form-editTopic").clearForm();
-  	  	jQuery("#btnModifyPropsNews").remove();
-  	  	jQuery("#btnCloseProps").remove();
-  	  	jQuery("#btnSetSummaryPicture").remove();
-  	  </#if>
-  });
-</script>

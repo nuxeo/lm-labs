@@ -17,11 +17,7 @@
 				<div class="labscomments comment">
 					<div class="row-fluid">
 						<div class="span2">
-							<#if comment.comment.author != 'Administrator'>
-				  				<span><img width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${comment.comment.author}/picture"></span>
-				  			<#else>
-				  				<span><img width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture"></span><br/>
-				  			</#if>
+				  			<span><img class="imgComment" width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${comment.comment.author}/picture"></span>
 						</div>
 						<div class="span10">
 							<span>${comment.comment.text}</span>
