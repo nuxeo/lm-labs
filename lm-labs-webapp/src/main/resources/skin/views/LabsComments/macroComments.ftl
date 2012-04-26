@@ -82,17 +82,26 @@
 				jQuery("#divListCommentsPage")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
 				jQuery.ajax({
 					type : "GET",
-					url : '${This.path}/@labscomments?isPage=yes&reverseComments=<#if ckeditor>false<#else>true</#if>',
+					url : '${This.path}/@labscomments?isPage=yes&reverseComments=true',
 					data : '',
 					success : function(msg) {
 						jQuery("#divListCommentsPage")[0].innerHTML = msg;
 						jQuery("#titleCommentsPage")[0].innerHTML = $('#divTitleCommentsPage')[0].innerHTML;
+						changeImgError();
 					},
 					error : function(msg) {
 						alert('ERROR' + msg.responseText);
 						jQuery("#divListCommentsPage")[0].innerHTML = '';
 					}
 				});
+			}
+			
+			function changeImgError() {
+			  	$(".imgComment").each(function(i){
+			  		$(this).error(function(){
+						$(this).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture");
+					});
+			  	});
 			}
 		</script>
 	</#if>

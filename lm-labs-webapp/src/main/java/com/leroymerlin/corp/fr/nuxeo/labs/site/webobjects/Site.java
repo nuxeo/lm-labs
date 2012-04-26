@@ -79,7 +79,7 @@ public class Site extends NotifiablePageResource {
     @POST
     @Path("@addContent")
     @Override
-    public Response doAddContent() {
+    public Response doAddContent() throws ClientException {
         String name = ctx.getForm().getString("name");
         boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString(
                 "overwritePage"));

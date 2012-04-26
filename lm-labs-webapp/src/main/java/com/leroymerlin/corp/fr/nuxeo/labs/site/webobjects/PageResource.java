@@ -23,6 +23,8 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.rest.DocumentHelper;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
@@ -35,6 +37,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
@@ -48,6 +51,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
@@ -394,7 +398,7 @@ public class PageResource extends DocumentObject {
 
     @POST
     @Path("@addContent")
-    public Response doAddContent() {
+    public Response doAddContent() throws ClientException  {
         String name = ctx.getForm().getString("dc:title");
         String location = ctx.getForm().getString("location");
         boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString("overwritePage"));
@@ -448,7 +452,7 @@ public class PageResource extends DocumentObject {
         return super.initialize(ctx, type, args);
     }
 
-    protected Response addContent(String name, PageCreationLocation location, boolean overwrite) {
+    protected Response addContent(String name, PageCreationLocation location, boolean overwrite) throws ClientException {
         if (location == null) {
             location = PageCreationLocation.TOP;
         }
@@ -477,7 +481,24 @@ public class PageResource extends DocumentObject {
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
+        final DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
+        
+        if (newDoc.getType().equals(LabsSiteConstants.Docs.PAGEFORUM.type())) {
+            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(newDoc.getCoreSession()){
+                @Override
+                public void run() throws ClientException {
+                    SecurityData data = SecurityDataHelper.buildSecurityData(newDoc);
+                    data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
+                    
+                    SecurityDataHelper.updateSecurityOnDocument(newDoc, data);
+                    session.save();
+                }
+                
+            };
+            runner.runUnrestricted();
+        }
+        
+        
         return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
     }
     

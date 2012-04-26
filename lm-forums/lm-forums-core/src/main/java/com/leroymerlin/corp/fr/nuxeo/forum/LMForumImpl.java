@@ -6,10 +6,15 @@ import java.util.List;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
+import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
 
 public class LMForumImpl extends AbstractPage implements LMForum {
@@ -20,11 +25,30 @@ public class LMForumImpl extends AbstractPage implements LMForum {
 
 	@Override
 	public LMTopic addTopic(CoreSession session, String topicTitle) throws ClientException {
-		
-		DocumentModel docTopic = session.createDocumentModel(doc.getPathAsString(), topicTitle,"LMForumTopic");
-		docTopic = session.createDocument(docTopic);
-		docTopic.setPropertyValue(AbstractLabsBase.DC_TITLE, topicTitle);
-		session.save();
+	    
+	    DocumentModel docTopic = session.createDocumentModel(doc.getPathAsString(), topicTitle,"LMForumTopic");
+        
+        docTopic = session.createDocument(docTopic);
+        docTopic.setPropertyValue(AbstractLabsBase.DC_TITLE, topicTitle);
+        session.save();
+        
+        //add read write for the user 
+        final DocumentRef ref = docTopic.getRef();
+        final String user =  session.getPrincipal().getName();
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(doc.getCoreSession()){
+            @Override
+            public void run() throws ClientException {
+                DocumentModel docu = session.getDocument(ref);
+                if (docu != null){
+                    SecurityData data = SecurityDataHelper.buildSecurityData(docu);
+                    data.addModifiablePrivilege(user, SecurityConstants.READ_WRITE, true);
+                    SecurityDataHelper.updateSecurityOnDocument(docu, data);
+                    session.save();
+                }
+            }
+        };
+        runner.runUnrestricted();
+        
 		return docTopic.getAdapter(LMTopic.class);
 	}
 
