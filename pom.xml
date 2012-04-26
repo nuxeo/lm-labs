@@ -321,12 +321,6 @@
 
       <dependency>
         <groupId>org.nuxeo.ecm.platform</groupId>
-        <artifactId>nuxeo-platform-url-core</artifactId>
-        <version>${nuxeo.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.nuxeo.ecm.platform</groupId>
         <artifactId>nuxeo-platform-mimetype-api</artifactId>
         <version>${nuxeo.version}</version>
       </dependency>
@@ -675,7 +669,7 @@
 	<dependency>
 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
 	    <artifactId>nuxeo-opensocial-features</artifactId>
-	   <!-- use this one to be able to debug in eclipse
+<!-- use this one to be able to debug in eclipse
 	    <version>${nuxeo.version}</version>
 -->
 	    <version>5.4.3-SNAPSHOT</version>
@@ -684,7 +678,7 @@
 	<dependency>
 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
 	    <artifactId>nuxeo-opensocial-container</artifactId>
-	   <!-- use this one to be able to debug in eclipse
+<!-- use this one to be able to debug in eclipse
 	    <version>${nuxeo.version}</version>
 -->
 	    <version>5.4.3-SNAPSHOT</version>
@@ -707,7 +701,7 @@
       <dependency>
         <groupId>org.jsoup</groupId>
         <artifactId>jsoup</artifactId>
-        <version>1.6.1</version>
+        <version>1.5.2</version>
       </dependency>
 
       <dependency>
