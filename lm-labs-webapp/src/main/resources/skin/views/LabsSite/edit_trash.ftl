@@ -51,7 +51,7 @@ jQuery(document).ready(function() {
         <#assign deletedDocs = This.getDeletedDocs() />
         <div class="page-header">
           <h3>
-          	${Context.getMessage('label.lifeCycle.trash.title')} <#if (deletedDocs?size > 0)>(${deletedDocs?size})</#if>
+          	${Context.getMessage('label.lifeCycle.trash.title')} <#if (deletedDocs?size > 0)><span class="badge badge-info" style="vertical-align: middle;" >${deletedDocs?size}</span></#if>
           	<div style="text-align: right;margin-top: -37px;">
 				<button onClick="beEmptyTrash();" title="${Context.getMessage('label.lifeCycle.page.emptyTrash')}" class="btn btn-danger" style="margin-left:20px;" ><i class="icon-fire"></i>${Context.getMessage('label.lifeCycle.page.emptyTrash')}</button>
 			</div>

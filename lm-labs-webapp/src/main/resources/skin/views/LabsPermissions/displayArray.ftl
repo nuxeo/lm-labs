@@ -109,7 +109,7 @@
         ${permText} 
         <small>
             <#if (0 < permsList?size) >
-                (${permsList?size})&nbsp;
+                <span class="badge badge-info" style="vertical-align: top;" >${permsList?size}</span>&nbsp;
             </#if>
             <#if isPage>
             	<#assign description = ".descriptionPage" />
