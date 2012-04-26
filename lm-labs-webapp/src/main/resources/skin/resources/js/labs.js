@@ -27,8 +27,14 @@ $(document).ready(function() {
   }
   
   new EllipsisText().init();
+  
+  initMinHeightBody();
 
 });
+
+function initMinHeightBody(){
+	$("body").css("min-height", screen.availHeight);
+}
 
 $(function() {
 	if($('#nav_up') && $('#nav_down'))
