@@ -89,6 +89,12 @@
 						headersCollection.setCollection({}, []);
 						addOneHeader();
 					</#if>
+					
+					$(document).ready(function() {
+						$("div[rel=popoverEditLine]").each(function(i) {
+							$(this).popover({html: false, placement: 'bottom'})
+						});
+					});
 				</script>
 			</div>
 		</div>

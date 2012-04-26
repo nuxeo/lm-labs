@@ -7,5 +7,6 @@
     <div class="progress progress-info progress-striped active">
         <div class="bar" style="width: 50%" ></div>
     </div>
+    <h3></h3>
 </div>
 

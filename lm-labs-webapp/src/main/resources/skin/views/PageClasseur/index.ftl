@@ -18,110 +18,6 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
-        
-        <script type="text/javascript">
-        jQuery(document).ready(function() {
-            // Select columns to sort
-            jQuery("table[class*='classeurFiles']").tablesorter({
-                sortList: [[2,0]],
-                headers: {
-                    0: {
-                        sorter:false
-                    },
-<#if canWrite >
-                    1: {
-                        sorter:false
-                    },
-                    6:        
-<#else>
-                    5:
-</#if>
-                    {
-                        sorter:false
-                    }
-                },
-                textExtraction: function(node) {
-                    // extract data from markup and return it
-                    var sortValues = jQuery(node).find('span[class=sortValue]');
-                    if (sortValues.length > 0) {
-                        return sortValues[0].innerHTML;
-                    }
-                    return node.innerHTML;
-                }
-            });
-            jQuery.each(jQuery("[id^=spanFolderTitle]"), function(i, n){
-            	var encoded = jQuery(this).html();
-            	jQuery(this).html(decodeURIComponent(encoded.replace(/\+/g,  " ")));
-            });
-            jQuery.each(jQuery("form.form-upload-file"), function(i, n){
-                var encoded = jQuery(this).attr('action');
-                jQuery(this).attr('action', decodeURIComponent(encoded.replace(/\+/g,  " ")));
-            });
-            <#list folders as folder>
-            jQuery("#form-upload-file-${folder.document.id}").ajaxForm(function() {
-                reloadAfterAddingFile("${folder.document.id}");
-            });
-            </#list>
-		});
-		
-		function reloadAfterAddingFile(folderId) {
-			//jQuery("#addfile_"+folderId+"_modal").dialog2('close');
-            jQuery('#waitingPopup').dialog2('open');
-			window.location.reload();
-		}
-		
-		function updateBtLabels(bt, title, alt) {
-			jQuery(bt).attr("title", title);
-			jQuery(bt).attr("alt", alt);
-		}
-		function changeFolderBt(imgObj, newStatus) {
-			if (newStatus === 'open') {
-				jQuery(imgObj).attr("src", "${skinPath}/images/toggle_plus.png");
-			} else {
-				jQuery(imgObj).attr("src", "${skinPath}/images/toggle_minus.png");
-			}
-		}
-		function slideFolder(imgObj, action) {
-			var collapsables = jQuery(imgObj).closest(".Folder").find("div[class*='folder-collapsable']");
-			if (action === '') {
-				if (collapsables.is(":visible")) {
-					action = 'open';
-				} else {
-					action = 'close';
-				}
-			}
-			if (action === "open") {
-				changeFolderBt(imgObj, 'open');
-				updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.open')}", "${Context.getMessage('command.PageClasseur.open')}");
-				collapsables.slideUp("fast");
-			} else {
-				changeFolderBt(imgObj, 'close');
-				updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.collapse')}", "${Context.getMessage('command.PageClasseur.collapse')}");
-				collapsables.slideDown("fast");
-				refreshDisplayMode(collapsables);
-			}
-		}
-		function slideAllFolders(imgObj) {
-			if (jQuery(imgObj).hasClass('allFoldersOpened')) {
-				jQuery(imgObj).removeClass('allFoldersOpened');
-				jQuery(imgObj).addClass('allFoldersClosed');
-				changeFolderBt(imgObj, 'open');
-				updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.allFolders.open')}", "${Context.getMessage('command.PageClasseur.allFolders.open')}");
-				jQuery("img[class*='openCloseBt']").each(function(i, e) {
-					slideFolder(jQuery(this), 'open');
-				});
-			} else {
-				jQuery(imgObj).removeClass('allFoldersClosed');
-				jQuery(imgObj).addClass('allFoldersOpened');
-				changeFolderBt(imgObj, 'close');
-				updateBtLabels(imgObj, "${Context.getMessage('label.PageClasseur.allFolders.collapse')}", "${Context.getMessage('command.PageClasseur.allFolders.collapse')}");
-				jQuery("img[class*='openCloseBt']").each(function(i, e) {
-					slideFolder(jQuery(this), 'close');
-				});
-			}
-		}
-        </script>
-
   </@block>
 
   <@block name="content">
@@ -167,7 +63,7 @@
 		              <li><a 
 		                <#if folders?last.document.id == folder.document.id>class="arrowOpacity" onclick="return false" <#else> onclick="moveFolder('${This.path}', '${Document.ref}', $('#${folder.document.id}').next('section').attr('id'), '${folder.document.id}');return false"</#if>
 		                href=""><i class="icon-arrow-down"></i>${Context.getMessage("command." + Document.type + ".movedown" )}</a></li>
-		              <li><a href="#" rel="addfile_${folder.document.id}_modal" class="open-dialog" ><i class="icon-upload"></i>${Context.getMessage("command." + Document.type + ".addFile" )}</a></li>
+		              <li><a href="#" rel="addfile_${folder.document.id}_modal" class="open-dialog" ><i class="icon-upload"></i>${Context.getMessage("command." + Document.type + ".addFiles" )}</a></li>
 		              <#-- This button submits the hidden delete form -->
 		              <li><a href="#" onclick="$('#delete_${folder.document.id}').submit();return false;"><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteFolder')}</a></li>
 				      <#-- rename   -->
@@ -184,11 +80,16 @@
         <#if canWrite>
 	    <div class="folder-actions row-fluid editblock">
           
-
           <div id="addfile_${folder.document.id}_modal" >
               <h1>${Context.getMessage('command.PageClasseur.addFile')}</h1>
               <form class="form-horizontal form-upload-file" id="form-upload-file-${folder.document.id}"
                 action="${This.path}/${folder.document.name}" method="post" enctype="multipart/form-data">
+                <div class="alert alert-block no-fade" style="display:none;" >
+                <a class="close" data-dismiss="alert">×</a>
+                <h4 class="alert-heading"><i class="icon-warning-sign" style="font-size: 24px;" ></i>${Context.getMessage('label.PageClasseur.form.fileapi.notsupported.warning')}</h4>
+                <p>${Context.getMessage('label.PageClasseur.form.fileapi.notsupported.full-message')}</p>
+                </div>
+    
                 <fieldset>
                   <div class="control-group">
                         <label class="control-label" for="title">${Context.getMessage('label.PageClasseur.form.title')}</label>
@@ -198,11 +99,19 @@
                         </div>
                         
                    <div class="control-group">
-                        <label class="control-label" for="blob">${Context.getMessage('label.PageClasseur.choosefile')}</label>
+                        <label class="control-label" for="blob[]">${Context.getMessage('label.PageClasseur.choosefile')}</label>
                           <div class="controls">
-                            <input type="file" name="blob" class="required focused input-file"/>
+                            <input type="file" name="blob[]" class="required focused input-file" multiple="multiple" onchange="filesSelected(event);return false;" />
+                            <p class="help-block files-size" style="display:none;" ></p>
+                            <p class="help-block files-nbr" style="display:none;" ></p>
+                            <p class="help-block" ><strong>${Context.getMessage('label.note')}: </strong>${Context.getMessage('help.PageClasseur.choosefile')}</p>
+                            <p class="help-block" ><strong>${Context.getMessage('label.warning')}: </strong>${Context.getMessage('help.PageClasseur.choosefile.limits', This.maxNbrUploadFiles, This.maxTotalFileSizeInMB)}</p>
                           </div>
                         </div>
+                   <div class="control-group" style="display:none;" >
+                        <label class="control-label" >${Context.getMessage('label.PageClasseur.form.selectedFiles')}</label>
+                        <div class="controls selectedFiles" ></div>
+                   </div>
 
                    <div class="control-group">
                         <label class="control-label" for="description">${Context.getMessage('label.PageClasseur.form.description')}</label>
@@ -213,7 +122,7 @@
                   </fieldset>
 
               <div class="actions">
-                <button class="btn btn-primary required-fields" form-id="form-upload-file-${folder.document.id}">Envoyer</button>
+                <button class="btn btn-primary required-fields addFilesBtn" form-id="form-upload-file-${folder.document.id}" >Envoyer</button>
               </div>
               </form>
 
@@ -336,26 +245,26 @@
 	    </td>
     </#if>
     <#if child.facets?seq_contains("Folderish") == false >
-      <#assign modifDate = child.dublincore.modified?datetime >
-      <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") >
-      <#assign filename = child.dublincore.title >
-      <#assign words = filename?word_list>
-      <#assign isModifiedFilename = false>
-      <#assign max_len_word = 50>
+      <#assign modifDate = child.dublincore.modified?datetime />
+      <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") />
+      <#assign filename = child.dublincore.title />
+      <#assign words = filename?word_list />
+      <#assign isModifiedFilename = false />
+      <#assign max_len_word = 50 />
       <#list words as word>
       	<#if (word?length > max_len_word)>
-      		<#assign isModifiedFilename = true>
+      		<#assign isModifiedFilename = true />
       		<#break>
       	</#if>
       </#list>
-      <#assign blob = This.getBlobHolder(child).blob >
-      <#assign blobLenght = blob.length >
+      <#assign blob = This.getBlobHolder(child).blob />
+      <#assign blobLenght = blob.length />
       <#assign max_lenght = This.getPropertyMaxSizeFileRead() />
       <td>
       	<#if (isModifiedFilename)>
       		<span title="${blob.filename} - ${child.name} - ${child.dublincore.description?html}">${filename?substring(0, max_len_word)}...</span>
       	<#else>
-      		<span title="${blob.filename} - ${child.dublincore.description?html}">${filename?html}</span>
+      		<span title="${blob.filename} - ${child.dublincore.description?html}">${filename?html}</span><span class="sortValue">${filename?html}</span>
       	</#if>
       </td>
       <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${blobLenght?string.computer}</span></td>
@@ -392,4 +301,10 @@
   </@tableOfContents>
   </div>
   </@block>
+  
+  <@block name="bottom-page-js" >
+    <@superBlock />
+    <#include "views/PageClasseur/PageClasseur-bottom-js.ftl" />
+  </@block>
+  
 </@extends>

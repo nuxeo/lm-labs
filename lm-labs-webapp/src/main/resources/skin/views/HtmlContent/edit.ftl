@@ -4,7 +4,7 @@
      
 	<@block name="scripts">
 	  <@superBlock/>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form-3.09.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script> 
 	</@block>
 	

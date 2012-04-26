@@ -1,3 +1,4 @@
+<@cache name="LabsSites-footer" key="LabsSites-footer-contacts-${Common.siteDoc(Document).site.URL}" >
 <#if contactsAdmin?size &gt; 0>
 	<#assign mySite=Common.siteDoc(Document).site />
 	${Context.getMessage("label.footer.contact.other")}
@@ -10,3 +11,4 @@
         </a>
 	</#if>
 </#if>
+</@cache>

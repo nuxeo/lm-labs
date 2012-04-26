@@ -22,8 +22,8 @@
           <ul class="nav pull-right">
             <#if mySite?? >
             <li>
-              <form class="navbar-form pull-right" style="margin-right: 15px;" accept-charset="ISO-8859-1" action="${Context.modulePath}/${mySite.URL}/@search">
-              <input placeholder="${Context.getMessage('label.search')}" name="fullText"/>
+              <form class="navbar-search pull-right" style="margin-right: 15px;" accept-charset="ISO-8859-1" action="${Context.modulePath}/${mySite.URL}/@search">
+              <input class="search-query" placeholder="${Context.getMessage('label.search')}" name="fullText"/>
               </form>
             </li>
             </#if>

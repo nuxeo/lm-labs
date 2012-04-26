@@ -24,7 +24,7 @@
 				<a href="#" class="btn" onClick="javascript:closeComments();" title="${Context.getMessage('label.comments.cancel')}">${Context.getMessage('label.comments.cancel')}</a>
 			</div>
 	</#if>
-	<div id="divListComments" class="fixed-container"  style="margin-bottom: 0px;margin-left: 0px;"></div>
+	<div id="divListComments" class="fixed-container"  style="margin-bottom: 0px;margin-left: 0px;"><img src="${skinPath}/images/loading.gif" /></div>
 </div>
 <script type="text/javascript">
 	var urlActionBase = null;
@@ -43,7 +43,7 @@
 			autoOpen : false, 
         	closeOnOverlayClick : false, 
         	removeOnClose : false, 
-        	showCloseHandle : false,
+        	showCloseHandle : false
 		});
 	}
 
@@ -100,7 +100,6 @@
 	}
 	
 	function getComments() {
-		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type : "GET",
 			url : urlActionBase,
@@ -108,11 +107,9 @@
 			success : function(msg) {
 				jQuery("#divListComments")[0].innerHTML = msg;
 				jQuery("#divCommentable").dialog2("options", {title: $('#divTitleComments')[0].innerHTML});
-				jQuery('#waitingPopup').dialog2('close');
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);
-				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
 	}

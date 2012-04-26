@@ -120,7 +120,6 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
                     LabsSiteConstants.Docs.PAGECLASSEURFOLDER.type());
             folder.setPropertyValue("dc:title", title);
             String folderName = pss.generatePathSegment(folder);
-            folderName = folderName.replace('\'', '-').replace('"', '-');
             folder.setPathInfo(doc.getPathAsString(), folderName);
             folder = session.createDocument(folder);
             return new PageClasseurFolderImpl(folder);

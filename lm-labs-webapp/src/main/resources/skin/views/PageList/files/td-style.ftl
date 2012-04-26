@@ -1,0 +1,1 @@
+vertical-align: middle;width: 15px;

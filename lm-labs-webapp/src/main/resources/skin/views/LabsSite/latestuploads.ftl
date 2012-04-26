@@ -32,7 +32,7 @@
               <th class="header">Titre</th>
               <th class="header">Modifié le</th>
               <th class="header">${Context.getMessage('label.LabsSite.latestuploads.onpage')} </th>
-              <th class="header" style="width: 55px;">&nbsp;</th>
+              <th class="header" style="width: 56px;">&nbsp;</th>
           </thead>
           <tbody>
           <#list uploads as upload >

@@ -11,6 +11,7 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.common.utils.IdUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -24,7 +25,7 @@ import org.nuxeo.ecm.webengine.WebException;
 
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.common.core.security.SecurityData;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 
 
@@ -32,6 +33,10 @@ public final class LabsSiteUtils {
     
     private static final String IMPOSSIBLE_TO_VERIFY_THE_PERMISSION = "Impossible to verify the permissions only 'Read'";
     private static final Log log = LogFactory.getLog(LabsSiteUtils.class);
+    
+    public static String beforeConversion = "àÀâÂäÄáÁéÉèÈêÊëËìÌîÎïÏòÒôÔöÖùÙûÛüÜçÇ’ñ /\\.,;?!'\"$&%()[]{}@^§*:<>+=°";
+    public static String afterConversion = "aAaAaAaAeEeEeEeEiIiIiIoOoOoOuUuUuUcC'n-----------------------------";
+    public static int maxSizeCharacterName = 64;
 
     private static final String THE_RIGHT_LIST_DONT_BE_NULL = "The right'list dont be null !";
     
@@ -63,7 +68,7 @@ public final class LabsSiteUtils {
     
     public static DocumentModel getPageName(String name, DocumentRef parentRef, CoreSession session) throws ClientException {
         DocumentModel parent = session.getDocument(parentRef);
-        PathRef pathRef = new PathRef(parent.getPathAsString() + "/" + name);
+        PathRef pathRef = new PathRef(parent.getPathAsString() + "/" + doLabsSlugify(name));
         if (session.exists(pathRef)) {
             return session.getDocument(pathRef);
         }
@@ -324,9 +329,48 @@ public final class LabsSiteUtils {
         DocumentModelList children = document.getCoreSession().getChildren(document.getRef(), null, new Filter() {
             @Override
             public boolean accept(DocumentModel document) {
-                return Docs.pageDocs().contains(Docs.fromString(document.getType()));
+                return (document.getAdapter(Page.class) != null);
             }}, null);
         return children;
+    }
+
+    /**
+     * Slugify for the name of document
+     * @param title the title/name of document
+     * @param maxSize the maxsize of character
+     * @return the slugified name
+     */
+    public static String doLabsSlugify(String title){
+        String s = title;
+        if (StringUtils.isEmpty(s)) {
+            return IdUtils.generateStringId();
+        }
+        s = s.trim();
+        if (s.length() > maxSizeCharacterName) {
+            s = s.substring(0, maxSizeCharacterName).trim();
+        }
+        
+        for (int i = 0; i < beforeConversion.length(); i++) {
+             s = s.replace(beforeConversion.charAt(i), afterConversion.charAt(i));
+        }
+        char[] charArray = s.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        boolean beforeIsTiret = false;
+        char tiret = '-';
+        for (int i=0;i < charArray.length; i++){
+            if(charArray[i] == tiret){
+                if(!beforeIsTiret){
+                    sb.append(tiret);
+                    beforeIsTiret = true;
+                }
+            }
+            else{
+                sb.append(charArray[i]);
+                beforeIsTiret = false;
+            }
+        }
+        
+        return sb.toString();
     }
 
 }

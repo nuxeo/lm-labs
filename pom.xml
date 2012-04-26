@@ -10,13 +10,14 @@
 
   <groupId>com.leroymerlin.labs</groupId>
   <artifactId>lm-labs-parent</artifactId>
-  <version>2.4.0</version>
+  <version>2.5.0</version>
   <name>LM Labs :: parent project</name>
   <description></description>
   <packaging>pom</packaging>
 
   <modules>
     <module>lm-labs-core</module>
+    <module>lm-forums</module>
     <module>lm-labs-gadgets</module>
     <module>lm-labs-webapp</module>
     <module>lm-labs-web</module>

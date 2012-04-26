@@ -8,6 +8,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPageImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNewsAdapter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
 import static com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
@@ -29,7 +30,7 @@ public class PageAdapterFactory implements DocumentAdapterFactory {
             return new PageNewsAdapter(doc);
         } else if(Docs.DASHBOARD.type().equals(doc.getType())) {
             return new PageAdapter(doc);
-        } else if(doc.hasSchema("page")) {
+        } else if(doc.hasSchema(Schemas.PAGE.getName())) {
             return new PageAdapter(doc);
         }
         return null;

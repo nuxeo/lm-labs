@@ -27,8 +27,14 @@ $(document).ready(function() {
   }
   
   new EllipsisText().init();
+  
+  initMinHeightBody();
 
 });
+
+function initMinHeightBody(){
+	$("body").css("min-height", screen.availHeight);
+}
 
 $(function() {
 	if($('#nav_up') && $('#nav_down'))
@@ -115,19 +121,31 @@ function hideAlerts() {
 }
 
 function EllipsisText() {
-  this.init = doEllipsisText;
+  this.init = doEllipsisTextAll;
 }
 
-function doEllipsisText() {
+function doEllipsisTextAll() {
 	jQuery('.ellipsisText').each(function(i) {
-        jQuery(this).html('<span class="ellipsis_text">' + jQuery(this).html() + '</span>');
-        var option = jQuery(this).attr('ellipsisTextOptions');
-        if (option) {
-          jQuery(this).ThreeDots(eval('(' + option + ')'));
-        } else {
-          jQuery(this).ThreeDots();
-        }
+		doEllipsisText(this);
     });
+}
+
+function doEllipsisTextId(id) {
+	var ellip = jQuery('#' + id + '.ellipsisText');
+	doEllipsisText(ellip);
+}
+
+function doEllipsisText(element) {
+	var ellip = jQuery(element);
+	if(ellip){
+        jQuery(ellip).html('<span class="ellipsis_text">' + jQuery(ellip).html() + '</span>');
+        var option = jQuery(ellip).attr('ellipsisTextOptions');
+        if (option) {
+          jQuery(ellip).ThreeDots(eval('(' + option + ')'));
+        } else {
+          jQuery(ellip).ThreeDots();
+        }
+	}
 }
 
 function popupCenter(page,largeur,hauteur,options) {

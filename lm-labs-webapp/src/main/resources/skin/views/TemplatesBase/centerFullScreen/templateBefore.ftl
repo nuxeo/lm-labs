@@ -26,7 +26,7 @@
 				</div> -->
 				
 				<#--  central content -->
-		        <div class="span12">
+		        <div>
 		        
 				    <#--  horizontal Navigation  -->
 			      	<#include "views/common/topnavigation_area.ftl" />
@@ -41,8 +41,12 @@
 				    <@block name="content" />
 				    
 				    <#--  Commentaires  -->
-				    <@block name="pageCommentable">
-						<#include "/views/LabsComments/displayCommentsPage.ftl" />
+				   	<#include "views/LabsComments/macroComments.ftl">
+					<@block name="pageCommentable">
+						<#assign pageCommentable = This.getPage()/>
+						<#if pageCommentable != null && pageCommentable.commentable>
+							<@displayAddComment ckeditor=false pageCommentable=pageCommentable />
+						</#if>
 					</@block>
 		        </div>
 			

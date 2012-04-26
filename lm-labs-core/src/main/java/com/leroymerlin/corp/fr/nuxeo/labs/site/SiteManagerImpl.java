@@ -20,6 +20,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 
 public class SiteManagerImpl extends DefaultComponent implements SiteManager {
@@ -35,7 +36,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
 
         DocumentModel sitesRoot = getSiteRoot(session);
         DocumentModel docLabsSite = session.createDocumentModel(
-                sitesRoot.getPathAsString(), title,
+                sitesRoot.getPathAsString(), LabsSiteUtils.doLabsSlugify(title),
                 LabsSiteConstants.Docs.SITE.type());
 
         LabsSite labSite = docLabsSite.getAdapter(LabsSite.class);

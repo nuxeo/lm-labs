@@ -36,7 +36,7 @@
             <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;"> <small>${section.description}</small></h2>
 	        <#if isContributor >
 		        <div class=" editblock btn-group pull-right" style="float: right;margin-top: 7px;">
-			      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section <span class="caret"></span></a>
+			      	<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section <span class="caret"></span></a>
 					<ul class="dropdown-menu" style="left: auto;right: 0px;">
 						<li>
 							<a id="addsectionlink" href="#" rel="addsection" class="open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
@@ -94,7 +94,7 @@
 	        
           <div id="editsection_${section_index}" >
           	  <h1>Modifier la section</h1>
-		      <form class="form-horizontal" action="${This.path}/s/${section_index}" method="post">
+		      <form class="form-horizontal" name="formEditsection_${section_index}" action="${This.path}/s/${section_index}" method="post">
 			      <input type="hidden" name="action" value="editsection"/>
 			      <fieldset>
 		            <div class="control-group">
@@ -115,7 +115,7 @@
 		            </div>
 			      </fieldset>
 		          <div class="actions">
-		            <button type="submit" class="btn btn-primary">Modifier</button>&nbsp;
+		            <button onclick="javascript:jQuery('#waitingPopup').dialog2('open');document.formEditsection_${section_index}.submit();return true;" class="btn btn-primary">Modifier</button>&nbsp;
 		          </div>
 		      </form>
           </div>
@@ -199,7 +199,7 @@
 		    <#-- Add Section -->	
 		    <div id="addsection">
 		    	<h1>Ajouter une section</h1>
-		    	<form class="form-horizontal" id="addsectionfrm" action="${This.path}" method="post">
+		    	<form class="form-horizontal" id="addsectionfrm" action="${This.path}" method="post" submit="javascript:jQuery('#waitingPopup').dialog2('open');this.submit();return true;">
 		      		<input type="hidden" name="action" value="addsection"/>
 		      		<fieldset>
 			            <div class="control-group">

@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -182,6 +181,12 @@ public class SiteThemeResource extends PageResource {
         } catch (Exception e) {
             return Response.notModified().build();
         }
+    }
+    
+    @GET
+    @Path(value = "editParameters")
+    public Template getEditParameters() {
+        return getView("editParameters");
     }
 
     @POST

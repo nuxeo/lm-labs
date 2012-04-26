@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -27,6 +28,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 
 @WebObject(type = "LabsNews", superType = "LabsPage")
@@ -55,8 +57,12 @@ public class LabsNewsResource extends PageResource {
         return labsNews;
     }
     
+    @Override
     public Page getPage() throws ClientException {
-        return null;
+        DocumentModel parentDoc = getCoreSession().getDocument(doc.getParentRef());
+        PageNews pageNews = parentDoc.getAdapter(PageNews.class);
+        pageNews.setCommentable(true);
+        return pageNews;
     }
     
     

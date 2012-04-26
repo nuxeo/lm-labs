@@ -77,11 +77,14 @@
         <layout>dublincore</layout>
       </layouts>
       <subtypes>
-        <type>Page</type>
+      <!-- 
         <type>PageBlocs</type>
+        <type>Space</type>
+       -->
         <type>PageNews</type>
         <type>PageClasseur</type>
-        <type>PageListe</type>
+        <type>PageList</type>
+        <type>PageForum</type>
         <type>HtmlPage</type>
       </subtypes>
       <contentViews category="content">
@@ -139,8 +142,9 @@
         <type>PageBlocs</type>
         <type>PageNews</type>
         <type>PageClasseur</type>
-        <type>PageListe</type>
+        <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageForum</type> 
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -163,12 +167,15 @@
         <layout>dublincore</layout>
       </layouts>
       <subtypes>
+      <!-- 
         <type>Page</type>
         <type>PageBlocs</type>
+       -->
         <type>PageNews</type>
         <type>PageClasseur</type>
-        <type>PageListe</type>
+        <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageForum</type>
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -191,8 +198,10 @@
         <layout>dublincore</layout>
       </layouts>
       <subtypes>
+      <!-- 
         <type>Page</type>
         <type>PageBlocs</type>
+       -->
         <type>PageNews</type>
         <type>PageClasseur</type>
         <type>PageListe</type>
@@ -219,7 +228,14 @@
         <layout>dublincore</layout>
       </layouts>
       <subtypes>
+      <!-- 
         <type>LabsNews</type>
+       -->
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+        <type>HtmlPage</type>
+        <type>PageForum</type>
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -242,11 +258,19 @@
         <layout>dublincore</layout>
       </layouts>
       <subtypes>
+      <!-- 
         <type>Folder</type>
         <type>File</type>
         <type>Picture</type>
-        <!-- <type>Audio</type> -->
-        <!-- <type>Video</type> -->
+        <type>Audio</type>
+        <type>Video</type>
+       -->
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+        <type>HtmlPage</type>
+        <type>PageForum</type>
+        <!--type>Space</type-->
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -268,6 +292,66 @@
         <layout>heading</layout>
         <layout>dublincore</layout>
       </layouts>
+      <subtypes>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+        <type>HtmlPage</type>
+        <type>PageForum</type>
+        <!--type>Space</type-->
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+    
+     <type id="PageForum">
+      <label>PageForum</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+        <type>HtmlPage</type>
+        <type>PageForum</type>
+        <!--type>Space</type-->
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="PageListLine">
+      <label>PageListLine</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>File</type>
+        <type>Picture</type>
+      </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
       </contentViews>

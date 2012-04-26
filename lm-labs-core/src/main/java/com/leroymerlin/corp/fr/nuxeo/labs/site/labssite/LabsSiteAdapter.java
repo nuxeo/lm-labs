@@ -445,7 +445,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             if (Docs.HTMLPAGE.type().equals(document.getType())) {
                 HtmlPage htmlPage = document.getAdapter(HtmlPage.class);
                 for (HtmlSection section : htmlPage.getSections()) {
-                    updated = processRows(section.getRows(), oldUrl, newUrl);
+                    if(processRows(section.getRows(), oldUrl, newUrl)){
+                        updated = true;
+                    }
                 }
             } else { // LabsNews
                 LabsNews news = document.getAdapter(LabsNews.class);
@@ -602,6 +604,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                     getTemplate().setTemplateName(labsSiteTemplate.getTemplate().getTemplateName());
                     // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.4.2-HF15
                     copyFacetSchemas(doc, templateSite, session);
+
                 } else {
                     throw new IllegalArgumentException(
                             templateSite.getPathAsString()
@@ -611,6 +614,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             }
         };
         sessionRunner.runUnrestricted();
+        
     }
 
     protected void copyFacetSchemas(DocumentModel site, final DocumentModel templateSite, CoreSession session) {

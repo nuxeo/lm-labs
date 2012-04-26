@@ -1,3 +1,4 @@
+<#assign bsMinified = ".min" />
 <@extends src="/views/labs-manage-base.ftl">
   <#assign canCreateSite = Common.canCreateSite(Context.principal.name)>
 
@@ -6,8 +7,8 @@
     <script type="text/javascript" src="${skinPath}/js/sitesRoot.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
 jQuery(document).ready(function() {
@@ -170,7 +171,7 @@ function deleteDefinitelySite(url){
 	      </table>
 	    </#if>
 	    <#-- template sites -->
-    	<#if (templateLabsSites?size > 0) >
+    	<#if (Context.principal.isAnonymous() == false && templateLabsSites?size > 0) >
     	<section>
 			<div class="page-header">
 				<h4>${Context.getMessage('label.labssite.list.template.sites.title')}</h4>

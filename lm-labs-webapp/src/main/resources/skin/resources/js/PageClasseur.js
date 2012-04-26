@@ -1,6 +1,17 @@
+var multipleFileUploads = true;
 jQuery(document).ready(function(){
 
-
+	// Check for the various File API support.
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+	  // Great success! All the File APIs are supported.
+	} else {
+	  multipleFileUploads = false;
+	  jQuery('input[multiple]').siblings('p.help-block').hide();
+	  jQuery('form.form-upload-file').find('div.alert').show();
+	  jQuery('input[multiple]').removeAttr('multiple');
+	  //alert('The File APIs are not fully supported in this browser.');
+	}
+	
   var nbPictUploaded=0;
   var link ="";
 

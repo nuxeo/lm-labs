@@ -53,9 +53,11 @@ public class LabsCommentsService extends CommentService {
             throw WebException.wrap(e);
         }
         Template view = getView("index").arg("comments", comments);
+        boolean reverseComments = Boolean.parseBoolean(ctx.getForm().getString("reverseComments"));
+        boolean removeOnlyLastComment = Boolean.parseBoolean(ctx.getForm().getString("removeOnlyLastComment"));
         String isPage = ctx.getForm().getString("isPage");
         if (!StringUtils.isEmpty(isPage) && "yes".equals(isPage)){
-            view.arg("deleteComment", "deleteCommentPage").arg("divTitleComments", "divTitleCommentsPage");
+            view.arg("deleteComment", "deleteCommentPage").arg("divTitleComments", "divTitleCommentsPage").arg("reverseComments", reverseComments).arg("removeOnlyLastComment", removeOnlyLastComment);
         }
         else{
             view.arg("deleteComment", "deleteComment").arg("divTitleComments", "divTitleComments");

@@ -3,21 +3,23 @@
   <thead>
     <tr>
       <#list bean.headersSet as header>
-        <th <#if entriesLines?size == 0 >class="header noSort" </#if>${This.getLineStyle(header)} >${header.name}</th>
+        <th <#if entriesLines?size == 0 || header.type?lower_case == 'files' >class="header noSort" </#if>style="${This.getLineStyle(header)}" >${header.name}</th>
       </#list>
       <#if This.commentableLines>
 	    <th class="header noSort" style="width: 15px;">&nbsp;</th>
 	  </#if>
-	    <th class="header noSort" style="width: 15px;">&nbsp;</th>
     </tr>
   </thead>
   <tbody>
     <#list entriesLines as entriesLine>
+      <#assign lineOnclick = This.getLineOnclick(entriesLine) />
       <tr>
         <#list bean.headersSet as header>
-          <td ${This.getLineStyle(header, entriesLine)} ${This.getLineOnclick(entriesLine)}>
+          <td style="${This.getLineStyle(header, entriesLine)}<#if header.type?lower_case == 'files'><#include "/views/PageList/" + header.type?lower_case + "/td-style.ftl" /></#if>"
+            <#if header.type?lower_case != 'files'>${lineOnclick} </#if>
+            <#if header.type?lower_case == 'files'><#include "/views/PageList/" + header.type?lower_case + "/td-attributes.ftl" /></#if>>
             <#assign entry = entriesLine.getEntryByIdHead(header.idHeader) />
-            <#if entry != null>
+            <#if entry != null || header.type?lower_case == 'files' >
               <#assign formatDate = header.formatDate />
               <#include "/views/PageList/" + header.type?lower_case + "/display.ftl" />
             </#if>
@@ -37,13 +39,6 @@
 			  </a>
   			</td>
       	</#if>
-      	<#assign nbrAttachedFiles = entriesLine.nbrFiles />
-  		<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${Context.getMessage('label.PageList.line.nbAttachedFiles', nbrAttachedFiles)}" >
-  		    <input type="hidden" value="${entriesLine.docLine.name}" />
-  		    <a href="#" class="btn btn-mini<#if This.allContributors > openLineFiles open-dialog</#if><#if nbrAttachedFiles == 0> noFileAttached</#if>" rel="lineFiles" style="padding-right:3px;" >
-  		        <i class="icon-file" ></i>
-  		    </a>
-  		</td>
       </tr>
     </#list>
   </tbody>

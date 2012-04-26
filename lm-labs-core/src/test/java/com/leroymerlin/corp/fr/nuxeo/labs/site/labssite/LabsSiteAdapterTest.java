@@ -57,7 +57,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 @RepositoryConfig(cleanup = Granularity.METHOD, init = DefaultRepositoryInit.class)
 public class LabsSiteAdapterTest {
 
-    private static final String PAGE_TEMPLATE_DEFAULT = "homeSimple";
+    //private static final String PAGE_TEMPLATE_DEFAULT = "homeSimple";
     private static final String PAGE_TEMPLATE_CUSTOM = "customTemplate";
     private static final String PAGE_TEMPLATE_CUSTOM2 = "customTemplate2";
 

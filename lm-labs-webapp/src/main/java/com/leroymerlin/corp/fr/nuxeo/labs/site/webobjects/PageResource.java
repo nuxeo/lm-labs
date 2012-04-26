@@ -23,6 +23,8 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.rest.DocumentHelper;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
@@ -35,6 +37,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
@@ -43,10 +46,12 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
@@ -65,12 +70,14 @@ public class PageResource extends DocumentObject {
 
     private static final String GENERATED_LESS_TEMPLATE = "resources/less/generatedLess.ftl";
 
-     private static final Log LOG = LogFactory.getLog(PageResource.class);
+    private static final Log LOG = LogFactory.getLog(PageResource.class);
 
     private static final String[] MESSAGES_TYPE = new String[] { "error",
             "info", "success", "warning" };
 
     private LabsBase labsBaseAdapter;
+    
+    public AuthorFullName afn;
 
     protected enum PageCreationLocation {
         TOP("top"),
@@ -125,7 +132,9 @@ public class PageResource extends DocumentObject {
                     || (site.isContributor(principalName) && !site.isSiteTemplate())) {
                 return;
             }
-            if (!Docs.LABSNEWS.type().equals(document.getType())) {
+            //TODO use facet instead
+            if (!Docs.LABSNEWS.type().equals(document.getType()) &&
+                    !Docs.LABSTOPIC.type().equals(document.getType())) {
                 boolean authorized = labsBaseAdapter.isAuthorizedToDisplay();
                 authorized = authorized && !labsBaseAdapter.isDeleted() && !site.isSiteTemplate();
                 if (!authorized) {
@@ -389,7 +398,7 @@ public class PageResource extends DocumentObject {
 
     @POST
     @Path("@addContent")
-    public Response doAddContent() {
+    public Response doAddContent() throws ClientException  {
         String name = ctx.getForm().getString("dc:title");
         String location = ctx.getForm().getString("location");
         boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString("overwritePage"));
@@ -443,7 +452,7 @@ public class PageResource extends DocumentObject {
         return super.initialize(ctx, type, args);
     }
 
-    protected Response addContent(String name, PageCreationLocation location, boolean overwrite) {
+    protected Response addContent(String name, PageCreationLocation location, boolean overwrite) throws ClientException {
         if (location == null) {
             location = PageCreationLocation.TOP;
         }
@@ -473,7 +482,36 @@ public class PageResource extends DocumentObject {
             throw WebException.wrap(e);
         }
         DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
+        newDoc.setPropertyValue("dc:title", name);
+        session.saveDocument(newDoc);
+
+		final DocumentModel myForumDoc = newDoc;
+        if (myForumDoc.getType().equals(LabsSiteConstants.Docs.PAGEFORUM.type())) {
+            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(myForumDoc.getCoreSession()){
+                @Override
+                public void run() throws ClientException {
+                    SecurityData data = SecurityDataHelper.buildSecurityData(myForumDoc);
+                    data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
+                    
+                    SecurityDataHelper.updateSecurityOnDocument(myForumDoc, data);
+                    session.save();
+                }
+                
+            };
+            runner.runUnrestricted();
+        }
         return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
     }
-
+    
+    /**
+     * don't forget to complete the afn in your doGet
+     * @param pAuthor
+     * @return
+     */
+    public String getFullName(String pAuthor){
+        if (afn != null){
+            return afn.getFullName(pAuthor);
+        }
+        return "";
+    }
 }

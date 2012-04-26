@@ -15,12 +15,15 @@ var titleAddPermissions = '${Context.getMessage('label.security.labs.addPermissi
 
 function initModalLabsPermissions(){
 	jQuery("#divAddPermissions").dialog2({
-		width : '580px',
+		width : '680px',
 		height : '250px',
 		overflowy : 'auto',
 		overflowx : 'hidden',
 		showCloseHandle : true,
 		removeOnClose : false,
+        buttons: {
+            "${Context.getMessage('command.security.addPerm.cancel')}": function() { closeAddPerm(); }
+        },
 		autoOpen : false
 	});
 }

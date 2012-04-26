@@ -66,7 +66,7 @@
 			</div>
         <#else>
         	<button id="vomitPublic" onClick="javascript:vomitPublic();" title="${Context.getMessage('label.security.labs.button.vomitPublic')}" class="btn btn-mini btn-warning"><i class="icon-fire"></i>${Context.getMessage('label.security.labs.button.vomitPublic')}</button>
-        	<button onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Write')?js_string}', 'ReadWrite');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Write')}" class="btn btn-mini" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
+        	<button onClick="javascript:displayAddPerm('${Context.getMessage('label.security.labs.permission.Read')?js_string}', 'Read');" title="${Context.getMessage('label.security.labs.button.add') + ' ' + Context.getMessage('label.security.labs.permission.Read')}" class="btn btn-mini" style="margin-left:20px;" ><i class="icon-plus" style="padding-right:0px;"></i></button>
     	</#if>
     </@displayPermTypeHeader>
 	<#list permissionsRead as perm>
@@ -109,7 +109,7 @@
         ${permText} 
         <small>
             <#if (0 < permsList?size) >
-                (${permsList?size})&nbsp;
+                <span class="badge badge-info" style="vertical-align: top;" >${permsList?size}</span>&nbsp;
             </#if>
             <#if isPage>
             	<#assign description = ".descriptionPage" />

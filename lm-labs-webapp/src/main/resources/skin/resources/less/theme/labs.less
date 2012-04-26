@@ -1,8 +1,8 @@
 @import "tablesorter.less";
+@import "customBackgroundImage.less";
 /*-------------------------------------------
 ------------------VARIABLES LESS-------------
 */
-
 
 @labsBlockBackgroundColor: @white;
 @labsBlockHeaderBackgroundColor: @labsBlockBackgroundColor;
@@ -14,7 +14,7 @@
 @labsNewsSummaryWidth: auto;
 
 @navbarHeight:            30px;
-@zindexDropdown:          1; /* pour que les dropdowns soient cachées quand la popup 'waitingPopup' est affichée */
+@zindexDropdown:          1; // pour que les dropdowns soient cachées quand la popup 'waitingPopup' est affichée 
 
 
 @labsContentBackgroundColor: @white;
@@ -28,9 +28,14 @@
 @iconWhiteSpritePath:     "../../img/glyphicons-halflings-white.png";
 
 
-/*---------------------------------------------------
----------------------FK------------------------------
-*/
+//--------------customBackgroundImage-------------------
+@bodyBackgroundIsColor: false;
+@bodyBackgroundIsGradient: false;
+@bodyBackgroundIsImage: false;
+
+//---------------------------------------------------
+//---------------------FK----------------------------
+//---
 
 #FKerrorLogin {
   color: @errorText;
@@ -39,6 +44,7 @@
 }
 
 #FKtopContent{
+	background-color: @labsContentBackgroundColor;
     margin: auto;
 	margin-bottom: 8px;
 	.box-shadow(1px 1px 12px #555);
@@ -66,7 +72,7 @@
 
 // tag with this ID does not exist in Labs !!!
 #FKbacktointralm {
-  /* On fixe la taille en pixel car on a un fond  fixé en px */
+  // On fixe la taille en pixel car on a un fond  fixé en px
   font-size: 11px;
   background-image: url(../../images/theme/backIntralm.png);
   width: 110px;
@@ -112,11 +118,9 @@
   float: right;
 }
 
-
-
-/*---------------------------------------------------------
----------------------SIDEBAR--------------------------------
-*/
+//---------------------------------------------------------
+//---------------------SIDEBAR------------------------------
+//---------------------------------------------------------
 
 
 //siteMap
@@ -145,7 +149,7 @@ div#siteMap {
   border: 1px solid rgba(0,0,0,.05);
   padding:5px;
   .border-radius(4px);
-  .box-shadow();
+  .box-shadow(none);
 
   .header {
     margin:-5px -5px 0px -5px;
@@ -163,7 +167,6 @@ div#siteMap {
     float:left;
     margin-right:8px;
   }
-
 }
 
 .labs-disabled() {
@@ -207,17 +210,11 @@ div#siteMap {
 	}
 
 	&.delete{
-	  background-image: url(../../images/x.gif);
-	  background-repeat: no-repeat;
-	  background-position:center;
 	  height: 100%;
 	  position: relative;
 	  top: 0px;
-	  width: 15px;
-	  right: 5px;
-	  cursor: pointer;
 	  float: right;
-	  margin-bottom: 0;
+	  margin-bottom: 2px;
 	}
 	
 	
@@ -257,6 +254,13 @@ li.labscomments {
 }
 
 //Last message
+.labs-hr-border-bottom(@hrBColor) when (@hrBColor = transparent) {
+      border-bottom: transparent;
+}
+.labs-hr-border-bottom(@hrBColor) when not (@hrBColor = transparent) {
+      border-bottom: 1px solid lighten(@hrBColor, 25%);
+}
+
 .lastMessage {
 
 	height:196px;
@@ -286,17 +290,16 @@ li.labscomments {
 		font-style:italic;
 	}
 	hr {
-	  border-bottom: 1px solid lighten(@hrBorder, 25%);
+      .labs-hr-border-bottom(@hrBorder);
 	}
 	a:hover{
 		.opacity(50);
 	}
 }
 
-
-/*--------------------------------------------------------
--------------------------MODAL DIALOG2--------------------
-*/
+//--------------------------------------------------------
+//-------------------------MODAL DIALOG2------------------
+//--------------------------------------------------------
 
 
 // modal popups
@@ -329,8 +332,8 @@ li.labscomments {
 	background-position: left center;
 	padding: 0 0 0 20px;
 	//TODO
-	/*background-image: url("less/@{iconWhiteSpritePath}");
-	background-position: 0      -24px;*/
+	//background-image: url("less/@{iconWhiteSpritePath}");
+	//background-position: 0      -24px;
 }
 
 .breadcrumb span.divider:after {
@@ -341,7 +344,6 @@ li.labscomments {
     background-color: transparent;
 }
 
-
 #jstree {
    background-color: transparent;
    a {
@@ -350,7 +352,7 @@ li.labscomments {
 }
 
 #jstree .jstree-clicked {
-    background: @primaryButtonBackground;
+    background: @btnPrimaryBackground;
     color: @white;
 }
 
@@ -421,7 +423,7 @@ section.labsnews {
 
 .ui-datepicker
 {
-    z-index: 102 !important; /* must be > than .btn (201) */
+    z-index: 102 !important; // must be > than .btn (201)
 }
 
 [class^="icon-"],
@@ -446,9 +448,9 @@ textarea {
   font-family: @baseFontFamily;
 }
 
-/*--------------------------------------------------------
--------------------------PAGE CLASSEUR--------------------
-*/
+//--------------------------------------------------------
+//-------------------------PAGE CLASSEUR------------------
+//--------------------------------------------------------
 
 table.classeurFiles {
     td.actions, th.actions {
@@ -461,15 +463,16 @@ table.classeurFiles {
 	padding-right: 6px;
 }
 
-/*--------------------------------------------------------
--------------------------Navigation up/down--------------------
-*/
+//--------------------------------------------------------
+//------------------Navigation up/down--------------------
+//--------------------------------------------------------
+
 .nav_up{
 	padding:7px;
 	background-color:white;
 	border:1px solid #CCC;
 	position:fixed;
-	background:transparent url(../img/arrow_up.png) no-repeat top left;
+	background:transparent url(../../images/theme/arrow_up.png) no-repeat top left;
 	background-position:50% 50%;
 	width:4px;
 	height:15px;
@@ -486,7 +489,7 @@ table.classeurFiles {
 	background-color:white;
 	border:1px solid #CCC;
 	position:fixed;
-	background:transparent url(../img/arrow_down.png) no-repeat top left;
+	background:transparent url(../../images/theme/arrow_down.png) no-repeat top left;
 	background-position:50% 50%;
 	width:4px;
 	height:15px;
