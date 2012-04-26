@@ -14,6 +14,8 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
 
@@ -26,7 +28,7 @@ public class LMForumImpl extends AbstractPage implements LMForum {
 	@Override
 	public LMTopic addTopic(CoreSession session, String topicTitle) throws ClientException {
 	    
-	    DocumentModel docTopic = session.createDocumentModel(doc.getPathAsString(), topicTitle,"LMForumTopic");
+	    DocumentModel docTopic = session.createDocumentModel(doc.getPathAsString(), LabsSiteUtils.doLabsSlugify(topicTitle), LabsSiteConstants.Docs.LABSTOPIC.type());
         
         docTopic = session.createDocument(docTopic);
         docTopic.setPropertyValue(AbstractLabsBase.DC_TITLE, topicTitle);
