@@ -485,7 +485,7 @@ public class PageResource extends DocumentObject {
         newDoc.setPropertyValue("dc:title", name);
         session.saveDocument(newDoc);
 
-		final myForumDoc = newDoc;
+		final DocumentModel myForumDoc = newDoc;
         if (myForumDoc.getType().equals(LabsSiteConstants.Docs.PAGEFORUM.type())) {
             UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(myForumDoc.getCoreSession()){
                 @Override
