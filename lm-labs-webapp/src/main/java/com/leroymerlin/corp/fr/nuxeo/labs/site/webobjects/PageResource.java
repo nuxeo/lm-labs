@@ -394,7 +394,7 @@ public class PageResource extends DocumentObject {
 
     @POST
     @Path("@addContent")
-    public Response doAddContent() {
+    public Response doAddContent() throws ClientException {
         String name = ctx.getForm().getString("dc:title");
         String location = ctx.getForm().getString("location");
         boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString("overwritePage"));
@@ -448,7 +448,7 @@ public class PageResource extends DocumentObject {
         return super.initialize(ctx, type, args);
     }
 
-    protected Response addContent(String name, PageCreationLocation location, boolean overwrite) {
+    protected Response addContent(String name, PageCreationLocation location, boolean overwrite) throws ClientException {
         if (location == null) {
             location = PageCreationLocation.TOP;
         }
@@ -478,6 +478,8 @@ public class PageResource extends DocumentObject {
             throw WebException.wrap(e);
         }
         DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
+        newDoc.setPropertyValue("dc:title", name);
+        session.saveDocument(newDoc);
         return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
     }
     

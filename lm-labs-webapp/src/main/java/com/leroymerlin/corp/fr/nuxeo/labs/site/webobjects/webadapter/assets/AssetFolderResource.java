@@ -10,9 +10,12 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.rest.DocumentHelper;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 import org.nuxeo.ecm.webengine.WebException;
@@ -61,6 +64,7 @@ public class AssetFolderResource extends DocumentObject {
     @POST
     public Response doPost() {
         FormData form = ctx.getForm();
+        CoreSession session = getCoreSession();
         if (form.isMultipartContent()) {
             String desc = form.getString("description");
             String noRedirect = form.getString("no_redirect");
@@ -71,9 +75,9 @@ public class AssetFolderResource extends DocumentObject {
                     DocumentModel file = addFile(blob);
                     if (!StringUtils.isBlank(desc)) {
                         file.setPropertyValue("dc:title", desc);
-                        getCoreSession().saveDocument(file);
+                        session.saveDocument(file);
                     }
-                    getCoreSession().save();
+                    session.save();
                 }
                 if (noRedirect != null) {
                     JSONObject json = new JSONObject();
@@ -86,7 +90,17 @@ public class AssetFolderResource extends DocumentObject {
                 throw WebException.wrap(e);
             }
         } else {
-            return super.doPost();
+            String name = ctx.getForm().getString("dublincore:title");
+            DocumentModel newDoc = DocumentHelper.createDocument(ctx, doc, name);
+            String pathSegment = URIUtils.quoteURIPathComponent(newDoc.getName(),
+                    true);
+            try {
+                newDoc.setPropertyValue("dc:title", name);
+                session.saveDocument(newDoc);
+            } catch (Exception e) {
+                throw WebException.wrap(e);
+            }
+            return redirect(getPath() + '/' + pathSegment);
         }
     }
 

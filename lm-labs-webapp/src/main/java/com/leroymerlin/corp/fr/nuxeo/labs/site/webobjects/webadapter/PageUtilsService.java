@@ -16,6 +16,7 @@ import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 
 @WebAdapter(name = "pageUtils", type = "PageUtilsService")
 public class PageUtilsService extends DefaultAdapter {
@@ -209,8 +210,10 @@ public class PageUtilsService extends DefaultAdapter {
             DocumentModel destination = session.getDocument(new IdRef(
                     destinationId));
             DocumentModel newDoc = getContext().getCoreSession().createDocumentModel(
-                    destination.getPathAsString(), title, doctype);
+                    destination.getPathAsString(), LabsSiteUtils.doLabsSlugify(title), doctype);
             newDoc = session.createDocument(newDoc);
+            session.saveDocument(newDoc);
+            newDoc.setPropertyValue("dc:title", title);
             session.saveDocument(newDoc);
             session.save();
         } catch (ClientException e) {

@@ -15,9 +15,9 @@ import org.nuxeo.ecm.core.api.Sorter;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 
-import com.leroymerlin.common.core.utils.Slugify;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
@@ -35,9 +35,8 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
             throws ClientException {
         CoreSession session = doc.getCoreSession();
 
-        String name = Slugify.slugify(pTitle).replace('\'', '-').replace('"', '-');
         DocumentModel document = session
-                .createDocumentModel(doc.getPathAsString(), name,
+                .createDocumentModel(doc.getPathAsString(), LabsSiteUtils.doLabsSlugify(pTitle),
                         LabsSiteConstants.Docs.LABSNEWS.type());
 
         document.setPropertyValue("dc:title", pTitle);
