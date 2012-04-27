@@ -183,7 +183,11 @@
             var overlay = self.parents(".modal-overlay");
             
             if (options.title) {
-                $(".modal-header h3", overlay).text(options.title);
+            	if (options.htmlTitle) {
+            		$(".modal-header h3", overlay).html(options.title);
+            	} else {
+            		$(".modal-header h3", overlay).text(options.title);
+            	}
             }
             
             if (options.width) {
@@ -435,7 +439,8 @@
     $.fn.dialog2.defaults = {
         autoOpen: true, 
         closeOnOverlayClick: true, 
-        removeOnClose: false, 
+        removeOnClose: false,
+        htmlTitle: false,
         showCloseHandle: true
     };
     
