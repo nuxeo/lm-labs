@@ -669,7 +669,7 @@
 <!-- use this one to be able to debug in eclipse
 	    <version>${nuxeo.version}</version>
 -->
-	    <version>5.4.3-SNAPSHOT</version>
+	    <version>5.4.3-I20111027_0115</version>
 	  </dependency>
 	
 	<dependency>
@@ -678,7 +678,7 @@
 	   <!-- use this one to be able to debug in eclipse
 	    <version>${nuxeo.version}</version>
 -->
-	    <version>5.4.3-SNAPSHOT</version>
+	    <version>5.4.3-I20111027_0115</version>
 	  </dependency>
 	
 	<dependency>
@@ -687,7 +687,7 @@
 	   <!-- use this one to be able to debug in eclipse
 	    <version>${nuxeo.version}</version>
 -->
-	    <version>5.4.3-SNAPSHOT</version>
+	    <version>5.4.3-I20111027_0115</version>
 	  </dependency>
 
 
