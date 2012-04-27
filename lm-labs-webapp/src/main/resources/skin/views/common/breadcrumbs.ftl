@@ -6,7 +6,7 @@
 				  <#if resource.previous?? && resource.document.type != "Site" >
 				      <@breadcrumb resource.previous/>
 				  </#if>
-				  <#if resource.document??>
+				  <#if resource.document?? && resource.document.type != "Site" >
 				    <li<#if resource.document.id == Document.id> class="active"</#if>>
 				    	<#if resource.document.id != Document.id>
 				    		<span class="divider"><a href="${resource.path}">${resource.document.title}</a>&nbsp;&nbsp;</span>
