@@ -106,7 +106,8 @@
 			data : '',
 			success : function(msg) {
 				jQuery("#divListComments")[0].innerHTML = msg;
-				jQuery("#divCommentable").dialog2("options", {title: $('#divTitleComments')[0].innerHTML});
+				var title = jQuery('#divTitleComments').html();
+				jQuery("#divCommentable").dialog2("options", {htmlTitle: true, title: title});
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);
