@@ -17,10 +17,10 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.CacheablePageResource;
 
 @WebObject(type = "HtmlPage", superType = "LabsPage")
-public class WebHtmlPage extends NotifiablePageResource {
+public class WebHtmlPage extends CacheablePageResource {
 
     private static final String FAILED_TO_ADD_HTML_SECTION = "Failed to add html section\n";
 

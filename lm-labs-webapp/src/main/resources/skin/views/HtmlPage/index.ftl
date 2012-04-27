@@ -18,6 +18,7 @@
   </@block>
 
   <@block name="content">
+  <@cache name="${This.cacheName}" key="${This.cacheKey}" >
   <@tableOfContents>
 
    	<div class="container-fluid">
@@ -268,5 +269,6 @@
 	</div>
 
   </@tableOfContents>
+  </@cache>
   </@block>
 </@extends>

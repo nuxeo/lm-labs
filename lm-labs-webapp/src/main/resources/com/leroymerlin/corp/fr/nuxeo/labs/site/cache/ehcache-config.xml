@@ -18,6 +18,15 @@
     diskPersistent="false"
     memoryStoreEvictionPolicy="LFU"/>
 
+  <cache name="LabsSites-HtmlPage"
+    maxElementsInMemory="20"
+    eternal="false"
+    timeToIdleSeconds="7200"
+    timeToLiveSeconds="1800"
+    overflowToDisk="false"
+    diskPersistent="false"
+    memoryStoreEvictionPolicy="LFU"/>
+
   <cache name="LabsSites-footer"
     maxElementsInMemory="20"
     eternal="false"
