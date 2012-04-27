@@ -1,8 +1,11 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.util.Calendar;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.freemarker.CacheBlock;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
@@ -36,18 +39,28 @@ public class CacheablePageResource extends NotifiablePageResource {
     }
     
     protected String generateCacheKey() {
-        String principalName = ctx.getPrincipal().getName();
         boolean isVisitor = true;
+        String role = "V";
+        String principalName = ctx.getPrincipal().getName();
         try {
-            LabsSite site = CommonHelper.siteDoc(doc).getSite();
-            if (site.isContributor(principalName) || site.isAdministrator(principalName)) {
-                isVisitor = false;
+            if (getPage().isAdministrator(principalName)) {
+                role = "A";
+            } else if (getPage().isContributor(principalName)) {
+                role = "C";
             }
         } catch (ClientException e) {
             LOG.warn("Unable to get site adapter while generating cache key so cached page is used: " + e.getMessage());
         }
         if (isVisitor) {
-            return generateCacheName() + "-" + getPath();
+            String dateStr = "";
+            try {
+                dateStr = Long.toString(((Calendar)getDocument().getPropertyValue("dc:modified")).getTime().getTime());
+            } catch (PropertyException e) {
+                LOG.warn("Unable to get property 'dc:modified': " + e.getMessage());
+            } catch (ClientException e) {
+                LOG.warn("Unable to get property 'dc:modified': " + e.getMessage());
+            }
+            return generateCacheName() + "-" + getPath() + "-" + role + "-" + dateStr;
         } else {
             return CacheBlock.NO_CACHE_KEY;
         }
