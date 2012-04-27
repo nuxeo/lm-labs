@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.leroymerlin.labs</groupId>
     <artifactId>lm-labs-parent</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
   </parent>
 
 
@@ -175,10 +175,10 @@
       <groupId>com.leroymerlin.labs</groupId>
       <artifactId>lm-labs-web</artifactId>
     </dependency>
-    <dependency>
+    <!-- dependency>
       <groupId>com.leroymerlin.labs</groupId>
       <artifactId>lm-labs-gadgets</artifactId>
-    </dependency>
+    </dependency -->
     <dependency>
       <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
       <artifactId>nuxeo-platform-rating-core</artifactId>
