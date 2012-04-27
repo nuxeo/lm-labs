@@ -65,11 +65,11 @@
       <scope>test</scope>
     </dependency>
     
+      <!--
     <dependency>
       <groupId>org.nuxeo.ecm.opensocial</groupId>
       <artifactId>nuxeo-opensocial-spaces</artifactId>
       <scope>test</scope>
-      <!--
        <exclusions>
         <exclusion>
           <groupId>org.nuxeo.runtime</groupId>
@@ -84,7 +84,7 @@
           <artifactId>nuxeo-core</artifactId>
         </exclusion>	
       </exclusions>
-     -->
     </dependency>
+     -->
   </dependencies>
 </project>
