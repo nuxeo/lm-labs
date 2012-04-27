@@ -29,6 +29,6 @@
 		</#list>
 	</ul>
 	<div id="${divTitleComments}" style="display: none">
-		${Context.getMessage('label.comments')} <span class="badge badge-info">${comments?size}</span>
+		${Context.getMessage('label.comments')} <span class="badge badge-info" style="vertical-align: top;" >${comments?size}</span>
 	</div>
 </div>
