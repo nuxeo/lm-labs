@@ -1,6 +1,6 @@
 // Bootswatch.less
 // Swatch: Readable
-// Version: 2.0.2
+// Version: 2.0.3
 // -----------------------------------------------------
 
 // TYPOGRAPHY
@@ -62,7 +62,6 @@ footer.footer {
 	}
 
 	.brand {
-		color: @linkColor;
 		font-size: @baseFontSize;
 		font-weight: bold;
 		line-height: 1em;
@@ -79,9 +78,28 @@ footer.footer {
 	}
 
 	.nav > li.active > a,
-	.nav > li:active > a,
-	.dropdown.open .dropdown-toggle {
+	.open .dropdown-toggle {
 		color: @linkColor;
+	}
+	
+	.nav li.dropdown.active > .dropdown-toggle,
+	.nav li.dropdown.open > .dropdown-toggle,
+	.nav li.dropdown.active.open > .dropdown-toggle {
+		color: @linkColor;
+		
+		&:hover {
+			color: @linkColorHover;
+		}
+	}
+	
+	.nav li.dropdown .dropdown-toggle .caret,
+	.nav li.dropdown.open .caret {
+		border-top-color: @linkColor;
+		opacity: 1;
+	}
+	
+	.nav li.dropdown.open .dropdown-toggle:hover .caret {
+		border-top-color: @linkColorHover;
 	}
 	
 	.search-query {
@@ -89,12 +107,6 @@ footer.footer {
 		.border-radius(0);
 		color: @textColor;
 		background-color: @white;
-	}
-
-	.nav .dropdown-toggle .caret,
-	.nav .open.dropdown .caret {
-		border-top-color: @linkColor;
-		opacity: 1;
 	}
 }
 
@@ -134,6 +146,7 @@ div.subnav {
 		.box-shadow(none);
 		background-color: transparent;
 	}
+	
 }
 
 div.subnav-fixed {
@@ -238,6 +251,22 @@ div.subnav-fixed {
 	li.active > a:hover {
 		color: @textColor;
 		background-color: @bodyBackground;
+	}
+	
+	.open .dropdown-toggle {
+		background-color: transparent;
+		color: @linkColor;
+		border-left: 1px solid whiteSmoke;
+		border-right: 1px solid #E5E5E5;
+	}
+	
+	
+	li.dropdown.open .dropdown-toggle .caret {
+		border-top-color: @linkColor;
+	}
+	
+	li.dropdown.open .dropdown-toggle:hover .caret {
+		border-top-color: @linkColorHover;
 	}
 }
 
@@ -347,7 +376,6 @@ select, input[type="file"] {
 }
 
 .form-actions {
-	background-color: transparent;
 	border-top: 1px solid #D4D4D4;
 	padding-top: 2em;
 }
