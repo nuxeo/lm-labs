@@ -19,8 +19,17 @@
     	-->
 	    	<#assign children = Common.siteDoc(parentDoc).childrenPageDocuments />
 	    	<#list children as child>
+                <#assign isChildVisible = false />
+                <#if child.type != 'LabsNews' >
+                        <#assign childSitePage = Common.sitePage(child) />
+                        <#if childSitePage?? && childSitePage.visible >
+                                <#assign isChildVisible = true />
+                        </#if>
+                <#else>
+                        <#assign isChildVisible = true />
+                </#if>
 	    		<#if !child.facets?seq_contains("HiddenInNavigation")
-                    && (isContributor || (!isContributor && Common.sitePage(child).visible)) >
+                    && (isContributor || (!isContributor && isChildVisible)) >
 	    			<#assign childrenNbr = childrenNbr + 1 />
 	    		</#if>
 	    	</#list>
@@ -53,8 +62,17 @@
             <#else>
             -->
               <#list children as child>
-                <#if !child.facets?seq_contains("HiddenInNavigation") 
-                    && (isContributor || (!isContributor && Common.sitePage(child).visible)) >
+                <#assign isChildVisible = false />
+                <#if child.type != 'LabsNews' >
+                        <#assign childSitePage = Common.sitePage(child) />
+                        <#if childSitePage?? && childSitePage.visible >
+                                <#assign isChildVisible = true />
+                        </#if>
+                <#else>
+                        <#assign isChildVisible = true />
+                </#if>
+                <#if !child.facets?seq_contains("HiddenInNavigation")
+                    && (isContributor || (!isContributor && isChildVisible)) >
                 	<li><a href="${Context.modulePath}/${Common.siteDoc(child).resourcePath?html}"
                 		<#if (child.dublincore.description?length > 0) >
                 	  		rel="popover" data-content="${child.dublincore.description?html}"
