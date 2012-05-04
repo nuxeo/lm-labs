@@ -4,11 +4,11 @@
   xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/labssite">
 
   <xs:include schemaLocation="core-types.xsd" />
-  <xs:element name="theme_name" type="xs:string" default="Cerulean"></xs:element>
+  <xs:element name="theme_name" type="xs:string" default="LeroyMerlin"></xs:element>
   <xs:element name="homePageRef" type="xs:string"></xs:element>
   <xs:element name="siteTemplate" type="xs:boolean" default="false" />
   <xs:element name="siteTemplatePreview" type="tns:content"/>
-  
+
    <xs:element name="contacts" type="tns:contacts"></xs:element>
 
   <xs:complexType name="contacts">
@@ -17,6 +17,6 @@
         maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  
+
 </xs:schema>
 

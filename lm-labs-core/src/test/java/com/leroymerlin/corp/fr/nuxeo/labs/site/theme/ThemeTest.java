@@ -62,7 +62,7 @@ public class ThemeTest {
         SiteThemeManager tm = site.getThemeManager();
         SiteTheme theme = tm.getTheme();
         assertThat(theme, is(notNullValue()));
-        assertThat(theme.getName(), is("Cerulean"));
+        assertThat(theme.getName(), is("LeroyMerlin"));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme("Cerulean");
+        theme = tm.getTheme("LeroyMerlin");
 
         assertThat(theme, is(notNullValue()));
         Blob blob = theme.getBanner();

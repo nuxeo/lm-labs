@@ -1,0 +1,33 @@
+@import "../../bootstrap/bootstrap.less";
+@import "./bootswatch.less";
+@import "./variables.less";
+@import "../labs-fixed.less";
+@import "./titles-variables.less";
+@import "../titles-style.less";
+
+@mainColor:             #7AB51D;
+@linkColor:             @mainColor;
+@headingsColor:         @mainColor;
+
+// Labs
+// buttons' icons color
+.btn-primary > [class*="icon-"], .btn-danger > [class*="icon-"], .btn-warning > [class*="icon-"] {
+/*
+  background-image: url(@iconWhiteSpritePath);
+  */
+  /* font-awesome
+  background-image: url("@{iconWhiteSpritePath}");
+  */
+}
+
+// Button Group
+.btn-group > .dropdown-menu a {
+    color: @linkColor;
+}
+.btn-group > .dropdown-menu a:hover {
+    color: @white;
+}
+
+.btn:hover {
+  background-position: 0 -40px;
+}
