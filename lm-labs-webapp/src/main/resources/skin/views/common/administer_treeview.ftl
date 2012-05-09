@@ -22,6 +22,17 @@
 
 <#assign canManage = Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')/>
 
+	<@block name="css">
+		<@superBlock/>
+		<#if adminTreeviewType=="Pages">
+			<style type="text/css">
+				#vakata-contextmenu >ul >li {
+					width: 250px;
+				}
+  			</style>
+  		</#if>
+	</@block>
+
 	<@block name="scripts">
 	<@superBlock/>
 	<#if adminTreeviewType=="Assets">
@@ -260,6 +271,24 @@
 							setAsHome(this._get_node(nodes[0]).data("url"), this._get_node(nodes[0]));
 						}
 					},
+					"publish" : {
+						"separator_before"	: false,
+						"icon"				: "/nuxeo/icons/users_groups.png",
+						"separator_after"	: false,
+						"label"				: "${Context.getMessage('command.admin.publish')}",
+						"action"			: function (nodes) {
+							labsPublish("publish", this._get_node(nodes[0]).data("url"), this._get_node(nodes[0]));
+						}
+					},
+					"draft" : {
+						"separator_before"	: false,
+						"icon"				: "/nuxeo/icons/relation_not_visible.png",
+						"separator_after"	: false,
+						"label"				: "${Context.getMessage('command.admin.draft')}",
+						"action"			: function (nodes) {
+							labsPublish("draft", this._get_node(nodes[0]).data("url"), this._get_node(nodes[0]));
+						}
+					},
 					"markasdeleted" : {
 						"separator_before"	: false,
 						"icon"				: "/nuxeo/icons/bin_closed.png",
@@ -335,6 +364,8 @@
 					delete items.rename;
 					delete items.remove;
 					delete items.ccp;
+					delete items.publish;
+					delete items.draft;
 					delete items.markasdeleted;
 					delete items.undelete;
 					delete items.home;
@@ -343,6 +374,8 @@
 					</#if>
 				} else if(jQuery(node).attr('rel') == 'Folder') {
 					delete items.ccp_tree;
+					delete items.publish;
+					delete items.draft;
 					delete items.markasdeleted;
 					delete items.undelete;
 					delete items.home;
@@ -353,6 +386,8 @@
 					delete items.ccp_tree;
 					delete items.create;
 					<#if adminTreeviewType=="Assets">
+						delete items.publish;
+						delete items.draft;
 						delete items.markasdeleted;
 						delete items.undelete;
 						delete items.goto;
@@ -360,16 +395,28 @@
 					<#else>
 						if(jQuery(node).data('lifecyclestate') == 'undefined') {
 							delete items.markasdeleted;
+							delete items.publish;
+							delete items.draft;
 							delete items.undelete;
 							delete items.home;
 						} else if(jQuery(node).data('lifecyclestate') == 'deleted') {
+							delete items.publish;
+							delete items.draft;
 							delete items.markasdeleted;
 							delete items.home;
+						} else if(jQuery(node).data('lifecyclestate') == 'published') {
+							delete items.publish;
+							delete items.undelete;
+						} else if(jQuery(node).data('lifecyclestate') == 'draft') {
+							delete items.draft;
+							delete items.undelete;
 						} else {
 							delete items.undelete;
 						}
 						if(jQuery(node).data('ishomepage') == 'true') {
 							delete items.home;
+							delete items.publish;
+							delete items.draft;
 							delete items.markasdeleted;
 							delete items.remove;
 						}

@@ -27,10 +27,12 @@ import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoDraftException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 
 /**
  * @author fvandaele
@@ -44,13 +46,13 @@ public class LabsPublishService extends DefaultAdapter {
     private static final String IMPOSSIBLE_TO_BE_EMPTY_TRASH = "Impossible to be empty trash !";
     private static final String BE_EMPTY = "beEmpty";
     private static final String IMPOSSIBLE_TO_DRAFT = "Impossible to draft!";
-    private static final String IMPOSSIBLE_TO_PUBLISH = "Impossible to publish!";
+    public static final String IMPOSSIBLE_TO_PUBLISH = "Impossible to publish!";
     private static final String PUBLISH = "publish";
     private static final String DRAFT = "draft";
     private static final String DELETE = "delete";
     private static final String UNDELETE = "undelete";
-    private static final String NOT_DRAFT = "not drafted";
-    private static final String NOT_PUBLISHED = "not published";
+    public static final String NOT_DRAFT = "not drafted";
+    public static final String NOT_PUBLISHED = "not published";
 
     private static final Log log = LogFactory.getLog(LabsPublishService.class);
     private static final Object IMPOSSIBLE_TO_DELETE = "Impossible to delete!";
@@ -63,22 +65,12 @@ public class LabsPublishService extends DefaultAdapter {
     public Object doPublish() {
         DocumentModel document = getDocument();
         try {
-            if (LabsSiteConstants.State.DRAFT.getState().equals(document.getCurrentLifeCycleState())){
-                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
-                publisherAdapter.publish();
-                if (Docs.SITE.type().equals(document.getType())) {
-                    LabsSite site = document.getAdapter(LabsSite.class);
-                    LabsPublisher publisher = site.getIndexDocument().getAdapter(LabsPublisher.class);
-                    if (publisher.isDraft()) {
-                        publisher.publish();
-                    }
-                }
-                return Response.ok(PUBLISH).build();
-            }
-        } catch (ClientException e) {
+            LabsSiteWebAppUtils.publish(document);
+            return Response.ok(PUBLISH).build();
+        } catch (NoPublishException e) {
             log.error(IMPOSSIBLE_TO_PUBLISH, e);
+            return Response.ok(NOT_PUBLISHED).build();
         }
-        return Response.ok(NOT_PUBLISHED).build();
     }
     
     @PUT
@@ -86,15 +78,12 @@ public class LabsPublishService extends DefaultAdapter {
     public Object doDraft() {
         DocumentModel document = getDocument();
         try {
-            if (LabsSiteConstants.State.PUBLISH.getState().equals(document.getCurrentLifeCycleState())){
-                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
-                publisherAdapter.draft();
-                return Response.ok(DRAFT).build();
-            }
-        } catch (ClientException e) {
+            LabsSiteWebAppUtils.draft(document);
+            return Response.ok(DRAFT).build();
+        } catch (NoDraftException e) {
             log.error(IMPOSSIBLE_TO_DRAFT, e);
+            return Response.ok(NOT_DRAFT).build();
         }
-        return Response.ok(NOT_DRAFT).build();
     }
     
     @PUT
