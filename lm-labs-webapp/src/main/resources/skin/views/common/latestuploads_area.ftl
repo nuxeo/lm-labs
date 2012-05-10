@@ -4,4 +4,9 @@
 <#assign pagesListId = "latestuploads" />
 <#assign pagesListTooltip = "dc:description" />
 
-<#include "views/common/pageslist.ftl" />
+<#include "macros/pageProviderList.ftl" />
+<@pageProviderList pageProvider=pageProvider
+    divId=pagesListId
+    divTitle=pagesListTile
+    tooltipDocProp=pagesListTooltip
+    detailedPageUrl=detailedPageUrl />
