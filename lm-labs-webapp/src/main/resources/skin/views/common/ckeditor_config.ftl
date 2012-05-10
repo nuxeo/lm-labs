@@ -26,6 +26,13 @@ var ckeditorconfig = {
 };
 
 var ckeditorconfigUser = {
+    extraPlugins : 'tableresize',
+    filebrowserBrowseUrl : '@assets',
+    filebrowserImageBrowseUrl : '@assets',
+    filebrowserFlashBrowseUrl : '@assets',
+    filebrowserUploadUrl : '@assets',
+    filebrowserImageUploadUrl : '@assets',
+    filebrowserFlashUploadUrl : '@assets',
 	toolbar:
 		[
 			['Source'],
