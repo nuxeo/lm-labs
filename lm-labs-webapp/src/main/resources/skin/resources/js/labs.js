@@ -165,3 +165,11 @@ function scrollToRowAfterCkeip(response, ckeObj, ckeip_html) {
         window.location.href = rowId;
     }
 }
+
+function changeImgError() {
+  	$(".imgComment").each(function(i){
+  		$(this).error(function(){
+			$(this).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture");
+		});
+  	});
+}

@@ -108,6 +108,7 @@
 				jQuery("#divListComments")[0].innerHTML = msg;
 				var title = jQuery('#divTitleComments').html();
 				jQuery("#divCommentable").dialog2("options", {htmlTitle: true, title: title});
+				changeImgError();
 			},
 			error : function(msg) {
 				alert('ERROR' + msg.responseText);

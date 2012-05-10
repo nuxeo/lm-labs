@@ -66,6 +66,7 @@ public class PageListLineAdapterTest {
         EntriesLine line = new EntriesLine();
         line.getEntries().add(entry);
         lineAdapter.setLine(line);
+        lineAdapter.setNbComments(5);
         
         lineAdapter = model.create();
         line = lineAdapter.getLine();
@@ -78,6 +79,7 @@ public class PageListLineAdapterTest {
         assertTrue(CAL.equals(entry.getDate()));
         assertTrue(CHECKBOX == entry.isCheckbox());
         assertTrue(url.equals(entry.getUrl()));
+        assertTrue(lineAdapter.getNbComments() == 5);
     }
 
     @Test

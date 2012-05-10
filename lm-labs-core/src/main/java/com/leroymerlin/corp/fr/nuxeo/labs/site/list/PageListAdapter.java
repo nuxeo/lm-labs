@@ -264,10 +264,13 @@ public class PageListAdapter extends AbstractPage implements PageList {
         List<EntriesLine> entriesLines = new ArrayList<EntriesLine>();
         listDocLines = doc.getCoreSession()
                 .getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
+        EntriesLine line;
+        PageListLine adapterLine;
         for (DocumentModel docTmp : listDocLines) {
-            EntriesLine line = docTmp.getAdapter(PageListLine.class)
-                    .getLine();
+            adapterLine = docTmp.getAdapter(PageListLine.class);
+            line = adapterLine.getLine();
             line.setDocLine(docTmp);
+            line.setNbComments(adapterLine.getNbComments());
             entriesLines.add(line);
         }
         return entriesLines;

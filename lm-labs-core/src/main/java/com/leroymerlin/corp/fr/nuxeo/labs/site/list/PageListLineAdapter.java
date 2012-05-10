@@ -14,11 +14,13 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractSubDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageListLineAdapter extends AbstractSubDocument implements PageListLine {
 
@@ -30,6 +32,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
     private static final String TEXT = "text";
     private static final String ID_HEADER = "idHeader";
     private static final String ENTRIES_LINE = LabsSiteConstants.Schemas.PAGELIST_LINE.prefix() + ":entriesLine";
+    private static final String NB_COMMENTS_LINE = LabsSiteConstants.Schemas.PAGELIST_LINE.prefix() + ":nbComments";
     
     public PageListLineAdapter(DocumentModel doc) {
         this.doc = doc;
@@ -204,5 +207,32 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
                 .query(sb.toString());
         return list;
 
+    }
+
+    @Override
+    public void setNbComments(int nbComments) throws ClientException {
+        doc.setPropertyValue(NB_COMMENTS_LINE, nbComments);
+    }
+
+    @Override
+    public int getNbComments() throws ClientException{
+        try {
+            return Tools.getInt(doc.getProperty(NB_COMMENTS_LINE));
+        } catch (NullException e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public void addComment() throws ClientException {
+        setNbComments(getNbComments() + 1);
+    }
+
+    @Override
+    public void removeComment() throws ClientException {
+        int nbComments = getNbComments() -1;
+        if (nbComments > -1){
+            setNbComments(nbComments);
+        }
     }
 }
