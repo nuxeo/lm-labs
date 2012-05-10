@@ -8,8 +8,6 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.freemarker.CacheBlock;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 
 public class CacheablePageResource extends NotifiablePageResource {
 
