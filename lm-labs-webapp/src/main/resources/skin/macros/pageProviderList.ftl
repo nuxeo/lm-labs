@@ -5,7 +5,9 @@
   <#list pageProvider.setCurrentPage(0) as doc >
     <li>
       <#assign sd = Common.siteDoc(doc) />
-      <a href="${Context.modulePath}/${sd.parentPagePath}" title="/${sd.parentPagePath}<#if doc[tooltipDocProp] &gt; 0> - ${doc[tooltipDocProp]}</#if>" >${doc.title}</a>
+      <a href="${Context.modulePath}/${sd.parentPagePath}" title="/${sd.parentPagePath}<#if doc[tooltipDocProp] &gt; 0> - ${doc[tooltipDocProp]}</#if>" >
+        <i style="font-size: 9px; text-decoration: none;" class="icon-chevron-right" ></i>${doc.title}
+      </a>
     </li>
   </#list>
   </ul>
