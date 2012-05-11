@@ -78,7 +78,7 @@
                 	  		rel="popover" data-content="${child.dublincore.description?html}"
                 	  		data-original-title="${Context.getMessage('label.description')}"
                 	  	</#if>
-                	>${child.title}</a></li>
+                	><i style="font-size: 9px; text-decoration: none;" class="icon-chevron-right" ></i>${child.title}</a></li>
                 </#if>
               </#list>
             <#--
