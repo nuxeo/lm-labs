@@ -95,20 +95,9 @@
     </dependency>
 
     <dependency>
-      <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
-      <artifactId>nuxeo-platform-rating-api</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
       <version>1.2.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
-      <artifactId>nuxeo-platform-rating-core</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
