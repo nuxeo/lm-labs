@@ -18,4 +18,5 @@ Nuxeo-Component: OSGI-INF/core-types-contrib.xml,
  OSGI-INF/directories-contrib.xml,
  OSGI-INF/picture-adapter-contrib.xml,
  OSGI-INF/mimetype-contrib.xml,
+ OSGI-INF/gadgets-service.xml,
  OSGI-INF/sitemanager-service.xml

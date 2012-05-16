@@ -83,8 +83,15 @@ public class HtmlRow {
                 List<Map<String, Serializable>> contentsMap = (List<Map<String, Serializable>>) rowMap.get("contents");
                 for(Map<String,Serializable> map : contentsMap) {
                     long colNumber = (Long) map.get("colnumber");
-                    String html = (String) map.get("html");
-                    this.contents.add(new HtmlContent(this, (int)colNumber,html));
+                    String type = (String) map.get("type");
+                    if (HtmlContent.Type.WIDGET_CONTAINER.type().equals(type)) {
+                        @SuppressWarnings("unchecked")
+                        List<String> refs = (List<String>) map.get("widgetRefs");
+                        this.contents.add(new HtmlContent(this, (int)colNumber, refs));
+                    } else {
+                        String html = (String) map.get("html");
+                        this.contents.add(new HtmlContent(this, (int)colNumber, html));
+                    }
                 }
             }
         }
@@ -128,7 +135,7 @@ public class HtmlRow {
         this.cssClass = cssClass;
         this.update();
     }
-    
+
     public void initTemplate(String templateName) throws ClientException {
         for (HtmlContent content : this.getContents()) {
             content.remove();

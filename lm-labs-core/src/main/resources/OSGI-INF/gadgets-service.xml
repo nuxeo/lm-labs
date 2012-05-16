@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.service.GadgetService">
+  <documentation>
+    This component gives the user the possibility to add comments to documents.
+  </documentation>
+
+  <implementation class="com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetService"/>
+
+  <service>
+    <provide interface="com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager"/>
+  </service>
+
+</component>

@@ -33,7 +33,6 @@
   </profiles>
 
 
-
   <dependencies>
     <dependency>
       <groupId>org.nuxeo.ecm.automation</groupId>
@@ -100,15 +99,15 @@
     </dependency>
 
     <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>1.2.2</version>
-    </dependency>
-
-    <dependency>
       <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
       <artifactId>nuxeo-platform-rating-core</artifactId>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2.2</version>
     </dependency>
 
     <dependency>
@@ -209,7 +208,6 @@
     <dependency>
       <groupId>org.nuxeo.ecm.opensocial</groupId>
       <artifactId>nuxeo-opensocial-spaces</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -287,17 +285,17 @@
       <artifactId>json-lib</artifactId>
       <classifier>jdk15</classifier>
     </dependency>
-    
+
      <dependency>
        <groupId>rome</groupId>
        <artifactId>rome</artifactId>
      </dependency>
-    
+
  	<dependency>
       <groupId>com.leroymerlin.labs</groupId>
       <artifactId>lm-forums-core</artifactId>
-    </dependency>    
-    
+    </dependency>
+
   </dependencies>
 
 </project>

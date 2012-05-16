@@ -14,7 +14,7 @@
 @labsNewsSummaryWidth: auto;
 
 @navbarHeight:            30px;
-@zindexDropdown:          1; // pour que les dropdowns soient cachées quand la popup 'waitingPopup' est affichée 
+@zindexDropdown:          1; // pour que les dropdowns soient cachées quand la popup 'waitingPopup' est affichée
 
 
 @labsContentBackgroundColor: @white;
@@ -52,12 +52,12 @@
         height: 30px;
         padding-top: 5px;
         padding-right: 15px;
-        
+
         >div#notification {
             float:right;
             margin-right: 10px;
         }
-        
+
         >div#siteMap {
             float:right;
             margin-top: 0px;
@@ -139,6 +139,18 @@ div#siteMap {
 	}
 }
 
+.bloc-header() {
+    margin:-5px -5px 0px -5px;
+    min-height:20px;
+    padding-left:1em;
+    .border-radius(4px 4px 0px 0px);
+    #gradient > .vertical-three-colors(@labsBlockHeaderBackgroundColor, @labsBlockHeaderBackgroundColor, 25%, darken(@labsBlockHeaderBackgroundColor, 10%));
+}
+
+.gadgets-gadget-title-bar {
+    .bloc-header;
+}
+
 // sidebar blocks
 .bloc {
   word-wrap: break-word;
@@ -152,11 +164,7 @@ div#siteMap {
   .box-shadow(none);
 
   .header {
-    margin:-5px -5px 0px -5px;
-    min-height:20px;
-    padding-left:1em;
-    .border-radius(4px 4px 0px 0px);
-    #gradient > .vertical-three-colors(@labsBlockHeaderBackgroundColor, @labsBlockHeaderBackgroundColor, 25%, darken(@labsBlockHeaderBackgroundColor, 10%));
+    .bloc-header;
 
     a {
       color: @gray;
@@ -179,14 +187,14 @@ div#siteMap {
     	width:510px;
     	height:75px;
     }
-	
+
 	&.comment{
       display: block;
 	  padding: 5px;
 	  border: @labsCommentsBorder;
 	  padding: 5px 5px 0;
     }
-    
+
     &.comment > span{
 	  display: block;
 	  margin-bottom: 10px;
@@ -199,12 +207,12 @@ div#siteMap {
 		background-position:center;
 		cursor: pointer;
 		width: 15px;
-		
+
 			&.noComments{
 				.labs-disabled;
 			}
 	}
-	
+
 	&.noComments{
 		.labs-disabled;
 	}
@@ -216,19 +224,19 @@ div#siteMap {
 	  float: right;
 	  margin-bottom: 2px;
 	}
-	
-	
+
+
 	&.by {
 	  font-size: 11px;
   	  display: inline-block;
   	  width: 100%;
 	}
-	
+
 	&.by > span {
 	  color: @labsCommentsAuthor;
 	  font-weight: bold;
 	}
-	
+
 	&.footer {
 	  display: inline;
 	  font-size: 10px;
@@ -236,9 +244,9 @@ div#siteMap {
  	  margin-top: 3px;
  	  margin-bottom:0;
 	}
-	
+
 	&.footer > span {
-	  
+
 	}
 }
 
@@ -274,13 +282,13 @@ li.labscomments {
 		margin-top:10px;
 	}
 	.item:hover {
-		text-decoration:underline; 
+		text-decoration:underline;
 	}
 	.browseLastMsg {
 		float:right;
 	}
 	.date {
-		text-decoration:underline; 
+		text-decoration:underline;
 	}
 	.title {
 		font-size: @baseFontSize;
@@ -313,7 +321,7 @@ li.labscomments {
   top: 25%;
   left: 50%;
  }
- 
+
 .modal-overlay{
   z-index: 101;
 }

@@ -1,6 +1,6 @@
 $(document).ready(function() {
   prettyPrint();
-  
+
   jQuery("#div-modifyCSSLine").dialog2({
     autoOpen : false,
 	closeOnOverlayClick : true,
@@ -13,5 +13,10 @@ function openModifiyCSSLine(url, cssName){
 	jQuery("#div-modifyCSSLine").dialog2('open');
 	jQuery('#form-modifyCSSLine').attr('action', url + '/@modifyCSS');
 	jQuery("#cssName").val(cssName);
+}
+
+function displayCssClass(section){
+    jQuery("#displayCssClass_" + section).show();
+    jQuery("#herfDisplayCssClass_" + section).hide();
 }
 
