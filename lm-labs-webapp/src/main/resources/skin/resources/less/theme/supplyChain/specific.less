@@ -3,11 +3,11 @@
 @import "../labs-fixed.less";
 
 @brown: #4B3621;
-
-@btnBackground: red;
-@btnPrimaryBackground: @brown;
-@btnPrimaryBackgroundHighlight: darken(@btnPrimaryBackground, 10%);
+  
+@btnBackground: lighten(@brown, 30%);
 @btnBackgroundHighlight: darken(@btnBackground, 10%);
+@btnPrimaryBackground: lighten(@brown, 15%);
+@btnPrimaryBackgroundHighlight: darken(@btnPrimaryBackground, 10%);
 
 @baseFontSize:          13px;
 @basefont:          13px;
@@ -240,13 +240,10 @@
     .navbarVerticalAlign(@baseLineHeight); // Vertically center in navbar
 }
 
-.navbar-search .search-query {
-	padding: 0;
-}
-
 .navbar-inner{
     height: @navbarHeight;
     .border-radius(0);
+    padding-right: 18px;
 }
 
 .navbar-form {
@@ -342,15 +339,14 @@ a:hover {
 }
 
 .nav-tabs > li.active > div.star{
-
-		width:0;
-		height:0;
-		border-left: 5px solid transparent;
-		border-right: 5px solid transparent;
-		border-top: 5px solid @bgcolortabs;
-		border-bottom: 0;
-		position: relative;
-		bottom: 4px;
+		width:0; 
+		height:0; 
+		border-left: 5px solid transparent; 
+		border-right: 5px solid transparent; 
+		border-top: 5px solid @bgcolortabs; 
+		border-bottom: 0; 
+		position: relative; 
+		bottom: 4px; 
 		left: 46%;
 }
 
@@ -486,7 +482,7 @@ h6 {
     border-top-color: @white;
     .opacity(75);
   }
-  .buttonBackground(lighten(@black, 50%), lighten(@black, 25%));
+  .buttonBackground(@btnBackground, @btnBackgroundHighlight);
 
 	&.btn-primary {
 	    padding: 2px 8px 3px;
@@ -534,7 +530,7 @@ h6 {
  // Set the backgrounds
 // -------------------------
 .btn-primary {
-  .buttonBackground(lighten(@black, 50%), lighten(@black, 25%));
+  .buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
 }
 // Warning appears are orange
 .btn-warning {
