@@ -148,7 +148,10 @@
                             <input type="hidden" class="content-index-value" value="${content_index}" />
                             <input type="hidden" class="widget-type" value="${widgets[0].type.type()}" />
                             <input type="hidden" class="widget-name" value="${widgets[0].name}" />
-                            <#assign widgetTitle = widgets[0].name />
+                            <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + widgets[0].type.type() + '.' + widgets[0].name) />
+                            <#if widgetTitle?starts_with('!') >
+                                <#assign widgetTitle = widgets[0].name />
+                            </#if>
                             <a class="btn open-dialog" rel="divConfigGadget" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')} ${widgetTitle}</a>
                         </div>
                       <#elseif isWidgetCol >
