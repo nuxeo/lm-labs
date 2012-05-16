@@ -19,10 +19,10 @@
             </#if>
 
           <div class="nav-collapse" >
-          <ul class="nav pull-right">
+          <ul class="nav pull-right" style="margin-right: -20px;">
             <#if mySite?? >
             <li>
-              <form class="navbar-search pull-right" style="margin-right: 15px;" accept-charset="ISO-8859-1" action="${Context.modulePath}/${mySite.URL}/@search">
+              <form class="navbar-search pull-right" style="margin-right: 15px;margin-top: 2px;" accept-charset="ISO-8859-1" action="${Context.modulePath}/${mySite.URL}/@search">
               <input class="search-query" placeholder="${Context.getMessage('label.search')}" name="fullText"/>
               </form>
             </li>
@@ -107,6 +107,9 @@
               </ul>
             </li>
             </#if>
+            <li>
+    			<div class="divLogoIntraLM"><img src="${skinPath}/images/LogoLMInTRALABS_Arrondie_s1.jpg" style="height:26px;" /></div>
+            </li>
           </ul>
           </div>
         </div>
