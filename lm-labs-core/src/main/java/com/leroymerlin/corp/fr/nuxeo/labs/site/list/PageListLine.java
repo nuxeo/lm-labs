@@ -50,16 +50,8 @@ public interface PageListLine extends SubDocument {
      */
     int getNbComments() throws ClientException;
     
-    /**
-     * Add a comment
-     * @throws ClientException
-     */
     void addComment() throws ClientException;
     
-    /**
-     * Remove a comment
-     * @throws ClientException
-     */
     void removeComment() throws ClientException;
     
 }
