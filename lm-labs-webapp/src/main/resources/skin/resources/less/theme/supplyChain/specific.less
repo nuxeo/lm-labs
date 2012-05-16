@@ -4,7 +4,10 @@
 
 @brown: #4B3621;
 
+@btnBackground: red;
 @btnPrimaryBackground: @brown;
+@btnPrimaryBackgroundHighlight: darken(@btnPrimaryBackground, 10%);
+@btnBackgroundHighlight: darken(@btnBackground, 10%);
 
 @baseFontSize:          13px;
 @basefont:          13px;
@@ -677,34 +680,40 @@ table.bs {
     .border-radius(0 0 0 0);
   }
   thead tr th:first-child {
-    .border-radius(10px 0 0 10px);
+    .border-radius(0 0 0 0);
   }
   thead tr th:last-child {
-    .border-radius(0 10px 10px 0);
+    .border-radius(0 0 0 0);
   }
 }
+
+
 
 .table-striped {
   tbody {
     tr:nth-child(odd) td {
-      background-color: lighten(@grayLight,15%);
+      background-color: #E6BF96
+    }
+    tr:nth-child(even) td {
+      background-color: #EDDAC5
     }
     tr:hover td {
-      background-color: lighten(@grayLight,20%);
+      background-color: lighten(#EDDAC5, 5%);
     }
   }
 }
 
 table.labstable {
 	.header {
-		background-color: @grayLight;
+		background-color: #BD864C;
+		color: @white;
 	}
 }
 
 div.classeur{
 	margin: 0px;
 	>section.Folder {
-		background-color: @grayLighter;
+		background-color: none;
 		padding: 3px;
 		margin-bottom: 10px;
 		>div.page-header {
@@ -720,7 +729,7 @@ div.classeur{
 		}
 		> div.folder-collapsable {
 		  > table.classeurFiles {
-		      background-color: @grayLighter;
+		      background-color: none;
 		      td.actions, th.actions {
 		          width: 98px;
 		      }
@@ -734,7 +743,7 @@ div.classeur{
 }
 
 #divPageList{
-	background-color: @grayLighter;
+	background-color: none;
 	margin: 0px;
 	padding: 3px;
 }

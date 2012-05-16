@@ -37,4 +37,21 @@ public interface PageListLine extends SubDocument {
      * @throws ClientException
      */
     List<DocumentModel> getComments() throws ClientException;
+
+    /**
+     * Set the comment's number
+     * @param nbComments
+     */
+    void setNbComments(int nbComments) throws ClientException;
+
+    /**
+     * Get the comment's number
+     * @return
+     */
+    int getNbComments() throws ClientException;
+    
+    void addComment() throws ClientException;
+    
+    void removeComment() throws ClientException;
+    
 }

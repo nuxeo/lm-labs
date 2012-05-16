@@ -1,9 +1,6 @@
 <div class="fixed-container">
 	<ul style="list-style: none;margin-left: 0px;">
-	<#if reverseComments?? && reverseComments>
-		<#assign comments=comments?reverse>
-	</#if>
-		<#list comments as comment>
+		<#list comments?reverse as comment>
 			<li class="labscomments">
 
 				<div class="labscomments by">

@@ -9,10 +9,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.SortInfo;
 import org.nuxeo.ecm.directory.SizeLimitExceededException;
+import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProviderService;
 import org.nuxeo.ecm.webengine.model.Module;
@@ -21,7 +26,14 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.GroupUserSuggest;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoDraftException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter.LabsPublishService;
 
 public final class LabsSiteWebAppUtils {
 
@@ -34,6 +46,10 @@ public final class LabsSiteWebAppUtils {
     public static final String DIRECTORY_THEME = "/skin/resources/less/theme";
 
     public static String NUXEO_WEBENGINE_BASE_PATH = "nuxeo-webengine-base-path";
+
+    public static final String IMPOSSIBLE_TO_PUBLISH = "Impossible to publish!";
+    
+    private static final Log LOG = LogFactory.getLog(LabsSiteWebAppUtils.class);
 
     private LabsSiteWebAppUtils() {
     }
@@ -98,5 +114,61 @@ public final class LabsSiteWebAppUtils {
         }
 
         return params;
+    }
+    
+    /**
+     * publish a page or site
+     * @param document to publish
+     * @throws NoPublishException if no published with a problem
+     */
+    public static void publish(DocumentModel document) throws NoPublishException{
+        try {
+            if (LabsSiteConstants.State.DRAFT.getState().equals(document.getCurrentLifeCycleState())){
+                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                publisherAdapter.publish();
+                if (Docs.SITE.type().equals(document.getType())) {
+                    LabsSite site = document.getAdapter(LabsSite.class);
+                    LabsPublisher publisher = site.getIndexDocument().getAdapter(LabsPublisher.class);
+                    if (publisher.isDraft()) {
+                        publisher.publish();
+                    }
+                }
+            }
+        } catch (ClientException e) {
+            throw new NoPublishException(LabsPublishService.NOT_PUBLISHED);
+        }
+    }
+    
+    /**
+     * draft a page or site
+     * @param document to draft
+     * @throws NoDraftException if no drafted with a problem
+     */
+    public static void draft(DocumentModel document) throws NoDraftException{
+        try {
+            if (LabsSiteConstants.State.PUBLISH.getState().equals(document.getCurrentLifeCycleState())){
+                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                publisherAdapter.draft();
+            }
+        } catch (ClientException e) {
+            throw new NoDraftException(LabsPublishService.NOT_DRAFT);
+        }
+    }
+    
+    /**
+     * update the setter of comments'size on th line of pageList
+     * @param session
+     */
+    public static void updateAllCommentsOnLinesOfPageList(CoreSession session){
+        try {
+            DocumentModelList children = session.query("SELECT * FROM PageListLine");
+            for (DocumentModel lineDoc: children){
+                lineDoc.getAdapter(PageListLine.class).setNbComments(lineDoc.getAdapter(CommentableDocument.class).getComments().size());
+                session.saveDocument(lineDoc);
+            }
+            session.save();
+        } catch (ClientException e) {
+            LOG.error("updateNbCommentsListLine : " , e);
+        }
     }
 }

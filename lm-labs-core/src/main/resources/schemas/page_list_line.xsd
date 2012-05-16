@@ -2,6 +2,9 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list_line"
 	xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/page_list_line">
 	
+	<!-- comment's number  -->
+	<xs:element name="nbComments" type="xs:int" default="0" />
+	
 	<!-- list of entries -->
 	<xs:element name="entriesLine" type="tns:entriesLine" />
 	<xs:complexType name="entriesLine">

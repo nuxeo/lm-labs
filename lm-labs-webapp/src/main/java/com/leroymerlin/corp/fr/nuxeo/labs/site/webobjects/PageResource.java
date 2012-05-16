@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
@@ -51,6 +53,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 
 @WebObject(type = "LabsPage")
@@ -377,6 +380,15 @@ public class PageResource extends DocumentObject {
             CoreSession session = getCoreSession();
             session.saveDocument(doc);
             session.save();
+            if("on".equalsIgnoreCase(ctx.getForm().getString("publishPage"))){
+                LabsSiteWebAppUtils.publish(doc);
+            }
+            else{
+                LabsSiteWebAppUtils.draft(doc);
+            }
+        } catch (NoPublishException e) {
+            return redirect(getPath()
+                    + "?message_error=label.parameters.page.publish.fail");
         } catch (ClientException e) {
             return redirect(getPath()
                     + "?message_error=label.parameters.page.save.fail");
@@ -488,6 +500,7 @@ public class PageResource extends DocumentObject {
 		final DocumentModel myForumDoc = newDoc;
         if (myForumDoc.getType().equals(LabsSiteConstants.Docs.PAGEFORUM.type())) {
             UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(myForumDoc.getCoreSession()){
+                @SuppressWarnings("deprecation")
                 @Override
                 public void run() throws ClientException {
                     SecurityData data = SecurityDataHelper.buildSecurityData(myForumDoc);
@@ -513,5 +526,9 @@ public class PageResource extends DocumentObject {
             return afn.getFullName(pAuthor);
         }
         return "";
+    }
+    
+    public long getNow(){
+        return Calendar.getInstance().getTimeInMillis();
     }
 }

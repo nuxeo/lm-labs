@@ -82,59 +82,54 @@ function deleteSite(){
 
 <#if isContributor >
 function publishPage(){
-    //if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouPublish')}")){
+    if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouPublish')}")){
         jQuery('#waitingPopup').dialog2('open');
         jQuery.ajax({
             type: 'PUT',
             async: false,
             url: '${This.path}/@labspublish/publish',
             success: function(data) {
-                /*if (data == 'publish') {
+                if (data == 'publish') {
                   alert("${Context.getMessage('label.lifeCycle.page.hasPublished')}");
                   document.location.href = '${This.path}';
                 }
                 else {
                   alert("${Context.getMessage('label.lifeCycle.page.hasNotPublished')}");
-                }*/
-                jQuery('#waitingPopup').dialog2('close');
+                  jQuery('#waitingPopup').dialog2('close');
+                }
             },
             error: function(data) {
                 jQuery('#waitingPopup').dialog2('close');
             }
         });
-    //}
+    }
 }
 
 function draftPage(){
-    //if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouDraft')}")){
+    if (confirm("${Context.getMessage('label.lifeCycle.page.wouldYouDraft')}")){
         jQuery('#waitingPopup').dialog2('open');
         jQuery.ajax({
             type: 'PUT',
             async: false,
             url: '${This.path}/@labspublish/draft',
             success: function(data) {
-                /*if (data == 'draft') {
+                if (data == 'draft') {
                   alert("${Context.getMessage('label.lifeCycle.page.hasDrafted')}");
                   document.location.href = '${This.path}';
                 }
                 else {
                   alert("${Context.getMessage('label.lifeCycle.page.hasNotDrafted')}");
-                }*/
-                jQuery('#waitingPopup').dialog2('close');
+                  jQuery('#waitingPopup').dialog2('close');
+                }
             },
             error: function(data) {
                 jQuery('#waitingPopup').dialog2('close');
             }
         });
-    //}
+    }
 }
 
 function submitParametersPage(){
-    if(jQuery("#publishPage").attr("checked")=="checked") {
-        publishPage();
-    } else {
-        draftPage();
-    }
     jQuery("#form_editParameters").submit();
 }
 </#if>

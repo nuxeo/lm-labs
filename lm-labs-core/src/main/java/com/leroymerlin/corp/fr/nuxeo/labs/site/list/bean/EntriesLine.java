@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
 
@@ -25,9 +24,12 @@ public class EntriesLine {
     
     private String userName;
     
+    private int nbComments;
+    
     public EntriesLine() {
         this.entries = new ArrayList<Entry>();
         this.docLine = null;
+        this.nbComments = 0;
     }
 
     public List<Entry> getEntries() {
@@ -63,8 +65,8 @@ public class EntriesLine {
         this.docLine = docLine;
     }
     
-    public int getNbComments() throws ClientException, Exception{
-        return docLine.getAdapter(CommentableDocument.class).getComments().size();
+    public int getNbComments(){
+        return this.nbComments;
     }
 
     public String getUserName() {
@@ -77,5 +79,9 @@ public class EntriesLine {
 
     public int getNbrFiles() throws ClientException, Exception{
         return docLine.getAdapter(PageListLine.class).getFiles().size();
+    }
+
+    public void setNbComments(int nbComments) {
+        this.nbComments = nbComments;
     }
 }

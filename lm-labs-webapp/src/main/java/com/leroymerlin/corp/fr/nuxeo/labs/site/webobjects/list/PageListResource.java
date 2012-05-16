@@ -29,7 +29,6 @@ import javax.ws.rs.core.StreamingOutput;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hsqldb.lib.StringUtil;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -188,7 +187,7 @@ public class PageListResource extends NotifiablePageResource {
             SortedSet<Header> setHeaders = getSetHeaders(map);
             List<Header> headersToSave = new ArrayList<Header>();
             for (Header header : setHeaders) {              
-                if (!StringUtil.isEmpty(header.getName())){
+                if (!StringUtils.isEmpty(header.getName())){
                     header.setOrderPosition(position);
                     position++;
                     List<String> selectlist = header.getSelectlist();

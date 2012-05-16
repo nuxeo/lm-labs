@@ -181,10 +181,6 @@
     </dependency -->
     <dependency>
       <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
-      <artifactId>nuxeo-platform-rating-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
       <artifactId>lm-portal-user</artifactId>
     </dependency>
   </dependencies>
