@@ -15,19 +15,19 @@ $(document).ready(function() {
   $(".alter-message, .close").click(function(e) {
     $(this).parent().fadeOut();
   });
-  
+
   initRequiredFields();
 
   setTimeout("hideAlerts()", 5000);
 
   $(document).controls();
-  
+
   if (jQuery('#waitingPopup')){
  	jQuery('#waitingPopup').dialog2({autoOpen : false, closeOnOverlayClick : false, removeOnClose : false, showCloseHandle : false});
   }
-  
+
   new EllipsisText().init();
-  
+
   initMinHeightBody();
 
 });
@@ -39,17 +39,17 @@ function initMinHeightBody(){
 $(function() {
 	if($('#nav_up') && $('#nav_down'))
 		var $elem = $('#FKtopContent');
-		
+
 		$('#nav_up').fadeIn('slow');
-		$('#nav_down').fadeIn('slow');  
-		
+		$('#nav_down').fadeIn('slow');
+
 		$(window).bind('scrollstart', function(){
 			$('#nav_up,#nav_down').stop().animate({'opacity':'0.2'});
 		});
 		$(window).bind('scrollstop', function(){
 			$('#nav_up,#nav_down').stop().animate({'opacity':'1'});
 		});
-		
+
 		$('#nav_down').click(
 			function (e) {
 				$('html, body').animate({scrollTop: $elem.height()}, 800);
@@ -172,4 +172,20 @@ function changeImgError() {
 			$(this).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture");
 		});
   	});
+}
+
+/*
+function dateAsString(date) {
+    dateObj = new Date(date);
+    Date.prototype.toDateString = function () {return isNaN (this) ? 'NaN' : [this.getDate() > 9 ? this.getDate() : '0' + this.getDate(), this.getMonth() > 8 ? this.getMonth() + 1 : '0' + (this.getMonth() + 1), this.getFullYear()].join('/')}
+    Date.prototype.toHourString = function () {return isNaN (this) ? 'NaN' : [this.getHours() > 9 ? this.getHours() : '0' + this.getHours(), this.getMinutes() > 9 ? this.getMinutes() : '0' + this.getMinutes(), this.getSeconds() > 9 ? this.getSeconds() : '0' + this.getSeconds()].join(':')}
+    return dateObj.toDateString() + ' - ' + dateObj.toHourString();
+}
+*/
+
+function dateAsString(date) {
+    var mois = new Array("janv.","f&eacute;v.","mars","avr.","mai","juin","juil.","ao&ucirc;t","sept.","oct.","nov.","déc.");
+    dateObj = new Date(date);
+    Date.prototype.toDateString = function () {return isNaN (this) ? 'NaN' : [this.getDate() > 9 ? this.getDate() : '0' + this.getDate(), mois[this.getMonth()], this.getFullYear()].join(' ')}
+    return dateObj.toDateString();
 }

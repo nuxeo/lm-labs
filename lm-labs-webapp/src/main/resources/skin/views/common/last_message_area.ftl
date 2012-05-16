@@ -30,7 +30,7 @@ function parseXml(xml) {
 		);
 		last_messages.push(item);
 	});
-	$(".browseLastMsg").pagination(last_messages.length, {
+	$(".lastMessage .browseLastMsg").pagination(last_messages.length, {
 		items_per_page:2,
 		num_display_entries:0,
 		num_edge_entries:0,

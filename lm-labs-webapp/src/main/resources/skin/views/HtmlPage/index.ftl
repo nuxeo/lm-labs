@@ -1,7 +1,7 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).site />
-  <#assign availableHtmlWidgets = ["children", "lastuploads"] />
+  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews"] />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
@@ -148,11 +148,14 @@
                             <input type="hidden" class="content-index-value" value="${content_index}" />
                             <input type="hidden" class="widget-type" value="${widgets[0].type.type()}" />
                             <input type="hidden" class="widget-name" value="${widgets[0].name}" />
-                            <a class="btn open-dialog" rel="divConfigGadget" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')} ${widgets[0].name}</a>
+                            <#assign widgetTitle = widgets[0].name />
+                            <a class="btn open-dialog" rel="divConfigGadget" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')} ${widgetTitle}</a>
                         </div>
                       <#elseif isWidgetCol >
                         <div class="columns" >
-                            <@displayContentHtmlWidget widget=widgets[0] />
+                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
+                            <#include "widgets/${widgets[0].name}.ftl" />
+                        </#if>
                         </div>
                       <#else>
 	                    <div class="columns viewblock">
@@ -210,7 +213,9 @@
                         </div>
                       <#elseif isWidgetCol >
                         <div class="span${content.colNumber} columns" >
-                            <@displayContentHtmlWidget widget=widgets[0] />
+                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
+                            <#include "widgets/${widgets[0].name}.ftl" />
+                        </#if>
                         </div>
                       <#else>
     	                <div class="span${content.colNumber} columns">
