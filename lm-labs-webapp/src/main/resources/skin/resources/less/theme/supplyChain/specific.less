@@ -3,11 +3,11 @@
 @import "../labs-fixed.less";
 
 @brown: #4B3621;
-
-@btnBackground: red;
-@btnPrimaryBackground: @brown;
-@btnPrimaryBackgroundHighlight: darken(@btnPrimaryBackground, 10%);
+  
+@btnBackground: lighten(@brown, 30%);
 @btnBackgroundHighlight: darken(@btnBackground, 10%);
+@btnPrimaryBackground: lighten(@brown, 20%);
+@btnPrimaryBackgroundHighlight: darken(@btnPrimaryBackground, 10%);
 
 @baseFontSize:          13px;
 @basefont:          13px;
@@ -238,10 +238,6 @@
 
 .navbar-search {
     .navbarVerticalAlign(@baseLineHeight); // Vertically center in navbar
-}
-
-.navbar-search .search-query {
-	padding: 0;
 }
 
 .navbar-inner{
@@ -478,6 +474,7 @@ h6 {
     text-align: left;
 }
 
+
 .btn {
 	.border-radius(11px);
 	padding: 2px 8px 3px;
@@ -486,7 +483,9 @@ h6 {
     border-top-color: @white;
     .opacity(75);
   }
-  .buttonBackground(lighten(@black, 50%), lighten(@black, 25%));
+  .buttonBackground(@btnBackground, @btnBackgroundHighlight);
+  
+  
 
 	&.btn-primary {
 	    padding: 2px 8px 3px;
@@ -531,10 +530,11 @@ h6 {
   
  }
  
+ 
  // Set the backgrounds
 // -------------------------
 .btn-primary {
-  .buttonBackground(lighten(@black, 50%), lighten(@black, 25%));
+  .buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
 }
 // Warning appears are orange
 .btn-warning {
