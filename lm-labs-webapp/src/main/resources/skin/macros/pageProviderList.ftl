@@ -1,5 +1,5 @@
-<#macro pageProviderList pageProvider divId divTitle tooltipDocProp detailedPageUrl >
-<div class="bloc" id="${divId}" >
+<#macro pageProviderList pageProvider divId divTitle tooltipDocProp detailedPageUrl divClass >
+<div class="bloc ${divClass}" id="${divId}" >
   <div class="header">${divTitle}</div>
   <ul class="unstyled">
   <#list pageProvider.setCurrentPage(0) as doc >
