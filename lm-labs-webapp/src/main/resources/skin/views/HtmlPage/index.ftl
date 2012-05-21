@@ -96,7 +96,7 @@
 
           <div id="editsection_${section_index}" >
           	  <h1>Modifier la section</h1>
-		      <form class="form-horizontal ajax" name="formEditsection_${section_index}" action="${This.path}/s/${section_index}" method="post">
+		      <form class="form-horizontal " name="formEditsection_${section_index}" action="${This.path}/s/${section_index}/@put" method="post">
 			      <input type="hidden" name="action" value="editsection"/>
 			      <fieldset>
 		            <div class="control-group">

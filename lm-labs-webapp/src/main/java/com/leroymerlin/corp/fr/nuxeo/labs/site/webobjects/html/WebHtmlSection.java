@@ -49,7 +49,6 @@ public class WebHtmlSection extends DocumentObject {
     }
 
     @Override
-    @POST
     public Response doPost() {
         FormData form = ctx.getForm();
         String action = form.getString("action");
@@ -76,6 +75,25 @@ public class WebHtmlSection extends DocumentObject {
         } else {
             return redirect(prev.getPath() + "#section_" + sectionIndex);
         }
+    }
+
+    @Override
+    public Response doPut() {
+        FormData form = ctx.getForm();
+        String title = form.getString("title");
+        String description = form.getString("description");
+        try {
+            section.setTitle(title);
+            section.setDescription(description);
+//            saveDocument();
+            CoreSession session = ctx.getCoreSession();
+            session.saveDocument(doc);
+        } catch (ClientException e) {
+            throw WebException.wrap(
+                    FAILED_TO_POST_SECTION + doc.getPathAsString(), e);
+        }
+
+        return redirect(prev.getPath() + "#section_" + sectionIndex);
     }
 
     @Path("r/{index}")
