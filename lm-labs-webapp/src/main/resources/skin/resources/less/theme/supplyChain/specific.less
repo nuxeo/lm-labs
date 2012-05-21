@@ -3,7 +3,7 @@
 @import "../labs-fixed.less";
 
 @brown: #4B3621;
-  
+
 @btnBackground: lighten(@brown, 30%);
 @btnBackgroundHighlight: darken(@btnBackground, 10%);
 @btnPrimaryBackground: lighten(@brown, 15%);
@@ -339,14 +339,14 @@ a:hover {
 }
 
 .nav-tabs > li.active > div.star{
-		width:0; 
-		height:0; 
-		border-left: 5px solid transparent; 
-		border-right: 5px solid transparent; 
-		border-top: 5px solid @bgcolortabs; 
-		border-bottom: 0; 
-		position: relative; 
-		bottom: 4px; 
+		width:0;
+		height:0;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		border-top: 5px solid @bgcolortabs;
+		border-bottom: 0;
+		position: relative;
+		bottom: 4px;
 		left: 46%;
 }
 
@@ -879,7 +879,7 @@ li.active > a > h5.homepage{
     padding-left: 16px;
 }
 
-#div_externalURL > ul, #latestuploads > ul {
+#div_externalURL > ul, .bloc.last-uploads > ul, .bloc.children-pages > ul {
 	 margin-bottom: 5px;
 	 >li {
 		line-height: 25px;
@@ -900,7 +900,12 @@ li.active > a > h5.homepage{
 	}
 }
 
-#latestuploads > ul > li > a > i {
+// This is for blocs inserted in page's content (ex. HtmlPage)
+.row .supplychain-unstyled-bloc.bloc ul {
+    margin-left: 0px;
+}
+
+.supplychain-unstyled-bloc > ul > li > a > i {
 	display: none;
 }
 

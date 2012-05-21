@@ -9,4 +9,5 @@
     divId=pagesListId
     divTitle=pagesListTile
     tooltipDocProp=pagesListTooltip
-    detailedPageUrl=detailedPageUrl />
+    detailedPageUrl=detailedPageUrl
+    divClass="last-uploads supplychain-unstyled-bloc" />

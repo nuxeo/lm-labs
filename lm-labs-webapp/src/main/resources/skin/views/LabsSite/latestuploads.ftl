@@ -1,11 +1,11 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
-	
+
 <#include "macros/PageClasseur_file_links.ftl" >
 <#include "views/common/paging.ftl" />
 <#assign nbrElemPerPage = 20 />
 
   <@block name="title">${Common.siteDoc(Document).site.title}-${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
-  
+
   <@block name="docactionsaddpage"></@block>
   <@block name="docactionsonpage"></@block>
 
@@ -24,7 +24,7 @@
       <@resultsStatus pageProvider=pp />
       <@paging pageProvider=pp url=This.path+"/@views/latestuploads?page=" />
 
-      <div class="latestuploads">
+      <div class="latestuploads-table">
         <table class="table table-striped table-bordered bs labstable">
           <thead>
             <tr>
