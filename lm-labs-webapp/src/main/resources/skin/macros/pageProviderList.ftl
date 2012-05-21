@@ -1,4 +1,4 @@
-<#macro pageProviderList pageProvider divId divTitle tooltipDocProp detailedPageUrl divClass >
+<#macro pageProviderList pageProvider divId divTitle tooltipDocProp detailedPageUrl divClass="" >
 <div class="bloc ${divClass}" id="${divId}" >
   <div class="header">${divTitle}</div>
   <ul class="unstyled">
