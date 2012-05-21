@@ -51,30 +51,18 @@ public class WebHtmlSection extends DocumentObject {
     @Override
     public Response doPost() {
         FormData form = ctx.getForm();
-        String action = form.getString("action");
         try {
-            if ("addrow".equals(action)) {
-                String cssClass = form.getString("cssClass");
-                HtmlRow row = section.addRow(cssClass);
-                String rowTemplate = form.getString("rowTemplate");
-                row.initTemplate(rowTemplate);
-            } else if ("editsection".equals(action)) {
-                String title = form.getString("title");
-                String description = form.getString("description");
-                section.setTitle(title);
-                section.setDescription(description);
-            }
+            String cssClass = form.getString("cssClass");
+            HtmlRow row = section.addRow(cssClass);
+            String rowTemplate = form.getString("rowTemplate");
+            row.initTemplate(rowTemplate);
 
             saveDocument();
         } catch (ClientException e) {
             throw WebException.wrap(
                     FAILED_TO_POST_SECTION + doc.getPathAsString(), e);
         }
-        if ("addrow".equals(action)) {
-            return redirect(prev.getPath() + "#row_s" + sectionIndex + "_r" + (section.getRows().size() - 1));
-        } else {
-            return redirect(prev.getPath() + "#section_" + sectionIndex);
-        }
+        return redirect(prev.getPath() + "#row_s" + sectionIndex + "_r" + (section.getRows().size() - 1));
     }
 
     @Override
