@@ -53,6 +53,14 @@
 					${Context.getMessage('label.parameters.page.displayableDescriptionPage')}</label>
 				</div>
 			</div>
+			<#if Document.type == "PageList" >
+	            <div class="control-group">
+					<div class="control-label" for="elementsPerPage">${Context.getMessage('label.parameters.page.elementsPerPage')}</div>
+					<div class="controls">
+						<input class="input-mini" id="elementsPerPage" type="input" name="elementsPerPage" value="${This.page.elementsPerPage}" />
+					</div>
+				</div>
+			</#if>
             <div class="control-group">
               <label class="control-label" for="template">${Context.getMessage('label.labssites.appearance.template.label')}</label>
               <div class="controls">

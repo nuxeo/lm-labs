@@ -59,6 +59,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
 
+    public static final String ELEMENTS_PER_PAGE = "elementsPerPage";
+
     private static final String FAILED_TO_UPDATE_PAGE_DESCRIPTION = "Failed to update page description\n";
 
     public static final String DC_DESCRIPTION = "dc:description";
@@ -365,11 +367,17 @@ public class PageResource extends DocumentObject {
             if(!DC_DESCRIPTION.equals(ctx.getForm().getString(DC_DESCRIPTION))){
                 fieldsNotDisplayable.add(DC_DESCRIPTION);
             }
-
             boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString(
             "commentablePage"));
             String templateName = ctx.getForm().getString("template");
             Page page = doc.getAdapter(Page.class);
+            String elementsPerPage_str = ctx.getForm().getString(ELEMENTS_PER_PAGE);
+            if (!StringUtils.isEmpty(elementsPerPage_str) && StringUtils.isNumeric(elementsPerPage_str)){
+                int elementsPerPage = new Integer(elementsPerPage_str).intValue();
+                if (elementsPerPage > 0){
+                    page.setElementsPerPage(elementsPerPage);
+                }
+            }
             page.setCommentable(isCheckedCommentable);
             page.setNotDisplayableParameters(fieldsNotDisplayable);
             page.setTitle(pageTitle);

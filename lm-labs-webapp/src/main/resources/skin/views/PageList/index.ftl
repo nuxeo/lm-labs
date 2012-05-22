@@ -26,13 +26,13 @@
 			<#include "views/common/page_header.ftl">
 			<div id="divPageList" class="">
 				<#include "views/common/paging.ftl" />
-				<#assign nbrElemPerPage = 20 />
+				<#assign nbrElemPerPage = This.page.elementsPerPage />
 				<#assign bean = This.getFreemarkerBean() />
 				<#assign pp = This.getPageListLinesPageProvider(nbrElemPerPage) />
 				<#assign paramaterCurrentPage = Context.request.getParameter('page') />
       			<#assign currentPage = 0 />
 				<#if paramaterCurrentPage?? && paramaterCurrentPage != null>
-      				<#assign currentPage = Context.request.getParameter('page')?number?long />
+      				<#assign currentPage = paramaterCurrentPage?number?long />
       			</#if>
 				<#assign entriesLines = This.getEntriesLines(pp.setCurrentPage(currentPage)) />
 				<#if isAuthorized>
