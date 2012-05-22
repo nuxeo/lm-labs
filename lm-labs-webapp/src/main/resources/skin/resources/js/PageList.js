@@ -16,10 +16,11 @@ function initModal(){
 	});
 }
 
-function addLine() {
+function addLine(lastIndexPage) {
 	openEditLine();
 	jQuery("#divEditLine").dialog2("options", {title: title_add_line});
 	$('#form-editLine').clearForm();
+	jQuery("#lastPage").val(lastIndexPage);
 	$("#divBtnDeleteLine").attr("style", "display:none;");
 	var action = $('#form-editLine').attr('action');
 	var addLineSuffix = '/addline/@put';
@@ -85,7 +86,7 @@ function deleteLine(path){
 	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "DELETE",
-		url: $('#form-editLine').attr("action"),
+		url: $('#form-editLine').attr("action") + '?currentPage=' + jQuery("#currentPage").val() ,
 		data: '',
 		success: function(msg){
 			document.location.href=path + msg;
@@ -97,7 +98,7 @@ function deleteLine(path){
 	});
 }
 
-function modifyLine(url){
+function modifyLine(url, currentIndexPage){
 	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "GET",
@@ -108,6 +109,7 @@ function modifyLine(url){
 			jQuery('#waitingPopup').dialog2('close');
 			openEditLine();
 			jQuery("#divEditLine").dialog2("options", {title: title_modify_line});
+			jQuery("#currentPage").val(currentIndexPage);
 		},
 		error: function(msg){
 			alert( msg.responseText );

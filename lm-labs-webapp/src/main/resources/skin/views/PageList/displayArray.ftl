@@ -1,4 +1,4 @@
-<#assign entriesLines = bean.entriesLines />
+
 <table id="sortArray" class="table labstable table-striped table-bordered bs arrayPageList">
   <thead>
     <tr>
@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     <#list entriesLines as entriesLine>
-      <#assign lineOnclick = This.getLineOnclick(entriesLine) />
+      <#assign lineOnclick = This.getLineOnclick(entriesLine, pp) />
       <tr>
         <#list bean.headersSet as header>
           <td style="${This.getLineStyle(header, entriesLine)}<#if header.type?lower_case == 'files'><#include "/views/PageList/" + header.type?lower_case + "/td-style.ftl" /></#if>"

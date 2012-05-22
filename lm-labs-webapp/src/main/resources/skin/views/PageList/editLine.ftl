@@ -2,6 +2,8 @@
 <div class="container" style="width: auto;">
 	<form class="form-horizontal" method="post" name="form-editLine" id="form-editLine" action="${This.path}">
 		<fieldset>
+			<input type="hidden" name="lastPage" id="lastPage" value="" />
+			<input type="hidden" name="currentPage" id="currentPage" value="" />
 			<#list bean.headersSet as header>
 				<div class="control-group">
 					<label class="control-label" for="${header.idHeader}">${header.name}</label>

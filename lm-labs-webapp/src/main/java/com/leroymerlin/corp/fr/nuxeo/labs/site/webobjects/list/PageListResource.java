@@ -5,6 +5,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,11 +34,18 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.SortInfo;
+import org.nuxeo.ecm.platform.query.api.PageProvider;
+import org.nuxeo.ecm.platform.query.api.PageProviderService;
+import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
 import org.nuxeo.ecm.webengine.model.WebObject;
+import org.nuxeo.runtime.api.Framework;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLineAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
@@ -145,10 +153,12 @@ public class PageListResource extends NotifiablePageResource {
     }
     
     // TODO move this to a FTL
-    public String getLineOnclick(EntriesLine pLine) throws ClientException{
+    public String getLineOnclick(EntriesLine pLine, PageProvider<DocumentModel> pp) throws ClientException{
         StringBuilder onclick = new StringBuilder();
         if(isAuthorizedToModifyLine(pLine)){
-            onclick.append("onclick=\"javascript:modifyLine('").append(getPath()).append("/line/").append(pLine.getDocLine().getRef().reference()).append("');\" ");
+            onclick.append("onclick=\"javascript:modifyLine('").append(getPath())
+            .append("/line/").append(pLine.getDocLine().getRef().reference())
+            .append("', " + pp.getCurrentPageIndex() + " );\" ");
         }
         return onclick.toString();
     }
@@ -175,10 +185,15 @@ public class PageListResource extends NotifiablePageResource {
     @POST
     @Path(value = "saveheaders")
     public Response saveHeaders(@FormParam("headerList") String pJson, 
-            @FormParam("allContributors") String pAllContributors, @FormParam("commentableLines") String pCommentableLines) {
+            @FormParam("allContributors") String pAllContributors, @FormParam("commentableLines") String pCommentableLines, 
+            @FormParam("currentPage") int currentPage) {
         CoreSession session = ctx.getCoreSession();
         Gson gson = new Gson();
+        String urlCurrentPage = "";
         try {
+            if (currentPage > - 1){
+                urlCurrentPage = "&page=" + currentPage;
+            }
             Type mapType = new TypeToken<Map<String, Header>>() {}.getType();
             Map<String, Header> map = gson.fromJson(pJson, mapType);
             com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList pgl = doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList.class);
@@ -204,10 +219,10 @@ public class PageListResource extends NotifiablePageResource {
             session.save();
         } catch (ClientException e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_THE_HEADERS_LIST, e);
-            return Response.ok("?message_error=label.pageList.header.headers_updated_error",
+            return Response.ok("?message_error=label.pageList.header.headers_updated_error" + urlCurrentPage,
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         }
-        return Response.ok("?message_success=label.pageList.header.headers_updated",
+        return Response.ok("?message_success=label.pageList.header.headers_updated" + urlCurrentPage,
                 MediaType.TEXT_PLAIN).status(Status.CREATED).build();
     }
     
@@ -269,7 +284,6 @@ public class PageListResource extends NotifiablePageResource {
         PageList pgl = doc.getAdapter(PageList.class);
         List<String> listHeadersName = new ArrayList<String>();
         Set<Header> headerSet = null;
-        List<EntriesLine> entriesLines = null;
         try {
             int index = 0;
             headerSet = pgl.getHeaderSet();
@@ -281,7 +295,6 @@ public class PageListResource extends NotifiablePageResource {
                 listHeadersName.add(order);
                 index ++;
             }
-            entriesLines = pgl.getLines();     
         } catch (ClientException e) {
             LOG.error(IMPOSSIBLE_TO_GET_HEADER_SET_ON_PAGE_LIST, e);
             headerSet = new TreeSet<Header>();
@@ -293,7 +306,40 @@ public class PageListResource extends NotifiablePageResource {
         if (headersName.length() > 0){
             headersNameJS = headersName.substring(0, headersName.length()-1);
         }
-        FreemarkerBean result = new FreemarkerBean(json, headersNameJS, headerSet, listHeadersName, entriesLines);
+        FreemarkerBean result = new FreemarkerBean(json, headersNameJS, headerSet, listHeadersName);
+        return result;
+    }
+    
+
+
+    /**
+     * @param pageSize the element's number by page
+     * @return the pageProvider
+     * @throws Exception
+     */
+    public PageProvider<DocumentModel> getPageListLinesPageProvider(long pageSize) throws Exception {
+        PageProviderService ppService = Framework.getService(PageProviderService.class);
+        List<SortInfo> sortInfos = null;
+        Map<String, Serializable> props = new HashMap<String, Serializable>();
+
+        props.put(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY,
+                (Serializable) getCoreSession());
+        @SuppressWarnings("unchecked")
+        PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) ppService.getPageProvider(
+                "list_line_nxql", sortInfos, new Long(pageSize),
+                null, props, new Object[] { doc.getId() });
+        return pp;
+    }
+    
+    public List<EntriesLine> getEntriesLines(List<DocumentModel> docs) throws ClientException{
+        List<EntriesLine> result = new ArrayList<EntriesLine>();
+        PageListLineAdapter adapter = null;
+        for (DocumentModel document : docs){
+            adapter = (PageListLineAdapter) document.getAdapter(PageListLine.class);
+            if (adapter != null){
+                result.add(adapter.getLine());
+            }
+        }
         return result;
     }
     

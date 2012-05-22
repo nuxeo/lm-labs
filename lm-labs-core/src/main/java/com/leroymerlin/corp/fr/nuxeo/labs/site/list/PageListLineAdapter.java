@@ -137,6 +137,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
         for (Map<String, Object> entry : entriesList){
             entries.add(getEntry(entry));
         }
+        line.setDocLine(doc);
         line.setEntries(entries);
         return line;
     }

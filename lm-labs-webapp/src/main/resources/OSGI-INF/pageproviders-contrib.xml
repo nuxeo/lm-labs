@@ -21,6 +21,13 @@
       <sort column="dc:modified" ascending="false" />
     </coreQueryPageProvider>
  -->
+ 
+ 	<coreQueryPageProvider name="list_line_nxql">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM PageListLine WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:parentId = ?
+      </pattern>
+    </coreQueryPageProvider>
 
   </extension>
 

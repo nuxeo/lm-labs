@@ -25,11 +25,23 @@
 		
 			<#include "views/common/page_header.ftl">
 			<div id="divPageList" class="">
+				<#include "views/common/paging.ftl" />
+				<#assign nbrElemPerPage = 2 />
 				<#assign bean = This.getFreemarkerBean() />
+				<#assign pp = This.getPageListLinesPageProvider(nbrElemPerPage) />
+				<#assign paramaterCurrentPage = Context.request.getParameter('page') />
+      			<#assign currentPage = 0 />
+				<#if paramaterCurrentPage?? && paramaterCurrentPage != null>
+      				<#assign currentPage = Context.request.getParameter('page')?number?long />
+      			</#if>
+				<#assign entriesLines = This.getEntriesLines(pp.setCurrentPage(currentPage)) />
+				<@paging pageProvider=pp url=This.path+"?page=" />
+      			<h1>${pp.setCurrentPage(currentPage)?size}</h1>
+      			<h1>currentPage:${currentPage}</h1>
 				<#if isAuthorized>
 					<div id="divActionManageList">
 						<#if Context.principal.isAnonymous() != true && (bean.headersSet?size > 0)>
-							<a href="#" style="margin-bottom: 3px;margin-top: 3px;" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine();"><i class="icon-plus"></i>${Context.getMessage('label.pageList.addLine')}</a>
+							<a href="#" style="margin-bottom: 3px;margin-top: 3px;" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine(${pp.numberOfPages-1});"><i class="icon-plus"></i>${Context.getMessage('label.pageList.addLine')}</a>
 						</#if>
 						<#if This.page?? && This.page.isContributor(Context.principal.name)>
 							<a href="#" id="PageList-editcolumns" class="editblock open-dialog" rel="divManageList" onClick="javascript:manageList();"><i class="icon-edit"></i>${Context.getMessage('label.pageList.manageList')}</a>
@@ -55,7 +67,7 @@
 				</#if>
 				<div id="divDisplayArray" class="">
 					<#include "/views/PageList/displayArray.ftl" />
-					<#if (0 < bean.entriesLines?size)>
+					<#if (0 < entriesLines?size)>
 						<div class="container-fluid" style="text-align: right;">
 							<a href="${This.path}/exportExcel/${This.document.title}.xls"><img title="export excel" alt="export excel" src="/nuxeo/icons/xls.png" /></a>
 						</div>
@@ -96,6 +108,7 @@
 						});
 					});
 				</script>
+				<@resultsStatus pageProvider=pp />
 			</div>
 		</div>
 	</@block>

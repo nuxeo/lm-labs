@@ -1,11 +1,9 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 
 public class FreemarkerBean implements Serializable {
@@ -20,15 +18,12 @@ public class FreemarkerBean implements Serializable {
     
     List<String> headersNameList;
     
-    Collection<EntriesLine> entriesLines;
-
-    public FreemarkerBean(String headersMapJS, String headersNameJS, Set<Header> headersSetList, List<String> headersNameList, Collection<EntriesLine> entriesLines) {
+    public FreemarkerBean(String headersMapJS, String headersNameJS, Set<Header> headersSetList, List<String> headersNameList) {
         this();
         this.headersMapJS = headersMapJS;
         this.headersNameJS = headersNameJS;
         this.headersSet = headersSetList;
         this.headersNameList = headersNameList;
-        this.entriesLines = entriesLines;
     }
 
     private FreemarkerBean() {
@@ -65,14 +60,6 @@ public class FreemarkerBean implements Serializable {
 
     public void setHeadersNameList(List<String> headersNameList) {
         this.headersNameList = headersNameList;
-    }
-
-    public Collection<EntriesLine> getEntriesLines() {
-        return entriesLines;
-    }
-
-    public void setEntriesLines(Collection<EntriesLine> entriesLines) {
-        this.entriesLines = entriesLines;
     }
 
 }

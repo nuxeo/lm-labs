@@ -98,7 +98,7 @@ public class PageListLineResource extends DocumentObject {
         FreemarkerBean bean = null;
         try {
             PageListLine adapter = doc.getAdapter(PageListLine.class);
-            bean = new FreemarkerBean(null, null, parent.getHeaderSet(), null, null);
+            bean = new FreemarkerBean(null, null, parent.getHeaderSet(), null);
             line = adapter.getLine();
         } catch (ClientException e) {
             LOG.error(IMPOSSIBLE_TO_GET_LINE_ID + doc.getRef().reference(), e);
@@ -108,14 +108,19 @@ public class PageListLineResource extends DocumentObject {
 
     @Override
     public Response doDelete() {
+        String url = "";
+        String currentPage_str = ctx.getRequest().getParameter("currentPage");
+        if(!StringUtils.isEmpty(currentPage_str)){
+            url = "&page=" + currentPage_str;
+        }
         try {
             doc.getAdapter(PageListLine.class).removeLine();
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_DELETE_LINE_ID + doc.getRef().reference(), e);
-            return Response.ok("?message_error=label.pageList.line_deleted_error",
+            return Response.ok("?message_error=label.pageList.line_deleted_error" + url,
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         }
-        return Response.ok("?message_success=label.pageList.line_deleted",
+        return Response.ok("?message_success=label.pageList.line_deleted" + url,
                 MediaType.TEXT_PLAIN).status(Status.CREATED).build();
     }
 
@@ -133,9 +138,22 @@ public class PageListLineResource extends DocumentObject {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
         EntriesLine entriesLine = new EntriesLine(); 
+        String url = "";
+        String lastPage_str = form.getString("lastPage");
+        String currentPage_str = form.getString("currentPage");
         try {
+            //element update
             if (LabsSiteConstants.Docs.PAGELIST_LINE.type().equals(doc.getType())){
                 entriesLine.setDocLine(doc);
+                if(!StringUtils.isEmpty(currentPage_str)){
+                    url = "&page=" + currentPage_str;
+                }
+            }
+            //element added
+            else{
+                if(!StringUtils.isEmpty(lastPage_str)){
+                    url = "&page=" + lastPage_str;
+                }
             }
             headerSet = parent.getHeaderSet();
             for (Header head : headerSet){
@@ -187,10 +205,10 @@ public class PageListLineResource extends DocumentObject {
             parent.saveLine(entriesLine, site);
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_LINE, e);
-            return Response.ok("?message_error=label.pageList.line_updated_error",
+            return Response.ok("?message_error=label.pageList.line_updated_error" + url,
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
         }
-        return Response.ok("?message_success=label.pageList.line_updated",
+        return Response.ok("?message_success=label.pageList.line_updated" + url,
                 MediaType.TEXT_PLAIN).status(Status.CREATED).build();
     }
     
