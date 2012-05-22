@@ -35,9 +35,9 @@
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "calculette" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#-- TODO
             <#assign gadgetType = "opensocial" gadgetName = "hi42" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+            <#-- TODO
             <#assign gadgetType = "opensocial" gadgetName = "flash" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "video" />
