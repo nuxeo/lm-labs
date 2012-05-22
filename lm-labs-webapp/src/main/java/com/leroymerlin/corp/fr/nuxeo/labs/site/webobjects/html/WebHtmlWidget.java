@@ -80,14 +80,12 @@ public class WebHtmlWidget extends DocumentObject {
             OpenSocialData data = adapter.getData();
             List<UserPref> userPrefs = data.getUserPrefs();
             for (UserPref pref : userPrefs) {
-                if (pref.getDataType() == DataType.STRING || pref.getDataType() == DataType.NUMBER) {
+                if (pref.getDataType() == DataType.STRING || pref.getDataType() == DataType.ENUM || pref.getDataType() == DataType.NUMBER) {
                     String value = form.getString(pref.getName());
                     if (value != null && !value.equals(pref.getActualValue())) {
                         pref.setActualValue(value);
                         modified = true;
                     }
-                } else if (pref.getDataType() == DataType.BOOL) {
-                    // TODO
                 } else {
                     // TODO other types
                 }
@@ -119,6 +117,8 @@ public class WebHtmlWidget extends DocumentObject {
                     prefsMap.put(pref.getName(), "string");
                 } else if (pref.getDataType() == DataType.NUMBER) {
                     prefsMap.put(pref.getName(), "string");
+                } else if (pref.getDataType() == DataType.ENUM) {
+                    prefsMap.put(pref.getName(), "enum");
                 } else {
                     // TODO other types
                 }
@@ -131,6 +131,12 @@ public class WebHtmlWidget extends DocumentObject {
         } catch (ClientException e) {
             LOG.error("Unable to get gadget's data", e);
         }
+    }
+
+    public UserPref getUserPrefByName(final String prefName) throws ClientException {
+        OpenSocialAdapter adapter = (OpenSocialAdapter) doc.getAdapter(WebContentAdapter.class);
+        OpenSocialData data = adapter.getData();
+        return data.getUserPrefByName(prefName);
     }
 
     private void saveWidgetDocument() throws ClientException {

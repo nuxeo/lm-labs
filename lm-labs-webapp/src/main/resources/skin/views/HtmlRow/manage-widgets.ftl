@@ -21,6 +21,8 @@
                 <#assign widgetTitle = "Aucun" />
             </#if>
             <option value="html/editor"<#if content.type == "html"> selected</#if> >${widgetTitle}</option>
+            <#assign gadgetType = "opensocial" gadgetName = "rss" />
+            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "html" gadgetName = "lastuploads" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "html" gadgetName = "children" />
@@ -33,8 +35,12 @@
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "calculette" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+            <#assign gadgetType = "opensocial" gadgetName = "hi42" />
+            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#-- TODO
-            <#assign gadgetType = "opensocial" gadgetName = "rss" />
+            <#assign gadgetType = "opensocial" gadgetName = "flash" />
+            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+            <#assign gadgetType = "opensocial" gadgetName = "video" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "bookmarks" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />

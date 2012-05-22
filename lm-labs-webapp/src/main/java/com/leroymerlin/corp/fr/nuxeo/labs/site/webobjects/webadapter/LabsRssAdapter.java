@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.StreamingOutput;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
@@ -43,7 +44,7 @@ public class LabsRssAdapter extends DefaultAdapter {
         try {
             DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs();
             final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedDocs,
-                    rssTitle, rssDesc, getContext());
+                    rssTitle, rssDesc, StringUtils.EMPTY, getContext()); // TODO RSS feed URL
             return SyndicationUtils.generateStreamingOutput(feed);
         } catch (ClientException e) {
             throw WebException.wrap(e);
@@ -83,7 +84,7 @@ public class LabsRssAdapter extends DefaultAdapter {
         try {
             DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
             final SyndFeed feed = SyndicationUtils.buildRss(
-                    lastUpdatedNewsDocs, rssTitle, rssDesc, getContext());
+                    lastUpdatedNewsDocs, rssTitle, rssDesc, StringUtils.EMPTY, getContext()); // TODO RSS feed URL
             return SyndicationUtils.generateStreamingOutput(feed);
         } catch (ClientException e) {
             throw WebException.wrap(e);
@@ -102,7 +103,7 @@ public class LabsRssAdapter extends DefaultAdapter {
                     site.getDocument(), 0);
             List<DocumentModel> lastUpdatedNews = latestUploadsPageProvider.getCurrentPage();
             final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedNews,
-                    rssTitle, rssDesc, getContext());
+                    rssTitle, rssDesc, StringUtils.EMPTY, getContext()); // TODO RSS feed URL
             return SyndicationUtils.generateStreamingOutput(feed);
         } catch (Exception e) {
             throw WebException.wrap(e);
@@ -142,7 +143,7 @@ public class LabsRssAdapter extends DefaultAdapter {
             }
 
             final SyndFeed feed = SyndicationUtils.buildRss(allDocs, rssTitle,
-                    rssDesc, getContext());
+                    rssDesc, StringUtils.EMPTY, getContext()); // TODO RSS feed URL
             return SyndicationUtils.generateStreamingOutput(feed);
         } catch (Exception e) {
             throw WebException.wrap(e);

@@ -11,7 +11,6 @@ import java.util.List;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 
-import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.model.WebContext;
@@ -35,12 +34,12 @@ public final class SyndicationUtils {
     }
 
     public static SyndFeed buildRss(final List<DocumentModel> docList,
-            final String rssTitle, final String rssDesc,
+            final String rssTitle, final String rssDesc, final String rssLink,
             final WebContext context) throws ClientException {
         final SyndFeed feed = new SyndFeedImpl();
         feed.setFeedType(FEED_TYPE);
         feed.setTitle(rssTitle);
-        feed.setLink(StringUtils.EMPTY);
+        feed.setLink(rssLink);
         feed.setDescription(rssDesc);
         feed.setEntries(createRssEntries(docList, context));
         return feed;
@@ -66,21 +65,21 @@ public final class SyndicationUtils {
             throws ClientException {
         List<SyndEntry> entries = new ArrayList<SyndEntry>();
         SyndEntry entry;
+        StringBuilder baseUrl = context.getServerURL();
 
         for (DocumentModel doc : docList) {
             entry = new SyndEntryImpl();
             entry.setTitle(doc.getTitle());
+            StringBuilder path = new StringBuilder(baseUrl);
 
             if (doc.isFolder()) {
-                entry.setLink(context.getBaseURL() + context.getUrlPath(doc));
+                entry.setLink(path.append(context.getUrlPath(doc)).toString());
             } else {
                 DocumentModel parentDocument = context.getCoreSession().getParentDocument(doc.getRef());
                 if (Docs.PAGELIST_LINE.type().equals(parentDocument.getType())) {
-                    entry.setLink(context.getBaseURL()
-                            + context.getUrlPath(context.getCoreSession().getParentDocument(parentDocument.getRef())));
+                    entry.setLink(path.append(context.getUrlPath(context.getCoreSession().getParentDocument(parentDocument.getRef()))).toString());
                 } else {
-                    entry.setLink(context.getBaseURL()
-                            + context.getUrlPath(parentDocument));
+                    entry.setLink(path.append(context.getUrlPath(parentDocument)).toString());
                 }
             }
             entry.setPublishedDate(((GregorianCalendar) doc.getPropertyValue("dc:modified")).getTime());
