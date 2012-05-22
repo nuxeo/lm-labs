@@ -27,7 +27,6 @@
   <@cache name="${This.cacheName}" key="${This.cacheKey}" >
   -->
   <@tableOfContents>
-
    	<div class="container-fluid">
 
    	<#include "views/common/page_header.ftl">
@@ -138,7 +137,7 @@
                       <#if isOsGadgetCol >
                         <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="columns viewblock" >
                         <@openSocialGadgetJavascript selector="#gadgetCol-s_${section_index}_r_${row_index}_c_${content_index} > div.opensocialGadgets" widget=widgets[0] />
-                        <div id="" class="opensocialGadgets bloc">
+                        <div id="${widgets[0].doc.id}" class="opensocialGadgets bloc">
                         </div>
                         </div>
                         <div class="columns editblock bloc" style="text-align: center;" >
@@ -210,7 +209,7 @@
                       <#if isOsGadgetCol >
                         <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span${content.colNumber} columns" >
                         <@openSocialGadgetJavascript selector="#gadgetCol-s_${section_index}_r_${row_index}_c_${content_index} > div.opensocialGadgets" widget=widgets[0] />
-                        <div id="" class="opensocialGadgets bloc">
+                        <div id="${widgets[0].doc.id}" class="opensocialGadgets bloc">
                         </div>
                         </div>
                       <#elseif isWidgetCol >
@@ -383,6 +382,11 @@ jQuery(document).ready(function() {
             displaySettingsButton: true,
             displayToggleButton: false,
             -->
+<#-- TODO
+            <#if isContributor >
+            permission: '[SpaceContributeur]',
+            </#if>
+-->
             title: '${widget.name}' }
         ]
     });
