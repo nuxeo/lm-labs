@@ -26,7 +26,7 @@
 			<#include "views/common/page_header.ftl">
 			<div id="divPageList" class="">
 				<#include "views/common/paging.ftl" />
-				<#assign nbrElemPerPage = 2 />
+				<#assign nbrElemPerPage = 20 />
 				<#assign bean = This.getFreemarkerBean() />
 				<#assign pp = This.getPageListLinesPageProvider(nbrElemPerPage) />
 				<#assign paramaterCurrentPage = Context.request.getParameter('page') />
@@ -35,9 +35,6 @@
       				<#assign currentPage = Context.request.getParameter('page')?number?long />
       			</#if>
 				<#assign entriesLines = This.getEntriesLines(pp.setCurrentPage(currentPage)) />
-				<@paging pageProvider=pp url=This.path+"?page=" />
-      			<h1>${pp.setCurrentPage(currentPage)?size}</h1>
-      			<h1>currentPage:${currentPage}</h1>
 				<#if isAuthorized>
 					<div id="divActionManageList">
 						<#if Context.principal.isAnonymous() != true && (bean.headersSet?size > 0)>
@@ -108,7 +105,10 @@
 						});
 					});
 				</script>
-				<@resultsStatus pageProvider=pp />
+				<div style="text-align : center;">
+					<@paging pageProvider=pp url=This.path+"?page=" />
+					<@resultsStatus pageProvider=pp />
+				</div>
 			</div>
 		</div>
 	</@block>

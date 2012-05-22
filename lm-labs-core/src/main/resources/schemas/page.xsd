@@ -5,6 +5,8 @@
 	
 	<xs:element name="commentable" type="xs:boolean" default="false" />
 	
+	<xs:element name="elementsPerPage" type="xs:int" default="0" />
+	
 	<xs:element name="displayableParameters">
 	    <xs:complexType>
 	      <xs:sequence>

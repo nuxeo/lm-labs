@@ -536,4 +536,22 @@ input &.search-query{
 .pagination {
 	height: auto;
 	margin: 5px 0;
+	a{
+		line-height: 25px;
+		padding: 0 8px;
+		color: darken(@linkColor, 5%);
+		padding-top: 2px;
+	}
+	>ul>li.active>a {
+		padding: 0 9px;
+		margin-right: 7px;
+		font-weight: bold;
+		font-size: @baseFontSize + 2;
+		background-color: darken(@labsContentBackgroundColor, 10%);
+		.box-shadow(1px 1px 5px darken(@labsContentBackgroundColor, 30%));
+		padding-bottom: 2px;
+	}
+	li:last-child a {
+		border-left-width: 1px;
+	}
 }

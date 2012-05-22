@@ -5,17 +5,23 @@
 -->
 	<#if pageProvider.numberOfPages &gt; 1 >
 	<ul>
-		<li class="first"><a href="${url}0" >&larr;&larr; ${Context.getMessage('command.paging.first')}</a></li>
+		<#if (pageProvider.currentPageIndex - 1 > 1) >
+			<li class="first"><a href="${url}0" ><i class="icon-fast-backward"></i></a></li>
+		</#if>	
 		<li class="prev<#if pp.previousPageAvailable == false > disabled</#if>">
-			<a href="${url}${pageProvider.currentPageIndex-1}" >&larr; ${Context.getMessage('command.paging.previous')}</a>
+			<a href="<#if pp.previousPageAvailable == true >${url}${pageProvider.currentPageIndex-1}<#else>#</#if>" ><i class="icon-backward"></i></a>
 		</li>
-		<#list 1..pageProvider.numberOfPages as p>
-			<li <#if (pageProvider.currentPageIndex+1) = p>class="active"</#if> ><a href="${url}${p-1}" >${p}</a></li>
+		<#list (pageProvider.currentPageIndex - 1)..(pageProvider.currentPageIndex + 3) as p>
+			<#if ((p > 0) && (p < pageProvider.numberOfPages + 1))>
+				<li <#if (pageProvider.currentPageIndex+1) = p>class="active"</#if> ><a href="${url}${p-1}" >${p}</a></li>
+			</#if>
 		</#list>
-		<li class="next<#if pp.nextPageAvailable == false > disabled</#if>">
-			<a href="${url}${pageProvider.currentPageIndex+1}" >${Context.getMessage('command.paging.next')} &rarr;</a>
+		<li class="next<#if pageProvider.nextPageAvailable == false > disabled</#if>">
+			<a href="<#if pageProvider.nextPageAvailable == true >${url}${pageProvider.currentPageIndex+1}<#else>#</#if>" ><i class="icon-forward"></i></a>
 		</li>
-		<li class="last"><a href="${url}${pageProvider.numberOfPages-1}" >${Context.getMessage('command.paging.last')} &rarr;&rarr;</a></li>
+		<#if (pageProvider.currentPageIndex < pageProvider.numberOfPages - 3) >
+			<li class="last"><a href="${url}${pageProvider.numberOfPages-1}" ><i class="icon-fast-forward"></i></a></li>
+		</#if>	
 	</ul>
 	</#if>
 </div>

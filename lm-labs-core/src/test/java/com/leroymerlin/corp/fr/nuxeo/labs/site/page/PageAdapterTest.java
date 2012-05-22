@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -170,6 +169,27 @@ public class PageAdapterTest {
         
         assertFalse(page.isDisplayable("dc:title"));
         assertTrue(page.isDisplayable("dc:description"));
+    }
+
+    @Test
+    public void iCanGetDefaultElementsPerPage() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = doc.getAdapter(Page.class);
+        
+        assertTrue(page.getElementsPerPage() == 0);
+    }
+
+    @Test
+    public void iCanSetElementsPerPage() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = doc.getAdapter(Page.class);
+        page.setElementsPerPage(5);
+        
+        session.saveDocument(doc);
+        session.save();
+        doc = session.getDocument(doc.getRef());
+        page = doc.getAdapter(Page.class);
+        assertTrue(page.getElementsPerPage() == 5);
     }
 
 }

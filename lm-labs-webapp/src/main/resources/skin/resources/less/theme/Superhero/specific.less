@@ -8,6 +8,8 @@
 
 @labsBlockBackgroundColor: @blue; // see .breadcrumb background-color
 
+@labsContentBackgroundColor: #2A333C;
+
 .navbar-form input, .navbar-form .btn {
     margin-top: 28px;
 }
@@ -29,4 +31,21 @@
 
 .divLogoIntraLM{
 	margin-top: 10px;
+}
+
+.pagination ul {
+	
+	li.active > a,
+	li.active > a:hover {
+		background: @orange;
+		color: @white;
+		font-size: @baseFontSize + 1;
+		margin-top: 3px;
+		padding-top: 1px;
+		padding-bottom : 0;
+	}
+}
+
+.pagination  a {
+		margin-top: 3px;
 }

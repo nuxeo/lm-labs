@@ -9,8 +9,10 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 
@@ -19,6 +21,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     private static final String THIS_PAGE_IS_NOT_IN_A_LABS_SITE = "This page is not in a LabsSite";
     private static final String PG_COMMENTABLE = Schemas.PAGE.prefix() + ":commentable";
     private static final String PG_DISPLAYABLE_PARAMETERS = Schemas.PAGE.prefix() + ":displayableParameters";
+    private static final String PG_ELEMENTS_PER_PAGE = Schemas.PAGE.prefix() + ":elementsPerPage";
 
     @Override
     public void setCommentable(boolean isCommentable) throws ClientException {
@@ -88,6 +91,20 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    @Override
+    public int getElementsPerPage() throws ClientException{
+    	try {
+			return Tools.getInt(doc.getProperty(PG_ELEMENTS_PER_PAGE));
+		} catch (NullException e) {
+			return 0;
+		}
+    }
+
+    @Override
+    public void setElementsPerPage(int elementsPerPage) throws ClientException {
+        doc.setPropertyValue(PG_ELEMENTS_PER_PAGE, elementsPerPage);
     }
 
 }
