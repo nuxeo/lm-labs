@@ -58,6 +58,7 @@
 					<div class="control-label" for="elementsPerPage">${Context.getMessage('label.parameters.page.elementsPerPage')}</div>
 					<div class="controls">
 						<input class="input-mini" id="elementsPerPage" type="input" name="elementsPerPage" value="${This.page.elementsPerPage}" />
+						<p class="help-block">${Context.getMessage('label.parameters.page.elementsPerPage.without')}</p>
 					</div>
 				</div>
 			</#if>

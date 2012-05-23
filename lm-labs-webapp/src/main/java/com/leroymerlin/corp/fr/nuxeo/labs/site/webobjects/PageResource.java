@@ -374,7 +374,7 @@ public class PageResource extends DocumentObject {
             String elementsPerPage_str = ctx.getForm().getString(ELEMENTS_PER_PAGE);
             if (!StringUtils.isEmpty(elementsPerPage_str) && StringUtils.isNumeric(elementsPerPage_str)){
                 int elementsPerPage = new Integer(elementsPerPage_str).intValue();
-                if (elementsPerPage > 0){
+                if (elementsPerPage > -1){
                     page.setElementsPerPage(elementsPerPage);
                 }
             }
