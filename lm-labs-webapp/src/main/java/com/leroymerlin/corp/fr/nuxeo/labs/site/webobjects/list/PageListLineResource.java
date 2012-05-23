@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list;
 
@@ -45,14 +45,14 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBe
 
 /**
  * @author fvandaele
- * 
+ *
  */
 @WebObject(type = "PageListLine")
 @Produces("text/html; charset=UTF-8")
 public class PageListLineResource extends DocumentObject {
-    
+
     private static final Log LOG = LogFactory.getLog(PageListLineResource.class);
-    
+
     private static final String IMPOSSIBLE_TO_DELETE_LINE_ID = "Impossible to delete line id:";
 
     private static final String IMPOSSIBLE_TO_GET_LINE_ID = "Impossible to get line id:";
@@ -60,9 +60,9 @@ public class PageListLineResource extends DocumentObject {
     private static final String IMPOSSIBLE_TO_SAVE_LINE = "Impossible to save line";
 
     private static final String DATE_FORMAT_STRING = "dd/MM/yyyy";
-    
+
     private static final String EDIT_VIEW = "views/PageList/editLine.ftl";
-    
+
     private PageList parent;
 
     @Override
@@ -86,7 +86,7 @@ public class PageListLineResource extends DocumentObject {
             }
         }
     }
-    
+
     public List<DocumentModel> getComments() throws ClientException{
         return doc.getAdapter(CommentableDocument.class).getComments();
     }
@@ -132,12 +132,11 @@ public class PageListLineResource extends DocumentObject {
     public Response doPut() {
         FormData form = ctx.getForm();
         String value = null;
-        
+
         Set<Header> headerSet = null;
         Entry entry = null;
-        Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
-        EntriesLine entriesLine = new EntriesLine(); 
+        EntriesLine entriesLine = new EntriesLine();
         String url = "";
         String lastPage_str = form.getString("lastPage");
         String currentPage_str = form.getString("currentPage");
@@ -159,7 +158,7 @@ public class PageListLineResource extends DocumentObject {
             for (Header head : headerSet){
                 value = form.getString(new Integer(head.getIdHeader()).toString());
                 entry = new Entry();
-                
+
                 EntryType entryType = EntryType.valueOf(head.getType());
                 if (EntryType.linePropTypes().contains(entryType)) {
                     entry.setText(entryType.xpath());
@@ -175,6 +174,7 @@ public class PageListLineResource extends DocumentObject {
                         break;
                     case DATE:
                         if (!StringUtils.isEmpty(value.trim())){
+                            Calendar cal = Calendar.getInstance();
                             cal.setTimeInMillis((sdf.parse(value)).getTime());
                             entry.setDate(cal);
                         }
@@ -211,7 +211,7 @@ public class PageListLineResource extends DocumentObject {
         return Response.ok("?message_success=label.pageList.line_updated" + url,
                 MediaType.TEXT_PLAIN).status(Status.CREATED).build();
     }
-    
+
     @Override
     public Response doPost() {
         FormData form = ctx.getForm();
@@ -240,13 +240,13 @@ public class PageListLineResource extends DocumentObject {
     public BlobHolder getBlobHolder(final DocumentModel document) {
         return document.getAdapter(BlobHolder.class);
     }
-    
+
     @Path("@file/{filename}")
     public Object saveLine(@PathParam("filename") final String filename) throws ClientException {
         DocumentModel lineFile = getCoreSession().getChild(doc.getRef(), filename);
         return newObject("PageListLineFile", lineFile);
     }
-    
+
     public DocumentModelList getFiles() throws ClientException {
         return doc.getAdapter(PageListLine.class).getFiles();
     }
