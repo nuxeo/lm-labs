@@ -138,6 +138,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
             entries.add(getEntry(entry));
         }
         line.setDocLine(doc);
+        line.setNbComments(((PageListLine)doc.getAdapter(PageListLine.class)).getNbComments());
         line.setEntries(entries);
         return line;
     }
