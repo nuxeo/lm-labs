@@ -28,7 +28,19 @@
           	</div>
         </#if>
 
-        <#list pageNews.allNews as news>
+		
+		<#include "views/common/paging.ftl" />
+		<#assign nbrElemPerPage = This.page.elementsPerPage />
+		<#assign pp = This.getPageNewsPageProvider(nbrElemPerPage) />
+		<#assign paramaterCurrentPage = Context.request.getParameter('page') />
+		<#assign currentPage = 0 />
+		<#if paramaterCurrentPage?? && paramaterCurrentPage != null>
+			<#assign currentPage = paramaterCurrentPage?number?long />
+		</#if>
+		<#assign allNews = This.getAllNews(pp.setCurrentPage(currentPage)) />
+		
+
+        <#list allNews as news>
           <#assign path=This.path + "/" + news.documentModel.name />
           <section class="labsnews">
 	          	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
@@ -68,6 +80,10 @@
           
             </section>
         </#list>
+        <div style="text-align : center;">
+					<@paging pageProvider=pp url=This.path+"?page=" />
+					<@resultsStatus pageProvider=pp />
+				</div>
         <hr />
         <a href="${This.path}/@labsrss/topnews" title="${Context.getMessage('tooltip.PageNews.rss')}<#if !mySite.visible> ${Context.getMessage('tooltip.PageNews.rss.siteNotPublish')}</#if>" target="_blank"><img src="${skinPath}/images/iconRss.gif"/></a>
       </div>

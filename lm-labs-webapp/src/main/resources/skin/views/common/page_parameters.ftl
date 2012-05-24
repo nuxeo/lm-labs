@@ -53,7 +53,7 @@
 					${Context.getMessage('label.parameters.page.displayableDescriptionPage')}</label>
 				</div>
 			</div>
-			<#if Document.type == "PageList" >
+			<#if Document.type == "PageList" || Document.type == "PageNews" >
 	            <div class="control-group">
 					<div class="control-label" for="elementsPerPage">${Context.getMessage('label.parameters.page.elementsPerPage')}</div>
 					<div class="controls">

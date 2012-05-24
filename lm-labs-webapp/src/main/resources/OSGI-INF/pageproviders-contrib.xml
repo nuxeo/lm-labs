@@ -28,6 +28,23 @@
         AND ecm:parentId = ?
       </pattern>
     </coreQueryPageProvider>
+ 
+ 	<coreQueryPageProvider name="list_news_write_nxql">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM LabsNews WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:parentId = ?
+      </pattern>
+      <sort column="ln:startPublication" ascending="false" />
+    </coreQueryPageProvider>
+ 
+ 	<coreQueryPageProvider name="list_news_nxql">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM LabsNews WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:parentId = ? AND ln:startPublication &lt;= DATE ? AND (ln:endPublication IS NULL OR ln:endPublication > DATE ?)
+      </pattern>
+      <sort column="ln:startPublication" ascending="false" />
+    </coreQueryPageProvider>
+ 
 
   </extension>
 
