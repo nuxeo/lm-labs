@@ -52,7 +52,7 @@ public class PageNewsAdapterTest {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
         PageNews pn = document.getAdapter(PageNews.class);
 
-        LabsNews news = pn.createNews("Ma news");
+        LabsNews news = pn.createNews("Ma news", session);
         news.setContent("Hello World");
         DocumentModel doc = news.getDocumentModel();
         session.saveDocument(doc);
@@ -75,15 +75,15 @@ public class PageNewsAdapterTest {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
         PageNews pn = document.getAdapter(PageNews.class);
 
-        LabsNews news = pn.createNews("Ma news");
+        LabsNews news = pn.createNews("Ma news", session);
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news2");
+        news = pn.createNews("Ma news2", session);
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news3");
+        news = pn.createNews("Ma news3", session);
         session.saveDocument(news.getDocumentModel());
         session.save();
 
-        List<LabsNews> allNews = pn.getAllNews();
+        List<LabsNews> allNews = pn.getAllNews(session);
         assertThat(allNews.size(), is(3));
 
     }
@@ -92,9 +92,9 @@ public class PageNewsAdapterTest {
     public void testContainsOnGetAllNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
         PageNews pn = document.getAdapter(PageNews.class);
-        LabsNews news = pn.createNews("Ma news");
+        LabsNews news = pn.createNews("Ma news", session);
         session.saveDocument(news.getDocumentModel());
-        List<LabsNews> allNews = pn.getTopNews(Integer.MAX_VALUE);
+        List<LabsNews> allNews = pn.getTopNews(Integer.MAX_VALUE, session);
         assertFalse(allNews.contains(news));
         
         Calendar cal1 = Calendar.getInstance();
@@ -104,7 +104,7 @@ public class PageNewsAdapterTest {
         news.setStartPublication(cal1);
         news.setEndPublication(cal2);
         session.saveDocument(news.getDocumentModel());
-        allNews = pn.getTopNews(Integer.MAX_VALUE);
+        allNews = pn.getTopNews(Integer.MAX_VALUE, session);
         assertTrue(allNews.contains(news));
     }
 
@@ -115,13 +115,13 @@ public class PageNewsAdapterTest {
 
         createDatasTestForTopNews(pn);
 
-        List<LabsNews> allNews = pn.getTopNews(2);
+        List<LabsNews> allNews = pn.getTopNews(2, session);
         assertThat(allNews.size(), is(2));
         
-        allNews = pn.getTopNews(3);
+        allNews = pn.getTopNews(3, session);
         assertThat(allNews.size(), is(3));
         
-        allNews = pn.getTopNews(5);
+        allNews = pn.getTopNews(5, session);
         assertThat(allNews.size(), is(3));
 
     }
@@ -136,11 +136,11 @@ public class PageNewsAdapterTest {
         cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) -1);
         cal2.set(Calendar.MONTH, cal2.get(Calendar.MONTH) + 1);
         
-        LabsNews news = pn.createNews("Ma news");
+        LabsNews news = pn.createNews("Ma news", session);
         news.setStartPublication(cal1);
         news.setEndPublication(cal2);
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news2");
+        news = pn.createNews("Ma news2", session);
         cal1 = Calendar.getInstance();
         cal2 = Calendar.getInstance();
         cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) - 2);
@@ -148,7 +148,7 @@ public class PageNewsAdapterTest {
         news.setStartPublication(cal1);
         news.setEndPublication(cal2);
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news3");
+        news = pn.createNews("Ma news3", session);
         cal1 = Calendar.getInstance();
         cal2 = Calendar.getInstance();
         cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) - 1);
@@ -156,7 +156,7 @@ public class PageNewsAdapterTest {
         news.setStartPublication(cal1);
         news.setEndPublication(cal2);
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news4");
+        news = pn.createNews("Ma news4", session);
         cal1 = Calendar.getInstance();
         cal2 = Calendar.getInstance();
         cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) - 1);
@@ -166,13 +166,13 @@ public class PageNewsAdapterTest {
         session.saveDocument(news.getDocumentModel());
         session.save();
 
-        List<LabsNews> allNews = pn.getTopNews(2);
+        List<LabsNews> allNews = pn.getTopNews(2, session);
         assertThat(allNews.size(), is(2));
         
-        allNews = pn.getTopNews(3);
+        allNews = pn.getTopNews(3, session);
         assertThat(allNews.size(), is(3));
         
-        allNews = pn.getTopNews(5);
+        allNews = pn.getTopNews(5, session);
         assertThat(allNews.size(), is(3));
 
     }
@@ -183,7 +183,7 @@ public class PageNewsAdapterTest {
 
         createDatasTestForTopNews(pn);
         
-        List<LabsNews> allNews = pn.getTopNews(3);
+        List<LabsNews> allNews = pn.getTopNews(3, session);
         assertThat(allNews.size(), is(3));
         
         SyndFeed feed = pn.buildRssLabsNews(allNews, "localhost:8080", "DefaultDescription");
@@ -203,7 +203,7 @@ public class PageNewsAdapterTest {
 
         createDatasTestForTopNews(pn);
         
-        List<LabsNews> allNews = pn.getTopNews(3);
+        List<LabsNews> allNews = pn.getTopNews(3, session);
         assertThat(allNews.size(), is(3));
         
         SyndFeed feed = pn.buildRssLabsNews(allNews, "http://localhost:8080/", "DefaultDescription");

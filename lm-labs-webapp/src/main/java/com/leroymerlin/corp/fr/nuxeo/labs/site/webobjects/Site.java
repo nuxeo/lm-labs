@@ -298,7 +298,7 @@ public class Site extends NotifiablePageResource {
     public List<LabsNews> getNews(String pRef) throws ClientException {
         CoreSession session = getCoreSession();
         DocumentModel pageNews = session.getDocument(new IdRef(pRef));
-        return pageNews.getAdapter(PageNews.class).getAllNews();
+        return pageNews.getAdapter(PageNews.class).getAllNews(session);
     }
 
 }

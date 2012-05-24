@@ -67,7 +67,7 @@ public class PageNewsResource extends NotifiablePageResource {
             String pTitle = form.getString("dc:title");
             CoreSession session = ctx.getCoreSession();
             PageNews pageNews = doc.getAdapter(PageNews.class);
-            news = pageNews.createNews(pTitle);
+            news = pageNews.createNews(pTitle, session);
 
             LabsNewsResource.fillNews(form, news);
 

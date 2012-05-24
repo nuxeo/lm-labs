@@ -61,7 +61,7 @@ public class LabsRssAdapter extends DefaultAdapter {
                 throw new WebResourceNotFoundException(BAD_TYPE_OF_DOCUMENT);
             }
             final PageNews pageNews = doc.getAdapter(PageNews.class);
-            List<LabsNews> topNews = pageNews.getTopNews(TOP_NEW_MAX);
+            List<LabsNews> topNews = pageNews.getTopNews(TOP_NEW_MAX, getContext().getCoreSession());
             final SyndFeed feed = pageNews.buildRssLabsNews(
                     topNews,
                     this.getContext().getBaseURL()

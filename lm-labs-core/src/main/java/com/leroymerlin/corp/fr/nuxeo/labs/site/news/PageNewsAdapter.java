@@ -31,9 +31,8 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
     }
 
     @Override
-    public LabsNews createNews( String pTitle)
+    public LabsNews createNews( String pTitle, CoreSession session)
             throws ClientException {
-        CoreSession session = doc.getCoreSession();
 
         DocumentModel document = session
                 .createDocumentModel(doc.getPathAsString(), LabsSiteUtils.doLabsSlugify(pTitle),
@@ -44,17 +43,17 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
     }
 
     @Override
-    public List<LabsNews> getAllNews() throws ClientException {
+    public List<LabsNews> getAllNews(CoreSession session) throws ClientException {
       List<LabsNews> listNews = new ArrayList<LabsNews>();
       DocumentModelList listDoc = null;
       Sorter pageNewsSorter = new PageNewsSorter();
-      if (getCoreSession().hasPermission(doc.getRef(),
+      if (session.hasPermission(doc.getRef(),
               SecurityConstants.WRITE)) {
-          listDoc = getCoreSession().getChildren(doc.getRef(),
+          listDoc = session.getChildren(doc.getRef(),
                   LabsSiteConstants.Docs.LABSNEWS.type(), null, null,
                   pageNewsSorter);
       } else {
-          listDoc = getCoreSession().getChildren(doc.getRef(),
+          listDoc = session.getChildren(doc.getRef(),
                   LabsSiteConstants.Docs.LABSNEWS.type(), null,
                   new PageNewsFilter(Calendar.getInstance()), pageNewsSorter);
       }
@@ -66,11 +65,12 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
       return listNews;
     }
 
-    public List<LabsNews> getTopNews(int pMaxNews) throws ClientException{
+    @Override
+    public List<LabsNews> getTopNews(int pMaxNews, CoreSession session) throws ClientException{
         List<LabsNews> listNews = new ArrayList<LabsNews>();
         DocumentModelList listDoc = null;
         Sorter pageNewsSorter = new PageNewsSorter();
-        listDoc = getCoreSession().getChildren(doc.getRef(),
+        listDoc = session.getChildren(doc.getRef(),
                 LabsSiteConstants.Docs.LABSNEWS.type(), null,
                 new PageNewsFilter(Calendar.getInstance()), pageNewsSorter);
         int nb = 0;
@@ -85,13 +85,9 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
         return listNews;
     }
 
-    private CoreSession getCoreSession() {
-        return doc.getCoreSession();
-    }
-
     // TODO unit tests
     @Override
-    public Collection<DocumentModel> getTopNewsStartingOn(Calendar startDate) throws ClientException {
+    public Collection<DocumentModel> getTopNewsStartingOn(Calendar startDate, CoreSession session) throws ClientException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = sdf.format(startDate.getTime());
 
@@ -101,7 +97,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
         query.append(" AND ").append(LabsNewsAdapter.START_PUBLICATION).append(" >= TIMESTAMP '").append(dateStr).append(" 00:00:00").append("'");
         query.append(" AND ").append(LabsNewsAdapter.START_PUBLICATION).append(" <= TIMESTAMP '").append(dateStr).append(" 23:59:59").append("'");
 
-        return doc.getCoreSession().query(query.toString());
+        return session.query(query.toString());
     }
 
     @Override
