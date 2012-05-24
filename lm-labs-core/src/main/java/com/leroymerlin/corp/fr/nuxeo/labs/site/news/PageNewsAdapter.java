@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -18,8 +17,8 @@ import org.nuxeo.ecm.core.query.sql.NXQL;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -122,10 +121,10 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
     private String buildRssPageNewsDescription(String pDefaultDescription) throws ClientException {
         String description = getDescription();
         if (!StringUtils.isEmpty(description)){
-            return StringEscapeUtils.escapeHtml(description);
+            return description;
         }
         else{
-            return StringEscapeUtils.escapeHtml(pDefaultDescription);
+            return pDefaultDescription;
         }
     }
 
