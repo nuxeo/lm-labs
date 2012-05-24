@@ -130,7 +130,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * .util.List)
      */
     @Override
-    public void setHeaders(List<Header> headersToSave) throws ClientException {
+    public void setHeaders(List<Header> headersToSave, CoreSession session) throws ClientException {
         List<Map<String, Object>> listHeaders = new ArrayList<Map<String, Object>>();
         Map<Integer, EntryType> linePropIdHeaders = new HashMap<Integer, EntryType>();
         for (Header head : headersToSave) {
@@ -144,12 +144,12 @@ public class PageListAdapter extends AbstractPage implements PageList {
         doc.getProperty(PGL_HEADERLIST).setValue(listHeaders);
         // in case a 'lineProp' column is added on a existing PageList we have to check cells' content of 'lineProp' columns
         if (!linePropIdHeaders.isEmpty()) {
-            checkLinePropDataConsistency(linePropIdHeaders);
+            checkLinePropDataConsistency(linePropIdHeaders, session);
         }
     }
 
-    private void checkLinePropDataConsistency(Map<Integer, EntryType> idHeaders) throws ClientException {
-        for(EntriesLine line : getLines()) {
+    private void checkLinePropDataConsistency(Map<Integer, EntryType> idHeaders, CoreSession session) throws ClientException {
+        for(EntriesLine line : getLines(session)) {
             boolean lineModified = false;
             for (int idHeader : idHeaders.keySet()) {
                 Entry entry = line.getEntryByIdHead(idHeader);
@@ -166,7 +166,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
                 }
             }
             if (lineModified) {
-                saveLine(line, null);
+                saveLine(line, null, session);
             }
         }
     }
@@ -259,11 +259,10 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#getLines()
      */
     @Override
-    public List<EntriesLine> getLines() throws ClientException {
+    public List<EntriesLine> getLines(CoreSession session) throws ClientException {
         DocumentModelList listDocLines = null;
         List<EntriesLine> entriesLines = new ArrayList<EntriesLine>();
-        listDocLines = doc.getCoreSession()
-                .getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
+        listDocLines = session.getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
         EntriesLine line;
         PageListLine adapterLine;
         for (DocumentModel docTmp : listDocLines) {
@@ -283,8 +282,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine)
      */
     @Override
-    public void saveLine(EntriesLine pLine, LabsSite pSite) throws ClientException {
-        CoreSession session = doc.getCoreSession();
+    public void saveLine(EntriesLine pLine, LabsSite pSite, CoreSession session) throws ClientException {
         DocumentModel lineDoc = null;
         boolean isNew = pLine.getDocLine() == null;
         if (isNew) {
@@ -302,11 +300,11 @@ public class PageListAdapter extends AbstractPage implements PageList {
         }
         session.save();
         if (isNew) {
-            manageAddedPermission(pLine, pSite);
+            manageAddedPermission(pLine, pSite, session);
         }
     }
     
-    private void manageAddedPermission(final EntriesLine pLine, final LabsSite site) throws ClientException{
+    private void manageAddedPermission(final EntriesLine pLine, final LabsSite site, CoreSession session) throws ClientException{
         if (site == null){
             return;
         }
@@ -315,7 +313,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
             return;
         }
         final DocumentRef ref = pLine.getDocLine().getRef();
-        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(doc.getCoreSession()){
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
             @Override
             public void run() throws ClientException {
                 DocumentModel docu = session.getDocument(ref);
@@ -340,8 +338,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * nuxeo.ecm.core.api.DocumentRef)
      */
     @Override
-    public void removeLine(DocumentRef pRef) throws ClientException {
-        doc.getCoreSession().removeDocument(pRef);
+    public void removeLine(DocumentRef pRef, CoreSession session) throws ClientException {
+        session.removeDocument(pRef);
     }
 
     /*
@@ -352,10 +350,9 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * .ecm.core.api.DocumentRef)
      */
     @Override
-    public EntriesLine getLine(DocumentRef pRef) throws ClientException {
+    public EntriesLine getLine(DocumentRef pRef, CoreSession session) throws ClientException {
         EntriesLine line = new EntriesLine();
-        DocumentModel lineDoc = doc.getCoreSession()
-                .getDocument(pRef);
+        DocumentModel lineDoc = session.getDocument(pRef);
         if (lineDoc != null) {
             line.setDocLine(lineDoc);
             line = lineDoc.getAdapter(PageListLine.class)
@@ -387,10 +384,10 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * (boolean)
      */
     @Override
-    public void setAllContributors(final boolean isAllContributors) throws ClientException {
+    public void setAllContributors(final boolean isAllContributors, CoreSession session) throws ClientException {
         if (isAllContributors != isAllContributors()){
             final DocumentRef ref = doc.getRef();
-            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(doc.getCoreSession()){
+            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
     
                 @SuppressWarnings("deprecation")
                 @Override
@@ -447,7 +444,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#exportExcel(java.io.OutputStream)
      */
     @Override
-    public void exportExcel(OutputStream pOut) throws ClientException, IOException {
+    public void exportExcel(OutputStream pOut, CoreSession session) throws ClientException, IOException {
         Workbook wb = new HSSFWorkbook();
         Sheet sheet = wb.createSheet("export");
 
@@ -477,7 +474,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         numCell = 0;
         numRow ++;
         SimpleDateFormat sdfHeader = null;
-        for (EntriesLine line : getLines()) {
+        for (EntriesLine line : getLines(session)) {
             row = sheet.createRow(numRow);
             for (Header head : headers) {
                 cell = row.createCell(numCell);

@@ -212,9 +212,9 @@ public class PageListResource extends NotifiablePageResource {
                     headersToSave.add(header);
                 }
             }
-            pgl.setAllContributors("on".equals(pAllContributors));
+            pgl.setAllContributors("on".equals(pAllContributors), session);
             pgl.setCommentableLines("on".equals(pCommentableLines));
-            pgl.setHeaders(headersToSave);
+            pgl.setHeaders(headersToSave, session);
             session.saveDocument(doc);
             session.save();
         } catch (ClientException e) {
@@ -346,10 +346,11 @@ public class PageListResource extends NotifiablePageResource {
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public StreamingOutput exportToExcel(){
         final PageList pgl = doc.getAdapter(PageList.class);
+        final CoreSession session = ctx.getCoreSession();
         return new StreamingOutput() {
             public void write(OutputStream output) throws IOException, WebApplicationException {
                 try {
-                    pgl.exportExcel(output);
+                    pgl.exportExcel(output, session);
                     } catch (Exception e) {
                         LOG.error(IMPOSSIBLE_TO_EXPORT_ARRAY_IN_EXCEL, e);
                         throw new WebApplicationException(e);

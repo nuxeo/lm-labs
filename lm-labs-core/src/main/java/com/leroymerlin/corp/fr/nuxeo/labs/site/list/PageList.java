@@ -3,9 +3,10 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.list;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 
@@ -34,14 +35,14 @@ public interface PageList extends Page {
      * @param headersToSave
      * @throws ClientException
      */
-    void setHeaders(List<Header> headersToSave) throws ClientException;
+    void setHeaders(List<Header> headersToSave, CoreSession session) throws ClientException;
 
     /**
      * Get the set of header
      * @return the set of header
      * @throws ClientException
      */
-    Set<Header> getHeaderSet() throws ClientException;
+    SortedSet<Header> getHeaderSet() throws ClientException;
     
     /**
      * reset the list of header
@@ -54,21 +55,21 @@ public interface PageList extends Page {
      * @return
      * @throws ClientException
      */
-    List<EntriesLine> getLines() throws ClientException;
+    List<EntriesLine> getLines(CoreSession session) throws ClientException;
     
     /**
      * Save a EntriesLine
      * @param pLine
      * @throws ClientException
      */
-    void saveLine(EntriesLine pLine, LabsSite site) throws ClientException;
+    void saveLine(EntriesLine pLine, LabsSite site, CoreSession session) throws ClientException;
     
     /**
      * Remove a PageListLine by this reference
      * @param pRef
      * @throws ClientException
      */
-    void removeLine(DocumentRef pRef) throws ClientException;
+    void removeLine(DocumentRef pRef, CoreSession session) throws ClientException;
     
     /**
      * Get a EntriesLine by this reference
@@ -76,7 +77,7 @@ public interface PageList extends Page {
      * @return
      * @throws ClientException
      */
-    EntriesLine getLine(DocumentRef pRef) throws ClientException;
+    EntriesLine getLine(DocumentRef pRef, CoreSession session) throws ClientException;
     
     /**
      * If all the people are contributors for manage lines.
@@ -90,7 +91,7 @@ public interface PageList extends Page {
      * @param isAllContributors
      * @throws ClientException
      */
-    void setAllContributors(boolean isAllContributors) throws ClientException;
+    void setAllContributors(boolean isAllContributors, CoreSession session) throws ClientException;
 
     /**
      * If the lines are commentable
@@ -111,6 +112,6 @@ public interface PageList extends Page {
      * @param pOut
      * @throws IOException
      */
-    void exportExcel(OutputStream pOut) throws ClientException, IOException ;
+    void exportExcel(OutputStream pOut, CoreSession session) throws ClientException, IOException ;
     
 }

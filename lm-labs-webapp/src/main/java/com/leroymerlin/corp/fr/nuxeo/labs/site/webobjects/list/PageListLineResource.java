@@ -202,7 +202,7 @@ public class PageListLineResource extends DocumentObject {
             String principalName = ctx.getPrincipal().getName();
             entriesLine.setUserName(principalName);
             LabsSite site = CommonHelper.siteDoc(doc).getSite();
-            parent.saveLine(entriesLine, site);
+            parent.saveLine(entriesLine, site, getCoreSession());
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_LINE, e);
             return Response.ok("?message_error=label.pageList.line_updated_error" + url,
