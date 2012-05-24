@@ -58,6 +58,7 @@
 							<script type="text/javascript">
 								jQuery(document).ready(function() {
 									jQuery("#divEditParametersPage").dialog2({
+										height : '385px',
 										autoOpen : false,
 										closeOnOverlayClick : false,
 										removeOnClose : false,
