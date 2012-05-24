@@ -309,8 +309,6 @@ public class PageListResource extends NotifiablePageResource {
         FreemarkerBean result = new FreemarkerBean(json, headersNameJS, headerSet, listHeadersName);
         return result;
     }
-    
-
 
     /**
      * @param pageSize the element's number by page
