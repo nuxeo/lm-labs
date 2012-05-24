@@ -27,6 +27,7 @@
         SELECT * FROM PageListLine WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
         AND ecm:parentId = ?
       </pattern>
+      <sort column="dc:created" ascending="true" />
     </coreQueryPageProvider>
  
  	<coreQueryPageProvider name="list_news_write_nxql">
