@@ -11,6 +11,7 @@ import java.util.List;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.model.WebContext;
@@ -102,7 +103,7 @@ public final class SyndicationUtils {
         SyndContent content;
         content = new SyndContentImpl();
         content.setType("text/html");
-        content.setValue(desc);
+        content.setValue(StringEscapeUtils.escapeHtml(desc));
         return content;
     }
 }

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -65,13 +66,13 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
       }
       return listNews;
     }
-    
+
     public List<LabsNews> getTopNews(int pMaxNews) throws ClientException{
         List<LabsNews> listNews = new ArrayList<LabsNews>();
         DocumentModelList listDoc = null;
         Sorter pageNewsSorter = new PageNewsSorter();
         listDoc = getCoreSession().getChildren(doc.getRef(),
-                LabsSiteConstants.Docs.LABSNEWS.type(), null, 
+                LabsSiteConstants.Docs.LABSNEWS.type(), null,
                 new PageNewsFilter(Calendar.getInstance()), pageNewsSorter);
         int nb = 0;
         for (DocumentModel doc : listDoc) {
@@ -100,7 +101,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
         query.append(NXQL.ECM_PATH).append(" STARTSWITH '").append(doc.getPathAsString().replace("'", "\\'")).append("'");
         query.append(" AND ").append(LabsNewsAdapter.START_PUBLICATION).append(" >= TIMESTAMP '").append(dateStr).append(" 00:00:00").append("'");
         query.append(" AND ").append(LabsNewsAdapter.START_PUBLICATION).append(" <= TIMESTAMP '").append(dateStr).append(" 23:59:59").append("'");
-        
+
         return doc.getCoreSession().query(query.toString());
     }
 
@@ -110,24 +111,24 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
 
         final SyndFeed feed = new SyndFeedImpl();
         feed.setFeedType(feedType);
-        
+
         feed.setTitle(getTitle());
         feed.setLink(pPathBase);
         feed.setDescription(buildRssPageNewsDescription(pDefaultDescription));
         feed.setEntries(createRssEntries(pLabsNews, pPathBase));
         return feed;
     }
-    
+
     private String buildRssPageNewsDescription(String pDefaultDescription) throws ClientException {
         String description = getDescription();
         if (!StringUtils.isEmpty(description)){
-            return description;
+            return StringEscapeUtils.escapeHtml(description);
         }
         else{
-            return pDefaultDescription; 
+            return StringEscapeUtils.escapeHtml(pDefaultDescription);
         }
     }
-    
+
     private List<SyndEntry> createRssEntries(List<LabsNews> topNews, String pPathBase) throws ClientException {
         List<SyndEntry> entries = new ArrayList<SyndEntry>();
         SyndEntry entry;
