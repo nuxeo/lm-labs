@@ -111,22 +111,22 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public void setBanner(Blob pBlob) throws ClientException {
+    public void setBanner(Blob pBlob, CoreSession session) throws ClientException {
         SiteTheme theme = doc.getAdapter(LabsSite.class).getThemeManager().getTheme();
         if (pBlob == null) {
             theme.setBanner(null);
-            doc.getCoreSession().saveDocument(theme.getDocument());
+            session.saveDocument(theme.getDocument());
         } else {
             theme.setBanner(pBlob);
-            doc.getCoreSession().saveDocument(theme.getDocument());
+            session.saveDocument(theme.getDocument());
         }
     }
 
     @Override
-    public List<Page> getAllPages() throws ClientException {
-        DocumentModelList docs = getCoreSession().query(
+    public List<Page> getAllPages(CoreSession session) throws ClientException {
+        DocumentModelList docs = session.query(
                 "SELECT * FROM Page, Space where ecm:currentLifeCycleState <> 'deleted' AND ecm:path STARTSWITH '"
-                        + getTree().getPathAsString().replace("'", "\\'") + "'");
+                        + getTree(session).getPathAsString().replace("'", "\\'") + "'");
 
         List<Page> pages = new ArrayList<Page>();
         for (DocumentModel doc : docs) {
@@ -140,7 +140,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     // TODO unit tests
     @Override
-    public Collection<DocumentModel> getPages(Docs docType, State lifecycleState)
+    public Collection<DocumentModel> getPages(Docs docType, State lifecycleState, CoreSession session)
             throws ClientException {
         String docTypeStr = Docs.PAGE.type() + ", " + Docs.DASHBOARD.type();
         if (docType != null) {
@@ -156,12 +156,12 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         } else {
             query.append(NXQL.ECM_LIFECYCLESTATE).append(" <> 'deleted'");
         }
-        return getCoreSession().query(query.toString());
+        return session.query(query.toString());
     }
 
     @Override
-    public List<Page> getAllDeletedPages() throws ClientException {
-        DocumentModelList docs = getCoreSession().query(
+    public List<Page> getAllDeletedPages(CoreSession session) throws ClientException {
+        DocumentModelList docs = session.query(
                 "SELECT * FROM Page, Space where ecm:currentLifeCycleState = 'deleted' AND ecm:path STARTSWITH '"
                         + doc.getPathAsString().replace("'", "\\'") + "'");
 
@@ -176,14 +176,14 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public DocumentModelList getAllDeletedDocs() throws ClientException {
+    public DocumentModelList getAllDeletedDocs(CoreSession session) throws ClientException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM Document").append(" WHERE ").append(
                 NXQL.ECM_LIFECYCLESTATE).append(" = '").append(
                 LifeCycleConstants.DELETED_STATE).append("'").append(" AND ").append(
                 NXQL.ECM_PATH).append(" STARTSWITH '").append(
                 doc.getPathAsString().replace("'", "\\'")).append("'");
-        DocumentModelList docs = getCoreSession().query(query.toString(),
+        DocumentModelList docs = session.query(query.toString(),
                 new Filter() {
                     private static final long serialVersionUID = 1L;
 
@@ -225,13 +225,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         return docs;
     }
 
-    private CoreSession getCoreSession() {
-        return doc.getCoreSession();
-    }
-
     @Override
-    public DocumentModel getTree() throws ClientException {
-        return getCoreSession().getChild(doc.getRef(), Docs.TREE.docName());
+    public DocumentModel getTree(CoreSession session) throws ClientException {
+        return session.getChild(doc.getRef(), Docs.TREE.docName());
     }
 
     public static DocumentModel getDefaultRoot(CoreSession coreSession) {
@@ -271,19 +267,19 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public DocumentModel getIndexDocument() throws ClientException {
+    public DocumentModel getIndexDocument(CoreSession session) throws ClientException {
         DocumentModel welcome = null;
         String ref = getHomePageRef();
         if (!StringUtils.isEmpty(ref)){
             try {
-                welcome = doc.getCoreSession().getDocument(new IdRef(ref));
+                welcome = session.getDocument(new IdRef(ref));
             } catch (ClientException e) {
                 LOG.error("No document for id : '" + ref);
             }
         }
         if (welcome == null){
             LOG.warn("No setted home page for site '" + getURL());
-            DocumentModelList list = LabsSiteUtils.getChildrenPageDocuments(getTree());
+            DocumentModelList list = LabsSiteUtils.getChildrenPageDocuments(getTree(session));
             if (list.isEmpty()){
                 LOG.error("Unable to get home page for site '" + getURL());
                 throw new HomePageException("Unable to get home page for site '" + getURL());
@@ -294,13 +290,13 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public String[] getAllowedSubtypes() throws ClientException {
-        return getAllowedSubtypes(getTree());
+    public String[] getAllowedSubtypes(CoreSession session) throws ClientException {
+        return getAllowedSubtypes(getTree(session));
     }
 
     @Override
-    public DocumentModel getAssetsDoc() throws ClientException {
-        return getCoreSession().getChild(doc.getRef(), Docs.ASSETS.docName());
+    public DocumentModel getAssetsDoc(CoreSession session) throws ClientException {
+        return session.getChild(doc.getRef(), Docs.ASSETS.docName());
     }
 
     @Override
@@ -314,7 +310,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public DocumentModelList getLastUpdatedDocs() throws ClientException {
+    public DocumentModelList getLastUpdatedDocs(CoreSession session) throws ClientException {
         StringBuilder query = new StringBuilder("SELECT * FROM Document");
         query.append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(
                 doc.getPathAsString().replace("'", "\\'")).append("/").append(
@@ -326,7 +322,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         query.append(" ORDER BY dc:modified DESC");
 
         final DocUnderVisiblePageFilter docUnderVisiblePageFilter = new DocUnderVisiblePageFilter();
-        return getCoreSession().query(query.toString(), new Filter() {
+        return session.query(query.toString(), new Filter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -337,7 +333,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public DocumentModelList getLastUpdatedNewsDocs() throws ClientException {
+    public DocumentModelList getLastUpdatedNewsDocs(CoreSession session) throws ClientException {
         StringBuilder query = new StringBuilder("SELECT * FROM ");
         query.append(Docs.LABSNEWS.type());
         query.append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(
@@ -349,7 +345,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                 " <> 'HiddenInNavigation'");
 
         final DocUnderVisiblePageFilter docUnderVisiblePageFilter = new DocUnderVisiblePageFilter();
-        return getCoreSession().query(query.toString(), new Filter() {
+        return session.query(query.toString(), new Filter() {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -360,12 +356,12 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public ArrayList<ExternalURL> getExternalURLs() throws ClientException {
+    public ArrayList<ExternalURL> getExternalURLs(CoreSession session) throws ClientException {
         ArrayList<ExternalURL> listExtURL = new ArrayList<ExternalURL>();
-        if (getCoreSession().exists(
+        if (session.exists(
                 new PathRef(doc.getPathAsString() + "/"
                         + Docs.EXTERNAL_URLS.docName()))) {
-            DocumentModel folder = getCoreSession().getDocument(
+            DocumentModel folder = session.getDocument(
                     new PathRef(doc.getPathAsString() + "/"
                             + Docs.EXTERNAL_URLS.docName()));
             DocumentModelList listDoc = doc.getCoreSession().getChildren(
@@ -381,32 +377,32 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public ExternalURL createExternalURL(String title) throws ClientException {
+    public ExternalURL createExternalURL(String title, CoreSession session) throws ClientException {
         DocumentModel folder;
-        if (!getCoreSession().exists(
+        if (!session.exists(
                 new PathRef(doc.getPathAsString() + "/"
                         + Docs.EXTERNAL_URLS.docName()))) {
-            folder = getCoreSession().createDocumentModel(
+            folder = session.createDocumentModel(
                     doc.getPathAsString(), Docs.EXTERNAL_URLS.docName(),
                     Docs.EXTERNAL_URLS.type());
-            folder = getCoreSession().createDocument(folder);
+            folder = session.createDocument(folder);
         } else {
-            folder = getCoreSession().getDocument(
+            folder = session.getDocument(
                     new PathRef(doc.getPathAsString() + "/"
                             + Docs.EXTERNAL_URLS.docName()));
         }
-        DocumentModel docExtURL = getCoreSession().createDocumentModel(
+        DocumentModel docExtURL = session.createDocumentModel(
                 folder.getPathAsString(), title,
                 LabsSiteConstants.Docs.EXTERNAL_URL.type());
         ExternalURL extURL = docExtURL.getAdapter(ExternalURL.class);
         extURL.setName(title);
-        getCoreSession().createDocument(docExtURL);
+        session.createDocument(docExtURL);
         return extURL;
     }
 
     // TODO vdu unit test
     @Override
-    public boolean updateUrls(String oldUrl, String newUrl)
+    public boolean updateUrls(String oldUrl, String newUrl, CoreSession session)
             throws ClientException {
         List<String> stringUrlFields = new ArrayList<String>(
                 Arrays.asList("dc:description"));
@@ -421,12 +417,12 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         for (String fieldName : stringUrlFields) {
             boolean updated = false;
             String query = String.format(queryFormatStr, fieldName);
-            DocumentModelList docs = getCoreSession().query(query);
+            DocumentModelList docs = session.query(query);
             for (DocumentModel document : docs) {
                 updated = updateUrlInProperty(document, fieldName, oldUrl,
                         newUrl);
                 if (updated) {
-                    getCoreSession().saveDocument(document);
+                    session.saveDocument(document);
                 }
             }
             anyUpdated |= updated;
@@ -439,7 +435,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                         Docs.LABSNEWS.type() }, ",")).append(" WHERE ").append(
                 NXQL.ECM_PATH).append(" STARTSWITH '").append(
                 doc.getPathAsString()).append("'");
-        DocumentModelList docs = getCoreSession().query(query.toString());
+        DocumentModelList docs = session.query(query.toString());
         for (DocumentModel document : docs) {
             boolean updated = false;
             if (Docs.HTMLPAGE.type().equals(document.getType())) {
@@ -454,7 +450,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                 updated = processRows(news.getRows(), oldUrl, newUrl);
             }
             if (updated) {
-                getCoreSession().saveDocument(document);
+                session.saveDocument(document);
             }
             anyUpdated |= updated;
         }
@@ -580,17 +576,16 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public void applyTemplateSite(final DocumentModel templateSite)
+    public void applyTemplateSite(final DocumentModel templateSite, CoreSession session)
             throws ClientException, IllegalArgumentException {
         final String templateThemeName = (String) templateSite.getPropertyValue(Schemas.LABSSITE.prefix()
                 + ":theme_name");
-        UnrestrictedSessionRunner sessionRunner = new UnrestrictedSessionRunner(
-                templateSite.getCoreSession()) {
+        UnrestrictedSessionRunner sessionRunner = new UnrestrictedSessionRunner(session) {
             @Override
             public void run() throws ClientException {
                 LabsSite labsSiteTemplate = templateSite.getAdapter(LabsSite.class);
                 if (labsSiteTemplate.isSiteTemplate()) {
-                    Path indexLastSegments = labsSiteTemplate.getIndexDocument().getPath().removeFirstSegments(
+                    Path indexLastSegments = labsSiteTemplate.getIndexDocument(session).getPath().removeFirstSegments(
                             templateSite.getPath().segmentCount());
                     session.removeDocuments(session.getChildrenRefs(
                             doc.getRef(), null).toArray(new DocumentRef[] {}));
@@ -650,14 +645,14 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public List<Page> getSubscribedPages() throws ClientException {
+    public List<Page> getSubscribedPages(CoreSession session) throws ClientException {
         List<Page> subscribedPages = new ArrayList<Page>();
-        for (Page page : getAllPages()) {
+        for (Page page : getAllPages(session)) {
             try {
                 PageSubscription adapter = page.getDocument().getAdapter(
                         PageSubscription.class);
                 if (adapter != null
-                        && adapter.isSubscribed(getCoreSession().getPrincipal().getName())) {
+                        && adapter.isSubscribed(session.getPrincipal().getName())) {
                     subscribedPages.add(page);
                 }
             } catch (Exception e) {

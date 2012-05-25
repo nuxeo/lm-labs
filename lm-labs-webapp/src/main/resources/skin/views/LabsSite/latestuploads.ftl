@@ -18,7 +18,7 @@
 
   <div class="row-fluid">
     <div class="">
-      <#assign pp = latestUploadsPageProvider(Document, nbrElemPerPage) />
+      <#assign pp = latestUploadsPageProvider(Document, nbrElemPerPage, Context.getCoreSession()) />
       <#assign currentPage = Context.request.getParameter('page')?number?long />
       <#assign uploads = pp.setCurrentPage(currentPage) />
       <@resultsStatus pageProvider=pp />
@@ -42,10 +42,10 @@
             <#assign modifDate = upload.dublincore.modified?datetime >
             <td>${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</td>
             <#assign sd = Common.siteDoc(upload) />
-            <td><a href="${Context.modulePath}/${sd.parentPagePath}">${sd.parentPage.title}</a></td>
+            <td><a href="${Context.modulePath}/${sd.getParentPagePath(Context.coreSession)}">${sd.parentPage.title}</a></td>
             <td>
-        <@fileDownloadLink url="${Context.modulePath}/${sd.resourcePath}/@blob" tooltip="${Context.getMessage('command.LabsSite.latestuploads.download')}" />
-        <@fileDisplayLink url="${Context.modulePath}/${sd.resourcePath}/@blob/preview" tooltip="${Context.getMessage('command.LabsSite.latestuploads.display')}" />
+        <@fileDownloadLink url="${Context.modulePath}/${sd.getResourcePath(Context.coreSession)}/@blob" tooltip="${Context.getMessage('command.LabsSite.latestuploads.download')}" />
+        <@fileDisplayLink url="${Context.modulePath}/${sd.getResourcePath(Context.coreSession)}/@blob/preview" tooltip="${Context.getMessage('command.LabsSite.latestuploads.display')}" />
               </td>
           </tr>
           </#list>

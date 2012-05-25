@@ -64,16 +64,16 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public String getParentPagePath() throws ClientException {
-        return getParentPage().getPath();
+    public String getParentPagePath(CoreSession session) throws ClientException {
+        return getParentPage().getPath(session);
     }
 
     @Override
-    public String getResourcePath() throws ClientException {
+    public String getResourcePath(CoreSession session) throws ClientException {
         LabsSite site = getSite();
         String endUrl = doc.getPathAsString();
-        if (endUrl.contains(site.getTree().getPathAsString())) {
-            endUrl = endUrl.replace(site.getTree().getPathAsString(), "");
+        if (endUrl.contains(site.getTree(session).getPathAsString())) {
+            endUrl = endUrl.replace(site.getTree(session).getPathAsString(), "");
         } else {
             endUrl = endUrl.replace(site.getDocument().getPathAsString(), "");
         }

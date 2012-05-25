@@ -39,7 +39,7 @@ public class GetSiteDocumentChainTest extends AbstractTestOperation {
     public void iCanGetSiteDocumentFromClasseur() throws Exception {
         LabsSite site = getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL);
         DocumentModel classeur = session.getDocument(
-                new PathRef(site.getTree().getPathAsString() + "/" + PageClasseurPageRepositoryInit.PAGE_CLASSEUR_TITLE));
+                new PathRef(site.getTree(session).getPathAsString() + "/" + PageClasseurPageRepositoryInit.PAGE_CLASSEUR_TITLE));
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = service.getOperationChain(OPERATIONSCHAIN_LABS_SITE_GET_SITE_DOCUMENT);
         chain.getOperations().get(0).set("value", classeur.getId());
@@ -58,7 +58,7 @@ public class GetSiteDocumentChainTest extends AbstractTestOperation {
         LabsSite site = getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL);
         DocumentModel folder = session.getDocument(
                 new PathRef(
-                        site.getTree().getPathAsString() + "/" + PageClasseurPageRepositoryInit.PAGE_CLASSEUR_TITLE + "/" + PageClasseurPageRepositoryInit.FOLDER1_NAME));
+                        site.getTree(session).getPathAsString() + "/" + PageClasseurPageRepositoryInit.PAGE_CLASSEUR_TITLE + "/" + PageClasseurPageRepositoryInit.FOLDER1_NAME));
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = service.getOperationChain(OPERATIONSCHAIN_LABS_SITE_GET_SITE_DOCUMENT);
         chain.getOperations().get(0).set("value", folder.getId());

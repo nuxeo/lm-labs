@@ -8,10 +8,12 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.platform.query.api.AbstractPageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
+import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.filter.PageClasseurDocsFilter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
@@ -36,8 +38,9 @@ public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentMode
             StringBuilder query = new StringBuilder();
             try {
                 SiteDocument sd = doc.getAdapter(SiteDocument.class);
+                Serializable session = getProperties().get(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY);
                 query.append("SELECT * FROM Document WHERE ")
-                .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite().getTree().getPathAsString().replace("'", "\\'") + "'")
+                .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite().getTree((CoreSession)session).getPathAsString().replace("'", "\\'") + "'")
                 .append(" ORDER BY " + UPLOADS_SORT_FIELD + " DESC");
                 List<DocumentModel> documents = doc.getCoreSession().query(query.toString(), new PageClasseurDocsFilter());
                 if (!hasError()) {

@@ -6,7 +6,9 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
 
@@ -65,13 +67,14 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
             SiteDocument siteAdapter = doc.getAdapter(SiteDocument.class);
             if (siteAdapter != null) {
                 LabsSite site = siteAdapter.getSite();
-                DocumentModel tree = site.getTree();
+                CoreSession session = WebEngine.getActiveContext().getCoreSession();
+                DocumentModel tree = site.getTree(session);
                 if (doc.getAdapter(Page.class) == null
-                        || (Docs.WELCOME.docName().equals(doc.getName()) && doc.getCoreSession().getParentDocumentRef(
+                        || (Docs.WELCOME.docName().equals(doc.getName()) && session.getParentDocumentRef(
                                 doc.getRef()).equals(tree.getRef()))) {
                     metadata.put("url", siteAdapter.getSite().getURL());
                 } else {
-                    metadata.put("url", siteAdapter.getResourcePath());
+                    metadata.put("url", siteAdapter.getResourcePath(session));
                 }
                 if (site.getHomePageRef().equals(doc.getId())) {
                     metadata.put("ishomepage", "true");

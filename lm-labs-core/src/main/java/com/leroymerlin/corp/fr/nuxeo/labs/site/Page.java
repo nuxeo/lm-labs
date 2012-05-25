@@ -4,10 +4,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 
 public interface Page extends LabsBase {
 
-    public String getPath() throws ClientException;
+    public String getPath(CoreSession session) throws ClientException;
     
     boolean isCommentable() throws ClientException;
     

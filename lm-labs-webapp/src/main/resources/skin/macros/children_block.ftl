@@ -45,7 +45,7 @@
             <#if parentDoc.id == Document.id >
             ${title}
             <#else>
-            <a href="${Context.modulePath}/${Common.siteDoc(parentDoc).resourcePath?html}">${title}</a>
+            <a href="${Context.modulePath}/${Common.siteDoc(parentDoc).getResourcePath(Context.coreSession)?html}">${title}</a>
             </#if>
           </div>
 
@@ -73,7 +73,7 @@
                 </#if>
                 <#if !child.facets?seq_contains("HiddenInNavigation")
                     && (isContributor || (!isContributor && isChildVisible)) >
-                	<li><a href="${Context.modulePath}/${Common.siteDoc(child).resourcePath?html}"
+                	<li><a href="${Context.modulePath}/${Common.siteDoc(child).getResourcePath(Context.coreSession)?html}"
                 		<#if (child.dublincore.description?length > 0) >
                 	  		rel="popover" data-content="${child.dublincore.description?html}"
                 	  		data-original-title="${Context.getMessage('label.description')}"

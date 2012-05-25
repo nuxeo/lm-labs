@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
@@ -18,7 +19,7 @@ public interface LabsBase {
 
     public DocumentModel getDocument();
 
-    public String[] getAllowedSubtypes() throws ClientException;
+    public String[] getAllowedSubtypes(CoreSession session) throws ClientException;
     
     boolean isAuthorizedToDisplay() throws ClientException;
     

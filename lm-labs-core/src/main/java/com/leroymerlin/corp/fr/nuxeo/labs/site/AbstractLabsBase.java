@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.model.PropertyException;
@@ -66,7 +67,7 @@ public abstract class AbstractLabsBase  implements LabsBase{
         return (String) doc.getPropertyValue(DC_DESCRIPTION);
     }
     
-    public abstract String[] getAllowedSubtypes() throws ClientException;
+    public abstract String[] getAllowedSubtypes(CoreSession session) throws ClientException;
 
     protected String[] getAllowedSubtypes(DocumentModel doc) throws ClientException {
         try {

@@ -50,7 +50,7 @@ public class PagePathTests {
     @Test
     public void canGetThePathOfAPage() throws Exception {
 
-        assertThat(classeur.getPath(), is("ofm/"+ PAGE_CLASSEUR_TITLE));
+        assertThat(classeur.getPath(session), is("ofm/"+ PAGE_CLASSEUR_TITLE));
 
     }
 
@@ -59,8 +59,8 @@ public class PagePathTests {
         DocumentModel folder = session.getDocument(new PathRef(classeur.getDocument().getPathAsString() + "/" + FOLDER1_NAME ));
         SiteDocument sd = folder.getAdapter(SiteDocument.class);
 
-        assertThat(sd.getParentPagePath(), is("ofm/" + PAGE_CLASSEUR_TITLE));
-        assertThat(sd.getResourcePath(), is("ofm/" + PAGE_CLASSEUR_TITLE + "/" + FOLDER1_NAME ) );
+        assertThat(sd.getParentPagePath(session), is("ofm/" + PAGE_CLASSEUR_TITLE));
+        assertThat(sd.getResourcePath(session), is("ofm/" + PAGE_CLASSEUR_TITLE + "/" + FOLDER1_NAME ) );
 
     }
 

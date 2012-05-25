@@ -1,5 +1,5 @@
 <#include "macros/pageProviderList.ftl" />
-<@pageProviderList pageProvider=latestUploadsPageProvider(Document, 5)
+<@pageProviderList pageProvider=latestUploadsPageProvider(Document, 5, Context.getCoreSession())
     divId="latestuploads" + "_" + section_index + "_r_" + row_index + "_c_" + content_index
     divTitle=Context.getMessage('title.LabsSite.latestuploads')
     tooltipDocProp="dc:description"

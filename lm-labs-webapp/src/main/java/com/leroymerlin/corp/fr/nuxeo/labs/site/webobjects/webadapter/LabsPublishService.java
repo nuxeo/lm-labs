@@ -65,7 +65,7 @@ public class LabsPublishService extends DefaultAdapter {
     public Object doPublish() {
         DocumentModel document = getDocument();
         try {
-            LabsSiteWebAppUtils.publish(document);
+            LabsSiteWebAppUtils.publish(document, ctx.getCoreSession());
             return Response.ok(PUBLISH).build();
         } catch (NoPublishException e) {
             log.error(IMPOSSIBLE_TO_PUBLISH, e);
@@ -136,7 +136,7 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         CoreSession session = ctx.getCoreSession();
         try {
-            DocumentModelList docs = document.getAdapter(SiteDocument.class).getSite().getAllDeletedDocs();
+            DocumentModelList docs = document.getAdapter(SiteDocument.class).getSite().getAllDeletedDocs(session);
             boolean deleted = false;
             for (DocumentModel deletedDoc : docs) {
                 session.removeDocument(deletedDoc.getRef());

@@ -21,7 +21,7 @@
 
         <div class="row">
           <div  class="span12 columns">
-            <#--assign Document = mySite.indexDocument /-->
+            <#--assign Document = mySite.getIndexDocument(Context.coreSession) /-->
             <#include "views/common/description_area.ftl">
 
       <#assign Document = mySite.document />
@@ -29,7 +29,7 @@
         <#------------------------------------maxNbLabsNews------------------------>
         <#assign maxNbLabsNews = 5 />
 
-          <#list Session.getChildren(mySite.tree.ref) as root>
+          <#list Session.getChildren(mySite.getTree(Context.coreSession).ref) as root>
             <#if root.name != "welcome" && This.isAuthorizedToDisplay(root)>
 	            <div id="bloc${root_index}" class="bloc welcome span5 column">
 	              <div class="header">

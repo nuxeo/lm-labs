@@ -146,24 +146,25 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     @Override
     public void notifyPageNews(PageNews pageNews, List<DocumentModel> newsList) throws Exception {
         DocumentModel document = pageNews.getDocument();
+        CoreSession session = openSession(pageNews.getDocument().getRepositoryName());
         for (DocumentModel news : newsList) {
             if (isToBeNotified(news)) {
                 unmarkForNotification(news);
-                news.getCoreSession().save();
+                session.save();
             }
         }
         if (!State.PUBLISH.getState().equals(document.getCurrentLifeCycleState())) {
             return;
         }
         String eventName = EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS;
-        DocumentEventContext ctx = getContext(document);
+        DocumentEventContext ctx = getContext(document, session);
         ctx.setProperty("PageNewsId", document.getId());
         List<String> titles = new ArrayList<String>();
         for (DocumentModel news : newsList) {
             titles.add(news.getTitle());
         }
         ctx.setProperty("newsTitlesList", (Serializable) titles);
-        ctx.setProperty("pageNewsUrl", pageNews.getPath());
+        ctx.setProperty("pageNewsUrl", pageNews.getPath(session));
         fireEvent(pageNews.getDocument(), eventName, ctx);
     }
     
@@ -187,7 +188,8 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     public boolean notifyPageEvent(Page page, String eventName) throws ClientException {
         try {
             DocumentModel document = page.getDocument();
-            fireEvent(document, eventName, getContext(document));
+            CoreSession session = openSession(page.getDocument().getRepositoryName());
+            fireEvent(document, eventName, getContext(document, session));
             return true;
         } catch (Exception e) {
             LOG.error(e, e);
@@ -233,14 +235,14 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
         evtProducer.fireEvent(ctx.newEvent(eventName));
     }
 
-    private DocumentEventContext getContext(DocumentModel doc) throws ClientException, PropertyException {
+    private DocumentEventContext getContext(DocumentModel doc, CoreSession session) throws ClientException, PropertyException {
         DocumentEventContext ctx = new DocumentEventContext(doc.getCoreSession(), doc.getCoreSession().getPrincipal(), doc);
         ctx.setProperty("PageId", doc.getId());
         String baseUrl = Framework.getProperty("labs.baseUrl", "nuxeo.loopback.url" + "/site/labssites");
         ctx.setProperty("labsBaseUrl", baseUrl);
         ctx.setProperty("siteUrl", (Serializable) doc.getAdapter(SiteDocument.class).getSite().getURL());
         ctx.setProperty("siteTitle", (Serializable) doc.getAdapter(SiteDocument.class).getSite().getTitle());
-        ctx.setProperty("pageUrl", doc.getAdapter(Page.class).getPath());
+        ctx.setProperty("pageUrl", doc.getAdapter(Page.class).getPath(session));
         return ctx;
     }
 

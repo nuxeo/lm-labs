@@ -186,7 +186,7 @@ public class PageResource extends DocumentObject {
 
     public Page getPage() throws ClientException {
         if (labsBaseAdapter instanceof LabsSiteAdapter) {
-            return ((LabsSiteAdapter) labsBaseAdapter).getIndexDocument().getAdapter(
+            return ((LabsSiteAdapter) labsBaseAdapter).getIndexDocument(ctx.getCoreSession()).getAdapter(
                     Page.class);
         } else {
             return (Page) labsBaseAdapter;
@@ -389,7 +389,7 @@ public class PageResource extends DocumentObject {
             session.saveDocument(doc);
             session.save();
             if("on".equalsIgnoreCase(ctx.getForm().getString("publishPage"))){
-                LabsSiteWebAppUtils.publish(doc);
+                LabsSiteWebAppUtils.publish(doc, session);
             }
             else{
                 LabsSiteWebAppUtils.draft(doc);
@@ -486,7 +486,7 @@ public class PageResource extends DocumentObject {
             if (PageCreationLocation.SAME.equals(location)) {
                 parent = session.getParentDocument(doc.getRef());
             } else if (PageCreationLocation.TOP.equals(location)) {
-                parent = labsSite.getTree();
+                parent = labsSite.getTree(session);
             }
             if (overwrite) {
                 DocumentModel deletedPageDoc = LabsSiteUtils.getPageName(name, parent.getRef(), session);

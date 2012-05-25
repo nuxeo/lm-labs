@@ -14,7 +14,7 @@ public class PageDashBoardRepositoryInit extends AllDocTypeRepositoryInit {
         super.populate(session);
 
         String parentPath = ofm.getAdapter(LabsSite.class)
-                .getTree()
+                .getTree(session)
                 .getPathAsString();
 
         DocumentModel pageList = session.createDocumentModel(parentPath,

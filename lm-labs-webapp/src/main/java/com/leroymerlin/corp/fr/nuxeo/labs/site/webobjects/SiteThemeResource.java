@@ -106,8 +106,8 @@ public class SiteThemeResource extends PageResource {
     @Path(value = "banner")
     public Response doDeleteBanner() {
         try {
-            site.setBanner(null);
             CoreSession session = ctx.getCoreSession();
+            site.setBanner(null, session);
             session.save();
             return Response.ok(
                     "?message_success=label.labssites.banner.deleted",

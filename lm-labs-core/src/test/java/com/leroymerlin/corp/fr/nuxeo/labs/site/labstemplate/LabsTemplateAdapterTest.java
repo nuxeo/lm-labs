@@ -56,38 +56,38 @@ public class LabsTemplateAdapterTest {
 
     @Test
     public void iCanGetTemplateOnPage() throws Exception {
-        assertNotNull(site.getIndexDocument().getAdapter(Page.class).getTemplate());
+        assertNotNull(site.getIndexDocument(session).getAdapter(Page.class).getTemplate());
     }
 
     @Test
     public void iCanGetTemplateOnPageInheritSite() throws Exception {
         String templateSite = site.getTemplate().getTemplateName();
-        String templatePage = site.getIndexDocument().getAdapter(Page.class).getTemplate().getTemplateName();
+        String templatePage = site.getIndexDocument(session).getAdapter(Page.class).getTemplate().getTemplateName();
         assertThat(templatePage, is((templateSite)));
     }
     
     @Test
     public void pageHasNotFacet() throws Exception {
-        DocumentModel indexDocument = site.getIndexDocument();
+        DocumentModel indexDocument = site.getIndexDocument(session);
         assertFalse(indexDocument.hasFacet(FacetNames.LABSTEMPLATE));
     }
     
     @Test
     public void pageHasFacetAfterAddFacetTemplate() throws Exception {
-        DocumentModel indexDocument = site.getIndexDocument();
+        DocumentModel indexDocument = site.getIndexDocument(session);
         Page page = indexDocument.getAdapter(Page.class);
         page.addFacetTemplate();
         indexDocument = session.saveDocument(indexDocument);
         session.save();
         
-        indexDocument = site.getIndexDocument();
+        indexDocument = site.getIndexDocument(session);
         assertTrue(indexDocument.hasFacet(FacetNames.LABSTEMPLATE));
     }
 
     @Test
     public void iCanGetTemplateOnPageDifferentOfSite() throws Exception {
         String templateSite = site.getTemplate().getTemplateName();
-        DocumentModel indexDocument = site.getIndexDocument();
+        DocumentModel indexDocument = site.getIndexDocument(session);
         Page page = indexDocument.getAdapter(Page.class);
         page.addFacetTemplate();
         
@@ -96,7 +96,7 @@ public class LabsTemplateAdapterTest {
         session.saveDocument(indexDocument);
         session.save();
         
-        templatePage = site.getIndexDocument().getAdapter(Page.class).getTemplate();
+        templatePage = site.getIndexDocument(session).getAdapter(Page.class).getTemplate();
         String templatePageString = templatePage.getTemplateName();
         assertThat(templatePageString, not((templateSite)));
         assertThat("name", not(templateSite));

@@ -25,7 +25,7 @@ public class OfmRepositoryInit implements RepositoryInit {
                     SITE_URL);
             ofm = site.getDocument();
 
-            DocumentModel assetsDoc = site.getAssetsDoc();
+            DocumentModel assetsDoc = site.getAssetsDoc(session);
             DocumentModel doc = session.createDocumentModel(
                     assetsDoc.getPathAsString(), "folder1", "Folder");
             doc.setPropertyValue("dc:title", "folder1");

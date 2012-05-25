@@ -58,8 +58,8 @@ public class Site extends NotifiablePageResource {
                     + '/'
                     + URIUtils.quoteURIPathComponent(
                             (new org.nuxeo.common.utils.Path(
-                                    site.getIndexDocument().getAdapter(
-                                            SiteDocument.class).getResourcePath()).removeFirstSegments(1)).toString(),
+                                    site.getIndexDocument(getCoreSession()).getAdapter(
+                                            SiteDocument.class).getResourcePath(getCoreSession())).removeFirstSegments(1)).toString(),
                             false));
         } catch (HomePageException e) {
             throw WebException.wrap(e);
@@ -196,19 +196,20 @@ public class Site extends NotifiablePageResource {
             throws ClientException {
 
         LabsSite site = (LabsSite) ctx.getProperty("site");
+        CoreSession session = getCoreSession();
 
         if (site != null) {
             DocumentModel tree = null;
             AbstractDocumentTree siteTree;
             if ("admin".equals(view)) {
-                tree = site.getTree();
+                tree = site.getTree(session);
                 siteTree = new AdminSiteTree(ctx, tree);
             } else if ("admin_asset".equals(view)) {
-                tree = "0".equals(id) ? site.getAssetsDoc()
+                tree = "0".equals(id) ? site.getAssetsDoc(session)
                         : getCoreSession().getDocument(new IdRef(id));
                 siteTree = new AdminSiteTreeAsset(ctx, tree);
             } else {
-                tree = site.getTree();
+                tree = site.getTree(session);
                 siteTree = new SiteDocumentTree(ctx, tree);
 
             }
@@ -238,7 +239,7 @@ public class Site extends NotifiablePageResource {
     public DocumentObject newDocument(String path) {
         try {
 
-            PathRef pathRef = new PathRef(site.getTree().getPathAsString()
+            PathRef pathRef = new PathRef(site.getTree(getCoreSession()).getPathAsString()
                     + "/" + path);
             DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
             return (DocumentObject) ctx.newObject(doc.getType(), doc);
@@ -252,7 +253,7 @@ public class Site extends NotifiablePageResource {
     public <A> A getAdapter(Class<A> adapter) {
         if (adapter.equals(Page.class)) {
             try {
-                return (A) site.getIndexDocument().getAdapter(Page.class);
+                return (A) site.getIndexDocument(getCoreSession()).getAdapter(Page.class);
             } catch (ClientException e) {
 
             }
@@ -261,7 +262,7 @@ public class Site extends NotifiablePageResource {
     }
 
     public List<DocumentModel> getDeletedDocs() throws ClientException {
-        return doc.getAdapter(LabsSite.class).getAllDeletedDocs();
+        return doc.getAdapter(LabsSite.class).getAllDeletedDocs(getCoreSession());
     }
 
     @Path("@externalURL/{idExt}")
@@ -283,7 +284,7 @@ public class Site extends NotifiablePageResource {
         String pURL = ctx.getForm().getString("exturl:url");
         CoreSession session = ctx.getCoreSession();
         try {
-            ExternalURL extURL = site.createExternalURL(pName);
+            ExternalURL extURL = site.createExternalURL(pName, session);
             extURL.setURL(pURL);
             session.saveDocument(extURL.getDocument());
             session.save();

@@ -78,7 +78,7 @@ public class LabsSiteWebAppUtilsTest {
         classeur.getDocument().getAdapter(LabsPublisher.class).publish();
 
         PageProvider<DocumentModel> latestUploadsPageProvider = LabsSiteWebAppUtils.getLatestUploadsPageProvider(
-                site, 0);
+                site, 0, session);
         assertNotNull(latestUploadsPageProvider);
         List<DocumentModel> lastUploadedDoc = latestUploadsPageProvider.getCurrentPage();
         assertNotNull(lastUploadedDoc);

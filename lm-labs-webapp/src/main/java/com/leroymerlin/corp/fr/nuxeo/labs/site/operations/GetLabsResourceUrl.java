@@ -23,7 +23,7 @@ public class GetLabsResourceUrl {
     public String run(DocumentRef doc) throws Exception {
         DocumentModel resource = session.getDocument(doc);
         SiteDocument siteDocument = resource.getAdapter(SiteDocument.class);
-        return siteDocument.getResourcePath();
+        return siteDocument.getResourcePath(session);
     }
 
 }

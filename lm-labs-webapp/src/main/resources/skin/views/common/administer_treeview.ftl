@@ -2,7 +2,7 @@
 
 <#if adminTreeviewType == "Pages" >
 	<#assign mySite=Common.siteDoc(Document).site />
-	<#assign parents = Session.getParentDocuments(mySite.indexDocument.ref) />
+	<#assign parents = Session.getParentDocuments(mySite.getIndexDocument(Context.coreSession).ref) />
 	<#assign ids = [] />
 	<#list parents?reverse as parent>
 		<#if parent.type == "Tree" >

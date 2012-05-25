@@ -50,7 +50,7 @@ public final class CommonHelper {
     public static final Page sitePage(DocumentModel doc) throws ClientException {
         Page page = null;
         if (LabsSiteConstants.Docs.SITE.type().equals(doc.getType())) {
-            DocumentModel homePage = doc.getAdapter(LabsSite.class).getIndexDocument();
+            DocumentModel homePage = doc.getAdapter(LabsSite.class).getIndexDocument(getCoreSession());
             page = homePage.getAdapter(Page.class);
         } else {
             page = doc.getAdapter(Page.class);
@@ -79,8 +79,9 @@ public final class CommonHelper {
             final String userName) throws ClientException {
         List<Page> pages = new ArrayList<Page>();
         LabsSite site = siteDoc(siteDoc).getSite();
-        Collection<Page> allTopPages = siteDoc(site.getTree()).getChildrenPages();
-        final DocumentModel homePageDoc = site.getIndexDocument();
+        CoreSession session = getCoreSession();
+        Collection<Page> allTopPages = siteDoc(site.getTree(session)).getChildrenPages();
+        final DocumentModel homePageDoc = site.getIndexDocument(session);
         Page homePage = homePageDoc.getAdapter(Page.class);
         if (!site.isAdministrator(userName)) {
             if (homePage.isVisible() && !homePage.isDeleted()) {

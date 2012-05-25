@@ -75,7 +75,7 @@ jQuery(document).ready(function() {
               <td>&nbsp;</td>
             </tr>
           </#if> 
-          <#list mySite.subscribedPages as page >
+          <#list mySite.getSubscribedPages(Context.coreSession) as page >
             <#assign doc = page.document />
           <tr>
             <td>

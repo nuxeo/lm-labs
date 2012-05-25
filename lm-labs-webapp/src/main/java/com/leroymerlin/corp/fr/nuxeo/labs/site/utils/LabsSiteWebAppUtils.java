@@ -20,6 +20,7 @@ import org.nuxeo.ecm.directory.SizeLimitExceededException;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProviderService;
+import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
 import org.nuxeo.ecm.webengine.model.Module;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.runtime.api.Framework;
@@ -55,7 +56,7 @@ public final class LabsSiteWebAppUtils {
     }
 
     public static PageProvider<DocumentModel> getLatestUploadsPageProvider(
-            DocumentModel doc, long pageSize) throws Exception {
+            DocumentModel doc, long pageSize, CoreSession session) throws Exception {
         PageProviderService ppService = Framework.getService(PageProviderService.class);
         List<SortInfo> sortInfos = null;
         Map<String, Serializable> props = new HashMap<String, Serializable>();
@@ -63,7 +64,9 @@ public final class LabsSiteWebAppUtils {
         SiteDocument sd = doc.getAdapter(SiteDocument.class);
 
         props.put(LatestUploadsPageProvider.PARENT_DOCUMENT_PROPERTY,
-                (Serializable) sd.getSite().getTree());
+                (Serializable) sd.getSite().getTree(session));
+        props.put(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY,
+                        (Serializable) session);
         @SuppressWarnings("unchecked")
         PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) ppService.getPageProvider(
                 LATEST_UPLOADS_PAGEPROVIDER, sortInfos, new Long(pageSize),
@@ -121,14 +124,14 @@ public final class LabsSiteWebAppUtils {
      * @param document to publish
      * @throws NoPublishException if no published with a problem
      */
-    public static void publish(DocumentModel document) throws NoPublishException{
+    public static void publish(DocumentModel document, CoreSession session) throws NoPublishException{
         try {
             if (LabsSiteConstants.State.DRAFT.getState().equals(document.getCurrentLifeCycleState())){
                 LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
                 publisherAdapter.publish();
                 if (Docs.SITE.type().equals(document.getType())) {
                     LabsSite site = document.getAdapter(LabsSite.class);
-                    LabsPublisher publisher = site.getIndexDocument().getAdapter(LabsPublisher.class);
+                    LabsPublisher publisher = site.getIndexDocument(session).getAdapter(LabsPublisher.class);
                     if (publisher.isDraft()) {
                         publisher.publish();
                     }

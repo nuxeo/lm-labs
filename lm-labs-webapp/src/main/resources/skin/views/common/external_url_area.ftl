@@ -2,7 +2,7 @@
 <div id="div_externalURL" class="bloc" >
     <div class="header">${Context.getMessage('label.externalURL.title')}</div>
     <ul id="ulExtURL" class="unstyled">
-	     <#list mySite.externalURLs as e >
+	     <#list mySite.getExternalURLs(Context.coreSession) as e >
 	       <li id="${e.document.id}">
 			    <a href="${e.getURL()}" style="word-wrap: break-word;" target="_blank" title="${e.getURL()}">${e.name}</a>
 			    <#if mySite.isContributor(Context.principal.name)>

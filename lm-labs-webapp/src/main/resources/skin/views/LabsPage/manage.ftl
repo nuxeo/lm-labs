@@ -21,7 +21,7 @@
     <div class="control-group">
       <#assign page = Common.sitePage(Document) />
       <label class="control-label" for="doctype">${Context.getMessage('label.doctype')}</label>
-        <#list page.allowedSubtypes as type>
+        <#list page.getAllowedSubtypes(Context.coreSession) as type>
           <div class="controls">
             <label><input class="radio" type="radio" name="doctype" value="${type}" checked> ${Context.getMessage('label.doctype.'+type)}</label>
           </div>

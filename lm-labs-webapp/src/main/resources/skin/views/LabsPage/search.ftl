@@ -67,7 +67,7 @@
 
                 <td>
                 	<#if (doc.dublincore.title?length > 0)>
-                		<a href="${Context.modulePath}/${sd.resourcePath}" target="_blank">${doc.dublincore.title}</a>
+                		<a href="${Context.modulePath}/${sd.getResourcePath(Context.coreSession)}" target="_blank">${doc.dublincore.title}</a>
                 	<#else>
               			(${Context.getMessage('label.search.result.noTitle')})
               		</#if>
@@ -90,7 +90,7 @@
                   <#if !hasFile>
                   <a href="#" class="btn disabled">
                   <#elseif doc.type != "LabsNews">
-                  <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">
+                  <a href="${Context.modulePath}/${sd.getResourcePath(Context.coreSession)}/@blob/preview" target="_blank" class="btn">
                   </#if>
                   <#if !hasFile || doc.type != "LabsNews">
                   <i class="icon-eye-open"></i>${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
@@ -98,7 +98,7 @@
                   <#if !hasFile>
                   <a disabled="disabled" href="#" class="btn disabled">
                   <#elseif doc.type != "LabsNews">
-                  <a href="${Context.modulePath}/${sd.resourcePath}/@blob" target="_blank" class="btn">
+                  <a href="${Context.modulePath}/${sd.getResourcePath(Context.coreSession)}/@blob" target="_blank" class="btn">
                   </#if>
                   <#if !hasFile || doc.type != "LabsNews">
                   <i class="icon-download"></i>${Context.getMessage('command.LabsSite.latestuploads.download')}</a>

@@ -38,13 +38,13 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     }
 
     @Override
-    public String getPath() throws ClientException {
+    public String getPath(CoreSession session) throws ClientException {
         LabsSite site = getSite();
         if (site == null) {
             throw new IllegalArgumentException(THIS_PAGE_IS_NOT_IN_A_LABS_SITE);
         }
         return site.getURL()  + doc.getPathAsString()
-                .replace(site.getTree()
+                .replace(site.getTree(session)
                         .getPathAsString(), "");
     }
 
@@ -59,7 +59,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     }
 
     @Override
-    public String[] getAllowedSubtypes() throws ClientException {
+    public String[] getAllowedSubtypes(CoreSession session) throws ClientException {
         return getAllowedSubtypes(doc);
     }
 

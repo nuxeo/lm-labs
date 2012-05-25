@@ -29,7 +29,7 @@ public class SiteDocumentAdapterTest {
     @Test
     public void iCanGetChildrenPagesOfTree() throws Exception {
         LabsSite site = getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL);
-        DocumentModel treeDocument = site.getTree();
+        DocumentModel treeDocument = site.getTree(session);
         assertNotNull(treeDocument);
         SiteDocument tree = treeDocument.getAdapter(SiteDocument.class);
         assertNotNull(tree);

@@ -28,7 +28,7 @@ public abstract class NotifiablePageResource extends PageResource {
             PageSubscription subscriptionAdapter = doc.getAdapter(PageSubscription.class);
             subscriptionAdapter.subscribe(ctx.getPrincipal().getName());
             if (Docs.SITE.type().equals(doc.getType())) {
-                List<Page> pages = doc.getAdapter(LabsSite.class).getAllPages();
+                List<Page> pages = doc.getAdapter(LabsSite.class).getAllPages(ctx.getCoreSession());
                 for (Page page : pages) {
                     PageSubscription subscription = page.getDocument().getAdapter(PageSubscription.class);
                     if (subscription != null) {
@@ -52,7 +52,7 @@ public abstract class NotifiablePageResource extends PageResource {
             PageSubscription subscriptionAdapter = doc.getAdapter(PageSubscription.class);
             subscriptionAdapter.unsubscribe(ctx.getPrincipal().getName());
             if (Docs.SITE.type().equals(doc.getType())) {
-                for (Page page : doc.getAdapter(SiteDocument.class).getSite().getAllPages()) {
+                for (Page page : doc.getAdapter(SiteDocument.class).getSite().getAllPages(ctx.getCoreSession())) {
                     PageSubscription subscription = page.getDocument().getAdapter(PageSubscription.class);
                     if (subscription != null) {
                         subscription.unsubscribe(ctx.getPrincipal().getName());

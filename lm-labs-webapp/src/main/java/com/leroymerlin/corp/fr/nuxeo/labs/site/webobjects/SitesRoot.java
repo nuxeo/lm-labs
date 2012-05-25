@@ -314,15 +314,15 @@ public class SitesRoot extends ModuleRoot {
                     templateToCopy = true;
                     try {
                         DocumentModel docTemplate = session.getDocument(templateRef);
-                        labSite.applyTemplateSite(docTemplate);
+                        labSite.applyTemplateSite(docTemplate, session);
                         session.saveDocument(labSite.getDocument());
 
                         //Change URLs in contents with URLs on template
                         String separator = "/";
                         String path = getPath() + separator;
-                        String newURL = path + labSite.getDocument().getAdapter(SiteDocument.class).getResourcePath()+ separator;
-                        String oldURL = path + docTemplate.getAdapter(SiteDocument.class).getResourcePath()+ separator;
-                        labSite.updateUrls(oldURL, newURL);
+                        String newURL = path + labSite.getDocument().getAdapter(SiteDocument.class).getResourcePath(session)+ separator;
+                        String oldURL = path + docTemplate.getAdapter(SiteDocument.class).getResourcePath(session)+ separator;
+                        labSite.updateUrls(oldURL, newURL, session);
                         
                         copied = true;
                     } catch (ClientException e) {
@@ -413,7 +413,7 @@ public class SitesRoot extends ModuleRoot {
         SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
         try {
             return new StringBuilder().append(getPath()).append("/").append(
-                    siteDocument.getResourcePath()).toString();
+                    siteDocument.getResourcePath(ctx.getCoreSession())).toString();
         } catch (ClientException e) {
             return getPath();
         }
@@ -422,7 +422,7 @@ public class SitesRoot extends ModuleRoot {
     public String getTruncatedLink(DocumentModel document) {
         SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
         try {
-            return siteDocument.getResourcePath();
+            return siteDocument.getResourcePath(ctx.getCoreSession());
         } catch (ClientException e) {
             return getPath();
         }

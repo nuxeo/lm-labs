@@ -47,7 +47,7 @@ public class LastUploadsOperationTest extends AbstractTestOperation {
         
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = new OperationChain("test" + LastUploads.ID);
-        chain.add(LastUploads.ID).set("docId", getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL).getTree().getId()).set("pageSize", new Integer(5));
+        chain.add(LastUploads.ID).set("docId", getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL).getTree(session).getId()).set("pageSize", new Integer(5));
         @SuppressWarnings("unchecked")
         List<DocumentModel> uploads = (List<DocumentModel>) service.run(ctx, chain);
         assertFalse(uploads.isEmpty());

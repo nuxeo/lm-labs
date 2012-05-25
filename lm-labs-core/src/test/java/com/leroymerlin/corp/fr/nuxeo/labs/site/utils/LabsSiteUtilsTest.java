@@ -67,13 +67,13 @@ public final class LabsSiteUtilsTest {
 
         // ROOT FOLDER
         DocumentModel folder1 = session.createDocumentModel(
-                site.getTree().getPathAsString() + "/"
+                site.getTree(session).getPathAsString() + "/"
                         + Docs.WELCOME.docName(), "folder1", Docs.PAGE.type());
         DocumentModel folder2 = session.createDocumentModel(
-                site.getTree().getPathAsString() + "/"
+                site.getTree(session).getPathAsString() + "/"
                         + Docs.WELCOME.docName(), "folder2", Docs.PAGE.type());
         DocumentModel folder3 = session.createDocumentModel(
-                site.getTree().getPathAsString()+ "/"
+                site.getTree(session).getPathAsString()+ "/"
                         + Docs.WELCOME.docName(), "folder3", Docs.PAGE.type());
         folder1 = session.createDocument(folder1);
         folder2 = session.createDocument(folder2);
@@ -121,8 +121,8 @@ public final class LabsSiteUtilsTest {
 
 
 
-        assertNotNull(site.getTree());
-        String treePath = site.getTree().getPathAsString();
+        assertNotNull(site.getTree(session));
+        String treePath = site.getTree(session).getPathAsString();
         assertTrue(treePath.endsWith("/tree"));
         assertTrue(treePath.contains("/MonSite/"));
     }
@@ -139,7 +139,7 @@ public final class LabsSiteUtilsTest {
 
         LabsSite site  = site1.getAdapter(LabsSite.class);
 
-        List<Page> allPages = site.getAllPages();
+        List<Page> allPages = site.getAllPages(session);
         assertNotNull(allPages);
         assertTrue(allPages.size() > 1);
     }
@@ -154,7 +154,7 @@ public final class LabsSiteUtilsTest {
 
         LabsSite site  = site1.getAdapter(LabsSite.class);
 
-        List<Page> allPages = site.getAllPages();
+        List<Page> allPages = site.getAllPages(session);
         assertNotNull(allPages);
         assertTrue(allPages.size() == 7);
         for (Page page:allPages){
@@ -163,7 +163,7 @@ public final class LabsSiteUtilsTest {
         allPages.get(6).getDocument().getAdapter(LabsPublisher.class).delete();
         allPages.get(5).getDocument().getAdapter(LabsPublisher.class).delete();
         session.save();
-        allPages = site.getAllPages();
+        allPages = site.getAllPages(session);
         assertTrue(allPages.size() == 5);
         for (Page page:allPages){
             assertTrue(!page.getDocument().getAdapter(LabsPublisher.class).isDeleted());
@@ -180,7 +180,7 @@ public final class LabsSiteUtilsTest {
 
         LabsSite site  = site1.getAdapter(LabsSite.class);
 
-        List<Page> allPages = site.getAllPages();
+        List<Page> allPages = site.getAllPages(session);
         assertNotNull(allPages);
         assertTrue(allPages.size() == 7);
         for (Page page:allPages){
@@ -190,7 +190,7 @@ public final class LabsSiteUtilsTest {
         allPages.get(5).getDocument().getAdapter(LabsPublisher.class).delete();
         allPages.get(4).getDocument().getAdapter(LabsPublisher.class).delete();
         session.save();
-        allPages = site.getAllDeletedPages();
+        allPages = site.getAllDeletedPages(session);
         assertTrue(allPages.size() == 3);
         for (Page page:allPages){
             assertTrue(page.getDocument().getAdapter(LabsPublisher.class).isDeleted());
@@ -204,7 +204,7 @@ public final class LabsSiteUtilsTest {
         SiteDocument sd = site.getDocument().getAdapter(SiteDocument.class);
         assertEquals(site, sd.getSite());
 
-        DocumentModel tree = site.getTree();
+        DocumentModel tree = site.getTree(session);
         sd = tree.getAdapter(SiteDocument.class);
         assertEquals(site, sd.getSite());
 
@@ -229,7 +229,7 @@ public final class LabsSiteUtilsTest {
         SiteDocument sd = site.getDocument().getAdapter(SiteDocument.class);
         assertEquals(site, sd.getSite());
 
-        DocumentModel tree = site.getTree();
+        DocumentModel tree = site.getTree(session);
         sd = tree.getAdapter(SiteDocument.class);
         assertEquals(site, sd.getSite());
 
@@ -239,7 +239,7 @@ public final class LabsSiteUtilsTest {
         session.save();
 
         pageClasseur = session.getDocument(new PathRef(
-                site.getTree().getPathAsString()+ "/page1"));
+                site.getTree(session).getPathAsString()+ "/page1"));
 
 
         sd = pageClasseur.getAdapter(SiteDocument.class);
@@ -304,30 +304,30 @@ public final class LabsSiteUtilsTest {
         LabsSite site = sm.createSite(session, "Mon Site", "monsite");
 
         DocumentModel pageClasseur = session.createDocumentModel(
-                site.getTree().getPathAsString(), "pageClasseur", Docs.PAGECLASSEUR.type());
+                site.getTree(session).getPathAsString(), "pageClasseur", Docs.PAGECLASSEUR.type());
         session.createDocument(pageClasseur);
 
         DocumentModel pageListe = session.createDocumentModel(
-                site.getTree().getPathAsString(), "pageListe", Docs.PAGELIST.type());
+                site.getTree(session).getPathAsString(), "pageListe", Docs.PAGELIST.type());
         session.createDocument(pageListe);
 
         DocumentModel pageNews = session.createDocumentModel(
-                site.getTree().getPathAsString(), "pageNews", Docs.PAGENEWS.type());
+                site.getTree(session).getPathAsString(), "pageNews", Docs.PAGENEWS.type());
         pageNews = session.createDocument(pageNews);
         session.save();
-        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree().getRef(), session));
+        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree(session).getRef(), session));
         pageNews.getAdapter(LabsPublisher.class).publish();
         session.save();
-        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree().getRef(), session));
+        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree(session).getRef(), session));
         pageNews.getAdapter(LabsPublisher.class).draft();
         session.save();
-        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree().getRef(), session));
+        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree(session).getRef(), session));
         pageNews.getAdapter(LabsPublisher.class).delete();
         session.save();
 
-        assertFalse(LabsSiteUtils.pageNameExists("papage", site.getTree().getRef(), session));
-        assertFalse(LabsSiteUtils.pageNameExists("pageList", site.getTree().getRef(), session));
-        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree().getRef(), session));
+        assertFalse(LabsSiteUtils.pageNameExists("papage", site.getTree(session).getRef(), session));
+        assertFalse(LabsSiteUtils.pageNameExists("pageList", site.getTree(session).getRef(), session));
+        assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree(session).getRef(), session));
     }
     
     @Test
@@ -335,24 +335,24 @@ public final class LabsSiteUtilsTest {
         LabsSite site = sm.createSite(session, "Mon Site", "monsite");
 
         DocumentModel pageClasseur = session.createDocumentModel(
-                site.getTree().getPathAsString(), "pageClasseur", Docs.PAGECLASSEUR.type());
+                site.getTree(session).getPathAsString(), "pageClasseur", Docs.PAGECLASSEUR.type());
         session.createDocument(pageClasseur);
 
         DocumentModel pageListe = session.createDocumentModel(
-                site.getTree().getPathAsString(), "pageListe", Docs.PAGELIST.type());
+                site.getTree(session).getPathAsString(), "pageListe", Docs.PAGELIST.type());
         session.createDocument(pageListe);
 
         DocumentModel pageNews = session.createDocumentModel(
-                site.getTree().getPathAsString(), "pageNews", Docs.PAGENEWS.type());
+                site.getTree(session).getPathAsString(), "pageNews", Docs.PAGENEWS.type());
         pageNews = session.createDocument(pageNews);
-        assertNotNull(LabsSiteUtils.getPageName("pageNews", site.getTree().getRef(), session));
+        assertNotNull(LabsSiteUtils.getPageName("pageNews", site.getTree(session).getRef(), session));
         pageNews.getAdapter(LabsPublisher.class).delete();
         
         session.save();
 
-        assertNull(LabsSiteUtils.getPageName("papage", site.getTree().getRef(), session));
-        assertNull(LabsSiteUtils.getPageName("pageList", site.getTree().getRef(), session));
-        assertNotNull(LabsSiteUtils.getPageName("pageNews", site.getTree().getRef(), session));
+        assertNull(LabsSiteUtils.getPageName("papage", site.getTree(session).getRef(), session));
+        assertNull(LabsSiteUtils.getPageName("pageList", site.getTree(session).getRef(), session));
+        assertNotNull(LabsSiteUtils.getPageName("pageNews", site.getTree(session).getRef(), session));
     }
 
 }

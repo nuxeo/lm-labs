@@ -3,6 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site;
 import java.util.Collection;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 
@@ -31,9 +32,9 @@ public interface SiteDocument {
     LabsSite getSite() throws ClientException;
 
 
-    String getParentPagePath() throws ClientException;
+    String getParentPagePath(CoreSession session) throws ClientException;
 
-    String getResourcePath() throws ClientException;
+    String getResourcePath(CoreSession session) throws ClientException;
 
     BlobHolder getBlobHolder();
 

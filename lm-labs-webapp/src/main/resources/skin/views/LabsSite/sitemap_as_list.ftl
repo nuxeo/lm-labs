@@ -41,7 +41,7 @@ jQuery(document).ready(function() {
             </tr>
           </thead>
           <tbody>
-          <#list mySite.allPages as page>
+          <#list mySite.getAllPages(Context.coreSession) as page>
             <#assign isAdmin = mySite.isAdministrator(Context.principal.name) />
             <#if isAdmin || (!mySite.isAdministrator(Context.principal.name) && page.document.type != "LabsNews" && page.visible) > 
             <tr>
