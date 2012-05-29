@@ -86,7 +86,7 @@ public class SitesRoot extends ModuleRoot {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.nuxeo.ecm.webengine.model.impl.AbstractResource#initialize(java.lang
      * .Object[])
@@ -193,7 +193,7 @@ public class SitesRoot extends ModuleRoot {
             throw new NotAuthorizedException(e.getMessage(), e);
         }
     }
-    
+
     @GET
     @Path("@templatePreview/{url}")
     public Object doGetTemplatePreview(@Context Request request, @PathParam("url") final String url) {
@@ -234,7 +234,7 @@ public class SitesRoot extends ModuleRoot {
 
     /**
      * Needed by OpenSocial gadgets.
-     * 
+     *
      * @param id
      * @return
      * @throws URIException
@@ -248,8 +248,11 @@ public class SitesRoot extends ModuleRoot {
             document = session.getDocument(new IdRef(id));
             if (Docs.SITE.type().equals(document.getType())) {
                 return (DocumentObject) ctx.newObject("LabsSite", document);
-            } else {
+            } else if (Docs.pageDocs().contains(Docs.fromString(document.getType()))) {
                 return (DocumentObject) ctx.newObject(document.getType(),
+                        document);
+            } else {
+                return (DocumentObject) ctx.newObject("Document",
                         document);
             }
         } catch (ClientException e) {
@@ -323,7 +326,7 @@ public class SitesRoot extends ModuleRoot {
                         String newURL = path + labSite.getDocument().getAdapter(SiteDocument.class).getResourcePath()+ separator;
                         String oldURL = path + docTemplate.getAdapter(SiteDocument.class).getResourcePath()+ separator;
                         labSite.updateUrls(oldURL, newURL);
-                        
+
                         copied = true;
                     } catch (ClientException e) {
                         log.error("Copy of site template failed. "
@@ -358,7 +361,7 @@ public class SitesRoot extends ModuleRoot {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.nuxeo.ecm.webengine.model.impl.ModuleRoot#handleError(javax.ws.rs
      * .WebApplicationException)
@@ -392,7 +395,7 @@ public class SitesRoot extends ModuleRoot {
 
     /**
      * Returns a Map containing all "flash" messages
-     * 
+     *
      * @return
      */
     public Map<String, String> getMessages() {
