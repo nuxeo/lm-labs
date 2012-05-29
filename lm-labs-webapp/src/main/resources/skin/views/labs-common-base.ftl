@@ -66,7 +66,7 @@
 			<#if (mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) ) >
 	        	<script type="text/javascript" src="${skinPath}/js/page_parameters.js"></script>
 	        </#if>
-	        <#if mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) && This.page?? && !(mySite.getHomePageRef(Context.coreSession) == This.page.document.id) >
+	        <#if mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) && This.page?? && !(mySite.getHomePageRef() == This.page.document.id) >
 	        	<script type="text/javascript" src="${skinPath}/js/setHomePage.js"></script>
 	        </#if>
 		</@block>

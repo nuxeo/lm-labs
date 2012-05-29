@@ -3,7 +3,7 @@
 	<#assign mySite = Common.siteDoc(Document).getSite(Context.coreSession) />
 </#if>
 <#if !(isHomePage)??>
-	<#assign isHomePage = This.page?? && (mySite.getHomePageRef(Context.coreSession) == This.page.document.id) />
+	<#assign isHomePage = This.page?? && (mySite.getHomePageRef() == This.page.document.id) />
 </#if>
 <section>
     <@displayPermTypeHeader permType='Everything' permsList=permissionsAdmin >

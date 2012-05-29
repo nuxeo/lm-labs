@@ -1,5 +1,5 @@
 <#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
-<#assign logoWidth = mySite.themeManager.theme.logoWidth />
+<#assign logoWidth = mySite.themeManager.getTheme(Context.coreSession).logoWidth />
 <#assign canDrop = mySite.isAdministrator(Context.principal.name, Context.coreSession)/>
 
 <#if canDrop>

@@ -2,7 +2,7 @@
 	<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 </#if>
 <#assign isAdministrator = (mySite?? && mySite.isAdministrator(Context.principal.name, Context.coreSession) ) />
-<#assign canSetHomePage = (isAdministrator && This.page?? && !(mySite.getHomePageRef(Context.coreSession) == This.page.document.id) ) />
+<#assign canSetHomePage = (isAdministrator && This.page?? && !(mySite.getHomePageRef() == This.page.document.id) ) />
 <#-- site'contributor = page'contributor (same rights)  -->
 <#assign isContributor = ((mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession)) || (This.page?? && This.page != null && This.page.isContributor(Context.principal.name, Context.coreSession)) ) />
 <#if This.type.name != "sitesRoot" >

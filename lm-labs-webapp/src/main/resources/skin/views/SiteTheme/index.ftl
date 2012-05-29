@@ -45,7 +45,7 @@
                     <a href="#" id="modifyThemeParameters" onClick="javascript:loadEditParameters('${This.path}/editParameters');"><br/>${Context.getMessage('label.labssites.appearance.theme.parameters')}</a> 
                     <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${mySite.getThemeManager().getTheme(Context.coreSession).getName()}');linkThemeTemplate();">
                         <#assign themesMap = [] />
-                        <#list This.getThemes(Context.coreSession) as theme>
+                        <#list This.getThemes() as theme>
                             <#assign trad = Context.getMessage('label.labssites.appearance.themes.' + theme) />
                             <#if trad?starts_with('!') >
                                 <#assign themeName = theme />

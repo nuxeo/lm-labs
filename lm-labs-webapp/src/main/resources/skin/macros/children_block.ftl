@@ -17,7 +17,7 @@
 	    	<#assign childrenNbr = children?size />
     	<#else>
     	-->
-	    	<#assign children = Common.siteDoc(parentDoc).childrenPageDocuments(Context.coreSession) />
+	    	<#assign children = Common.siteDoc(parentDoc).getChildrenPageDocuments(Context.coreSession) />
 	    	<#list children as child>
                 <#assign isChildVisible = false />
                 <#if child.type != 'LabsNews' >

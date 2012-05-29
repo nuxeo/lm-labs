@@ -4,7 +4,7 @@
 <#if !mySite?? >
     <#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 </#if>
-<#assign isHomePage = This.page?? && (mySite.getHomePageRef(Context.coreSession) == This.page.document.id) />
+<#assign isHomePage = This.page?? && (mySite.getHomePageRef() == This.page.document.id) />
   <@block name="title">${mySite.title} - ${This.document.title} - ${Context.getMessage('label.admin.page.rights.pagetitle')}</@block>
 
   <#-- @block name="docactionsaddpage"></@block>

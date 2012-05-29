@@ -87,7 +87,7 @@
 			return false;
 		}
 	
-		var homePageId = '<#if adminTreeviewType == "Pages" && mySite?? && mySite != null >${mySite.getHomePageRef(Context.coreSession)}</#if>';
+		var homePageId = '<#if adminTreeviewType == "Pages" && mySite?? && mySite != null >${mySite.getHomePageRef()}</#if>';
 		
 		jQuery().ready(function() {
 			jQuery("#currentNodeId").val(jQuery("li[rel=Assets]").attr("id"));

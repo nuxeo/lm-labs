@@ -84,7 +84,7 @@
               <td class="colFilesize">${formattedFilesize}<span class="sortValue">${filesize?string.computer}</span></td>
 
               <td>
-              	<a href="${Context.modulePath}/${sd.getParentPagePath(Context.coreSession).getPath(Context.coreSession)}">${sd.getParentPagePath(Context.coreSession).title}</a>
+              	<a href="${Context.modulePath}/${sd.getParentPage(Context.coreSession).getPath(Context.coreSession)}">${sd.getParentPage(Context.coreSession).title}</a>
               </td>
                 <td>
                   <#if !hasFile>
