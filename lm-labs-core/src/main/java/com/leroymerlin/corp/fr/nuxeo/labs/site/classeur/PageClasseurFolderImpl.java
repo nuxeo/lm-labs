@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.classeur;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 
@@ -24,21 +25,21 @@ public class PageClasseurFolderImpl extends AbstractSubDocument implements PageC
     }
 
     @Override
-    public boolean setAsDeleted() throws ClientException {
+    public boolean setAsDeleted(CoreSession session) throws ClientException {
         if (doc.getAllowedStateTransitions().contains(LifeCycleConstants.DELETE_TRANSITION)) {
             doc.followTransition(LifeCycleConstants.DELETE_TRANSITION);
-            doc = doc.getCoreSession().saveDocument(doc);
+            doc = session.saveDocument(doc);
             return true;
         }
         return false;
     }
 
 	@Override
-	public boolean hide(DocumentModel file) throws ClientException {
-		if (doc.getCoreSession().getParentDocument(file.getRef()).equals(doc)) {
+	public boolean hide(DocumentModel file, CoreSession session) throws ClientException {
+		if (session.getParentDocument(file.getRef()).equals(doc)) {
 	    	if (!file.getFacets().contains(FacetNames.LABSHIDDEN)) {
 	    		file.addFacet(FacetNames.LABSHIDDEN);
-	    		doc.getCoreSession().saveDocument(file);
+	    		session.saveDocument(file);
 	    		return true;
 	    	}
 		}
@@ -46,11 +47,11 @@ public class PageClasseurFolderImpl extends AbstractSubDocument implements PageC
 	}
 
 	@Override
-	public boolean show(DocumentModel file) throws ClientException {
-		if (doc.getCoreSession().getParentDocument(file.getRef()).equals(doc)) {
+	public boolean show(DocumentModel file, CoreSession session) throws ClientException {
+		if (session.getParentDocument(file.getRef()).equals(doc)) {
 	    	if (file.getFacets().contains(FacetNames.LABSHIDDEN)) {
 	    		file.removeFacet(FacetNames.LABSHIDDEN);
-	    		doc.getCoreSession().saveDocument(file);
+	    		session.saveDocument(file);
 	    		return true;
 	    	}
 		}

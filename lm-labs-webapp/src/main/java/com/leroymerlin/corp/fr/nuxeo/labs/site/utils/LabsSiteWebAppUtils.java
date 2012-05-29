@@ -64,7 +64,7 @@ public final class LabsSiteWebAppUtils {
         SiteDocument sd = doc.getAdapter(SiteDocument.class);
 
         props.put(LatestUploadsPageProvider.PARENT_DOCUMENT_PROPERTY,
-                (Serializable) sd.getSite().getTree(session));
+                (Serializable) sd.getSite(session).getTree(session));
         props.put(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY,
                         (Serializable) session);
         @SuppressWarnings("unchecked")

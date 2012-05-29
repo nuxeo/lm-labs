@@ -57,7 +57,7 @@ public class PageSubscriptionForSiteSubscribers implements EventListener {
                 String notifNameOnSite = LabsSiteConstants.NotifNames.PAGE_MODIFIED;
                 NotificationManager notificationService = Framework.getService(NotificationManager.class);
                 UserManager userManager = Framework.getService(UserManager.class);
-                List<String> siteSubscribers = notificationService.getUsersSubscribedToNotificationOnDocument(notifNameOnSite, doc.getAdapter(SiteDocument.class).getSite().getDocument().getId());
+                List<String> siteSubscribers = notificationService.getUsersSubscribedToNotificationOnDocument(notifNameOnSite, doc.getAdapter(SiteDocument.class).getSite(ctx.getCoreSession()).getDocument().getId());
                 PageSubscription subscriptionAdapter = doc.getAdapter(PageSubscription.class);
                 for (String user : siteSubscribers) {
                     Principal princ = userManager.getPrincipal(StringUtils.removeStart(user, NotificationConstants.USER_PREFIX));

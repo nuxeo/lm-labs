@@ -29,7 +29,7 @@ public class GetSiteUrlProp {
         DocumentModel document = session.getDocument(new IdRef(docId));
         SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
         
-        return siteDocument.getSite().getURL();
+        return siteDocument.getSite(session).getURL();
     }
     
 }

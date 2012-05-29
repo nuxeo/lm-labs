@@ -47,7 +47,7 @@ public class WebHtmlContent extends DocumentObject {
     public Response doPost() {
         FormData form = ctx.getForm();
         try {
-            content.setHtml(form.getString("content"));
+            content.setHtml(form.getString("content"), ctx.getCoreSession());
             saveDocument();
             return Response.status(Status.OK).build();
         } catch (ClientException e) {
@@ -93,8 +93,8 @@ public class WebHtmlContent extends DocumentObject {
     @POST
     @Path("@manage-widgets")
     public Response doSaveWidgetConfig() {
-        FormData form = ctx.getForm();
-        CoreSession session = getContext().getCoreSession();
+//        FormData form = ctx.getForm();
+//        CoreSession session = getContext().getCoreSession();
         // TODO widget's config
 
         return Response.ok().build();

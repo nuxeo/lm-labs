@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -62,9 +63,9 @@ public class WebHtmlPage extends CacheablePageResource {
             } else {
                 section = getHtmlPage().addSection();
             }
-
-            section.setTitle(title);
-            section.setDescription(description);
+            CoreSession session = ctx.getCoreSession();
+            section.setTitle(title, session);
+            section.setDescription(description, session);
             saveDocument();
             
             return redirect(getPath());

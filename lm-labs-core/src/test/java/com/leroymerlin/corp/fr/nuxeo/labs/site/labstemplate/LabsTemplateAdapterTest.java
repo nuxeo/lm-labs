@@ -61,8 +61,8 @@ public class LabsTemplateAdapterTest {
 
     @Test
     public void iCanGetTemplateOnPageInheritSite() throws Exception {
-        String templateSite = site.getTemplate().getTemplateName();
-        String templatePage = site.getIndexDocument(session).getAdapter(Page.class).getTemplate().getTemplateName();
+        String templateSite = site.getTemplate().getTemplateName(session);
+        String templatePage = site.getIndexDocument(session).getAdapter(Page.class).getTemplate().getTemplateName(session);
         assertThat(templatePage, is((templateSite)));
     }
     
@@ -86,7 +86,7 @@ public class LabsTemplateAdapterTest {
 
     @Test
     public void iCanGetTemplateOnPageDifferentOfSite() throws Exception {
-        String templateSite = site.getTemplate().getTemplateName();
+        String templateSite = site.getTemplate().getTemplateName(session);
         DocumentModel indexDocument = site.getIndexDocument(session);
         Page page = indexDocument.getAdapter(Page.class);
         page.addFacetTemplate();
@@ -97,7 +97,7 @@ public class LabsTemplateAdapterTest {
         session.save();
         
         templatePage = site.getIndexDocument(session).getAdapter(Page.class).getTemplate();
-        String templatePageString = templatePage.getTemplateName();
+        String templatePageString = templatePage.getTemplateName(session);
         assertThat(templatePageString, not((templateSite)));
         assertThat("name", not(templateSite));
     }

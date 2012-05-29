@@ -68,7 +68,7 @@ public class LabsRssAdapter extends DefaultAdapter {
                     this.getContext().getBaseURL()
                             + this.getContext().getUrlPath(doc),
                     getContext().getMessage(
-                            "label.labsNews.description.default"));
+                            "label.labsNews.description.default"), ctx.getCoreSession());
             return SyndicationUtils.generateStreamingOutput(feed);
         } catch (Exception e) {
             throw WebException.wrap(e);

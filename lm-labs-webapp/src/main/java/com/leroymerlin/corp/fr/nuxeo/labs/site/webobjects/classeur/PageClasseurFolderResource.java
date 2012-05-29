@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.rest.DocumentObject;
@@ -61,7 +62,7 @@ public class PageClasseurFolderResource extends DocumentObject {
                 try {
                     blob.persist();
                     if (blob.getLength() > 0) {
-                        folder.addFile(blob, desc, title);
+                        folder.addFile(blob, desc, title, getCoreSession());
                     }
                 } catch (Exception e) {
                     failedBlobs.add(blob);
@@ -87,8 +88,9 @@ public class PageClasseurFolderResource extends DocumentObject {
     @Override
     public Response getDelete() {
         try {
-            if (folder.setAsDeleted()) {
-                ctx.getCoreSession().save();
+            CoreSession session = ctx.getCoreSession();
+            if (folder.setAsDeleted(session)) {
+                session.save();
             }
         } catch (ClientException e) {
             throw WebException.wrap("Failed to set as 'deleted' for document " + doc.getPathAsString(), e);

@@ -1,6 +1,6 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName(Context.coreSession) + "/template.ftl">
 
-  <@block name="title">${Common.siteDoc(Document).site.title}-${This.document.title}</@block>
+  <@block name="title">${Common.siteDoc(Document).getSite(Context.coreSession).title}-${This.document.title}</@block>
 
     <@block name="scripts">
       <@superBlock/>
@@ -84,7 +84,7 @@
               <td class="colFilesize">${formattedFilesize}<span class="sortValue">${filesize?string.computer}</span></td>
 
               <td>
-              	<a href="${Context.modulePath}/${sd.parentPage.path}">${sd.parentPage.title}</a>
+              	<a href="${Context.modulePath}/${sd.getParentPagePath(Context.coreSession).getPath(Context.coreSession)}">${sd.getParentPagePath(Context.coreSession).title}</a>
               </td>
                 <td>
                   <#if !hasFile>

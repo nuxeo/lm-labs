@@ -38,11 +38,11 @@ public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentMode
             StringBuilder query = new StringBuilder();
             try {
                 SiteDocument sd = doc.getAdapter(SiteDocument.class);
-                Serializable session = getProperties().get(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY);
+                CoreSession session = (CoreSession)getProperties().get(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY);
                 query.append("SELECT * FROM Document WHERE ")
-                .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite().getTree((CoreSession)session).getPathAsString().replace("'", "\\'") + "'")
+                .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite(session).getTree(session).getPathAsString().replace("'", "\\'") + "'")
                 .append(" ORDER BY " + UPLOADS_SORT_FIELD + " DESC");
-                List<DocumentModel> documents = doc.getCoreSession().query(query.toString(), new PageClasseurDocsFilter());
+                List<DocumentModel> documents = session.query(query.toString(), new PageClasseurDocsFilter(session));
                 if (!hasError()) {
                     resultsCount = documents.size();
                     long pageSize = getMinMaxPageSize();

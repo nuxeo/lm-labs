@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 <#assign page = This.page />
 <#if page.isDisplayable(This.DC_TITLE)>
 <div class="page-title">
@@ -8,7 +8,7 @@
 <div style="clear: both;" />
 </#if>
 <div>
-	<#if page?? && page.isContributor(Context.principal.name) >
+	<#if page?? && page.isContributor(Context.principal.name, Context.coreSession) >
 		<#include "views/common/description_area.ftl">
 	<#elseif page.isDisplayable(This.DC_DESCRIPTION)>
 		<div class="page-description">${page.description}</div>

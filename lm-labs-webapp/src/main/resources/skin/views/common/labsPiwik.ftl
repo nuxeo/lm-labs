@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 <#if mySite?? && mySite.piwikEnabled >
 <!-- Piwik -->
 <script type="text/javascript">

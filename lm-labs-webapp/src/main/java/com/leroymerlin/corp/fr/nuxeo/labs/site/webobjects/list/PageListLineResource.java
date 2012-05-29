@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
@@ -74,7 +75,7 @@ public class PageListLineResource extends DocumentObject {
             doc = (DocumentModel) args[0];
             if (LabsSiteConstants.Docs.PAGELIST_LINE.type().equals(doc.getType())){
                 try {
-                    DocumentModel docParent = doc.getCoreSession().getDocument(doc.getParentRef());
+                    DocumentModel docParent = ctx.getCoreSession().getDocument(doc.getParentRef());
                     parent = docParent.getAdapter(PageList.class);
                 } catch (ClientException e) {
                     throw WebException.wrap(
@@ -114,7 +115,7 @@ public class PageListLineResource extends DocumentObject {
             url = "&page=" + currentPage_str;
         }
         try {
-            doc.getAdapter(PageListLine.class).removeLine();
+            doc.getAdapter(PageListLine.class).removeLine(ctx.getCoreSession());
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_DELETE_LINE_ID + doc.getRef().reference(), e);
             return Response.ok("?message_error=label.pageList.line_deleted_error" + url,
@@ -201,8 +202,9 @@ public class PageListLineResource extends DocumentObject {
             }
             String principalName = ctx.getPrincipal().getName();
             entriesLine.setUserName(principalName);
-            LabsSite site = CommonHelper.siteDoc(doc).getSite();
-            parent.saveLine(entriesLine, site, getCoreSession());
+            CoreSession session = getCoreSession();
+            LabsSite site = CommonHelper.siteDoc(doc).getSite(session);
+            parent.saveLine(entriesLine, site, session);
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_LINE, e);
             return Response.ok("?message_error=label.pageList.line_updated_error" + url,
@@ -221,8 +223,9 @@ public class PageListLineResource extends DocumentObject {
         try {
             blob.persist();
             if (blob.getLength() > 0) {
-                doc.getAdapter(PageListLine.class).addFile(blob, desc, title);
-                getCoreSession().save();
+                CoreSession session = getCoreSession();
+                doc.getAdapter(PageListLine.class).addFile(blob, desc, title, session);
+                session.save();
             }
         } catch (Exception e) {
             return Response.serverError()
@@ -248,7 +251,7 @@ public class PageListLineResource extends DocumentObject {
     }
 
     public DocumentModelList getFiles() throws ClientException {
-        return doc.getAdapter(PageListLine.class).getFiles();
+        return doc.getAdapter(PageListLine.class).getFiles(ctx.getCoreSession());
     }
 
 //    private void manageAddedPermission(EntriesLine entriesLine){

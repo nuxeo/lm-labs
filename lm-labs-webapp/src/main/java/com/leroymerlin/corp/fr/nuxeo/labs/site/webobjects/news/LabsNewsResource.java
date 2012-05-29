@@ -75,7 +75,7 @@ public class LabsNewsResource extends PageResource {
         CoreSession session = ctx.getCoreSession();
         try {
             LabsNews news = doc.getAdapter(LabsNews.class);
-            fillNews(form, news);
+            fillNews(form, news, session);
             session.saveDocument(doc);
             session.save();
 
@@ -123,7 +123,7 @@ public class LabsNewsResource extends PageResource {
         return null;
     }
 
-    static void fillNews(FormData form, LabsNews news) throws ClientException, IOException, LabsBlobHolderException {
+    static void fillNews(FormData form, LabsNews news, CoreSession session) throws ClientException, IOException, LabsBlobHolderException {
         String pTitle = form.getString("dc:title");
         String startDate = form.getString("newsStartPublication");
         String endDate = form.getString("newsEndPublication");
@@ -131,7 +131,7 @@ public class LabsNewsResource extends PageResource {
         String accroche = form.getString("newsAccroche");
         String cropSummaryPicture = form.getString("cropSummaryPicture");
 
-        news.setTitle(pTitle);
+        news.setTitle(pTitle, session);
         news.setStartPublication(getDateFromStr(startDate));
         news.setEndPublication(getDateFromStr(endDate));
         news.setContent(content);

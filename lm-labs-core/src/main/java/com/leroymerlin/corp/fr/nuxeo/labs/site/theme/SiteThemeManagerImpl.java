@@ -29,9 +29,7 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
     }
 
     @Override
-    public SiteTheme getTheme(String themeName) throws ClientException {
-        CoreSession session = parentSiteDoc.getCoreSession();
-
+    public SiteTheme getTheme(String themeName, CoreSession session) throws ClientException {
         DocumentRef themeRef = new PathRef(getThemesRootPath() + "/" + themeName);
         if (session.exists(themeRef)) {
             return session.getDocument(themeRef)
@@ -43,18 +41,17 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
     }
 
     @Override
-    public SiteTheme getTheme() throws ClientException {
+    public SiteTheme getTheme(CoreSession session) throws ClientException {
         String themeName = (String) parentSiteDoc.getPropertyValue(Schemas.LABSSITE.prefix() + ":theme_name");
-        SiteTheme theme = getTheme(themeName);
+        SiteTheme theme = getTheme(themeName, session);
 
         if (theme == null) {
-            theme = createTheme(themeName);
+            theme = createTheme(themeName, session);
         }
         return theme;
     }
 
-    private SiteTheme createTheme(final String themeName) throws ClientException {
-        CoreSession session = parentSiteDoc.getCoreSession();
+    private SiteTheme createTheme(final String themeName, CoreSession session) throws ClientException {
         UnrestrictedSessionRunner sessionRunner = new UnrestrictedSessionRunner(session) {
             @Override
             public void run() throws ClientException {
@@ -75,18 +72,17 @@ public class SiteThemeManagerImpl implements SiteThemeManager {
     }
 
     @Override
-    public void setTheme(String themeName) throws ClientException {
-        if (getTheme(themeName) == null){
-            createTheme(themeName);
+    public void setTheme(String themeName, CoreSession session) throws ClientException {
+        if (getTheme(themeName, session) == null){
+            createTheme(themeName, session);
         }
         parentSiteDoc.setPropertyValue(Schemas.LABSSITE.prefix() + ":theme_name", themeName);
-        CoreSession session = parentSiteDoc.getCoreSession();
         session.saveDocument(parentSiteDoc);
         session.save();
     }
 
     @Override
-    public List<SiteTheme> getThemes() throws ClientException {
+    public List<SiteTheme> getThemes(CoreSession session) throws ClientException {
         // TODO Auto-generated method stub
         return null;
     }

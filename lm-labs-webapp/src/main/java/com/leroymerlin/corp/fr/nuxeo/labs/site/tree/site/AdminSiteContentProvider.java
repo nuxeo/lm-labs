@@ -45,7 +45,7 @@ public class AdminSiteContentProvider extends AbstractContentProvider {
             DocumentModel doc = (DocumentModel) obj;
             SiteDocument sd = doc.getAdapter(SiteDocument.class);
             try {
-                result = sd.getSite().getTitle();
+                result = sd.getSite(session).getTitle();
             } catch (ClientException e) {
             }
         }

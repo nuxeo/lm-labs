@@ -1,7 +1,7 @@
 <@extends src="/views/labs-admin-base.ftl">
 
 <#if adminTreeviewType == "Pages" >
-	<#assign mySite=Common.siteDoc(Document).site />
+	<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 	<#assign parents = Session.getParentDocuments(mySite.getIndexDocument(Context.coreSession).ref) />
 	<#assign ids = [] />
 	<#list parents?reverse as parent>
@@ -87,7 +87,7 @@
 			return false;
 		}
 	
-		var homePageId = '<#if adminTreeviewType == "Pages" && mySite?? && mySite != null >${mySite.homePageRef}</#if>';
+		var homePageId = '<#if adminTreeviewType == "Pages" && mySite?? && mySite != null >${mySite.getHomePageRef(Context.coreSession)}</#if>';
 		
 		jQuery().ready(function() {
 			jQuery("#currentNodeId").val(jQuery("li[rel=Assets]").attr("id"));
@@ -354,7 +354,7 @@
 				<#if !Session.hasPermission(Document.ref, 'Everything')>
 					delete items.remove;
 				</#if>
-				<#if !(mySite?? && mySite.isAdministrator(Context.principal.name)) >
+				<#if !(mySite?? && mySite.isAdministrator(Context.principal.name, Context.coreSession)) >
 					delete items.home;
 				</#if>
 				

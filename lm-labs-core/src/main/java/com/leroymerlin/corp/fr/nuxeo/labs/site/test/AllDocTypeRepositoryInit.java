@@ -69,7 +69,7 @@ public class AllDocTypeRepositoryInit extends OfmRepositoryInit {
                 LabsSiteConstants.Docs.LABSNEWS.type());
         LabsNews newsAdapter = news.getAdapter(LabsNews.class);
         newsAdapter.setContent("labsNewsContent<br />Passage à la ligne");
-        newsAdapter.setTitle(LABS_NEWS_TITLE);
+        newsAdapter.setTitle(LABS_NEWS_TITLE, session);
         newsAdapter.setStartPublication(Calendar.getInstance());
         session.createDocument(news);
 
@@ -94,13 +94,13 @@ public class AllDocTypeRepositoryInit extends OfmRepositoryInit {
                 PAGE_CLASSEUR_TITLE).create();
         classeur.setTitle(PAGE_CLASSEUR_TITLE);
 
-        PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME);
+        PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME, session);
         session.save();
         try {
             Blob blob = new FileBlob(
                     getClass().getResourceAsStream("/" + FILE1_NAME));
             blob.setFilename(FILE1_NAME);
-            folder.addFile(blob, FILE1_DESCRIPTION, "title");
+            folder.addFile(blob, FILE1_DESCRIPTION, "title", session);
 
         } catch (Exception e) {
             // TODO Auto-generated catch block

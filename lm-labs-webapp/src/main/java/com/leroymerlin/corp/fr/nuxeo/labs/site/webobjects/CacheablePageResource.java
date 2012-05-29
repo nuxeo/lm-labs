@@ -5,6 +5,7 @@ import java.util.Calendar;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.freemarker.CacheBlock;
@@ -40,10 +41,11 @@ public class CacheablePageResource extends NotifiablePageResource {
         boolean isVisitor = true;
         String role = "V";
         String principalName = ctx.getPrincipal().getName();
+        CoreSession session = ctx.getCoreSession();
         try {
-            if (getPage().isAdministrator(principalName)) {
+            if (getPage().isAdministrator(principalName, session)) {
                 role = "A";
-            } else if (getPage().isContributor(principalName)) {
+            } else if (getPage().isContributor(principalName, session)) {
                 role = "C";
             }
         } catch (ClientException e) {

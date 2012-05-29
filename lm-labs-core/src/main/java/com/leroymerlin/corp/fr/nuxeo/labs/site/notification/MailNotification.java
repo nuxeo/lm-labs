@@ -3,12 +3,13 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.notification;
 import java.util.Calendar;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
 
 public interface MailNotification {
 
-    public void setAsToBeNotified() throws Exception;
+    public void setAsToBeNotified(CoreSession session) throws Exception;
     
     /**
      * @return
@@ -16,6 +17,6 @@ public interface MailNotification {
      * @throws PropertyException
      * @throws Exception
      */
-    public Calendar getLastNotified() throws Exception;
+    public Calendar getLastNotified(CoreSession session) throws Exception;
     
 }

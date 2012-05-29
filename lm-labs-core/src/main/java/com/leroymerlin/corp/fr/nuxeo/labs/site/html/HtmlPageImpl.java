@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
@@ -89,7 +90,7 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage,
     }
 
     @Override
-    public void onChange(Object obj) throws ClientException {
+    public void onChange(Object obj, CoreSession session) throws ClientException {
         update();
     }
 

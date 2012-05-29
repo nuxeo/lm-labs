@@ -123,7 +123,8 @@ public class SiteThemeResource extends PageResource {
     @GET
     @Path("banner")
     public Response getImgBanner() throws ClientException {
-        Blob blob = doc.getAdapter(SiteDocument.class).getSite().getThemeManager().getTheme().getBanner();
+        CoreSession session = ctx.getCoreSession();
+        Blob blob = doc.getAdapter(SiteDocument.class).getSite(session).getThemeManager().getTheme(session).getBanner();
         if (blob != null) {
             return Response.ok().entity(blob).type(blob.getMimeType()).build();
         }
@@ -138,7 +139,7 @@ public class SiteThemeResource extends PageResource {
             CoreSession session = ctx.getCoreSession();
             site.getTemplate().setTemplateName(form.getString("template"));
             String themeName = form.getString("theme");
-            site.getThemeManager().setTheme(themeName);
+            site.getThemeManager().setTheme(themeName, session);
             session.saveDocument(site.getDocument());
             session.save();
             return redirect(getPrevious().getPath() + "/@theme/" + themeName

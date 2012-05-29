@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -49,10 +50,11 @@ public class WebHtmlWidget extends DocumentObject {
 
     @Override
     public Response doDelete() {
-        parentContent.removeGadgets(getCoreSession()); // For the moment only ONE widget is possible
+        CoreSession session = getCoreSession();
+        parentContent.removeGadgets(session); // For the moment only ONE widget is possible
         try {
-            parentContent.setType(HtmlContent.Type.HTML.type());
-            htmlPage = getCoreSession().saveDocument(htmlPage);
+            parentContent.setType(HtmlContent.Type.HTML.type(), session);
+            htmlPage = session.saveDocument(htmlPage);
         } catch (ClientException e) {
             LOG.error("Unable to reset content to HTML editor", e);
         }

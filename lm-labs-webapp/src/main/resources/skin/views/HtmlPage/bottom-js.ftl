@@ -1,4 +1,4 @@
-<#assign isContributor = This.page?? && This.page.isContributor(Context.principal.name) />
+<#assign isContributor = This.page?? && This.page.isContributor(Context.principal.name, Context.coreSession) />
 <#if isContributor >
 <script type="text/javascript">
 var rowWidgetsAtLoad = [];

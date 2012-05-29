@@ -86,7 +86,7 @@ public final class SyndicationUtils {
             String description = null;
             if (LabsSiteConstants.Docs.LABSNEWS.type().equals(doc.getType())){
                 LabsNews news = doc.getAdapter(LabsNews.class);
-                entry.setDescription(NewsTools.createRssNewsDescription(news));
+                entry.setDescription(NewsTools.createRssNewsDescription(news, context.getCoreSession()));
             }
             else{
                 description = (String) doc.getPropertyValue("dc:description");

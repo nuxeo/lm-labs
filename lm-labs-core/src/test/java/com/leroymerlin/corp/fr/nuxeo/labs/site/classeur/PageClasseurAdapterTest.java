@@ -1,7 +1,13 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.classeur;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 
@@ -77,28 +83,28 @@ public class PageClasseurAdapterTest extends LabstTest {
     @Test
     public void iCanGetFoldersFromAPageClasseur() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("My Folder");
+        assertThat(classeur.getFolders(session).size(),is(0));
+        classeur.addFolder("My Folder", session);
         session.save();
         
-        assertThat(classeur.getFolders().size(),is(1));
-        PageClasseurFolder folder = classeur.getFolders().get(0);
+        assertThat(classeur.getFolders(session).size(),is(1));
+        PageClasseurFolder folder = classeur.getFolders(session).get(0);
         assertThat(folder.getTitle(),is("My Folder"));
 
-        classeur.removeFolder("My Folder");
-        assertThat(classeur.getFolders().size(),is(0));
+        classeur.removeFolder("My Folder",session);
+        assertThat(classeur.getFolders(session).size(),is(0));
         
     }
     
     @Test
     public void iCanAddFolderWithQuotes() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("Folder '1'");
+        assertThat(classeur.getFolders(session).size(),is(0));
+        classeur.addFolder("Folder '1'", session);
         session.save();
         
-        assertThat(classeur.getFolders().size(),is(1));
-        String name = classeur.getFolders().get(0).getDocument().getName();
+        assertThat(classeur.getFolders(session).size(),is(1));
+        String name = classeur.getFolders(session).get(0).getDocument().getName();
         assertFalse(name.contains("'"));
     }
     
@@ -106,66 +112,66 @@ public class PageClasseurAdapterTest extends LabstTest {
     @Test
     public void iCanAddFolderWithDoubleQuotes() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("Folder \"1\"");
+        assertThat(classeur.getFolders(session).size(),is(0));
+        classeur.addFolder("Folder \"1\"", session);
         session.save();
         
-        assertThat(classeur.getFolders().size(),is(1));
-        String name = classeur.getFolders().get(0).getDocument().getName();
+        assertThat(classeur.getFolders(session).size(),is(1));
+        String name = classeur.getFolders(session).get(0).getDocument().getName();
         assertFalse(name.contains("\""));
     }
     
     @Test
     public void iCanGetFolderByThisNameFromAPageClasseur() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("My Folder2");
-        classeur.addFolder("My Folder");
+        assertThat(classeur.getFolders(session).size(),is(0));
+        classeur.addFolder("My Folder2", session);
+        classeur.addFolder("My Folder", session);
         session.save();
         
-        PageClasseurFolder folder = classeur.getFolder("My Folder");
+        PageClasseurFolder folder = classeur.getFolder("My Folder", session);
         assertNotNull(folder);
         assertThat(folder.getTitle(),is("My Folder"));
 
-        classeur.removeFolder("My Folder");
-        assertNull(classeur.getFolder("My Folder"));
+        classeur.removeFolder("My Folder", session);
+        assertNull(classeur.getFolder("My Folder", session));
     }
     
     @Test
     public void iCanGetRemaneFolderByThisNameFromAPageClasseur() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("My Folder2");
-        classeur.addFolder("My Folder");
+        assertThat(classeur.getFolders(session).size(),is(0));
+        classeur.addFolder("My Folder2", session);
+        classeur.addFolder("My Folder", session);
         session.save();
         
-        classeur.renameFolder(classeur.getFolder("My Folder2").getDocument().getRef().toString(), "My Folder3");
+        classeur.renameFolder(classeur.getFolder("My Folder2", session).getDocument().getRef().toString(), "My Folder3", session);
         session.save();
         
-        PageClasseurFolder folder = classeur.getFolder("My Folder3");
+        PageClasseurFolder folder = classeur.getFolder("My Folder3", session);
         assertNotNull(folder);
         assertThat(folder.getTitle(),is("My Folder3"));
-        folder = classeur.getFolder("My Folder2");
+        folder = classeur.getFolder("My Folder2", session);
         assertNull(folder);
     }
     
     @Test
     public void iCantAddTwoFolderOfSameName() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
+        assertThat(classeur.getFolders(session).size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", session);
         session.save();        
-        assertThat(classeur.getFolders().size(),is(1));
+        assertThat(classeur.getFolders(session).size(),is(1));
         try {
-            classeur.addFolder("My Folder");
+            classeur.addFolder("My Folder", session);
             fail("Should not be able to create two folder of same name");
         } catch(ClasseurException e) {
         }
         
-        classeur.addFolder("My Folder 2");
+        classeur.addFolder("My Folder 2", session);
         session.save();        
-        assertThat(classeur.getFolders().size(),is(2));
+        assertThat(classeur.getFolders(session).size(),is(2));
 
         
     }
@@ -173,18 +179,18 @@ public class PageClasseurAdapterTest extends LabstTest {
     @Test
     public void iCanAddFilesToAFolder() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
+        assertThat(classeur.getFolders(session).size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", session);
         session.save();        
-        PageClasseurFolder folder = classeur.getFolders().get(0);
-        assertThat(folder.getFiles().size(),is(0));
-        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
+        PageClasseurFolder folder = classeur.getFolders(session).get(0);
+        assertThat(folder.getFiles(session).size(),is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title", session);
         session.save();
-        assertThat(folder.getFiles().size(),is(1));
-        folder.removeFile("title");
+        assertThat(folder.getFiles(session).size(),is(1));
+        folder.removeFile("title", session);
         session.save();
-        assertThat(folder.getFiles().size(),is(0));
+        assertThat(folder.getFiles(session).size(),is(0));
         
         
         
@@ -193,47 +199,47 @@ public class PageClasseurAdapterTest extends LabstTest {
     @Test
     public void iCanGetTitleOfFile() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
+        assertThat(classeur.getFolders(session).size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", session);
         session.save();        
-        PageClasseurFolder folder = classeur.getFolders().get(0);
-        assertThat(folder.getFiles().size(),is(0));
-        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
+        PageClasseurFolder folder = classeur.getFolders(session).get(0);
+        assertThat(folder.getFiles(session).size(),is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title", session);
         session.save();
-        assertThat(folder.getFiles().size(),is(1));
-        assertThat(folder.getFiles().get(0).getTitle(),is("title"));
+        assertThat(folder.getFiles(session).size(),is(1));
+        assertThat(folder.getFiles(session).get(0).getTitle(),is("title"));
     }
     
     @Test
     public void iCanGetDefaultTitleOfFile() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
+        assertThat(classeur.getFolders(session).size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", session);
         session.save();        
-        PageClasseurFolder folder = classeur.getFolders().get(0);
-        assertThat(folder.getFiles().size(),is(0));
-        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", null);
+        PageClasseurFolder folder = classeur.getFolders(session).get(0);
+        assertThat(folder.getFiles(session).size(),is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", null, session);
         session.save();
-        assertThat(folder.getFiles().size(),is(1));
-        assertThat(folder.getFiles().get(0).getTitle(),is("pomodoro_cheat_sheet.pdf"));
+        assertThat(folder.getFiles(session).size(),is(1));
+        assertThat(folder.getFiles(session).get(0).getTitle(),is("pomodoro_cheat_sheet.pdf"));
     }
     
     @Test
     public void iCanRenameTitleOfFile() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
+        assertThat(classeur.getFolders(session).size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", session);
         session.save();        
-        PageClasseurFolder folder = classeur.getFolders().get(0);
-        assertThat(folder.getFiles().size(),is(0));
-        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "titlerr");
+        PageClasseurFolder folder = classeur.getFolders(session).get(0);
+        assertThat(folder.getFiles(session).size(),is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "titlerr", session);
         session.save();
-        folder = classeur.getFolders().get(0);
-        assertThat(folder.getFiles().size(),is(1));
-        DocumentModel file = folder.getFiles().get(0);
+        folder = classeur.getFolders(session).get(0);
+        assertThat(folder.getFiles(session).size(),is(1));
+        DocumentModel file = folder.getFiles(session).get(0);
         assertThat(file.getTitle(),is("titlerr"));
         file.setPropertyValue("dc:title", "title2");
         session.saveDocument(file);
@@ -242,26 +248,26 @@ public class PageClasseurAdapterTest extends LabstTest {
         String path = classeur.getDocument().getPathAsString();
         DocumentModel doc = session.getDocument(new PathRef(path));
         classeur = doc.getAdapter(PageClasseur.class);
-        folder = classeur.getFolders().get(0);
-        assertThat(folder.getFiles().size(),is(1));
-        file = folder.getFiles().get(0);
+        folder = classeur.getFolders(session).get(0);
+        assertThat(folder.getFiles(session).size(),is(1));
+        file = folder.getFiles(session).get(0);
         assertThat((String)file.getTitle(),is("title2"));
     }
     
     @Test
     public void iCanModifyDescriptionOfFile() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        assertThat(classeur.getFolders().size(),is(0));
+        assertThat(classeur.getFolders(session).size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", session);
         session.save();        
-        PageClasseurFolder folder = classeur.getFolders().get(0);
-        assertThat(folder.getFiles().size(),is(0));
-        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "titlerr");
+        PageClasseurFolder folder = classeur.getFolders(session).get(0);
+        assertThat(folder.getFiles(session).size(),is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "titlerr", session);
         session.save();
-        folder = classeur.getFolders().get(0);
-        assertThat(folder.getFiles().size(),is(1));
-        DocumentModel file = folder.getFiles().get(0);
+        folder = classeur.getFolders(session).get(0);
+        assertThat(folder.getFiles(session).size(),is(1));
+        DocumentModel file = folder.getFiles(session).get(0);
         assertThat(file.getTitle(),is("titlerr"));
         file.setPropertyValue("dc:description", "Pomodoro cheat sheet56");
         session.saveDocument(file);
@@ -270,101 +276,101 @@ public class PageClasseurAdapterTest extends LabstTest {
         String path = classeur.getDocument().getPathAsString();
         DocumentModel doc = session.getDocument(new PathRef(path));
         classeur = doc.getAdapter(PageClasseur.class);
-        folder = classeur.getFolders().get(0);
-        assertThat(folder.getFiles().size(),is(1));
-        file = folder.getFiles().get(0);
+        folder = classeur.getFolders(session).get(0);
+        assertThat(folder.getFiles(session).size(),is(1));
+        file = folder.getFiles(session).get(0);
         assertThat((String)file.getPropertyValue("dc:description"),is("Pomodoro cheat sheet56"));
     }
     
     @Test(expected=IllegalArgumentException.class)
     public void iCannotAddNullBlobToAFolder() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", session);
         session.save();        
 
-        PageClasseurFolder folder = classeur.getFolders().get(0);
-        folder.addFile(null, "null desc", "title");
+        PageClasseurFolder folder = classeur.getFolders(session).get(0);
+        folder.addFile(null, "null desc", "title", session);
         
     }
     
     @Test
     public void iCanSetFolderAsDeleted() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        PageClasseurFolder folder = classeur.addFolder("My Folder");
+        PageClasseurFolder folder = classeur.addFolder("My Folder", session);
         session.save();
-        assertFalse(classeur.getFolders().isEmpty());
-        boolean deleted = folder.setAsDeleted();
+        assertFalse(classeur.getFolders(session).isEmpty());
+        boolean deleted = folder.setAsDeleted(session);
         session.save();
         assertTrue(deleted);
         assertEquals(LifeCycleConstants.DELETED_STATE, folder.getDocument().getCurrentLifeCycleState());
-        assertTrue(classeur.getFolders().isEmpty());
+        assertTrue(classeur.getFolders(session).isEmpty());
     }
     
     @Test
 	public void iCanHideShowFile() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        PageClasseurFolder folder = classeur.addFolder("My Folder");
+        PageClasseurFolder folder = classeur.addFolder("My Folder", session);
         session.save();        
-        DocumentModel file = folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
+        DocumentModel file = folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title", session);
         session.save();
-        assertEquals(1, folder.getFiles().size());
+        assertEquals(1, folder.getFiles(session).size());
         assertFalse(file.getFacets().contains(FacetNames.LABSHIDDEN));
         
-        folder.hide(file);
+        folder.hide(file, session);
         session.save();
         assertTrue(file.getFacets().contains(FacetNames.LABSHIDDEN));
-        assertEquals(1, folder.getFiles().size());
+        assertEquals(1, folder.getFiles(session).size());
 
-        folder.show(file);
+        folder.show(file, session);
         session.save();
         assertFalse(file.getFacets().contains(FacetNames.LABSHIDDEN));
-        assertEquals(1, folder.getFiles().size());
+        assertEquals(1, folder.getFiles(session).size());
 	}
     
     @Test
 	public void iCanHideShowFileForContributors() throws Exception {
     	boolean modified = false;
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        PageClasseurFolder folder = classeur.addFolder("My Folder");
+        PageClasseurFolder folder = classeur.addFolder("My Folder", session);
         String folderId = folder.getDocument().getId();
         session.save();        
         PermissionsHelper.addPermission(classeur.getDocument(), SecurityConstants.READ_WRITE, USERNAME1 , true);
-        DocumentModel file = folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
+        DocumentModel file = folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title", session);
         session.save();
-        assertEquals(1, folder.getFiles().size());
+        assertEquals(1, folder.getFiles(session).size());
         assertFalse(file.getFacets().contains(FacetNames.LABSHIDDEN));
 
         CoreSession cgmSession = changeUser(USERNAME1);
         DocumentModel cgmFolderDoc = cgmSession.getDocument(new IdRef(folderId));
         PageClasseurFolder cgmFolder = cgmFolderDoc.getAdapter(PageClasseurFolder.class);
-        assertEquals(1, cgmFolder.getFiles().size());
+        assertEquals(1, cgmFolder.getFiles(session).size());
         
-        modified = folder.hide(file);
+        modified = folder.hide(file, session);
         assertTrue(modified);
         session.save();
         assertTrue(file.getFacets().contains(FacetNames.LABSHIDDEN));
-        assertEquals(1, folder.getFiles().size());
+        assertEquals(1, folder.getFiles(session).size());
 
         cgmSession.disconnect();
         cgmSession = changeUser(USERNAME1);
         cgmFolderDoc = cgmSession.getDocument(new IdRef(folderId));
         cgmFolder = cgmFolderDoc.getAdapter(PageClasseurFolder.class);
-        assertEquals(0, cgmFolder.getFiles().size());
+        assertEquals(0, cgmFolder.getFiles(cgmSession).size());
         
         DocumentModel folderDoc = session.getDocument(new IdRef(folderId));
         folder = folderDoc.getAdapter(PageClasseurFolder.class);
-        modified = folder.show(file);
+        modified = folder.show(file, session);
         assertTrue(modified);
         session.save();
         assertFalse(file.getFacets().contains(FacetNames.LABSHIDDEN));
-        assertEquals(1, folder.getFiles().size());
+        assertEquals(1, folder.getFiles(session).size());
         
         // FIXME
 //        cgmSession.disconnect();
 //        CoreSession cgmSession2 = changeUser(USERNAME1);
 //        DocumentModel cgmFolderDoc2 = cgmSession2.getDocument(new IdRef(folderId));
 //        PageClasseurFolder cgmFolder2 = cgmFolderDoc2.getAdapter(PageClasseurFolder.class);
-//        assertEquals(1, cgmFolder2.getFiles().size());
+//        assertEquals(1, cgmFolder2.getFiles(session).size());
 	}
 
     private Blob getTestBlob() {

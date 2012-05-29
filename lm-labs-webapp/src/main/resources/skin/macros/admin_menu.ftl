@@ -1,10 +1,10 @@
 <#macro adminMenu item basePath="${This.path}">
-	<#assign mySite=Common.siteDoc(Document).site />
+	<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 	<div class="container">
 		<ul class="nav nav-pills">
 		    <li <#if item=="general">class="active"</#if>><a href="${basePath}/@views/edit"><i class="icon-cog"></i>${Context.getMessage('label.labssite.admin.tabs.main')}</a></li>
 		    <#if mySite?? && Session.hasPermission(mySite.document.ref, "Everything")>
-			    <li <#if item=="theme">class="active"</#if>><a href="${basePath}/@theme/${mySite.themeManager.theme.name}"><i class="icon-tint"></i>${Context.getMessage('label.labssite.admin.tabs.appearance')}</a></li>
+			    <li <#if item=="theme">class="active"</#if>><a href="${basePath}/@theme/${mySite.themeManager.getTheme(Context.coreSession).name}"><i class="icon-tint"></i>${Context.getMessage('label.labssite.admin.tabs.appearance')}</a></li>
 			    <li <#if item=="perms">class="active"</#if>><a href="${basePath}/@views/edit_perms"><i class="icon-asterisk"></i>${Context.getMessage('label.labssite.admin.tabs.rights')}</a></li>
     		    <li <#if item=="contacts">class="active"</#if>><a href="${basePath}/@views/edit_contacts"><i class="icon-user"></i>${Context.getMessage('label.labssite.admin.tabs.contacts')}</a></li>
 		    </#if>

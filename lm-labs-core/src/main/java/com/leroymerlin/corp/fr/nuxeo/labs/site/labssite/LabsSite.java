@@ -47,7 +47,7 @@ public interface LabsSite  extends LabsBase {
      * @return
      * @throws ClientException
      */
-    Blob getBanner() throws ClientException;
+    Blob getBanner(CoreSession session) throws ClientException;
 
     /**
      * @param pBlob
@@ -121,9 +121,9 @@ public interface LabsSite  extends LabsBase {
 
     List<String> getContacts() throws Exception;
     
-    boolean addContact(String ldap) throws Exception;
+    boolean addContact(String ldap, CoreSession session) throws Exception;
     
-    boolean deleteContact(String ldap) throws Exception;
+    boolean deleteContact(String ldap, CoreSession session) throws Exception;
     
     String getPiwikId() throws ClientException;
     

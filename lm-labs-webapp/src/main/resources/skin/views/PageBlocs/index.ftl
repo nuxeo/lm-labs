@@ -1,4 +1,4 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName(Context.coreSession) + "/template.ftl">
 
   <#include "views/common/page_header.ftl">
 

@@ -1,7 +1,7 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName(Context.coreSession) + "/template.ftl">
 	<#assign isAuthorized = This.isAuthorized()>
 	
-	<@block name="title">${Common.siteDoc(Document).site.title}-${This.document.title}</@block>
+	<@block name="title">${Common.siteDoc(Document).getSite(Context.coreSession).title}-${This.document.title}</@block>
 	
 	<@block name="css">
 	  <@superBlock/>
@@ -40,7 +40,7 @@
 						<#if Context.principal.isAnonymous() != true && (bean.headersSet?size > 0)>
 							<a href="#" style="margin-bottom: 3px;margin-top: 3px;" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine(${pp.numberOfPages-1});"><i class="icon-plus"></i>${Context.getMessage('label.pageList.addLine')}</a>
 						</#if>
-						<#if This.page?? && This.page.isContributor(Context.principal.name)>
+						<#if This.page?? && This.page.isContributor(Context.principal.name, Context.coreSession)>
 							<a href="#" id="PageList-editcolumns" class="editblock open-dialog" rel="divManageList" onClick="javascript:manageList();"><i class="icon-edit"></i>${Context.getMessage('label.pageList.manageList')}</a>
 						</#if>
 					</div>

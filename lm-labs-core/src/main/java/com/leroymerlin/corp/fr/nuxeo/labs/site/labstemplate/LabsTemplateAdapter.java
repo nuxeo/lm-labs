@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate;
 
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
@@ -31,8 +32,8 @@ public class LabsTemplateAdapter implements LabsTemplate {
     }
 
     @Override
-    public String getTemplateName() throws ClientException {
-        LabsTemplate siteTemplate = doc.getAdapter(SiteDocument.class).getSite().getTemplate();
+    public String getTemplateName(CoreSession session) throws ClientException {
+        LabsTemplate siteTemplate = doc.getAdapter(SiteDocument.class).getSite(session).getTemplate();
         String siteTemplateName = siteTemplate.getDocumentTemplateName();
         if (doc.hasSchema(Schemas.LABSTEMPLATE.getName())) {
             return StringUtils.defaultIfEmpty(StringUtils.trim((String) doc.getPropertyValue(Schemas.LABSTEMPLATE.prefix() + ":name")), siteTemplateName);

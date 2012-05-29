@@ -40,6 +40,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
     
     public static class Model {
         private DocumentModel doc;
+        private CoreSession session;
         
         /**
          * PageListLine adapter = new PageListLineAdapter.Model(session, "/", "title").create();
@@ -49,6 +50,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
          * @throws ClientException
          */
         public Model(CoreSession session, String parentPath, String title) throws ClientException {
+        	this.session = session;
             this.doc = session.createDocumentModel(parentPath, title, Docs.PAGELIST_LINE.type());
         }
         
@@ -58,7 +60,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
          * @throws ClientException
          */
         public PageListLine create() throws ClientException {
-            return new PageListLineAdapter(this.doc.getCoreSession().createDocument(this.doc));
+            return new PageListLineAdapter(this.session.createDocument(this.doc));
         }
         
         /**
@@ -178,8 +180,8 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine#removeLine()
      */
     @Override
-    public void removeLine() throws ClientException {
-        doc.getCoreSession().removeDocument(doc.getRef());
+    public void removeLine(CoreSession session) throws ClientException {
+        session.removeDocument(doc.getRef());
     }
 
     /* (non-Javadoc)
@@ -192,7 +194,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
     }
 
     @Override
-    public DocumentModelList getFiles() throws ClientException {
+    public DocumentModelList getFiles(CoreSession session) throws ClientException {
 
         StringBuilder sb = new StringBuilder("SELECT * From Document");
         sb.append(" WHERE ecm:parentId = '")
@@ -200,13 +202,12 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
                 .append("'");
         sb.append(" AND ecm:isProxy = 0 AND ecm:isCheckedInVersion = 0");
         sb.append(" AND ecm:currentLifeCycleState <> 'deleted'");
-//        if (!doc.getCoreSession().hasPermission(doc.getParentRef(), SecurityConstants.EVERYTHING)) {
+//        if (!session.hasPermission(doc.getParentRef(), SecurityConstants.EVERYTHING)) {
 //            sb.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(" <> '").append(FacetNames.LABSHIDDEN).append("'");
 //        }
         sb.append(" ORDER BY dc:title ASC");
 
-        DocumentModelList list = doc.getCoreSession()
-                .query(sb.toString());
+        DocumentModelList list = session.query(sb.toString());
         return list;
 
     }

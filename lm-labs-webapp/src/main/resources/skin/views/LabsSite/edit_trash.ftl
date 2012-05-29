@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 <#if mySite?? && Session.hasPermission(mySite.document.ref, "Everything")>
 <@extends src="/views/labs-admin-base.ftl">
 

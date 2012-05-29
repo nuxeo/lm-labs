@@ -100,24 +100,24 @@ public class HtmlContent {
 
 	}
 
-	public void setHtml(String html) throws ClientException {
+	public void setHtml(String html, CoreSession session) throws ClientException {
 		this.html = html;
-		parent.update();
+		parent.update(session);
 
 	}
 
-	public void setColNumber(int colNumber) throws ClientException {
+	public void setColNumber(int colNumber, CoreSession session) throws ClientException {
 		this.colNumber = colNumber;
-		parent.update();
+		parent.update(session);
 	}
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) throws ClientException {
+    public void setType(String type, CoreSession session) throws ClientException {
         this.type = type;
-        parent.update();
+        parent.update(session);
     }
 
     public List<LabsWidget> getGadgets(CoreSession session) throws ClientException {
@@ -148,7 +148,7 @@ public class HtmlContent {
                     }
                 }
                 if (widgetRefs.removeAll(toRemove)) {
-                    parent.update();
+                    parent.update(session);
                 }
             }
             for (String ref : widgetRefs) {
@@ -159,15 +159,15 @@ public class HtmlContent {
         return list;
     }
 
-    public void addWidgetRef(String ref) throws ClientException {
+    public void addWidgetRef(String ref, CoreSession session) throws ClientException {
         widgetRefs.add(ref);
-        parent.update();
+        parent.update(session);
     }
 
-    public void removeWidgetRef(String ref) throws ClientException {
+    public void removeWidgetRef(String ref, CoreSession session) throws ClientException {
         widgetRefs.remove(ref);
         widgets.remove(ref);
-        parent.update();
+        parent.update(session);
     }
     /**
      * @param session

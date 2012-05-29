@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 <div id="lastMessage" class="lastMessage bloc">
 	<div class="header">${Context.getMessage('label.last_message.title')}</div>
 		<div class="itemList">

@@ -20,7 +20,7 @@ public interface Page extends LabsBase {
     
     boolean isDisplayable(String fieldName) throws ClientException;
     
-    Calendar getLastNotified() throws ClientException;
+    Calendar getLastNotified(CoreSession session) throws ClientException;
 
 	public int getElementsPerPage() throws ClientException;
 	

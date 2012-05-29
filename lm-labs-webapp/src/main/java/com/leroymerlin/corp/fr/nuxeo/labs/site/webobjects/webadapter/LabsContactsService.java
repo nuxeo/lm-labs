@@ -62,7 +62,7 @@ public class LabsContactsService extends DefaultAdapter {
 
         try {
             LabsSite labsSite = getTarget().getAdapter(LabsSite.class);
-            if (labsSite.addContact(id)) {
+            if (labsSite.addContact(id, ctx.getCoreSession())) {
                 return Response.ok().build();
             }
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class LabsContactsService extends DefaultAdapter {
 
         try {
             LabsSite labsSite = getTarget().getAdapter(LabsSite.class);
-            if (labsSite.deleteContact(ldap)) {
+            if (labsSite.deleteContact(ldap, ctx.getCoreSession())) {
                 return Response.ok().build();
             }
         } catch (Exception e) {

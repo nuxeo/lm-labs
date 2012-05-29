@@ -100,8 +100,8 @@ public class LabsSiteAdapterTest {
     public void testIsAdministrator() throws Exception {
         DocumentModel doc = createSite("NameSite1", session);
         LabsSite labssite = doc.getAdapter(LabsSite.class);
-        assertTrue(labssite.isAdministrator("Administrator"));
-        assertFalse(labssite.isAdministrator(USERNAME1));
+        assertTrue(labssite.isAdministrator("Administrator", session));
+        assertFalse(labssite.isAdministrator(USERNAME1, session));
     }
 
     @Test
@@ -115,7 +115,7 @@ public class LabsSiteAdapterTest {
                 SecurityConstants.READ_WRITE, USERNAME1));
 
         LabsSite labssite = site.getAdapter(LabsSite.class);
-        assertTrue(labssite.isContributor(USERNAME1));
+        assertTrue(labssite.isContributor(USERNAME1, session));
     }
 
     @Test
@@ -167,9 +167,9 @@ public class LabsSiteAdapterTest {
         assertThat(labssite.getTitle(), is("Le titre du site"));
         assertThat(labssite.getDescription(), is("Description"));
         assertThat(labssite.getURL(), is("URL"));
-        assertThat(labssite.getBanner(), is(notNullValue()));
-        assertEquals(labssite.getBanner().getFilename(), blob.getFilename());
-        assertEquals(labssite.getBanner().getLength(), blob.getLength());
+        assertThat(labssite.getBanner(session), is(notNullValue()));
+        assertEquals(labssite.getBanner(session).getFilename(), blob.getFilename());
+        assertEquals(labssite.getBanner(session).getLength(), blob.getLength());
 
     }
 
@@ -447,7 +447,7 @@ public class LabsSiteAdapterTest {
 
         PageClasseurFolder adapter = folder.getAdapter(PageClasseurFolder.class);
         assertNotNull(adapter);
-        boolean setAsDeleted = adapter.setAsDeleted();
+        boolean setAsDeleted = adapter.setAsDeleted(session);
         session.save();
         assertTrue(setAsDeleted);
         assertFalse(labsSite.getAllDeletedDocs(session).isEmpty());
@@ -503,11 +503,11 @@ public class LabsSiteAdapterTest {
         String templateName = "LeTemplate";
         String themeName = "LeTheme";
         template1.getTemplate().setTemplateName(templateName);
-        template1.getThemeManager().setTheme(themeName);
+        template1.getThemeManager().setTheme(themeName, session);
         session.saveDocument(template1.getDocument());
         session.save();
         assertEquals(themeName, template1.getThemeName());
-        assertEquals(templateName, template1.getTemplate().getTemplateName());
+        assertEquals(templateName, template1.getTemplate().getTemplateName(session));
         assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(template1.getTree(session).getRef(), "pagehtml").getAdapter(LabsTemplate.class).getDocumentTemplateName());
         assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(template1.getTree(session).getRef(), "pagehtml").getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
 
@@ -524,7 +524,7 @@ public class LabsSiteAdapterTest {
         session.saveDocument(cgmSite.getDocument());
         session.save();
         assertFalse(templateWelcomeId.equals(welcomeId));
-        assertEquals(templateName, cgmSite.getTemplate().getTemplateName());
+        assertEquals(templateName, cgmSite.getTemplate().getTemplateName(session));
         assertEquals(themeName, cgmTemplateSite.getThemeName());
         assertEquals(themeName, cgmSite.getThemeName());
         DocumentModelList assetsList = cgmSession.getChildren(
@@ -535,9 +535,9 @@ public class LabsSiteAdapterTest {
         assertEquals(0, assetsList.size());
         assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree(session).getRef(), "pagehtml").getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
         assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree(session).getRef(), "pagehtml").getAdapter(LabsTemplate.class).getDocumentTemplateName());
-        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree(session).getRef(), "pagehtml").getAdapter(LabsTemplate.class).getTemplateName());
+        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree(session).getRef(), "pagehtml").getAdapter(LabsTemplate.class).getTemplateName(session));
         assertEquals("", session.getChild(cgmSite.getTree(session).getRef(), "pagenews").getAdapter(LabsTemplate.class).getDocumentTemplateName());
-        assertEquals(templateName, session.getChild(cgmSite.getTree(session).getRef(), "pagenews").getAdapter(LabsTemplate.class).getTemplateName());
+        assertEquals(templateName, session.getChild(cgmSite.getTree(session).getRef(), "pagenews").getAdapter(LabsTemplate.class).getTemplateName(session));
         // TODO more tests
     }
 
@@ -546,9 +546,9 @@ public class LabsSiteAdapterTest {
         DocumentModel doc = createSite("NameSite1", session);
         LabsSite labssite = doc.getAdapter(LabsSite.class);
 
-        labssite.addContact("10057208");
-        labssite.addContact("10087898");
-        labssite.addContact("118999");
+        labssite.addContact("10057208", session);
+        labssite.addContact("10087898", session);
+        labssite.addContact("118999", session);
 
         List<String> contacts = labssite.getContacts();
         assertNotNull(contacts);
@@ -563,7 +563,7 @@ public class LabsSiteAdapterTest {
         DocumentModel doc = createSite("NameSite1", session);
         LabsSite labssite = doc.getAdapter(LabsSite.class);
 
-        boolean success = labssite.addContact("10057208");
+        boolean success = labssite.addContact("10057208", session);
         assertTrue(success);
     }
 
@@ -572,15 +572,15 @@ public class LabsSiteAdapterTest {
         DocumentModel doc = createSite("NameSite1", session);
         LabsSite labssite = doc.getAdapter(LabsSite.class);
 
-        labssite.addContact("10057208");
-        labssite.addContact("10087898");
-        labssite.addContact("118999");
+        labssite.addContact("10057208", session);
+        labssite.addContact("10087898", session);
+        labssite.addContact("118999", session);
 
         List<String> contacts = labssite.getContacts();
         assertNotNull(contacts);
         assertEquals(3, contacts.size());
 
-        labssite.deleteContact("10087898");
+        labssite.deleteContact("10087898", session);
         contacts = labssite.getContacts();
         assertNotNull(contacts);
         assertEquals(2, contacts.size());

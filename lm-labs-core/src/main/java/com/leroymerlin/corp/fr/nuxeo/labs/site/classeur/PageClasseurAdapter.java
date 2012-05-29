@@ -29,6 +29,8 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
 
     public static class Model {
         private final DocumentModel doc;
+        
+        private CoreSession session;
 
         /**
          * PageClasseur adapter = new PageClasseurAdapter.Model(session, "/",
@@ -41,6 +43,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
          */
         public Model(CoreSession session, String parentPath, String title)
                 throws ClientException {
+        	this.session = session;
             this.doc = session.createDocumentModel(parentPath, title,
                     PAGECLASSEUR.type());
             this.doc.setPropertyValue("dc:title", title);
@@ -67,8 +70,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
          * @throws ClientException
          */
         public PageClasseur create() throws ClientException {
-            DocumentModel doc = this.doc.getCoreSession()
-                    .createDocument(this.doc);
+            DocumentModel doc = this.session.createDocument(this.doc);
             return doc.getAdapter(PageClasseur.class);
         }
     }
@@ -79,7 +81,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
     }
 
     @Override
-    public List<PageClasseurFolder> getFolders() {
+    public List<PageClasseurFolder> getFolders(CoreSession session) {
         List<PageClasseurFolder> result = new ArrayList<PageClasseurFolder>();
         try {
             StringBuilder sb = new StringBuilder("SELECT * From Document");
@@ -89,8 +91,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
             .append(" AND ").append(NXQL.ECM_ISVERSION).append(" = 0")
             .append(" AND ").append(NXQL.ECM_LIFECYCLESTATE).append(" <> '").append(LifeCycleConstants.DELETED_STATE).append("'");
             sb.append(" ORDER BY ").append(NXQL.ECM_POS);
-            DocumentModelList list = doc.getCoreSession()
-                    .query(sb.toString());
+            DocumentModelList list = session.query(sb.toString());
             for (DocumentModel child : list) {
                 result.add(new PageClasseurFolderImpl(child));
             }
@@ -101,20 +102,19 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
     }
 
     @Override
-    public PageClasseurFolder addFolder(String title) throws ClientException {
+    public PageClasseurFolder addFolder(String title, CoreSession session) throws ClientException {
         PathSegmentService pss;
         try {
             pss = Framework.getService(PathSegmentService.class);
         } catch (Exception e) {
             throw new ClasseurException("Unable to get PathSegmentService.");
         }
-        if (folderAlreadyExists(title)) {
+        if (folderAlreadyExists(title, session)) {
             throw new ClasseurException(
                     "label.classeur.error.cant_add_two_folder_of_same_name");
         }
 
         if (!StringUtils.isEmpty(title)) {
-            CoreSession session = doc.getCoreSession();
             DocumentModel folder = session.createDocumentModel(
 //                    doc.getPathAsString(), title, 
                     LabsSiteConstants.Docs.PAGECLASSEURFOLDER.type());
@@ -127,13 +127,13 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
         return null;
     }
 
-    private boolean folderAlreadyExists(String title) throws ClientException {
-        return getFolder(title) != null;
+    private boolean folderAlreadyExists(String title, CoreSession session) throws ClientException {
+        return getFolder(title, session) != null;
     }
 
     @Override
-    public PageClasseurFolder getFolder(String title) throws ClientException {
-        for (PageClasseurFolder folder : getFolders()) {
+    public PageClasseurFolder getFolder(String title, CoreSession session) throws ClientException {
+        for (PageClasseurFolder folder : getFolders(session)) {
             if (title.equals(folder.getTitle())) {
                 return folder;
             }
@@ -142,17 +142,16 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
     }
 
     @Override
-    public void removeFolder(String title) throws ClientException {
-        PageClasseurFolder folder = getFolder(title);
+    public void removeFolder(String title, CoreSession session) throws ClientException {
+        PageClasseurFolder folder = getFolder(title, session);
         if (folder != null) {
-            doc.getCoreSession().removeDocument(folder.getDocument().getRef());
+            session.removeDocument(folder.getDocument().getRef());
         }
 
     }
 
     @Override
-    public void renameFolder(String idRef, String newName) throws ClientException {
-        CoreSession session = doc.getCoreSession();
+    public void renameFolder(String idRef, String newName, CoreSession session) throws ClientException {
         DocumentModel document = session.getDocument(new IdRef(idRef));
         document.setPropertyValue("dc:title", newName);
         session.saveDocument(document);

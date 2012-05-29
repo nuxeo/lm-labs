@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
@@ -77,8 +78,8 @@ public class EntriesLine {
         this.userName = userName;
     }
 
-    public int getNbrFiles() throws ClientException, Exception{
-        return docLine.getAdapter(PageListLine.class).getFiles().size();
+    public int getNbrFiles(CoreSession session) throws ClientException, Exception{
+        return docLine.getAdapter(PageListLine.class).getFiles(session).size();
     }
 
     public void setNbComments(int nbComments) {

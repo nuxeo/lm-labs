@@ -132,15 +132,16 @@ public class PageResource extends DocumentObject {
     private void authorize(String userName, DocumentModel document) {
         try {
             String principalName = ctx.getPrincipal().getName();
-            LabsSite site = CommonHelper.siteDoc(doc).getSite();
-            if (site.isAdministrator(principalName)
-                    || (site.isContributor(principalName) && !site.isSiteTemplate())) {
+            CoreSession session = ctx.getCoreSession();
+            LabsSite site = CommonHelper.siteDoc(doc).getSite(session);
+            if (site.isAdministrator(principalName, session)
+                    || (site.isContributor(principalName, session) && !site.isSiteTemplate())) {
                 return;
             }
             //TODO use facet instead
             if (!Docs.LABSNEWS.type().equals(document.getType()) &&
                     !Docs.LABSTOPIC.type().equals(document.getType())) {
-                boolean authorized = labsBaseAdapter.isAuthorizedToDisplay();
+                boolean authorized = labsBaseAdapter.isAuthorizedToDisplay(session);
                 authorized = authorized && !labsBaseAdapter.isDeleted() && !site.isSiteTemplate();
                 if (!authorized) {
                     throw new WebResourceNotFoundException(userName
@@ -166,7 +167,7 @@ public class PageResource extends DocumentObject {
 
     public boolean isAuthorizedToDisplay() throws ClientException {
         if (!Docs.LABSNEWS.type().equals(doc.getType())) {
-            return labsBaseAdapter.isAuthorizedToDisplay();
+            return labsBaseAdapter.isAuthorizedToDisplay(ctx.getCoreSession());
         }
         return true;
     }
@@ -175,7 +176,7 @@ public class PageResource extends DocumentObject {
             throws ClientException {
         if (pDocument != null && !Docs.LABSNEWS.type().equals(pDocument.getType())) {
             return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(
-                Page.class).isAuthorizedToDisplay() : false;
+                Page.class).isAuthorizedToDisplay(ctx.getCoreSession()) : false;
         }
         return true;
     }
@@ -215,8 +216,9 @@ public class PageResource extends DocumentObject {
         String style = "";
         String styleProperties = "";
         try {
-            LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
-            SiteTheme theme = site.getThemeManager().getTheme();
+            CoreSession session = ctx.getCoreSession();
+            LabsSite site = doc.getAdapter(SiteDocument.class).getSite(session);
+            SiteTheme theme = site.getThemeManager().getTheme(session);
             themeName = theme.getName();
             style = theme.getStyle();
             styleProperties = generateLessWithProperties(theme.getProperties());
@@ -249,8 +251,9 @@ public class PageResource extends DocumentObject {
     public Object getGeneratedAdminLess() {
         String themeName = "";
         try {
-            LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
-            themeName = site.getThemeManager().getTheme().getName();
+            CoreSession session = ctx.getCoreSession();
+            LabsSite site = doc.getAdapter(SiteDocument.class).getSite(session);
+            themeName = site.getThemeManager().getTheme(session).getName();
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
@@ -290,7 +293,8 @@ public class PageResource extends DocumentObject {
     public Response doMove(@FormParam("destination") String destinationId,
             @FormParam("view") String view,
             @FormParam("redirect") String redirect) throws ClientException {
-        DocumentModel destination = doc.getCoreSession().getDocument(
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel destination = session.getDocument(
                 new IdRef(destinationId));
         String viewUrl = "";
         if (!StringUtils.isEmpty(view)) {
@@ -302,8 +306,8 @@ public class PageResource extends DocumentObject {
                     + "?message_error=label.admin.page.move.destinationNotFolder");
         }
         try {
-            doc.getCoreSession().move(doc.getRef(), destination.getRef(), null);
-            doc.getCoreSession().save();
+            session.move(doc.getRef(), destination.getRef(), null);
+            session.save();
         } catch (Exception e) {
             return redirect(getPath() + viewUrl + "?message_error="
                     + e.getMessage());
@@ -317,7 +321,8 @@ public class PageResource extends DocumentObject {
     public Response doCopy(@FormParam("destination") String destinationId,
             @FormParam("view") String view,
             @FormParam("redirect") String redirect) throws ClientException {
-        DocumentModel destination = doc.getCoreSession().getDocument(
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel destination = session.getDocument(
                 new IdRef(destinationId));
         String viewUrl = "";
         if (!StringUtils.isEmpty(view)) {
@@ -329,12 +334,12 @@ public class PageResource extends DocumentObject {
                     + "?message_error=label.admin.page.copy.destinationNotFolder");
         }
         try {
-            DocumentModel copy = doc.getCoreSession().copy(doc.getRef(),
+            DocumentModel copy = session.copy(doc.getRef(),
                     destination.getRef(), null);
             Page page = copy.getAdapter(Page.class);
             page.setTitle(COPYOF_PREFIX + page.getTitle());
-            doc.getCoreSession().saveDocument(page.getDocument());
-            doc.getCoreSession().save();
+            session.saveDocument(page.getDocument());
+            session.save();
         } catch (Exception e) {
             return redirect(getPath() + viewUrl + "?message_error="
                     + e.getMessage());
@@ -430,11 +435,12 @@ public class PageResource extends DocumentObject {
     public Response setAsHomePage() {
         boolean setAsHome = false;
         try {
-            LabsSite site = doc.getAdapter(SiteDocument.class).getSite();
-            if (site.isAdministrator(ctx.getPrincipal().getName())) {
+            CoreSession session = ctx.getCoreSession();
+            LabsSite site = doc.getAdapter(SiteDocument.class).getSite(session);
+            if (site.isAdministrator(ctx.getPrincipal().getName(), session)) {
                 site.setHomePageRef(doc.getId());
-                doc.getCoreSession().saveDocument(site.getDocument());
-                LabsSiteUtils.unblockInherits("", doc);
+                session.saveDocument(site.getDocument());
+                LabsSiteUtils.unblockInherits("", doc, session);
                 setAsHome = true;
             }
         } catch (Exception e) {
@@ -477,10 +483,10 @@ public class PageResource extends DocumentObject {
             location = PageCreationLocation.TOP;
         }
         DocumentModel parent = doc;
-        CoreSession session = getCoreSession();
+        final CoreSession session = getCoreSession();
         try {
-            LabsSite labsSite = doc.getAdapter(SiteDocument.class).getSite();
-            if (overwrite && !labsSite.isAdministrator(ctx.getPrincipal().getName())) {
+            LabsSite labsSite = doc.getAdapter(SiteDocument.class).getSite(session);
+            if (overwrite && !labsSite.isAdministrator(ctx.getPrincipal().getName(), session)) {
                 return Response.status(Status.UNAUTHORIZED).build();
             }
             if (PageCreationLocation.SAME.equals(location)) {
@@ -507,7 +513,7 @@ public class PageResource extends DocumentObject {
 
 		final DocumentModel myForumDoc = newDoc;
         if (myForumDoc.getType().equals(LabsSiteConstants.Docs.PAGEFORUM.type())) {
-            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(myForumDoc.getCoreSession()){
+            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
                 @SuppressWarnings("deprecation")
                 @Override
                 public void run() throws ClientException {

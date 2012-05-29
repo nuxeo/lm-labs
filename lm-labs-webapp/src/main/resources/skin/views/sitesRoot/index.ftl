@@ -129,7 +129,7 @@ function deleteDefinitelySite(url){
     	<#if (undeletedLabsSites?size > 0) >
 	    	<#assign hasAtLeastOneAdminSite = false />
 	    	<#list undeletedLabsSites as undeletedSite>
-	    		<#if undeletedSite.isAdministrator(Context.principal.name) >
+	    		<#if undeletedSite.isAdministrator(Context.principal.name, Context.coreSession) >
 	    			<#assign hasAtLeastOneAdminSite = true />
 	    			<#break>
 	    		</#if>
@@ -161,7 +161,7 @@ function deleteDefinitelySite(url){
 	              <td><a class="btn" href="${This.path}/${sit.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
 	              <#if hasAtLeastOneAdminSite>
 	              <td>
-	              <#if sit.isAdministrator(Context.principal.name) >
+	              <#if sit.isAdministrator(Context.principal.name, Context.coreSession) >
 	              	<a href="#" class="btn btn-danger" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a>
 	              </#if>
 	              </td>
@@ -178,7 +178,7 @@ function deleteDefinitelySite(url){
 			</div>
 	    	<#assign hasAtLeastOneAdminSite = false />
 	    	<#list templateLabsSites as labsSite>
-	    		<#if labsSite.isAdministrator(Context.principal.name) >
+	    		<#if labsSite.isAdministrator(Context.principal.name, Context.coreSession) >
 	    			<#assign hasAtLeastOneAdminSite = true />
 	    			<#break>
 	    		</#if>
@@ -208,7 +208,7 @@ function deleteDefinitelySite(url){
 	              	<td>${userFullName(labsSite.document.dublincore.creator)}</td>
 	              </#if>
 	              <#if hasAtLeastOneAdminSite>
-	              <#if labsSite.isAdministrator(Context.principal.name) >
+	              <#if labsSite.isAdministrator(Context.principal.name, Context.coreSession) >
 	                <td><a class="btn" href="${This.path}/${labsSite.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
 	              	<td><a href="#" class="btn btn-danger" onclick="javascript:deleteSite('${Context.modulePath}/${labsSite.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
 	              <#else>
@@ -229,7 +229,7 @@ function deleteDefinitelySite(url){
 				</div>
 			      <#assign hasAtLeastOneAdminSite = false />
 			      <#list deletedLabsSites as deletedSite>
-			        <#if deletedSite.isAdministrator(Context.principal.name) >
+			        <#if deletedSite.isAdministrator(Context.principal.name, Context.coreSession) >
 			          <#assign hasAtLeastOneAdminSite = true />
 			          <#break>
 	    		    </#if>

@@ -202,17 +202,17 @@ public final class LabsSiteUtilsTest {
 
         LabsSite site = sm.createSite(session, "Mon Site", "monsite");
         SiteDocument sd = site.getDocument().getAdapter(SiteDocument.class);
-        assertEquals(site, sd.getSite());
+        assertEquals(site, sd.getSite(session));
 
         DocumentModel tree = site.getTree(session);
         sd = tree.getAdapter(SiteDocument.class);
-        assertEquals(site, sd.getSite());
+        assertEquals(site, sd.getSite(session));
 
         DocumentModel pageClasseur = session.createDocumentModel(
                 tree.getPathAsString(), "page1", Docs.PAGECLASSEUR.type());
         pageClasseur = session.createDocument(pageClasseur);
         sd = pageClasseur.getAdapter(SiteDocument.class);
-        assertEquals(site,sd.getSite());
+        assertEquals(site,sd.getSite(session));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -220,18 +220,18 @@ public final class LabsSiteUtilsTest {
 
         DocumentModel sitesRoot = session.getDocument(new PathRef("/default-domain"));
         SiteDocument sd = sitesRoot.getAdapter(SiteDocument.class);
-        sd.getSite();
+        sd.getSite(session);
     }
 
     @Test
     public void testGetClosestPage() throws Exception {
         LabsSite site = sm.createSite(session, "Mon Site", "monsite");
         SiteDocument sd = site.getDocument().getAdapter(SiteDocument.class);
-        assertEquals(site, sd.getSite());
+        assertEquals(site, sd.getSite(session));
 
         DocumentModel tree = site.getTree(session);
         sd = tree.getAdapter(SiteDocument.class);
-        assertEquals(site, sd.getSite());
+        assertEquals(site, sd.getSite(session));
 
         DocumentModel pageClasseur = session.createDocumentModel(
                 tree.getPathAsString(), "page1", Docs.PAGECLASSEUR.type());
@@ -243,7 +243,7 @@ public final class LabsSiteUtilsTest {
 
 
         sd = pageClasseur.getAdapter(SiteDocument.class);
-        assertThat(sd.getParentPage()
+        assertThat(sd.getParentPage(session)
                 .getDocument()
                 .getRef(), is(pageClasseur.getRef()));
 
@@ -251,7 +251,7 @@ public final class LabsSiteUtilsTest {
                 pageClasseur.getPathAsString(), "folder", "Folder");
         folder = session.createDocument(folder);
         sd = folder.getAdapter(SiteDocument.class);
-        assertThat(sd.getParentPage()
+        assertThat(sd.getParentPage(session)
                 .getDocument()
                 .getRef(), is(pageClasseur.getRef()));
 
@@ -259,7 +259,7 @@ public final class LabsSiteUtilsTest {
                 pageClasseur.getPathAsString(), "file", "File");
         file = session.createDocument(file);
         sd = file.getAdapter(SiteDocument.class);
-        assertThat(sd.getParentPage()
+        assertThat(sd.getParentPage(session)
                 .getDocument()
                 .getRef(), is(pageClasseur.getRef()));
     }
@@ -284,7 +284,7 @@ public final class LabsSiteUtilsTest {
         assertTrue(PermissionsHelper.hasPermission(docu, SecurityConstants.READ, "toto"));
         CoreSession sessionToto = changeUser("toto");
         docu = sessionToto.getDocument(docu.getRef());
-        assertTrue(LabsSiteUtils.isOnlyRead(docu));
+        assertTrue(LabsSiteUtils.isOnlyRead(docu, sessionToto));
     }
     
     @Test 
@@ -296,7 +296,7 @@ public final class LabsSiteUtilsTest {
         assertTrue(PermissionsHelper.hasPermission(docu, SecurityConstants.READ_WRITE, "toto"));
         CoreSession sessionToto = changeUser("toto");
         docu = sessionToto.getDocument(docu.getRef());
-        assertTrue(!LabsSiteUtils.isOnlyRead(docu));
+        assertTrue(!LabsSiteUtils.isOnlyRead(docu, session));
     }
     
     @Test

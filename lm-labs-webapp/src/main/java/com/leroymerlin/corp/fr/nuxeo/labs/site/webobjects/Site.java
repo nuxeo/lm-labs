@@ -166,11 +166,12 @@ public class Site extends NotifiablePageResource {
     @Path("@theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
+            CoreSession session = ctx.getCoreSession();
             SiteThemeManager tm = site.getThemeManager();
-            SiteTheme theme = tm.getTheme(themeName);
+            SiteTheme theme = tm.getTheme(themeName, session);
             if (theme == null) {
                 // This creates the default theme if not found
-                theme = tm.getTheme();
+                theme = tm.getTheme(session);
             }
 
             return newObject(Docs.SITETHEME.type(), site, theme);

@@ -1,5 +1,5 @@
 <#macro labsSiteRssFeedList feed="all" nbrItems="2" divId="rss-feed-list-" >
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 <div id="${divId}" class="rss-feed-list bloc">
     <div class="header">${Context.getMessage('label.rss.' + feed + '.title')}</div>
         <div class="itemList">

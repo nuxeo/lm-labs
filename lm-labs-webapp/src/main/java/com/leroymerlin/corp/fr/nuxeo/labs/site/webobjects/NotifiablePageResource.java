@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.core.api.CoreSession;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
@@ -52,7 +53,8 @@ public abstract class NotifiablePageResource extends PageResource {
             PageSubscription subscriptionAdapter = doc.getAdapter(PageSubscription.class);
             subscriptionAdapter.unsubscribe(ctx.getPrincipal().getName());
             if (Docs.SITE.type().equals(doc.getType())) {
-                for (Page page : doc.getAdapter(SiteDocument.class).getSite().getAllPages(ctx.getCoreSession())) {
+                CoreSession session = ctx.getCoreSession();
+                for (Page page : doc.getAdapter(SiteDocument.class).getSite(session).getAllPages(session)) {
                     PageSubscription subscription = page.getDocument().getAdapter(PageSubscription.class);
                     if (subscription != null) {
                         subscription.unsubscribe(ctx.getPrincipal().getName());

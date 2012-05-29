@@ -1,9 +1,9 @@
 <#assign isPage =  This.activeAdapter.pageForPermissions />
 <#if !mySite??>
-	<#assign mySite = Common.siteDoc(Document).site />
+	<#assign mySite = Common.siteDoc(Document).getSite(Context.coreSession) />
 </#if>
 <#if !(isHomePage)??>
-	<#assign isHomePage = This.page?? && (mySite.homePageRef == This.page.document.id) />
+	<#assign isHomePage = This.page?? && (mySite.getHomePageRef(Context.coreSession) == This.page.document.id) />
 </#if>
 <section>
     <@displayPermTypeHeader permType='Everything' permsList=permissionsAdmin >

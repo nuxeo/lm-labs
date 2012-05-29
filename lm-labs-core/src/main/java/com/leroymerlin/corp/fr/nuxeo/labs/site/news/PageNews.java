@@ -35,5 +35,5 @@ public interface PageNews extends Page {
      * @return
      * @throws ClientException
      */
-    SyndFeed buildRssLabsNews(List<LabsNews> pLabsNews, String pPathBase, String pDefaultDescription) throws ClientException;
+    SyndFeed buildRssLabsNews(List<LabsNews> pLabsNews, String pPathBase, String pDefaultDescription, CoreSession session) throws ClientException;
 }

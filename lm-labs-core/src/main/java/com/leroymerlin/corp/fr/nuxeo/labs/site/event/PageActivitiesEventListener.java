@@ -66,6 +66,7 @@ public class PageActivitiesEventListener implements EventListener {
         }
         DocumentEventContext ctx = (DocumentEventContext) evt.getContext();
         DocumentModel doc = ctx.getSourceDocument();
+        CoreSession session = ctx.getCoreSession();
         if (doc != null) {
             List<String> allTypes = new ArrayList<String>();
             allTypes.addAll(markDocs);
@@ -84,25 +85,25 @@ public class PageActivitiesEventListener implements EventListener {
             }
             if (DocumentEventTypes.DOCUMENT_UPDATED.equals(eventName)) {
                 if (markDocs.contains(doc.getType())) {
-                    processed = Mark(doc);
+                    processed = Mark(doc, session);
                 } else if (markParentPageDocs.contains(doc.getType())
                         || markParentDocs.contains(doc.getType())
                         ) {
-                    processed = Mark(doc);
+                    processed = Mark(doc, session);
                 }
             } else if (DocumentEventTypes.DOCUMENT_CREATED.equals(eventName)) {
-                Page parentPage = doc.getAdapter(SiteDocument.class).getParentPage();
+                Page parentPage = doc.getAdapter(SiteDocument.class).getParentPage(session);
                 if (parentPage == null) {
                     return;
                 }
                 if (markParentPageDocs.contains(doc.getType())
                         || markParentDocs.contains(doc.getType())
                         ) {
-                    processed = Mark(doc);
+                    processed = Mark(doc, session);
                 }
             } else if (DocumentEventTypes.ABOUT_TO_REMOVE.equals(eventName)) {
                 try {
-                    Page parentPage = notificationService.getRelatedPage(doc);
+                    Page parentPage = notificationService.getRelatedPage(doc, session);
                     if (parentPage == null) {
                         return;
                     }
@@ -111,9 +112,9 @@ public class PageActivitiesEventListener implements EventListener {
                     return;
                 }
                 if (Docs.pageDocs().contains(Docs.fromString(doc.getType()))) {
-                    processed = notifyPage(doc, EventNames.PAGE_REMOVED);
+                    processed = notifyPage(doc, EventNames.PAGE_REMOVED, session);
                 } else {
-                    processed = Mark(doc);
+                    processed = Mark(doc, session);
 
                     // TODO
 //                  processed = notifyPage(doc, EventNames.PAGE_REMOVED);
@@ -129,12 +130,12 @@ public class PageActivitiesEventListener implements EventListener {
         }
     }
 
-    private boolean notifyPage(DocumentModel doc, String eventName) throws ClientException {
+    private boolean notifyPage(DocumentModel doc, String eventName, CoreSession session) throws ClientException {
         try {
-            if (!notificationService.canBeMarked(doc)) {
+            if (!notificationService.canBeMarked(doc, session)) {
                 return false;
             }
-            Page page = getPage(doc);
+            Page page = getPage(doc, session);
             notificationService.notifyPageEvent(page, eventName);
             return true;
         } catch (Exception e) {
@@ -143,25 +144,25 @@ public class PageActivitiesEventListener implements EventListener {
         return false;
     }
 
-    private boolean Mark(DocumentModel doc) throws ClientException {
+    private boolean Mark(DocumentModel doc, CoreSession session) throws ClientException {
         try {
-            if (!notificationService.canBeMarked(doc)) {
+            if (!notificationService.canBeMarked(doc, session)) {
                 return false;
             }
-            Page page = getPage(doc);
-            return setAstoBeNotified(page.getDocument());
+            Page page = getPage(doc, session);
+            return setAstoBeNotified(page.getDocument(), session);
         } catch (Exception e) {
             return false;
         }
     }
 
-    private Page getPage(DocumentModel doc) throws Exception {
-        return notificationService.getRelatedPage(doc);
+    private Page getPage(DocumentModel doc, CoreSession session) throws Exception {
+        return notificationService.getRelatedPage(doc, session);
     }
     
-    private boolean setAstoBeNotified(DocumentModel doc) throws ClientException {
+    private boolean setAstoBeNotified(DocumentModel doc, CoreSession session) throws ClientException {
         try {
-            doc.getAdapter(MailNotification.class).setAsToBeNotified();
+            doc.getAdapter(MailNotification.class).setAsToBeNotified(session);
             return true;
         } catch (Exception e) {
             LOG.error(e, e);
@@ -171,7 +172,7 @@ public class PageActivitiesEventListener implements EventListener {
 //            return false;
 //        }
 //        doc.getAdapter(MailNotification.class).setAsToBeNotified();
-//        doc.getCoreSession().saveDocument(doc);
+//        session.saveDocument(doc);
 //        return true;
     }
     
@@ -182,27 +183,28 @@ public class PageActivitiesEventListener implements EventListener {
         return notificationService;
     }
 
-    @Deprecated
-    private boolean MarkParent(DocumentModel doc) throws Exception {
-        Page page = getPage(doc);
+    @SuppressWarnings("unused")
+	@Deprecated
+    private boolean MarkParent(DocumentModel doc, CoreSession session) throws Exception {
+        Page page = getPage(doc, session);
         if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
             return false;
         }
-        CoreSession session = doc.getCoreSession();
         DocumentModel parentDocument = session.getParentDocument(doc.getRef());
-        setAstoBeNotified(parentDocument);
+        setAstoBeNotified(parentDocument, session);
         return true;
     }
 
-    @Deprecated
-    private boolean MarkParentPage(DocumentModel doc) throws Exception {
-        Page page = getPage(doc);
+    @SuppressWarnings("unused")
+	@Deprecated
+    private boolean MarkParentPage(DocumentModel doc, CoreSession session) throws Exception {
+        Page page = getPage(doc, session);
         if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
             return false;
         }
-        Page parentPage = doc.getAdapter(SiteDocument.class).getParentPage();
+        Page parentPage = doc.getAdapter(SiteDocument.class).getParentPage(session);
         if (parentPage != null) {
-            setAstoBeNotified(parentPage.getDocument());
+            setAstoBeNotified(parentPage.getDocument(), session);
             return true;
         }
         return false;

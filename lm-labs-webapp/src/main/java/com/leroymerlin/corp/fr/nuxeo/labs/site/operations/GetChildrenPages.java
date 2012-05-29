@@ -48,7 +48,7 @@ public class GetChildrenPages {
             throw new IllegalArgumentException("missing docId or docPath.");
         }
         SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
-        PageProvider<DocumentModel> pageProvider = new DocumentModelListPageProvider(siteDocument.getChildrenPageDocuments());
+        PageProvider<DocumentModel> pageProvider = new DocumentModelListPageProvider(siteDocument.getChildrenPageDocuments(session));
         if (pageSize != null) {
             pageProvider.setPageSize(targetPageSize);
         }

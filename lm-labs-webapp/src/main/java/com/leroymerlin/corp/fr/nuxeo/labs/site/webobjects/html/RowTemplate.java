@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
@@ -42,7 +43,7 @@ public enum RowTemplate {
 	 * @throws ClientException
 	 */
 	@Deprecated
-	public static void initRow(HtmlRow row, RowTemplate template) throws ClientException {
+	public static void initRow(HtmlRow row, RowTemplate template, CoreSession session) throws ClientException {
 		for (HtmlContent content : row.getContents()) {
 			content.remove();
 		}
@@ -51,38 +52,38 @@ public enum RowTemplate {
 		switch (template) {
 
 		case R2COL_5050:
-            row.addContent(8, NO_CONTENT);
-            row.addContent(8, NO_CONTENT);
+            row.addContent(8, NO_CONTENT, session);
+            row.addContent(8, NO_CONTENT, session);
             break;
 		case R2COL_2575:
-			row.addContent(4, NO_CONTENT);
-			row.addContent(12, NO_CONTENT);
+			row.addContent(4, NO_CONTENT, session);
+			row.addContent(12, NO_CONTENT, session);
 			break;
 		case R2COL_7525:
-			row.addContent(12, NO_CONTENT);
-			row.addContent(4, NO_CONTENT);
+			row.addContent(12, NO_CONTENT, session);
+			row.addContent(4, NO_CONTENT, session);
 			break;
 		case R2COL_3366:
-			row.addContent(5, NO_CONTENT);
-			row.addContent(11, NO_CONTENT);
+			row.addContent(5, NO_CONTENT, session);
+			row.addContent(11, NO_CONTENT, session);
 			break;
 		case R2COL_6633:
-			row.addContent(11, NO_CONTENT);
-			row.addContent(5, NO_CONTENT);
+			row.addContent(11, NO_CONTENT, session);
+			row.addContent(5, NO_CONTENT, session);
 			break;
 		case R3COL:
-			row.addContent(333, NO_CONTENT);
-			row.addContent(333, NO_CONTENT);
-			row.addContent(333, NO_CONTENT);
+			row.addContent(333, NO_CONTENT, session);
+			row.addContent(333, NO_CONTENT, session);
+			row.addContent(333, NO_CONTENT, session);
 			break;
 		case R4COL:
-			row.addContent(4, NO_CONTENT);
-			row.addContent(4, NO_CONTENT);
-			row.addContent(4, NO_CONTENT);
-			row.addContent(4, NO_CONTENT);
+			row.addContent(4, NO_CONTENT, session);
+			row.addContent(4, NO_CONTENT, session);
+			row.addContent(4, NO_CONTENT, session);
+			row.addContent(4, NO_CONTENT, session);
 			break;
 		default:
-			row.addContent(16, NO_CONTENT);
+			row.addContent(16, NO_CONTENT, session);
 			break;
 		}
 

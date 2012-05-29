@@ -28,7 +28,7 @@ public class PageNewsRepositoryInit extends OfmRepositoryInit {
         DocumentModel news = session.createDocumentModel(pageNews.getPathAsString(), NEWS_TITLE_OF_DOC, LabsSiteConstants.Docs.LABSNEWS.type());
         LabsNews newsAdapter = news.getAdapter(LabsNews.class);
         newsAdapter.setContent("labsNewsContent<br />Passage à la ligne");
-        newsAdapter.setTitle(LABS_NEWS_TITLE);
+        newsAdapter.setTitle(LABS_NEWS_TITLE, session);
         newsAdapter.setStartPublication(Calendar.getInstance());
         session.createDocument(news);
         session.save();

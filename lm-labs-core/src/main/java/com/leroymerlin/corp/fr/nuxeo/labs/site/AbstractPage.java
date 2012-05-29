@@ -39,7 +39,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
 
     @Override
     public String getPath(CoreSession session) throws ClientException {
-        LabsSite site = getSite();
+        LabsSite site = getSite(session);
         if (site == null) {
             throw new IllegalArgumentException(THIS_PAGE_IS_NOT_IN_A_LABS_SITE);
         }
@@ -48,8 +48,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
                         .getPathAsString(), "");
     }
 
-    private LabsSite getSite() throws ClientException {
-        CoreSession session = doc.getCoreSession();
+    private LabsSite getSite(CoreSession session) throws ClientException {
         DocumentModel parentDoc = doc;
         while (parentDoc != null && !parentDoc.getType()
                 .equals(Docs.SITE.type())) {
@@ -85,9 +84,9 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     }
 
     @Override
-    public Calendar getLastNotified() throws ClientException {
+    public Calendar getLastNotified(CoreSession session) throws ClientException {
         try {
-            return doc.getAdapter(MailNotification.class).getLastNotified();
+            return doc.getAdapter(MailNotification.class).getLastNotified(session);
         } catch (Exception e) {
             return null;
         }

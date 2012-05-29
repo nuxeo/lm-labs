@@ -56,12 +56,12 @@ public class LabsGadgetService extends DefaultComponent implements LabsGadgetMan
             }
             docGadget = session.createDocument(docGadget);
             session.save();
-            content.setType("widgetcontainer");
-            content.addWidgetRef(docGadget.getRef().toString());
+            content.setType("widgetcontainer", session);
+            content.addWidgetRef(docGadget.getRef().toString(), session);
             return docGadget.getRef().toString();
         } else if (WidgetType.HTML.equals(widget.getType())) {
-            content.setType("widgetcontainer");
-            content.addWidgetRef(widget.getName());
+            content.setType("widgetcontainer", session);
+            content.addWidgetRef(widget.getName(), session);
             return widget.getName();
         }
         return null;
@@ -80,10 +80,10 @@ public class LabsGadgetService extends DefaultComponent implements LabsGadgetMan
                     removed = true;
                     String ref = ((LabsOpensocialGadget) widget).getDoc().getRef().toString();
                     session.removeDocument(((LabsOpensocialGadget) widget).getDoc().getRef());
-                    content.removeWidgetRef(ref);
+                    content.removeWidgetRef(ref, session);
                 } else if (widget instanceof LabsHtmlWidget) {
                     removed = true;
-                    content.removeWidgetRef(widget.getName());
+                    content.removeWidgetRef(widget.getName(), session);
                 }
                 if (removed) {
                 }

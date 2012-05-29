@@ -1,10 +1,10 @@
 <#if This.type.name != "sitesRoot" && !mySite?? >
-	<#assign mySite=Common.siteDoc(Document).site />
+	<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 </#if>
-<#assign siteContributor = mySite?? && mySite.isContributor(Context.principal.name) />
-<#assign siteAdministrator = mySite?? && mySite.isAdministrator(Context.principal.name) />
+<#assign siteContributor = mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) />
+<#assign siteAdministrator = mySite?? && mySite.isAdministrator(Context.principal.name, Context.coreSession) />
 	<script type="text/javascript">
-<#if siteContributor || (This.page != null && This.page.isContributor(Context.principal.name)) >
+<#if siteContributor || (This.page != null && This.page.isContributor(Context.principal.name, Context.coreSession)) >
 		
 		var IS_MODE_EDITION = true;
 		var pathCookie = '${Context.modulePath}/${mySite.URL}';

@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
@@ -15,19 +16,19 @@ public interface PageNotificationService {
     public static final String PROPERTY_TONOTIFY = "mailnotif:tonotify";
     public static final String PROPERTY_NOTIFIED = "mailnotif:notified";
 
-    public boolean markForNotification(DocumentModel doc) throws ClientException;
+    public boolean markForNotification(DocumentModel doc, CoreSession session) throws ClientException;
     
     public void notifyPagesOfSite(DocumentModel site) throws ClientException;
     
-    public boolean notifyPage(Page page) throws ClientException;
+    public boolean notifyPage(Page page, CoreSession session) throws ClientException;
     
     public boolean notifyPageEvent(Page page, String eventName) throws ClientException;
     
     public void notifyPageNews(PageNews pageNews, List<DocumentModel> newsList) throws Exception;
 
-    boolean canBeMarked(DocumentModel doc) throws ClientException;
+    boolean canBeMarked(DocumentModel doc, CoreSession session) throws ClientException;
 
-    Page getRelatedPage(DocumentModel doc) throws ClientException;
+    Page getRelatedPage(DocumentModel doc, CoreSession session) throws ClientException;
 
 //    public void unmarkForNotification(DocumentModel page, CoreSession session) throws ClientException;
     
@@ -35,5 +36,5 @@ public interface PageNotificationService {
 
 //    void fireEvent(Page page, String eventName) throws Exception;
     
-    public Calendar getLastNotified(DocumentModel doc) throws ClientException, PropertyException;
+    public Calendar getLastNotified(DocumentModel doc, CoreSession session) throws ClientException, PropertyException;
 }

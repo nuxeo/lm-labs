@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 
 public class HtmlSectionImpl implements HtmlSection {
 
@@ -34,45 +35,52 @@ public class HtmlSectionImpl implements HtmlSection {
         return innerMap;
     }
 
-    public void setTitle(String title) throws ClientException {
+    @Override
+    public void setTitle(String title, CoreSession session) throws ClientException {
         innerMap.put(TITLE_KEY, title);
-        parent.onChange(this);
+        parent.onChange(this, session);
 
     }
 
-    public void setDescription(String description) throws ClientException {
+    @Override
+    public void setDescription(String description, CoreSession session) throws ClientException {
         innerMap.put(DESCRIPTION_KEY, description);
-        parent.onChange(this);
+        parent.onChange(this, session);
     }
 
+    @Override
     public String getTitle() {
         return innerMap.containsKey(TITLE_KEY) ? (String) innerMap
                 .get(TITLE_KEY) : null;
     }
 
+    @Override
     public String getDescription() {
         return innerMap.containsKey(DESCRIPTION_KEY) ? (String) innerMap
                 .get(DESCRIPTION_KEY) : null;
     }
 
-    public HtmlRow addRow() throws ClientException {
+    @Override
+    public HtmlRow addRow(CoreSession session) throws ClientException {
         HtmlRow row = new HtmlRow(this);
-        getRows().add(row);
-        update();
-        parent.onChange(this);
+        getRows(session).add(row);
+        update(session);
+        parent.onChange(this, session);
         return row;
     }
 
-    public void update() throws ClientException {
+    
+    private void update(CoreSession session) throws ClientException {
         List<Serializable> rowsMap = new ArrayList<Serializable>();
-        for (HtmlRow row : getRows()) {
+        for (HtmlRow row : getRows(session)) {
             rowsMap.add((Serializable) row.toMap());
         }
         innerMap.put("rows", (Serializable) rowsMap);
-        parent.onChange(this);
+        parent.onChange(this, session);
     }
 
-    public List<HtmlRow> getRows() {
+    @Override
+    public List<HtmlRow> getRows(CoreSession session) {
 
         if (rows == null) {
             rows = new ArrayList<HtmlRow>();
@@ -91,46 +99,51 @@ public class HtmlSectionImpl implements HtmlSection {
 
     }
 
-    public HtmlRow row(int index) {
-        return getRows().get(index);
+    @Override
+    public HtmlRow row(int index, CoreSession session) {
+        return getRows(session).get(index);
     }
 
+    @Override
     public HtmlSection insertBefore() throws ClientException {
         return ((HtmlPageImpl)parent).addSectionBefore(this);
     }
 
+    @Override
     public void remove() throws ClientException {
         ((HtmlPageImpl)parent).removeSection(this);
 
     }
 
-    public HtmlRow insertBefore(HtmlRow htmlRow) throws ClientException {
-        List<HtmlRow> rows = getRows();
+    @Override
+    public HtmlRow insertBefore(HtmlRow htmlRow, CoreSession session) throws ClientException {
+        List<HtmlRow> rows = getRows(session);
         HtmlRow row = new HtmlRow(this);
         rows.add(rows.indexOf(htmlRow), row);
-        update();
+        update(session);
         return row;
 
     }
 
-    public void remove(HtmlRow row) throws ClientException {
-        getRows().remove(row);
-        update();
+    @Override
+    public void remove(HtmlRow row, CoreSession session) throws ClientException {
+        getRows(session).remove(row);
+        update(session);
     }
 
     @Override
-    public void onChange(Object obj) throws ClientException {
-        update();
+    public void onChange(Object obj, CoreSession session) throws ClientException {
+        update(session);
 
     }
 
     @Override
-    public HtmlRow addRow(String cssClass) throws ClientException {
+    public HtmlRow addRow(String cssClass, CoreSession session) throws ClientException {
 
             HtmlRow row = new HtmlRow(this,cssClass);
-            getRows().add(row);
-            update();
-            parent.onChange(this);
+            getRows(session).add(row);
+            update(session);
+            parent.onChange(this, session);
             return row;
     }
 

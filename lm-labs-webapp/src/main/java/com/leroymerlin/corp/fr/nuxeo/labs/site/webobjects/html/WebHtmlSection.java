@@ -1,7 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html;
 
 import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
@@ -51,18 +50,19 @@ public class WebHtmlSection extends DocumentObject {
     @Override
     public Response doPost() {
         FormData form = ctx.getForm();
+        CoreSession session = ctx.getCoreSession();
         try {
             String cssClass = form.getString("cssClass");
-            HtmlRow row = section.addRow(cssClass);
+            HtmlRow row = section.addRow(cssClass, session);
             String rowTemplate = form.getString("rowTemplate");
-            row.initTemplate(rowTemplate);
+            row.initTemplate(rowTemplate, session);
 
             saveDocument();
         } catch (ClientException e) {
             throw WebException.wrap(
                     FAILED_TO_POST_SECTION + doc.getPathAsString(), e);
         }
-        return redirect(prev.getPath() + "#row_s" + sectionIndex + "_r" + (section.getRows().size() - 1));
+        return redirect(prev.getPath() + "#row_s" + sectionIndex + "_r" + (section.getRows(session).size() - 1));
     }
 
     @Override
@@ -71,10 +71,9 @@ public class WebHtmlSection extends DocumentObject {
         String title = form.getString("title");
         String description = form.getString("description");
         try {
-            section.setTitle(title);
-            section.setDescription(description);
-//            saveDocument();
             CoreSession session = ctx.getCoreSession();
+            section.setTitle(title, session);
+            section.setDescription(description, session);
             session.saveDocument(doc);
         } catch (ClientException e) {
             throw WebException.wrap(
@@ -86,7 +85,7 @@ public class WebHtmlSection extends DocumentObject {
 
     @Path("r/{index}")
     public Object getRow(@PathParam("index") int rowIndex) {
-        HtmlRow row = section.row(rowIndex);
+        HtmlRow row = section.row(rowIndex, ctx.getCoreSession());
         return newObject("HtmlRow", doc, row);
     }
 

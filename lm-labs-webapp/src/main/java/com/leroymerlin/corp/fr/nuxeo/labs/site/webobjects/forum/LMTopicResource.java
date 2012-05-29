@@ -113,7 +113,7 @@ private static final Log log = LogFactory.getLog(LMTopicResource.class);
     public boolean hide(DocumentModel file) throws ClientException {
         if (!file.getFacets().contains(FacetNames.LABSHIDDEN)) {
             file.addFacet(FacetNames.LABSHIDDEN);
-            doc.getCoreSession().saveDocument(file);
+            ctx.getCoreSession().saveDocument(file);
             return true;
         }
         return false;
@@ -122,7 +122,7 @@ private static final Log log = LogFactory.getLog(LMTopicResource.class);
     public boolean show(DocumentModel file) throws ClientException {
         if (file.getFacets().contains(FacetNames.LABSHIDDEN)) {
             file.removeFacet(FacetNames.LABSHIDDEN);
-            doc.getCoreSession().saveDocument(file);
+            ctx.getCoreSession().saveDocument(file);
             return true;
         }
         return false;

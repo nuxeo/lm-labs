@@ -116,8 +116,8 @@ public class HtmlDocTest {
         HtmlPage page = createApageWithSections();
 
         HtmlSection section = page.getSections().get(0);
-        section.setTitle("Mon titre de section");
-        section.setDescription("Ma description");
+        section.setTitle("Mon titre de section", session);
+        section.setDescription("Ma description", session);
 
         assertThat(section.getTitle(), is("Mon titre de section"));
         assertThat(section.getDescription(), is("Ma description"));
@@ -139,10 +139,10 @@ public class HtmlDocTest {
 
         HtmlSection section = page.getSections().get(0);
 
-        assertThat(section.getRows(), is(notNullValue()));
-        assertThat(section.getRows().size(),is(0));
-        section.addRow();
-        assertThat(section.getRows().size(),is(1));
+        assertThat(section.getRows(session), is(notNullValue()));
+        assertThat(section.getRows(session).size(),is(0));
+        section.addRow(session);
+        assertThat(section.getRows(session).size(),is(1));
 
         session.saveDocument(page.getDocument());
         session.save();
@@ -151,7 +151,7 @@ public class HtmlDocTest {
         page = retrieveTestPage();
 
         section = page.getSections().get(0);
-        List<HtmlRow> rows = section.getRows();
+        List<HtmlRow> rows = section.getRows(session);
         assertThat(rows.size(),is(1));
 
     }
@@ -160,11 +160,11 @@ public class HtmlDocTest {
     public void rowsHaveContent() throws Exception {
         HtmlPage page = createApageWithSectionsAndRow();
         HtmlSection section = page.getSections().get(0);
-        HtmlRow row = section.getRows().get(0);
+        HtmlRow row = section.getRows(session).get(0);
 
-        row.addContent(4, "My Content 1");
-        row.addContent(6, "My Content 2");
-        row.addContent(6, "My Content 3");
+        row.addContent(4, "My Content 1", session);
+        row.addContent(6, "My Content 2", session);
+        row.addContent(6, "My Content 3", session);
 
         assertThat(row.getContents().size(),is(3));
 
@@ -172,7 +172,7 @@ public class HtmlDocTest {
         session.save();
 
         page = retrieveTestPage();
-        row = page.getSections().get(0).getRows().get(0);
+        row = page.getSections().get(0).getRows(session).get(0);
         assertThat(row.getContents().size(),is(3));
 
         HtmlContent content = row.getContents().get(0);
@@ -186,10 +186,10 @@ public class HtmlDocTest {
         HtmlPage page = createApageWithSections();
         HtmlSection section = page.getSections().get(0);
 
-        HtmlRow row = section.addRow();
+        HtmlRow row = section.addRow(session);
         assertThat(row.getCssClass(),is(nullValue()));
 
-        row = section.addRow("acssclass");
+        row = section.addRow("acssclass", session);
         assertThat(row.getCssClass(),is("acssclass"));
 
         session.saveDocument(page.getDocument());
@@ -197,8 +197,8 @@ public class HtmlDocTest {
 
         page = retrieveTestPage();
         section = page.getSections().get(0);
-        assertThat(section.row(0).getCssClass(),is(nullValue()));
-        assertThat(section.row(1).getCssClass(),is("acssclass"));
+        assertThat(section.row(0, session).getCssClass(),is(nullValue()));
+        assertThat(section.row(1, session).getCssClass(),is("acssclass"));
     }
 
     @Test
@@ -206,11 +206,11 @@ public class HtmlDocTest {
         HtmlPage page = createApageWithSections();
         HtmlSection section = page.getSections().get(0);
 
-        HtmlRow row = section.addRow();
+        HtmlRow row = section.addRow(session);
         assertThat(row.getCssClass(),is(nullValue()));
 
-        row = section.addRow();
-        row.setCssClass("acssclass1");
+        row = section.addRow(session);
+        row.setCssClass("acssclass1", session);
         assertThat(row.getCssClass(),is("acssclass1"));
 
         session.saveDocument(page.getDocument());
@@ -218,8 +218,8 @@ public class HtmlDocTest {
 
         page = retrieveTestPage();
         section = page.getSections().get(0);
-        assertThat(section.row(0).getCssClass(),is(nullValue()));
-        assertThat(section.row(1).getCssClass(),is("acssclass1"));
+        assertThat(section.row(0, session).getCssClass(),is(nullValue()));
+        assertThat(section.row(1, session).getCssClass(),is("acssclass1"));
     }
 
     @Test
@@ -252,7 +252,7 @@ public class HtmlDocTest {
 
     private HtmlPage createApageWithSectionsAndRow() throws ClientException {
         HtmlPage page = createApageWithSections();
-        page.getSections().get(0).addRow();
+        page.getSections().get(0).addRow(session);
         return page;
     }
 

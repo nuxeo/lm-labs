@@ -55,7 +55,7 @@ public class WebHtmlRow extends DocumentObject {
         FormData form = ctx.getForm();
         String cssName = form.getString("cssName");
         try {
-            row.setCssClass(cssName);
+            row.setCssClass(cssName, ctx.getCoreSession());
             saveDocument();
         } catch (ClientException e) {
             throw WebException.wrap(
@@ -68,7 +68,7 @@ public class WebHtmlRow extends DocumentObject {
     @Override
     public Response doDelete() {
         try {
-            row.remove();
+            row.remove(ctx.getCoreSession());
 
             saveDocument();
         } catch (Exception e) {
@@ -130,7 +130,7 @@ public class WebHtmlRow extends DocumentObject {
                     if (!gadgets.isEmpty()) {
                         content.removeGadgets(getCoreSession());
                     }
-                    content.setType(HtmlContent.Type.HTML.type());
+                    content.setType(HtmlContent.Type.HTML.type(), ctx.getCoreSession());
                     saveDocument();
                 } catch (ClientException e) {
                     LOG.error(e, e);

@@ -37,7 +37,7 @@ public class LMForumImpl extends AbstractPage implements LMForum {
         //add read write for the user 
         final DocumentRef ref = docTopic.getRef();
         final String user =  session.getPrincipal().getName();
-        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(doc.getCoreSession()){
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
             @Override
             public void run() throws ClientException {
                 DocumentModel docu = session.getDocument(ref);

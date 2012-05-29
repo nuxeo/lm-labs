@@ -1,6 +1,6 @@
-<#assign mySite=Common.siteDoc(Document).site />
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
-  <#assign isAuthorized = This.page?? && This.page.isContributor(Context.principal.name)>
+<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName(Context.coreSession) + "/template.ftl">
+  <#assign isAuthorized = This.page?? && This.page.isContributor(Context.principal.name, Context.coreSession)>
 
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 

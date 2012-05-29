@@ -33,14 +33,14 @@ public class SiteDocumentAdapterTest {
         assertNotNull(treeDocument);
         SiteDocument tree = treeDocument.getAdapter(SiteDocument.class);
         assertNotNull(tree);
-        DocumentModelList childrenPageDocuments = tree.getChildrenPageDocuments();
+        DocumentModelList childrenPageDocuments = tree.getChildrenPageDocuments(session);
         assertEquals(2, childrenPageDocuments.size());
-        assertEquals(tree.getChildrenPages().size(), childrenPageDocuments.size());
+        assertEquals(tree.getChildrenPages(session).size(), childrenPageDocuments.size());
         DocumentModel pageDoc = childrenPageDocuments.get(0);
         SiteDocument page = pageDoc.getAdapter(SiteDocument.class);
         assertNotNull(page);
-        assertTrue(page.getChildrenPageDocuments().isEmpty());
-        assertTrue(page.getChildrenPages().isEmpty());
+        assertTrue(page.getChildrenPageDocuments(session).isEmpty());
+        assertTrue(page.getChildrenPages(session).isEmpty());
     }
 
     protected SiteManager getSiteManager() {

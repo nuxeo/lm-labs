@@ -71,7 +71,7 @@ public class NewsAdapterTest {
 
         LabsNews news = doc.getAdapter(LabsNews.class);
         assertThat(news,is(notNullValue()));
-        news.setTitle("Le titre de la news");
+        news.setTitle("Le titre de la news", session);
 
         //Persist document in db
         doc = session.createDocument(doc);
@@ -95,7 +95,7 @@ public class NewsAdapterTest {
 
         LabsNews news = doc.getAdapter(LabsNews.class);
         assertThat(news,is(notNullValue()));
-        news.setTitle("Le titre de la news");
+        news.setTitle("Le titre de la news", session);
         news.setAccroche("Accroche");
         news.setContent("Content");
         Calendar start = Calendar.getInstance();
@@ -151,7 +151,7 @@ public class NewsAdapterTest {
 
         LabsNews news = doc.getAdapter(LabsNews.class);
         assertThat(news,is(notNullValue()));
-        news.setTitle("Le titre de la news");
+        news.setTitle("Le titre de la news", session);
         news.setAccroche("Accroche");
         news.setContent("Content");
         Calendar start = Calendar.getInstance();
@@ -180,34 +180,34 @@ public class NewsAdapterTest {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
         LabsNews news = doc.getAdapter(LabsNews.class);
 
-        assertThat(news.getRows().size(),is(0));
+        assertThat(news.getRows(session).size(),is(0));
 
-        HtmlRow row = news.addRow();
-        row.addContent(4, "picture");
-        row.addContent(12, "content");
+        HtmlRow row = news.addRow(session);
+        row.addContent(4, "picture", session);
+        row.addContent(12, "content", session);
 
         doc = session.createDocument(doc);
 
 
         doc = session.getDocument(new PathRef("/myNews"));
         news = doc.getAdapter(LabsNews.class);
-        assertThat(news.getRows().size(),is(1));
-        assertThat(news.row(0).content(0).getHtml(), is("picture"));
-        assertThat(news.row(0).content(1).getHtml(), is("content"));
+        assertThat(news.getRows(session).size(),is(1));
+        assertThat(news.row(0, session).content(0).getHtml(), is("picture"));
+        assertThat(news.row(0, session).content(1).getHtml(), is("content"));
 
-        row = news.addRow();
-        row.addContent(12, "content");
-        row.addContent(4, "picture");
+        row = news.addRow(session);
+        row.addContent(12, "content", session);
+        row.addContent(4, "picture", session);
         doc = session.saveDocument(doc);
 
 
         doc = session.getDocument(new PathRef("/myNews"));
         news = doc.getAdapter(LabsNews.class);
-        assertThat(news.getRows().size(),is(2));
-        assertThat(news.row(0).content(0).getHtml(), is("picture"));
-        assertThat(news.row(0).content(1).getHtml(), is("content"));
-        assertThat(news.row(1).content(0).getHtml(), is("content"));
-        assertThat(news.row(1).content(1).getHtml(), is("picture"));
+        assertThat(news.getRows(session).size(),is(2));
+        assertThat(news.row(0, session).content(0).getHtml(), is("picture"));
+        assertThat(news.row(0, session).content(1).getHtml(), is("content"));
+        assertThat(news.row(1, session).content(0).getHtml(), is("content"));
+        assertThat(news.row(1, session).content(1).getHtml(), is("picture"));
 
     }
     
@@ -215,7 +215,7 @@ public class NewsAdapterTest {
     public void iCanGetLabsNewsBolbHolder() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
         LabsNews news = doc.getAdapter(LabsNews.class);
-        news.setTitle("le titre");
+        news.setTitle("le titre", session);
         doc = session.createDocument(news.getDocumentModel());
         session.save();
 
@@ -228,7 +228,7 @@ public class NewsAdapterTest {
     public void iCanSetOriginalPicture() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
         LabsNews news = doc.getAdapter(LabsNews.class);
-        news.setTitle("le titre");
+        news.setTitle("le titre", session);
         news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/vision.jpg"), "image/jpeg", null,"vision.jpg", null));
         news.setSummaryPicture( new FileBlob(getFileFromPath("labsNewsImg/gastro.png"), "image/png", null,"gastro.png", null));
         doc = session.createDocument(news.getDocumentModel());
@@ -250,7 +250,7 @@ public class NewsAdapterTest {
     public void iCanSetCropCoordsPicture() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
         LabsNews news = doc.getAdapter(LabsNews.class);
-        news.setTitle("le titre");
+        news.setTitle("le titre", session);
         news.setCropCoords("testCoordonées");
         doc = session.createDocument(news.getDocumentModel());
         session.save();
@@ -264,7 +264,7 @@ public class NewsAdapterTest {
     public void iCanAddAccordeonPictures() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
         LabsNews news = doc.getAdapter(LabsNews.class);
-        news.setTitle("le titre");
+        news.setTitle("le titre", session);
         
         List<Blob> blobs = new ArrayList<Blob>();
         blobs.add(new FileBlob(getFileFromPath("labsNewsImg/banniere.jpg"), "image/jpeg", null,"banniere.jpg", null));
@@ -283,7 +283,7 @@ public class NewsAdapterTest {
     public void iCanSetAccordeonPictures() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
         LabsNews news = doc.getAdapter(LabsNews.class);
-        news.setTitle("le titre");
+        news.setTitle("le titre", session);
         
         List<Blob> blobs = new ArrayList<Blob>();
         blobs.add(new FileBlob(getFileFromPath("labsNewsImg/banniere.jpg"), "image/jpeg", null,"banniere.jpg", null));
@@ -315,7 +315,7 @@ public class NewsAdapterTest {
         //TODO
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
         LabsNews news = doc.getAdapter(LabsNews.class);
-        news.setTitle("le titre");
+        news.setTitle("le titre", session);
         //news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/vision.jpg"), "image/jpeg", null,"vision.jpg", null));
         news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/gastro.png"), "image/png", null,"gastro.png", null));
         

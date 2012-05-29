@@ -106,13 +106,13 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public Blob getBanner() throws ClientException {
-        return doc.getAdapter(LabsSite.class).getThemeManager().getTheme().getBanner();
+    public Blob getBanner(CoreSession session) throws ClientException {
+        return doc.getAdapter(LabsSite.class).getThemeManager().getTheme(session).getBanner();
     }
 
     @Override
     public void setBanner(Blob pBlob, CoreSession session) throws ClientException {
-        SiteTheme theme = doc.getAdapter(LabsSite.class).getThemeManager().getTheme();
+        SiteTheme theme = doc.getAdapter(LabsSite.class).getThemeManager().getTheme(session);
         if (pBlob == null) {
             theme.setBanner(null);
             session.saveDocument(theme.getDocument());
@@ -176,7 +176,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public DocumentModelList getAllDeletedDocs(CoreSession session) throws ClientException {
+    public DocumentModelList getAllDeletedDocs(final CoreSession session) throws ClientException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM Document").append(" WHERE ").append(
                 NXQL.ECM_LIFECYCLESTATE).append(" = '").append(
@@ -195,7 +195,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                         } else if (Docs.PAGECLASSEURFOLDER.type().equals(
                                 arg0.getType())) {
                             try {
-                                DocumentModel parent = arg0.getCoreSession().getParentDocument(
+                                DocumentModel parent = session.getParentDocument(
                                         arg0.getRef());
                                 if (Docs.PAGECLASSEUR.type().equals(
                                         parent.getType())) {
@@ -207,9 +207,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                             return false;
                         } else {
                             try {
-                                DocumentModel parent = arg0.getCoreSession().getParentDocument(
+                                DocumentModel parent = session.getParentDocument(
                                         arg0.getRef());
-                                DocumentModel grandParent = arg0.getCoreSession().getDocument(
+                                DocumentModel grandParent = session.getDocument(
                                         parent.getParentRef());
                                 return Docs.PAGECLASSEURFOLDER.type().equals(
                                         parent.getType())
@@ -279,7 +279,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         }
         if (welcome == null){
             LOG.warn("No setted home page for site '" + getURL());
-            DocumentModelList list = LabsSiteUtils.getChildrenPageDocuments(getTree(session));
+            DocumentModelList list = LabsSiteUtils.getChildrenPageDocuments(getTree(session), session);
             if (list.isEmpty()){
                 LOG.error("Unable to get home page for site '" + getURL());
                 throw new HomePageException("Unable to get home page for site '" + getURL());
@@ -321,7 +321,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                 " <> 'HiddenInNavigation'");
         query.append(" ORDER BY dc:modified DESC");
 
-        final DocUnderVisiblePageFilter docUnderVisiblePageFilter = new DocUnderVisiblePageFilter();
+        final DocUnderVisiblePageFilter docUnderVisiblePageFilter = new DocUnderVisiblePageFilter(session);
         return session.query(query.toString(), new Filter() {
             private static final long serialVersionUID = 1L;
 
@@ -344,7 +344,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(
                 " <> 'HiddenInNavigation'");
 
-        final DocUnderVisiblePageFilter docUnderVisiblePageFilter = new DocUnderVisiblePageFilter();
+        final DocUnderVisiblePageFilter docUnderVisiblePageFilter = new DocUnderVisiblePageFilter(session);
         return session.query(query.toString(), new Filter() {
             private static final long serialVersionUID = 1L;
 
@@ -364,7 +364,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             DocumentModel folder = session.getDocument(
                     new PathRef(doc.getPathAsString() + "/"
                             + Docs.EXTERNAL_URLS.docName()));
-            DocumentModelList listDoc = doc.getCoreSession().getChildren(
+            DocumentModelList listDoc = session.getChildren(
                     folder.getRef(),
                     LabsSiteConstants.Docs.EXTERNAL_URL.type(), null, null,
                     null);
@@ -441,13 +441,13 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             if (Docs.HTMLPAGE.type().equals(document.getType())) {
                 HtmlPage htmlPage = document.getAdapter(HtmlPage.class);
                 for (HtmlSection section : htmlPage.getSections()) {
-                    if(processRows(section.getRows(), oldUrl, newUrl)){
+                    if(processRows(section.getRows(session), oldUrl, newUrl, session)){
                         updated = true;
                     }
                 }
             } else { // LabsNews
                 LabsNews news = document.getAdapter(LabsNews.class);
-                updated = processRows(news.getRows(), oldUrl, newUrl);
+                updated = processRows(news.getRows(session), oldUrl, newUrl, session);
             }
             if (updated) {
                 session.saveDocument(document);
@@ -457,7 +457,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         return anyUpdated;
     }
 
-    private boolean processRows(List<HtmlRow> rows, String oldUrl, String newUrl)
+    private boolean processRows(List<HtmlRow> rows, String oldUrl, String newUrl, CoreSession session)
             throws ClientException {
         boolean updated = false;
         for (HtmlRow row : rows) {
@@ -465,7 +465,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                 String html = content.getHtml();
                 if (html.contains(oldUrl)) {
                     html = StringUtils.replace(html, oldUrl, newUrl);
-                    content.setHtml(html);
+                    content.setHtml(html, session);
                     updated = true;
                 }
             }
@@ -505,10 +505,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public boolean addContact(String ldap) throws Exception {
+    public boolean addContact(String ldap, CoreSession session) throws Exception {
         List<String> contacts = getContacts();
         if (!contacts.contains(ldap)) {
-            CoreSession session = getDocument().getCoreSession();
             DocumentModel doc = getDocument();
             contacts.add(ldap);
             doc.setPropertyValue(PROPERTY_CONTACTS, (Serializable) contacts);
@@ -520,10 +519,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public boolean deleteContact(String ldap) throws Exception {
+    public boolean deleteContact(String ldap, CoreSession session) throws Exception {
         List<String> contacts = getContacts();
         if (contacts.contains(ldap)) {
-            CoreSession session = getDocument().getCoreSession();
             DocumentModel doc = getDocument();
             contacts.remove(ldap);
             doc.setPropertyValue(PROPERTY_CONTACTS, (Serializable) contacts);
@@ -596,7 +594,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                     setHomePageRef(session.getDocument(
                             new PathRef(indexPath.toString())).getId());
                     setThemeName(templateThemeName);
-                    getTemplate().setTemplateName(labsSiteTemplate.getTemplate().getTemplateName());
+                    getTemplate().setTemplateName(labsSiteTemplate.getTemplate().getTemplateName(session));
                     // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.4.2-HF15
                     copyFacetSchemas(doc, templateSite, session);
 

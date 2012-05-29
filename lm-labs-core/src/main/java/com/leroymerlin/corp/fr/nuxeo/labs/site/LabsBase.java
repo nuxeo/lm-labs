@@ -21,7 +21,7 @@ public interface LabsBase {
 
     public String[] getAllowedSubtypes(CoreSession session) throws ClientException;
     
-    boolean isAuthorizedToDisplay() throws ClientException;
+    boolean isAuthorizedToDisplay(CoreSession session) throws ClientException;
     
     boolean isDeleted() throws ClientException;
     
@@ -33,7 +33,7 @@ public interface LabsBase {
     
     boolean isDraft() throws ClientException;
     
-    boolean isAdministrator(String userName) throws ClientException;
+    boolean isAdministrator(String userName, CoreSession session) throws ClientException;
     
-    boolean isContributor(String userName) throws ClientException;
+    boolean isContributor(String userName, CoreSession session) throws ClientException;
 }

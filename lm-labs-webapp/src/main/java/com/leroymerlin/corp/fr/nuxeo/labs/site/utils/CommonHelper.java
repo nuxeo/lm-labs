@@ -78,12 +78,12 @@ public final class CommonHelper {
     public static final List<Page> getTopNavigationPages(DocumentModel siteDoc,
             final String userName) throws ClientException {
         List<Page> pages = new ArrayList<Page>();
-        LabsSite site = siteDoc(siteDoc).getSite();
-        CoreSession session = getCoreSession();
-        Collection<Page> allTopPages = siteDoc(site.getTree(session)).getChildrenPages();
+        final CoreSession session = getCoreSession();
+        LabsSite site = siteDoc(siteDoc).getSite(session);
+        Collection<Page> allTopPages = siteDoc(site.getTree(session)).getChildrenPages(session);
         final DocumentModel homePageDoc = site.getIndexDocument(session);
         Page homePage = homePageDoc.getAdapter(Page.class);
-        if (!site.isAdministrator(userName)) {
+        if (!site.isAdministrator(userName, session)) {
             if (homePage.isVisible() && !homePage.isDeleted()) {
                 pages.add(homePage);
             }
@@ -96,7 +96,7 @@ public final class CommonHelper {
                     }
                     try {
                         boolean result = true;
-                        if (!page.isContributor(userName)){
+                        if (!page.isContributor(userName, session)){
                             result = page.isVisible();
                         }
                         return (result && !page.isDeleted());

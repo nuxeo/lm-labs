@@ -101,7 +101,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
     }
 
     @Override
-    public SyndFeed buildRssLabsNews(List<LabsNews> pLabsNews, String pPathBase, String pDefaultDescription) throws ClientException {
+    public SyndFeed buildRssLabsNews(List<LabsNews> pLabsNews, String pPathBase, String pDefaultDescription, CoreSession session) throws ClientException {
         String feedType = "rss_2.0";
 
         final SyndFeed feed = new SyndFeedImpl();
@@ -110,7 +110,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
         feed.setTitle(getTitle());
         feed.setLink(pPathBase);
         feed.setDescription(buildRssPageNewsDescription(pDefaultDescription));
-        feed.setEntries(createRssEntries(pLabsNews, pPathBase));
+        feed.setEntries(createRssEntries(pLabsNews, pPathBase, session));
         return feed;
     }
 
@@ -124,7 +124,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
         }
     }
 
-    private List<SyndEntry> createRssEntries(List<LabsNews> topNews, String pPathBase) throws ClientException {
+    private List<SyndEntry> createRssEntries(List<LabsNews> topNews, String pPathBase, CoreSession session) throws ClientException {
         List<SyndEntry> entries = new ArrayList<SyndEntry>();
         SyndEntry entry;
         for (LabsNews news:topNews){
@@ -132,7 +132,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
             entry.setTitle(news.getTitle());
             entry.setLink(pPathBase + "/" + news.getDocumentModel().getName());
             entry.setPublishedDate(news.getStartPublication().getTime());
-            entry.setDescription(NewsTools.createRssNewsDescription(news));
+            entry.setDescription(NewsTools.createRssNewsDescription(news, session));
             entries.add(entry);
         }
         return entries;

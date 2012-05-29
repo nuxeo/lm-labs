@@ -6,8 +6,8 @@
 	});
 </script>
 <#macro children_block parentDoc title="" spanClass="span5" uniqueId="1">
-	<#assign mySite=Common.siteDoc(Document).site />
-    <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
+	<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+    <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) />
 	<#if parentDoc.id != Document.id || (parentDoc.id == Document.id <#--&& parentDoc.type != 'PageNews'-->)  >
 	<#if parentDoc.type != 'Site' && ((This.isInstanceOf("LabsPage") && This.isAuthorizedToDisplay(parentDoc)) || parentDoc.type == 'Tree') >
     	<#assign childrenNbr = 0 />
@@ -17,7 +17,7 @@
 	    	<#assign childrenNbr = children?size />
     	<#else>
     	-->
-	    	<#assign children = Common.siteDoc(parentDoc).childrenPageDocuments />
+	    	<#assign children = Common.siteDoc(parentDoc).childrenPageDocuments(Context.coreSession) />
 	    	<#list children as child>
                 <#assign isChildVisible = false />
                 <#if child.type != 'LabsNews' >

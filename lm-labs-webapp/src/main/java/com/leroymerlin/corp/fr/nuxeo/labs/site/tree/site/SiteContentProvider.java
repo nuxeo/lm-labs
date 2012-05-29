@@ -22,15 +22,16 @@ public class SiteContentProvider extends AbstractContentProvider {
      */
     private static final long serialVersionUID = 1L;
 
-    private static final class PageFilter implements Filter {
+    private final class PageFilter implements Filter {
+
 
         private static final long serialVersionUID = 1L;
 
         @Override
         public boolean accept(DocumentModel docModel) {
             try {
-                boolean isAdmin = docModel.getAdapter(SiteDocument.class).getSite().isAdministrator(
-                        docModel.getCoreSession().getPrincipal().getName());
+                boolean isAdmin = docModel.getAdapter(SiteDocument.class).getSite(session).isAdministrator(
+                        session.getPrincipal().getName(), session);
                 LabsPublisher publisher = docModel.getAdapter(LabsPublisher.class);
                 boolean filter = isAdmin
                         || (publisher != null && publisher.isVisible());
@@ -44,7 +45,7 @@ public class SiteContentProvider extends AbstractContentProvider {
         }
     }
 
-    private static final class AssetFilter implements Filter {
+    private final class AssetFilter implements Filter {
 
         private static final long serialVersionUID = 1L;
 
@@ -60,9 +61,9 @@ public class SiteContentProvider extends AbstractContentProvider {
         }
     }
 
-    private static final Filter pageFilter = new PageFilter();
+    private final Filter pageFilter = new PageFilter();
 
-    private static final Filter assetFilter = new AssetFilter();
+    private final Filter assetFilter = new AssetFilter();
 
     public SiteContentProvider(CoreSession session, boolean isLimitedToAsset) {
         super(session);
@@ -83,7 +84,7 @@ public class SiteContentProvider extends AbstractContentProvider {
             DocumentModel doc = (DocumentModel) obj;
             SiteDocument sd = doc.getAdapter(SiteDocument.class);
             try {
-                result = sd.getSite().getTitle();
+                result = sd.getSite(session).getTitle();
             } catch (ClientException e) {
             }
         }

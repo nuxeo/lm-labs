@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 <h1>Ajouter du contenu</h1>
 
 <form class="form-horizontal" onsubmit="addDoc(null);return false;" id="add_doc_form" action="${This.path}" method="post">
@@ -74,12 +74,12 @@ function addDoc(event) {
 		data: $("#add_doc_form").serialize(),		
 		success: function(msg){
 			if (msg == "existedPageName"){
-					<#if mySite?? && mySite.isAdministrator(Context.principal.name)>
+					<#if mySite?? && mySite.isAdministrator(Context.principal.name, Context.coreSession)>
 						if (confirm("${Context.getMessage('label.page.creation.existDeletedPageName.administrator')?js_string}")){
 							addDocWithDelete();
 						}
 					<#else>
-						<#if mySite?? && mySite.isContributor(Context.principal.name)>
+						<#if mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession)>
 							alert("${Context.getMessage('label.page.creation.existDeletedPageName.contributor')?js_string}");
 						</#if>
 					</#if>

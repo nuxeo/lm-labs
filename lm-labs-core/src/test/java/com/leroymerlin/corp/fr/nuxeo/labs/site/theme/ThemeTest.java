@@ -60,7 +60,7 @@ public class ThemeTest {
     @Test
     public void canGetTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        SiteTheme theme = tm.getTheme();
+        SiteTheme theme = tm.getTheme(session);
         assertThat(theme, is(notNullValue()));
         assertThat(theme.getName(), is("LeroyMerlin"));
     }
@@ -68,14 +68,14 @@ public class ThemeTest {
     @Test
     public void cantSetAndGetBannerFromTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        SiteTheme theme = tm.getTheme();
+        SiteTheme theme = tm.getTheme(session);
         theme.setBanner(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         Blob blob = theme.getBanner();
         assertThat(blob, is(notNullValue()));
         assertThat(blob.getLength() > 0, is(true));
@@ -85,14 +85,14 @@ public class ThemeTest {
     @Test
     public void cantSetAndGetLogoFromTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        SiteTheme theme = tm.getTheme();
+        SiteTheme theme = tm.getTheme(session);
         theme.setLogo(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         Blob blob = theme.getLogo();
         assertThat(blob, is(notNullValue()));
         assertThat(blob.getLength() > 0, is(true));
@@ -101,60 +101,60 @@ public class ThemeTest {
     @Test
     public void cantGetDefaultLogoAreaHeightFromTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        SiteTheme theme = tm.getTheme();
+        SiteTheme theme = tm.getTheme(session);
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         assertThat(theme.getLogoAreaHeight(), is(165));
     }
 
     @Test
     public void cantSetAndGetLogoAreaHeightFromTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        SiteTheme theme = tm.getTheme();
+        SiteTheme theme = tm.getTheme(session);
         theme.setLogoAreaHeight(50);
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         assertThat(theme.getLogoAreaHeight(), is(50));
     }
 
     @Test
     public void cantSetAndGetResizedLogoFromTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        SiteTheme theme = tm.getTheme();
+        SiteTheme theme = tm.getTheme(session);
         theme.setLogo(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         Blob blob = theme.getLogo();
         assertThat(blob, is(notNullValue()));
         assertThat(blob.getLength() > 0, is(true));
 
         int width = theme.getLogoWidth();
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         theme.setLogoResizeRatio(50);
         session.saveDocument(theme.getDocument());
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         assertThat(theme.getLogoWidth(), is(width / 2));
     }
 
     @Test
     public void cantSetAndGetLogoParametersFromTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        SiteTheme theme = tm.getTheme();
+        SiteTheme theme = tm.getTheme(session);
         assertThat(theme.getLogoPosX(), is(0));
         assertThat(theme.getLogoPosY(), is(0));
         assertThat(theme.getLogoResizeRatio(), is(100));
@@ -166,7 +166,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         assertThat(theme.getLogoPosX(), is(1));
         assertThat(theme.getLogoPosY(), is(2));
         assertThat(theme.getLogoResizeRatio(), is(50));
@@ -175,14 +175,14 @@ public class ThemeTest {
     @Test
     public void canGetThemeByName() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        SiteTheme theme = tm.getTheme();
+        SiteTheme theme = tm.getTheme(session);
         theme.setBanner(getTestBlob());
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme("LeroyMerlin");
+        theme = tm.getTheme("LeroyMerlin", session);
 
         assertThat(theme, is(notNullValue()));
         Blob blob = theme.getBanner();
@@ -193,9 +193,9 @@ public class ThemeTest {
     @Test
     public void canSetTheme() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
+        tm.setTheme("supplyChain", session);
         tm = site.getThemeManager();
-        SiteTheme theme = tm.getTheme();
+        SiteTheme theme = tm.getTheme(session);
         assertThat(theme, is(notNullValue()));
         assertThat(theme.getName(), is("supplyChain"));
     }
@@ -203,8 +203,8 @@ public class ThemeTest {
     @Test
     public void canSetStyle() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
         theme.setStyle("style");
 
         session.saveDocument(theme.getDocument());
@@ -212,7 +212,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
 
         assertThat(
                 (String) theme.getDocument().getPropertyValue("sitetheme:style"),
@@ -222,8 +222,8 @@ public class ThemeTest {
     @Test
     public void canGetStyle() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
         theme.setStyle("style");
 
         session.saveDocument(theme.getDocument());
@@ -231,7 +231,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
 
         assertThat(theme.getStyle(), is("style"));
     }
@@ -250,8 +250,8 @@ public class ThemeTest {
     @Test
     public void canSetProperties() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         ThemeProperty prop = new ThemeProperty("bgcolor", "bgcolor-value",
@@ -270,7 +270,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
 
         assertThat(
                 (List<Map<String, Object>>) theme.getDocument().getPropertyValue(
@@ -330,8 +330,8 @@ public class ThemeTest {
     @Test
     public void canGetProperties() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         ThemeProperty prop = new ThemeProperty("bgcolor", "bgcolor-value",
@@ -350,7 +350,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         properties = theme.getProperties();
 
         assertThat(properties.get("bgcolor").getValue(), is("bgcolor-value"));
@@ -374,8 +374,8 @@ public class ThemeTest {
     @Test
     public void canSetLastRead() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         theme.setLastRead(5000l);
 
@@ -384,7 +384,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
 
         assertThat(theme.getDocument().getPropertyValue("sitetheme:lastRead"),
                 notNullValue());
@@ -396,15 +396,15 @@ public class ThemeTest {
     @Test
     public void canGetDefaultLastRead() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
 
         assertThat(theme.getLastRead(), is(0l));
     }
@@ -412,8 +412,8 @@ public class ThemeTest {
     @Test
     public void canGetLastRead() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         theme.setLastRead(5000l);
 
@@ -422,7 +422,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
 
         assertThat(theme.getLastRead(), is(5000l));
     }
@@ -430,15 +430,15 @@ public class ThemeTest {
     @Test
     public void canVerifyFirstToLoadWithNoFile() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         ThemePropertiesManage tpm = new ThemePropertiesManage(
                 theme.getProperties());
 
@@ -450,15 +450,15 @@ public class ThemeTest {
     @Test
     public void canVerifyFirstToLoad() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         session.saveDocument(theme.getDocument());
         session.save();
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         ThemePropertiesManage tpm = new ThemePropertiesManage(
                 theme.getProperties());
 
@@ -469,8 +469,8 @@ public class ThemeTest {
     @Test
     public void canVerifyNoToLoad() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
         File testFile = new File(pathProperties);
@@ -482,7 +482,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         ThemePropertiesManage tpm = new ThemePropertiesManage(
                 theme.getProperties());
 
@@ -492,8 +492,8 @@ public class ThemeTest {
     @Test
     public void canLoad() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
         File testFile = new File(pathProperties);
@@ -503,7 +503,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         Map<String, ThemeProperty> properties = theme.getProperties();
         ThemePropertiesManage tpm = new ThemePropertiesManage(properties);
         tpm.loadProperties(new FileInputStream(testFile));
@@ -532,8 +532,8 @@ public class ThemeTest {
     @Test
     public void canMergePropertyToLoadInMapWithASameKey() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         properties.put("@baseFontColorTitleH1", new ThemeProperty(
                 "@baseFontColorTitleH1", "title", null, null,
@@ -557,7 +557,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         properties = theme.getProperties();
         ThemePropertiesManage tpm = new ThemePropertiesManage(properties);
         tpm.loadProperties(new FileInputStream(testFile));
@@ -586,8 +586,8 @@ public class ThemeTest {
     @Test
     public void canMergePropertyToLoadInMapWithAdifferentKey() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         properties.put("@baseFontColorTitleyy", new ThemeProperty(
                 "@baseFontColorTitleyy", null, null, null,
@@ -602,7 +602,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         properties = theme.getProperties();
         ThemePropertiesManage tpm = new ThemePropertiesManage(properties);
         tpm.loadProperties(new FileInputStream(testFile));
@@ -614,8 +614,8 @@ public class ThemeTest {
     @Test
     public void canGetDefaultPropertyType() throws Exception {
         SiteThemeManager tm = site.getThemeManager();
-        tm.setTheme("supplyChain");
-        SiteTheme theme = tm.getTheme();
+        tm.setTheme("supplyChain", session);
+        SiteTheme theme = tm.getTheme(session);
 
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         ThemeProperty prop = new ThemeProperty("bgcolor", "bgcolor-value",
@@ -632,7 +632,7 @@ public class ThemeTest {
 
         site = sm.getSite(session, "myurl");
         tm = site.getThemeManager();
-        theme = tm.getTheme();
+        theme = tm.getTheme(session);
         properties = theme.getProperties();
 
         assertThat(properties.get("bgcolor").getType(),

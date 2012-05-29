@@ -136,7 +136,7 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         CoreSession session = ctx.getCoreSession();
         try {
-            DocumentModelList docs = document.getAdapter(SiteDocument.class).getSite().getAllDeletedDocs(session);
+            DocumentModelList docs = document.getAdapter(SiteDocument.class).getSite(session).getAllDeletedDocs(session);
             boolean deleted = false;
             for (DocumentModel deletedDoc : docs) {
                 session.removeDocument(deletedDoc.getRef());
@@ -235,19 +235,20 @@ public class LabsPublishService extends DefaultAdapter {
 
     private boolean cascadeUndelete(DocumentModel document) throws ClientException {
         boolean undeleted = true;
-        DocumentModel parentDoc = document.getCoreSession().getDocument(document.getParentRef());
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel parentDoc = session.getDocument(document.getParentRef());
         if (Docs.PAGECLASSEUR.type().equals(parentDoc.getType())
                 && Docs.PAGECLASSEURFOLDER.type().equals(document.getType())) {
             // cascade down undelete
             undeleted = false;
-            DocumentModelList files = document.getCoreSession().getFiles(document.getRef());
+            DocumentModelList files = session.getFiles(document.getRef());
             for (DocumentModel file : files) {
                 undeleteDoc(file);
                 undeleted = true;
             }
         } else if (Docs.PAGECLASSEURFOLDER.type().equals(parentDoc.getType())
                 && LifeCycleConstants.DELETED_STATE.equals(parentDoc.getCurrentLifeCycleState())) {
-            DocumentModel grandParentDoc = document.getCoreSession().getDocument(parentDoc.getParentRef());
+            DocumentModel grandParentDoc = session.getDocument(parentDoc.getParentRef());
             if (Docs.PAGECLASSEUR.type().equals(grandParentDoc.getType())) {
                 // cascade up undelete
                 undeleted = false;

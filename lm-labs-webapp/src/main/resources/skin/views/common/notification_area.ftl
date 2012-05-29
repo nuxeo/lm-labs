@@ -1,7 +1,7 @@
 <#if Context.principal.isAnonymous() == false>
 <#include "macros/notification_button.ftl">
 <#assign btnGroup = false />
-<#if Document.type != "Site" && Common.siteDoc(Document).site.homePageRef == Document.id >
+<#if Document.type != "Site" && Common.siteDoc(Document).getSite(Context.coreSession).getHomePageRef(Context.coreSession) == Document.id >
     <#assign btnGroup = true />
 </#if>
 <div id="notification"<#if btnGroup > class="btn-group"</#if> >
@@ -15,7 +15,7 @@
     <#if Document.type != "Site" >
         <@notificationButton />
     </#if>
-    <#if Common.siteDoc(Document).site.homePageRef == Document.id || Document.type == "Site" >
+    <#if Common.siteDoc(Document).getSite(Context.coreSession).getHomePageRef(Context.coreSession) == Document.id || Document.type == "Site" >
         <@notificationButton notifType="Site" />
     </#if>
 </#if>

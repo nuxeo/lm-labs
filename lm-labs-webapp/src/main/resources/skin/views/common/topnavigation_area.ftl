@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 
 <#function isCurrentPage id>
 	<#if id == Document.id >
@@ -20,7 +20,7 @@
 		<#assign topPages = Common.getTopNavigationPages(mySite.getTree(Context.coreSession), Context.principal.name) />
 		<#if topPages?size &gt; 0 >
 			<#assign tabActivated = false />
-			<#assign homePageId = Common.siteDoc((topPages?first).document).site.homePageRef />
+			<#assign homePageId = Common.siteDoc((topPages?first).document).getSite(Context.coreSession).getHomePageRef(Context.coreSession) />
 			<#list topPages as child >
 				<#assign isActiveTab = false />
 				<#assign pageDoc = child.document />

@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
@@ -66,7 +67,7 @@ public class ClasseurElementResource extends DocumentObject {
     public boolean setAsDeleted() throws ClientException {
         if (doc.getAllowedStateTransitions().contains(LifeCycleConstants.DELETE_TRANSITION)) {
             doc.followTransition(LifeCycleConstants.DELETE_TRANSITION);
-            doc = doc.getCoreSession().saveDocument(doc);
+            doc = ctx.getCoreSession().saveDocument(doc);
             return true;
         }
         return false;
@@ -82,11 +83,12 @@ public class ClasseurElementResource extends DocumentObject {
     @PUT
     @Path("@visibility/{action}")
     public Response doSetVisibility(@PathParam("action") String action) throws ClientException {
-    	if ("show".equals(action)) {
-    		parentFolder.show(doc);
+    	CoreSession session = getCoreSession();
+        if ("show".equals(action)) {
+    		parentFolder.show(doc, session);
     		return Response.noContent().build();
     	} else if ("hide".equals(action)) {
-    		parentFolder.hide(doc);
+    		parentFolder.hide(doc, session);
     		return Response.noContent().build();
     	}
 		return Response.notModified().build();

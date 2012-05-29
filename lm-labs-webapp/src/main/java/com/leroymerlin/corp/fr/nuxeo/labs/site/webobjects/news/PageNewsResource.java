@@ -69,7 +69,7 @@ public class PageNewsResource extends NotifiablePageResource {
             PageNews pageNews = doc.getAdapter(PageNews.class);
             news = pageNews.createNews(pTitle, session);
 
-            LabsNewsResource.fillNews(form, news);
+            LabsNewsResource.fillNews(form, news, session);
 
             DocumentModel newDocNews = session.saveDocument(news.getDocumentModel());
             session.save();

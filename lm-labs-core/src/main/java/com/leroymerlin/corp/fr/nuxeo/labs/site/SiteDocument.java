@@ -22,14 +22,14 @@ public interface SiteDocument {
      * @return
      * @throws ClientException
      */
-    Page getParentPage() throws ClientException;
+    Page getParentPage(CoreSession session) throws ClientException;
 
     /**
      * Return the parent site for this document
      * @return
      * @throws ClientException
      */
-    LabsSite getSite() throws ClientException;
+    LabsSite getSite(CoreSession session) throws ClientException;
 
 
     String getParentPagePath(CoreSession session) throws ClientException;
@@ -43,12 +43,12 @@ public interface SiteDocument {
      * @return
      * @throws ClientException
      */
-    Collection<Page> getChildrenPages() throws ClientException;
+    Collection<Page> getChildrenPages(CoreSession session) throws ClientException;
 
     /**
      * TODO unit test.
      * @return
      * @throws ClientException
      */
-    DocumentModelList getChildrenPageDocuments() throws ClientException;
+    DocumentModelList getChildrenPageDocuments(CoreSession session) throws ClientException;
 }

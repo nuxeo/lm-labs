@@ -25,13 +25,12 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public Page getParentPage() throws ClientException {
+    public Page getParentPage(CoreSession session) throws ClientException {
         DocumentModel parentDocument = doc;
         while (!LabsSiteConstants.Docs.DEFAULT_DOMAIN.type()
                 .equals(parentDocument.getType())) {
             try {
-                parentDocument = doc.getCoreSession()
-                        .getParentDocument(parentDocument.getRef());
+                parentDocument = session.getParentDocument(parentDocument.getRef());
                 if (parentDocument.hasSchema(Schemas.PAGE.getName()) && !LabsSiteConstants.Docs.SITE.type().equals(parentDocument.getType())) {
                     return parentDocument.getAdapter(Page.class);
                 }
@@ -43,8 +42,7 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public LabsSite getSite() throws ClientException {
-        CoreSession session = doc.getCoreSession();
+    public LabsSite getSite(CoreSession session) throws ClientException {
         DocumentModel parent = doc;
         if (Docs.SITE.type()
                 .equals(parent.getType())) {
@@ -65,12 +63,12 @@ public class SiteDocumentAdapter implements SiteDocument {
 
     @Override
     public String getParentPagePath(CoreSession session) throws ClientException {
-        return getParentPage().getPath(session);
+        return getParentPage(session).getPath(session);
     }
 
     @Override
     public String getResourcePath(CoreSession session) throws ClientException {
-        LabsSite site = getSite();
+        LabsSite site = getSite(session);
         String endUrl = doc.getPathAsString();
         if (endUrl.contains(site.getTree(session).getPathAsString())) {
             endUrl = endUrl.replace(site.getTree(session).getPathAsString(), "");
@@ -86,9 +84,9 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public Collection<Page> getChildrenPages() throws ClientException {
+    public Collection<Page> getChildrenPages(CoreSession session) throws ClientException {
         List<Page> pages = new ArrayList<Page>();
-        for (DocumentModel child : getChildrenPageDocuments()) {
+        for (DocumentModel child : getChildrenPageDocuments(session)) {
             Page adapter = child.getAdapter(Page.class);
             if (adapter != null) {
                 pages.add(adapter);
@@ -98,8 +96,8 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public DocumentModelList getChildrenPageDocuments() throws ClientException {
-        return LabsSiteUtils.getChildrenPageDocuments(doc);
+    public DocumentModelList getChildrenPageDocuments(CoreSession session) throws ClientException {
+        return LabsSiteUtils.getChildrenPageDocuments(doc, session);
     }
 
 }

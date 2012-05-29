@@ -103,7 +103,7 @@ public class PageListLineAdapterTest {
         lineAdapter = model.create();
         
         line = lineAdapter.getLine();
-        lineAdapter.removeLine();
+        lineAdapter.removeLine(session);
         
         assertFalse(session.exists(new PathRef(PATH_SEPARATOR + LINE_TITLE)));
     }

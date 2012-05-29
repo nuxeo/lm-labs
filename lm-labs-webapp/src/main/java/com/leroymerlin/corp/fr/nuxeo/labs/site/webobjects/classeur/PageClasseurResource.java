@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
@@ -87,8 +88,9 @@ public class PageClasseurResource extends NotifiablePageResource {
         String folderTitle = form.getString("dc:title");
         if (!StringUtils.isEmpty(folderTitle)) {
             try {
-                classeur.addFolder(folderTitle);
-                getCoreSession().save();
+                CoreSession session = getCoreSession();
+                classeur.addFolder(folderTitle, session);
+                session.save();
                 return Response.status(Status.OK).build();
             } catch (ClientException e) {
                 return Response.serverError().status(Status.FORBIDDEN).entity(
@@ -187,17 +189,18 @@ public class PageClasseurResource extends NotifiablePageResource {
         try {
             for (String id : ids) {
                 IdRef idRef = new IdRef(id);
-                if (getCoreSession().exists(idRef)) {
-                    DocumentModel file = getCoreSession().getDocument(idRef);
-                    DocumentModel folderDoc = getCoreSession().getParentDocument(
+                CoreSession session = getCoreSession();
+                if (session.exists(idRef)) {
+                    DocumentModel file = session.getDocument(idRef);
+                    DocumentModel folderDoc = session.getParentDocument(
                             file.getRef());
                     PageClasseurFolder folder = folderDoc.getAdapter(PageClasseurFolder.class);
                     boolean done = false;
                     if (folder != null) {
                         if ("hide".equals(action)) {
-                            done = folder.hide(file);
+                            done = folder.hide(file, session);
                         } else if ("show".equals(action)) {
-                            done = folder.show(file);
+                            done = folder.show(file, session);
                         }
                     }
                     modified |= done;

@@ -186,7 +186,7 @@ public class PageNewsAdapterTest {
         List<LabsNews> allNews = pn.getTopNews(3, session);
         assertThat(allNews.size(), is(3));
         
-        SyndFeed feed = pn.buildRssLabsNews(allNews, "localhost:8080", "DefaultDescription");
+        SyndFeed feed = pn.buildRssLabsNews(allNews, "localhost:8080", "DefaultDescription", session);
         assertNotNull(feed);
         assertNotNull(feed.getDescription());
         assertNotNull(feed.getEntries());
@@ -206,7 +206,7 @@ public class PageNewsAdapterTest {
         List<LabsNews> allNews = pn.getTopNews(3, session);
         assertThat(allNews.size(), is(3));
         
-        SyndFeed feed = pn.buildRssLabsNews(allNews, "http://localhost:8080/", "DefaultDescription");
+        SyndFeed feed = pn.buildRssLabsNews(allNews, "http://localhost:8080/", "DefaultDescription", session);
         assertNotNull(feed);
         assertNotNull(feed.getDescription());
         assertNotNull(feed.getEntries());

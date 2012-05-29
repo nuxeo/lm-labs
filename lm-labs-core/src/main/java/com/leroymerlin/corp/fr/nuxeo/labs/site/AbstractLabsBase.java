@@ -84,8 +84,8 @@ public abstract class AbstractLabsBase  implements LabsBase{
     }
     
     @Override
-    public boolean isAuthorizedToDisplay() throws ClientException{
-        if (LabsSiteUtils.isOnlyRead(doc)){
+    public boolean isAuthorizedToDisplay(CoreSession session) throws ClientException{
+        if (LabsSiteUtils.isOnlyRead(doc, session)){
             return doc.getAdapter(LabsPublisher.class).isVisible();
         }
         return true;
@@ -119,22 +119,22 @@ public abstract class AbstractLabsBase  implements LabsBase{
     }
 
     @Override
-    public boolean isAdministrator(String userName) throws ClientException {
+    public boolean isAdministrator(String userName, CoreSession session) throws ClientException {
         try {
             UserManager userManager = Framework.getService(UserManager.class);
             NuxeoPrincipal principal = userManager.getPrincipal(userName);
-            return doc.getCoreSession().hasPermission(principal, doc.getRef(), SecurityConstants.EVERYTHING);
+            return session.hasPermission(principal, doc.getRef(), SecurityConstants.EVERYTHING);
         } catch (Exception e) {
             return false;
         }
     }
     
     @Override
-    public boolean isContributor(String userName) throws ClientException {
+    public boolean isContributor(String userName, CoreSession session) throws ClientException {
         try {
             UserManager userManager = Framework.getService(UserManager.class);
             NuxeoPrincipal principal = userManager.getPrincipal(userName);
-            return doc.getCoreSession().hasPermission(principal, doc.getRef(), SecurityConstants.READ_WRITE);
+            return session.hasPermission(principal, doc.getRef(), SecurityConstants.READ_WRITE);
         } catch (Exception e) {
             return false;
         }

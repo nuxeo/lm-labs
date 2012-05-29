@@ -3,6 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.filter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
@@ -15,14 +16,24 @@ public class PageClasseurDocsFilter implements Filter {
 
     private static final Log LOG = LogFactory.getLog(PageClasseurDocsFilter.class);
     private static final long serialVersionUID = 1L;
+    
+    private CoreSession session;
 
-    @Override
+    @SuppressWarnings("unused")
+	private PageClasseurDocsFilter() {}
+
+    public PageClasseurDocsFilter(CoreSession session) {
+		super();
+		this.session = session;
+	}
+
+	@Override
     public boolean accept(DocumentModel doc) {
         try {
             SiteDocument sd = doc.getAdapter(SiteDocument.class);
-            boolean isAdmin = sd.getSite().isAdministrator(doc.getCoreSession().getPrincipal().getName());
-            DocumentModel parent = doc.getCoreSession().getParentDocument(doc.getRef());
-            DocumentModel grandParent = doc.getCoreSession().getDocument(parent.getParentRef());
+            boolean isAdmin = sd.getSite(session).isAdministrator(session.getPrincipal().getName(), session);
+            DocumentModel parent = session.getParentDocument(doc.getRef());
+            DocumentModel grandParent = session.getDocument(parent.getParentRef());
             LabsPublisher publisher = grandParent.getAdapter(LabsPublisher.class);
             boolean filter = isAdmin || (publisher != null && publisher.isVisible());
             return publisher != null

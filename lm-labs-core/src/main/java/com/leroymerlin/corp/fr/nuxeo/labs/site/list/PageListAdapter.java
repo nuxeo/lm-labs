@@ -69,6 +69,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     public static class Model {
         private DocumentModel doc;
+        
+        private CoreSession session;
 
         /**
          * PageList adapter = new PageListAdapter.Model(session, "/",
@@ -80,6 +82,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
          * @throws ClientException
          */
         public Model(CoreSession session, String parentPath, String title) throws ClientException {
+        	this.session = session;
             this.doc = session.createDocumentModel(parentPath, title, Docs.PAGELIST.type());
         }
 
@@ -90,8 +93,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
          * @throws ClientException
          */
         public PageList create() throws ClientException {
-            return new PageListAdapter(this.doc.getCoreSession()
-                    .createDocument(this.doc));
+            return new PageListAdapter(session.createDocument(this.doc));
         }
 
         /**
@@ -309,7 +311,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
             return;
         }
         final boolean isAllContributors = isAllContributors();
-        if (!isAllContributors || site.isAdministrator(pLine.getUserName()) || site.isContributor(pLine.getUserName())){       
+        if (!isAllContributors || site.isAdministrator(pLine.getUserName(), session) || site.isContributor(pLine.getUserName(), session)){       
             return;
         }
         final DocumentRef ref = pLine.getDocLine().getRef();

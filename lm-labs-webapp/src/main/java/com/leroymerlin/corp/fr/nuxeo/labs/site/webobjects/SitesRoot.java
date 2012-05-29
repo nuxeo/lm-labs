@@ -272,7 +272,7 @@ public class SitesRoot extends ModuleRoot {
         CoreSession coreSession = ctx.getCoreSession();
         List<LabsSite> newAllSites = new ArrayList<LabsSite>();
         for (LabsSite site : getSiteManager().getAllSites(coreSession)) {
-            if (!(LabsSiteUtils.isOnlyRead(site.getDocument()) && !site.isVisible())) {
+            if (!(LabsSiteUtils.isOnlyRead(site.getDocument(), coreSession) && !site.isVisible())) {
                 newAllSites.add(site);
             }
         }

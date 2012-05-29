@@ -1,9 +1,9 @@
 <#-- assign canWrite = Session.hasPermission(Document.ref, 'Write') -->
 <#include "macros/PageClasseur_file_links.ftl" >
-<#assign canWrite = This.page?? && This.page.isContributor(Context.principal.name)>
-<#assign isAdministrator = This.page?? && This.page.isAdministrator(Context.principal.name)>
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
-  <#assign mySite=Common.siteDoc(Document).site />
+<#assign canWrite = This.page?? && This.page.isContributor(Context.principal.name, Context.coreSession)>
+<#assign isAdministrator = This.page?? && This.page.isAdministrator(Context.principal.name, Context.coreSession)>
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName(Context.coreSession) + "/template.ftl">
+  <#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
   <@block name="title">${ mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
@@ -24,7 +24,7 @@
   <div class="container-fluid">
   <@tableOfContents anchorSelector="section > div > div.header-toc" anchorTitleSelector="h2 > span">
 
-  <#assign folders = classeur.folders />
+  <#assign folders = classeur.getFolders(Context.coreSession) />
   <div class="">
     <#if folders?size &gt; 0>
 		<img class='allFoldersOpened' src="${skinPath}/images/toggle_minus.png" onclick="slideAllFolders(this);" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.allFolders.collapse')}" alt="${Context.getMessage('command.PageClasseur.allFolders.collapse')}" />
@@ -49,7 +49,7 @@
     <section class="${folder.document.type}" id="${folder.document.id}" >
       
       <div>
-      	<#if folder.files?size &gt; 0>
+      	<#if folder.getFiles(Context.coreSession)?size &gt; 0>
 	      <img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideFolder(this, '');" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
 	    </#if>
 	    <#if canWrite>
@@ -212,7 +212,7 @@
 
 <#macro displayChildren folder recurse=false>
 
-  <#if folder.files?size &gt; 0>
+  <#if folder.getFiles(Context.coreSession)?size &gt; 0>
   <div class="folder-collapsable" >
   <table class="table table-striped classeurFiles bs table-bordered labstable" >
   <thead>
@@ -232,7 +232,7 @@
     </tr>
   </thead>
   <tbody>
-  <#list folder.files as child>
+  <#list folder.getFiles(Context.coreSession) as child>
   <tr class="main ${child.id}<#if child.facets?seq_contains("LabsHidden")> hidden editblock</#if>">
     <td>
       <img title="${child.type}" alt="${child.type}/" src="/nuxeo${child.common.icon}" />

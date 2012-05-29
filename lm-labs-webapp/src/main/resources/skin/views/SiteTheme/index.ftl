@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
 <#if mySite?? && Session.hasPermission(mySite.document.ref, "Everything")>
 <@extends src="/views/labs-admin-base.ftl">
 
@@ -43,9 +43,9 @@
                   <label class="control-label" for="theme">${Context.getMessage('label.labssites.appearance.theme.label')}</label>
                   <div class="controls">
                     <a href="#" id="modifyThemeParameters" onClick="javascript:loadEditParameters('${This.path}/editParameters');"><br/>${Context.getMessage('label.labssites.appearance.theme.parameters')}</a> 
-                    <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${mySite.getThemeManager().getTheme().getName()}');linkThemeTemplate();">
+                    <select name="theme" id="theme" onChange="javascript:manageDisplayModifyParameters('${mySite.getThemeManager().getTheme(Context.coreSession).getName()}');linkThemeTemplate();">
                         <#assign themesMap = [] />
-                        <#list This.getThemes() as theme>
+                        <#list This.getThemes(Context.coreSession) as theme>
                             <#assign trad = Context.getMessage('label.labssites.appearance.themes.' + theme) />
                             <#if trad?starts_with('!') >
                                 <#assign themeName = theme />
@@ -55,7 +55,7 @@
                             <#assign themesMap = themesMap + [ {"name" : theme, "title" : themeName} ] />
                         </#list>
                         <#list themesMap?sort_by('title') as theme>
-                            <option value="${theme.name}"  <#if mySite.getThemeManager().getTheme().getName() == theme.name >selected</#if>>${theme.title}</option>
+                            <option value="${theme.name}"  <#if mySite.getThemeManager().getTheme(Context.coreSession).getName() == theme.name >selected</#if>>${theme.title}</option>
                         </#list>
                     </select>
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.help.block')}</p>
@@ -68,7 +68,7 @@
                     <#include "views/common/getTemplatesMap.ftl">
                     <#assign templatesMap = getTemplatesMap() />
                     <#list templatesMap?sort_by('title') as template>
-            			<option value="${template.name}"  <#if mySite.template.templateName == template.name >selected</#if>>${template.title}</option>
+            			<option value="${template.name}"  <#if mySite.template.getTemplateName(Context.coreSession) == template.name >selected</#if>>${template.title}</option>
             		</#list>
 	            	</select>
                     <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + mySite.template.templateName + '.description')}</small></p>
