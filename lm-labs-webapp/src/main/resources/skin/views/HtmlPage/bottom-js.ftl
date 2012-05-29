@@ -3,6 +3,7 @@
 <script type="text/javascript">
 var rowWidgetsAtLoad = [];
 jQuery(document).ready(function() {
+    jQuery('#divConfigGadget form').removeAttr('enctype');
     jQuery("#divConfigRowGadgets").dialog2({
         autoOpen : false,
         closeOnOverlayClick : false
@@ -68,7 +69,7 @@ jQuery(document).ready(function() {
         return false; <#-- prevents form submit -->
     });
     jQuery('#config-gadget-form-btn').click(function() {
-        var inputs = jQuery("#divConfigGadget form > fieldset").find("input[type=text],select,checkbox");
+        var inputs = jQuery("#divConfigGadget form > fieldset").find("input[type=text],select,checkbox,textarea");
         if (inputs.length == 0) {
             jQuery('#divConfigGadget').dialog2('close');
             return false; <#-- prevents form submit -->

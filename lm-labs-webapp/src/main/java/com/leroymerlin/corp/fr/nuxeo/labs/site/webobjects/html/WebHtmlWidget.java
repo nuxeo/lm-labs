@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -20,6 +21,7 @@ import org.nuxeo.opensocial.container.shared.webcontent.OpenSocialData;
 import org.nuxeo.opensocial.container.shared.webcontent.UserPref;
 import org.nuxeo.opensocial.container.shared.webcontent.enume.DataType;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 
@@ -87,6 +89,10 @@ public class WebHtmlWidget extends DocumentObject {
                         modified = true;
                     }
                 } else {
+                    if (LabsGadgetManager.GADGET_ID_PREFERENCE_NAME.equals(pref.getName()) && StringUtils.isBlank(pref.getActualValue())) {
+                        pref.setActualValue(doc.getId());
+                        modified = true;
+                    }
                     // TODO other types
                 }
             }

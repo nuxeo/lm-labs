@@ -53,9 +53,27 @@ public class LabsGadgetService extends DefaultComponent implements LabsGadgetMan
             if (modified) {
                 data.setUserPrefs(userPrefs);
                 os.feedFrom(data);
+                modified = false;
             }
             docGadget = session.createDocument(docGadget);
+            os = (OpenSocialAdapter) docGadget.getAdapter(WebContentAdapter.class);
+            data = os.getData();
+            UserPref nxidGadgetPref = data.getUserPrefByName(GADGET_ID_PREFERENCE_NAME);
+            if (nxidGadgetPref != null) {
+                userPrefs = data.getUserPrefs();
+                for (UserPref pref : userPrefs) {
+                    if (GADGET_ID_PREFERENCE_NAME.equals(pref.getName())) {
+                        pref.setActualValue(docGadget.getId());
+                        data.setUserPrefs(userPrefs);
+                        os.feedFrom(data);
+                        docGadget = session.saveDocument(docGadget);
+                    }
+                }
+            }
             session.save();
+            os = (OpenSocialAdapter) docGadget.getAdapter(WebContentAdapter.class);
+            data = os.getData();
+            nxidGadgetPref = data.getUserPrefByName(GADGET_ID_PREFERENCE_NAME);
             content.setType("widgetcontainer");
             content.addWidgetRef(docGadget.getRef().toString());
             return docGadget.getRef().toString();
