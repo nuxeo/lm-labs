@@ -90,7 +90,7 @@ function publishPage(){
             url: '${This.path}/@labspublish/publish',
             success: function(data) {
                 if (data == 'publish') {
-                  alert("${Context.getMessage('label.lifeCycle.page.hasPublished')}");
+                  <#--alert("${Context.getMessage('label.lifeCycle.page.hasPublished')}");-->
                   document.location.href = '${This.path}';
                 }
                 else {
