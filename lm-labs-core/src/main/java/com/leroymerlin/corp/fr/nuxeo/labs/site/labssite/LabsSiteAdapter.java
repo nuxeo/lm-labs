@@ -53,7 +53,7 @@ import com.leroymerlin.corp.fr.nuxeo.piwik.Piwik;
 
 /**
  * @author fvandaele
- * 
+ *
  */
 public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
@@ -347,6 +347,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
         query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(
                 " <> 'HiddenInNavigation'");
+        query.append(" ORDER BY dc:modified DESC");
 
         final DocUnderVisiblePageFilter docUnderVisiblePageFilter = new DocUnderVisiblePageFilter();
         return getCoreSession().query(query.toString(), new Filter() {
@@ -614,7 +615,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             }
         };
         sessionRunner.runUnrestricted();
-        
+
     }
 
     protected void copyFacetSchemas(DocumentModel site, final DocumentModel templateSite, CoreSession session) {
@@ -635,7 +636,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             LOG.error(e, e);
         }
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
