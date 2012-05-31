@@ -42,7 +42,7 @@
             <#assign modifDate = upload.dublincore.modified?datetime >
             <td>${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</td>
             <#assign sd = Common.siteDoc(upload) />
-            <td><a href="${Context.modulePath}/${sd.getParentPagePath(Context.coreSession)}">${sd.getParentPagePath(Context.coreSession).title}</a></td>
+            <td><a href="${Context.modulePath}/${sd.getParentPagePath(Context.coreSession)}">${sd.getParentPage(Context.coreSession).title}</a></td>
             <td>
         <@fileDownloadLink url="${Context.modulePath}/${sd.getResourcePath(Context.coreSession)}/@blob" tooltip="${Context.getMessage('command.LabsSite.latestuploads.download')}" />
         <@fileDisplayLink url="${Context.modulePath}/${sd.getResourcePath(Context.coreSession)}/@blob/preview" tooltip="${Context.getMessage('command.LabsSite.latestuploads.display')}" />
