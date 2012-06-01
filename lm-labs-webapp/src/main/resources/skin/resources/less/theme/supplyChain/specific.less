@@ -803,63 +803,68 @@ li.active > a > h5.homepage{
 
 }
 
+.sc-rss-feed-list-style() {
+    .browseLastMsg .prev {
+        display: block;
+        float:left;
+        border: 0px;
+        margin-right: 2px;
+        padding: 0px;
+        font-size: 0;
+        background-image: url(images/precedent.png);
+        background-repeat: no-repeat;
+        width:22px;
+        height: 22px;
+    }
+    .browseLastMsg .next {
+        display: block;
+        float:right;
+        border: 0px;
+        margin-right: 0px;
+        padding: 0px ;
+        font-size: 0;
+        background-image: url(images/suivant.png);
+        background-repeat: no-repeat;
+        width:22px;
+        height: 22px;
+    }
+    .browseLastMsg .prev:hover {
+        background-color:@white;
+    }
+    .browseLastMsg .next:hover {
+        background-color:@white;
+    }
+    .browseLastMsg .current:hover {
+        background-color:@white;
+    }
+    .date {
+        list-style: none;
+        background-image: url(images/horloge.png);
+        background-repeat: no-repeat;
+        background-position: left 10%;
+        text-indent: 22px;
+    }
+    a {
+        color: #404040;
+        font-size: @baseFontSize;
+        font-weight: normal;
+        line-height: 18px;
+    }
+    hr {
+      border-bottom: 1px solid @white;
+    }
+}
 
-.rss-feed-list, .lastMessage {
+.rss-feed-list {
+    .sc-rss-feed-list-style
+}
 
+.lastMessage {
 	height:200px;
 	.itemList {
 		height:155px;
-
 	}
-	.browseLastMsg .prev {
-		display: block;
-		float:left;
-		border: 0px;
-		margin-right: 2px;
-    	padding: 0px;
-    	font-size: 0;
-		background-image: url(images/precedent.png);
-		background-repeat: no-repeat;
-		width:22px;
-		height: 22px;
-	}
-	.browseLastMsg .next {
-		display: block;
-		float:right;
-		border: 0px;
-		margin-right: 0px;
-    	padding: 0px ;
-    	font-size: 0;
-    	background-image: url(images/suivant.png);
-    	background-repeat: no-repeat;
-		width:22px;
-		height: 22px;
-	}
-	.browseLastMsg .prev:hover {
-		background-color:@white;
-	}
-	.browseLastMsg .next:hover {
-		background-color:@white;
-	}
-	.browseLastMsg .current:hover {
-		background-color:@white;
-	}
-	.date {
-		list-style: none;
-		background-image: url(images/horloge.png);
-		background-repeat: no-repeat;
-		background-position: left 10%;
-		text-indent: 22px;
-	}
-	a {
-		color: #404040;
-	    font-size: @baseFontSize;
-	    font-weight: normal;
-	    line-height: 18px;
-	}
-	hr {
-	  border-bottom: 1px solid @white;
-	}
+    .sc-rss-feed-list-style
 }
 
 .sidebarSeparator{
@@ -928,6 +933,3 @@ li.active > a > h5.homepage{
 .pagination a {
 	color : @gray;
 }
-
-
-
