@@ -1,6 +1,6 @@
 <#assign widgetType = This.widget.type.type() widgetName = This.widget.name />
 <#if widgetType == "opensocial" >
-    <#if widgetName == "video" || widgetName == "flash" >
+    <#if widgetName == "video" || widgetName == "flash" || widgetName == "picturebook" >
         <#include "views/HtmlWidget/${widgetType}-${widgetName}-config.ftl" />
     <#else>
         <#include "views/HtmlWidget/${widgetType}-config.ftl" />

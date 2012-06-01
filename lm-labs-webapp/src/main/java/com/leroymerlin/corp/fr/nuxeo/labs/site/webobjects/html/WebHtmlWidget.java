@@ -82,7 +82,7 @@ public class WebHtmlWidget extends DocumentObject {
             OpenSocialData data = adapter.getData();
             List<UserPref> userPrefs = data.getUserPrefs();
             for (UserPref pref : userPrefs) {
-                if (pref.getDataType() == DataType.STRING || pref.getDataType() == DataType.ENUM || pref.getDataType() == DataType.NUMBER) {
+                if (pref.getDataType() == DataType.STRING || pref.getDataType() == DataType.ENUM || pref.getDataType() == DataType.NUMBER || pref.getDataType() == DataType.HIDDEN) {
                     String value = form.getString(pref.getName());
                     if (value != null && !value.equals(pref.getActualValue())) {
                         pref.setActualValue(value);
