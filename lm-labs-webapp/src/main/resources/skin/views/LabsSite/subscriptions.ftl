@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 <#if mySite?? && !Context.principal.anonymous>
 <@extends src="/views/labs-admin-base.ftl">
 
@@ -75,7 +75,7 @@ jQuery(document).ready(function() {
               <td>&nbsp;</td>
             </tr>
           </#if> 
-          <#list mySite.getSubscribedPages(Context.coreSession) as page >
+          <#list mySite.getSubscribedPages() as page >
             <#assign doc = page.document />
           <tr>
             <td>
@@ -93,7 +93,7 @@ jQuery(document).ready(function() {
               ${modified?string.medium}
               <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
             </td>
-            <#assign notified = page.getLastNotified(Context.coreSession) />
+            <#assign notified = page.getLastNotified() />
             <td>
             <#-- TODO
               <#if notified?? >

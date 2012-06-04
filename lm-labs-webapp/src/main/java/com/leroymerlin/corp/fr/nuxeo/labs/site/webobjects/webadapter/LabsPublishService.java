@@ -33,6 +33,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 /**
  * @author fvandaele
@@ -92,7 +93,7 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         try {
             if (!LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                LabsPublisher publisherAdapter = Tools.getAdapter(LabsPublisher.class, document, null);
                 publisherAdapter.delete();
                 return Response.ok(DELETE).build();
             }
@@ -136,7 +137,7 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         CoreSession session = ctx.getCoreSession();
         try {
-            DocumentModelList docs = document.getAdapter(SiteDocument.class).getSite(session).getAllDeletedDocs(session);
+            DocumentModelList docs = Tools.getAdapter(SiteDocument.class, document, session).getSite().getAllDeletedDocs();
             boolean deleted = false;
             for (DocumentModel deletedDoc : docs) {
                 session.removeDocument(deletedDoc.getRef());
@@ -225,7 +226,7 @@ public class LabsPublishService extends DefaultAdapter {
             }
         } else {
             if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                LabsPublisher publisherAdapter = Tools.getAdapter(LabsPublisher.class, document, null);
                 publisherAdapter.undelete();
                 undeleted = true;
             }

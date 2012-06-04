@@ -35,7 +35,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
     private static final String NB_COMMENTS_LINE = LabsSiteConstants.Schemas.PAGELIST_LINE.prefix() + ":nbComments";
     
     public PageListLineAdapter(DocumentModel doc) {
-        this.doc = doc;
+        super(doc);
     }
     
     public static class Model {
@@ -60,7 +60,9 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
          * @throws ClientException
          */
         public PageListLine create() throws ClientException {
-            return new PageListLineAdapter(this.session.createDocument(this.doc));
+            PageListLineAdapter pageListLineAdapter = new PageListLineAdapter(this.session.createDocument(this.doc));
+            pageListLineAdapter.setSession(session);
+			return pageListLineAdapter;
         }
         
         /**
@@ -69,7 +71,9 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
          * @throws ClientException
          */
         public PageListLine getAdapter() throws ClientException{
-            return new PageListLineAdapter(this.doc);
+            PageListLineAdapter pageListLineAdapter = new PageListLineAdapter(this.doc);
+            pageListLineAdapter.setSession(session);
+			return pageListLineAdapter;
         }
         
         /**
@@ -140,7 +144,9 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
             entries.add(getEntry(entry));
         }
         line.setDocLine(doc);
-        line.setNbComments(((PageListLine)doc.getAdapter(PageListLine.class)).getNbComments());
+        PageListLine adapter = Tools.getAdapter(PageListLine.class, doc, getSession());
+        line.setNbComments(adapter.getNbComments());
+        line.setNbrFiles(adapter.getFiles().size());
         line.setEntries(entries);
         return line;
     }
@@ -180,8 +186,8 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine#removeLine()
      */
     @Override
-    public void removeLine(CoreSession session) throws ClientException {
-        session.removeDocument(doc.getRef());
+    public void removeLine() throws ClientException {
+        getSession().removeDocument(doc.getRef());
     }
 
     /* (non-Javadoc)
@@ -194,7 +200,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
     }
 
     @Override
-    public DocumentModelList getFiles(CoreSession session) throws ClientException {
+    public DocumentModelList getFiles() throws ClientException {
 
         StringBuilder sb = new StringBuilder("SELECT * From Document");
         sb.append(" WHERE ecm:parentId = '")
@@ -207,7 +213,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
 //        }
         sb.append(" ORDER BY dc:title ASC");
 
-        DocumentModelList list = session.query(sb.toString());
+        DocumentModelList list = getSession().query(sb.toString());
         return list;
 
     }

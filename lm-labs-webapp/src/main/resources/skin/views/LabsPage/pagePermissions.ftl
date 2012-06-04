@@ -1,8 +1,8 @@
-<#if This.page?? && This.page != null && This.page.isAdministrator(Context.principal.name, Context.coreSession) >
-<#-- @extends src="/views/TemplatesBase/" + mySite.template.getTemplateName(Context.coreSession) + "/template.ftl" -->
+<#if This.page?? && This.page != null && This.page.isAdministrator(Context.principal.name) >
+<#-- @extends src="/views/TemplatesBase/" + mySite.template.getTemplateName() + "/template.ftl" -->
 <@extends src="/views/labs-admin-base.ftl">
 <#if !mySite?? >
-    <#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+    <#assign mySite=Common.siteDoc(Document).getSite() />
 </#if>
 <#assign isHomePage = This.page?? && (mySite.getHomePageRef() == This.page.document.id) />
   <@block name="title">${mySite.title} - ${This.document.title} - ${Context.getMessage('label.admin.page.rights.pagetitle')}</@block>

@@ -41,7 +41,7 @@ public class GetSameSitePagesOperationTest extends AbstractTestOperation {
     @Test
     public void iCanGetSameSitePagesOfTree() throws Exception {
         LabsSite site = getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL);
-        DocumentModel treeDocument = site.getTree(session);
+        DocumentModel treeDocument = site.getTree();
         assertNotNull(treeDocument);
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = new OperationChain("test" + GetSameSitePages.ID);

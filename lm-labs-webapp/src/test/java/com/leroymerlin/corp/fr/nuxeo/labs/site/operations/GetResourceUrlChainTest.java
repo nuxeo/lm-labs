@@ -42,7 +42,7 @@ public class GetResourceUrlChainTest {
         LabsSite site = getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL);
         DocumentModel folder = session.getDocument(
                 new PathRef(
-                        site.getTree(session).getPathAsString() + "/" + PageClasseurPageRepositoryInit.PAGE_CLASSEUR_TITLE + "/" + PageClasseurPageRepositoryInit.FOLDER1_NAME));
+                        site.getTree().getPathAsString() + "/" + PageClasseurPageRepositoryInit.PAGE_CLASSEUR_TITLE + "/" + PageClasseurPageRepositoryInit.FOLDER1_NAME));
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = service.getOperationChain(OPERATIONSCHAIN);
         chain.getOperations().get(0).set("value", folder.getId());

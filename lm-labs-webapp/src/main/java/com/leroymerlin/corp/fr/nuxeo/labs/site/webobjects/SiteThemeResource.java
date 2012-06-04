@@ -41,6 +41,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.ThemePropertiesManage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "SiteTheme")
 @Produces("text/html; charset=UTF-8")
@@ -106,9 +107,8 @@ public class SiteThemeResource extends PageResource {
     @Path(value = "banner")
     public Response doDeleteBanner() {
         try {
-            CoreSession session = ctx.getCoreSession();
-            site.setBanner(null, session);
-            session.save();
+            site.setBanner(null);
+            ctx.getCoreSession().save();
             return Response.ok(
                     "?message_success=label.labssites.banner.deleted",
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
@@ -124,7 +124,8 @@ public class SiteThemeResource extends PageResource {
     @Path("banner")
     public Response getImgBanner() throws ClientException {
         CoreSession session = ctx.getCoreSession();
-        Blob blob = doc.getAdapter(SiteDocument.class).getSite(session).getThemeManager().getTheme(session).getBanner();
+        Blob blob = Tools.getAdapter(SiteDocument.class, doc, 
+                session).getSite().getThemeManager().getTheme(session).getBanner();
         if (blob != null) {
             return Response.ok().entity(blob).type(blob.getMimeType()).build();
         }

@@ -41,7 +41,7 @@ public class GetChildrenPagesOperationTest extends AbstractTestOperation {
     @Test
     public void iCanGetChildrenPagesOfTreeUsingDocId() throws Exception {
         LabsSite site = getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL);
-        DocumentModel treeDocument = site.getTree(session);
+        DocumentModel treeDocument = site.getTree();
         assertNotNull(treeDocument);
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = new OperationChain("test" + GetChildrenPages.ID);
@@ -54,7 +54,7 @@ public class GetChildrenPagesOperationTest extends AbstractTestOperation {
     @Test
     public void iCanGetChildrenPagesOfTreeUsingDocPath() throws Exception {
         LabsSite site = getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL);
-        DocumentModel treeDocument = site.getTree(session);
+        DocumentModel treeDocument = site.getTree();
         assertNotNull(treeDocument);
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = new OperationChain("test" + GetChildrenPages.ID);

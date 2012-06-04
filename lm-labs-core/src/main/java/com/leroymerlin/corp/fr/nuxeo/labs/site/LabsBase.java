@@ -1,13 +1,12 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 
-public interface LabsBase {
+public interface LabsBase extends LabsAdapter {
 
     public void setTitle(String title) throws PropertyException, ClientException, IllegalArgumentException;
 
@@ -19,9 +18,9 @@ public interface LabsBase {
 
     public DocumentModel getDocument();
 
-    public String[] getAllowedSubtypes(CoreSession session) throws ClientException;
+    public String[] getAllowedSubtypes() throws ClientException;
     
-    boolean isAuthorizedToDisplay(CoreSession session) throws ClientException;
+    boolean isAuthorizedToDisplay() throws ClientException;
     
     boolean isDeleted() throws ClientException;
     
@@ -33,7 +32,7 @@ public interface LabsBase {
     
     boolean isDraft() throws ClientException;
     
-    boolean isAdministrator(String userName, CoreSession session) throws ClientException;
+    boolean isAdministrator(String userName) throws ClientException;
     
-    boolean isContributor(String userName, CoreSession session) throws ClientException;
+    boolean isContributor(String userName) throws ClientException;
 }

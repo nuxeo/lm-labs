@@ -1,5 +1,5 @@
 <#macro adminMenu item basePath="${This.path}">
-	<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+	<#assign mySite=Common.siteDoc(Document).getSite() />
 	<div class="container">
 		<ul class="nav nav-pills">
 		    <li <#if item=="general">class="active"</#if>><a href="${basePath}/@views/edit"><i class="icon-cog"></i>${Context.getMessage('label.labssite.admin.tabs.main')}</a></li>

@@ -26,6 +26,7 @@ public class PageNewsSorter implements Sorter {
      */
     @Override
     public int compare(DocumentModel pDoc1, DocumentModel pDoc2) {
+        //No need session because the method getStartPublication and getEndPublication doesn't nedd
         LabsNews news1 = pDoc1.getAdapter(LabsNews.class);
         LabsNews news2 = pDoc2.getAdapter(LabsNews.class);
         try {

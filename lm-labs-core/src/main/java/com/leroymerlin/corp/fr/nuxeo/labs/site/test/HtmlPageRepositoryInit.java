@@ -6,6 +6,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class HtmlPageRepositoryInit extends OfmRepositoryInit {
 
@@ -16,7 +17,7 @@ public class HtmlPageRepositoryInit extends OfmRepositoryInit {
         DocumentModel doc = session.createDocumentModel(ofm.getPathAsString()
                 + "/" + LabsSiteConstants.Docs.TREE.docName(), "htmlTestPage",
                 "HtmlPage");
-        HtmlPage page = doc.getAdapter(HtmlPage.class);
+        HtmlPage page = Tools.getAdapter(HtmlPage.class, doc, session);
         page.setTitle("HTML Test page");
         page.setDescription("Page HTML de test");
         session.createDocument(page.getDocument());

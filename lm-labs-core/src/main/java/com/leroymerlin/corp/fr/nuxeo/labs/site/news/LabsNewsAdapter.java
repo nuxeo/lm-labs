@@ -10,7 +10,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
@@ -43,7 +42,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     private LabsNewsBlobHolder blobHolder = null;
 
     public LabsNewsAdapter(DocumentModel doc) {
-        this.doc = doc;
+        super(doc);
         this.blobHolder = (LabsNewsBlobHolder)this.doc.getAdapter(BlobHolder.class);
     }
 
@@ -145,20 +144,20 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     }
 
     @Override
-    public HtmlRow addRow(CoreSession session) throws ClientException {
-        return getSection(session).addRow(session);
+    public HtmlRow addRow() throws ClientException {
+        return getSection().addRow();
     }
 
     @Override
-    public List<HtmlRow> getRows(CoreSession session) {
+    public List<HtmlRow> getRows() {
         try {
-            return getSection(session).getRows(session);
+            return getSection().getRows();
         } catch (Exception e) {
             return new ArrayList<HtmlRow>();
         }
     }
 
-    private HtmlSection getSection(CoreSession session) throws ClientException {
+    private HtmlSection getSection() throws ClientException {
         if (section == null) {
             @SuppressWarnings("unchecked")
             List<Map<String, Serializable>> sectionsMap = (List<Map<String, Serializable>>) doc.getPropertyValue("html:sections");
@@ -171,7 +170,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
                 section = sections.get(0);
             } else {
                 section = new HtmlSectionImpl(this);
-                section.setTitle(getTitle(), session);
+                section.setTitle(getTitle());
             }
 
         }
@@ -179,17 +178,17 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     }
 
-    private void update(CoreSession session) throws ClientException {
+    private void update() throws ClientException {
         List<Map<String, Serializable>> sectionsMap = new ArrayList<Map<String, Serializable>>();
-        HtmlSectionImpl si = (HtmlSectionImpl) getSection(session);
+        HtmlSectionImpl si = (HtmlSectionImpl) getSection();
         sectionsMap.add(si.toMap());
         doc.setPropertyValue("html:sections", (Serializable) sectionsMap);
     }
 
     @Override
-    public HtmlRow row(int index, CoreSession session) {
+    public HtmlRow row(int index) {
         try {
-            return getSection(session).row(index, session);
+            return getSection().row(index);
         } catch (ClientException e) {
             return null;
         }
@@ -206,20 +205,20 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     }
 
     @Override
-    public HtmlRow insertBefore(HtmlRow htmlRow, CoreSession session) throws ClientException {
-        return getSection(session).insertBefore(htmlRow, session);
+    public HtmlRow insertBefore(HtmlRow htmlRow) throws ClientException {
+        return getSection().insertBefore(htmlRow);
     }
 
     @Override
-    public void remove(HtmlRow row, CoreSession session) throws ClientException {
-        getSection(session).remove(row, session);
+    public void remove(HtmlRow row) throws ClientException {
+        getSection().remove(row);
 
     }
 
     @Override
-    public void onChange(Object obj, CoreSession session) throws ClientException {
-        update(session);
-        if (isParentPageNewsPublished(session)) {
+    public void onChange(Object obj) throws ClientException {
+        update();
+        if (isParentPageNewsPublished()) {
             Calendar now = Calendar.getInstance();
             Calendar startPublication = getStartPublication();
             if (startPublication != null && startPublication.before(now) && now.before(getEndPublication())) {
@@ -229,10 +228,10 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 
     }
 
-    private boolean isParentPageNewsPublished(CoreSession session) {
+    private boolean isParentPageNewsPublished() {
         DocumentModel parentDocument;
         try {
-            parentDocument = session.getParentDocument(doc.getRef());
+            parentDocument = getSession().getParentDocument(doc.getRef());
             PageNews pageNews = parentDocument.getAdapter(PageNews.class);
             if (pageNews != null) {
                 if (pageNews.isVisible()) {
@@ -250,8 +249,8 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     }
 
     @Override
-    public HtmlRow addRow(String cssClass, CoreSession session) throws ClientException {
-        return getSection(session).addRow(cssClass, session);
+    public HtmlRow addRow(String cssClass) throws ClientException {
+        return getSection().addRow(cssClass);
     }
 
     @Override
@@ -309,7 +308,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     }
 
     @Override
-    public void setTitle(String title, CoreSession session) throws PropertyException,
+    public void setTitle(String title) throws PropertyException,
             ClientException, IllegalArgumentException {
         if (title == null) {
             throw new IllegalArgumentException("title cannot be null.");
@@ -318,7 +317,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     }
 
     @Override
-    public void setDescription(String description, CoreSession session) throws PropertyException,
+    public void setDescription(String description) throws PropertyException,
             ClientException {
         setDescription(doc, description);
     }

@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 		  <h1>${Context.getMessage('label.labssites.appearance.theme.edit.title')}</h1>
 	      
 	      <form class="form-horizontal" action="${This.path}/parameters" method="post" enctype="multipart/form-data" id="form-parameter">

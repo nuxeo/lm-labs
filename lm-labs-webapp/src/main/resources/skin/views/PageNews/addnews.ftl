@@ -1,7 +1,7 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName(Context.coreSession) + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
   <#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
 
-  <@block name="title">${Common.siteDoc(Document).getSite(Context.coreSession).title}-${This.document.title}</@block>
+  <@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title}</@block>
 
   <@block name="scripts">
     <@superBlock/>

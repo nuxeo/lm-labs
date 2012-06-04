@@ -44,6 +44,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTreeAsset;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "LabsSite", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
@@ -58,8 +59,10 @@ public class Site extends NotifiablePageResource {
                     + '/'
                     + URIUtils.quoteURIPathComponent(
                             (new org.nuxeo.common.utils.Path(
-                                    site.getIndexDocument(getCoreSession()).getAdapter(
-                                            SiteDocument.class).getResourcePath(getCoreSession())).removeFirstSegments(1)).toString(),
+                                    Tools.getAdapter(SiteDocument.class, 
+                                            site.getIndexDocument(), 
+                                            ctx.getCoreSession()).getResourcePath()).
+                                            removeFirstSegments(1)).toString(),
                             false));
         } catch (HomePageException e) {
             throw WebException.wrap(e);
@@ -71,7 +74,7 @@ public class Site extends NotifiablePageResource {
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        site = doc.getAdapter(LabsSite.class);
+        site = Tools.getAdapter(LabsSite.class, doc, ctx.getCoreSession());
 
         ctx.setProperty("site", site);
     }
@@ -197,20 +200,18 @@ public class Site extends NotifiablePageResource {
             throws ClientException {
 
         LabsSite site = (LabsSite) ctx.getProperty("site");
-        CoreSession session = getCoreSession();
-
         if (site != null) {
             DocumentModel tree = null;
             AbstractDocumentTree siteTree;
             if ("admin".equals(view)) {
-                tree = site.getTree(session);
+                tree = site.getTree();
                 siteTree = new AdminSiteTree(ctx, tree);
             } else if ("admin_asset".equals(view)) {
-                tree = "0".equals(id) ? site.getAssetsDoc(session)
+                tree = "0".equals(id) ? site.getAssetsDoc()
                         : getCoreSession().getDocument(new IdRef(id));
                 siteTree = new AdminSiteTreeAsset(ctx, tree);
             } else {
-                tree = site.getTree(session);
+                tree = site.getTree();
                 siteTree = new SiteDocumentTree(ctx, tree);
 
             }
@@ -240,7 +241,7 @@ public class Site extends NotifiablePageResource {
     public DocumentObject newDocument(String path) {
         try {
 
-            PathRef pathRef = new PathRef(site.getTree(getCoreSession()).getPathAsString()
+            PathRef pathRef = new PathRef(site.getTree().getPathAsString()
                     + "/" + path);
             DocumentModel doc = ctx.getCoreSession().getDocument(pathRef);
             return (DocumentObject) ctx.newObject(doc.getType(), doc);
@@ -254,7 +255,7 @@ public class Site extends NotifiablePageResource {
     public <A> A getAdapter(Class<A> adapter) {
         if (adapter.equals(Page.class)) {
             try {
-                return (A) site.getIndexDocument(getCoreSession()).getAdapter(Page.class);
+                return (A) Tools.getAdapter(Page.class, site.getIndexDocument(), ctx.getCoreSession());
             } catch (ClientException e) {
 
             }
@@ -263,7 +264,7 @@ public class Site extends NotifiablePageResource {
     }
 
     public List<DocumentModel> getDeletedDocs() throws ClientException {
-        return doc.getAdapter(LabsSite.class).getAllDeletedDocs(getCoreSession());
+        return Tools.getAdapter(LabsSite.class, doc, ctx.getCoreSession()).getAllDeletedDocs();
     }
 
     @Path("@externalURL/{idExt}")
@@ -285,7 +286,7 @@ public class Site extends NotifiablePageResource {
         String pURL = ctx.getForm().getString("exturl:url");
         CoreSession session = ctx.getCoreSession();
         try {
-            ExternalURL extURL = site.createExternalURL(pName, session);
+            ExternalURL extURL = site.createExternalURL(pName);
             extURL.setURL(pURL);
             session.saveDocument(extURL.getDocument());
             session.save();
@@ -300,7 +301,7 @@ public class Site extends NotifiablePageResource {
     public List<LabsNews> getNews(String pRef) throws ClientException {
         CoreSession session = getCoreSession();
         DocumentModel pageNews = session.getDocument(new IdRef(pRef));
-        return pageNews.getAdapter(PageNews.class).getAllNews(session);
+        return Tools.getAdapter(PageNews.class, pageNews, session).getAllNews();
     }
 
 }

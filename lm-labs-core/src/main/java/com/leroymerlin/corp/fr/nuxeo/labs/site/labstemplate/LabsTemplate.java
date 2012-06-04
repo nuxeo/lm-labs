@@ -1,12 +1,13 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate;
 
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
-public interface LabsTemplate {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsSession;
 
-    String getTemplateName(CoreSession session) throws ClientException;
+public interface LabsTemplate extends LabsSession {
+
+    String getTemplateName() throws ClientException;
     
     void setTemplateName(String name) throws ClientException;
 

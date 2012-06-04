@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.event.DocumentEventTypes;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
@@ -23,6 +24,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageSubscriptionForSiteSubscribers implements EventListener {
 
@@ -53,15 +55,16 @@ public class PageSubscriptionForSiteSubscribers implements EventListener {
                 return;
             }
             LOG.debug(eventName + " " + doc.getPathAsString());
+            CoreSession session = ctx.getCoreSession();
             try {
                 String notifNameOnSite = LabsSiteConstants.NotifNames.PAGE_MODIFIED;
                 NotificationManager notificationService = Framework.getService(NotificationManager.class);
                 UserManager userManager = Framework.getService(UserManager.class);
-                List<String> siteSubscribers = notificationService.getUsersSubscribedToNotificationOnDocument(notifNameOnSite, doc.getAdapter(SiteDocument.class).getSite(ctx.getCoreSession()).getDocument().getId());
+                List<String> siteSubscribers = notificationService.getUsersSubscribedToNotificationOnDocument(notifNameOnSite, Tools.getAdapter(SiteDocument.class, doc, session).getSite().getDocument().getId());
                 PageSubscription subscriptionAdapter = doc.getAdapter(PageSubscription.class);
                 for (String user : siteSubscribers) {
                     Principal princ = userManager.getPrincipal(StringUtils.removeStart(user, NotificationConstants.USER_PREFIX));
-                    if (ctx.getCoreSession().hasPermission(princ, doc.getRef(), SecurityConstants.READ)) {
+					if (session.hasPermission(princ, doc.getRef(), SecurityConstants.READ)) {
                         subscriptionAdapter.subscribe(princ.getName());
                     }
                 }

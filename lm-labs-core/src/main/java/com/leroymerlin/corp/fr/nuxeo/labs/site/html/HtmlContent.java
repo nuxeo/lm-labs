@@ -16,13 +16,14 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsSessionImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager.WidgetType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsHtmlWidget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsOpensocialGadget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
 
-public class HtmlContent {
+public class HtmlContent extends LabsSessionImpl {
 
     private static final Log LOG = LogFactory.getLog(HtmlContent.class);
 
@@ -100,28 +101,29 @@ public class HtmlContent {
 
 	}
 
-	public void setHtml(String html, CoreSession session) throws ClientException {
+	public void setHtml(String html) throws ClientException {
 		this.html = html;
-		parent.update(session);
+		parent.update();
 
 	}
 
-	public void setColNumber(int colNumber, CoreSession session) throws ClientException {
+	public void setColNumber(int colNumber) throws ClientException {
 		this.colNumber = colNumber;
-		parent.update(session);
+		parent.update();
 	}
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type, CoreSession session) throws ClientException {
+    public void setType(String type) throws ClientException {
         this.type = type;
-        parent.update(session);
+        parent.update();
     }
 
-    public List<LabsWidget> getGadgets(CoreSession session) throws ClientException {
+    public List<LabsWidget> getGadgets() throws ClientException {
         ArrayList<LabsWidget> list = new ArrayList<LabsWidget>();
+        CoreSession session = getSession();
         if (Type.WIDGET_CONTAINER.type().equals(getType())) {
             if (widgetRefs.size() != widgets.size()) {
                 for (String ref : widgetRefs) {
@@ -148,7 +150,7 @@ public class HtmlContent {
                     }
                 }
                 if (widgetRefs.removeAll(toRemove)) {
-                    parent.update(session);
+                    parent.update();
                 }
             }
             for (String ref : widgetRefs) {
@@ -159,24 +161,24 @@ public class HtmlContent {
         return list;
     }
 
-    public void addWidgetRef(String ref, CoreSession session) throws ClientException {
+    public void addWidgetRef(String ref) throws ClientException {
         widgetRefs.add(ref);
-        parent.update(session);
+        parent.update();
     }
 
-    public void removeWidgetRef(String ref, CoreSession session) throws ClientException {
+    public void removeWidgetRef(String ref) throws ClientException {
         widgetRefs.remove(ref);
         widgets.remove(ref);
-        parent.update(session);
+        parent.update();
     }
     /**
      * @param session
      * @return <code>true</code> if gadgets were removed and session saved, otherwise <code>false</code>.
      */
-    public boolean removeGadgets(CoreSession session) {
+    public boolean removeGadgets() {
         try {
             LabsGadgetManager service = Framework.getService(LabsGadgetManager.class);
-            return service.removeAllGadgetsOfHtmlContent(this, session);
+            return service.removeAllGadgetsOfHtmlContent(this, getSession());
         } catch (Exception e) {
             LOG.error(e, e);
         }

@@ -55,6 +55,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
@@ -132,16 +133,15 @@ public class PageResource extends DocumentObject {
     private void authorize(String userName, DocumentModel document) {
         try {
             String principalName = ctx.getPrincipal().getName();
-            CoreSession session = ctx.getCoreSession();
-            LabsSite site = CommonHelper.siteDoc(doc).getSite(session);
-            if (site.isAdministrator(principalName, session)
-                    || (site.isContributor(principalName, session) && !site.isSiteTemplate())) {
+            LabsSite site = CommonHelper.siteDoc(doc).getSite();
+            if (site.isAdministrator(principalName)
+                    || (site.isContributor(principalName) && !site.isSiteTemplate())) {
                 return;
             }
             //TODO use facet instead
             if (!Docs.LABSNEWS.type().equals(document.getType()) &&
                     !Docs.LABSTOPIC.type().equals(document.getType())) {
-                boolean authorized = labsBaseAdapter.isAuthorizedToDisplay(session);
+                boolean authorized = labsBaseAdapter.isAuthorizedToDisplay();
                 authorized = authorized && !labsBaseAdapter.isDeleted() && !site.isSiteTemplate();
                 if (!authorized) {
                     throw new WebResourceNotFoundException(userName
@@ -159,15 +159,15 @@ public class PageResource extends DocumentObject {
      */
     private void initLabsBaseAdapter(DocumentModel document) {
         if (LabsSiteConstants.Docs.SITE.type().equals(document.getType())) {
-            labsBaseAdapter = document.getAdapter(LabsSite.class);
+            labsBaseAdapter = Tools.getAdapter(LabsSite.class, document, ctx.getCoreSession());
         } else {
-            labsBaseAdapter = document.getAdapter(Page.class);
+            labsBaseAdapter = Tools.getAdapter(Page.class, doc, ctx.getCoreSession());
         }
     }
 
     public boolean isAuthorizedToDisplay() throws ClientException {
         if (!Docs.LABSNEWS.type().equals(doc.getType())) {
-            return labsBaseAdapter.isAuthorizedToDisplay(ctx.getCoreSession());
+            return labsBaseAdapter.isAuthorizedToDisplay();
         }
         return true;
     }
@@ -175,8 +175,9 @@ public class PageResource extends DocumentObject {
     public boolean isAuthorizedToDisplay(DocumentModel pDocument)
             throws ClientException {
         if (pDocument != null && !Docs.LABSNEWS.type().equals(pDocument.getType())) {
-            return pDocument.getAdapter(Page.class) != null ? pDocument.getAdapter(
-                Page.class).isAuthorizedToDisplay(ctx.getCoreSession()) : false;
+            CoreSession session = ctx.getCoreSession();
+            return Tools.getAdapter(Page.class, pDocument, session) != null ? Tools.getAdapter(
+                Page.class, pDocument, session).isAuthorizedToDisplay() : false;
         }
         return true;
     }
@@ -187,8 +188,8 @@ public class PageResource extends DocumentObject {
 
     public Page getPage() throws ClientException {
         if (labsBaseAdapter instanceof LabsSiteAdapter) {
-            return ((LabsSiteAdapter) labsBaseAdapter).getIndexDocument(ctx.getCoreSession()).getAdapter(
-                    Page.class);
+            return Tools.getAdapter(Page.class, 
+                    ((LabsSiteAdapter) labsBaseAdapter).getIndexDocument(), ctx.getCoreSession());
         } else {
             return (Page) labsBaseAdapter;
         }
@@ -217,7 +218,7 @@ public class PageResource extends DocumentObject {
         String styleProperties = "";
         try {
             CoreSession session = ctx.getCoreSession();
-            LabsSite site = doc.getAdapter(SiteDocument.class).getSite(session);
+            LabsSite site = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
             SiteTheme theme = site.getThemeManager().getTheme(session);
             themeName = theme.getName();
             style = theme.getStyle();
@@ -252,7 +253,7 @@ public class PageResource extends DocumentObject {
         String themeName = "";
         try {
             CoreSession session = ctx.getCoreSession();
-            LabsSite site = doc.getAdapter(SiteDocument.class).getSite(session);
+            LabsSite site = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
             themeName = site.getThemeManager().getTheme(session).getName();
         } catch (ClientException e) {
             throw WebException.wrap(e);
@@ -336,7 +337,7 @@ public class PageResource extends DocumentObject {
         try {
             DocumentModel copy = session.copy(doc.getRef(),
                     destination.getRef(), null);
-            Page page = copy.getAdapter(Page.class);
+            Page page = Tools.getAdapter(Page.class, copy, session);
             page.setTitle(COPYOF_PREFIX + page.getTitle());
             session.saveDocument(page.getDocument());
             session.save();
@@ -375,7 +376,7 @@ public class PageResource extends DocumentObject {
             boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString(
             "commentablePage"));
             String templateName = ctx.getForm().getString("template");
-            Page page = doc.getAdapter(Page.class);
+            Page page = Tools.getAdapter(Page.class, doc, ctx.getCoreSession());
             String elementsPerPage_str = ctx.getForm().getString(ELEMENTS_PER_PAGE);
             if (!StringUtils.isEmpty(elementsPerPage_str) && StringUtils.isNumeric(elementsPerPage_str)){
                 int elementsPerPage = new Integer(elementsPerPage_str).intValue();
@@ -386,11 +387,11 @@ public class PageResource extends DocumentObject {
             page.setCommentable(isCheckedCommentable);
             page.setNotDisplayableParameters(fieldsNotDisplayable);
             page.setTitle(pageTitle);
-            String documentTemplateName = doc.getAdapter(LabsTemplate.class).getDocumentTemplateName();
-            if (!StringUtils.isEmpty(templateName) || (StringUtils.isEmpty(templateName) && !StringUtils.isEmpty(documentTemplateName))) {
-                doc.getAdapter(LabsTemplate.class).setTemplateName(templateName);
-            }
             CoreSession session = getCoreSession();
+            String documentTemplateName = Tools.getAdapter(LabsTemplate.class, doc, session).getDocumentTemplateName();
+            if (!StringUtils.isEmpty(templateName) || (StringUtils.isEmpty(templateName) && !StringUtils.isEmpty(documentTemplateName))) {
+                Tools.getAdapter(LabsTemplate.class, doc, session).setTemplateName(templateName);
+            }
             session.saveDocument(doc);
             session.save();
             if("on".equalsIgnoreCase(ctx.getForm().getString("publishPage"))){
@@ -436,8 +437,8 @@ public class PageResource extends DocumentObject {
         boolean setAsHome = false;
         try {
             CoreSession session = ctx.getCoreSession();
-            LabsSite site = doc.getAdapter(SiteDocument.class).getSite(session);
-            if (site.isAdministrator(ctx.getPrincipal().getName(), session)) {
+            LabsSite site = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
+            if (site.isAdministrator(ctx.getPrincipal().getName())) {
                 site.setHomePageRef(doc.getId());
                 session.saveDocument(site.getDocument());
                 LabsSiteUtils.unblockInherits("", doc, session);
@@ -485,14 +486,14 @@ public class PageResource extends DocumentObject {
         DocumentModel parent = doc;
         final CoreSession session = getCoreSession();
         try {
-            LabsSite labsSite = doc.getAdapter(SiteDocument.class).getSite(session);
-            if (overwrite && !labsSite.isAdministrator(ctx.getPrincipal().getName(), session)) {
+            LabsSite labsSite = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
+            if (overwrite && !labsSite.isAdministrator(ctx.getPrincipal().getName())) {
                 return Response.status(Status.UNAUTHORIZED).build();
             }
             if (PageCreationLocation.SAME.equals(location)) {
                 parent = session.getParentDocument(doc.getRef());
             } else if (PageCreationLocation.TOP.equals(location)) {
-                parent = labsSite.getTree(session);
+                parent = labsSite.getTree();
             }
             if (overwrite) {
                 DocumentModel deletedPageDoc = LabsSiteUtils.getPageName(name, parent.getRef(), session);

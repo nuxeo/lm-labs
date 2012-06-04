@@ -64,18 +64,18 @@ public class LabsSiteWebAppUtilsTest {
                 site.getPathAsString() + "/"
                         + LabsSiteConstants.Docs.TREE.docName(),
                 "ma page classeur").desc("desc page classeur").create();
-        assertThat(classeur.getFolders(session).size(), is(0));
+        assertThat(classeur.getFolders().size(), is(0));
 
-        classeur.addFolder("My Folder", session);
+        classeur.addFolder("My Folder");
         session.save();
-        PageClasseurFolder folder = classeur.getFolders(session).get(0);
-        assertThat(folder.getFiles(session).size(), is(0));
-        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title", session);
+        PageClasseurFolder folder = classeur.getFolders().get(0);
+        assertThat(folder.getFiles().size(), is(0));
+        folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
         session.save();
-        assertThat(folder.getFiles(session).size(), is(1));
+        assertThat(folder.getFiles().size(), is(1));
         session.save();
 
-        classeur.getDocument().getAdapter(LabsPublisher.class).publish();
+        Tools.getAdapter(LabsPublisher.class, classeur.getDocument(), null).publish();
 
         PageProvider<DocumentModel> latestUploadsPageProvider = LabsSiteWebAppUtils.getLatestUploadsPageProvider(
                 site, 0, session);

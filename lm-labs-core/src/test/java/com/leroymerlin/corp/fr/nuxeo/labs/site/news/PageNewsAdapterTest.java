@@ -26,6 +26,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedOutput;
 
@@ -44,15 +45,15 @@ public class PageNewsAdapterTest {
     @Test
     public void iCanGetLabsNewsAdapter() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        assertThat(document.getAdapter(PageNews.class), is(notNullValue()));
+        assertThat(Tools.getAdapter(PageNews.class, document, session), is(notNullValue()));
     }
 
     @Test
     public void iCanCreateNewsViaPageNewsAdapter() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
 
-        LabsNews news = pn.createNews("Ma news", session);
+        LabsNews news = pn.createNews("Ma news");
         news.setContent("Hello World");
         DocumentModel doc = news.getDocumentModel();
         session.saveDocument(doc);
@@ -64,7 +65,7 @@ public class PageNewsAdapterTest {
         doc = session.getDocument(new PathRef(path));
 
 
-        news = doc.getAdapter(LabsNews.class);
+        news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news.getTitle(),is("Ma news"));
         assertThat(news.getContent(),is("Hello World"));
 
@@ -73,17 +74,17 @@ public class PageNewsAdapterTest {
     @Test
     public void iCanRetrieveAllNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
 
-        LabsNews news = pn.createNews("Ma news", session);
+        LabsNews news = pn.createNews("Ma news");
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news2", session);
+        news = pn.createNews("Ma news2");
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news3", session);
+        news = pn.createNews("Ma news3");
         session.saveDocument(news.getDocumentModel());
         session.save();
 
-        List<LabsNews> allNews = pn.getAllNews(session);
+        List<LabsNews> allNews = pn.getAllNews();
         assertThat(allNews.size(), is(3));
 
     }
@@ -91,10 +92,10 @@ public class PageNewsAdapterTest {
     @Test
     public void testContainsOnGetAllNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
-        LabsNews news = pn.createNews("Ma news", session);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
+        LabsNews news = pn.createNews("Ma news");
         session.saveDocument(news.getDocumentModel());
-        List<LabsNews> allNews = pn.getTopNews(Integer.MAX_VALUE, session);
+        List<LabsNews> allNews = pn.getTopNews(Integer.MAX_VALUE);
         assertFalse(allNews.contains(news));
         
         Calendar cal1 = Calendar.getInstance();
@@ -104,24 +105,24 @@ public class PageNewsAdapterTest {
         news.setStartPublication(cal1);
         news.setEndPublication(cal2);
         session.saveDocument(news.getDocumentModel());
-        allNews = pn.getTopNews(Integer.MAX_VALUE, session);
+        allNews = pn.getTopNews(Integer.MAX_VALUE);
         assertTrue(allNews.contains(news));
     }
 
     @Test
     public void iCanRetrieveTopNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
 
         createDatasTestForTopNews(pn);
 
-        List<LabsNews> allNews = pn.getTopNews(2, session);
+        List<LabsNews> allNews = pn.getTopNews(2);
         assertThat(allNews.size(), is(2));
         
-        allNews = pn.getTopNews(3, session);
+        allNews = pn.getTopNews(3);
         assertThat(allNews.size(), is(3));
         
-        allNews = pn.getTopNews(5, session);
+        allNews = pn.getTopNews(5);
         assertThat(allNews.size(), is(3));
 
     }
@@ -136,11 +137,11 @@ public class PageNewsAdapterTest {
         cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) -1);
         cal2.set(Calendar.MONTH, cal2.get(Calendar.MONTH) + 1);
         
-        LabsNews news = pn.createNews("Ma news", session);
+        LabsNews news = pn.createNews("Ma news");
         news.setStartPublication(cal1);
         news.setEndPublication(cal2);
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news2", session);
+        news = pn.createNews("Ma news2");
         cal1 = Calendar.getInstance();
         cal2 = Calendar.getInstance();
         cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) - 2);
@@ -148,7 +149,7 @@ public class PageNewsAdapterTest {
         news.setStartPublication(cal1);
         news.setEndPublication(cal2);
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news3", session);
+        news = pn.createNews("Ma news3");
         cal1 = Calendar.getInstance();
         cal2 = Calendar.getInstance();
         cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) - 1);
@@ -156,7 +157,7 @@ public class PageNewsAdapterTest {
         news.setStartPublication(cal1);
         news.setEndPublication(cal2);
         session.saveDocument(news.getDocumentModel());
-        news = pn.createNews("Ma news4", session);
+        news = pn.createNews("Ma news4");
         cal1 = Calendar.getInstance();
         cal2 = Calendar.getInstance();
         cal1.set(Calendar.MONTH, cal1.get(Calendar.MONTH) - 1);
@@ -166,27 +167,27 @@ public class PageNewsAdapterTest {
         session.saveDocument(news.getDocumentModel());
         session.save();
 
-        List<LabsNews> allNews = pn.getTopNews(2, session);
+        List<LabsNews> allNews = pn.getTopNews(2);
         assertThat(allNews.size(), is(2));
         
-        allNews = pn.getTopNews(3, session);
+        allNews = pn.getTopNews(3);
         assertThat(allNews.size(), is(3));
         
-        allNews = pn.getTopNews(5, session);
+        allNews = pn.getTopNews(5);
         assertThat(allNews.size(), is(3));
 
     }
     @Test
     public void iCanBuildRssTopNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
 
         createDatasTestForTopNews(pn);
         
-        List<LabsNews> allNews = pn.getTopNews(3, session);
+        List<LabsNews> allNews = pn.getTopNews(3);
         assertThat(allNews.size(), is(3));
         
-        SyndFeed feed = pn.buildRssLabsNews(allNews, "localhost:8080", "DefaultDescription", session);
+        SyndFeed feed = pn.buildRssLabsNews(allNews, "localhost:8080", "DefaultDescription");
         assertNotNull(feed);
         assertNotNull(feed.getDescription());
         assertNotNull(feed.getEntries());
@@ -198,15 +199,15 @@ public class PageNewsAdapterTest {
     @Test
     public void iCanWriteRssTopNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
         pn.setTitle("titre page News");
 
         createDatasTestForTopNews(pn);
         
-        List<LabsNews> allNews = pn.getTopNews(3, session);
+        List<LabsNews> allNews = pn.getTopNews(3);
         assertThat(allNews.size(), is(3));
         
-        SyndFeed feed = pn.buildRssLabsNews(allNews, "http://localhost:8080/", "DefaultDescription", session);
+        SyndFeed feed = pn.buildRssLabsNews(allNews, "http://localhost:8080/", "DefaultDescription");
         assertNotNull(feed);
         assertNotNull(feed.getDescription());
         assertNotNull(feed.getEntries());

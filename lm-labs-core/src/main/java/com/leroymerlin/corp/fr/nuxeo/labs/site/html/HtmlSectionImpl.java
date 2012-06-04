@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 
 public class HtmlSectionImpl implements HtmlSection {
 
@@ -36,16 +35,16 @@ public class HtmlSectionImpl implements HtmlSection {
     }
 
     @Override
-    public void setTitle(String title, CoreSession session) throws ClientException {
+    public void setTitle(String title) throws ClientException {
         innerMap.put(TITLE_KEY, title);
-        parent.onChange(this, session);
+        parent.onChange(this);
 
     }
 
     @Override
-    public void setDescription(String description, CoreSession session) throws ClientException {
+    public void setDescription(String description) throws ClientException {
         innerMap.put(DESCRIPTION_KEY, description);
-        parent.onChange(this, session);
+        parent.onChange(this);
     }
 
     @Override
@@ -61,26 +60,26 @@ public class HtmlSectionImpl implements HtmlSection {
     }
 
     @Override
-    public HtmlRow addRow(CoreSession session) throws ClientException {
+    public HtmlRow addRow() throws ClientException {
         HtmlRow row = new HtmlRow(this);
-        getRows(session).add(row);
-        update(session);
-        parent.onChange(this, session);
+        getRows().add(row);
+        update();
+        parent.onChange(this);
         return row;
     }
 
     
-    private void update(CoreSession session) throws ClientException {
+    private void update() throws ClientException {
         List<Serializable> rowsMap = new ArrayList<Serializable>();
-        for (HtmlRow row : getRows(session)) {
+        for (HtmlRow row : getRows()) {
             rowsMap.add((Serializable) row.toMap());
         }
         innerMap.put("rows", (Serializable) rowsMap);
-        parent.onChange(this, session);
+        parent.onChange(this);
     }
 
     @Override
-    public List<HtmlRow> getRows(CoreSession session) {
+    public List<HtmlRow> getRows() {
 
         if (rows == null) {
             rows = new ArrayList<HtmlRow>();
@@ -100,8 +99,8 @@ public class HtmlSectionImpl implements HtmlSection {
     }
 
     @Override
-    public HtmlRow row(int index, CoreSession session) {
-        return getRows(session).get(index);
+    public HtmlRow row(int index) {
+        return getRows().get(index);
     }
 
     @Override
@@ -116,34 +115,34 @@ public class HtmlSectionImpl implements HtmlSection {
     }
 
     @Override
-    public HtmlRow insertBefore(HtmlRow htmlRow, CoreSession session) throws ClientException {
-        List<HtmlRow> rows = getRows(session);
+    public HtmlRow insertBefore(HtmlRow htmlRow) throws ClientException {
+        List<HtmlRow> rows = getRows();
         HtmlRow row = new HtmlRow(this);
         rows.add(rows.indexOf(htmlRow), row);
-        update(session);
+        update();
         return row;
 
     }
 
     @Override
-    public void remove(HtmlRow row, CoreSession session) throws ClientException {
-        getRows(session).remove(row);
-        update(session);
+    public void remove(HtmlRow row) throws ClientException {
+        getRows().remove(row);
+        update();
     }
 
     @Override
-    public void onChange(Object obj, CoreSession session) throws ClientException {
-        update(session);
+    public void onChange(Object obj) throws ClientException {
+        update();
 
     }
 
     @Override
-    public HtmlRow addRow(String cssClass, CoreSession session) throws ClientException {
+    public HtmlRow addRow(String cssClass) throws ClientException {
 
             HtmlRow row = new HtmlRow(this,cssClass);
-            getRows(session).add(row);
-            update(session);
-            parent.onChange(this, session);
+            getRows().add(row);
+            update();
+            parent.onChange(this);
             return row;
     }
 

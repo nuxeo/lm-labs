@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 
 <#function isCurrentPage id>
 	<#if id == Document.id >
@@ -17,14 +17,14 @@
 </#function>
 
 	<ul class="nav nav-tabs topnavpages">
-		<#assign topPages = Common.getTopNavigationPages(mySite.getTree(Context.coreSession), Context.principal.name) />
+		<#assign topPages = Common.getTopNavigationPages(mySite.getTree(), Context.principal.name) />
 		<#if topPages?size &gt; 0 >
 			<#assign tabActivated = false />
-			<#assign homePageId = Common.siteDoc((topPages?first).document).getSite(Context.coreSession).getHomePageRef() />
+			<#assign homePageId = Common.siteDoc((topPages?first).document).getSite().getHomePageRef() />
 			<#list topPages as child >
 				<#assign isActiveTab = false />
 				<#assign pageDoc = child.document />
-				<#assign url = Context.modulePath + "/" + Common.siteDoc(pageDoc).getResourcePath(Context.coreSession) />
+				<#assign url = Context.modulePath + "/" + Common.siteDoc(pageDoc).getResourcePath() />
 				<#if !tabActivated >
 					<#assign isActiveTab = isCurrentPage(pageDoc.id) />
 					<#if isActiveTab >

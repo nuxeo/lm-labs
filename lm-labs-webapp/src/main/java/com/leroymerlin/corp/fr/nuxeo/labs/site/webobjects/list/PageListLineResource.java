@@ -42,6 +42,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBean;
 
 /**
@@ -73,23 +74,24 @@ public class PageListLineResource extends DocumentObject {
         }
         if (args.length > 0) {
             doc = (DocumentModel) args[0];
+            CoreSession session = ctx.getCoreSession();
             if (LabsSiteConstants.Docs.PAGELIST_LINE.type().equals(doc.getType())){
                 try {
-                    DocumentModel docParent = ctx.getCoreSession().getDocument(doc.getParentRef());
-                    parent = docParent.getAdapter(PageList.class);
+                    DocumentModel docParent = session.getDocument(doc.getParentRef());
+                    parent = Tools.getAdapter(PageList.class, docParent, session);
                 } catch (ClientException e) {
                     throw WebException.wrap(
                             "Failed to get parent " + doc.getPathAsString(), e);
                 }
             }
             else{
-                parent = doc.getAdapter(PageList.class);
+                parent = Tools.getAdapter(PageList.class, doc, session);
             }
         }
     }
 
     public List<DocumentModel> getComments() throws ClientException{
-        return doc.getAdapter(CommentableDocument.class).getComments();
+        return Tools.getAdapter(CommentableDocument.class, doc, null).getComments();
     }
 
     @GET
@@ -98,7 +100,7 @@ public class PageListLineResource extends DocumentObject {
         EntriesLine line = null;
         FreemarkerBean bean = null;
         try {
-            PageListLine adapter = doc.getAdapter(PageListLine.class);
+            PageListLine adapter = Tools.getAdapter(PageListLine.class, doc, ctx.getCoreSession());
             bean = new FreemarkerBean(null, null, parent.getHeaderSet(), null);
             line = adapter.getLine();
         } catch (ClientException e) {
@@ -115,7 +117,7 @@ public class PageListLineResource extends DocumentObject {
             url = "&page=" + currentPage_str;
         }
         try {
-            doc.getAdapter(PageListLine.class).removeLine(ctx.getCoreSession());
+            Tools.getAdapter(PageListLine.class, doc, ctx.getCoreSession()).removeLine();
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_DELETE_LINE_ID + doc.getRef().reference(), e);
             return Response.ok("?message_error=label.pageList.line_deleted_error" + url,
@@ -202,9 +204,8 @@ public class PageListLineResource extends DocumentObject {
             }
             String principalName = ctx.getPrincipal().getName();
             entriesLine.setUserName(principalName);
-            CoreSession session = getCoreSession();
-            LabsSite site = CommonHelper.siteDoc(doc).getSite(session);
-            parent.saveLine(entriesLine, site, session);
+            LabsSite site = CommonHelper.siteDoc(doc).getSite();
+            parent.saveLine(entriesLine, site);
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_SAVE_LINE, e);
             return Response.ok("?message_error=label.pageList.line_updated_error" + url,
@@ -224,7 +225,7 @@ public class PageListLineResource extends DocumentObject {
             blob.persist();
             if (blob.getLength() > 0) {
                 CoreSession session = getCoreSession();
-                doc.getAdapter(PageListLine.class).addFile(blob, desc, title, session);
+                Tools.getAdapter(PageListLine.class, doc, session).addFile(blob, desc, title);
                 session.save();
             }
         } catch (Exception e) {
@@ -241,7 +242,7 @@ public class PageListLineResource extends DocumentObject {
     }
 
     public BlobHolder getBlobHolder(final DocumentModel document) {
-        return document.getAdapter(BlobHolder.class);
+        return Tools.getAdapter(BlobHolder.class, document, null);
     }
 
     @Path("@file/{filename}")
@@ -251,7 +252,7 @@ public class PageListLineResource extends DocumentObject {
     }
 
     public DocumentModelList getFiles() throws ClientException {
-        return doc.getAdapter(PageListLine.class).getFiles(ctx.getCoreSession());
+        return Tools.getAdapter(PageListLine.class, doc, ctx.getCoreSession()).getFiles();
     }
 
 //    private void manageAddedPermission(EntriesLine entriesLine){

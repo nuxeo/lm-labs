@@ -14,6 +14,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class AllDocTypeRepositoryInit extends OfmRepositoryInit {
 
@@ -67,9 +68,9 @@ public class AllDocTypeRepositoryInit extends OfmRepositoryInit {
         DocumentModel news = session.createDocumentModel(
                 pageNews.getPathAsString(), NEWS_TITLE_OF_DOC,
                 LabsSiteConstants.Docs.LABSNEWS.type());
-        LabsNews newsAdapter = news.getAdapter(LabsNews.class);
+        LabsNews newsAdapter = Tools.getAdapter(LabsNews.class, news, session);
         newsAdapter.setContent("labsNewsContent<br />Passage à la ligne");
-        newsAdapter.setTitle(LABS_NEWS_TITLE, session);
+        newsAdapter.setTitle(LABS_NEWS_TITLE);
         newsAdapter.setStartPublication(Calendar.getInstance());
         session.createDocument(news);
 
@@ -79,7 +80,7 @@ public class AllDocTypeRepositoryInit extends OfmRepositoryInit {
             throws ClientException {
         DocumentModel doc = session.createDocumentModel(parentPath,
                 "htmlTestPage", "HtmlPage");
-        HtmlPage page = doc.getAdapter(HtmlPage.class);
+        HtmlPage page = Tools.getAdapter(HtmlPage.class, doc, session);
         page.setTitle("HTML Test page");
         page.setDescription("Page HTML de test");
         session.createDocument(page.getDocument());
@@ -94,13 +95,13 @@ public class AllDocTypeRepositoryInit extends OfmRepositoryInit {
                 PAGE_CLASSEUR_TITLE).create();
         classeur.setTitle(PAGE_CLASSEUR_TITLE);
 
-        PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME, session);
+        PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME);
         session.save();
         try {
             Blob blob = new FileBlob(
                     getClass().getResourceAsStream("/" + FILE1_NAME));
             blob.setFilename(FILE1_NAME);
-            folder.addFile(blob, FILE1_DESCRIPTION, "title", session);
+            folder.addFile(blob, FILE1_DESCRIPTION, "title");
 
         } catch (Exception e) {
             // TODO Auto-generated catch block

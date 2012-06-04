@@ -1,6 +1,6 @@
 <#assign isPage =  This.activeAdapter.pageForPermissions />
 <#if !mySite??>
-	<#assign mySite = Common.siteDoc(Document).getSite(Context.coreSession) />
+	<#assign mySite = Common.siteDoc(Document).getSite() />
 </#if>
 <#if !(isHomePage)??>
 	<#assign isHomePage = This.page?? && (mySite.getHomePageRef() == This.page.document.id) />

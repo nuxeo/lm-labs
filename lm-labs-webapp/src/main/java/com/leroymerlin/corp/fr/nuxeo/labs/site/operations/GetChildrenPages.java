@@ -15,6 +15,7 @@ import org.nuxeo.ecm.platform.query.api.PageProvider;
 
 import com.leroymerlin.common.core.providers.DocumentModelListPageProvider;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @Operation(id = GetChildrenPages.ID, category = Constants.CAT_FETCH, label = "",
 description = "")
@@ -47,8 +48,8 @@ public class GetChildrenPages {
         } else {
             throw new IllegalArgumentException("missing docId or docPath.");
         }
-        SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
-        PageProvider<DocumentModel> pageProvider = new DocumentModelListPageProvider(siteDocument.getChildrenPageDocuments(session));
+        SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, document, session);
+        PageProvider<DocumentModel> pageProvider = new DocumentModelListPageProvider(siteDocument.getChildrenPageDocuments());
         if (pageSize != null) {
             pageProvider.setPageSize(targetPageSize);
         }

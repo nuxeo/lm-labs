@@ -25,6 +25,7 @@ import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "PageClasseurFolder")
 public class PageClasseurFolderResource extends DocumentObject {
@@ -36,7 +37,7 @@ public class PageClasseurFolderResource extends DocumentObject {
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        folder = doc.getAdapter(PageClasseurFolder.class);
+        folder = Tools.getAdapter(PageClasseurFolder.class, doc, ctx.getCoreSession());
     }
     
     @Override
@@ -62,7 +63,7 @@ public class PageClasseurFolderResource extends DocumentObject {
                 try {
                     blob.persist();
                     if (blob.getLength() > 0) {
-                        folder.addFile(blob, desc, title, getCoreSession());
+                        folder.addFile(blob, desc, title);
                     }
                 } catch (Exception e) {
                     failedBlobs.add(blob);
@@ -89,7 +90,7 @@ public class PageClasseurFolderResource extends DocumentObject {
     public Response getDelete() {
         try {
             CoreSession session = ctx.getCoreSession();
-            if (folder.setAsDeleted(session)) {
+            if (folder.setAsDeleted()) {
                 session.save();
             }
         } catch (ClientException e) {

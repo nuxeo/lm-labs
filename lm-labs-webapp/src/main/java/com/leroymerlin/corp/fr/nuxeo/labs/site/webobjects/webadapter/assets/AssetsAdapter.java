@@ -60,7 +60,7 @@ public class AssetsAdapter extends DefaultAdapter {
     private AssetFolderResource getAssetResource(LabsSite site)
             throws ClientException {
         return (AssetFolderResource) ctx.newObject("AssetFolder",
-                site.getAssetsDoc(ctx.getCoreSession()));
+                site.getAssetsDoc());
     }
 
     @Path("{path}")
@@ -101,7 +101,7 @@ public class AssetsAdapter extends DefaultAdapter {
         LabsSite site = (LabsSite) ctx.getProperty("site");
 
         if (site != null) {
-            DocumentModel assetsDoc = site.getAssetsDoc(ctx.getCoreSession());
+            DocumentModel assetsDoc = site.getAssetsDoc();
             AssetsDocumentTree tree = new AssetsDocumentTree(ctx, assetsDoc);
             String result = "";
             if (root == null || "source".equals(root)) {

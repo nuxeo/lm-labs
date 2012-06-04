@@ -1,8 +1,8 @@
 <#if This.type.name != "sitesRoot" && !mySite?? >
-   <#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+   <#assign mySite=Common.siteDoc(Document).getSite() />
 </#if>
-<#assign isAdministrator = (mySite?? && mySite.isAdministrator(Context.principal.name, Context.coreSession) ) />
-<#assign isContributor = (mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) ) />
+<#assign isAdministrator = (mySite?? && mySite.isAdministrator(Context.principal.name) ) />
+<#assign isContributor = (mySite?? && mySite.isContributor(Context.principal.name) ) />
 
 <script type="text/javascript">
 

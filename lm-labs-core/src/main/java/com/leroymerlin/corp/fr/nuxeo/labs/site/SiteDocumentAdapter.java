@@ -15,38 +15,40 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
-public class SiteDocumentAdapter implements SiteDocument {
+public class SiteDocumentAdapter extends LabsAdapterImpl implements SiteDocument {
 
-    private final DocumentModel doc;
 
-    public SiteDocumentAdapter(DocumentModel doc) {
-        this.doc = doc;
-    }
+    public SiteDocumentAdapter(DocumentModel document) {
+		super(document);
+	}
 
-    @Override
-    public Page getParentPage(CoreSession session) throws ClientException {
+	@Override
+    public Page getParentPage() throws ClientException {
         DocumentModel parentDocument = doc;
+        CoreSession session = getSession();
         while (!LabsSiteConstants.Docs.DEFAULT_DOMAIN.type()
                 .equals(parentDocument.getType())) {
             try {
-                parentDocument = session.getParentDocument(parentDocument.getRef());
+				parentDocument = session.getParentDocument(parentDocument.getRef());
                 if (parentDocument.hasSchema(Schemas.PAGE.getName()) && !LabsSiteConstants.Docs.SITE.type().equals(parentDocument.getType())) {
-                    return parentDocument.getAdapter(Page.class);
+                    return Tools.getAdapter(Page.class, parentDocument, session);
                 }
             } catch (ClientException e) {
                 break;
             }
         }
-        return doc.getAdapter(Page.class);
+        return Tools.getAdapter(Page.class, doc, session);
     }
 
     @Override
-    public LabsSite getSite(CoreSession session) throws ClientException {
+    public LabsSite getSite() throws ClientException {
+    	CoreSession session = getSession();
         DocumentModel parent = doc;
         if (Docs.SITE.type()
                 .equals(parent.getType())) {
-            return parent.getAdapter(LabsSite.class);
+            return Tools.getAdapter(LabsSite.class, parent, session);
         }
         while (!parent.getParentRef()
                 .equals(session.getRootDocument()
@@ -54,7 +56,7 @@ public class SiteDocumentAdapter implements SiteDocument {
             parent = session.getDocument(parent.getParentRef());
             if (Docs.SITE.type()
                     .equals(parent.getType())) {
-                return parent.getAdapter(LabsSite.class);
+                return Tools.getAdapter(LabsSite.class, parent, session);
             }
         }
         throw new IllegalArgumentException("document '" + doc.getPathAsString()
@@ -62,16 +64,16 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public String getParentPagePath(CoreSession session) throws ClientException {
-        return getParentPage(session).getPath(session);
+    public String getParentPagePath() throws ClientException {
+        return getParentPage().getPath();
     }
 
     @Override
-    public String getResourcePath(CoreSession session) throws ClientException {
-        LabsSite site = getSite(session);
+    public String getResourcePath() throws ClientException {
+        LabsSite site = getSite();
         String endUrl = doc.getPathAsString();
-        if (endUrl.contains(site.getTree(session).getPathAsString())) {
-            endUrl = endUrl.replace(site.getTree(session).getPathAsString(), "");
+        if (endUrl.contains(site.getTree().getPathAsString())) {
+            endUrl = endUrl.replace(site.getTree().getPathAsString(), "");
         } else {
             endUrl = endUrl.replace(site.getDocument().getPathAsString(), "");
         }
@@ -84,10 +86,10 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public Collection<Page> getChildrenPages(CoreSession session) throws ClientException {
+    public Collection<Page> getChildrenPages() throws ClientException {
         List<Page> pages = new ArrayList<Page>();
-        for (DocumentModel child : getChildrenPageDocuments(session)) {
-            Page adapter = child.getAdapter(Page.class);
+        for (DocumentModel child : getChildrenPageDocuments()) {
+            Page adapter = Tools.getAdapter(Page.class, child, getSession());
             if (adapter != null) {
                 pages.add(adapter);
             }
@@ -96,8 +98,8 @@ public class SiteDocumentAdapter implements SiteDocument {
     }
 
     @Override
-    public DocumentModelList getChildrenPageDocuments(CoreSession session) throws ClientException {
-        return LabsSiteUtils.getChildrenPageDocuments(doc, session);
+    public DocumentModelList getChildrenPageDocuments() throws ClientException {
+        return LabsSiteUtils.getChildrenPageDocuments(doc, getSession());
     }
 
 }

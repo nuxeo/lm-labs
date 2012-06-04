@@ -1,4 +1,4 @@
-<#assign detailedPageUrl = Root.getLink(Common.siteDoc(Document).getSite(Context.coreSession).document) + "/@views/latestuploads?page=0" />
+<#assign detailedPageUrl = Root.getLink(Common.siteDoc(Document).getSite().document) + "/@views/latestuploads?page=0" />
 <#assign pageProvider = latestUploadsPageProvider(Document, 5, Context.getCoreSession()) />
 <#assign pagesListTile = Context.getMessage('title.LabsSite.latestuploads') />
 <#assign pagesListId = "latestuploads" />

@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 <@extends src="/views/labs-admin-base.ftl">
 
   <@block name="docactions"></@block>

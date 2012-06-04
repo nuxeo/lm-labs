@@ -1,10 +1,10 @@
 <#if This.type.name != "sitesRoot" && !mySite?? >
-	<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+	<#assign mySite=Common.siteDoc(Document).getSite() />
 </#if>
-<#assign isAdministrator = (mySite?? && mySite.isAdministrator(Context.principal.name, Context.coreSession) ) />
+<#assign isAdministrator = (mySite?? && mySite.isAdministrator(Context.principal.name) ) />
 <#assign canSetHomePage = (isAdministrator && This.page?? && !(mySite.getHomePageRef() == This.page.document.id) ) />
 <#-- site'contributor = page'contributor (same rights)  -->
-<#assign isContributor = ((mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession)) || (This.page?? && This.page != null && This.page.isContributor(Context.principal.name, Context.coreSession)) ) />
+<#assign isContributor = ((mySite?? && mySite.isContributor(Context.principal.name)) || (This.page?? && This.page != null && This.page.isContributor(Context.principal.name)) ) />
 <#if This.type.name != "sitesRoot" >
 <#include "views/common/init_mode.ftl" />
 </#if>
@@ -67,7 +67,7 @@
 								});
 								
 							</script>
-			                <#if This.page?? && This.page != null && This.page.isAdministrator(Context.principal.name, Context.coreSession) >
+			                <#if This.page?? && This.page != null && This.page.isAdministrator(Context.principal.name) >
 			                	<#assign hasDocActions = true />
 			                	<#--   Manage permissions's page     -->
 			                	<li><a href="${This.path}/@views/pagePermissions"><i class="icon-share"></i>${Context.getMessage('command.admin.rights')}</a></li>
@@ -92,7 +92,7 @@
 	                	<script type="text/javascript">
 	                	</script>
 	                </#if>
-	                <#if mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) >
+	                <#if mySite?? && mySite.isContributor(Context.principal.name) >
 	                <li><a href="${Context.modulePath}/${mySite.URL}/@views/edit"><i class="icon-cogs"></i>${Context.getMessage('label.contextmenu.administration')}</a></li>
 	                </#if>
 	                <#if mySite??>

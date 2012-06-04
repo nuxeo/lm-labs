@@ -3,5 +3,5 @@
     divId="latestuploads" + "_" + section_index + "_r_" + row_index + "_c_" + content_index
     divTitle=Context.getMessage('title.LabsSite.latestuploads')
     tooltipDocProp="dc:description"
-    detailedPageUrl=Root.getLink(Common.siteDoc(Document).getSite(Context.coreSession).document) + "/@views/latestuploads?page=0"
+    detailedPageUrl=Root.getLink(Common.siteDoc(Document).getSite().document) + "/@views/latestuploads?page=0"
     divClass="last-uploads supplychain-unstyled-bloc" />

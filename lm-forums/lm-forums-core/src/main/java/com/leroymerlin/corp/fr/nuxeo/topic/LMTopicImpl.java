@@ -13,7 +13,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 public class LMTopicImpl extends AbstractPage implements LMTopic {
 	
 	public LMTopicImpl(DocumentModel doc) {
-		this.doc = doc;
+		super(doc);
 	}
 
 	public void addComment(CoreSession session, String comment) throws ClientException {

@@ -11,6 +11,7 @@ import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageClasseurDocsFilter implements Filter {
 
@@ -18,11 +19,11 @@ public class PageClasseurDocsFilter implements Filter {
     private static final long serialVersionUID = 1L;
     
     private CoreSession session;
-
+    
     @SuppressWarnings("unused")
-	private PageClasseurDocsFilter() {}
+	private PageClasseurDocsFilter(){}
 
-    public PageClasseurDocsFilter(CoreSession session) {
+	public PageClasseurDocsFilter(CoreSession session) {
 		super();
 		this.session = session;
 	}
@@ -30,8 +31,8 @@ public class PageClasseurDocsFilter implements Filter {
 	@Override
     public boolean accept(DocumentModel doc) {
         try {
-            SiteDocument sd = doc.getAdapter(SiteDocument.class);
-            boolean isAdmin = sd.getSite(session).isAdministrator(session.getPrincipal().getName(), session);
+            SiteDocument sd = Tools.getAdapter(SiteDocument.class, doc, session);
+            boolean isAdmin = sd.getSite().isAdministrator(session.getPrincipal().getName());
             DocumentModel parent = session.getParentDocument(doc.getRef());
             DocumentModel grandParent = session.getDocument(parent.getParentRef());
             LabsPublisher publisher = grandParent.getAdapter(LabsPublisher.class);

@@ -14,6 +14,7 @@ import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteCreationEventListener implements EventListener {
 
@@ -75,8 +76,8 @@ public class SiteCreationEventListener implements EventListener {
                 LabsSiteConstants.Docs.WELCOME.docName(), LabsSiteConstants.Docs.WELCOME.type());
         welcome.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.WELCOME.docName()));
         welcome = session.createDocument(welcome);
-        LabsSite site = doc.getAdapter(LabsSite.class);
-        site.setHomePageRef(welcome.getAdapter(Page.class).getDocument().getId());
+        LabsSite site = Tools.getAdapter(LabsSite.class, doc, session);
+        site.setHomePageRef(Tools.getAdapter(Page.class, welcome, session).getDocument().getId());
         return welcome;
     }
 

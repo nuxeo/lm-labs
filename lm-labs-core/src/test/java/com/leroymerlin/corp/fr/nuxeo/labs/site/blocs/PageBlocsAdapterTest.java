@@ -16,6 +16,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -38,7 +39,7 @@ public class PageBlocsAdapterTest {
     public void iCanSetTitle() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_blocs"));
         assertNotNull(doc);
-        PageBlocs pageBlocs = doc.getAdapter(PageBlocs.class);
+        PageBlocs pageBlocs = Tools.getAdapter(PageBlocs.class, doc, session);
         assertNotNull(pageBlocs);
         pageBlocs.setTitle(TITRE_1);
         assertNotNull(pageBlocs.getTitle());
@@ -49,7 +50,7 @@ public class PageBlocsAdapterTest {
     public void iCannotSetTitleToNull() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_blocs"));
         assertNotNull(doc);
-        PageBlocs pageBlocs = doc.getAdapter(PageBlocs.class);
+        PageBlocs pageBlocs = Tools.getAdapter(PageBlocs.class, doc, session);
         assertNotNull(pageBlocs);
         thrown.expect(IllegalArgumentException.class);
         pageBlocs.setTitle(null);
@@ -59,7 +60,7 @@ public class PageBlocsAdapterTest {
     public void iCannotSetExternalURLs() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_blocs"));
         assertNotNull(doc);
-        PageBlocs pageBlocs = doc.getAdapter(PageBlocs.class);
+        PageBlocs pageBlocs = Tools.getAdapter(PageBlocs.class, doc, session);
         assertNotNull(pageBlocs);
         pageBlocs.setTitle(TITRE_1);
     }

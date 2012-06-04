@@ -63,10 +63,10 @@
 		
 		<@block name="bottom-page-js" >
 			<#include "views/common/topbar_js.ftl" />
-			<#if (mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) ) >
+			<#if (mySite?? && mySite.isContributor(Context.principal.name) ) >
 	        	<script type="text/javascript" src="${skinPath}/js/page_parameters.js"></script>
 	        </#if>
-	        <#if mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) && This.page?? && !(mySite.getHomePageRef() == This.page.document.id) >
+	        <#if mySite?? && mySite.isContributor(Context.principal.name) && This.page?? && !(mySite.getHomePageRef() == This.page.document.id) >
 	        	<script type="text/javascript" src="${skinPath}/js/setHomePage.js"></script>
 	        </#if>
 		</@block>

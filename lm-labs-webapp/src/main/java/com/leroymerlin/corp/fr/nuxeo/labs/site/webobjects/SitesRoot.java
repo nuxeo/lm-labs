@@ -59,6 +59,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.CacheBlock;
 
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -204,7 +205,7 @@ public class SitesRoot extends ModuleRoot {
         	CoreSession session = getContext().getCoreSession();
         	SiteManager sm = getSiteManager();
             LabsSite site = sm.getSite(session, url);
-            BlobHolder blobHolder = site.getDocument().getAdapter(BlobHolder.class);
+            BlobHolder blobHolder = Tools.getAdapter(BlobHolder.class, site.getDocument(), session);
             Blob blob = blobHolder.getBlob();
             EntityTag etag = null;
             String digest = ((SQLBlob) blob).getBinary().getDigest();
@@ -314,15 +315,15 @@ public class SitesRoot extends ModuleRoot {
                     templateToCopy = true;
                     try {
                         DocumentModel docTemplate = session.getDocument(templateRef);
-                        labSite.applyTemplateSite(docTemplate, session);
+                        labSite.applyTemplateSite(docTemplate);
                         session.saveDocument(labSite.getDocument());
 
                         //Change URLs in contents with URLs on template
                         String separator = "/";
                         String path = getPath() + separator;
-                        String newURL = path + labSite.getDocument().getAdapter(SiteDocument.class).getResourcePath(session)+ separator;
-                        String oldURL = path + docTemplate.getAdapter(SiteDocument.class).getResourcePath(session)+ separator;
-                        labSite.updateUrls(oldURL, newURL, session);
+                        String newURL = path + Tools.getAdapter(SiteDocument.class, labSite.getDocument(), session).getResourcePath()+ separator;
+                        String oldURL = path + Tools.getAdapter(SiteDocument.class, docTemplate, session).getResourcePath()+ separator;
+                        labSite.updateUrls(oldURL, newURL);
                         
                         copied = true;
                     } catch (ClientException e) {
@@ -410,19 +411,19 @@ public class SitesRoot extends ModuleRoot {
 
     @Override
     public String getLink(DocumentModel document) {
-        SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
+        SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, document, ctx.getCoreSession());
         try {
             return new StringBuilder().append(getPath()).append("/").append(
-                    siteDocument.getResourcePath(ctx.getCoreSession())).toString();
+                    siteDocument.getResourcePath()).toString();
         } catch (ClientException e) {
             return getPath();
         }
     }
 
     public String getTruncatedLink(DocumentModel document) {
-        SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
+        SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, document, ctx.getCoreSession());
         try {
-            return siteDocument.getResourcePath(ctx.getCoreSession());
+            return siteDocument.getResourcePath();
         } catch (ClientException e) {
             return getPath();
         }

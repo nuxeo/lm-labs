@@ -37,6 +37,7 @@ public class PageNewsFilter implements Filter {
      */
     @Override
     public boolean accept(DocumentModel docModel) {
+    	//No need session because the method getStartPublication and getEndPublication doesn't nedd
         LabsNews news = docModel.getAdapter(LabsNews.class);
         if(news != null) {
             try {

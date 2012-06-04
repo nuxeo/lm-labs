@@ -1,5 +1,5 @@
-<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
-<@extends src="/views/TemplatesBase/" + mySite.template.getTemplateName(Context.coreSession) + "/template.ftl">
+<#assign mySite=Common.siteDoc(Document).getSite() />
+<@extends src="/views/TemplatesBase/" + mySite.template.getTemplateName() + "/template.ftl">
   <#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
 
   <@block name="title">${mySite.title}-${This.document.title}</@block>
@@ -24,7 +24,7 @@
   <@block name="docactionsaddpage"></@block>
   <@block name="docactionsonpage"></@block>
   
-  <#assign isContributor = This.previous.page?? && This.previous.page.isContributor(Context.principal.name, Context.coreSession) />
+  <#assign isContributor = This.previous.page?? && This.previous.page.isContributor(Context.principal.name) />
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
   </#if>
@@ -59,7 +59,7 @@
 				
 			
 			
-		  	<#list news.getRows(Context.coreSession) as row>
+		  	<#list news.getRows() as row>
 		  		<#if isContributor >
 			        <div class="row-fluid" id="row_s${section_index}_r${row_index}">
 			              <#list row.contents as content>

@@ -38,7 +38,7 @@ public class GetSiteUrlPropTest extends AbstractTestOperation {
     public void iCanGetSiteUrlProp() throws Exception {
         OperationContext ctx = new OperationContext(session);
         OperationChain chain = new OperationChain("test" + GetSiteUrlProp.ID);
-        chain.add(GetSiteUrlProp.ID).set("docId", getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL).getTree(session).getId());
+        chain.add(GetSiteUrlProp.ID).set("docId", getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL).getTree().getId());
         String url = (String) service.run(ctx, chain);
         assertNotNull(url);
         assertEquals(OfmRepositoryInit.SITE_URL, url);

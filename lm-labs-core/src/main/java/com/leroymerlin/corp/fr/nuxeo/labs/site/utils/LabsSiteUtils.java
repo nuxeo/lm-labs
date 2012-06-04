@@ -323,12 +323,12 @@ public final class LabsSiteUtils {
         }
     }
     
-    public static DocumentModelList getChildrenPageDocuments(DocumentModel document, CoreSession session) throws ClientException {
+    public static DocumentModelList getChildrenPageDocuments(DocumentModel document, final CoreSession session) throws ClientException {
         @SuppressWarnings("serial")
         DocumentModelList children = session.getChildren(document.getRef(), null, new Filter() {
             @Override
             public boolean accept(DocumentModel document) {
-                return (document.getAdapter(Page.class) != null);
+                return (Tools.getAdapter(Page.class, document, session) != null);
             }}, null);
         return children;
     }

@@ -3,7 +3,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.list;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SubDocument;
@@ -30,7 +29,7 @@ public interface PageListLine extends SubDocument {
      * Remove the current line
      * @throws ClientException
      */
-    void removeLine(CoreSession session) throws ClientException;
+    void removeLine() throws ClientException;
     
     /**
      * Returns the comments on the line

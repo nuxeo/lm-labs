@@ -6,6 +6,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageDashBoardRepositoryInit extends AllDocTypeRepositoryInit {
 
@@ -13,8 +14,8 @@ public class PageDashBoardRepositoryInit extends AllDocTypeRepositoryInit {
     public void populate(CoreSession session) throws ClientException {
         super.populate(session);
 
-        String parentPath = ofm.getAdapter(LabsSite.class)
-                .getTree(session)
+        String parentPath = Tools.getAdapter(LabsSite.class, ofm, session)
+                .getTree()
                 .getPathAsString();
 
         DocumentModel pageList = session.createDocumentModel(parentPath,

@@ -13,16 +13,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.directory.DirectoryException;
 import org.nuxeo.ecm.directory.Session;
 import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsSessionImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Directories;
 
-public class HtmlRow {
+public class HtmlRow extends LabsSessionImpl {
 
     private static final Log LOG = LogFactory.getLog(HtmlRow.class);
     private static final String SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT = Directories.COLUMNS_LAYOUT.schema();
@@ -62,9 +62,9 @@ public class HtmlRow {
         return result;
     }
 
-    public void addContent(int colNumber, String html, CoreSession session) throws ClientException {
+    public void addContent(int colNumber, String html) throws ClientException {
         getContents().add(new HtmlContent(this, colNumber, html));
-        parentSection.onChange(this, session);
+        parentSection.onChange(this);
     }
 
     private List<Map<String, Serializable>> contentsToListOfMap() {
@@ -103,12 +103,12 @@ public class HtmlRow {
         return getContents().get(index);
     }
 
-    public HtmlRow insertBefore(CoreSession session) throws ClientException {
-        return parentSection.insertBefore(this, session);
+    public HtmlRow insertBefore() throws ClientException {
+        return parentSection.insertBefore(this);
     }
 
-    public void remove(CoreSession session ) throws ClientException {
-        parentSection.remove(this, session);
+    public void remove() throws ClientException {
+        parentSection.remove(this);
 
     }
 
@@ -123,8 +123,8 @@ public class HtmlRow {
         getContents().remove(htmlContent);
     }
 
-    public void update(CoreSession session) throws ClientException {
-        parentSection.onChange(this, session);
+    public void update() throws ClientException {
+        parentSection.onChange(this);
 
     }
 
@@ -132,12 +132,12 @@ public class HtmlRow {
         return cssClass;
     }
 
-    public void setCssClass(String cssClass, CoreSession session)  throws ClientException{
+    public void setCssClass(String cssClass)  throws ClientException{
         this.cssClass = cssClass;
-        this.update(session);
+        this.update();
     }
 
-    public void initTemplate(String templateName, CoreSession sessionWeb) throws ClientException {
+    public void initTemplate(String templateName) throws ClientException {
         for (HtmlContent content : this.getContents()) {
             content.remove();
         }
@@ -148,7 +148,7 @@ public class HtmlRow {
             DocumentModel entry = session.getEntry(templateName);
             String[] spans = StringUtils.split((String) entry.getPropertyValue(PROPERTY_NAME_COLUMNS_LAYOUT_SPANS), "|");
             for (String span : spans) {
-                this.addContent(Integer.parseInt(span), NO_CONTENT, sessionWeb);
+                this.addContent(Integer.parseInt(span), NO_CONTENT);
             }
         } catch (Exception e) {
             throw new ClientException(e);

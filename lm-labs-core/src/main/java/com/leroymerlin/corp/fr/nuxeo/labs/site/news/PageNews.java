@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -13,9 +12,9 @@ import com.sun.syndication.feed.synd.SyndFeed;
 
 public interface PageNews extends Page {
 
-    LabsNews createNews(String pTitle, CoreSession session) throws ClientException;
+    LabsNews createNews(String pTitle) throws ClientException;
 
-    List<LabsNews> getAllNews(CoreSession session) throws ClientException;
+    List<LabsNews> getAllNews() throws ClientException;
     
     /**
      * Get the lasted news
@@ -23,9 +22,9 @@ public interface PageNews extends Page {
      * @return the lasted news
      * @throws ClientException
      */
-    List<LabsNews> getTopNews(int pMaxNews, CoreSession session) throws ClientException;
+    List<LabsNews> getTopNews(int pMaxNews) throws ClientException;
 
-    Collection<DocumentModel> getTopNewsStartingOn(Calendar today, CoreSession session) throws ClientException;
+    Collection<DocumentModel> getTopNewsStartingOn(Calendar today) throws ClientException;
     
     /**
      * @see Rome version 1.0
@@ -35,5 +34,5 @@ public interface PageNews extends Page {
      * @return
      * @throws ClientException
      */
-    SyndFeed buildRssLabsNews(List<LabsNews> pLabsNews, String pPathBase, String pDefaultDescription, CoreSession session) throws ClientException;
+    SyndFeed buildRssLabsNews(List<LabsNews> pLabsNews, String pPathBase, String pDefaultDescription) throws ClientException;
 }

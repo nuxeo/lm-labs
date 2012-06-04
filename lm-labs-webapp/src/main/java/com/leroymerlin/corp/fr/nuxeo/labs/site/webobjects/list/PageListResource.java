@@ -50,6 +50,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.ColSize;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBean;
@@ -172,8 +173,9 @@ public class PageListResource extends NotifiablePageResource {
     public boolean isAuthorized() throws ClientException{
         if (this.allContributors == null){
             this.allContributors = false;
-            if (!doc.getAdapter(PageList.class).isAllContributors()){
-                this.allContributors = getCoreSession().hasPermission(doc.getRef(), "Write");
+            CoreSession session = getCoreSession();
+            if (!Tools.getAdapter(PageList.class, doc, session).isAllContributors()){
+                this.allContributors = session.hasPermission(doc.getRef(), "Write");
             }
             else{
                 this.allContributors = true;
@@ -196,7 +198,7 @@ public class PageListResource extends NotifiablePageResource {
             }
             Type mapType = new TypeToken<Map<String, Header>>() {}.getType();
             Map<String, Header> map = gson.fromJson(pJson, mapType);
-            com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList pgl = doc.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList.class);
+            com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList pgl = Tools.getAdapter(com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList.class, doc, session);
             pgl.resetHeaders();
             int position = 0;
             SortedSet<Header> setHeaders = getSetHeaders(map);
@@ -212,9 +214,9 @@ public class PageListResource extends NotifiablePageResource {
                     headersToSave.add(header);
                 }
             }
-            pgl.setAllContributors("on".equals(pAllContributors), session);
+            pgl.setAllContributors("on".equals(pAllContributors));
             pgl.setCommentableLines("on".equals(pCommentableLines));
-            pgl.setHeaders(headersToSave, session);
+            pgl.setHeaders(headersToSave);
             session.saveDocument(doc);
             session.save();
         } catch (ClientException e) {
@@ -227,11 +229,11 @@ public class PageListResource extends NotifiablePageResource {
     }
     
     public boolean isAllContributors() throws ClientException{
-        return doc.getAdapter(PageList.class).isAllContributors();
+        return Tools.getAdapter(PageList.class, doc, ctx.getCoreSession()).isAllContributors();
     }
     
     public boolean isCommentableLines() throws ClientException{
-        return doc.getAdapter(PageList.class).isCommentableLines();
+        return Tools.getAdapter(PageList.class, doc, ctx.getCoreSession()).isCommentableLines();
     }
     
     @Path("line/{id}")
@@ -281,7 +283,7 @@ public class PageListResource extends NotifiablePageResource {
     public FreemarkerBean getFreemarkerBean() {
         Map<String, Header> mapHead = new HashMap<String, Header>();
         StringBuilder headersName = new StringBuilder();
-        PageList pgl = doc.getAdapter(PageList.class);
+        PageList pgl = Tools.getAdapter(PageList.class, doc, ctx.getCoreSession());
         List<String> listHeadersName = new ArrayList<String>();
         Set<Header> headerSet = null;
         try {
@@ -333,7 +335,7 @@ public class PageListResource extends NotifiablePageResource {
         List<EntriesLine> result = new ArrayList<EntriesLine>();
         PageListLineAdapter adapter = null;
         for (DocumentModel document : docs){
-            adapter = (PageListLineAdapter) document.getAdapter(PageListLine.class);
+            adapter = (PageListLineAdapter) Tools.getAdapter(PageListLine.class, document, ctx.getCoreSession());
             if (adapter != null){
                 result.add(adapter.getLine());
             }
@@ -345,12 +347,11 @@ public class PageListResource extends NotifiablePageResource {
     @Path(value="exportExcel/{fileName}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public StreamingOutput exportToExcel(){
-        final PageList pgl = doc.getAdapter(PageList.class);
-        final CoreSession session = ctx.getCoreSession();
+        final PageList pgl = Tools.getAdapter(PageList.class, doc, ctx.getCoreSession());
         return new StreamingOutput() {
             public void write(OutputStream output) throws IOException, WebApplicationException {
                 try {
-                    pgl.exportExcel(output, session);
+                    pgl.exportExcel(output);
                     } catch (Exception e) {
                         LOG.error(IMPOSSIBLE_TO_EXPORT_ARRAY_IN_EXCEL, e);
                         throw new WebApplicationException(e);

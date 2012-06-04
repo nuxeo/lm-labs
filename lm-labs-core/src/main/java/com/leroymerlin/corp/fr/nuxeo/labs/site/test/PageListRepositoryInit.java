@@ -18,7 +18,7 @@ public class PageListRepositoryInit extends OfmRepositoryInit {
         try {
             LabsSite site = getSiteManager().getSite(session,
                     OfmRepositoryInit.SITE_URL);
-            DocumentModel ofmTree = site.getTree(session);
+            DocumentModel ofmTree = site.getTree();
             DocumentModel pageList = session.createDocumentModel(
                     ofmTree.getPathAsString(), PAGE_LIST_TITLE,
                     LabsSiteConstants.Docs.PAGELIST.type());

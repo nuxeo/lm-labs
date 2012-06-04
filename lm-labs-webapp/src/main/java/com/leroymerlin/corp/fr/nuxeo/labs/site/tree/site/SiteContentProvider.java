@@ -12,6 +12,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractContentProvider;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteContentProvider extends AbstractContentProvider {
 
@@ -30,12 +31,12 @@ public class SiteContentProvider extends AbstractContentProvider {
         @Override
         public boolean accept(DocumentModel docModel) {
             try {
-                boolean isAdmin = docModel.getAdapter(SiteDocument.class).getSite(session).isAdministrator(
-                        session.getPrincipal().getName(), session);
-                LabsPublisher publisher = docModel.getAdapter(LabsPublisher.class);
+                boolean isAdmin = Tools.getAdapter(SiteDocument.class, docModel, session).getSite().isAdministrator(
+                        session.getPrincipal().getName());
+                LabsPublisher publisher = Tools.getAdapter(LabsPublisher.class, docModel, session);
                 boolean filter = isAdmin
                         || (publisher != null && publisher.isVisible());
-                return docModel.getAdapter(Page.class) != null
+                return Tools.getAdapter(Page.class, docModel, session) != null
                         && filter
                         && !LabsSiteConstants.State.DELETE.getState().equals(
                                 docModel.getCurrentLifeCycleState());
@@ -52,7 +53,7 @@ public class SiteContentProvider extends AbstractContentProvider {
         @Override
         public boolean accept(DocumentModel docModel) {
             try {
-                return /* ((docModel.getAdapter(Page.class) != null) || */(docModel.hasFacet(FacetNames.FOLDERISH))
+                return /* ((Tools.getAdapter(Page.class, docModel, session) != null) || */(docModel.hasFacet(FacetNames.FOLDERISH))
                         && !LabsSiteConstants.State.DELETE.getState().equals(
                                 docModel.getCurrentLifeCycleState());
             } catch (ClientException e) {
@@ -82,9 +83,9 @@ public class SiteContentProvider extends AbstractContentProvider {
         if (StringUtils.capitalize(LabsSiteConstants.Docs.TREE.docName()).equals(
                 result)) {
             DocumentModel doc = (DocumentModel) obj;
-            SiteDocument sd = doc.getAdapter(SiteDocument.class);
+            SiteDocument sd = Tools.getAdapter(SiteDocument.class, doc, session);
             try {
-                result = sd.getSite(session).getTitle();
+                result = sd.getSite().getTitle();
             } catch (ClientException e) {
             }
         }

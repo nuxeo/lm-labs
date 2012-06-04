@@ -61,10 +61,10 @@ public final class LabsSiteWebAppUtils {
         List<SortInfo> sortInfos = null;
         Map<String, Serializable> props = new HashMap<String, Serializable>();
 
-        SiteDocument sd = doc.getAdapter(SiteDocument.class);
+        SiteDocument sd = Tools.getAdapter(SiteDocument.class, doc, session);
 
         props.put(LatestUploadsPageProvider.PARENT_DOCUMENT_PROPERTY,
-                (Serializable) sd.getSite(session).getTree(session));
+                (Serializable) sd.getSite().getTree());
         props.put(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY,
                         (Serializable) session);
         @SuppressWarnings("unchecked")
@@ -127,11 +127,11 @@ public final class LabsSiteWebAppUtils {
     public static void publish(DocumentModel document, CoreSession session) throws NoPublishException{
         try {
             if (LabsSiteConstants.State.DRAFT.getState().equals(document.getCurrentLifeCycleState())){
-                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                LabsPublisher publisherAdapter = Tools.getAdapter(LabsPublisher.class, document, session);
                 publisherAdapter.publish();
                 if (Docs.SITE.type().equals(document.getType())) {
-                    LabsSite site = document.getAdapter(LabsSite.class);
-                    LabsPublisher publisher = site.getIndexDocument(session).getAdapter(LabsPublisher.class);
+                    LabsSite site = Tools.getAdapter(LabsSite.class, document, session);
+                    LabsPublisher publisher = Tools.getAdapter(LabsPublisher.class, site.getIndexDocument(), session);
                     if (publisher.isDraft()) {
                         publisher.publish();
                     }
@@ -150,7 +150,7 @@ public final class LabsSiteWebAppUtils {
     public static void draft(DocumentModel document) throws NoDraftException{
         try {
             if (LabsSiteConstants.State.PUBLISH.getState().equals(document.getCurrentLifeCycleState())){
-                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                LabsPublisher publisherAdapter = Tools.getAdapter(LabsPublisher.class, document, null);
                 publisherAdapter.draft();
             }
         } catch (ClientException e) {
@@ -166,7 +166,7 @@ public final class LabsSiteWebAppUtils {
         try {
             DocumentModelList children = session.query("SELECT * FROM PageListLine");
             for (DocumentModel lineDoc: children){
-                lineDoc.getAdapter(PageListLine.class).setNbComments(lineDoc.getAdapter(CommentableDocument.class).getComments().size());
+                lineDoc.getAdapter(PageListLine.class).setNbComments(Tools.getAdapter(CommentableDocument.class, lineDoc, null).getComments().size());
                 session.saveDocument(lineDoc);
             }
             session.save();

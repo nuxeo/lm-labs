@@ -5,11 +5,8 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 
 public class DefaultPublisherAdapter implements LabsPublisher {
 
-    private final DocumentModel doc;
 
-    public DefaultPublisherAdapter(DocumentModel doc) {
-        this.doc = doc;
-    }
+    public DefaultPublisherAdapter(DocumentModel doc) {}
 
     @Override
     public void publish() throws ClientException {

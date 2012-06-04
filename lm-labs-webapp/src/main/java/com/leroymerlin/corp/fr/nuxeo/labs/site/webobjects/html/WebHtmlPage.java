@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -18,6 +17,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.CacheablePageResource;
 
 @WebObject(type = "HtmlPage", superType = "LabsPage")
@@ -63,9 +63,8 @@ public class WebHtmlPage extends CacheablePageResource {
             } else {
                 section = getHtmlPage().addSection();
             }
-            CoreSession session = ctx.getCoreSession();
-            section.setTitle(title, session);
-            section.setDescription(description, session);
+            section.setTitle(title);
+            section.setDescription(description);
             saveDocument();
             
             return redirect(getPath());
@@ -92,7 +91,7 @@ public class WebHtmlPage extends CacheablePageResource {
     }
 
     private HtmlPage getHtmlPage() {
-        return doc.getAdapter(HtmlPage.class);
+        return Tools.getAdapter(HtmlPage.class, doc, getCoreSession());
     }
     
     public Map<String, String> getColumnLayoutsSelect() throws ClientException {

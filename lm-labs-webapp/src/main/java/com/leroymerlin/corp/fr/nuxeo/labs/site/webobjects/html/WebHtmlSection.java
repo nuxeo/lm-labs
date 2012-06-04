@@ -50,19 +50,18 @@ public class WebHtmlSection extends DocumentObject {
     @Override
     public Response doPost() {
         FormData form = ctx.getForm();
-        CoreSession session = ctx.getCoreSession();
         try {
             String cssClass = form.getString("cssClass");
-            HtmlRow row = section.addRow(cssClass, session);
+            HtmlRow row = section.addRow(cssClass);
             String rowTemplate = form.getString("rowTemplate");
-            row.initTemplate(rowTemplate, session);
+            row.initTemplate(rowTemplate);
 
             saveDocument();
         } catch (ClientException e) {
             throw WebException.wrap(
                     FAILED_TO_POST_SECTION + doc.getPathAsString(), e);
         }
-        return redirect(prev.getPath() + "#row_s" + sectionIndex + "_r" + (section.getRows(session).size() - 1));
+        return redirect(prev.getPath() + "#row_s" + sectionIndex + "_r" + (section.getRows().size() - 1));
     }
 
     @Override
@@ -72,8 +71,8 @@ public class WebHtmlSection extends DocumentObject {
         String description = form.getString("description");
         try {
             CoreSession session = ctx.getCoreSession();
-            section.setTitle(title, session);
-            section.setDescription(description, session);
+            section.setTitle(title);
+            section.setDescription(description);
             session.saveDocument(doc);
         } catch (ClientException e) {
             throw WebException.wrap(
@@ -85,7 +84,7 @@ public class WebHtmlSection extends DocumentObject {
 
     @Path("r/{index}")
     public Object getRow(@PathParam("index") int rowIndex) {
-        HtmlRow row = section.row(rowIndex, ctx.getCoreSession());
+        HtmlRow row = section.row(rowIndex);
         return newObject("HtmlRow", doc, row);
     }
 

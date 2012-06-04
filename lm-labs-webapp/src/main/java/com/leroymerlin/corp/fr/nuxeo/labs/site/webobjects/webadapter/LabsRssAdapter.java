@@ -24,6 +24,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SyndicationUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.sun.syndication.feed.synd.SyndFeed;
 
 @WebAdapter(name = "labsrss", type = "LabsRssAdapter", targetType = "Document")
@@ -43,7 +44,7 @@ public class LabsRssAdapter extends DefaultAdapter {
         String rssTitle = ctx.getMessage("label.rss.last_message.title");
         String rssDesc = ctx.getMessage("label.rss.last_message.desc");
         try {
-            DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs(ctx.getCoreSession());
+            DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs();
             final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedDocs,
                     rssTitle, rssDesc, StringUtils.EMPTY, getContext()); // TODO RSS feed URL
             return SyndicationUtils.generateStreamingOutput(feed);
@@ -61,14 +62,14 @@ public class LabsRssAdapter extends DefaultAdapter {
             if (!LabsSiteConstants.Docs.PAGENEWS.type().equals(doc.getType())) {
                 throw new WebResourceNotFoundException(BAD_TYPE_OF_DOCUMENT);
             }
-            final PageNews pageNews = doc.getAdapter(PageNews.class);
-            List<LabsNews> topNews = pageNews.getTopNews(TOP_NEW_MAX, getContext().getCoreSession());
+            final PageNews pageNews = Tools.getAdapter(PageNews.class, doc, ctx.getCoreSession());
+            List<LabsNews> topNews = pageNews.getTopNews(TOP_NEW_MAX);
             final SyndFeed feed = pageNews.buildRssLabsNews(
                     topNews,
                     this.getContext().getBaseURL()
                             + this.getContext().getUrlPath(doc),
                     getContext().getMessage(
-                            "label.labsNews.description.default"), ctx.getCoreSession());
+                            "label.labsNews.description.default"));
             return SyndicationUtils.generateStreamingOutput(feed);
         } catch (Exception e) {
             throw WebException.wrap(e);
@@ -83,7 +84,7 @@ public class LabsRssAdapter extends DefaultAdapter {
         String rssTitle = ctx.getMessage("label.rss.last_news.title");
         String rssDesc = ctx.getMessage("label.rss.last_news.desc");
         try {
-            DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs(ctx.getCoreSession());
+            DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
             final SyndFeed feed = SyndicationUtils.buildRss(
                     lastUpdatedNewsDocs, rssTitle, rssDesc, StringUtils.EMPTY, getContext()); // TODO RSS feed URL
             return SyndicationUtils.generateStreamingOutput(feed);
@@ -120,8 +121,8 @@ public class LabsRssAdapter extends DefaultAdapter {
         String rssDesc = ctx.getMessage("label.rss.all.desc");
         try {
             CoreSession session = ctx.getCoreSession();
-            DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs(session);
-            DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs(session);
+            DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs();
+            DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
             PageProvider<DocumentModel> latestUploadsPageProvider = LabsSiteWebAppUtils.getLatestUploadsPageProvider(
                     site.getDocument(), 0, session);
 

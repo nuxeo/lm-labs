@@ -1,6 +1,6 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName(Context.coreSession) + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
   <#assign nbrOsGadgets = 0 />
-  <#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+  <#assign mySite=Common.siteDoc(Document).getSite() />
   <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews"] />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
@@ -31,7 +31,7 @@
 
    	<#include "views/common/page_header.ftl">
 
-  <#assign isContributor = This.page?? && This.page.isContributor(Context.principal.name, Context.coreSession) />
+  <#assign isContributor = This.page?? && This.page.isContributor(Context.principal.name) />
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
   </#if>
@@ -125,7 +125,7 @@
 
 		</#if>
 
-        <#list section.getRows(Context.coreSession) as row>
+        <#list section.getRows() as row>
         	<#if isContributor >
 	          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 	              <#list row.contents as content>

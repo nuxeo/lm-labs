@@ -6,8 +6,8 @@
 	});
 </script>
 <#macro children_block parentDoc title="" spanClass="span5" uniqueId="1">
-	<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
-    <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name, Context.coreSession) />
+	<#assign mySite=Common.siteDoc(Document).getSite() />
+    <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
 	<#if parentDoc.id != Document.id || (parentDoc.id == Document.id <#--&& parentDoc.type != 'PageNews'-->)  >
 	<#if parentDoc.type != 'Site' && ((This.isInstanceOf("LabsPage") && This.isAuthorizedToDisplay(parentDoc)) || parentDoc.type == 'Tree') >
     	<#assign childrenNbr = 0 />
@@ -17,7 +17,7 @@
 	    	<#assign childrenNbr = children?size />
     	<#else>
     	-->
-	    	<#assign children = Common.siteDoc(parentDoc).getChildrenPageDocuments(Context.coreSession) />
+	    	<#assign children = Common.siteDoc(parentDoc).getChildrenPageDocuments() />
 	    	<#list children as child>
                 <#assign isChildVisible = false />
                 <#if child.type != 'LabsNews' >
@@ -45,7 +45,7 @@
             <#if parentDoc.id == Document.id >
             ${title}
             <#else>
-            <a href="${Context.modulePath}/${Common.siteDoc(parentDoc).getResourcePath(Context.coreSession)?html}">${title}</a>
+            <a href="${Context.modulePath}/${Common.siteDoc(parentDoc).getResourcePath()?html}">${title}</a>
             </#if>
           </div>
 
@@ -73,7 +73,7 @@
                 </#if>
                 <#if !child.facets?seq_contains("HiddenInNavigation")
                     && (isContributor || (!isContributor && isChildVisible)) >
-                	<li><a href="${Context.modulePath}/${Common.siteDoc(child).getResourcePath(Context.coreSession)?html}"
+                	<li><a href="${Context.modulePath}/${Common.siteDoc(child).getResourcePath()?html}"
                 		<#if (child.dublincore.description?length > 0) >
                 	  		rel="popover" data-content="${child.dublincore.description?html}"
                 	  		data-original-title="${Context.getMessage('label.description')}"

@@ -1,6 +1,6 @@
     <#-- NOTIFICATION AREA --> 
     <@block name="displayLogo">
-		<#assign theme=Common.siteDoc(Document).getSite(Context.coreSession).themeManager.getTheme(Context.coreSession) />
+		<#assign theme=Common.siteDoc(Document).getSite().themeManager.getTheme(Context.coreSession) />
 		<#if theme.logo != null>
 			<div style="height:${theme.logoAreaHeight}px;">&nbsp;</div>
 		</#if>

@@ -1,11 +1,11 @@
-<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 <div id="div_externalURL" class="bloc" >
     <div class="header">${Context.getMessage('label.externalURL.title')}</div>
     <ul id="ulExtURL" class="unstyled">
-	     <#list mySite.getExternalURLs(Context.coreSession) as e >
+	     <#list mySite.getExternalURLs() as e >
 	       <li id="${e.document.id}">
 			    <a href="${e.getURL()}" style="word-wrap: break-word;" target="_blank" title="${e.getURL()}">${e.name}</a>
-			    <#if mySite.isContributor(Context.principal.name, Context.coreSession)>
+			    <#if mySite.isContributor(Context.principal.name)>
 			      <div class="actionExternalURL editblock btn-group">
 			      	<a class="btn btn-primary btn-mini dropdown-toggle" data-toggle="dropdown" style="padding: 0px 4px 2px 3px;margin-top: 4px;"><span class="caret"></span></a>
     				<ul class="dropdown-menu"  style="left: auto;right: 0px;min-width: 0px;">
@@ -21,7 +21,7 @@
 		    </li>
 	  	</#list>
     </ul>
-	  <#if mySite.isContributor(Context.principal.name, Context.coreSession)>
+	  <#if mySite.isContributor(Context.principal.name)>
 	    <div class="editblock">
 	    	<a href="#" id="addExternalURL" title="Ajouter" alt="Ajouter"><i class="icon-plus"></i></a>
 	    </div>

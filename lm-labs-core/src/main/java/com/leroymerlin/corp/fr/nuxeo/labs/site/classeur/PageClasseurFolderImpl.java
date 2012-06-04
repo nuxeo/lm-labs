@@ -10,11 +10,12 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetName
 
 public class PageClasseurFolderImpl extends AbstractSubDocument implements PageClasseurFolder {
 
-    public PageClasseurFolderImpl(DocumentModel doc) {
-        this.doc = doc;
-    }
 
-    @Override
+    public PageClasseurFolderImpl(DocumentModel document) {
+		super(document);
+	}
+
+	@Override
     public DocumentModel getDocument() {
         return doc;
     }
@@ -25,17 +26,18 @@ public class PageClasseurFolderImpl extends AbstractSubDocument implements PageC
     }
 
     @Override
-    public boolean setAsDeleted(CoreSession session) throws ClientException {
+    public boolean setAsDeleted() throws ClientException {
         if (doc.getAllowedStateTransitions().contains(LifeCycleConstants.DELETE_TRANSITION)) {
             doc.followTransition(LifeCycleConstants.DELETE_TRANSITION);
-            doc = session.saveDocument(doc);
+            doc = getSession().saveDocument(doc);
             return true;
         }
         return false;
     }
 
 	@Override
-	public boolean hide(DocumentModel file, CoreSession session) throws ClientException {
+	public boolean hide(DocumentModel file) throws ClientException {
+		CoreSession session = getSession();
 		if (session.getParentDocument(file.getRef()).equals(doc)) {
 	    	if (!file.getFacets().contains(FacetNames.LABSHIDDEN)) {
 	    		file.addFacet(FacetNames.LABSHIDDEN);
@@ -47,7 +49,8 @@ public class PageClasseurFolderImpl extends AbstractSubDocument implements PageC
 	}
 
 	@Override
-	public boolean show(DocumentModel file, CoreSession session) throws ClientException {
+	public boolean show(DocumentModel file) throws ClientException {
+		CoreSession session = getSession();
 		if (session.getParentDocument(file.getRef()).equals(doc)) {
 	    	if (file.getFacets().contains(FacetNames.LABSHIDDEN)) {
 	    		file.removeFacet(FacetNames.LABSHIDDEN);
@@ -57,5 +60,4 @@ public class PageClasseurFolderImpl extends AbstractSubDocument implements PageC
 		}
 		return false;
 	}
-
 }

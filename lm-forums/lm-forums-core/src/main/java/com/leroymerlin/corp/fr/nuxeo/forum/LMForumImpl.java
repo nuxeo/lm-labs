@@ -22,7 +22,7 @@ import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
 public class LMForumImpl extends AbstractPage implements LMForum {
 
 	public LMForumImpl(DocumentModel doc) {
-		this.doc = doc;
+		super(doc);
 	}
 
 	@Override

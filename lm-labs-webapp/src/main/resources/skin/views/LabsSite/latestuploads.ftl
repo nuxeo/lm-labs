@@ -1,10 +1,10 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName(Context.coreSession) + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
 
 <#include "macros/PageClasseur_file_links.ftl" >
 <#include "views/common/paging.ftl" />
 <#assign nbrElemPerPage = 20 />
 
-  <@block name="title">${Common.siteDoc(Document).getSite(Context.coreSession).title}-${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
+  <@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
 
   <@block name="docactionsaddpage"></@block>
   <@block name="docactionsonpage"></@block>
@@ -42,10 +42,10 @@
             <#assign modifDate = upload.dublincore.modified?datetime >
             <td>${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</td>
             <#assign sd = Common.siteDoc(upload) />
-            <td><a href="${Context.modulePath}/${sd.getParentPagePath(Context.coreSession)}">${sd.getParentPage(Context.coreSession).title}</a></td>
+            <td><a href="${Context.modulePath}/${sd.getParentPagePath()}">${sd.getParentPage().title}</a></td>
             <td>
-        <@fileDownloadLink url="${Context.modulePath}/${sd.getResourcePath(Context.coreSession)}/@blob" tooltip="${Context.getMessage('command.LabsSite.latestuploads.download')}" />
-        <@fileDisplayLink url="${Context.modulePath}/${sd.getResourcePath(Context.coreSession)}/@blob/preview" tooltip="${Context.getMessage('command.LabsSite.latestuploads.display')}" />
+        <@fileDownloadLink url="${Context.modulePath}/${sd.getResourcePath()}/@blob" tooltip="${Context.getMessage('command.LabsSite.latestuploads.download')}" />
+        <@fileDisplayLink url="${Context.modulePath}/${sd.getResourcePath()}/@blob/preview" tooltip="${Context.getMessage('command.LabsSite.latestuploads.display')}" />
               </td>
           </tr>
           </#list>

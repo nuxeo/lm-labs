@@ -52,38 +52,38 @@ public enum RowTemplate {
 		switch (template) {
 
 		case R2COL_5050:
-            row.addContent(8, NO_CONTENT, session);
-            row.addContent(8, NO_CONTENT, session);
+            row.addContent(8, NO_CONTENT);
+            row.addContent(8, NO_CONTENT);
             break;
 		case R2COL_2575:
-			row.addContent(4, NO_CONTENT, session);
-			row.addContent(12, NO_CONTENT, session);
+			row.addContent(4, NO_CONTENT);
+			row.addContent(12, NO_CONTENT);
 			break;
 		case R2COL_7525:
-			row.addContent(12, NO_CONTENT, session);
-			row.addContent(4, NO_CONTENT, session);
+			row.addContent(12, NO_CONTENT);
+			row.addContent(4, NO_CONTENT);
 			break;
 		case R2COL_3366:
-			row.addContent(5, NO_CONTENT, session);
-			row.addContent(11, NO_CONTENT, session);
+			row.addContent(5, NO_CONTENT);
+			row.addContent(11, NO_CONTENT);
 			break;
 		case R2COL_6633:
-			row.addContent(11, NO_CONTENT, session);
-			row.addContent(5, NO_CONTENT, session);
+			row.addContent(11, NO_CONTENT);
+			row.addContent(5, NO_CONTENT);
 			break;
 		case R3COL:
-			row.addContent(333, NO_CONTENT, session);
-			row.addContent(333, NO_CONTENT, session);
-			row.addContent(333, NO_CONTENT, session);
+			row.addContent(333, NO_CONTENT);
+			row.addContent(333, NO_CONTENT);
+			row.addContent(333, NO_CONTENT);
 			break;
 		case R4COL:
-			row.addContent(4, NO_CONTENT, session);
-			row.addContent(4, NO_CONTENT, session);
-			row.addContent(4, NO_CONTENT, session);
-			row.addContent(4, NO_CONTENT, session);
+			row.addContent(4, NO_CONTENT);
+			row.addContent(4, NO_CONTENT);
+			row.addContent(4, NO_CONTENT);
+			row.addContent(4, NO_CONTENT);
 			break;
 		default:
-			row.addContent(16, NO_CONTENT, session);
+			row.addContent(16, NO_CONTENT);
 			break;
 		}
 

@@ -28,6 +28,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.NotifNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
@@ -71,7 +72,7 @@ public class PageSubscriptionForSiteSubscribersTest {
         LabsSite labsSite = sm.createSite(session, "Site1", URL_SITE1);
         PermissionsHelper.addPermission(labsSite.getDocument(), SecurityConstants.READ, CGM, true);
         session.save();
-        PageSubscription subscriptionAdapter = labsSite.getDocument().getAdapter(PageSubscription.class);
+        PageSubscription subscriptionAdapter = Tools.getAdapter(PageSubscription.class, labsSite.getDocument(), session);
         assertNotNull(subscriptionAdapter);
         subscriptionAdapter.subscribe(CGM);
         session.save();
@@ -82,46 +83,46 @@ public class PageSubscriptionForSiteSubscribersTest {
     public void siteSubscriberSubscribedOnPageWhenCreated() throws Exception {
         LabsSite labsSite = sm.getSite(session, URL_SITE1);
         DocumentModel classeur = session.createDocumentModel(Docs.PAGECLASSEUR.type());
-        classeur.setPathInfo(labsSite.getTree(session).getPathAsString(), DOCNAME_CLASSEUR1);
+        classeur.setPathInfo(labsSite.getTree().getPathAsString(), DOCNAME_CLASSEUR1);
 //        classeur.putContextData(NotificationConstants.DISABLE_NOTIFICATION_SERVICE, new Boolean(true));
         classeur = session.createDocument(classeur);
         session.save();
         assertTrue(nm.getUsersSubscribedToNotificationOnDocument(NotifNames.PAGE_MODIFIED, classeur.getId()).contains(NotificationConstants.USER_PREFIX + CGM));
-        assertTrue(classeur.getAdapter(PageSubscription.class).isSubscribed(CGM));
+        assertTrue(Tools.getAdapter(PageSubscription.class, classeur, session).isSubscribed(CGM));
     }
     
     @Test
     public void makeSurePageModificationDoesNotSubscribeUser() throws Exception {
         LabsSite labsSite = sm.getSite(session, URL_SITE1);
-        DocumentModel classeur = session.getDocument(new PathRef(labsSite.getTree(session).getPathAsString() + "/" + DOCNAME_CLASSEUR1));
-        classeur.getAdapter(PageSubscription.class).unsubscribe(CGM);
-        assertFalse(classeur.getAdapter(PageSubscription.class).isSubscribed(CGM));
-        classeur.getAdapter(Page.class).setDescription("desc");
+        DocumentModel classeur = session.getDocument(new PathRef(labsSite.getTree().getPathAsString() + "/" + DOCNAME_CLASSEUR1));
+        Tools.getAdapter(PageSubscription.class, classeur, session).unsubscribe(CGM);
+        assertFalse(Tools.getAdapter(PageSubscription.class, classeur, session).isSubscribed(CGM));
+        Tools.getAdapter(Page.class, classeur, session).setDescription("desc");
         session.saveDocument(classeur);
         session.save();
-        assertFalse(classeur.getAdapter(PageSubscription.class).isSubscribed(CGM));
+        assertFalse(Tools.getAdapter(PageSubscription.class, classeur, session).isSubscribed(CGM));
     }
     
     @Test
     public void makeSurePagePublicationDoesNotSubscribeUser() throws Exception {
         LabsSite labsSite = sm.getSite(session, URL_SITE1);
-        DocumentModel classeur = session.getDocument(new PathRef(labsSite.getTree(session).getPathAsString() + "/" + DOCNAME_CLASSEUR1));
-        classeur.getAdapter(PageSubscription.class).unsubscribe(CGM);
-        assertFalse(classeur.getAdapter(PageSubscription.class).isSubscribed(CGM));
+        DocumentModel classeur = session.getDocument(new PathRef(labsSite.getTree().getPathAsString() + "/" + DOCNAME_CLASSEUR1));
+        Tools.getAdapter(PageSubscription.class, classeur, session).unsubscribe(CGM);
+        assertFalse(Tools.getAdapter(PageSubscription.class, classeur, session).isSubscribed(CGM));
         classeur.getAdapter(LabsPublisher.class).publish();
         session.saveDocument(classeur);
         session.save();
-        assertFalse(classeur.getAdapter(PageSubscription.class).isSubscribed(CGM));
+        assertFalse(Tools.getAdapter(PageSubscription.class, classeur, session).isSubscribed(CGM));
     }
     
     @Test
     public void makeSurePageCopySubscribeUser() throws Exception {
         LabsSite labsSite = sm.getSite(session, URL_SITE1);
-        DocumentModel classeur = session.getDocument(new PathRef(labsSite.getTree(session).getPathAsString() + "/" + DOCNAME_CLASSEUR1));
-        classeur.getAdapter(PageSubscription.class).subscribe(CGM);
-        assertTrue(classeur.getAdapter(PageSubscription.class).isSubscribed(CGM));
-        DocumentModel copy = session.copy(classeur.getRef(), labsSite.getTree(session).getRef(), "copyOf_classeur1");
+        DocumentModel classeur = session.getDocument(new PathRef(labsSite.getTree().getPathAsString() + "/" + DOCNAME_CLASSEUR1));
+        Tools.getAdapter(PageSubscription.class, classeur, session).subscribe(CGM);
+        assertTrue(Tools.getAdapter(PageSubscription.class, classeur, session).isSubscribed(CGM));
+        DocumentModel copy = session.copy(classeur.getRef(), labsSite.getTree().getRef(), "copyOf_classeur1");
         session.save();
-        assertTrue(copy.getAdapter(PageSubscription.class).isSubscribed(CGM));
+        assertTrue(Tools.getAdapter(PageSubscription.class, copy, session).isSubscribed(CGM));
     }
 }

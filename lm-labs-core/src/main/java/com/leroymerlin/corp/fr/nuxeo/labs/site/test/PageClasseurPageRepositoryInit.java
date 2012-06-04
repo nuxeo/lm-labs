@@ -13,6 +13,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageClasseurPageRepositoryInit extends OfmRepositoryInit {
 
@@ -30,13 +31,13 @@ public class PageClasseurPageRepositoryInit extends OfmRepositoryInit {
                 PAGE_CLASSEUR_TITLE).create();
         classeur.setTitle(PAGE_CLASSEUR_TITLE);
 
-        PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME, session);
+        PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME);
         session.save();
         try {
             Blob blob = new FileBlob(getClass().getResourceAsStream(
                     "/" + FILE1_NAME));
             blob.setFilename(FILE1_NAME);
-            folder.addFile(blob, FILE1_DESCRIPTION, "title", session);
+            folder.addFile(blob, FILE1_DESCRIPTION, "title");
 
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -50,8 +51,8 @@ public class PageClasseurPageRepositoryInit extends OfmRepositoryInit {
         DocumentModel ofm = site.getDocument();
         DocumentModel folderDoc = session.getDocument(new PathRef(ofm.getPathAsString() + "/"
                 + LabsSiteConstants.Docs.TREE.docName() + "/" + PAGE_CLASSEUR_TITLE + "/" + FOLDER1_NAME));
-        PageClasseurFolder folder = folderDoc.getAdapter(PageClasseurFolder.class);
-        return folder.addFile(blob, description, title, session);
+        PageClasseurFolder folder = Tools.getAdapter(PageClasseurFolder.class, folderDoc, session);
+        return folder.addFile(blob, description, title);
     }
 
 }

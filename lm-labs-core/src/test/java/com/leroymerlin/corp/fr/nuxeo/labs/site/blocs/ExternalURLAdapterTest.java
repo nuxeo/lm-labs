@@ -16,6 +16,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures.class)
@@ -52,7 +53,7 @@ public class ExternalURLAdapterTest {
       //Use the session as a factory
         DocumentModel doc = session.createDocumentModel("/", "myExternalURL",EXTERNAL_URL_TYPE);
         
-        ExternalURL news = doc.getAdapter(ExternalURL.class);
+        ExternalURL news = Tools.getAdapter(ExternalURL.class, doc, session);
         assertThat(news,is(notNullValue()));
         
         //Persist document in db
@@ -62,7 +63,7 @@ public class ExternalURLAdapterTest {
         session.save();
         
         doc = session.getDocument(new PathRef("/myExternalURL"));
-        news = doc.getAdapter(ExternalURL.class);
+        news = Tools.getAdapter(ExternalURL.class, doc, session);
         assertThat(news,is(notNullValue()));
 
     }
@@ -74,7 +75,7 @@ public class ExternalURLAdapterTest {
 
         doc.setPropertyValue("dc:creator", "creator");
         
-        ExternalURL ext_url = doc.getAdapter(ExternalURL.class);
+        ExternalURL ext_url = Tools.getAdapter(ExternalURL.class, doc, session);
         assertThat(ext_url,is(notNullValue()));
         ext_url.setName(NAME);
         ext_url.setURL(URL);
@@ -86,7 +87,7 @@ public class ExternalURLAdapterTest {
         session.save();
         
         doc = session.getDocument(new PathRef("/myExternalURL"));
-        ext_url = doc.getAdapter(ExternalURL.class);
+        ext_url = Tools.getAdapter(ExternalURL.class, doc, session);
         assertThat(ext_url,is(notNullValue()));
         assertThat(ext_url.getName(), is(NAME));
         assertThat(ext_url.getURL(), is("http://" + URL));

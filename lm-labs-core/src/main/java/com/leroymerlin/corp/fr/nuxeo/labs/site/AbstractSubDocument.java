@@ -15,19 +15,21 @@ import com.leroymerlin.common.core.utils.Slugify;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.ClasseurException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 
-public abstract class AbstractSubDocument implements SubDocument {
+public abstract class AbstractSubDocument extends LabsAdapterImpl implements SubDocument {
 
-    protected DocumentModel doc;
+    public AbstractSubDocument(DocumentModel document) {
+		super(document);
+	}
 
-    @Override
-    public DocumentModel addFile(Blob blob, String description, String title, CoreSession session)
+	@Override
+    public DocumentModel addFile(Blob blob, String description, String title)
             throws ClientException {
         if (blob == null) {
             throw new IllegalArgumentException(
                     "Could not find any uploaded file");
         } else {
             try {
-                return doAddfile(blob, description, title, session);
+                return doAddfile(blob, description, title);
             } catch (Exception e) {
                 throw new ClasseurException(
                         "label.classeur.error.unable_to_add_file_to_folder", e);
@@ -35,9 +37,10 @@ public abstract class AbstractSubDocument implements SubDocument {
         }
     }
 
-    private DocumentModel doAddfile(Blob blob, String description, String title, CoreSession session)
+    private DocumentModel doAddfile(Blob blob, String description, String title)
             throws Exception {
         blob.persist();
+        CoreSession session = getSession();
         String filename = blob.getFilename();
         DocumentModel fileDoc = Framework.getService(FileManager.class)
                 .createDocumentFromBlob(session, blob,
@@ -57,8 +60,8 @@ public abstract class AbstractSubDocument implements SubDocument {
     }
 
     @Override
-    public DocumentModelList getFiles(CoreSession session) throws ClientException {
-
+    public DocumentModelList getFiles() throws ClientException {
+    	CoreSession session = getSession();
         StringBuilder sb = new StringBuilder("SELECT * From Document");
         sb.append(" WHERE ecm:parentId = '")
                 .append(doc.getId())
@@ -76,11 +79,11 @@ public abstract class AbstractSubDocument implements SubDocument {
     }
 
     @Override
-    public void removeFile(String filename, CoreSession session) throws ClientException {
-        DocumentModelList files = getFiles(session);
+    public void removeFile(String filename) throws ClientException {
+        DocumentModelList files = getFiles();
         for(DocumentModel doc : files) {
             if(filename.equals(doc.getTitle())) {
-                session.removeDocument(doc.getRef());
+                getSession().removeDocument(doc.getRef());
                 break;
             }
         }

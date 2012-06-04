@@ -22,6 +22,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageNotificationServ
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageActivitiesEventListener implements EventListener {
 
@@ -92,7 +93,7 @@ public class PageActivitiesEventListener implements EventListener {
                     processed = Mark(doc, session);
                 }
             } else if (DocumentEventTypes.DOCUMENT_CREATED.equals(eventName)) {
-                Page parentPage = doc.getAdapter(SiteDocument.class).getParentPage(session);
+                Page parentPage = Tools.getAdapter(SiteDocument.class, doc, session).getParentPage();
                 if (parentPage == null) {
                     return;
                 }
@@ -136,7 +137,7 @@ public class PageActivitiesEventListener implements EventListener {
                 return false;
             }
             Page page = getPage(doc, session);
-            notificationService.notifyPageEvent(page, eventName);
+            notificationService.notifyPageEvent(page, eventName, session);
             return true;
         } catch (Exception e) {
             LOG.error(e, e);
@@ -162,16 +163,16 @@ public class PageActivitiesEventListener implements EventListener {
     
     private boolean setAstoBeNotified(DocumentModel doc, CoreSession session) throws ClientException {
         try {
-            doc.getAdapter(MailNotification.class).setAsToBeNotified(session);
+            Tools.getAdapter(MailNotification.class, doc, session).setAsToBeNotified();
             return true;
         } catch (Exception e) {
             LOG.error(e, e);
         }
         return false;
-//        if (doc.getAdapter(MailNotification.class).isToBeNotified()) {
+//        if Tools.getAdapter(MailNotification.class, doc, session).isToBeNotified()) {
 //            return false;
 //        }
-//        doc.getAdapter(MailNotification.class).setAsToBeNotified();
+//        Tools.getAdapter(MailNotification.class, doc, session).setAsToBeNotified();
 //        session.saveDocument(doc);
 //        return true;
     }
@@ -202,7 +203,7 @@ public class PageActivitiesEventListener implements EventListener {
         if (page == null || !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState())) {
             return false;
         }
-        Page parentPage = doc.getAdapter(SiteDocument.class).getParentPage(session);
+        Page parentPage = Tools.getAdapter(SiteDocument.class, doc, session).getParentPage();
         if (parentPage != null) {
             setAstoBeNotified(parentPage.getDocument(), session);
             return true;

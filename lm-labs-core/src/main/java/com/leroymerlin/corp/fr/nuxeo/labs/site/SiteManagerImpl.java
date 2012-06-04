@@ -22,6 +22,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteManagerImpl extends DefaultComponent implements SiteManager {
 
@@ -39,7 +40,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
                 sitesRoot.getPathAsString(), LabsSiteUtils.doLabsSlugify(title),
                 LabsSiteConstants.Docs.SITE.type());
 
-        LabsSite labSite = docLabsSite.getAdapter(LabsSite.class);
+        LabsSite labSite = Tools.getAdapter(LabsSite.class, docLabsSite, session);
         labSite.setTitle(title);
         labSite.setURL(url);
         docLabsSite = session.createDocument(docLabsSite);
@@ -59,7 +60,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
             }
         };
         runner.runUnrestricted();
-        return docLabsSite.getAdapter(LabsSite.class);
+        return Tools.getAdapter(LabsSite.class, docLabsSite, session);
     }
 
 
@@ -120,8 +121,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         DocumentModelList sites = session.query(query);
         assert sites.size() <= 1;
         if (sites.size() == 1) {
-            return sites.get(0)
-                    .getAdapter(LabsSite.class);
+            return Tools.getAdapter(LabsSite.class, sites.get(0), session);
         } else {
             throw new SiteManagerException(
                     "label.sitemanager.error.site_does_not_exists");
@@ -153,7 +153,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         DocumentModelList docs = session.query(query);
         List<LabsSite> sites = new ArrayList<LabsSite>();
         for(DocumentModel doc : docs) {
-            LabsSite site = doc.getAdapter(LabsSite.class);
+            LabsSite site = Tools.getAdapter(LabsSite.class, doc, session);
             if(site!= null) {
                 sites.add(site);
             }
@@ -180,7 +180,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
     private boolean hasChangedUrl(CoreSession session, LabsSite site) throws ClientException {
         // TODO Auto-generated method stub
         DocumentModel originalDoc = session.getDocument(new IdRef(site.getDocument().getId()));
-        LabsSite origSite = originalDoc.getAdapter(LabsSite.class);
+        LabsSite origSite = Tools.getAdapter(LabsSite.class, originalDoc, session);
 
         return !origSite.getURL().equals(site.getURL());
 

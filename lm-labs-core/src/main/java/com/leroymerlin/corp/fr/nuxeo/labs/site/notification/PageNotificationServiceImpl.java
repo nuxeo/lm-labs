@@ -29,10 +29,12 @@ import org.nuxeo.runtime.model.DefaultComponent;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageNotificationServiceImpl extends DefaultComponent implements PageNotificationService {
 
@@ -40,12 +42,13 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     
     @Override
     public Page getRelatedPage(DocumentModel doc, CoreSession session) throws ClientException {
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         if (page == null) {
-            page = doc.getAdapter(SiteDocument.class).getParentPage(session);
+            page = Tools.getAdapter(SiteDocument.class, doc, session).getParentPage();
         }
         return page;
     }
+    
     @Override
     public boolean canBeMarked(DocumentModel doc, CoreSession session) throws ClientException {
         Page page = getRelatedPage(doc, session);
@@ -56,14 +59,15 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     }
     
     @Override
-    public boolean markForNotification(DocumentModel doc, CoreSession session) throws ClientException {
+    public boolean markForNotification(DocumentModel doc) throws ClientException {
         LoginContext loginContext = null;
+        CoreSession session = null;
+        session = openSession(doc.getRepositoryName());
         if (!canBeMarked(doc, session)) {
             return false;
         }
         try {
             loginContext = Framework.login();
-            session = openSession(doc.getRepositoryName());
             DocumentModel notif;
             Page page = getRelatedPage(doc, session);
             PathRef ref = new PathRef(page.getDocument().getPathAsString() + "/" + Docs.NOTIFACTIVITIES.docName());
@@ -99,13 +103,13 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
                     DocumentModel pageNews = session.getParentDocument(doc.getRef());
                     addNews(pageNewsMap, pageNews.getId(), doc);
                 } else if (State.PUBLISH.getState().equals(doc.getCurrentLifeCycleState())) {
-                    notifyPage(doc.getAdapter(Page.class), session);
+                    notifyPage(Tools.getAdapter(Page.class, doc, session), session);
                 }
             }
             for (String id : pageNewsMap.keySet()) {
                 DocumentModel pageNews = session.getDocument(new IdRef(id));
                 try {
-                    notifyPageNews(pageNews.getAdapter(PageNews.class), pageNewsMap.get(id));
+                    notifyPageNews(Tools.getAdapter(PageNews.class, pageNews, session), pageNewsMap.get(id), session);
                 } catch (Exception e) {
                     LOG.error(e, e);
                 }
@@ -137,15 +141,14 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
             if (Docs.PAGENEWS.type().equals(page.getDocument().getType())) {
                 eventName = EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS;
             }
-            return notifyPageEvent(page, eventName);
+            return notifyPageEvent(page, eventName, session);
         }
         return false;
     }
 
     @Override
-    public void notifyPageNews(PageNews pageNews, List<DocumentModel> newsList) throws Exception {
+    public void notifyPageNews(PageNews pageNews, List<DocumentModel> newsList, CoreSession session) throws Exception {
         DocumentModel document = pageNews.getDocument();
-        CoreSession session = openSession(pageNews.getDocument().getRepositoryName());
         for (DocumentModel news : newsList) {
             if (isToBeNotified(news, session)) {
                 unmarkForNotification(news, session);
@@ -163,7 +166,7 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
             titles.add(news.getTitle());
         }
         ctx.setProperty("newsTitlesList", (Serializable) titles);
-        ctx.setProperty("pageNewsUrl", pageNews.getPath(session));
+        ctx.setProperty("pageNewsUrl", pageNews.getPath());
         fireEvent(pageNews.getDocument(), eventName, ctx);
     }
     
@@ -183,10 +186,9 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     }
 
     @Override
-    public boolean notifyPageEvent(Page page, String eventName) throws ClientException {
+    public boolean notifyPageEvent(Page page, String eventName, CoreSession session) throws ClientException {
         try {
             DocumentModel document = page.getDocument();
-            CoreSession session = openSession(page.getDocument().getRepositoryName());
             fireEvent(document, eventName, getContext(document, session));
             return true;
         } catch (Exception e) {
@@ -196,6 +198,7 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     }
 
     private void unmarkForNotification(DocumentModel page, CoreSession session) throws ClientException {
+    	//No need session for nullable test
         Page adapter = page.getAdapter(Page.class);
         if (adapter == null) {
             return;
@@ -237,9 +240,10 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
         ctx.setProperty("PageId", doc.getId());
         String baseUrl = Framework.getProperty("labs.baseUrl", "nuxeo.loopback.url" + "/site/labssites");
         ctx.setProperty("labsBaseUrl", baseUrl);
-        ctx.setProperty("siteUrl", (Serializable) doc.getAdapter(SiteDocument.class).getSite(session).getURL());
-        ctx.setProperty("siteTitle", (Serializable) doc.getAdapter(SiteDocument.class).getSite(session).getTitle());
-        ctx.setProperty("pageUrl", doc.getAdapter(Page.class).getPath(session));
+        LabsSite site = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
+		ctx.setProperty("siteUrl", (Serializable) site.getURL());
+        ctx.setProperty("siteTitle", (Serializable) site.getTitle());
+        ctx.setProperty("pageUrl", Tools.getAdapter(Page.class, doc, session).getPath());
         return ctx;
     }
 

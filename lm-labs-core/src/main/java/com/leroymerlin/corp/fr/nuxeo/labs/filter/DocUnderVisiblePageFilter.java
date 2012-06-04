@@ -11,32 +11,34 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class DocUnderVisiblePageFilter implements Filter {
 
     private static final long serialVersionUID = 1L;
     private static final Log LOG = LogFactory.getLog(DocUnderVisiblePageFilter.class);
     
-    private CoreSession session;
+    private CoreSession session = null;
     
     @SuppressWarnings("unused")
-	private DocUnderVisiblePageFilter() {}
-    
-    public DocUnderVisiblePageFilter(CoreSession session) {
+	private DocUnderVisiblePageFilter(){}
+
+	public DocUnderVisiblePageFilter(CoreSession session) {
 		super();
 		this.session = session;
 	}
 
+
 	@Override
     public boolean accept(DocumentModel doc) {
         try {
-            SiteDocument sd = doc.getAdapter(SiteDocument.class);
-            boolean isAdmin = sd.getSite(session).isAdministrator(session.getPrincipal().getName(), session);
+            SiteDocument sd = Tools.getAdapter(SiteDocument.class, doc, session);
+            boolean isAdmin = sd.getSite().isAdministrator(session.getPrincipal().getName());
             Page parentPage;
             if (Docs.pageDocs().contains(Docs.fromString(doc.getType()))) {
-                parentPage = doc.getAdapter(Page.class);
+                parentPage = Tools.getAdapter(Page.class, doc, session);
             } else {
-                parentPage = doc.getAdapter(SiteDocument.class).getParentPage(session);
+                parentPage = Tools.getAdapter(SiteDocument.class, doc, session).getParentPage();
             }
             if (Docs.pageDocs().contains(Docs.fromString(parentPage.getDocument().getType()))) {
                 if (isAdmin) {

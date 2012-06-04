@@ -17,6 +17,7 @@ import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebAdapter(name = "pageUtils", type = "PageUtilsService")
 public class PageUtilsService extends DefaultAdapter {
@@ -96,7 +97,7 @@ public class PageUtilsService extends DefaultAdapter {
             if (BooleanUtils.toBoolean(redirect)) {
                 return Response.ok("?message_success=" + msg[0]).build();
             } else {
-                Page page = toMoved.getAdapter(Page.class);
+                Page page = Tools.getAdapter(Page.class, toMoved, session);
                 if (page != null) {
                     return Response.ok().entity(page.getTitle()).build();
                 } else {
@@ -138,7 +139,7 @@ public class PageUtilsService extends DefaultAdapter {
         try {
             DocumentModel copy = session.copy(source.getRef(),
                     destination.getRef(), null);
-            Page page = copy.getAdapter(Page.class);
+            Page page = Tools.getAdapter(Page.class, copy, session);
             String newTitle = COPYOF_PREFIX + page.getTitle();
             page.setTitle(newTitle);
             session.saveDocument(page.getDocument());
@@ -173,7 +174,7 @@ public class PageUtilsService extends DefaultAdapter {
             viewUrl = "/@views/" + view;
         }
         try {
-            Page page = source.getAdapter(Page.class);
+            Page page = Tools.getAdapter(Page.class, source, session);
             page.setTitle(title);
             session.saveDocument(page.getDocument());
             session.save();

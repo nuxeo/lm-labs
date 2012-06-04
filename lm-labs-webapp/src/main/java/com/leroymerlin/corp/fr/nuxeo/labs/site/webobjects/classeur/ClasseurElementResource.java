@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
@@ -83,12 +82,11 @@ public class ClasseurElementResource extends DocumentObject {
     @PUT
     @Path("@visibility/{action}")
     public Response doSetVisibility(@PathParam("action") String action) throws ClientException {
-    	CoreSession session = getCoreSession();
         if ("show".equals(action)) {
-    		parentFolder.show(doc, session);
+    		parentFolder.show(doc);
     		return Response.noContent().build();
     	} else if ("hide".equals(action)) {
-    		parentFolder.hide(doc, session);
+    		parentFolder.hide(doc);
     		return Response.noContent().build();
     	}
 		return Response.notModified().build();

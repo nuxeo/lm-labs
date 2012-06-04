@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).getSite(Context.coreSession) />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 <#if mySite?? && Session.hasPermission(mySite.document.ref, "Everything")>
 <@extends src="/views/labs-admin-base.ftl">
 
@@ -68,7 +68,7 @@
                     <#include "views/common/getTemplatesMap.ftl">
                     <#assign templatesMap = getTemplatesMap() />
                     <#list templatesMap?sort_by('title') as template>
-            			<option value="${template.name}"  <#if mySite.template.getTemplateName(Context.coreSession) == template.name >selected</#if>>${template.title}</option>
+            			<option value="${template.name}"  <#if mySite.template.getTemplateName() == template.name >selected</#if>>${template.title}</option>
             		</#list>
 	            	</select>
                     <p id="template-description" class="help-block"><small>${Context.getMessage('label.labssites.appearance.templates.' + mySite.template.templateName + '.description')}</small></p>

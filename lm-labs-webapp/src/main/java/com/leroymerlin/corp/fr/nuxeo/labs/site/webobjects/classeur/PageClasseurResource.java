@@ -33,6 +33,7 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 
 @WebObject(type = "PageClasseur", superType = "LabsPage")
@@ -48,7 +49,7 @@ public class PageClasseurResource extends NotifiablePageResource {
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        classeur = doc.getAdapter(PageClasseur.class);
+        classeur = Tools.getAdapter(PageClasseur.class, doc, ctx.getCoreSession());
         ctx.getEngine().getRendering().setSharedVariable("classeur", classeur);
     }
 
@@ -89,7 +90,7 @@ public class PageClasseurResource extends NotifiablePageResource {
         if (!StringUtils.isEmpty(folderTitle)) {
             try {
                 CoreSession session = getCoreSession();
-                classeur.addFolder(folderTitle, session);
+                classeur.addFolder(folderTitle);
                 session.save();
                 return Response.status(Status.OK).build();
             } catch (ClientException e) {
@@ -145,7 +146,7 @@ public class PageClasseurResource extends NotifiablePageResource {
     }
 
     public BlobHolder getBlobHolder(final DocumentModel document) {
-        return document.getAdapter(BlobHolder.class);
+        return Tools.getAdapter(BlobHolder.class, document, null);
     }
 
     @DELETE
@@ -194,13 +195,13 @@ public class PageClasseurResource extends NotifiablePageResource {
                     DocumentModel file = session.getDocument(idRef);
                     DocumentModel folderDoc = session.getParentDocument(
                             file.getRef());
-                    PageClasseurFolder folder = folderDoc.getAdapter(PageClasseurFolder.class);
+                    PageClasseurFolder folder = Tools.getAdapter(PageClasseurFolder.class, folderDoc, ctx.getCoreSession());
                     boolean done = false;
                     if (folder != null) {
                         if ("hide".equals(action)) {
-                            done = folder.hide(file, session);
+                            done = folder.hide(file);
                         } else if ("show".equals(action)) {
-                            done = folder.show(file, session);
+                            done = folder.show(file);
                         }
                     }
                     modified |= done;

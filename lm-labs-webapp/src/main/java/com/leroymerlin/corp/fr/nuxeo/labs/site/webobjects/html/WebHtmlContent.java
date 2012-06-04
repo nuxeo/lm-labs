@@ -47,7 +47,7 @@ public class WebHtmlContent extends DocumentObject {
     public Response doPost() {
         FormData form = ctx.getForm();
         try {
-            content.setHtml(form.getString("content"), ctx.getCoreSession());
+            content.setHtml(form.getString("content"));
             saveDocument();
             return Response.status(Status.OK).build();
         } catch (ClientException e) {
@@ -74,7 +74,7 @@ public class WebHtmlContent extends DocumentObject {
     //@Path("w/{index}") // For the moment only ONE widget is possible
     @Path("w")
     public Object doGetContent(/*@PathParam("index") String widgetIndex*/) throws ClientException {
-        List<LabsWidget> widgets = content.getGadgets(getCoreSession());
+        List<LabsWidget> widgets = content.getGadgets();
         if (!widgets.isEmpty()) {
             LabsWidget widget = widgets.get(0);
             if (WidgetType.OPENSOCIAL.equals(widget.getType())) {
@@ -101,7 +101,7 @@ public class WebHtmlContent extends DocumentObject {
     }
 
     public List<LabsWidget> getGagdets() throws ClientException {
-        return content.getGadgets(getCoreSession());
+        return content.getGadgets();
     }
 
 }

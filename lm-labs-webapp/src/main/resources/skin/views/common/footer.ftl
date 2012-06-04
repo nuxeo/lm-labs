@@ -9,7 +9,7 @@
 			jQuery("#admin_contact").load('${This.path}/@labspermissions/permAdmin', function() {
 			  refreshDisplayMode(jQuery("#admin_contact"));
 			});
-			jQuery("#contact").load('${Context.modulePath}/${Common.siteDoc(Document).getSite(Context.coreSession).URL}/@labscontacts/contactAdmin', function() {
+			jQuery("#contact").load('${Context.modulePath}/${Common.siteDoc(Document).getSite().URL}/@labscontacts/contactAdmin', function() {
 			  refreshDisplayMode(jQuery("#contact"));
 			});
 		});

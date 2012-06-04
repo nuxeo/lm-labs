@@ -17,6 +17,7 @@ import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.filter.PageClasseurDocsFilter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentModel> implements PageProvider<DocumentModel> {
 
@@ -37,10 +38,10 @@ public class LatestUploadsPageProvider extends AbstractPageProvider<DocumentMode
             DocumentModel doc = getParentDocument();
             StringBuilder query = new StringBuilder();
             try {
-                SiteDocument sd = doc.getAdapter(SiteDocument.class);
                 CoreSession session = (CoreSession)getProperties().get(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY);
+                SiteDocument sd = Tools.getAdapter(SiteDocument.class, doc, session);
                 query.append("SELECT * FROM Document WHERE ")
-                .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite(session).getTree(session).getPathAsString().replace("'", "\\'") + "'")
+                .append(NXQL.ECM_PATH).append(" STARTSWITH '" + sd.getSite().getTree().getPathAsString().replace("'", "\\'") + "'")
                 .append(" ORDER BY " + UPLOADS_SORT_FIELD + " DESC");
                 List<DocumentModel> documents = session.query(query.toString(), new PageClasseurDocsFilter(session));
                 if (!hasError()) {

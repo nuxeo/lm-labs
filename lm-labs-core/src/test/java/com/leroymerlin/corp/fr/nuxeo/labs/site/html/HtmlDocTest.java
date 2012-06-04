@@ -32,7 +32,9 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -85,7 +87,7 @@ public class HtmlDocTest {
         doc = session.getDocument(new PathRef(TEST_PATHREF));
         assertThat(doc, is(notNullValue()));
 
-        page = doc.getAdapter(HtmlPage.class);
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
         assertThat(page.getTitle(), is(TEST_TITLE));
         assertThat(page.getDescription(), is(TEST_DESCRIPTION));
 
@@ -116,8 +118,8 @@ public class HtmlDocTest {
         HtmlPage page = createApageWithSections();
 
         HtmlSection section = page.getSections().get(0);
-        section.setTitle("Mon titre de section", session);
-        section.setDescription("Ma description", session);
+        section.setTitle("Mon titre de section");
+        section.setDescription("Ma description");
 
         assertThat(section.getTitle(), is("Mon titre de section"));
         assertThat(section.getDescription(), is("Ma description"));
@@ -139,10 +141,10 @@ public class HtmlDocTest {
 
         HtmlSection section = page.getSections().get(0);
 
-        assertThat(section.getRows(session), is(notNullValue()));
-        assertThat(section.getRows(session).size(),is(0));
-        section.addRow(session);
-        assertThat(section.getRows(session).size(),is(1));
+        assertThat(section.getRows(), is(notNullValue()));
+        assertThat(section.getRows().size(),is(0));
+        section.addRow();
+        assertThat(section.getRows().size(),is(1));
 
         session.saveDocument(page.getDocument());
         session.save();
@@ -151,7 +153,7 @@ public class HtmlDocTest {
         page = retrieveTestPage();
 
         section = page.getSections().get(0);
-        List<HtmlRow> rows = section.getRows(session);
+        List<HtmlRow> rows = section.getRows();
         assertThat(rows.size(),is(1));
 
     }
@@ -160,11 +162,11 @@ public class HtmlDocTest {
     public void rowsHaveContent() throws Exception {
         HtmlPage page = createApageWithSectionsAndRow();
         HtmlSection section = page.getSections().get(0);
-        HtmlRow row = section.getRows(session).get(0);
+        HtmlRow row = section.getRows().get(0);
 
-        row.addContent(4, "My Content 1", session);
-        row.addContent(6, "My Content 2", session);
-        row.addContent(6, "My Content 3", session);
+        row.addContent(4, "My Content 1");
+        row.addContent(6, "My Content 2");
+        row.addContent(6, "My Content 3");
 
         assertThat(row.getContents().size(),is(3));
 
@@ -172,7 +174,7 @@ public class HtmlDocTest {
         session.save();
 
         page = retrieveTestPage();
-        row = page.getSections().get(0).getRows(session).get(0);
+        row = page.getSections().get(0).getRows().get(0);
         assertThat(row.getContents().size(),is(3));
 
         HtmlContent content = row.getContents().get(0);
@@ -186,10 +188,10 @@ public class HtmlDocTest {
         HtmlPage page = createApageWithSections();
         HtmlSection section = page.getSections().get(0);
 
-        HtmlRow row = section.addRow(session);
+        HtmlRow row = section.addRow();
         assertThat(row.getCssClass(),is(nullValue()));
 
-        row = section.addRow("acssclass", session);
+        row = section.addRow("acssclass");
         assertThat(row.getCssClass(),is("acssclass"));
 
         session.saveDocument(page.getDocument());
@@ -197,8 +199,8 @@ public class HtmlDocTest {
 
         page = retrieveTestPage();
         section = page.getSections().get(0);
-        assertThat(section.row(0, session).getCssClass(),is(nullValue()));
-        assertThat(section.row(1, session).getCssClass(),is("acssclass"));
+        assertThat(section.row(0).getCssClass(),is(nullValue()));
+        assertThat(section.row(1).getCssClass(),is("acssclass"));
     }
 
     @Test
@@ -206,11 +208,11 @@ public class HtmlDocTest {
         HtmlPage page = createApageWithSections();
         HtmlSection section = page.getSections().get(0);
 
-        HtmlRow row = section.addRow(session);
+        HtmlRow row = section.addRow();
         assertThat(row.getCssClass(),is(nullValue()));
 
-        row = section.addRow(session);
-        row.setCssClass("acssclass1", session);
+        row = section.addRow();
+        row.setCssClass("acssclass1");
         assertThat(row.getCssClass(),is("acssclass1"));
 
         session.saveDocument(page.getDocument());
@@ -218,8 +220,8 @@ public class HtmlDocTest {
 
         page = retrieveTestPage();
         section = page.getSections().get(0);
-        assertThat(section.row(0, session).getCssClass(),is(nullValue()));
-        assertThat(section.row(1, session).getCssClass(),is("acssclass1"));
+        assertThat(section.row(0).getCssClass(),is(nullValue()));
+        assertThat(section.row(1).getCssClass(),is("acssclass1"));
     }
 
     @Test
@@ -247,12 +249,12 @@ public class HtmlDocTest {
 
     private HtmlPage retrieveTestPage() throws ClientException {
         DocumentModel doc = session.getDocument(new PathRef(TEST_PATHREF));
-        return doc.getAdapter(HtmlPage.class);
+        return Tools.getAdapter(HtmlPage.class, doc, session);
     }
 
     private HtmlPage createApageWithSectionsAndRow() throws ClientException {
         HtmlPage page = createApageWithSections();
-        page.getSections().get(0).addRow(session);
+        page.getSections().get(0).addRow();
         return page;
     }
 
@@ -261,14 +263,14 @@ public class HtmlDocTest {
         page.addSection();
         DocumentModel doc = session.createDocument(page.getDocument());
 
-        return doc.getAdapter(HtmlPage.class);
+        return Tools.getAdapter(HtmlPage.class, doc, session);
 
     }
 
     private HtmlPage createTestPage() throws ClientException {
         DocumentModel doc = session.createDocumentModel("/", "myPage",
                 "HtmlPage");
-        HtmlPage page = doc.getAdapter(HtmlPage.class);
+        HtmlPage page = Tools.getAdapter(HtmlPage.class, doc, session);
         page.setTitle(TEST_TITLE);
         page.setDescription(TEST_DESCRIPTION);
         return page;

@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.model.Template;
@@ -32,6 +33,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.contact.ContactDto;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.ContactHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 /**
  * @author ephongsavanh
@@ -61,8 +63,9 @@ public class LabsContactsService extends DefaultAdapter {
         }
 
         try {
-            LabsSite labsSite = getTarget().getAdapter(LabsSite.class);
-            if (labsSite.addContact(id, ctx.getCoreSession())) {
+            DocumentModel document = getTarget().getAdapter(DocumentModel.class);
+            LabsSite labsSite = Tools.getAdapter(LabsSite.class, document, ctx.getCoreSession());
+            if (labsSite.addContact(id)) {
                 return Response.ok().build();
             }
         } catch (Exception e) {
@@ -95,8 +98,9 @@ public class LabsContactsService extends DefaultAdapter {
         }
 
         try {
-            LabsSite labsSite = getTarget().getAdapter(LabsSite.class);
-            if (labsSite.deleteContact(ldap, ctx.getCoreSession())) {
+            DocumentModel document = getTarget().getAdapter(DocumentModel.class);
+            LabsSite labsSite = Tools.getAdapter(LabsSite.class, document, ctx.getCoreSession());
+            if (labsSite.deleteContact(ldap)) {
                 return Response.ok().build();
             }
         } catch (Exception e) {
@@ -107,7 +111,8 @@ public class LabsContactsService extends DefaultAdapter {
     }
 
     private List<ContactDto> getContactDtoList() throws ClientException {
-        LabsSite labsSite = getTarget().getAdapter(LabsSite.class);
+        DocumentModel document = getTarget().getAdapter(DocumentModel.class);
+        LabsSite labsSite = Tools.getAdapter(LabsSite.class, document, ctx.getCoreSession());
         List<String> contacts;
         try {
             contacts = labsSite.getContacts();

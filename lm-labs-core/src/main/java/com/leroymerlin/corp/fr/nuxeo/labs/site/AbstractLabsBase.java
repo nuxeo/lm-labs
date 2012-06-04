@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -20,19 +22,28 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
-public abstract class AbstractLabsBase  implements LabsBase{
+public abstract class AbstractLabsBase extends LabsAdapterImpl implements LabsBase{
 
-    public static final String DC_TITLE = "dc:title";
-
+	private static final String THE_CORE_SESSION_SETTED = "The coreSession setted in this adpater is null. The coreSession comes from document : ";
+	public static final String DC_TITLE = "dc:title";
 	public static final String DC_DESCRIPTION = "dc:description";
-    
-	protected DocumentModel doc;
+    private static final Log LOG = LogFactory.getLog(AbstractLabsBase.class);
 
+    public AbstractLabsBase(DocumentModel document) {
+		super(document);
+	}
+    
     @Override
-    public DocumentModel getDocument() {
-        return doc;
-    }
+    public CoreSession getSession() {
+    	CoreSession coreSession = super.getSession();
+		if (coreSession == null){
+			LOG.error(THE_CORE_SESSION_SETTED + "(" + doc.getRef() + "/" + doc.getType() + "/" + this.getClass().getName() + ")");
+			doc.getCoreSession();
+		}
+		return coreSession;
+	}
 
     @Override
     public void setTitle(String title) throws PropertyException,
@@ -67,7 +78,7 @@ public abstract class AbstractLabsBase  implements LabsBase{
         return (String) doc.getPropertyValue(DC_DESCRIPTION);
     }
     
-    public abstract String[] getAllowedSubtypes(CoreSession session) throws ClientException;
+    public abstract String[] getAllowedSubtypes() throws ClientException;
 
     protected String[] getAllowedSubtypes(DocumentModel doc) throws ClientException {
         try {
@@ -84,8 +95,8 @@ public abstract class AbstractLabsBase  implements LabsBase{
     }
     
     @Override
-    public boolean isAuthorizedToDisplay(CoreSession session) throws ClientException{
-        if (LabsSiteUtils.isOnlyRead(doc, session)){
+    public boolean isAuthorizedToDisplay() throws ClientException{
+        if (LabsSiteUtils.isOnlyRead(doc, getSession())){
             return doc.getAdapter(LabsPublisher.class).isVisible();
         }
         return true;
@@ -108,7 +119,7 @@ public abstract class AbstractLabsBase  implements LabsBase{
 
     @Override
     public LabsTemplate getTemplate() throws ClientException {
-        return doc.getAdapter(LabsTemplate.class);
+        return Tools.getAdapter(LabsTemplate.class, doc, getSession());
     }
 
     @Override
@@ -119,22 +130,22 @@ public abstract class AbstractLabsBase  implements LabsBase{
     }
 
     @Override
-    public boolean isAdministrator(String userName, CoreSession session) throws ClientException {
+    public boolean isAdministrator(String userName) throws ClientException {
         try {
             UserManager userManager = Framework.getService(UserManager.class);
             NuxeoPrincipal principal = userManager.getPrincipal(userName);
-            return session.hasPermission(principal, doc.getRef(), SecurityConstants.EVERYTHING);
+            return getSession().hasPermission(principal, doc.getRef(), SecurityConstants.EVERYTHING);
         } catch (Exception e) {
             return false;
         }
     }
     
     @Override
-    public boolean isContributor(String userName, CoreSession session) throws ClientException {
+    public boolean isContributor(String userName) throws ClientException {
         try {
             UserManager userManager = Framework.getService(UserManager.class);
             NuxeoPrincipal principal = userManager.getPrincipal(userName);
-            return session.hasPermission(principal, doc.getRef(), SecurityConstants.READ_WRITE);
+            return getSession().hasPermission(principal, doc.getRef(), SecurityConstants.READ_WRITE);
         } catch (Exception e) {
             return false;
         }

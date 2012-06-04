@@ -4,11 +4,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 
 public interface Page extends LabsBase {
 
-    public String getPath(CoreSession session) throws ClientException;
+    public String getPath() throws ClientException;
     
     boolean isCommentable() throws ClientException;
     
@@ -20,7 +19,7 @@ public interface Page extends LabsBase {
     
     boolean isDisplayable(String fieldName) throws ClientException;
     
-    Calendar getLastNotified(CoreSession session) throws ClientException;
+    Calendar getLastNotified() throws ClientException;
 
 	public int getElementsPerPage() throws ClientException;
 	

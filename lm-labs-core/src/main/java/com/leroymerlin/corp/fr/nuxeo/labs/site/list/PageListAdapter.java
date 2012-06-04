@@ -64,7 +64,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
     private static SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMMM yyyy");
 
     public PageListAdapter(DocumentModel doc) {
-        this.doc = doc;
+        super(doc);
     }
 
     public static class Model {
@@ -93,7 +93,9 @@ public class PageListAdapter extends AbstractPage implements PageList {
          * @throws ClientException
          */
         public PageList create() throws ClientException {
-            return new PageListAdapter(session.createDocument(this.doc));
+            PageListAdapter pageListAdapter = new PageListAdapter(session.createDocument(this.doc));
+            pageListAdapter.setSession(session);
+			return pageListAdapter;
         }
 
         /**
@@ -103,7 +105,9 @@ public class PageListAdapter extends AbstractPage implements PageList {
          * @throws ClientException
          */
         public PageList getAdapter() throws ClientException {
-            return new PageListAdapter(this.doc);
+            PageListAdapter pageListAdapter = new PageListAdapter(this.doc);
+            pageListAdapter.setSession(session);
+			return pageListAdapter;
         }
     }
 
@@ -132,7 +136,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * .util.List)
      */
     @Override
-    public void setHeaders(List<Header> headersToSave, CoreSession session) throws ClientException {
+    public void setHeaders(List<Header> headersToSave) throws ClientException {
         List<Map<String, Object>> listHeaders = new ArrayList<Map<String, Object>>();
         Map<Integer, EntryType> linePropIdHeaders = new HashMap<Integer, EntryType>();
         for (Header head : headersToSave) {
@@ -146,12 +150,12 @@ public class PageListAdapter extends AbstractPage implements PageList {
         doc.getProperty(PGL_HEADERLIST).setValue(listHeaders);
         // in case a 'lineProp' column is added on a existing PageList we have to check cells' content of 'lineProp' columns
         if (!linePropIdHeaders.isEmpty()) {
-            checkLinePropDataConsistency(linePropIdHeaders, session);
+            checkLinePropDataConsistency(linePropIdHeaders);
         }
     }
 
-    private void checkLinePropDataConsistency(Map<Integer, EntryType> idHeaders, CoreSession session) throws ClientException {
-        for(EntriesLine line : getLines(session)) {
+    private void checkLinePropDataConsistency(Map<Integer, EntryType> idHeaders) throws ClientException {
+        for(EntriesLine line : getLines()) {
             boolean lineModified = false;
             for (int idHeader : idHeaders.keySet()) {
                 Entry entry = line.getEntryByIdHead(idHeader);
@@ -168,7 +172,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
                 }
             }
             if (lineModified) {
-                saveLine(line, null, session);
+                saveLine(line, null);
             }
         }
     }
@@ -261,17 +265,19 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#getLines()
      */
     @Override
-    public List<EntriesLine> getLines(CoreSession session) throws ClientException {
+    public List<EntriesLine> getLines() throws ClientException {
         DocumentModelList listDocLines = null;
         List<EntriesLine> entriesLines = new ArrayList<EntriesLine>();
-        listDocLines = session.getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
+        CoreSession session = getSession();
+		listDocLines = session.getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
         EntriesLine line;
         PageListLine adapterLine;
         for (DocumentModel docTmp : listDocLines) {
-            adapterLine = docTmp.getAdapter(PageListLine.class);
+            adapterLine = Tools.getAdapter(PageListLine.class, docTmp, session);
             line = adapterLine.getLine();
             line.setDocLine(docTmp);
             line.setNbComments(adapterLine.getNbComments());
+            line.setNbrFiles(adapterLine.getFiles().size());            
             entriesLines.add(line);
         }
         return entriesLines;
@@ -284,7 +290,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine)
      */
     @Override
-    public void saveLine(EntriesLine pLine, LabsSite pSite, CoreSession session) throws ClientException {
+    public void saveLine(EntriesLine pLine, LabsSite pSite) throws ClientException {
+    	CoreSession session = getSession();
         DocumentModel lineDoc = null;
         boolean isNew = pLine.getDocLine() == null;
         if (isNew) {
@@ -292,7 +299,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         } else {
             lineDoc = pLine.getDocLine();
         }
-        PageListLine line = lineDoc.getAdapter(PageListLine.class);
+        PageListLine line = Tools.getAdapter(PageListLine.class, lineDoc, session);
         line.setLine(pLine);
         if (isNew) {
             lineDoc = session.createDocument(lineDoc);
@@ -302,20 +309,20 @@ public class PageListAdapter extends AbstractPage implements PageList {
         }
         session.save();
         if (isNew) {
-            manageAddedPermission(pLine, pSite, session);
+            manageAddedPermission(pLine, pSite);
         }
     }
     
-    private void manageAddedPermission(final EntriesLine pLine, final LabsSite site, CoreSession session) throws ClientException{
+    private void manageAddedPermission(final EntriesLine pLine, final LabsSite site) throws ClientException{
         if (site == null){
             return;
         }
         final boolean isAllContributors = isAllContributors();
-        if (!isAllContributors || site.isAdministrator(pLine.getUserName(), session) || site.isContributor(pLine.getUserName(), session)){       
+        if (!isAllContributors || site.isAdministrator(pLine.getUserName()) || site.isContributor(pLine.getUserName())){       
             return;
         }
         final DocumentRef ref = pLine.getDocLine().getRef();
-        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(getSession()){
             @Override
             public void run() throws ClientException {
                 DocumentModel docu = session.getDocument(ref);
@@ -340,8 +347,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * nuxeo.ecm.core.api.DocumentRef)
      */
     @Override
-    public void removeLine(DocumentRef pRef, CoreSession session) throws ClientException {
-        session.removeDocument(pRef);
+    public void removeLine(DocumentRef pRef) throws ClientException {
+        getSession().removeDocument(pRef);
     }
 
     /*
@@ -352,12 +359,13 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * .ecm.core.api.DocumentRef)
      */
     @Override
-    public EntriesLine getLine(DocumentRef pRef, CoreSession session) throws ClientException {
+    public EntriesLine getLine(DocumentRef pRef) throws ClientException {
         EntriesLine line = new EntriesLine();
-        DocumentModel lineDoc = session.getDocument(pRef);
+        CoreSession session = getSession();
+		DocumentModel lineDoc = session.getDocument(pRef);
         if (lineDoc != null) {
             line.setDocLine(lineDoc);
-            line = lineDoc.getAdapter(PageListLine.class)
+            line = Tools.getAdapter(PageListLine.class, lineDoc, session)
                     .getLine();
         }
         return line;
@@ -386,10 +394,10 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * (boolean)
      */
     @Override
-    public void setAllContributors(final boolean isAllContributors, CoreSession session) throws ClientException {
+    public void setAllContributors(final boolean isAllContributors) throws ClientException {
         if (isAllContributors != isAllContributors()){
             final DocumentRef ref = doc.getRef();
-            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
+            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(getSession()){
     
                 @SuppressWarnings("deprecation")
                 @Override
@@ -446,7 +454,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#exportExcel(java.io.OutputStream)
      */
     @Override
-    public void exportExcel(OutputStream pOut, CoreSession session) throws ClientException, IOException {
+    public void exportExcel(OutputStream pOut) throws ClientException, IOException {
         Workbook wb = new HSSFWorkbook();
         Sheet sheet = wb.createSheet("export");
 
@@ -476,7 +484,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         numCell = 0;
         numRow ++;
         SimpleDateFormat sdfHeader = null;
-        for (EntriesLine line : getLines(session)) {
+        for (EntriesLine line : getLines()) {
             row = sheet.createRow(numRow);
             for (Header head : headers) {
                 cell = row.createCell(numCell);

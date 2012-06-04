@@ -22,6 +22,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.OfmRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageClasseurPageRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -41,26 +42,26 @@ public class PagePathTests {
     @Before
     public void doBefore() throws Exception {
         site = sm.getSite(session, OfmRepositoryInit.SITE_URL);
-        classeur = session.getDocument(
+        DocumentModel document = session.getDocument(
                 new PathRef(site.getDocument()
-                        .getPathAsString() + "/tree/" + PAGE_CLASSEUR_TITLE))
-                .getAdapter(PageClasseur.class);
+                        .getPathAsString() + "/tree/" + PAGE_CLASSEUR_TITLE));
+		classeur = Tools.getAdapter(PageClasseur.class, document, session);
     }
 
     @Test
     public void canGetThePathOfAPage() throws Exception {
 
-        assertThat(classeur.getPath(session), is("ofm/"+ PAGE_CLASSEUR_TITLE));
+        assertThat(classeur.getPath(), is("ofm/"+ PAGE_CLASSEUR_TITLE));
 
     }
 
     @Test
     public void canGetThePathOfADocument() throws Exception {
         DocumentModel folder = session.getDocument(new PathRef(classeur.getDocument().getPathAsString() + "/" + FOLDER1_NAME ));
-        SiteDocument sd = folder.getAdapter(SiteDocument.class);
+        SiteDocument sd = Tools.getAdapter(SiteDocument.class, folder, session);
 
-        assertThat(sd.getParentPagePath(session), is("ofm/" + PAGE_CLASSEUR_TITLE));
-        assertThat(sd.getResourcePath(session), is("ofm/" + PAGE_CLASSEUR_TITLE + "/" + FOLDER1_NAME ) );
+        assertThat(sd.getParentPagePath(), is("ofm/" + PAGE_CLASSEUR_TITLE));
+        assertThat(sd.getResourcePath(), is("ofm/" + PAGE_CLASSEUR_TITLE + "/" + FOLDER1_NAME ) );
 
     }
 
