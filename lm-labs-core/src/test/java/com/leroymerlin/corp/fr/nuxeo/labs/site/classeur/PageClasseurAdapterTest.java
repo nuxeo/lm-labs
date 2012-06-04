@@ -1,7 +1,13 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.classeur;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 
@@ -27,6 +33,7 @@ import com.leroymerlin.corp.fr.nuxeo.LabstTest;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
 @Deploy({
@@ -241,7 +248,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         
         String path = classeur.getDocument().getPathAsString();
         DocumentModel doc = session.getDocument(new PathRef(path));
-        classeur = doc.getAdapter(PageClasseur.class);
+        classeur = Tools.getAdapter(PageClasseur.class, doc, session);
         folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(),is(1));
         file = folder.getFiles().get(0);
@@ -269,7 +276,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         
         String path = classeur.getDocument().getPathAsString();
         DocumentModel doc = session.getDocument(new PathRef(path));
-        classeur = doc.getAdapter(PageClasseur.class);
+        classeur = Tools.getAdapter(PageClasseur.class, doc, session);
         folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(),is(1));
         file = folder.getFiles().get(0);
@@ -336,7 +343,7 @@ public class PageClasseurAdapterTest extends LabstTest {
 
         CoreSession cgmSession = changeUser(USERNAME1);
         DocumentModel cgmFolderDoc = cgmSession.getDocument(new IdRef(folderId));
-        PageClasseurFolder cgmFolder = cgmFolderDoc.getAdapter(PageClasseurFolder.class);
+        PageClasseurFolder cgmFolder = Tools.getAdapter(PageClasseurFolder.class, cgmFolderDoc, session);
         assertEquals(1, cgmFolder.getFiles().size());
         
         modified = folder.hide(file);
@@ -348,11 +355,11 @@ public class PageClasseurAdapterTest extends LabstTest {
         cgmSession.disconnect();
         cgmSession = changeUser(USERNAME1);
         cgmFolderDoc = cgmSession.getDocument(new IdRef(folderId));
-        cgmFolder = cgmFolderDoc.getAdapter(PageClasseurFolder.class);
+        cgmFolder = Tools.getAdapter(PageClasseurFolder.class, cgmFolderDoc, cgmSession);
         assertEquals(0, cgmFolder.getFiles().size());
         
         DocumentModel folderDoc = session.getDocument(new IdRef(folderId));
-        folder = folderDoc.getAdapter(PageClasseurFolder.class);
+        folder = Tools.getAdapter(PageClasseurFolder.class, folderDoc, session);
         modified = folder.show(file);
         assertTrue(modified);
         session.save();
@@ -363,8 +370,8 @@ public class PageClasseurAdapterTest extends LabstTest {
 //        cgmSession.disconnect();
 //        CoreSession cgmSession2 = changeUser(USERNAME1);
 //        DocumentModel cgmFolderDoc2 = cgmSession2.getDocument(new IdRef(folderId));
-//        PageClasseurFolder cgmFolder2 = cgmFolderDoc2.getAdapter(PageClasseurFolder.class);
-//        assertEquals(1, cgmFolder2.getFiles().size());
+//        PageClasseurFolder cgmFolder2 = Tools.getAdapter(PageClasseurFolder.class, cgmFolderDoc2, session);
+//        assertEquals(1, cgmFolder2.getFiles(session).size());
 	}
 
     private Blob getTestBlob() {

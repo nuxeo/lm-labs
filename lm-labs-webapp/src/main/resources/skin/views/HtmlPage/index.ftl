@@ -1,6 +1,6 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
   <#assign nbrOsGadgets = 0 />
-  <#assign mySite=Common.siteDoc(Document).site />
+  <#assign mySite=Common.siteDoc(Document).getSite() />
   <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews"] />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
@@ -125,7 +125,7 @@
 
 		</#if>
 
-        <#list section.rows as row>
+        <#list section.getRows() as row>
         	<#if isContributor >
 	          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 	              <#list row.contents as content>

@@ -25,6 +25,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -56,13 +57,13 @@ public class LabsTemplateAdapterTest {
 
     @Test
     public void iCanGetTemplateOnPage() throws Exception {
-        assertNotNull(site.getIndexDocument().getAdapter(Page.class).getTemplate());
+        assertNotNull(Tools.getAdapter(Page.class, site.getIndexDocument(), session).getTemplate());
     }
 
     @Test
     public void iCanGetTemplateOnPageInheritSite() throws Exception {
         String templateSite = site.getTemplate().getTemplateName();
-        String templatePage = site.getIndexDocument().getAdapter(Page.class).getTemplate().getTemplateName();
+        String templatePage = Tools.getAdapter(Page.class, site.getIndexDocument(), session).getTemplate().getTemplateName();
         assertThat(templatePage, is((templateSite)));
     }
     
@@ -75,7 +76,7 @@ public class LabsTemplateAdapterTest {
     @Test
     public void pageHasFacetAfterAddFacetTemplate() throws Exception {
         DocumentModel indexDocument = site.getIndexDocument();
-        Page page = indexDocument.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, indexDocument, session);
         page.addFacetTemplate();
         indexDocument = session.saveDocument(indexDocument);
         session.save();
@@ -88,7 +89,7 @@ public class LabsTemplateAdapterTest {
     public void iCanGetTemplateOnPageDifferentOfSite() throws Exception {
         String templateSite = site.getTemplate().getTemplateName();
         DocumentModel indexDocument = site.getIndexDocument();
-        Page page = indexDocument.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, indexDocument, session);
         page.addFacetTemplate();
         
         LabsTemplate templatePage = page.getTemplate();
@@ -96,7 +97,7 @@ public class LabsTemplateAdapterTest {
         session.saveDocument(indexDocument);
         session.save();
         
-        templatePage = site.getIndexDocument().getAdapter(Page.class).getTemplate();
+        templatePage = Tools.getAdapter(Page.class, site.getIndexDocument(), session).getTemplate();
         String templatePageString = templatePage.getTemplateName();
         assertThat(templatePageString, not((templateSite)));
         assertThat("name", not(templateSite));

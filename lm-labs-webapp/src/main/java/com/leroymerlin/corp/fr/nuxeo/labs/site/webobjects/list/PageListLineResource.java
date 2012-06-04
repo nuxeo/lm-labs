@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
@@ -41,6 +42,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.list.bean.FreemarkerBean;
 
 /**
@@ -72,23 +74,24 @@ public class PageListLineResource extends DocumentObject {
         }
         if (args.length > 0) {
             doc = (DocumentModel) args[0];
+            CoreSession session = ctx.getCoreSession();
             if (LabsSiteConstants.Docs.PAGELIST_LINE.type().equals(doc.getType())){
                 try {
-                    DocumentModel docParent = doc.getCoreSession().getDocument(doc.getParentRef());
-                    parent = docParent.getAdapter(PageList.class);
+                    DocumentModel docParent = session.getDocument(doc.getParentRef());
+                    parent = Tools.getAdapter(PageList.class, docParent, session);
                 } catch (ClientException e) {
                     throw WebException.wrap(
                             "Failed to get parent " + doc.getPathAsString(), e);
                 }
             }
             else{
-                parent = doc.getAdapter(PageList.class);
+                parent = Tools.getAdapter(PageList.class, doc, session);
             }
         }
     }
 
     public List<DocumentModel> getComments() throws ClientException{
-        return doc.getAdapter(CommentableDocument.class).getComments();
+        return Tools.getAdapter(CommentableDocument.class, doc, null).getComments();
     }
 
     @GET
@@ -97,7 +100,7 @@ public class PageListLineResource extends DocumentObject {
         EntriesLine line = null;
         FreemarkerBean bean = null;
         try {
-            PageListLine adapter = doc.getAdapter(PageListLine.class);
+            PageListLine adapter = Tools.getAdapter(PageListLine.class, doc, ctx.getCoreSession());
             bean = new FreemarkerBean(null, null, parent.getHeaderSet(), null);
             line = adapter.getLine();
         } catch (ClientException e) {
@@ -114,7 +117,7 @@ public class PageListLineResource extends DocumentObject {
             url = "&page=" + currentPage_str;
         }
         try {
-            doc.getAdapter(PageListLine.class).removeLine();
+            Tools.getAdapter(PageListLine.class, doc, ctx.getCoreSession()).removeLine();
         } catch (Exception e) {
             LOG.error(IMPOSSIBLE_TO_DELETE_LINE_ID + doc.getRef().reference(), e);
             return Response.ok("?message_error=label.pageList.line_deleted_error" + url,
@@ -221,8 +224,9 @@ public class PageListLineResource extends DocumentObject {
         try {
             blob.persist();
             if (blob.getLength() > 0) {
-                doc.getAdapter(PageListLine.class).addFile(blob, desc, title);
-                getCoreSession().save();
+                CoreSession session = getCoreSession();
+                Tools.getAdapter(PageListLine.class, doc, session).addFile(blob, desc, title);
+                session.save();
             }
         } catch (Exception e) {
             return Response.serverError()
@@ -238,7 +242,7 @@ public class PageListLineResource extends DocumentObject {
     }
 
     public BlobHolder getBlobHolder(final DocumentModel document) {
-        return document.getAdapter(BlobHolder.class);
+        return Tools.getAdapter(BlobHolder.class, document, null);
     }
 
     @Path("@file/{filename}")
@@ -248,7 +252,7 @@ public class PageListLineResource extends DocumentObject {
     }
 
     public DocumentModelList getFiles() throws ClientException {
-        return doc.getAdapter(PageListLine.class).getFiles();
+        return Tools.getAdapter(PageListLine.class, doc, ctx.getCoreSession()).getFiles();
     }
 
 //    private void manageAddedPermission(EntriesLine entriesLine){

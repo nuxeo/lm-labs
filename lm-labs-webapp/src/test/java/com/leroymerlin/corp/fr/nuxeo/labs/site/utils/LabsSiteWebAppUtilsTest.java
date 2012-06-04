@@ -75,10 +75,10 @@ public class LabsSiteWebAppUtilsTest {
         assertThat(folder.getFiles().size(), is(1));
         session.save();
 
-        classeur.getDocument().getAdapter(LabsPublisher.class).publish();
+        Tools.getAdapter(LabsPublisher.class, classeur.getDocument(), null).publish();
 
         PageProvider<DocumentModel> latestUploadsPageProvider = LabsSiteWebAppUtils.getLatestUploadsPageProvider(
-                site, 0);
+                site, 0, session);
         assertNotNull(latestUploadsPageProvider);
         List<DocumentModel> lastUploadedDoc = latestUploadsPageProvider.getCurrentPage();
         assertNotNull(lastUploadedDoc);

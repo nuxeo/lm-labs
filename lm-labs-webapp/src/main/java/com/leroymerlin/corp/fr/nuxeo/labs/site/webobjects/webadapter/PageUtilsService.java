@@ -17,6 +17,7 @@ import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebAdapter(name = "pageUtils", type = "PageUtilsService")
 public class PageUtilsService extends DefaultAdapter {
@@ -57,8 +58,7 @@ public class PageUtilsService extends DefaultAdapter {
     private Response doMove(final String sourceId, final String destinationId,
             final String afterId, final String redirect, final String view,
             final String[] msg) throws ClientException {
-        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        CoreSession session = doc.getCoreSession();
+        CoreSession session = ctx.getCoreSession();
         DocumentModel source = session.getDocument(new IdRef(sourceId));
         DocumentModel sourceParent = session.getParentDocument(source.getRef());
         DocumentModel destination = session.getDocument(new IdRef(destinationId));
@@ -97,7 +97,7 @@ public class PageUtilsService extends DefaultAdapter {
             if (BooleanUtils.toBoolean(redirect)) {
                 return Response.ok("?message_success=" + msg[0]).build();
             } else {
-                Page page = toMoved.getAdapter(Page.class);
+                Page page = Tools.getAdapter(Page.class, toMoved, session);
                 if (page != null) {
                     return Response.ok().entity(page.getTitle()).build();
                 } else {
@@ -120,8 +120,7 @@ public class PageUtilsService extends DefaultAdapter {
             @FormParam("redirect") String redirect,
             @FormParam("view") String view) throws ClientException {
 
-        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        CoreSession session = doc.getCoreSession();
+        CoreSession session = ctx.getCoreSession();
         DocumentModel source = session.getDocument(new IdRef(sourceId));
         DocumentModel destination = session.getDocument(new IdRef(destinationId));
         String viewUrl = "";
@@ -140,7 +139,7 @@ public class PageUtilsService extends DefaultAdapter {
         try {
             DocumentModel copy = session.copy(source.getRef(),
                     destination.getRef(), null);
-            Page page = copy.getAdapter(Page.class);
+            Page page = Tools.getAdapter(Page.class, copy, session);
             String newTitle = COPYOF_PREFIX + page.getTitle();
             page.setTitle(newTitle);
             session.saveDocument(page.getDocument());
@@ -167,18 +166,18 @@ public class PageUtilsService extends DefaultAdapter {
             @FormParam("newTitle") String title,
             @FormParam("redirect") String redirect,
             @FormParam("view") String view) throws ClientException {
-        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        DocumentModel source = doc.getCoreSession().getDocument(
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel source = session.getDocument(
                 new IdRef(sourceId));
         String viewUrl = "";
         if (!StringUtils.isEmpty(view)) {
             viewUrl = "/@views/" + view;
         }
         try {
-            Page page = source.getAdapter(Page.class);
+            Page page = Tools.getAdapter(Page.class, source, session);
             page.setTitle(title);
-            doc.getCoreSession().saveDocument(page.getDocument());
-            doc.getCoreSession().save();
+            session.saveDocument(page.getDocument());
+            session.save();
         } catch (Exception e) {
             if (BooleanUtils.toBoolean(redirect)) {
                 return redirect(getPath() + viewUrl + "?message_error="

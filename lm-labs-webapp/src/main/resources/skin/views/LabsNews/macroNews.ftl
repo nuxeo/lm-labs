@@ -1,6 +1,6 @@
 <#-- genere le contenu entier de la news -->
 <#macro generateContentHtmlNews news>
-	<#list news.rows as row>
+	<#list news.getRows() as row>
 	    <div class="row-fluid" id="row_s${news_index}_r${row_index}">
 	      <#list row.contents as content>
 	        <div class="span${content.colNumber} columns">

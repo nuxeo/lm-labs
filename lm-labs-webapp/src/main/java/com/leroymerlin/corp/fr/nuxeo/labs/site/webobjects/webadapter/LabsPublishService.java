@@ -33,6 +33,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 /**
  * @author fvandaele
@@ -65,7 +66,7 @@ public class LabsPublishService extends DefaultAdapter {
     public Object doPublish() {
         DocumentModel document = getDocument();
         try {
-            LabsSiteWebAppUtils.publish(document);
+            LabsSiteWebAppUtils.publish(document, ctx.getCoreSession());
             return Response.ok(PUBLISH).build();
         } catch (NoPublishException e) {
             log.error(IMPOSSIBLE_TO_PUBLISH, e);
@@ -92,7 +93,7 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         try {
             if (!LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                LabsPublisher publisherAdapter = Tools.getAdapter(LabsPublisher.class, document, null);
                 publisherAdapter.delete();
                 return Response.ok(DELETE).build();
             }
@@ -136,7 +137,7 @@ public class LabsPublishService extends DefaultAdapter {
         DocumentModel document = getDocument();
         CoreSession session = ctx.getCoreSession();
         try {
-            DocumentModelList docs = document.getAdapter(SiteDocument.class).getSite().getAllDeletedDocs();
+            DocumentModelList docs = Tools.getAdapter(SiteDocument.class, document, session).getSite().getAllDeletedDocs();
             boolean deleted = false;
             for (DocumentModel deletedDoc : docs) {
                 session.removeDocument(deletedDoc.getRef());
@@ -225,7 +226,7 @@ public class LabsPublishService extends DefaultAdapter {
             }
         } else {
             if (LabsSiteConstants.State.DELETE.getState().equals(document.getCurrentLifeCycleState())){
-                LabsPublisher publisherAdapter = document.getAdapter(LabsPublisher.class);
+                LabsPublisher publisherAdapter = Tools.getAdapter(LabsPublisher.class, document, null);
                 publisherAdapter.undelete();
                 undeleted = true;
             }
@@ -235,19 +236,20 @@ public class LabsPublishService extends DefaultAdapter {
 
     private boolean cascadeUndelete(DocumentModel document) throws ClientException {
         boolean undeleted = true;
-        DocumentModel parentDoc = document.getCoreSession().getDocument(document.getParentRef());
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel parentDoc = session.getDocument(document.getParentRef());
         if (Docs.PAGECLASSEUR.type().equals(parentDoc.getType())
                 && Docs.PAGECLASSEURFOLDER.type().equals(document.getType())) {
             // cascade down undelete
             undeleted = false;
-            DocumentModelList files = document.getCoreSession().getFiles(document.getRef());
+            DocumentModelList files = session.getFiles(document.getRef());
             for (DocumentModel file : files) {
                 undeleteDoc(file);
                 undeleted = true;
             }
         } else if (Docs.PAGECLASSEURFOLDER.type().equals(parentDoc.getType())
                 && LifeCycleConstants.DELETED_STATE.equals(parentDoc.getCurrentLifeCycleState())) {
-            DocumentModel grandParentDoc = document.getCoreSession().getDocument(parentDoc.getParentRef());
+            DocumentModel grandParentDoc = session.getDocument(parentDoc.getParentRef());
             if (Docs.PAGECLASSEUR.type().equals(grandParentDoc.getType())) {
                 // cascade up undelete
                 undeleted = false;

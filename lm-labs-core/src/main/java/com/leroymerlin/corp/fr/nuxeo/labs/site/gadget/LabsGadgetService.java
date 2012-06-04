@@ -6,8 +6,6 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -25,7 +23,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 
 public class LabsGadgetService extends DefaultComponent implements LabsGadgetManager {
 
-    private static final Log LOG = LogFactory.getLog(LabsGadgetService.class);
+//    private static final Log LOG = LogFactory.getLog(LabsGadgetService.class);
 
     /* (non-Javadoc)
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager#addWidgetToHtmlContent(com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent, org.nuxeo.ecm.core.api.DocumentModel, com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget, org.nuxeo.ecm.core.api.CoreSession)
@@ -92,7 +90,7 @@ public class LabsGadgetService extends DefaultComponent implements LabsGadgetMan
     public boolean removeAllGadgetsOfHtmlContent(HtmlContent content, CoreSession session) throws ClientException {
         boolean removed = false;
         if ("widgetcontainer".equals(content.getType())) {
-            List<LabsWidget> widgets = content.getGadgets(session);
+            List<LabsWidget> widgets = content.getGadgets();
             for (LabsWidget widget : widgets) {
                 if (widget instanceof LabsOpensocialGadget) {
                     removed = true;

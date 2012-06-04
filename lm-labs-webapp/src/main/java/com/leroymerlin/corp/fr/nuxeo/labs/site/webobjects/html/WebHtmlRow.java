@@ -115,7 +115,7 @@ public class WebHtmlRow extends DocumentObject {
     }
 
     private void syncWidgetsConfig(HtmlContent content, List<String> widgets) throws ClientException {
-        List<LabsWidget> gadgets = content.getGadgets(getCoreSession());
+        List<LabsWidget> gadgets = content.getGadgets();
         if (widgets.isEmpty())
         {
             return /*false*/;
@@ -128,7 +128,7 @@ public class WebHtmlRow extends DocumentObject {
                 // "html/editor"
                 try {
                     if (!gadgets.isEmpty()) {
-                        content.removeGadgets(getCoreSession());
+                        content.removeGadgets();
                     }
                     content.setType(HtmlContent.Type.HTML.type());
                     saveDocument();
@@ -142,7 +142,7 @@ public class WebHtmlRow extends DocumentObject {
                         // same gadget, do nothing.
                     } else {
                         if (!gadgets.isEmpty()) {
-                            content.removeGadgets(getCoreSession());
+                            content.removeGadgets();
                             saveDocument();
                         }
                         LabsWidget gadget = new LabsHtmlWidget(widgetName);
@@ -163,7 +163,7 @@ public class WebHtmlRow extends DocumentObject {
                     // same gadget, do nothing.
                 } else {
                     if (!gadgets.isEmpty()) {
-                        content.removeGadgets(getCoreSession());
+                        content.removeGadgets();
                         saveDocument();
                     }
                     DocumentModel gadgetDoc = getCoreSession().createDocumentModel(LabsOpensocialGadget.DOC_TYPE);
@@ -173,7 +173,7 @@ public class WebHtmlRow extends DocumentObject {
                     saveDocument();
 //                    if ("rss".equals(gadget.getName())) {
 //                        gadgetDoc = getCoreSession().getDocument(new IdRef(gadgetDocRef));
-//                        OpenSocialAdapter adapter = (OpenSocialAdapter) gadgetDoc.getAdapter(WebContentAdapter.class);
+//                        OpenSocialAdapter adapter = (OpenSocialAdapter) Tools.getAdapter(WebContentAdapter.class, gadgetDoc, getCoreSession());
 //                        OpenSocialData data = adapter.getData();
 //                        List<UserPref> userPrefs = new ArrayList<UserPref>();
 //                        UserPref userPref = new UserPref("rssUrl1", DataType.STRING);

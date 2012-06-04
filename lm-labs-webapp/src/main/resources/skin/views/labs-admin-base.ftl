@@ -1,6 +1,6 @@
 <@extends src="/views/labs-common-base.ftl">
 
-	<@block name="title">${Common.siteDoc(Document).site.title} - Administration</@block>
+	<@block name="title">${Common.siteDoc(Document).getSite().title} - Administration</@block>
 
 	<@block name="css">
 		<@superBlock/>

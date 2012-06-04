@@ -1,8 +1,8 @@
 <@extends src="/views/labs-admin-base.ftl">
 
 <#if adminTreeviewType == "Pages" >
-	<#assign mySite=Common.siteDoc(Document).site />
-	<#assign parents = Session.getParentDocuments(mySite.indexDocument.ref) />
+	<#assign mySite=Common.siteDoc(Document).getSite() />
+	<#assign parents = Session.getParentDocuments(mySite.getIndexDocument().ref) />
 	<#assign ids = [] />
 	<#list parents?reverse as parent>
 		<#if parent.type == "Tree" >
@@ -87,7 +87,7 @@
 			return false;
 		}
 	
-		var homePageId = '<#if adminTreeviewType == "Pages" && mySite?? && mySite != null >${mySite.homePageRef}</#if>';
+		var homePageId = '<#if adminTreeviewType == "Pages" && mySite?? && mySite != null >${mySite.getHomePageRef()}</#if>';
 		
 		jQuery().ready(function() {
 			jQuery("#currentNodeId").val(jQuery("li[rel=Assets]").attr("id"));

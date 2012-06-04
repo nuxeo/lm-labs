@@ -74,7 +74,7 @@ public class WebHtmlContent extends DocumentObject {
     //@Path("w/{index}") // For the moment only ONE widget is possible
     @Path("w")
     public Object doGetContent(/*@PathParam("index") String widgetIndex*/) throws ClientException {
-        List<LabsWidget> widgets = content.getGadgets(getCoreSession());
+        List<LabsWidget> widgets = content.getGadgets();
         if (!widgets.isEmpty()) {
             LabsWidget widget = widgets.get(0);
             if (WidgetType.OPENSOCIAL.equals(widget.getType())) {
@@ -93,15 +93,15 @@ public class WebHtmlContent extends DocumentObject {
     @POST
     @Path("@manage-widgets")
     public Response doSaveWidgetConfig() {
-        FormData form = ctx.getForm();
-        CoreSession session = getContext().getCoreSession();
+//        FormData form = ctx.getForm();
+//        CoreSession session = getContext().getCoreSession();
         // TODO widget's config
 
         return Response.ok().build();
     }
 
     public List<LabsWidget> getGagdets() throws ClientException {
-        return content.getGadgets(getCoreSession());
+        return content.getGadgets();
     }
 
 }

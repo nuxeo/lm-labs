@@ -17,6 +17,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.CacheablePageResource;
 
 @WebObject(type = "HtmlPage", superType = "LabsPage")
@@ -62,7 +63,6 @@ public class WebHtmlPage extends CacheablePageResource {
             } else {
                 section = getHtmlPage().addSection();
             }
-
             section.setTitle(title);
             section.setDescription(description);
             saveDocument();
@@ -91,7 +91,7 @@ public class WebHtmlPage extends CacheablePageResource {
     }
 
     private HtmlPage getHtmlPage() {
-        return doc.getAdapter(HtmlPage.class);
+        return Tools.getAdapter(HtmlPage.class, doc, getCoreSession());
     }
     
     public Map<String, String> getColumnLayoutsSelect() throws ClientException {

@@ -2,7 +2,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.forum;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
@@ -19,6 +18,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
 
@@ -39,7 +39,7 @@ private static final Log log = LogFactory.getLog(LMTopicResource.class);
 
     public LMTopic getLabsTopic() {
         if (lmTopic == null){
-        	lmTopic = doc.getAdapter(LMTopic.class);
+        	lmTopic = Tools.getAdapter(LMTopic.class, doc, getCoreSession());
         	try {
         		log.info(lmTopic.getDescription());
         		log.info(lmTopic.getTitle());
@@ -113,7 +113,7 @@ private static final Log log = LogFactory.getLog(LMTopicResource.class);
     public boolean hide(DocumentModel file) throws ClientException {
         if (!file.getFacets().contains(FacetNames.LABSHIDDEN)) {
             file.addFacet(FacetNames.LABSHIDDEN);
-            doc.getCoreSession().saveDocument(file);
+            ctx.getCoreSession().saveDocument(file);
             return true;
         }
         return false;
@@ -122,7 +122,7 @@ private static final Log log = LogFactory.getLog(LMTopicResource.class);
     public boolean show(DocumentModel file) throws ClientException {
         if (file.getFacets().contains(FacetNames.LABSHIDDEN)) {
             file.removeFacet(FacetNames.LABSHIDDEN);
-            doc.getCoreSession().saveDocument(file);
+            ctx.getCoreSession().saveDocument(file);
             return true;
         }
         return false;

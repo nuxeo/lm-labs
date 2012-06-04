@@ -15,6 +15,7 @@ import org.nuxeo.ecm.platform.query.api.PageProvider;
 import com.leroymerlin.common.core.providers.DocumentModelListPageProvider;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @Operation(id = GetSameSitePages.ID, category = Constants.CAT_FETCH, label = "",
 description = "")
@@ -37,7 +38,7 @@ public class GetSameSitePages {
             targetPageSize = Long.valueOf(pageSize.longValue());
         }
         DocumentModel document = session.getDocument(new IdRef(docId));
-        SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
+        SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, document, session);
         LabsSite site = siteDocument.getSite();
         DocumentModelList pages = session.query(String.format("SELECT * FROM Page WHERE ecm:path STARTSWITH '%s' AND ecm:mixinType <> 'HiddenInNavigation' AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'", site.getDocument().getPathAsString().replace("'", "\\'")));
         PageProvider<DocumentModel> pageProvider = new DocumentModelListPageProvider(pages);

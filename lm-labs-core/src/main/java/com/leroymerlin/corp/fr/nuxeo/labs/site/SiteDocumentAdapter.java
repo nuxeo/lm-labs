@@ -15,40 +15,40 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
-public class SiteDocumentAdapter implements SiteDocument {
+public class SiteDocumentAdapter extends LabsAdapterImpl implements SiteDocument {
 
-    private final DocumentModel doc;
 
-    public SiteDocumentAdapter(DocumentModel doc) {
-        this.doc = doc;
-    }
+    public SiteDocumentAdapter(DocumentModel document) {
+		super(document);
+	}
 
-    @Override
+	@Override
     public Page getParentPage() throws ClientException {
         DocumentModel parentDocument = doc;
+        CoreSession session = getSession();
         while (!LabsSiteConstants.Docs.DEFAULT_DOMAIN.type()
                 .equals(parentDocument.getType())) {
             try {
-                parentDocument = doc.getCoreSession()
-                        .getParentDocument(parentDocument.getRef());
+				parentDocument = session.getParentDocument(parentDocument.getRef());
                 if (parentDocument.hasSchema(Schemas.PAGE.getName()) && !LabsSiteConstants.Docs.SITE.type().equals(parentDocument.getType())) {
-                    return parentDocument.getAdapter(Page.class);
+                    return Tools.getAdapter(Page.class, parentDocument, session);
                 }
             } catch (ClientException e) {
                 break;
             }
         }
-        return doc.getAdapter(Page.class);
+        return Tools.getAdapter(Page.class, doc, session);
     }
 
     @Override
     public LabsSite getSite() throws ClientException {
-        CoreSession session = doc.getCoreSession();
+    	CoreSession session = getSession();
         DocumentModel parent = doc;
         if (Docs.SITE.type()
                 .equals(parent.getType())) {
-            return parent.getAdapter(LabsSite.class);
+            return Tools.getAdapter(LabsSite.class, parent, session);
         }
         while (!parent.getParentRef()
                 .equals(session.getRootDocument()
@@ -56,7 +56,7 @@ public class SiteDocumentAdapter implements SiteDocument {
             parent = session.getDocument(parent.getParentRef());
             if (Docs.SITE.type()
                     .equals(parent.getType())) {
-                return parent.getAdapter(LabsSite.class);
+                return Tools.getAdapter(LabsSite.class, parent, session);
             }
         }
         throw new IllegalArgumentException("document '" + doc.getPathAsString()
@@ -89,7 +89,7 @@ public class SiteDocumentAdapter implements SiteDocument {
     public Collection<Page> getChildrenPages() throws ClientException {
         List<Page> pages = new ArrayList<Page>();
         for (DocumentModel child : getChildrenPageDocuments()) {
-            Page adapter = child.getAdapter(Page.class);
+            Page adapter = Tools.getAdapter(Page.class, child, getSession());
             if (adapter != null) {
                 pages.add(adapter);
             }
@@ -99,7 +99,7 @@ public class SiteDocumentAdapter implements SiteDocument {
 
     @Override
     public DocumentModelList getChildrenPageDocuments() throws ClientException {
-        return LabsSiteUtils.getChildrenPageDocuments(doc);
+        return LabsSiteUtils.getChildrenPageDocuments(doc, getSession());
     }
 
 }

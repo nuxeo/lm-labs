@@ -29,6 +29,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 
 @WebObject(type = "LabsNews", superType = "LabsPage")
@@ -52,15 +53,16 @@ public class LabsNewsResource extends PageResource {
 
     public LabsNews getLabsNews() {
         if (labsNews == null){
-            labsNews = doc.getAdapter(LabsNews.class);
+            labsNews = Tools.getAdapter(LabsNews.class, doc, ctx.getCoreSession());
         }
         return labsNews;
     }
     
     @Override
     public Page getPage() throws ClientException {
-        DocumentModel parentDoc = getCoreSession().getDocument(doc.getParentRef());
-        PageNews pageNews = parentDoc.getAdapter(PageNews.class);
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel parentDoc = session.getDocument(doc.getParentRef());
+        PageNews pageNews = Tools.getAdapter(PageNews.class, parentDoc, session);
         pageNews.setCommentable(true);
         return pageNews;
     }
@@ -74,8 +76,8 @@ public class LabsNewsResource extends PageResource {
         FormData form = ctx.getForm();
         CoreSession session = ctx.getCoreSession();
         try {
-            LabsNews news = doc.getAdapter(LabsNews.class);
-            fillNews(form, news);
+            LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
+            fillNews(form, news, session);
             session.saveDocument(doc);
             session.save();
 
@@ -123,7 +125,7 @@ public class LabsNewsResource extends PageResource {
         return null;
     }
 
-    static void fillNews(FormData form, LabsNews news) throws ClientException, IOException, LabsBlobHolderException {
+    static void fillNews(FormData form, LabsNews news, CoreSession session) throws ClientException, IOException, LabsBlobHolderException {
         String pTitle = form.getString("dc:title");
         String startDate = form.getString("newsStartPublication");
         String endDate = form.getString("newsEndPublication");

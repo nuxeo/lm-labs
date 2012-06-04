@@ -1,5 +1,5 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
-  <#assign mySite=Common.siteDoc(Document).site />
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
+  <#assign mySite=Common.siteDoc(Document).getSite() />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
@@ -21,7 +21,7 @@
 
         <div class="row">
           <div  class="span12 columns">
-            <#--assign Document = mySite.indexDocument /-->
+            <#--assign Document = mySite.getIndexDocument() /-->
             <#include "views/common/description_area.ftl">
 
       <#assign Document = mySite.document />
@@ -29,7 +29,7 @@
         <#------------------------------------maxNbLabsNews------------------------>
         <#assign maxNbLabsNews = 5 />
 
-          <#list Session.getChildren(mySite.tree.ref) as root>
+          <#list Session.getChildren(mySite.getTree().ref) as root>
             <#if root.name != "welcome" && This.isAuthorizedToDisplay(root)>
 	            <div id="bloc${root_index}" class="bloc welcome span5 column">
 	              <div class="header">

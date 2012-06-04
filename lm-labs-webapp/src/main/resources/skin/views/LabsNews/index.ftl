@@ -1,5 +1,5 @@
-<#assign mySite=Common.siteDoc(Document).site />
-<@extends src="/views/TemplatesBase/" + mySite.template.templateName + "/template.ftl">
+<#assign mySite=Common.siteDoc(Document).getSite() />
+<@extends src="/views/TemplatesBase/" + mySite.template.getTemplateName() + "/template.ftl">
   <#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
 
   <@block name="title">${mySite.title}-${This.document.title}</@block>
@@ -59,7 +59,7 @@
 				
 			
 			
-		  	<#list news.rows as row>
+		  	<#list news.getRows() as row>
 		  		<#if isContributor >
 			        <div class="row-fluid" id="row_s${section_index}_r${row_index}">
 			              <#list row.contents as content>

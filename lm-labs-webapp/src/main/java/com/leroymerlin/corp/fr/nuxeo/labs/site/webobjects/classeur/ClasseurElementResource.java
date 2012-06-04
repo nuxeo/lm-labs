@@ -66,7 +66,7 @@ public class ClasseurElementResource extends DocumentObject {
     public boolean setAsDeleted() throws ClientException {
         if (doc.getAllowedStateTransitions().contains(LifeCycleConstants.DELETE_TRANSITION)) {
             doc.followTransition(LifeCycleConstants.DELETE_TRANSITION);
-            doc = doc.getCoreSession().saveDocument(doc);
+            doc = ctx.getCoreSession().saveDocument(doc);
             return true;
         }
         return false;
@@ -82,7 +82,7 @@ public class ClasseurElementResource extends DocumentObject {
     @PUT
     @Path("@visibility/{action}")
     public Response doSetVisibility(@PathParam("action") String action) throws ClientException {
-    	if ("show".equals(action)) {
+        if ("show".equals(action)) {
     		parentFolder.show(doc);
     		return Response.noContent().build();
     	} else if ("hide".equals(action)) {

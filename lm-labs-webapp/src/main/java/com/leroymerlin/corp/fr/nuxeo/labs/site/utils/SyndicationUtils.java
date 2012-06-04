@@ -85,7 +85,7 @@ public final class SyndicationUtils {
             entry.setPublishedDate(((GregorianCalendar) doc.getPropertyValue("dc:modified")).getTime());
             String description = null;
             if (LabsSiteConstants.Docs.LABSNEWS.type().equals(doc.getType())){
-                LabsNews news = doc.getAdapter(LabsNews.class);
+                LabsNews news = Tools.getAdapter(LabsNews.class, doc, context.getCoreSession());
                 entry.setDescription(NewsTools.createRssNewsDescription(news));
             }
             else{

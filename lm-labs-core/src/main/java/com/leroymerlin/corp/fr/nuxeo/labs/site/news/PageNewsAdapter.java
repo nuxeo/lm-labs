@@ -19,6 +19,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -27,14 +28,13 @@ import com.sun.syndication.feed.synd.SyndFeedImpl;
 public class PageNewsAdapter extends AbstractPage implements PageNews {
 
     public PageNewsAdapter(DocumentModel doc) {
-        this.doc = doc;
+        super(doc);
     }
 
     @Override
     public LabsNews createNews( String pTitle)
             throws ClientException {
-        CoreSession session = doc.getCoreSession();
-
+    	CoreSession session = getSession();
         DocumentModel document = session
                 .createDocumentModel(doc.getPathAsString(), LabsSiteUtils.doLabsSlugify(pTitle),
                         LabsSiteConstants.Docs.LABSNEWS.type());
@@ -46,31 +46,34 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
     @Override
     public List<LabsNews> getAllNews() throws ClientException {
       List<LabsNews> listNews = new ArrayList<LabsNews>();
+      CoreSession session = getSession();
       DocumentModelList listDoc = null;
       Sorter pageNewsSorter = new PageNewsSorter();
-      if (getCoreSession().hasPermission(doc.getRef(),
+      if (session.hasPermission(doc.getRef(),
               SecurityConstants.WRITE)) {
-          listDoc = getCoreSession().getChildren(doc.getRef(),
+          listDoc = session.getChildren(doc.getRef(),
                   LabsSiteConstants.Docs.LABSNEWS.type(), null, null,
                   pageNewsSorter);
       } else {
-          listDoc = getCoreSession().getChildren(doc.getRef(),
+          listDoc = session.getChildren(doc.getRef(),
                   LabsSiteConstants.Docs.LABSNEWS.type(), null,
                   new PageNewsFilter(Calendar.getInstance()), pageNewsSorter);
       }
 
       for (DocumentModel doc : listDoc) {
-          LabsNews news = doc.getAdapter(LabsNews.class);
+          LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
           listNews.add(news);
       }
       return listNews;
     }
 
+    @Override
     public List<LabsNews> getTopNews(int pMaxNews) throws ClientException{
         List<LabsNews> listNews = new ArrayList<LabsNews>();
         DocumentModelList listDoc = null;
         Sorter pageNewsSorter = new PageNewsSorter();
-        listDoc = getCoreSession().getChildren(doc.getRef(),
+        CoreSession session = getSession();
+		listDoc = session.getChildren(doc.getRef(),
                 LabsSiteConstants.Docs.LABSNEWS.type(), null,
                 new PageNewsFilter(Calendar.getInstance()), pageNewsSorter);
         int nb = 0;
@@ -78,15 +81,11 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
             if (nb >= pMaxNews){
                 break;
             }
-            LabsNews news = doc.getAdapter(LabsNews.class);
+            LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
             listNews.add(news);
             nb ++;
         }
         return listNews;
-    }
-
-    private CoreSession getCoreSession() {
-        return doc.getCoreSession();
     }
 
     // TODO unit tests
@@ -101,7 +100,7 @@ public class PageNewsAdapter extends AbstractPage implements PageNews {
         query.append(" AND ").append(LabsNewsAdapter.START_PUBLICATION).append(" >= TIMESTAMP '").append(dateStr).append(" 00:00:00").append("'");
         query.append(" AND ").append(LabsNewsAdapter.START_PUBLICATION).append(" <= TIMESTAMP '").append(dateStr).append(" 23:59:59").append("'");
 
-        return doc.getCoreSession().query(query.toString());
+        return getSession().query(query.toString());
     }
 
     @Override

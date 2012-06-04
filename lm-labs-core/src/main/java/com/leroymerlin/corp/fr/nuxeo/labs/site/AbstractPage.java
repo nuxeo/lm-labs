@@ -12,16 +12,20 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public abstract class AbstractPage extends AbstractLabsBase implements Page {
 
-    private static final String THIS_PAGE_IS_NOT_IN_A_LABS_SITE = "This page is not in a LabsSite";
+	private static final String THIS_PAGE_IS_NOT_IN_A_LABS_SITE = "This page is not in a LabsSite";
     private static final String PG_COMMENTABLE = Schemas.PAGE.prefix() + ":commentable";
     private static final String PG_DISPLAYABLE_PARAMETERS = Schemas.PAGE.prefix() + ":displayableParameters";
     private static final String PG_ELEMENTS_PER_PAGE = Schemas.PAGE.prefix() + ":elementsPerPage";
+
+    public AbstractPage(DocumentModel document) {
+		super(document);
+	}
 
     @Override
     public void setCommentable(boolean isCommentable) throws ClientException {
@@ -44,18 +48,17 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
             throw new IllegalArgumentException(THIS_PAGE_IS_NOT_IN_A_LABS_SITE);
         }
         return site.getURL()  + doc.getPathAsString()
-                .replace(site.getTree()
-                        .getPathAsString(), "");
+                .replace(site.getTree().getPathAsString(), "");
     }
 
     private LabsSite getSite() throws ClientException {
-        CoreSession session = doc.getCoreSession();
         DocumentModel parentDoc = doc;
-        while (parentDoc != null && !parentDoc.getType()
+        CoreSession session = getSession();
+		while (parentDoc != null && !parentDoc.getType()
                 .equals(Docs.SITE.type())) {
             parentDoc = session.getDocument(parentDoc.getParentRef());
         }
-        return parentDoc != null ? parentDoc.getAdapter(LabsSite.class) : null;
+        return parentDoc != null ? Tools.getAdapter(LabsSite.class, parentDoc, session) : null;
     }
 
     @Override
@@ -87,7 +90,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     @Override
     public Calendar getLastNotified() throws ClientException {
         try {
-            return doc.getAdapter(MailNotification.class).getLastNotified();
+            return Tools.getAdapter(MailNotification.class, doc, getSession()).getLastNotified();
         } catch (Exception e) {
             return null;
         }

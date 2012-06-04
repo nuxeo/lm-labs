@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoGroup;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
@@ -248,7 +249,7 @@ public class PermissionsHelper {
      */
     // TODO unit test
     public void grantPermission(final DocumentModel doc,
-            final String permission, final String id, final boolean override)
+            final String permission, final String id, final boolean override, CoreSession session)
             throws ClientException, Exception {
         final String logPrefix = "<grantPermission> ";
         log.debug(logPrefix + permission + ", " + id + ", " + override);
@@ -264,13 +265,13 @@ public class PermissionsHelper {
             for (LMPermission perm : userPerms) {
                 log.debug("removing " + perm.getPermission());
                 if (removePermission(doc, perm.getPermission(), id)) {
-                    doc.getCoreSession().save();
+                    session.save();
                 }
             }
             PermissionsHelper.addPermission(doc, permission, id, true);
         } else {
             if (!hasHigherPermission(doc, permission, id)) {
-                removeLowerPermissions(doc, permission, id);
+                removeLowerPermissions(doc, permission, id, session);
                 PermissionsHelper.addPermission(doc, permission, id, true);
             }
         }
@@ -379,10 +380,10 @@ public class PermissionsHelper {
      */
     // TODO unit test
     public static boolean currentUserHasOtherEverythingRightThan(
-            final DocumentModel doc, final String excludedId) throws Exception {
+            final DocumentModel doc, final String excludedId, CoreSession session) throws Exception {
         final String logPrefix = "<currentUserHasOtherGestionnairePermissionThan> ";
         log.debug(logPrefix + doc.getName() + ", " + excludedId);
-        final NuxeoPrincipal currentPrinc = (NuxeoPrincipal) doc.getCoreSession().getPrincipal();
+        final NuxeoPrincipal currentPrinc = (NuxeoPrincipal) session.getPrincipal();
         UserManager userManager = Framework.getService(UserManager.class);
         NuxeoGroup excludedIdGroup = userManager.getGroup(excludedId);
         Collection<String> gestionnaireGroups = getGroupsWithRight(doc, SecurityConstants.EVERYTHING);
@@ -461,7 +462,7 @@ public class PermissionsHelper {
      */
     // TODO unit test
     private void removeLowerPermissions(final DocumentModel doc,
-            final String permission, final String id) throws ClientException, Exception {
+            final String permission, final String id, CoreSession session) throws ClientException, Exception {
         final String logPrefix = "<removeLowerPermissions> ";
         log.debug(logPrefix + permission + ", " + id);
         Iterator<String> it = orderedPermissions.listIterator(orderedPermissions.indexOf(permission));
@@ -472,7 +473,7 @@ public class PermissionsHelper {
                 if (hasPermission(doc, perm, id)) {
                     log.debug("  removing " + perm + "/" + id + " first");
                     if (removePermission(doc, perm, id)) {
-                        doc.getCoreSession().save();
+                        session.save();
                     }
                 }
             }

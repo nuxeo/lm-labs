@@ -35,11 +35,12 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
     private static final String NB_COMMENTS_LINE = LabsSiteConstants.Schemas.PAGELIST_LINE.prefix() + ":nbComments";
     
     public PageListLineAdapter(DocumentModel doc) {
-        this.doc = doc;
+        super(doc);
     }
     
     public static class Model {
         private DocumentModel doc;
+        private CoreSession session;
         
         /**
          * PageListLine adapter = new PageListLineAdapter.Model(session, "/", "title").create();
@@ -49,6 +50,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
          * @throws ClientException
          */
         public Model(CoreSession session, String parentPath, String title) throws ClientException {
+        	this.session = session;
             this.doc = session.createDocumentModel(parentPath, title, Docs.PAGELIST_LINE.type());
         }
         
@@ -58,7 +60,9 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
          * @throws ClientException
          */
         public PageListLine create() throws ClientException {
-            return new PageListLineAdapter(this.doc.getCoreSession().createDocument(this.doc));
+            PageListLineAdapter pageListLineAdapter = new PageListLineAdapter(this.session.createDocument(this.doc));
+            pageListLineAdapter.setSession(session);
+			return pageListLineAdapter;
         }
         
         /**
@@ -67,7 +71,9 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
          * @throws ClientException
          */
         public PageListLine getAdapter() throws ClientException{
-            return new PageListLineAdapter(this.doc);
+            PageListLineAdapter pageListLineAdapter = new PageListLineAdapter(this.doc);
+            pageListLineAdapter.setSession(session);
+			return pageListLineAdapter;
         }
         
         /**
@@ -138,7 +144,9 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
             entries.add(getEntry(entry));
         }
         line.setDocLine(doc);
-        line.setNbComments(((PageListLine)doc.getAdapter(PageListLine.class)).getNbComments());
+        PageListLine adapter = Tools.getAdapter(PageListLine.class, doc, getSession());
+        line.setNbComments(adapter.getNbComments());
+        line.setNbrFiles(adapter.getFiles().size());
         line.setEntries(entries);
         return line;
     }
@@ -179,7 +187,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
      */
     @Override
     public void removeLine() throws ClientException {
-        doc.getCoreSession().removeDocument(doc.getRef());
+        getSession().removeDocument(doc.getRef());
     }
 
     /* (non-Javadoc)
@@ -200,13 +208,12 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
                 .append("'");
         sb.append(" AND ecm:isProxy = 0 AND ecm:isCheckedInVersion = 0");
         sb.append(" AND ecm:currentLifeCycleState <> 'deleted'");
-//        if (!doc.getCoreSession().hasPermission(doc.getParentRef(), SecurityConstants.EVERYTHING)) {
+//        if (!session.hasPermission(doc.getParentRef(), SecurityConstants.EVERYTHING)) {
 //            sb.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(" <> '").append(FacetNames.LABSHIDDEN).append("'");
 //        }
         sb.append(" ORDER BY dc:title ASC");
 
-        DocumentModelList list = doc.getCoreSession()
-                .query(sb.toString());
+        DocumentModelList list = getSession().query(sb.toString());
         return list;
 
     }

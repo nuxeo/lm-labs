@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
@@ -32,6 +33,7 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 
 @WebObject(type = "PageClasseur", superType = "LabsPage")
@@ -47,7 +49,7 @@ public class PageClasseurResource extends NotifiablePageResource {
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        classeur = doc.getAdapter(PageClasseur.class);
+        classeur = Tools.getAdapter(PageClasseur.class, doc, ctx.getCoreSession());
         ctx.getEngine().getRendering().setSharedVariable("classeur", classeur);
     }
 
@@ -87,8 +89,9 @@ public class PageClasseurResource extends NotifiablePageResource {
         String folderTitle = form.getString("dc:title");
         if (!StringUtils.isEmpty(folderTitle)) {
             try {
+                CoreSession session = getCoreSession();
                 classeur.addFolder(folderTitle);
-                getCoreSession().save();
+                session.save();
                 return Response.status(Status.OK).build();
             } catch (ClientException e) {
                 return Response.serverError().status(Status.FORBIDDEN).entity(
@@ -143,7 +146,7 @@ public class PageClasseurResource extends NotifiablePageResource {
     }
 
     public BlobHolder getBlobHolder(final DocumentModel document) {
-        return document.getAdapter(BlobHolder.class);
+        return Tools.getAdapter(BlobHolder.class, document, null);
     }
 
     @DELETE
@@ -187,11 +190,12 @@ public class PageClasseurResource extends NotifiablePageResource {
         try {
             for (String id : ids) {
                 IdRef idRef = new IdRef(id);
-                if (getCoreSession().exists(idRef)) {
-                    DocumentModel file = getCoreSession().getDocument(idRef);
-                    DocumentModel folderDoc = getCoreSession().getParentDocument(
+                CoreSession session = getCoreSession();
+                if (session.exists(idRef)) {
+                    DocumentModel file = session.getDocument(idRef);
+                    DocumentModel folderDoc = session.getParentDocument(
                             file.getRef());
-                    PageClasseurFolder folder = folderDoc.getAdapter(PageClasseurFolder.class);
+                    PageClasseurFolder folder = Tools.getAdapter(PageClasseurFolder.class, folderDoc, ctx.getCoreSession());
                     boolean done = false;
                     if (folder != null) {
                         if ("hide".equals(action)) {

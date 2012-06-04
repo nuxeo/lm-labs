@@ -1,6 +1,6 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
 
-  <@block name="title">${Common.siteDoc(Document).site.title}-${This.document.title}</@block>
+  <@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title}</@block>
 
     <@block name="scripts">
       <@superBlock/>
@@ -67,7 +67,7 @@
 
                 <td>
                 	<#if (doc.dublincore.title?length > 0)>
-                		<a href="${Context.modulePath}/${sd.resourcePath}" target="_blank">${doc.dublincore.title}</a>
+                		<a href="${Context.modulePath}/${sd.getResourcePath()}" target="_blank">${doc.dublincore.title}</a>
                 	<#else>
               			(${Context.getMessage('label.search.result.noTitle')})
               		</#if>
@@ -84,13 +84,13 @@
               <td class="colFilesize">${formattedFilesize}<span class="sortValue">${filesize?string.computer}</span></td>
 
               <td>
-              	<a href="${Context.modulePath}/${sd.parentPage.path}">${sd.parentPage.title}</a>
+              	<a href="${Context.modulePath}/${sd.getParentPage().getPath()}">${sd.getParentPage().title}</a>
               </td>
                 <td>
                   <#if !hasFile>
                   <a href="#" class="btn disabled">
                   <#elseif doc.type != "LabsNews">
-                  <a href="${Context.modulePath}/${sd.resourcePath}/@blob/preview" target="_blank" class="btn">
+                  <a href="${Context.modulePath}/${sd.getResourcePath()}/@blob/preview" target="_blank" class="btn">
                   </#if>
                   <#if !hasFile || doc.type != "LabsNews">
                   <i class="icon-eye-open"></i>${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
@@ -98,7 +98,7 @@
                   <#if !hasFile>
                   <a disabled="disabled" href="#" class="btn disabled">
                   <#elseif doc.type != "LabsNews">
-                  <a href="${Context.modulePath}/${sd.resourcePath}/@blob" target="_blank" class="btn">
+                  <a href="${Context.modulePath}/${sd.getResourcePath()}/@blob" target="_blank" class="btn">
                   </#if>
                   <#if !hasFile || doc.type != "LabsNews">
                   <i class="icon-download"></i>${Context.getMessage('command.LabsSite.latestuploads.download')}</a>

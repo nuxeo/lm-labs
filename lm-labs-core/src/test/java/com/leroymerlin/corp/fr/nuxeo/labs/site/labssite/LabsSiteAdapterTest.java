@@ -50,6 +50,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
@@ -98,15 +99,15 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void testIsAdministrator() throws Exception {
-        DocumentModel doc = createSite("NameSite1", session);
-        LabsSite labssite = doc.getAdapter(LabsSite.class);
+        DocumentModel doc = createSite("NameSite1");
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
         assertTrue(labssite.isAdministrator("Administrator"));
         assertFalse(labssite.isAdministrator(USERNAME1));
     }
 
     @Test
     public void testIsContributor() throws Exception {
-        DocumentModel site = createSite("NameSite1", session);
+        DocumentModel site = createSite("NameSite1");
         session.save();
 
         PermissionsHelper.addPermission(site, SecurityConstants.READ_WRITE,
@@ -114,7 +115,7 @@ public class LabsSiteAdapterTest {
         assertTrue(PermissionsHelper.hasPermission(site,
                 SecurityConstants.READ_WRITE, USERNAME1));
 
-        LabsSite labssite = site.getAdapter(LabsSite.class);
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, site, session);
         assertTrue(labssite.isContributor(USERNAME1));
     }
 
@@ -124,7 +125,7 @@ public class LabsSiteAdapterTest {
         DocumentModel doc = session.createDocumentModel("/", "NameSite1",
                 LABSSITE_TYPE);
 
-        LabsSite labssite = doc.getAdapter(LabsSite.class);
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
         assertThat(labssite, is(notNullValue()));
         labssite.setTitle("Le titre du site");
 
@@ -135,7 +136,7 @@ public class LabsSiteAdapterTest {
         session.save();
 
         doc = session.getDocument(new PathRef("/NameSite1"));
-        labssite = doc.getAdapter(LabsSite.class);
+        labssite = Tools.getAdapter(LabsSite.class, doc, session);
         assertThat(labssite, is(notNullValue()));
         assertThat(labssite.getTitle(), is("Le titre du site"));
 
@@ -150,7 +151,7 @@ public class LabsSiteAdapterTest {
         doc.setPropertyValue("dc:creator", "creator");
         doc = session.createDocument(doc);
 
-        LabsSite labssite = doc.getAdapter(LabsSite.class);
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
         assertThat(labssite, is(notNullValue()));
         labssite.setTitle("Le titre du site");
         labssite.setDescription("Description");
@@ -162,7 +163,7 @@ public class LabsSiteAdapterTest {
         session.save();
 
         doc = session.getDocument(new PathRef("/nameSite1"));
-        labssite = doc.getAdapter(LabsSite.class);
+        labssite = Tools.getAdapter(LabsSite.class, doc, session);
         assertThat(labssite, is(notNullValue()));
         assertThat(labssite.getTitle(), is("Le titre du site"));
         assertThat(labssite.getDescription(), is("Description"));
@@ -234,7 +235,7 @@ public class LabsSiteAdapterTest {
                 LABSSITE_TYPE);
         site.setPropertyValue("dc:title", "le titre");
         site = session.createDocument(site);
-        LabsSite labsSite = site.getAdapter(LabsSite.class);
+        LabsSite labsSite = Tools.getAdapter(LabsSite.class, site, session);
         DocumentModel welcome = session.getChild(labsSite.getTree().getRef(),
                 Docs.WELCOME.docName());
 
@@ -247,7 +248,7 @@ public class LabsSiteAdapterTest {
                 LABSSITE_TYPE);
         site.setPropertyValue("dc:title", "le titre");
         site = session.createDocument(site);
-        LabsSite labsSite = site.getAdapter(LabsSite.class);
+        LabsSite labsSite = Tools.getAdapter(LabsSite.class, site, session);
         DocumentModel page = session.createDocumentModel(
                 labsSite.getTree().getPathAsString(), "page",
                 Docs.HTMLPAGE.type());
@@ -257,13 +258,13 @@ public class LabsSiteAdapterTest {
         session.save();
 
         site = session.getDocument(new PathRef("/NameSite1"));
-        labsSite = site.getAdapter(LabsSite.class);
+        labsSite = Tools.getAdapter(LabsSite.class, site, session);
         assertTrue(labsSite.getHomePageRef().equals(page.getId()));
     }
 
     @Test
     public void iCanGetLastUpdatedDocs() throws Exception {
-        DocumentModel site = createSite("NameSite1", session);
+        DocumentModel site = createSite("NameSite1");
         session.save();
         PermissionsHelper.addPermission(site, SecurityConstants.READ,
                 USERNAME1, true);
@@ -283,13 +284,13 @@ public class LabsSiteAdapterTest {
                 page.getPathAsString(), "folder2", "Folder");
         folder2 = session.createDocument(folder2);
         session.save();
-        LabsSite labsSite = site.getAdapter(LabsSite.class);
+        LabsSite labsSite = Tools.getAdapter(LabsSite.class, site, session);
         DocumentModelList lastUpdatedDocs = labsSite.getLastUpdatedDocs();
 
         CoreSession userSession = changeUser(USERNAME1);
         DocumentModel userSite = userSession.getDocument(new PathRef(
                 "/NameSite1"));
-        LabsSite userLabsSite = userSite.getAdapter(LabsSite.class);
+        LabsSite userLabsSite = Tools.getAdapter(LabsSite.class, userSite, userSession);
         lastUpdatedDocs = userLabsSite.getLastUpdatedDocs();
         assertEquals(0, lastUpdatedDocs.size());
         CoreInstance.getInstance().close(userSession);
@@ -300,7 +301,7 @@ public class LabsSiteAdapterTest {
         session.save();
         userSession = changeUser(USERNAME1);
         userSite = userSession.getDocument(new PathRef("/NameSite1"));
-        userLabsSite = userSite.getAdapter(LabsSite.class);
+        userLabsSite = Tools.getAdapter(LabsSite.class, userSite, userSession);
         lastUpdatedDocs = userLabsSite.getLastUpdatedDocs();
         assertEquals(3, lastUpdatedDocs.size());
         CoreInstance.getInstance().close(userSession);
@@ -327,7 +328,7 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void iCanGetLastUpdatedNewsDocs() throws Exception {
-        DocumentModel site1 = createSite("NameSite1", session);
+        DocumentModel site1 = createSite("NameSite1");
         session.save();
 
         // page news 1
@@ -363,7 +364,7 @@ public class LabsSiteAdapterTest {
         session.save();
         
         // we create another site with news
-        DocumentModel autreSite = createSite("NameAutreSite", session);
+        DocumentModel autreSite = createSite("NameAutreSite");
         session.save();
 
         // autre page news 1
@@ -382,7 +383,7 @@ public class LabsSiteAdapterTest {
         autreNews2 = session.createDocument(autreNews2);
         session.save();
 
-        LabsSite labsSite = site1.getAdapter(LabsSite.class);
+        LabsSite labsSite = Tools.getAdapter(LabsSite.class, site1, session);
         DocumentModelList lastUpdatedNewsDocs = labsSite.getLastUpdatedNewsDocs();
         assertNotNull(lastUpdatedNewsDocs);
         assertEquals(4, lastUpdatedNewsDocs.size());
@@ -394,7 +395,7 @@ public class LabsSiteAdapterTest {
                 LABSSITE_TYPE);
         doc.setPropertyValue("dc:title", "le titre");
         doc = session.createDocument(doc);
-        LabsSite labsSite = doc.getAdapter(LabsSite.class);
+        LabsSite labsSite = Tools.getAdapter(LabsSite.class, doc, session);
         assertTrue(labsSite.getExternalURLs().isEmpty());
         labsSite.createExternalURL("b").setURL("www.b.org");
         labsSite.createExternalURL("a").setURL("www.a.org");
@@ -410,7 +411,7 @@ public class LabsSiteAdapterTest {
                 LABSSITE_TYPE);
         doc.setPropertyValue("dc:title", "le titre");
         doc = session.createDocument(doc);
-        LabsSite labsSite = doc.getAdapter(LabsSite.class);
+        LabsSite labsSite = Tools.getAdapter(LabsSite.class, doc, session);
         ExternalURL extURLA = labsSite.createExternalURL("a");
         extURLA.setURL("www.b.org");
         ExternalURL extURLB = labsSite.createExternalURL("b");
@@ -434,7 +435,7 @@ public class LabsSiteAdapterTest {
                 LABSSITE_TYPE);
         site.setPropertyValue("dc:title", "le titre");
         site = session.createDocument(site);
-        LabsSite labsSite = site.getAdapter(LabsSite.class);
+        LabsSite labsSite = Tools.getAdapter(LabsSite.class, site, session);
         DocumentModel classeur = session.createDocumentModel(
                 labsSite.getTree().getPathAsString(), "classeur",
                 Docs.PAGECLASSEUR.type());
@@ -445,7 +446,7 @@ public class LabsSiteAdapterTest {
         folder = session.createDocument(folder);
         assertTrue(labsSite.getAllDeletedDocs().isEmpty());
 
-        PageClasseurFolder adapter = folder.getAdapter(PageClasseurFolder.class);
+        PageClasseurFolder adapter = Tools.getAdapter(PageClasseurFolder.class, folder, session);
         assertNotNull(adapter);
         boolean setAsDeleted = adapter.setAsDeleted();
         session.save();
@@ -455,13 +456,13 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void iCanGetDefaultSiteTemplate() throws Exception {
-        LabsSite site = createLabsSite("NameSite1", session);
+        LabsSite site = createLabsSite("NameSite1");
         assertFalse(site.isSiteTemplate());
     }
 
     @Test
     public void iCanSetSiteAsTemplate() throws Exception {
-        LabsSite site = createLabsSite("NameSite1", session);
+        LabsSite site = createLabsSite("NameSite1");
         site.setSiteTemplate(true);
         session.saveDocument(site.getDocument());
         assertTrue(site.isSiteTemplate());
@@ -472,7 +473,7 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void iCanSetSiteTemplatePreview() throws Exception {
-        LabsSite site = createLabsSite("NameSite1", session);
+        LabsSite site = createLabsSite("NameSite1");
         Blob preview = site.getSiteTemplatePreview();
         assertNull(preview);
 
@@ -496,20 +497,21 @@ public class LabsSiteAdapterTest {
         PermissionsHelper.addPermission(siteRoot, SecurityConstants.READ,
                 SecurityConstants.EVERYONE, true);
 
-        LabsSite template1 = createTemplateSite("template1", session);
+        LabsSite template1 = createTemplateSite("template1");
         PermissionsHelper.addPermission(template1.getDocument(),
                 SecurityConstants.READ, USERNAME1, true);
         session.save();
         String templateName = "LeTemplate";
         String themeName = "LeTheme";
         template1.getTemplate().setTemplateName(templateName);
-        template1.getThemeManager().setTheme(themeName);
+        template1.getThemeManager().setTheme(themeName, session);
         session.saveDocument(template1.getDocument());
         session.save();
         assertEquals(themeName, template1.getThemeName());
         assertEquals(templateName, template1.getTemplate().getTemplateName());
-        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(template1.getTree().getRef(), "pagehtml").getAdapter(LabsTemplate.class).getDocumentTemplateName());
-        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(template1.getTree().getRef(), "pagehtml").getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
+        DocumentModel child = session.getChild(template1.getTree().getRef(), "pagehtml");
+		assertEquals(PAGE_TEMPLATE_CUSTOM, Tools.getAdapter(LabsTemplate.class, child, session).getDocumentTemplateName());
+        assertEquals(PAGE_TEMPLATE_CUSTOM, child.getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
 
         CoreSession cgmSession = changeUser(USERNAME1);
         assertNotNull(cgmSession);
@@ -533,18 +535,20 @@ public class LabsSiteAdapterTest {
         assetsList = cgmSession.getChildren(cgmSite.getAssetsDoc().getRef(),
                 "File");
         assertEquals(0, assetsList.size());
-        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree().getRef(), "pagehtml").getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
-        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree().getRef(), "pagehtml").getAdapter(LabsTemplate.class).getDocumentTemplateName());
-        assertEquals(PAGE_TEMPLATE_CUSTOM, session.getChild(cgmSite.getTree().getRef(), "pagehtml").getAdapter(LabsTemplate.class).getTemplateName());
-        assertEquals("", session.getChild(cgmSite.getTree().getRef(), "pagenews").getAdapter(LabsTemplate.class).getDocumentTemplateName());
-        assertEquals(templateName, session.getChild(cgmSite.getTree().getRef(), "pagenews").getAdapter(LabsTemplate.class).getTemplateName());
+        DocumentModel child2 = session.getChild(cgmSite.getTree().getRef(), "pagehtml");
+		assertEquals(PAGE_TEMPLATE_CUSTOM, child2.getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
+        assertEquals(PAGE_TEMPLATE_CUSTOM, Tools.getAdapter(LabsTemplate.class, child2, session).getDocumentTemplateName());
+        assertEquals(PAGE_TEMPLATE_CUSTOM, Tools.getAdapter(LabsTemplate.class, child2, session).getTemplateName());
+        DocumentModel childPageNews = session.getChild(cgmSite.getTree().getRef(), "pagenews");
+		assertEquals("", Tools.getAdapter(LabsTemplate.class, childPageNews, session).getDocumentTemplateName());
+        assertEquals(templateName, Tools.getAdapter(LabsTemplate.class, childPageNews, session).getTemplateName());
         // TODO more tests
     }
 
     @Test
     public void iCanGetContacts() throws Exception {
-        DocumentModel doc = createSite("NameSite1", session);
-        LabsSite labssite = doc.getAdapter(LabsSite.class);
+        DocumentModel doc = createSite("NameSite1");
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
 
         labssite.addContact("10057208");
         labssite.addContact("10087898");
@@ -560,8 +564,8 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void iCanAddContact() throws Exception {
-        DocumentModel doc = createSite("NameSite1", session);
-        LabsSite labssite = doc.getAdapter(LabsSite.class);
+        DocumentModel doc = createSite("NameSite1");
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
 
         boolean success = labssite.addContact("10057208");
         assertTrue(success);
@@ -569,8 +573,8 @@ public class LabsSiteAdapterTest {
 
     @Test
     public void iCanDeleteContact() throws Exception {
-        DocumentModel doc = createSite("NameSite1", session);
-        LabsSite labssite = doc.getAdapter(LabsSite.class);
+        DocumentModel doc = createSite("NameSite1");
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
 
         labssite.addContact("10057208");
         labssite.addContact("10087898");
@@ -597,7 +601,7 @@ public class LabsSiteAdapterTest {
         return userSession;
     }
 
-    private DocumentModel createSite(final String siteName, CoreSession session)
+    private DocumentModel createSite(final String siteName)
             throws ClientException {
         DocumentModel site = session.createDocumentModel("/", siteName,
                 LABSSITE_TYPE);
@@ -606,15 +610,13 @@ public class LabsSiteAdapterTest {
         return site;
     }
 
-    private LabsSite createLabsSite(final String siteName, CoreSession session)
+    private LabsSite createLabsSite(final String siteName)
             throws ClientException {
-        final LabsSite site = createSite(siteName, session).getAdapter(
-                LabsSite.class);
+		final LabsSite site = Tools.getAdapter(LabsSite.class, createSite(siteName), session);
         return site;
     }
 
-    private LabsSite createTemplateSite(final String siteName,
-            CoreSession session) throws ClientException, SiteManagerException {
+    private LabsSite createTemplateSite(final String siteName) throws ClientException, SiteManagerException {
         LabsSite site = sm.createSite(session, siteName, siteName);
         site.setSiteTemplate(true);
         session.saveDocument(site.getDocument());
@@ -636,7 +638,7 @@ public class LabsSiteAdapterTest {
         DocumentModel htmlPage = session.createDocumentModel(Docs.HTMLPAGE.type());
         htmlPage.setPathInfo(site.getTree().getPathAsString(), "pagehtml");
         htmlPage = session.createDocument(htmlPage);
-        LabsTemplate templatedPage = htmlPage.getAdapter(LabsTemplate.class);
+        LabsTemplate templatedPage = Tools.getAdapter(LabsTemplate.class, htmlPage, session);
         templatedPage.setTemplateName(PAGE_TEMPLATE_CUSTOM);
         session.saveDocument(htmlPage);
         

@@ -44,6 +44,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTreeAsset;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "LabsSite", superType = "LabsPage")
 @Produces("text/html; charset=UTF-8")
@@ -58,8 +59,10 @@ public class Site extends NotifiablePageResource {
                     + '/'
                     + URIUtils.quoteURIPathComponent(
                             (new org.nuxeo.common.utils.Path(
-                                    site.getIndexDocument().getAdapter(
-                                            SiteDocument.class).getResourcePath()).removeFirstSegments(1)).toString(),
+                                    Tools.getAdapter(SiteDocument.class, 
+                                            site.getIndexDocument(), 
+                                            ctx.getCoreSession()).getResourcePath()).
+                                            removeFirstSegments(1)).toString(),
                             false));
         } catch (HomePageException e) {
             throw WebException.wrap(e);
@@ -71,7 +74,7 @@ public class Site extends NotifiablePageResource {
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        site = doc.getAdapter(LabsSite.class);
+        site = Tools.getAdapter(LabsSite.class, doc, ctx.getCoreSession());
 
         ctx.setProperty("site", site);
     }
@@ -166,11 +169,12 @@ public class Site extends NotifiablePageResource {
     @Path("@theme/{themeName}")
     public Object doGetTheme(@PathParam("themeName") String themeName) {
         try {
+            CoreSession session = ctx.getCoreSession();
             SiteThemeManager tm = site.getThemeManager();
-            SiteTheme theme = tm.getTheme(themeName);
+            SiteTheme theme = tm.getTheme(themeName, session);
             if (theme == null) {
                 // This creates the default theme if not found
-                theme = tm.getTheme();
+                theme = tm.getTheme(session);
             }
 
             return newObject(Docs.SITETHEME.type(), site, theme);
@@ -196,7 +200,6 @@ public class Site extends NotifiablePageResource {
             throws ClientException {
 
         LabsSite site = (LabsSite) ctx.getProperty("site");
-
         if (site != null) {
             DocumentModel tree = null;
             AbstractDocumentTree siteTree;
@@ -252,7 +255,7 @@ public class Site extends NotifiablePageResource {
     public <A> A getAdapter(Class<A> adapter) {
         if (adapter.equals(Page.class)) {
             try {
-                return (A) site.getIndexDocument().getAdapter(Page.class);
+                return (A) Tools.getAdapter(Page.class, site.getIndexDocument(), ctx.getCoreSession());
             } catch (ClientException e) {
 
             }
@@ -261,7 +264,7 @@ public class Site extends NotifiablePageResource {
     }
 
     public List<DocumentModel> getDeletedDocs() throws ClientException {
-        return doc.getAdapter(LabsSite.class).getAllDeletedDocs();
+        return Tools.getAdapter(LabsSite.class, doc, ctx.getCoreSession()).getAllDeletedDocs();
     }
 
     @Path("@externalURL/{idExt}")
@@ -298,7 +301,7 @@ public class Site extends NotifiablePageResource {
     public List<LabsNews> getNews(String pRef) throws ClientException {
         CoreSession session = getCoreSession();
         DocumentModel pageNews = session.getDocument(new IdRef(pRef));
-        return pageNews.getAdapter(PageNews.class).getAllNews();
+        return Tools.getAdapter(PageNews.class, pageNews, session).getAllNews();
     }
 
 }

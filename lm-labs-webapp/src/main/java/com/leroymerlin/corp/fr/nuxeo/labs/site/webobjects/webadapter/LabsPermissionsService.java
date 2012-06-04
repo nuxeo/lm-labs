@@ -23,6 +23,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
@@ -176,7 +177,7 @@ public class LabsPermissionsService extends DefaultAdapter {
             boolean override = BooleanUtils.toBoolean(overrideStr);
             assert StringUtils.isNotEmpty(permission);
             assert StringUtils.isNotEmpty(id);
-            LabsSiteUtils.setPermission(document, permission, id, Action.GRANT, override);
+            LabsSiteUtils.setPermission(document, permission, id, Action.GRANT, override, ctx.getCoreSession());
             return Response.ok().build();
 
         } catch (IllegalStateException e1) {
@@ -197,7 +198,7 @@ public class LabsPermissionsService extends DefaultAdapter {
         DocumentModel document = getDocument();
         assert StringUtils.isNotEmpty(permission);
         assert StringUtils.isNotEmpty(id);
-        LabsSiteUtils.setPermission(document, permission, id, Action.REMOVE, false);
+        LabsSiteUtils.setPermission(document, permission, id, Action.REMOVE, false, ctx.getCoreSession());
         return Response.ok().build();
     }
 
@@ -214,7 +215,8 @@ public class LabsPermissionsService extends DefaultAdapter {
         SecurityDataHelper.updateSecurityOnDocument(document, sd);
         final DocumentRef ref = document.getRef();
         
-        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(document.getCoreSession()){
+        CoreSession session = ctx.getCoreSession();
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
             
 
             @Override
@@ -234,17 +236,17 @@ public class LabsPermissionsService extends DefaultAdapter {
                 }
                 try {
                     for (LMPermission perm : permissionsAdmin) {
-                        LabsSiteUtils.setPermission(docu, perm.permission, perm.getName(), Action.GRANT, true);
+                        LabsSiteUtils.setPermission(docu, perm.permission, perm.getName(), Action.GRANT, true, session);
                     }
                     if (!StringUtils.isEmpty(permission)){
                         if (Rights.WRITE.getRight().equals(permission)){
                             for (LMPermission perm : permissionsRead) {
-                                LabsSiteUtils.setPermission(docu, perm.permission, perm.getName(), Action.GRANT, true);
+                                LabsSiteUtils.setPermission(docu, perm.permission, perm.getName(), Action.GRANT, true, session);
                             }
                         }
                         if (Rights.READ.getRight().equals(permission)){
                             for (LMPermission perm : permissionsWrite) {
-                                LabsSiteUtils.setPermission(docu, perm.permission, perm.getName(), Action.GRANT, true);
+                                LabsSiteUtils.setPermission(docu, perm.permission, perm.getName(), Action.GRANT, true, session);
                             }
                         }
                     }
@@ -257,11 +259,11 @@ public class LabsPermissionsService extends DefaultAdapter {
         };
         runner.runUnrestricted();
         
-        document.getCoreSession().save();
+        session.save();
         
         //get Read and ReadWrite rights on parents
-        LabsSiteUtils.unblockInherits("Read", getDocument());
-        LabsSiteUtils.unblockInherits("ReadWrite", getDocument());
+        LabsSiteUtils.unblockInherits("Read", getDocument(), session);
+        LabsSiteUtils.unblockInherits("ReadWrite", getDocument(), session);
         
         return Response.ok().build();
     }
@@ -270,7 +272,7 @@ public class LabsPermissionsService extends DefaultAdapter {
     @Path("unblockInherits")
     public Response unblockInherits(@QueryParam(value = "permission") String permission) throws IllegalStateException,
             Exception {
-        LabsSiteUtils.unblockInherits(permission, getDocument());
+        LabsSiteUtils.unblockInherits(permission, getDocument(), ctx.getCoreSession());
         return Response.ok().build();
     }
 

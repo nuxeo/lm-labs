@@ -3,7 +3,7 @@
 <html lang="fr">
 <#assign bsMinified = ".min" />
 <#assign popoverPlacement = "" />
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite() />
     <head>
     	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       	<title>Interface des médias</title>

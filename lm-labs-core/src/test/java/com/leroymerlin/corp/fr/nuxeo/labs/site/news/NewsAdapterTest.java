@@ -29,6 +29,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures.class)
@@ -69,7 +70,7 @@ public class NewsAdapterTest {
       //Use the session as a factory
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
 
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news,is(notNullValue()));
         news.setTitle("Le titre de la news");
 
@@ -80,7 +81,7 @@ public class NewsAdapterTest {
         session.save();
 
         doc = session.getDocument(new PathRef("/myNews"));
-        news = doc.getAdapter(LabsNews.class);
+        news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news,is(notNullValue()));
         assertThat(news.getTitle(), is("Le titre de la news"));
 
@@ -93,7 +94,7 @@ public class NewsAdapterTest {
 
         doc.setPropertyValue("dc:creator", "creator");
 
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news,is(notNullValue()));
         news.setTitle("Le titre de la news");
         news.setAccroche("Accroche");
@@ -112,7 +113,7 @@ public class NewsAdapterTest {
         session.save();
 
         doc = session.getDocument(new PathRef("/myNews"));
-        news = doc.getAdapter(LabsNews.class);
+        news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news,is(notNullValue()));
         assertThat(news.getTitle(), is("Le titre de la news"));
         assertThat(news.getCreator(), is(notNullValue()));
@@ -149,7 +150,7 @@ public class NewsAdapterTest {
 
         doc.setPropertyValue("dc:creator", "creator");
 
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news,is(notNullValue()));
         news.setTitle("Le titre de la news");
         news.setAccroche("Accroche");
@@ -166,7 +167,7 @@ public class NewsAdapterTest {
         session.save();
 
         doc = session.getDocument(new PathRef("/myNews"));
-        news = doc.getAdapter(LabsNews.class);
+        news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news,is(notNullValue()));
         
         assertNull(news.getEndPublication());
@@ -178,7 +179,7 @@ public class NewsAdapterTest {
     @Test
     public void iCanGetRowsForANews() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
 
         assertThat(news.getRows().size(),is(0));
 
@@ -190,7 +191,7 @@ public class NewsAdapterTest {
 
 
         doc = session.getDocument(new PathRef("/myNews"));
-        news = doc.getAdapter(LabsNews.class);
+        news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news.getRows().size(),is(1));
         assertThat(news.row(0).content(0).getHtml(), is("picture"));
         assertThat(news.row(0).content(1).getHtml(), is("content"));
@@ -202,7 +203,7 @@ public class NewsAdapterTest {
 
 
         doc = session.getDocument(new PathRef("/myNews"));
-        news = doc.getAdapter(LabsNews.class);
+        news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news.getRows().size(),is(2));
         assertThat(news.row(0).content(0).getHtml(), is("picture"));
         assertThat(news.row(0).content(1).getHtml(), is("content"));
@@ -214,7 +215,7 @@ public class NewsAdapterTest {
     @Test
     public void iCanGetLabsNewsBolbHolder() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
         news.setTitle("le titre");
         doc = session.createDocument(news.getDocumentModel());
         session.save();
@@ -227,7 +228,7 @@ public class NewsAdapterTest {
     @Test
     public void iCanSetOriginalPicture() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
         news.setTitle("le titre");
         news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/vision.jpg"), "image/jpeg", null,"vision.jpg", null));
         news.setSummaryPicture( new FileBlob(getFileFromPath("labsNewsImg/gastro.png"), "image/png", null,"gastro.png", null));
@@ -249,7 +250,7 @@ public class NewsAdapterTest {
     @Test
     public void iCanSetCropCoordsPicture() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
         news.setTitle("le titre");
         news.setCropCoords("testCoordonées");
         doc = session.createDocument(news.getDocumentModel());
@@ -263,7 +264,7 @@ public class NewsAdapterTest {
     @Test
     public void iCanAddAccordeonPictures() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
         news.setTitle("le titre");
         
         List<Blob> blobs = new ArrayList<Blob>();
@@ -282,7 +283,7 @@ public class NewsAdapterTest {
     @Test
     public void iCanSetAccordeonPictures() throws Exception {
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
         news.setTitle("le titre");
         
         List<Blob> blobs = new ArrayList<Blob>();
@@ -314,7 +315,7 @@ public class NewsAdapterTest {
     public void iCanGetSummaryPicture() throws Exception {
         //TODO
         DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
-        LabsNews news = doc.getAdapter(LabsNews.class);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
         news.setTitle("le titre");
         //news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/vision.jpg"), "image/jpeg", null,"vision.jpg", null));
         news.setOriginalPicture( new FileBlob(getFileFromPath("labsNewsImg/gastro.png"), "image/png", null,"gastro.png", null));
@@ -323,7 +324,7 @@ public class NewsAdapterTest {
         session.save();
 
         doc = session.getDocument(new PathRef("/myNews"));
-        news = doc.getAdapter(LabsNews.class);
+        news = Tools.getAdapter(LabsNews.class, doc, session);
         //assertThat(news.getBlobHolder(),is(notNullValue()));
         assertThat(news.hasSummaryPicture(),is(true));
         assertThat(news.getSummaryPicture(),is(notNullValue()));

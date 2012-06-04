@@ -1,7 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html;
 
 import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
@@ -71,10 +70,9 @@ public class WebHtmlSection extends DocumentObject {
         String title = form.getString("title");
         String description = form.getString("description");
         try {
+            CoreSession session = ctx.getCoreSession();
             section.setTitle(title);
             section.setDescription(description);
-//            saveDocument();
-            CoreSession session = ctx.getCoreSession();
             session.saveDocument(doc);
         } catch (ClientException e) {
             throw WebException.wrap(

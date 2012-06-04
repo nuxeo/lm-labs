@@ -26,6 +26,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedOutput;
 
@@ -44,13 +45,13 @@ public class PageNewsAdapterTest {
     @Test
     public void iCanGetLabsNewsAdapter() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        assertThat(document.getAdapter(PageNews.class), is(notNullValue()));
+        assertThat(Tools.getAdapter(PageNews.class, document, session), is(notNullValue()));
     }
 
     @Test
     public void iCanCreateNewsViaPageNewsAdapter() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
 
         LabsNews news = pn.createNews("Ma news");
         news.setContent("Hello World");
@@ -64,7 +65,7 @@ public class PageNewsAdapterTest {
         doc = session.getDocument(new PathRef(path));
 
 
-        news = doc.getAdapter(LabsNews.class);
+        news = Tools.getAdapter(LabsNews.class, doc, session);
         assertThat(news.getTitle(),is("Ma news"));
         assertThat(news.getContent(),is("Hello World"));
 
@@ -73,7 +74,7 @@ public class PageNewsAdapterTest {
     @Test
     public void iCanRetrieveAllNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
 
         LabsNews news = pn.createNews("Ma news");
         session.saveDocument(news.getDocumentModel());
@@ -91,7 +92,7 @@ public class PageNewsAdapterTest {
     @Test
     public void testContainsOnGetAllNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
         LabsNews news = pn.createNews("Ma news");
         session.saveDocument(news.getDocumentModel());
         List<LabsNews> allNews = pn.getTopNews(Integer.MAX_VALUE);
@@ -111,7 +112,7 @@ public class PageNewsAdapterTest {
     @Test
     public void iCanRetrieveTopNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
 
         createDatasTestForTopNews(pn);
 
@@ -179,7 +180,7 @@ public class PageNewsAdapterTest {
     @Test
     public void iCanBuildRssTopNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
 
         createDatasTestForTopNews(pn);
         
@@ -198,7 +199,7 @@ public class PageNewsAdapterTest {
     @Test
     public void iCanWriteRssTopNews() throws Exception {
         DocumentModel document = session.getDocument(new PathRef("/page_news"));
-        PageNews pn = document.getAdapter(PageNews.class);
+        PageNews pn = Tools.getAdapter(PageNews.class, document, session);
         pn.setTitle("titre page News");
 
         createDatasTestForTopNews(pn);

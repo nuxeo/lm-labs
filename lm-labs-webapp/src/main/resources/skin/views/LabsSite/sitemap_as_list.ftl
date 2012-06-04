@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 <@extends src="views/LabsSite/sitemap-base.ftl">
      <@block name="scripts">
       <@superBlock/>
@@ -41,12 +41,12 @@ jQuery(document).ready(function() {
             </tr>
           </thead>
           <tbody>
-          <#list mySite.allPages as page>
+          <#list mySite.getAllPages() as page>
             <#assign isAdmin = mySite.isAdministrator(Context.principal.name) />
             <#if isAdmin || (!mySite.isAdministrator(Context.principal.name) && page.document.type != "LabsNews" && page.visible) > 
             <tr>
               <#assign doc=page.document />
-              <td class="nameCol"><a href="${Context.modulePath}/${page.path?html}">${doc.title}</a></td>
+              <td class="nameCol"><a href="${Context.modulePath}/${page.getPath()?html}">${doc.title}</a></td>
               <td class="createdCol">${userFullName(doc.dublincore.creator)}</td>
               <td class="createdCol">
                 ${doc.dublincore.created?string.medium}

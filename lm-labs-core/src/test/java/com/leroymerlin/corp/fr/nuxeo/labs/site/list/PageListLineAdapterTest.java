@@ -34,12 +34,14 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 @Features({SiteFeatures.class, LabsCommentFeature.class})
 @RepositoryConfig(cleanup=Granularity.METHOD)
 public class PageListLineAdapterTest {
+	
     private static final boolean CHECKBOX = true;
     private static final Calendar CAL = Calendar.getInstance();
     private static final String TEXT = "text";
     private static final int ID_HEADER = 1;
     private static final String PATH_SEPARATOR = "/";
     private static final String LINE_TITLE = "line";
+    
     @Inject
     private CoreSession session;
 

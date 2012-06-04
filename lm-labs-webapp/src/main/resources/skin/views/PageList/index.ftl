@@ -1,7 +1,7 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
 	<#assign isAuthorized = This.isAuthorized()>
 	
-	<@block name="title">${Common.siteDoc(Document).site.title}-${This.document.title}</@block>
+	<@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title}</@block>
 	
 	<@block name="css">
 	  <@superBlock/>

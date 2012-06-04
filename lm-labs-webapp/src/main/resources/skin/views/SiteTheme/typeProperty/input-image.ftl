@@ -1,5 +1,5 @@
 <input id="valueProperty${cptProperties}" name="valueProperty${cptProperties}" type="hidden" value="<#if (property.value != null)>${property.value?html}</#if>" />
-<a href="#" onclick="javascript:openAssets('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@assets?callFunction=setCallFunction&calledRef=${cptProperties}')">Associer un média</a>
+<a href="#" onclick="javascript:openAssets('${Context.modulePath}/${Common.siteDoc(Document).getSite().URL}/@assets?callFunction=setCallFunction&calledRef=${cptProperties}')">Associer un média</a>
 <span id="spanTextAsset${cptProperties}">&nbsp;</span>
 <#if (property.value != null)>
 	<div id="actionMedia${cptProperties}" style="float: right;">

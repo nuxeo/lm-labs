@@ -64,11 +64,13 @@ public class PageListAdapter extends AbstractPage implements PageList {
     private static SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMMM yyyy");
 
     public PageListAdapter(DocumentModel doc) {
-        this.doc = doc;
+        super(doc);
     }
 
     public static class Model {
         private DocumentModel doc;
+        
+        private CoreSession session;
 
         /**
          * PageList adapter = new PageListAdapter.Model(session, "/",
@@ -80,6 +82,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
          * @throws ClientException
          */
         public Model(CoreSession session, String parentPath, String title) throws ClientException {
+        	this.session = session;
             this.doc = session.createDocumentModel(parentPath, title, Docs.PAGELIST.type());
         }
 
@@ -90,8 +93,9 @@ public class PageListAdapter extends AbstractPage implements PageList {
          * @throws ClientException
          */
         public PageList create() throws ClientException {
-            return new PageListAdapter(this.doc.getCoreSession()
-                    .createDocument(this.doc));
+            PageListAdapter pageListAdapter = new PageListAdapter(session.createDocument(this.doc));
+            pageListAdapter.setSession(session);
+			return pageListAdapter;
         }
 
         /**
@@ -101,7 +105,9 @@ public class PageListAdapter extends AbstractPage implements PageList {
          * @throws ClientException
          */
         public PageList getAdapter() throws ClientException {
-            return new PageListAdapter(this.doc);
+            PageListAdapter pageListAdapter = new PageListAdapter(this.doc);
+            pageListAdapter.setSession(session);
+			return pageListAdapter;
         }
     }
 
@@ -262,15 +268,16 @@ public class PageListAdapter extends AbstractPage implements PageList {
     public List<EntriesLine> getLines() throws ClientException {
         DocumentModelList listDocLines = null;
         List<EntriesLine> entriesLines = new ArrayList<EntriesLine>();
-        listDocLines = doc.getCoreSession()
-                .getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
+        CoreSession session = getSession();
+		listDocLines = session.getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
         EntriesLine line;
         PageListLine adapterLine;
         for (DocumentModel docTmp : listDocLines) {
-            adapterLine = docTmp.getAdapter(PageListLine.class);
+            adapterLine = Tools.getAdapter(PageListLine.class, docTmp, session);
             line = adapterLine.getLine();
             line.setDocLine(docTmp);
             line.setNbComments(adapterLine.getNbComments());
+            line.setNbrFiles(adapterLine.getFiles().size());            
             entriesLines.add(line);
         }
         return entriesLines;
@@ -284,7 +291,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
      */
     @Override
     public void saveLine(EntriesLine pLine, LabsSite pSite) throws ClientException {
-        CoreSession session = doc.getCoreSession();
+    	CoreSession session = getSession();
         DocumentModel lineDoc = null;
         boolean isNew = pLine.getDocLine() == null;
         if (isNew) {
@@ -292,7 +299,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         } else {
             lineDoc = pLine.getDocLine();
         }
-        PageListLine line = lineDoc.getAdapter(PageListLine.class);
+        PageListLine line = Tools.getAdapter(PageListLine.class, lineDoc, session);
         line.setLine(pLine);
         if (isNew) {
             lineDoc = session.createDocument(lineDoc);
@@ -315,7 +322,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
             return;
         }
         final DocumentRef ref = pLine.getDocLine().getRef();
-        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(doc.getCoreSession()){
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(getSession()){
             @Override
             public void run() throws ClientException {
                 DocumentModel docu = session.getDocument(ref);
@@ -341,7 +348,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
      */
     @Override
     public void removeLine(DocumentRef pRef) throws ClientException {
-        doc.getCoreSession().removeDocument(pRef);
+        getSession().removeDocument(pRef);
     }
 
     /*
@@ -354,11 +361,11 @@ public class PageListAdapter extends AbstractPage implements PageList {
     @Override
     public EntriesLine getLine(DocumentRef pRef) throws ClientException {
         EntriesLine line = new EntriesLine();
-        DocumentModel lineDoc = doc.getCoreSession()
-                .getDocument(pRef);
+        CoreSession session = getSession();
+		DocumentModel lineDoc = session.getDocument(pRef);
         if (lineDoc != null) {
             line.setDocLine(lineDoc);
-            line = lineDoc.getAdapter(PageListLine.class)
+            line = Tools.getAdapter(PageListLine.class, lineDoc, session)
                     .getLine();
         }
         return line;
@@ -390,7 +397,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
     public void setAllContributors(final boolean isAllContributors) throws ClientException {
         if (isAllContributors != isAllContributors()){
             final DocumentRef ref = doc.getRef();
-            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(doc.getCoreSession()){
+            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(getSession()){
     
                 @SuppressWarnings("deprecation")
                 @Override

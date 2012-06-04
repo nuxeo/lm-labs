@@ -44,16 +44,17 @@ public final class CommonHelper {
     }
 
     public static final SiteDocument siteDoc(DocumentModel doc) {
-        return doc.getAdapter(SiteDocument.class);
+        return Tools.getAdapter(SiteDocument.class, doc, getCoreSession());
     }
 
     public static final Page sitePage(DocumentModel doc) throws ClientException {
         Page page = null;
+        CoreSession session = getCoreSession();
         if (LabsSiteConstants.Docs.SITE.type().equals(doc.getType())) {
-            DocumentModel homePage = doc.getAdapter(LabsSite.class).getIndexDocument();
-            page = homePage.getAdapter(Page.class);
+            DocumentModel homePage = Tools.getAdapter(LabsSite.class, doc, session).getIndexDocument();
+            page = Tools.getAdapter(Page.class, homePage, session);
         } else {
-            page = doc.getAdapter(Page.class);
+            page = Tools.getAdapter(Page.class, doc, session);
         }
         return page;
     }
@@ -78,10 +79,11 @@ public final class CommonHelper {
     public static final List<Page> getTopNavigationPages(DocumentModel siteDoc,
             final String userName) throws ClientException {
         List<Page> pages = new ArrayList<Page>();
+        final CoreSession session = getCoreSession();
         LabsSite site = siteDoc(siteDoc).getSite();
         Collection<Page> allTopPages = siteDoc(site.getTree()).getChildrenPages();
         final DocumentModel homePageDoc = site.getIndexDocument();
-        Page homePage = homePageDoc.getAdapter(Page.class);
+        Page homePage = Tools.getAdapter(Page.class, homePageDoc, session);
         if (!site.isAdministrator(userName)) {
             if (homePage.isVisible() && !homePage.isDeleted()) {
                 pages.add(homePage);
@@ -134,16 +136,17 @@ public final class CommonHelper {
             return adaptersList;
         }
         StringBuilder query = new StringBuilder();
+        CoreSession session = getCoreSession();
         query.append("SELECT * FROM ").append(Docs.SITE.type()).append(
                 " WHERE ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(
                 State.PUBLISH.getState()).append("'").append(" AND ").append(
                 NXQL.ECM_PATH).append(" STARTSWITH '").append(
-                sm.getSiteRoot(getCoreSession()).getPathAsString().replace("'", "\\'")).append("'").append(
+                sm.getSiteRoot(session).getPathAsString().replace("'", "\\'")).append("'").append(
                 " AND ").append(LabsSiteAdapter.PROPERTY_SITE_TEMPLATE).append(
                 " = 1");
-        DocumentModelList list = getCoreSession().query(query.toString());
+        DocumentModelList list = session.query(query.toString());
         for (DocumentModel site : list) {
-            adaptersList.add(site.getAdapter(LabsSite.class));
+            adaptersList.add(Tools.getAdapter(LabsSite.class, site, session));
         }
         return adaptersList;
     }

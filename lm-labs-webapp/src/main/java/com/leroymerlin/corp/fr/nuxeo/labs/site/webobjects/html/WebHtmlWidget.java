@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -24,6 +25,7 @@ import org.nuxeo.opensocial.container.shared.webcontent.enume.DataType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "HtmlWidget")
 public class WebHtmlWidget extends DocumentObject {
@@ -51,10 +53,11 @@ public class WebHtmlWidget extends DocumentObject {
 
     @Override
     public Response doDelete() {
-        parentContent.removeGadgets(getCoreSession()); // For the moment only ONE widget is possible
+        CoreSession session = getCoreSession();
+        parentContent.removeGadgets(); // For the moment only ONE widget is possible
         try {
             parentContent.setType(HtmlContent.Type.HTML.type());
-            htmlPage = getCoreSession().saveDocument(htmlPage);
+            htmlPage = session.saveDocument(htmlPage);
         } catch (ClientException e) {
             LOG.error("Unable to reset content to HTML editor", e);
         }
@@ -75,7 +78,7 @@ public class WebHtmlWidget extends DocumentObject {
 
     @Override
     public Response doPut() {
-        OpenSocialAdapter adapter = (OpenSocialAdapter) doc.getAdapter(WebContentAdapter.class);
+        OpenSocialAdapter adapter = (OpenSocialAdapter) Tools.getAdapter(WebContentAdapter.class, doc, getCoreSession());
         FormData form = ctx.getForm();
         boolean modified = false;
         try {
@@ -113,7 +116,7 @@ public class WebHtmlWidget extends DocumentObject {
     }
 
     private void setUserPreferences() {
-        OpenSocialAdapter adapter = (OpenSocialAdapter) doc.getAdapter(WebContentAdapter.class);
+        OpenSocialAdapter adapter = (OpenSocialAdapter) Tools.getAdapter(WebContentAdapter.class, doc, getCoreSession());
         try {
             OpenSocialData data = adapter.getData();
             for (UserPref pref : data.getUserPrefs()) {
@@ -140,7 +143,7 @@ public class WebHtmlWidget extends DocumentObject {
     }
 
     public UserPref getUserPrefByName(final String prefName) throws ClientException {
-        OpenSocialAdapter adapter = (OpenSocialAdapter) doc.getAdapter(WebContentAdapter.class);
+        OpenSocialAdapter adapter = (OpenSocialAdapter) Tools.getAdapter(WebContentAdapter.class, doc, getCoreSession());
         OpenSocialData data = adapter.getData();
         return data.getUserPrefByName(prefName);
     }

@@ -3,7 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.list;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -41,7 +41,7 @@ public interface PageList extends Page {
      * @return the set of header
      * @throws ClientException
      */
-    Set<Header> getHeaderSet() throws ClientException;
+    SortedSet<Header> getHeaderSet() throws ClientException;
     
     /**
      * reset the list of header

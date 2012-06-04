@@ -13,6 +13,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
@@ -41,7 +42,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     private LabsNewsBlobHolder blobHolder = null;
 
     public LabsNewsAdapter(DocumentModel doc) {
-        this.doc = doc;
+        super(doc);
         this.blobHolder = (LabsNewsBlobHolder)this.doc.getAdapter(BlobHolder.class);
     }
 
@@ -230,7 +231,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     private boolean isParentPageNewsPublished() {
         DocumentModel parentDocument;
         try {
-            parentDocument = doc.getCoreSession().getParentDocument(doc.getRef());
+            parentDocument = getSession().getParentDocument(doc.getRef());
             PageNews pageNews = parentDocument.getAdapter(PageNews.class);
             if (pageNews != null) {
                 if (pageNews.isVisible()) {
@@ -304,6 +305,21 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     @Override
     public void deleteSummaryPicture() throws ClientException {
         getBlobHolder().deleteSummaryPicture();
+    }
+
+    @Override
+    public void setTitle(String title) throws PropertyException,
+            ClientException, IllegalArgumentException {
+        if (title == null) {
+            throw new IllegalArgumentException("title cannot be null.");
+        }
+        doc.setPropertyValue(DC_TITLE, title);
+    }
+
+    @Override
+    public void setDescription(String description) throws PropertyException,
+            ClientException {
+        setDescription(doc, description);
     }
 
 }

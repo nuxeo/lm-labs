@@ -14,7 +14,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
  * @author dmetzler
  *
  */
-public interface SiteDocument {
+public interface SiteDocument extends LabsAdapter {
 
     /**
      * Return the parent page of this document

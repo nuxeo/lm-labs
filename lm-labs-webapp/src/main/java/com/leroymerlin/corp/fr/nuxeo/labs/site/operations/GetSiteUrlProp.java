@@ -10,6 +10,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @Operation(id = GetSiteUrlProp.ID, category = Constants.CAT_FETCH, label = "",
 description = "")
@@ -27,7 +28,7 @@ public class GetSiteUrlProp {
     @OperationMethod
     public String run() throws Exception {
         DocumentModel document = session.getDocument(new IdRef(docId));
-        SiteDocument siteDocument = document.getAdapter(SiteDocument.class);
+        SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, document, session);
         
         return siteDocument.getSite().getURL();
     }

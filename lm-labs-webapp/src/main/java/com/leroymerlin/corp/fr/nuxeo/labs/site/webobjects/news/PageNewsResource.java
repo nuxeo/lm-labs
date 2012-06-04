@@ -37,6 +37,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNewsAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 
 /**
@@ -54,7 +55,7 @@ public class PageNewsResource extends NotifiablePageResource {
         super.initialize(args);
         ctx.getEngine()
                 .getRendering()
-                .setSharedVariable("pageNews", doc.getAdapter(PageNews.class));
+                .setSharedVariable("pageNews", Tools.getAdapter(PageNews.class, doc, ctx.getCoreSession()));
 
     }
 
@@ -66,10 +67,10 @@ public class PageNewsResource extends NotifiablePageResource {
             FormData form = ctx.getForm();
             String pTitle = form.getString("dc:title");
             CoreSession session = ctx.getCoreSession();
-            PageNews pageNews = doc.getAdapter(PageNews.class);
+            PageNews pageNews = Tools.getAdapter(PageNews.class, doc, session);
             news = pageNews.createNews(pTitle);
 
-            LabsNewsResource.fillNews(form, news);
+            LabsNewsResource.fillNews(form, news, session);
 
             DocumentModel newDocNews = session.saveDocument(news.getDocumentModel());
             session.save();
@@ -140,7 +141,7 @@ public class PageNewsResource extends NotifiablePageResource {
         List<LabsNews> result = new ArrayList<LabsNews>();
         LabsNewsAdapter adapter = null;
         for (DocumentModel document : docs){
-            adapter = (LabsNewsAdapter) document.getAdapter(LabsNews.class);
+            adapter = (LabsNewsAdapter) Tools.getAdapter(LabsNews.class, document, ctx.getCoreSession());
             if (adapter != null){
                 result.add(adapter);
             }
