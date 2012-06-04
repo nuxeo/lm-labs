@@ -5,9 +5,9 @@
 	<@block name="css">
 		<@superBlock/>
         <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
-		<link rel="stylesheet/less" href="${This.path}/generatedAdmin.less">
+		<link rel="stylesheet/less" href="${This.path}/generatedAdmin.less" />
 	</@block>
-	
+
 	<@block name="scripts">
 		<@superBlock/>
           	<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
@@ -20,9 +20,9 @@
           	<script type="text/javascript" src="${skinPath}/js/asset_filedrop.js"></script>
           	<script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
 	</@block>
-	
+
 	<@block name="topbar" />
-	
+
 	<@block name="FKtopContent">
 		<style type="text/css">
 			  #FKtopContent {
@@ -37,7 +37,7 @@
 			  	margin-top: 3px;
 			  }
 		</style>
-		
+
     	<div class="container" style="width: 980px;">
     		<#include "views/common/topbar.ftl" />
     		<#if Context.principal.isAdministrator() == true>
@@ -54,14 +54,14 @@
     		<@block name="content" />
     	</div>
 	</@block>
-	
+
 	<@block name="pageCommentable" />
-	
+
 	<@block name="FKfooter">
 		<div id="FKfooter">
 			<#include "views/common/footer.ftl">
         	<#include "views/common/loading.ftl">
 	    </div><#-- /FKfooter -->
 	</@block>
-	
+
 </@extends>

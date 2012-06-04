@@ -5,7 +5,7 @@
   <@block name="scripts">
       <@superBlock/>
       <meta name="gwt:property" content="locale=fr">
-      <link rel="search" type="application/opensearchdescription+xml" title="Intralm" href="${skinPath}/searchIntralm.xml">
+      <link rel="search" type="application/opensearchdescription+xml" title="Intralm" href="${skinPath}/searchIntralm.xml" />
 
         <script type="text/javascript">
     jQuery(document).ready(function() {
@@ -47,9 +47,9 @@
         };
       </script>
 
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/reset-fonts-grids.css">
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/container.css">
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/gadgets.css">
+      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/reset-fonts-grids.css" />
+      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/container.css" />
+      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/gadgets.css" />
 
       <script type="text/javascript" language="javascript" src="${Context.basePath}/gwt-container/gwtContainer/gwtContainer.nocache.js"></script>
       <script type="text/javascript" language="javascript" src="/nuxeo/opensocial/gadgets/js/rpc:navigateto.js?c=1"></script>

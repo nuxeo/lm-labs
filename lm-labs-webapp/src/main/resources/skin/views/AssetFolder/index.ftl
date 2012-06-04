@@ -16,12 +16,12 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
         <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
+          <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
         <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
         <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
 
-	  <link rel="stylesheet/less" href="${Context.modulePath}/${mySite.URL}/generated.less">
+	  <link rel="stylesheet/less" href="${Context.modulePath}/${mySite.URL}/generated.less" />
       <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.3.0.min.js"></script>
 
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
@@ -81,7 +81,7 @@
               </div>
             </form>
           </div>
-			
+
 		 <#include "macros/add_file_dialog.ftl" />
 		 <@addFileDialog action="${This.path}" onSubmit="this.action=currentPath"/>
 
@@ -100,7 +100,7 @@
        collapsed: true,
        cookieId: "${mySite.document.id}-assets-navtree"
       }
-    );    
+    );
   });
 
     function sendToCallFunction(href) {

@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/js/assets/prettify/prettify.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" />
-        <link rel="stylesheet" href="${contextPath}/css/opensocial/light-container-gadgets.css">
+        <link rel="stylesheet" href="${contextPath}/css/opensocial/light-container-gadgets.css" />
   </@block>
 
   <@block name="scripts">
