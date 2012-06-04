@@ -90,7 +90,7 @@ public class LabsGadgetService extends DefaultComponent implements LabsGadgetMan
     public boolean removeAllGadgetsOfHtmlContent(HtmlContent content, CoreSession session) throws ClientException {
         boolean removed = false;
         if ("widgetcontainer".equals(content.getType())) {
-            List<LabsWidget> widgets = content.getGadgets();
+            List<LabsWidget> widgets = content.getGadgets(session);
             for (LabsWidget widget : widgets) {
                 if (widget instanceof LabsOpensocialGadget) {
                     removed = true;

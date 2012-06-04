@@ -54,7 +54,7 @@ public class WebHtmlWidget extends DocumentObject {
     @Override
     public Response doDelete() {
         CoreSession session = getCoreSession();
-        parentContent.removeGadgets(); // For the moment only ONE widget is possible
+        parentContent.removeGadgets(getCoreSession()); // For the moment only ONE widget is possible
         try {
             parentContent.setType(HtmlContent.Type.HTML.type());
             htmlPage = session.saveDocument(htmlPage);

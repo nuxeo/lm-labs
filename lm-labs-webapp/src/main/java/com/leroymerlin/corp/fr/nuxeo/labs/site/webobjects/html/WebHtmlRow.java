@@ -41,6 +41,7 @@ public class WebHtmlRow extends DocumentObject {
         super.initialize(args);
         assert args != null && args.length == 2;
         row = (HtmlRow) args[1];
+        row.setSession(getCoreSession());
     }
 
     @Path("c/{index}")
@@ -115,7 +116,7 @@ public class WebHtmlRow extends DocumentObject {
     }
 
     private void syncWidgetsConfig(HtmlContent content, List<String> widgets) throws ClientException {
-        List<LabsWidget> gadgets = content.getGadgets();
+        List<LabsWidget> gadgets = content.getGadgets(getCoreSession());
         if (widgets.isEmpty())
         {
             return /*false*/;
@@ -128,7 +129,7 @@ public class WebHtmlRow extends DocumentObject {
                 // "html/editor"
                 try {
                     if (!gadgets.isEmpty()) {
-                        content.removeGadgets();
+                        content.removeGadgets(getCoreSession());
                     }
                     content.setType(HtmlContent.Type.HTML.type());
                     saveDocument();
@@ -142,7 +143,7 @@ public class WebHtmlRow extends DocumentObject {
                         // same gadget, do nothing.
                     } else {
                         if (!gadgets.isEmpty()) {
-                            content.removeGadgets();
+                            content.removeGadgets(getCoreSession());
                             saveDocument();
                         }
                         LabsWidget gadget = new LabsHtmlWidget(widgetName);
@@ -163,7 +164,7 @@ public class WebHtmlRow extends DocumentObject {
                     // same gadget, do nothing.
                 } else {
                     if (!gadgets.isEmpty()) {
-                        content.removeGadgets();
+                        content.removeGadgets(getCoreSession());
                         saveDocument();
                     }
                     DocumentModel gadgetDoc = getCoreSession().createDocumentModel(LabsOpensocialGadget.DOC_TYPE);

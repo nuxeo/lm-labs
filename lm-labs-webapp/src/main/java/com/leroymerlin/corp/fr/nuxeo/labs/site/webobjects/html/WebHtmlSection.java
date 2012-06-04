@@ -85,6 +85,7 @@ public class WebHtmlSection extends DocumentObject {
     @Path("r/{index}")
     public Object getRow(@PathParam("index") int rowIndex) {
         HtmlRow row = section.row(rowIndex);
+        row.setSession(getCoreSession());
         return newObject("HtmlRow", doc, row);
     }
 
