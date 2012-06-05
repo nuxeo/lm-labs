@@ -12,6 +12,21 @@
 					</div>
 				</div>
 			</#list>
+			<#if line != null>
+				<div class="control-group">
+					<label class="control-label" for="isVisible">${Context.getMessage('label.pageList.edit.line.hidden')?js_string}</label>
+					<div class="controls">
+						<label class="radio">
+		                	<input type="radio" name="isHidden" id="isHidden" value="yes" <#if !line.visible >checked</#if>>
+		                	Oui
+		              	</label>
+						<label class="radio">
+		                	<input type="radio" name="isHidden" id="isHidden" value="no" <#if line.visible >checked</#if>>
+		                	Non
+		              	</label>
+					</div>
+				</div>
+			</#if>
 		</fieldset>
 	</form>
 </div>

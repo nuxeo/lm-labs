@@ -13,7 +13,7 @@
   <tbody>
     <#list entriesLines as entriesLine>
       <#assign lineOnclick = This.getLineOnclick(entriesLine, pp) />
-      <tr>
+      <tr <#if !entriesLine.visible>class="hidden"</#if>>
         <#list bean.headersSet as header>
           <td style="${This.getLineStyle(header, entriesLine)}<#if header.type?lower_case == 'files'><#include "/views/PageList/" + header.type?lower_case + "/td-style.ftl" /></#if>"
             <#if header.type?lower_case != 'files'>${lineOnclick} </#if>

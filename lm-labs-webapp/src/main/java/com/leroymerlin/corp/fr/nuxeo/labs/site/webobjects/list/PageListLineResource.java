@@ -204,6 +204,7 @@ public class PageListLineResource extends DocumentObject {
             }
             String principalName = ctx.getPrincipal().getName();
             entriesLine.setUserName(principalName);
+            entriesLine.setVisible("no".equalsIgnoreCase(form.getString("isHidden")));
             LabsSite site = CommonHelper.siteDoc(doc).getSite();
             parent.saveLine(entriesLine, site);
         } catch (Exception e) {

@@ -25,6 +25,14 @@
  	<coreQueryPageProvider name="list_line_nxql">
       <pattern quoteParameters="true" escapeParameters="true">
         SELECT * FROM PageListLine WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:parentId = ? AND ecm:mixinType != 'LabsHidden'
+      </pattern>
+      <sort column="dc:created" ascending="true" />
+    </coreQueryPageProvider>
+ 
+ 	<coreQueryPageProvider name="list_line_write_nxql">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM PageListLine WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
         AND ecm:parentId = ?
       </pattern>
       <sort column="dc:created" ascending="true" />

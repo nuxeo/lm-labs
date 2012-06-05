@@ -54,4 +54,10 @@ public interface PageListLine extends SubDocument {
     
     void removeComment() throws ClientException;
     
+    void hide() throws ClientException;
+    
+    void show() throws ClientException;
+    
+    boolean isVisible() throws ClientException;
+    
 }
