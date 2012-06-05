@@ -54,7 +54,7 @@ import com.leroymerlin.corp.fr.nuxeo.piwik.Piwik;
 
 /**
  * @author fvandaele
- * 
+ *
  */
 public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
@@ -342,6 +342,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
         query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(
                 " <> 'HiddenInNavigation'");
+        query.append(" ORDER BY dc:modified DESC");
 
         CoreSession session = getSession();
 		return session.query(query.toString(), new DocUnderVisiblePageFilter(session), NB_LAST_UPDATED_NEWS_DOCS);
