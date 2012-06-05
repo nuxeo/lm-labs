@@ -30,7 +30,7 @@ function control(){
     return true;
 };
 jQuery(document).ready(function() {
-    jQuery('#divConfigGadget form').attr('action', '${Context.basePath}/gadgetDocumentAPI/${Document.id}');
+    jQuery('#divConfigGadget form').attr('action', '/nuxeo/site/gadgetDocumentAPI/${Document.id}');
     jQuery('#divConfigGadget form').attr('enctype', 'multipart/form-data');
 })
 </script>
