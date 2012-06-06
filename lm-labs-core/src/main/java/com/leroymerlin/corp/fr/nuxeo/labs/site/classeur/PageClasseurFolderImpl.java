@@ -5,6 +5,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractSubDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 
@@ -23,6 +24,11 @@ public class PageClasseurFolderImpl extends AbstractSubDocument implements PageC
     @Override
     public String getTitle() throws ClientException {
         return doc.getTitle();
+    }
+
+    @Override
+    public String getDescription() throws ClientException {
+    	return (String) doc.getPropertyValue(AbstractLabsBase.DC_DESCRIPTION);
     }
 
     @Override

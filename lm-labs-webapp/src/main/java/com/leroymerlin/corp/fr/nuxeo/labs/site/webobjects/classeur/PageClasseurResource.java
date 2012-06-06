@@ -89,9 +89,8 @@ public class PageClasseurResource extends NotifiablePageResource {
         String folderTitle = form.getString("dc:title");
         if (!StringUtils.isEmpty(folderTitle)) {
             try {
-                CoreSession session = getCoreSession();
-                classeur.addFolder(folderTitle);
-                session.save();
+                classeur.addFolder(folderTitle, form.getString("dc:description"));
+                getCoreSession().save();
                 return Response.status(Status.OK).build();
             } catch (ClientException e) {
                 return Response.serverError().status(Status.FORBIDDEN).entity(
