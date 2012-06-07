@@ -11,10 +11,15 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.common.utils.URIUtils;
+import org.nuxeo.ecm.automation.AutomationService;
+import org.nuxeo.ecm.automation.OperationChain;
+import org.nuxeo.ecm.automation.OperationContext;
+import org.nuxeo.ecm.automation.core.operations.services.DocumentPageProviderOperation;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
@@ -272,6 +277,18 @@ public final class CommonHelper {
 
     public static Calendar getNow() {
     	return Calendar.getInstance();
+    }
+
+    public DocumentModelList getPageProviderDocs(CoreSession session, final String providerName, final String queryParams, final int pageSize) {
+        OperationContext ctx = new OperationContext(session);
+		OperationChain chain = new OperationChain(providerName + "_" + session.getSessionId());
+        chain.add(DocumentPageProviderOperation.ID).set("providerName", providerName).set("queryParams", queryParams).set("pageSize", new Integer(pageSize));
+        try {
+			return (DocumentModelList) Framework.getService(AutomationService.class).run(ctx, chain);
+		} catch (Exception e) {
+			LOG.error(e, e);
+			return new DocumentModelListImpl();
+		}
     }
 
     /**
