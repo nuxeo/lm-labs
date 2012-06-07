@@ -325,8 +325,17 @@ jQuery(document).ready(function(){
 });
 
 function renameFolder(url, id) {
-    jQuery("#div-addfolder").dialog2("options", {title: "Renommer le répertoire '" + jQuery("#spanFolderTitle" + id).text() + "'"});
+    jQuery("#div-addfolder").dialog2({
+        width: '650px',
+        autoOpen : false,
+    	closeOnOverlayClick : true,
+    	removeOnClose : false,
+    	showCloseHandle : true,
+    	title: "Renommer le répertoire '" + jQuery("#spanFolderTitle" + id).text() + "'"
+      });
     jQuery("#folderName").val(jQuery("#spanFolderTitle" + id).text());
+    jQuery("#folderDescription").val(jQuery("#divFolderDescription" + id).html());
+    jQuery('#folderDescription').ckeditor(ckeditorconfigUser);
     jQuery("#form-folder").attr('action', url);
     jQuery("#div-addfolder").dialog2('open');
     return false;

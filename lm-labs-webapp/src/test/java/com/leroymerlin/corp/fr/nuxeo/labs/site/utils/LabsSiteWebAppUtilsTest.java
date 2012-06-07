@@ -66,7 +66,7 @@ public class LabsSiteWebAppUtilsTest {
                 "ma page classeur").desc("desc page classeur").create();
         assertThat(classeur.getFolders().size(), is(0));
 
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();
         PageClasseurFolder folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(), is(0));

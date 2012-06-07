@@ -20,11 +20,12 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageListLineAdapter extends AbstractSubDocument implements PageListLine {
 
-    private static final String URL = "url";
+	private static final String URL = "url";
     private static final String NAME = "name";
     private static final String DATA_URL = "dataURL";
     private static final String CHECKBOX = "checkbox";
@@ -146,6 +147,7 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
         line.setDocLine(doc);
         PageListLine adapter = Tools.getAdapter(PageListLine.class, doc, getSession());
         line.setNbComments(adapter.getNbComments());
+        line.setVisible(adapter.isVisible());
         line.setNbrFiles(adapter.getFiles().size());
         line.setEntries(entries);
         return line;
@@ -244,4 +246,23 @@ public class PageListLineAdapter extends AbstractSubDocument implements PageList
             setNbComments(nbComments);
         }
     }
+
+	@Override
+	public void hide() throws ClientException {
+    	if (!doc.getFacets().contains(FacetNames.LABSHIDDEN)) {
+    		doc.addFacet(FacetNames.LABSHIDDEN);
+    	}
+	}
+
+	@Override
+	public void show() throws ClientException {
+    	if (doc.getFacets().contains(FacetNames.LABSHIDDEN)) {
+    		doc.removeFacet(FacetNames.LABSHIDDEN);
+    	}
+	}
+
+	@Override
+	public boolean isVisible() throws ClientException {
+		return !doc.getFacets().contains(FacetNames.LABSHIDDEN);
+	}
 }

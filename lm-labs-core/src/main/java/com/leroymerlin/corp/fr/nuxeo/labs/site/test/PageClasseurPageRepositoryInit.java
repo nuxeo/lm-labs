@@ -31,7 +31,7 @@ public class PageClasseurPageRepositoryInit extends OfmRepositoryInit {
                 PAGE_CLASSEUR_TITLE).create();
         classeur.setTitle(PAGE_CLASSEUR_TITLE);
 
-        PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME);
+        PageClasseurFolder folder = classeur.addFolder(FOLDER1_NAME, null);
         session.save();
         try {
             Blob blob = new FileBlob(getClass().getResourceAsStream(

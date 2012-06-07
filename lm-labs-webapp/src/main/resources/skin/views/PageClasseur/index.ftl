@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/> <#-- ??? -->
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
+        <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
   </@block>
 
   <@block name="scripts">
@@ -18,6 +19,10 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+	   	<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
   </@block>
 
   <@block name="content">
@@ -75,7 +80,14 @@
 	      
 	    <div class="header-toc">
           <a name="section_${folder_index}" ></a>
-          <h2><span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description}" >${folder.document.dublincore.title?html}</span></h2>
+          <h2>
+          	<span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description?js_string}" >
+          		${folder.document.dublincore.title?html}
+          	</span>
+          </h2>
+          <div id="divFolderDescription${folder.document.id}" class="divFolderDescription">
+	          	${folder.document.dublincore.description}
+	      </div>
         </div>
         <#if canWrite>
 	    <div class="folder-actions row-fluid editblock">
@@ -151,12 +163,18 @@
     <h1>${Context.getMessage('label.PageClasseur.form.folder.title')}</h1>
   <form class="ajax form-horizontal" id="form-folder" action="${This.path}" method="post" enctype="multipart/form-data">
       <fieldset>
-      <div class="control-group">
-          <label class="control-label" for="dc:title">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
-            <div class="controls">
-              <input id="folderName" name="dc:title" class="focused required input-xlarge"/>
-            </div>
-          </div>
+	      <div class="control-group">
+	          <label class="control-label" for="dc:title">${Context.getMessage('label.PageClasseur.form.folder.name')}</label>
+	            <div class="controls">
+	              <input id="folderName" name="dc:title" class="focused required input-xlarge"/>
+	            </div>
+	       </div>
+		   <div class="control-group">
+	          <label class="control-label" for="dc:description">${Context.getMessage('label.PageClasseur.form.folder.description')}</label>
+	            <div class="controls">
+	              <textarea rows="10" cols="80"  name="dc:description" id="folderDescription"></textarea>
+	            </div>
+	       </div>
       </fieldset>
 
   <div class="actions">

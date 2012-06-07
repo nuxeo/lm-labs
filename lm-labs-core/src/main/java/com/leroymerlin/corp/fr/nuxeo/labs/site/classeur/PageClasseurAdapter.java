@@ -107,7 +107,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
     }
 
     @Override
-    public PageClasseurFolder addFolder(String title) throws ClientException {
+    public PageClasseurFolder addFolder(String title, String description) throws ClientException {
         PathSegmentService pss;
         CoreSession session = getSession();
         try {
@@ -125,6 +125,7 @@ public class PageClasseurAdapter extends AbstractPage implements PageClasseur {
 //                    doc.getPathAsString(), title, 
                     LabsSiteConstants.Docs.PAGECLASSEURFOLDER.type());
             folder.setPropertyValue("dc:title", title);
+            folder.setPropertyValue("dc:description", description);
             String folderName = pss.generatePathSegment(folder);
             folder.setPathInfo(doc.getPathAsString(), folderName);
             folder = session.createDocument(folder);

@@ -25,11 +25,14 @@ public class EntriesLine {
     
     private int nbFiles;
     
+    private boolean isVisible;
+    
     public EntriesLine() {
         this.entries = new ArrayList<Entry>();
         this.docLine = null;
         this.nbComments = 0;
         this.nbFiles = 0;
+        this.isVisible = true;
     }
 
     public List<Entry> getEntries() {
@@ -88,4 +91,12 @@ public class EntriesLine {
     public void setNbComments(int nbComments) {
         this.nbComments = nbComments;
     }
+
+	public boolean isVisible() {
+		return this.isVisible;
+	}
+
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
 }

@@ -104,3 +104,8 @@ label{
 .titleEditBlocs{
 	text-align: center;
 }
+
+table.arrayPageList tr.hidden td {
+	font-style: italic;
+	text-decoration: line-through;
+}

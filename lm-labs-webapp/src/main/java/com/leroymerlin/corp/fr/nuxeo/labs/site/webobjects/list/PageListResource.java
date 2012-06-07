@@ -35,6 +35,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.SortInfo;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProviderService;
 import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
@@ -322,11 +323,19 @@ public class PageListResource extends NotifiablePageResource {
         List<SortInfo> sortInfos = null;
         Map<String, Serializable> props = new HashMap<String, Serializable>();
 
+        CoreSession session = getCoreSession();
         props.put(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY,
-                (Serializable) getCoreSession());
+                (Serializable) session);
+        String nxql = null;
+        if (session.hasPermission(doc.getRef(), SecurityConstants.READ_WRITE)) {
+        	nxql = "list_line_write_nxql";
+        }
+        else{
+        	nxql = "list_line_nxql";
+        }
         @SuppressWarnings("unchecked")
         PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) ppService.getPageProvider(
-                "list_line_nxql", sortInfos, new Long(pageSize),
+        		nxql, sortInfos, new Long(pageSize),
                 null, props, new Object[] { doc.getId() });
         return pp;
     }

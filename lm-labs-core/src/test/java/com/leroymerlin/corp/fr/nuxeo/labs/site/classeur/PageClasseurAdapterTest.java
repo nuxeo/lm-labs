@@ -30,6 +30,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.LabstTest;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
@@ -85,7 +86,7 @@ public class PageClasseurAdapterTest extends LabstTest {
     public void iCanGetFoldersFromAPageClasseur() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();
         
         assertThat(classeur.getFolders().size(),is(1));
@@ -101,7 +102,7 @@ public class PageClasseurAdapterTest extends LabstTest {
     public void iCanAddFolderWithQuotes() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("Folder '1'");
+        classeur.addFolder("Folder '1'", null);
         session.save();
         
         assertThat(classeur.getFolders().size(),is(1));
@@ -114,7 +115,7 @@ public class PageClasseurAdapterTest extends LabstTest {
     public void iCanAddFolderWithDoubleQuotes() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("Folder \"1\"");
+        classeur.addFolder("Folder \"1\"", null);
         session.save();
         
         assertThat(classeur.getFolders().size(),is(1));
@@ -126,8 +127,8 @@ public class PageClasseurAdapterTest extends LabstTest {
     public void iCanGetFolderByThisNameFromAPageClasseur() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("My Folder2");
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder2", null);
+        classeur.addFolder("My Folder", null);
         session.save();
         
         PageClasseurFolder folder = classeur.getFolder("My Folder");
@@ -142,8 +143,8 @@ public class PageClasseurAdapterTest extends LabstTest {
     public void iCanGetRemaneFolderByThisNameFromAPageClasseur() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
-        classeur.addFolder("My Folder2");
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder2", null);
+        classeur.addFolder("My Folder", null);
         session.save();
         
         classeur.renameFolder(classeur.getFolder("My Folder2").getDocument().getRef().toString(), "My Folder3");
@@ -157,20 +158,45 @@ public class PageClasseurAdapterTest extends LabstTest {
     }
     
     @Test
+    public void iCanGetDescriptionFolder() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        classeur.addFolder("My Folder2", "description1");
+        classeur.addFolder("My Folder", "description2");
+        session.save();
+        
+        PageClasseurFolder folder = classeur.getFolder("My Folder");
+        assertNotNull(folder);
+        assertThat(folder.getDescription(),is("description2"));
+        
+        DocumentModel document = classeur.getFolder("My Folder").getDocument();
+		document.setPropertyValue(AbstractLabsBase.DC_DESCRIPTION, "dede");
+		session.saveDocument(document);
+        session.save();
+        
+        
+        folder = classeur.getFolder("My Folder");
+        assertNotNull(folder);
+        assertThat(folder.getDescription(),is("dede"));
+        folder = classeur.getFolder("My Folder2");
+        assertNotNull(folder);
+    }
+    
+    @Test
     public void iCantAddTwoFolderOfSameName() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();        
         assertThat(classeur.getFolders().size(),is(1));
         try {
-            classeur.addFolder("My Folder");
+            classeur.addFolder("My Folder", null);
             fail("Should not be able to create two folder of same name");
         } catch(ClasseurException e) {
         }
         
-        classeur.addFolder("My Folder 2");
+        classeur.addFolder("My Folder 2", null);
         session.save();        
         assertThat(classeur.getFolders().size(),is(2));
 
@@ -182,7 +208,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();        
         PageClasseurFolder folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(),is(0));
@@ -202,7 +228,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();        
         PageClasseurFolder folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(),is(0));
@@ -217,7 +243,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();        
         PageClasseurFolder folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(),is(0));
@@ -232,7 +258,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();        
         PageClasseurFolder folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(),is(0));
@@ -260,7 +286,7 @@ public class PageClasseurAdapterTest extends LabstTest {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
         assertThat(classeur.getFolders().size(),is(0));
         
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();        
         PageClasseurFolder folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(),is(0));
@@ -286,7 +312,7 @@ public class PageClasseurAdapterTest extends LabstTest {
     @Test(expected=IllegalArgumentException.class)
     public void iCannotAddNullBlobToAFolder() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();        
 
         PageClasseurFolder folder = classeur.getFolders().get(0);
@@ -297,7 +323,7 @@ public class PageClasseurAdapterTest extends LabstTest {
     @Test
     public void iCanSetFolderAsDeleted() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        PageClasseurFolder folder = classeur.addFolder("My Folder");
+        PageClasseurFolder folder = classeur.addFolder("My Folder", null);
         session.save();
         assertFalse(classeur.getFolders().isEmpty());
         boolean deleted = folder.setAsDeleted();
@@ -310,7 +336,7 @@ public class PageClasseurAdapterTest extends LabstTest {
     @Test
 	public void iCanHideShowFile() throws Exception {
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        PageClasseurFolder folder = classeur.addFolder("My Folder");
+        PageClasseurFolder folder = classeur.addFolder("My Folder", null);
         session.save();        
         DocumentModel file = folder.addFile(getTestBlob(), "Pomodoro cheat sheet", "title");
         session.save();
@@ -332,7 +358,7 @@ public class PageClasseurAdapterTest extends LabstTest {
 	public void iCanHideShowFileForContributors() throws Exception {
     	boolean modified = false;
         PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
-        PageClasseurFolder folder = classeur.addFolder("My Folder");
+        PageClasseurFolder folder = classeur.addFolder("My Folder", null);
         String folderId = folder.getDocument().getId();
         session.save();        
         PermissionsHelper.addPermission(classeur.getDocument(), SecurityConstants.READ_WRITE, USERNAME1 , true);
@@ -381,5 +407,13 @@ public class PageClasseurAdapterTest extends LabstTest {
         blob.setFilename(filename);
         return blob;
         
+    }@Test
+    public void iCanAddDescriptionOnFolder() throws Exception {
+        PageClasseur classeur = new PageClasseurAdapter.Model(session, "/", TITLE3).desc(DESCR3).create();
+        assertThat(classeur.getFolders().size(),is(0));
+        classeur.addFolder("My Folder", null);
+        session.save();
+        
+        assertThat(classeur.getFolders().size(),is(1));
     }
 }

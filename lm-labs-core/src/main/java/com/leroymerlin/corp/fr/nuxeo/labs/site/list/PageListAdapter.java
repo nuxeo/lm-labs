@@ -28,6 +28,7 @@ import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 
 import com.leroymerlin.common.core.security.SecurityData;
@@ -41,6 +42,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
@@ -269,7 +271,17 @@ public class PageListAdapter extends AbstractPage implements PageList {
         DocumentModelList listDocLines = null;
         List<EntriesLine> entriesLines = new ArrayList<EntriesLine>();
         CoreSession session = getSession();
-		listDocLines = session.getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
+        StringBuilder sb = new StringBuilder("SELECT * From PageListLine");
+        sb.append(" WHERE ecm:parentId = '")
+                .append(doc.getId()).append("'");
+        sb.append(" AND ecm:isCheckedInVersion = 0");
+        sb.append(" AND ecm:currentLifeCycleState <> 'deleted'");
+        if (!session.hasPermission(doc.getRef(), SecurityConstants.READ_WRITE)) {
+            sb.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(" <> '").append(FacetNames.LABSHIDDEN).append("'");
+        }
+        sb.append(" ORDER BY dc:created ASC");
+        listDocLines = session.query(sb.toString());
+		//listDocLines = session.getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
         EntriesLine line;
         PageListLine adapterLine;
         for (DocumentModel docTmp : listDocLines) {
@@ -277,6 +289,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
             line = adapterLine.getLine();
             line.setDocLine(docTmp);
             line.setNbComments(adapterLine.getNbComments());
+            line.setVisible(adapterLine.isVisible());
             line.setNbrFiles(adapterLine.getFiles().size());            
             entriesLines.add(line);
         }
@@ -301,6 +314,12 @@ public class PageListAdapter extends AbstractPage implements PageList {
         }
         PageListLine line = Tools.getAdapter(PageListLine.class, lineDoc, session);
         line.setLine(pLine);
+        if(pLine.isVisible()){
+        	line.show();
+        }
+        else{
+        	line.hide();
+        }
         if (isNew) {
             lineDoc = session.createDocument(lineDoc);
             pLine.setDocLine(lineDoc);

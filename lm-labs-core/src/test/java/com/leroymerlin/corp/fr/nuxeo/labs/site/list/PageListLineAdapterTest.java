@@ -148,4 +148,87 @@ public class PageListLineAdapterTest {
         comment = session.createDocument(comment);
         return comment;
     }
+
+    @Test
+    public void canDefaultVisibilityLine() throws Exception {
+        PageListLineAdapter.Model model = new PageListLineAdapter.Model(session, PATH_SEPARATOR, LINE_TITLE);
+        PageListLine lineAdapter = model.getAdapter();
+        assertThat(lineAdapter,is(notNullValue()));
+        
+        Entry entry = new Entry();
+        entry.setIdHeader(ID_HEADER);
+        entry.setText(TEXT);
+        entry.setDate(CAL);
+        entry.setCheckbox(CHECKBOX);
+        UrlType url = new UrlType("nameURL", "http://www.google.fr");
+        entry.setUrl(url);
+        
+        EntriesLine line = new EntriesLine();
+        line.getEntries().add(entry);
+        lineAdapter.setLine(line);
+        
+        lineAdapter = model.create();
+        
+        line = lineAdapter.getLine();
+        
+        assertTrue(line.isVisible());
+    }
+
+    @Test
+    public void canHideLine() throws Exception {
+        PageListLineAdapter.Model model = new PageListLineAdapter.Model(session, PATH_SEPARATOR, LINE_TITLE);
+        PageListLine lineAdapter = model.getAdapter();
+        assertThat(lineAdapter,is(notNullValue()));
+        
+        Entry entry = new Entry();
+        entry.setIdHeader(ID_HEADER);
+        entry.setText(TEXT);
+        entry.setDate(CAL);
+        entry.setCheckbox(CHECKBOX);
+        UrlType url = new UrlType("nameURL", "http://www.google.fr");
+        entry.setUrl(url);
+        
+        EntriesLine line = new EntriesLine();
+        line.getEntries().add(entry);
+        lineAdapter.setLine(line);
+        lineAdapter.hide();
+        
+        lineAdapter = model.create();
+        
+        line = lineAdapter.getLine();
+        
+        assertFalse(line.isVisible());
+    }
+
+    @Test
+    public void canShowLine() throws Exception {
+        PageListLineAdapter.Model model = new PageListLineAdapter.Model(session, PATH_SEPARATOR, LINE_TITLE);
+        PageListLine lineAdapter = model.getAdapter();
+        assertThat(lineAdapter,is(notNullValue()));
+        
+        Entry entry = new Entry();
+        entry.setIdHeader(ID_HEADER);
+        entry.setText(TEXT);
+        entry.setDate(CAL);
+        entry.setCheckbox(CHECKBOX);
+        UrlType url = new UrlType("nameURL", "http://www.google.fr");
+        entry.setUrl(url);
+        
+        EntriesLine line = new EntriesLine();
+        line.getEntries().add(entry);
+        lineAdapter.setLine(line);
+        lineAdapter.hide();
+        
+        lineAdapter = model.create();
+        
+        line = lineAdapter.getLine();
+        
+        assertFalse(line.isVisible());
+
+        lineAdapter.show();
+        
+        line = lineAdapter.getLine();
+        
+        assertTrue(line.isVisible());
+    }
 }
