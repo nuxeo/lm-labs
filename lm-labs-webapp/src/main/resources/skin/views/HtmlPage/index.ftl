@@ -1,7 +1,7 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
-  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews"] />
+  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "pagesSameAuthor"] />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
@@ -157,6 +157,8 @@
                         <div class="columns" >
                         <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
                             <#include "widgets/${widgets[0].name}.ftl" />
+                        <#else>
+                        	Widget pas disponible.
                         </#if>
                         </div>
                       <#else>
@@ -217,6 +219,8 @@
                         <div class="span${content.colNumber} columns" >
                         <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
                             <#include "widgets/${widgets[0].name}.ftl" />
+                        <#else>
+                        	Widget pas disponible.
                         </#if>
                         </div>
                       <#else>
@@ -419,6 +423,8 @@ jQuery(document).ready(function() {
 <#macro displayContentHtmlWidget widget >
     <#if availableHtmlWidgets?seq_contains(widget.name) >
         <#include "widgets/${widget.name}.ftl" />
+    <#else>
+    	Widget pas disponible.
     </#if>
 </#macro>
 

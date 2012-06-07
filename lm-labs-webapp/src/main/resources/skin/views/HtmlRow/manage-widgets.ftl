@@ -45,10 +45,12 @@
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "picturebook" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#-- TODO
-            <#assign gadgetType = "opensocial" gadgetName = "navigation" />
+            <#assign gadgetType = "html" gadgetName = "pagesSameAuthor" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+            <#-- TODO
             <#assign gadgetType = "opensocial" gadgetName = "bookmarks" />
+            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+            <#assign gadgetType = "opensocial" gadgetName = "navigation" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             -->
             <#-- Pas compatible

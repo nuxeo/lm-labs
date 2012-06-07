@@ -13,6 +13,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.common.utils.Path;
+import org.nuxeo.ecm.automation.AutomationService;
+import org.nuxeo.ecm.automation.OperationChain;
+import org.nuxeo.ecm.automation.OperationContext;
+import org.nuxeo.ecm.automation.core.operations.services.DocumentPageProviderOperation;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -24,8 +28,10 @@ import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.LifeCycleConstants;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
+import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.query.sql.NXQL;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.corp.fr.nuxeo.labs.filter.DocUnderVisiblePageFilter;
@@ -653,5 +659,18 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             }
         }
         return subscribedPages;
+    }
+
+    public DocumentModelList getPagesOfCreator(String username, CoreSession session) {
+        OperationContext ctx = new OperationContext(session);
+        String providerName = "all_pages_same_author";
+		OperationChain chain = new OperationChain(providerName + "_" + session.getSessionId());
+        chain.add(DocumentPageProviderOperation.ID).set("providerName", providerName).set("queryParams", doc.getPathAsString() + "," + username).set("pageSize", new Integer(5));
+        try {
+			return (DocumentModelList) Framework.getService(AutomationService.class).run(ctx, chain);
+		} catch (Exception e) {
+			LOG.error(e, e);
+			return new DocumentModelListImpl();
+		}
     }
 }

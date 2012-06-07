@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +49,11 @@ public final class CommonHelper {
     }
 
     public static final Page sitePage(DocumentModel doc) throws ClientException {
+        return sitePage(doc, getCoreSession());
+    }
+
+    public static final Page sitePage(DocumentModel doc, CoreSession session) throws ClientException {
         Page page = null;
-        CoreSession session = getCoreSession();
         if (LabsSiteConstants.Docs.SITE.type().equals(doc.getType())) {
             DocumentModel homePage = Tools.getAdapter(LabsSite.class, doc, session).getIndexDocument();
             page = Tools.getAdapter(Page.class, homePage, session);
@@ -266,6 +270,10 @@ public final class CommonHelper {
         return entriesTemplate;
     }
 
+    public static Calendar getNow() {
+    	return Calendar.getInstance();
+    }
+
     /**
      * @throws Exception
      */
@@ -276,7 +284,7 @@ public final class CommonHelper {
             return null;
         }
     }
-    
+
     private static CoreSession getCoreSession() {
         return WebEngine.getActiveContext()
                 .getCoreSession();
