@@ -1,7 +1,7 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
-  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "pagesSameAuthor"] />
+  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "pagesSameAuthor", "publishedNewsSameAuthor"] />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
