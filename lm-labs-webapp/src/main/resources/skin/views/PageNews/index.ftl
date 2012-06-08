@@ -21,24 +21,23 @@
       <div id="content" class="container-fluid">
 
     	<#include "views/common/page_header.ftl">
-    	
+
         <#if isAuthorized>
         	<div class="editblock" style="width: 100%;text-align: right;margin-bottom: 5px;margin-top: 5px;">
           		<a href="${This.path}/@views/addnews?props=open" class="btn" style="margin-right: 5px;"><i class="icon-plus"></i>${Context.getMessage('label.labsNews.add.news')}</a>
           	</div>
         </#if>
 
-		
+
 		<#include "views/common/paging.ftl" />
-		<#assign nbrElemPerPage = This.page.elementsPerPage />
-		<#assign pp = This.getPageNewsPageProvider(nbrElemPerPage) />
+		<#assign pp = This.newsPageProvider />
 		<#assign paramaterCurrentPage = Context.request.getParameter('page') />
 		<#assign currentPage = 0 />
 		<#if paramaterCurrentPage?? && paramaterCurrentPage != null>
 			<#assign currentPage = paramaterCurrentPage?number?long />
 		</#if>
 		<#assign allNews = This.getAllNews(pp.setCurrentPage(currentPage)) />
-		
+
 
         <#list allNews as news>
           <#assign path=This.path + "/" + news.documentModel.name />
@@ -50,7 +49,7 @@
 						<img src="${skinPath}/images/newsOpen.png" style="cursor: pointer;margin-top:5px;" onclick="javascript:openNews('${news.documentModel.ref}', '${skinPath}');"/>
 					</div>
 	          	</div>
-	          	
+
 	          	<div id="contentNews${news.documentModel.ref}" style="display: none;">
 	              <div class="row-fluid">
 	              	 <#if news.hasSummaryPicture()>
@@ -71,13 +70,13 @@
 	                	<img src="${skinPath}/images/newsClose.png" style="cursor: pointer;margin-top:5px;" onclick="javascript:closeNews('${news.documentModel.ref}', '${skinPath}');"/>
 	                </div>
 	              </div>
-	
+
 				  <div id="contentContentNews${news.documentModel.ref}">
 		              <@generateContentHtmlNews news=news />
           		  </div>
 	          	</div>
-          
-          
+
+
             </section>
         </#list>
         <div style="text-align : center;">

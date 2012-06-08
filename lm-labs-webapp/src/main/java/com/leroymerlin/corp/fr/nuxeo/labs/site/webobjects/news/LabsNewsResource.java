@@ -20,6 +20,7 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.platform.query.api.PageProvider;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -37,8 +38,11 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 public class LabsNewsResource extends PageResource {
 
     private static final Log log = LogFactory.getLog(LabsNewsResource.class);
-    
+
     LabsNews labsNews;
+    private DocumentModel prevNewsDoc = null;
+    private DocumentModel nextNewsDoc = null;
+    private PageProvider<DocumentModel> newsPageProvider;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat(
             "dd/MM/yyyy");
@@ -49,6 +53,52 @@ public class LabsNewsResource extends PageResource {
         ctx.getEngine()
                 .getRendering()
                 .setSharedVariable("news", getLabsNews());
+        if (args.length >= 2) {
+        	newsPageProvider = (PageProvider<DocumentModel>) args[1];
+        }
+    }
+
+    private void initPrevNextNews() {
+    	PageProvider<DocumentModel> pageProvider = getNewsPageProvider();
+    	pageProvider.setPageSize(Long.MAX_VALUE);
+    	try {
+    		pageProvider.setCurrentEntry(getDocument());
+    		getNewsPageProvider();
+    		if (pageProvider.isPreviousEntryAvailable()) {
+    			pageProvider.previousEntry();
+    			prevNewsDoc = pageProvider.getCurrentEntry();
+    		}
+    		pageProvider.setCurrentEntry(getDocument());
+    		getNewsPageProvider();
+    		if (pageProvider.isNextEntryAvailable()) {
+    			pageProvider.nextEntry();
+    			nextNewsDoc = pageProvider.getCurrentEntry();
+    		}
+    	} catch (Exception e) {
+    		throw WebException.wrap(e);
+    	}
+    }
+
+    public DocumentModel getPrevNewsDoc() {
+    	return prevNewsDoc;
+    }
+
+    public DocumentModel getNextNewsDoc() {
+    	return nextNewsDoc;
+    }
+
+    public boolean hasNextNewsDoc() {
+    	return nextNewsDoc == null ? false : true;
+    }
+
+    public boolean hasPrevNewsDoc() {
+    	return prevNewsDoc == null ? false : true;
+    }
+
+    @Override
+    public Object doGet() {
+    	initPrevNextNews();
+    	return super.doGet();
     }
 
     public LabsNews getLabsNews() {
@@ -57,7 +107,7 @@ public class LabsNewsResource extends PageResource {
         }
         return labsNews;
     }
-    
+
     @Override
     public Page getPage() throws ClientException {
         CoreSession session = ctx.getCoreSession();
@@ -66,9 +116,6 @@ public class LabsNewsResource extends PageResource {
         pageNews.setCommentable(true);
         return pageNews;
     }
-    
-    
-    
 
     @POST
     @Override
@@ -95,7 +142,7 @@ public class LabsNewsResource extends PageResource {
         }
 
     }
-    
+
     private void save(){
         CoreSession session = ctx.getCoreSession();
         try {
@@ -138,7 +185,7 @@ public class LabsNewsResource extends PageResource {
         news.setEndPublication(getDateFromStr(endDate));
         news.setContent(content);
         news.setAccroche(accroche);
-        
+
         if (form.isMultipartContent()) {
             Blob blob = form.getBlob("newsPicture");
             if (blob != null){
@@ -154,8 +201,6 @@ public class LabsNewsResource extends PageResource {
         if (!StringUtils.isEmpty(cropSummaryPicture)){
             news.setCropCoords(cropSummaryPicture);
         }
-        
-
     }
 
     @Override
@@ -166,11 +211,11 @@ public class LabsNewsResource extends PageResource {
         }
         return redirect(ctx.getBasePath());
     }
-    
+
     public Map<String, String> getColumnLayoutsSelect() throws ClientException {
     	return HtmlRow.getColumnLayoutsSelect();
     }
-    
+
     @GET
     @Path("summaryPicture")
     public Response getSummaryPicture() {
@@ -184,7 +229,7 @@ public class LabsNewsResource extends PageResource {
         }
         throw new WebException(Response.Status.NOT_FOUND);
     }
-    
+
     @POST
     @Path("deleteSummaryPicture")
     public Response deleteSummaryPicture() {
@@ -196,7 +241,7 @@ public class LabsNewsResource extends PageResource {
         }
         return redirect(this.getPath() + "?message_success=label.labsNews.summaryPicture_deleted&props=open");
     }
-    
+
     @GET
     @Path("summaryPictureTruncated")
     public Response getSummaryPictureTruncated() {
@@ -210,4 +255,27 @@ public class LabsNewsResource extends PageResource {
         }
         throw new WebException(Response.Status.NOT_FOUND);
     }
+
+    private PageProvider<DocumentModel> getNewsPageProvider() {
+    	//logNewsPageProvider();
+    	return this.newsPageProvider;
+    }
+
+	private void logNewsPageProvider() {
+		if (log.isDebugEnabled()) {
+    		final String logPrefix = "<getNewsPageProvider> ";
+    		try {
+    			log.debug(logPrefix + "pageSize: " + newsPageProvider.getPageSize());
+    			log.debug(logPrefix + "currentEntry: " + newsPageProvider.getCurrentEntry().getTitle());
+    			log.debug(logPrefix + "isNextEntryAvailable: " + newsPageProvider.isNextEntryAvailable());
+    			if (newsPageProvider.isNextEntryAvailable()) {
+    				log.debug(logPrefix + "currentEntry: " + "");
+    			}
+    			log.debug(logPrefix + "isPreviousEntryAvailable: " + newsPageProvider.isPreviousEntryAvailable());
+    		} catch (ClientException e) {
+    			log.error(logPrefix);
+    		}
+    	}
+	}
+
 }

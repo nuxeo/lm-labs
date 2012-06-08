@@ -23,7 +23,7 @@
 
   <@block name="docactionsaddpage"></@block>
   <@block name="docactionsonpage"></@block>
-  
+
   <#assign isContributor = This.previous.page?? && This.previous.page.isContributor(Context.principal.name) />
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
@@ -33,6 +33,29 @@
   	<#include "views/LabsNews/macroNews.ftl">
     <#if news??>
       <div class="container-fluid">
+      	<#if This.hasPrevNewsDoc() || This.hasNextNewsDoc() >
+      	  <div class="news-navigation" style="width: 100%;" >
+      	  	<#if This.hasPrevNewsDoc() >
+      	  	<a href="${Root.getLink(This.prevNewsDoc)}" style="float: left;"
+    		<#if (This.prevNewsDoc.labsnews.accroche?length > 0) >
+    	  		rel="popover" data-content="${This.prevNewsDoc.labsnews.accroche?html}"
+    	  		data-original-title="${This.prevNewsDoc.title?html}"
+    	  		data-placement="right"
+    	  	</#if>
+      	  	><i class="icon-backward" style="text-decoration: none;" ></i>Actualité Précédente</a>
+      	  	</#if>
+      	  	<#if This.hasNextNewsDoc() >
+      	  	<a href="${Root.getLink(This.nextNewsDoc)}" style="float: right;"
+    		<#if (This.nextNewsDoc.labsnews.accroche?length > 0) >
+    	  		rel="popover" data-content="${This.nextNewsDoc.labsnews.accroche?html}"
+    	  		data-original-title="${This.nextNewsDoc.title?html}"
+    	  		data-placement="left"
+    	  	</#if>
+      	  	>Actualité Suivante&nbsp;<i class="icon-forward" style="text-decoration: none;" ></i></a>
+      	  	</#if>
+      	  </div>
+      	  <div style="clear: both;" ></div>
+      	</#if>
           <section>
           	  <#if news != null>
 	              <div class="page-header">
@@ -54,11 +77,11 @@
 			  	<#assign news=news/>
 			  	<#include "views/LabsNews/editProps.ftl" />
 			  </#if>
-			  
+
 		  	<#assign section_index=0/>
-				
-			
-			
+
+
+
 		  	<#list news.getRows() as row>
 		  		<#if isContributor >
 			        <div class="row-fluid" id="row_s${section_index}_r${row_index}">
@@ -71,7 +94,7 @@
 					                      ${content.html}
 					                    </#if>
 				                    </div>
-	                    
+
 						              <div class="row-ckeditor columns editblock">
 						                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer" >${content.html}</div>
 						                <script type="text/javascript">
@@ -81,7 +104,7 @@
 						                    emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.PageHtml.double_click_to_edit_content')}</div>",
 						                    view_style: "span${content.colNumber} columns cke_hidden "
 											}, reloadPageLabsNews);
-											
+
 											function reloadPageLabsNews(response, ckeObj, ckeip_html) {
 												jQuery(ckeObj).closest('div.row-ckeditor').siblings('.viewblock').html(ckeip_html);
 												scrollToRowAfterCkeip(response, ckeObj, ckeip_html);
@@ -121,7 +144,7 @@
 		            </div>
 			     </#if>
 		    </#list>
-			
+
 			<#if isContributor >
 	          <div class="editblock">
 			    <a href="#divAddRow_${section_index}" class="btn btn-primary btn-small" style="margin-bottom: 5px" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-plus"></i>Ajouter une ligne</a>
@@ -152,8 +175,8 @@
 		            </form>
 		         </div>
 	          </div>
-	        </#if>	
-			
+	        </#if>
+
 		  </section>
       </div>
     </#if>

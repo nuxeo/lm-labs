@@ -21,13 +21,16 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.SortInfo;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 import org.nuxeo.ecm.platform.query.api.PageProviderService;
 import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
+import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.runtime.api.Framework;
 
@@ -36,6 +39,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNewsAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
@@ -49,10 +53,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource
 public class PageNewsResource extends NotifiablePageResource {
 
     private static final Log log = LogFactory.getLog(PageNewsResource.class);
-    
+
+    private PageProvider<DocumentModel> newsPageProvider;
+
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
+        initNewsPageProvider();
         ctx.getEngine()
                 .getRendering()
                 .setSharedVariable("pageNews", Tools.getAdapter(PageNews.class, doc, ctx.getCoreSession()));
@@ -88,7 +95,7 @@ public class PageNewsResource extends NotifiablePageResource {
         }
 
     }
-    
+
     private DocumentModel save(LabsNews news){
         CoreSession session = ctx.getCoreSession();
         DocumentModel newDocNews = null;
@@ -105,38 +112,6 @@ public class PageNewsResource extends NotifiablePageResource {
         return "<img src=\"" + LabsSiteWebAppUtils.getSkinPathPrefix(getModule(), getContext()) + "/images/defaultNews.jpg\"/>";
     }
 
-    /**
-     * @param pageSize the element's number by page
-     * @return the pageProvider
-     * @throws Exception
-     */
-    public PageProvider<DocumentModel> getPageNewsPageProvider(long pageSize) throws Exception {
-        PageProviderService ppService = Framework.getService(PageProviderService.class);
-        List<SortInfo> sortInfos = null;
-        Map<String, Serializable> props = new HashMap<String, Serializable>();
-
-        props.put(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY,
-                (Serializable) getCoreSession());
-        
-        String coreQueryPageProviderName = "";
-        Object[] paramQuery = null;
-        if (getCoreSession().hasPermission(doc.getRef(),SecurityConstants.WRITE)){
-            coreQueryPageProviderName = "list_news_write_nxql";
-            paramQuery = new Object[] { doc.getId() };
-        }
-        else{
-            coreQueryPageProviderName = "list_news_nxql";
-            String date_str = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-            paramQuery = new Object[] { doc.getId(), date_str, date_str };
-        }
-        
-        @SuppressWarnings("unchecked")
-        PageProvider<DocumentModel> pp = (PageProvider<DocumentModel>) ppService.getPageProvider(
-                coreQueryPageProviderName, sortInfos, new Long(pageSize),
-                null, props, paramQuery);
-        return pp;
-    }
-    
     public List<LabsNews> getAllNews(List<DocumentModel> docs) throws ClientException{
         List<LabsNews> result = new ArrayList<LabsNews>();
         LabsNewsAdapter adapter = null;
@@ -147,6 +122,76 @@ public class PageNewsResource extends NotifiablePageResource {
             }
         }
         return result;
+    }
+
+	public PageProvider<DocumentModel> getNewsPageProvider() {
+		return newsPageProvider;
+	}
+
+	private void logNewsPageProvider() {
+		if (log.isDebugEnabled()) {
+			final String logPrefix = "<getNewsPageProvider> ";
+			try {
+				log.debug(logPrefix + "currentEntry: " + newsPageProvider.getCurrentEntry().getTitle());
+				log.debug(logPrefix + "pageSize: " + newsPageProvider.getPageSize());
+				log.debug(logPrefix + "isNextEntryAvailable: " + newsPageProvider.isNextEntryAvailable());
+				if (newsPageProvider.isNextEntryAvailable()) {
+					log.debug(logPrefix + "currentEntry: " + "");
+				}
+				log.debug(logPrefix + "isPreviousEntryAvailable: " + newsPageProvider.isPreviousEntryAvailable());
+			} catch (ClientException e) {
+				log.error(logPrefix);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void initNewsPageProvider() {
+		List<SortInfo> sortInfos = null;
+		Map<String, Serializable> props = new HashMap<String, Serializable>();
+		props.put(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY,
+				(Serializable) getCoreSession());
+		String coreQueryPageProviderName = "";
+		Object[] paramQuery = null;
+		boolean canWrite = false;
+		try {
+			canWrite = getCoreSession().hasPermission(doc.getRef(),SecurityConstants.WRITE);
+		} catch (ClientException e) {
+			log.error(e, e);
+		}
+		if (canWrite){
+			coreQueryPageProviderName = "list_news_write_nxql";
+			paramQuery = new Object[] { doc.getId() };
+		} else {
+			coreQueryPageProviderName = "list_news_nxql";
+			String date_str = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+			paramQuery = new Object[] { doc.getId(), date_str, date_str };
+		}
+		try {
+			PageProviderService ppService = Framework.getService(PageProviderService.class);
+			this.newsPageProvider = (PageProvider<DocumentModel>) ppService.getPageProvider(
+					coreQueryPageProviderName, sortInfos, new Long(getPage().getElementsPerPage()),
+					null, props, paramQuery);
+		} catch (ClientException e) {
+			log.error(e, e);
+		} catch (Exception e) {
+			log.error(e, e);
+		}
+	}
+
+    @Override
+    public Resource traverse(String path) {
+    	try {
+    		PathRef pathRef = new PathRef(doc.getPath().append(path).toString());
+    		DocumentModel currentNewsDoc = ctx.getCoreSession().getDocument(pathRef);
+    		if (Docs.LABSNEWS.type().equals(currentNewsDoc.getType())) {
+    			return (DocumentObject) ctx.newObject(currentNewsDoc.getType(), currentNewsDoc, getNewsPageProvider());
+    		} else {
+    			return super.traverse(path);
+    		}
+    	} catch (Exception e) {
+    		throw WebException.wrap(e);
+    	}
     }
 
 }
