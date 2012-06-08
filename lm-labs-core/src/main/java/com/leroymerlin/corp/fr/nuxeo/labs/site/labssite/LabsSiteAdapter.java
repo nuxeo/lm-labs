@@ -348,7 +348,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
         query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(
                 " <> 'HiddenInNavigation'");
-        query.append(" ORDER BY dc:modified DESC");
+        query.append(" ORDER BY ln:startPublication DESC");
 
         CoreSession session = getSession();
 		return session.query(query.toString(), new DocUnderVisiblePageFilter(session), NB_LAST_UPDATED_NEWS_DOCS);
