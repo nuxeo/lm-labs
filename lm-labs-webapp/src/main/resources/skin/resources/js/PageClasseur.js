@@ -379,7 +379,7 @@ function bulkMove(){
       url += getIdsUrlParamsString() + "&destinationContainer=" + jQuery("#moveElementsSelectedFolder:checked").val();
       jQuery.ajax({
         url: url,
-        type: "GET",
+        type: "POST",
         complete: function(jqXHR, textStatus) {
         	jQuery('#waitingPopup').dialog2('close');	
           jQuery('input[name="checkoptions"]').attr('checked', false);

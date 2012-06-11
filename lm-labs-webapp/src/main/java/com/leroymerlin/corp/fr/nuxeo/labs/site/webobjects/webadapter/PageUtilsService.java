@@ -3,7 +3,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
@@ -53,18 +52,26 @@ public class PageUtilsService extends DefaultAdapter {
                 ADMIN_MSG);
     }
 
-    @GET
+    @POST
     @Path("bulkMove")
     public Response doBulkMove(@QueryParam("id")  List<String> ids,
-            @QueryParam("destinationContainer") String destinationId,
-            @QueryParam("after") String afterId,
-            @QueryParam("redirect") String redirect,
-            @QueryParam("view") String view) throws ClientException {
-        Response resp = null;
-        for (String id : ids){
-            resp = doMove(id, destinationId, afterId, redirect, view, PAGE_CLASSEUR_ELMENTS_MSG);
+            @QueryParam("destinationContainer") String destinationId){
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel source = null;
+        try {
+            DocumentModel destination = session.getDocument(new IdRef(destinationId));
+            if (!destination.isFolder()) {
+                return Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[2]).build();
+            }
+            for (String id : ids){
+                source = session.getDocument(new IdRef(id));
+                session.move(new IdRef(id), destination.getRef(), source.getTitle());
+            }
+            session.save();
+        } catch (Exception e) {
+            return Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[1]).build();
         }
-        return resp;
+        return  Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[0]).build();
     }
 
     @POST
