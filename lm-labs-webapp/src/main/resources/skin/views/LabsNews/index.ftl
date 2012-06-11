@@ -56,7 +56,6 @@
     <#if news??>
       <div class="container-fluid">
       	<#if This.hasPrevNewsDoc() || This.hasNextNewsDoc() >
-      	    <#assign accrocheMaxLength = 200 />
       	  <div class="news-navigation" style="width: 100%;" >
       	  	<#if This.hasPrevNewsDoc() >
       	  		<@displayNewsNavigation newsDoc=This.prevNewsDoc />
