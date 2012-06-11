@@ -261,6 +261,11 @@ public class LabsNewsResource extends PageResource {
     	return this.newsPageProvider;
     }
 
+    public LabsNews getLabsNews(DocumentModel document) {
+    	labsNews = Tools.getAdapter(LabsNews.class, document, ctx.getCoreSession());
+        return labsNews;
+    }
+
 	private void logNewsPageProvider() {
 		if (log.isDebugEnabled()) {
     		final String logPrefix = "<getNewsPageProvider> ";

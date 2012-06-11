@@ -34,24 +34,39 @@
     <#if news??>
       <div class="container-fluid">
       	<#if This.hasPrevNewsDoc() || This.hasNextNewsDoc() >
+      	    <#assign accrocheMaxLength = 200 />
       	  <div class="news-navigation" style="width: 100%;" >
       	  	<#if This.hasPrevNewsDoc() >
+	      	  <#if This.prevNewsDoc.labsnews.accroche?length < accrocheMaxLength >
+	      	  	<#assign accroche = This.prevNewsDoc.labsnews.accroche />
+	      	  <#else>
+	      	    <#assign accroche = This.prevNewsDoc.labsnews.accroche?substring(0, accrocheMaxLength) + " ..." />
+	      	  </#if>
+	      	  <#assign picHtml = "" />
+          	  <#if This.getLabsNews(This.prevNewsDoc).hasSummaryPicture()>
+          		<#assign picHtml = '<div class="span1" ><img src="${Root.getLink(This.prevNewsDoc)}/summaryPictureTruncated" style="margin-top: 5px;" /></div>' />
+          	  </#if>
       	  	<a href="${Root.getLink(This.prevNewsDoc)}" style="float: left;"
-    		<#if (This.prevNewsDoc.labsnews.accroche?length > 0) >
-    	  		rel="popover" data-content="${This.prevNewsDoc.labsnews.accroche?html}"
+    	  		rel="popover" data-content="${picHtml?html}${accroche?html}"
     	  		data-original-title="${This.prevNewsDoc.title?html}"
     	  		data-placement="right"
-    	  	</#if>
-      	  	><i class="icon-backward" style="text-decoration: none;" ></i>Actualité Précédente</a>
+      	  	><i class="icon-backward" style="text-decoration: none;" ></i>${Context.getMessage('label.labsNews.navigation.previous')}</a>
       	  	</#if>
       	  	<#if This.hasNextNewsDoc() >
+	      	  <#if This.nextNewsDoc.labsnews.accroche?length < accrocheMaxLength >
+	      	  	<#assign accroche = This.nextNewsDoc.labsnews.accroche />
+	      	  <#else>
+	      	    <#assign accroche = This.nextNewsDoc.labsnews.accroche?substring(0, accrocheMaxLength) + " ..." />
+	      	  </#if>
+	      	  <#assign picHtml = "" />
+          	  <#if This.getLabsNews(This.nextNewsDoc).hasSummaryPicture()>
+          		<#assign picHtml = '<div class="span1" ><img src="${Root.getLink(This.nextNewsDoc)}/summaryPictureTruncated" style="margin-top: 5px;" /></div>' />
+          	  </#if>
       	  	<a href="${Root.getLink(This.nextNewsDoc)}" style="float: right;"
-    		<#if (This.nextNewsDoc.labsnews.accroche?length > 0) >
-    	  		rel="popover" data-content="${This.nextNewsDoc.labsnews.accroche?html}"
+    	  		rel="popover" data-content="${picHtml?html}${accroche?html}"
     	  		data-original-title="${This.nextNewsDoc.title?html}"
     	  		data-placement="left"
-    	  	</#if>
-      	  	>Actualité Suivante&nbsp;<i class="icon-forward" style="text-decoration: none;" ></i></a>
+      	  	>${Context.getMessage('label.labsNews.navigation.next')}&nbsp;<i class="icon-forward" style="text-decoration: none;" ></i></a>
       	  	</#if>
       	  </div>
       	  <div style="clear: both;" ></div>
