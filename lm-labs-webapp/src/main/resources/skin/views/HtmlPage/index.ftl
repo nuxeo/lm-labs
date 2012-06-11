@@ -381,7 +381,7 @@ jQuery(document).ready(function() {
             userPrefs: userPrefs,
             </#if>
             displayTitleBar: false,
-            width: '90%',
+            width: '100%',
             <#--
             displayButtons: true,
             displaySettingsButton: true,
