@@ -81,7 +81,7 @@
 	    <div class="header-toc">
           <a name="section_${folder_index}" ></a>
           <h2>
-          	<span id="spanFolderTitle${folder.document.id}" title="${folder.document.dublincore.description?js_string}" >
+          	<span id="spanFolderTitle${folder.document.id}">
           		${folder.document.dublincore.title?html}
           	</span>
           </h2>
