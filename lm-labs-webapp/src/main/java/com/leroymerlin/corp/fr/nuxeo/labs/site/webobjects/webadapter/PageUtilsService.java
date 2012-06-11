@@ -1,8 +1,12 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
+import java.util.List;
+
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -33,6 +37,11 @@ public class PageUtilsService extends DefaultAdapter {
             "label.PageClasseur.folder.notMoved",
             "label.PageClasseur.folder.copy.destinationNotFolder" };
 
+    static final String[] PAGE_CLASSEUR_ELMENTS_MSG = {
+            "label.PageClasseur.moveElements.moved",
+            "label.PageClasseur.moveElements.notMoved",
+            "label.PageClasseur.moveElements.move.destinationNotFolder" };
+
     @POST
     @Path("move")
     public Response doAdminMove(@FormParam("source") String sourceId,
@@ -42,6 +51,20 @@ public class PageUtilsService extends DefaultAdapter {
             @FormParam("view") String view) throws ClientException {
         return doMove(sourceId, destinationId, afterId, redirect, view,
                 ADMIN_MSG);
+    }
+
+    @GET
+    @Path("bulkMove")
+    public Response doBulkMove(@QueryParam("id")  List<String> ids,
+            @QueryParam("destinationContainer") String destinationId,
+            @QueryParam("after") String afterId,
+            @QueryParam("redirect") String redirect,
+            @QueryParam("view") String view) throws ClientException {
+        Response resp = null;
+        for (String id : ids){
+            resp = doMove(id, destinationId, afterId, redirect, view, PAGE_CLASSEUR_ELMENTS_MSG);
+        }
+        return resp;
     }
 
     @POST

@@ -15,12 +15,19 @@ jQuery(document).ready(function(){
   var nbPictUploaded=0;
   var link ="";
 
+  jQuery("#div-moveElements").dialog2({
+    buttons: {
+      "Annuler": function() { jQuery(this).dialog2("close"); }
+    },
+  	autoOpen : false
+  });
+
   jQuery("#div-addfolder").dialog2({
     open: function() {},
     buttons: {
       "Annuler": function() { jQuery(this).dialog2("close"); }
     },
-    width: '500px',
+    width: '650px',
     autoOpen : false,
 	closeOnOverlayClick : true,
 	removeOnClose : false,
@@ -169,7 +176,10 @@ jQuery(document).ready(function(){
     	title: "Ajouter un répertoire"
     	}
     );
+    jQuery("#folderDescription").val('');
     jQuery("#form-folder").clearForm();
+	jQuery('#folderDescription').ckeditor(ckeditorconfigUser);
+
     return false;
   });
   
@@ -209,19 +219,6 @@ jQuery(document).ready(function(){
     }
     return false;
   });
-  
-  function getIdsUrlParamsString() {
-	  var url = '';
-	  var checkboxes = jQuery('input[name="checkoptions"]:checked');
-	  var n = jQuery(checkboxes).size();
-      jQuery(checkboxes).each(function(i) {
-          url += "id=" + this.value;
-          if (i < n-1) {
-            url += "&";
-          }
-      });
-      return url;
-  }
 
   jQuery(".selectionActionsBt.deleteSelection").click(function(evt) {
     if (confirm("Etes-vous sûr de vouloir effacer les fichiers sélectionnés ?")) {
@@ -252,6 +249,10 @@ jQuery(document).ready(function(){
       jQuery('#waitingPopup').dialog2('close');
     }
     return false;
+  });
+
+  jQuery(".selectionActionsBt.moveSelection").click(function(evt) {
+	  jQuery('#div-moveElements').dialog2('open');
   });
 
   jQuery(".selectionActionsBt.hideSelection, .selectionActionsBt.showSelection").click(function(evt) {
@@ -325,14 +326,9 @@ jQuery(document).ready(function(){
 });
 
 function renameFolder(url, id) {
-    jQuery("#div-addfolder").dialog2({
-        width: '650px',
-        autoOpen : false,
-    	closeOnOverlayClick : true,
-    	removeOnClose : false,
-    	showCloseHandle : true,
-    	title: "Renommer le répertoire '" + jQuery("#spanFolderTitle" + id).text() + "'"
-      });
+    jQuery("#div-addfolder").dialog2("options",
+    		{ title: "Renommer le répertoire '" + jQuery("#spanFolderTitle" + id).text() + "'" }
+    );
     jQuery("#folderName").val(jQuery("#spanFolderTitle" + id).text());
     jQuery("#folderDescription").val(jQuery("#divFolderDescription" + id).html());
     jQuery('#folderDescription').ckeditor(ckeditorconfigUser);
@@ -369,4 +365,47 @@ function openRenameTitleElement(title, description, url){
 	jQuery("#descriptionElement").val(description);
 	jQuery("#form-renameTitleElement").attr("action", url);
     return false;
+}
+
+function bulkMove(){
+    //if (confirm("Etes-vous sûr de vouloir déplacer les fichiers sélectionnés ?")) {
+      jQuery('#waitingPopup').dialog2('open');
+
+      var url = jQuery('.classeur').attr("id") + "/@pageUtils/bulkMove?";
+      var n = jQuery('input[name="checkoptions"]:checked').length;
+      if (n <= 0) {
+        return false;
+      }
+      url += getIdsUrlParamsString() + "&destinationContainer=" + jQuery("#moveElementsSelectedFolder:checked").val();
+      jQuery.ajax({
+        url: url,
+        type: "GET",
+        complete: function(jqXHR, textStatus) {
+        	jQuery('#waitingPopup').dialog2('close');	
+          jQuery('input[name="checkoptions"]').attr('checked', false);
+        },
+        success: function (data, textStatus, jqXHR) {
+        	jQuery('#waitingPopup').dialog2('close');
+          document.location.href = jQuery('.classeur').attr("id") + data;
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert(errorThrown + ": " + "," + jqXHR.responseText);
+        }
+      });
+      jQuery('#waitingPopup').dialog2('close');
+    //}
+    return false;
+}
+
+function getIdsUrlParamsString() {
+	  var url = '';
+	  var checkboxes = jQuery('input[name="checkoptions"]:checked');
+	  var n = jQuery(checkboxes).size();
+    jQuery(checkboxes).each(function(i) {
+        url += "id=" + this.value;
+        if (i < n-1) {
+          url += "&";
+        }
+    });
+    return url;
 }
