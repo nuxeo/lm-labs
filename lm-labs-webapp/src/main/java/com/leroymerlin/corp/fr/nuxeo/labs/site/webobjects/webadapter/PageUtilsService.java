@@ -71,7 +71,7 @@ public class PageUtilsService extends DefaultAdapter {
         } catch (Exception e) {
             return Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[1]).build();
         }
-        return  Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[0]).build();
+        return  Response.ok("?message_success=" + PAGE_CLASSEUR_ELMENTS_MSG[0]).build();
     }
 
     @POST
