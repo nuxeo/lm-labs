@@ -24,6 +24,7 @@ import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.webengine.WebEngine;
+import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -213,6 +214,17 @@ public final class CommonHelper {
             return Framework.getService(SiteManager.class);
         } catch (Exception e) {
             return null;
+        }
+    }
+    
+    public static boolean isNotRejectedComment(DocumentModel document){
+        try {
+            if (!LabsSiteConstants.CommentsState.REJECT.getState().equals(document.getCurrentLifeCycleState())){
+                return true;
+            }
+            return false;
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
         }
     }
 
