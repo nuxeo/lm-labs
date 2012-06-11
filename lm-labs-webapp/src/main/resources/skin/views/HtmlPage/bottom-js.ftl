@@ -2,6 +2,22 @@
 <#if isContributor >
 <script type="text/javascript">
 var rowWidgetsAtLoad = [];
+function defaultConfigGadgetAjaxFormBeforeSubmit() {
+    jQuery('#divConfigGadget').find('div.actions a, input, button').attr('disabled', '');
+    return true;
+}
+function defaultConfigGadgetAjaxFormError() {
+    jQuery('#divConfigGadget').dialog2('close');
+}
+function defaultConfigGadgetAjaxFormSucess() {
+    jQuery('#divConfigGadget div.actions a, input, button').removeAttr('disabled');
+    jQuery('#waitingPopup').dialog2('open');
+    <#--
+    jQuery('#divConfigGadget').dialog2('close');
+    -->
+    window.location.href = '${This.path}#row_s' + jQuery('#divConfigGadget input[name=section]').val() + '_r' + jQuery('#divConfigGadget input[name=row]').val();
+    document.location.reload(true);
+}
 jQuery(document).ready(function() {
     jQuery('#divConfigGadget form').removeAttr('enctype');
     jQuery("#divConfigRowGadgets").dialog2({
@@ -14,41 +30,28 @@ jQuery(document).ready(function() {
     });
     jQuery('#config-row-gadgets-form').ajaxForm({
         data: {ajax: 'true'},
-        beforeSubmit:  function() {
-            jQuery('#divConfigRowGadgets div.actions a, input, button').attr('disabled', '');
-            return true;
-        },
-        error: function() {
-            jQuery('#divConfigRowGadgets').dialog2('close');
-        },
-        success: function() {
-            jQuery('#divConfigRowGadgets div.actions a, input, button').removeAttr('disabled');
-            jQuery('#waitingPopup').dialog2('open');
-            <#--
-            jQuery('#divConfigRowGadgets').dialog2('close');
-            -->
-            window.location.href = '${This.path}#row_s' + jQuery('#divConfigRowGadgets input[name=section]').val() + '_r' + jQuery('#divConfigRowGadgets input[name=row]').val();
-            document.location.reload(true);
-        }
+        beforeSubmit:  function () {
+		    jQuery('#divConfigRowGadgets div.actions a, input, button').attr('disabled', '');
+		    return true;
+		},
+        error: function () {
+		    jQuery('#divConfigRowGadgets').dialog2('close');
+		},
+        success: function () {
+		    jQuery('#divConfigRowGadgets div.actions a, input, button').removeAttr('disabled');
+		    jQuery('#waitingPopup').dialog2('open');
+		    <#--
+		    jQuery('#divConfigRowGadgets').dialog2('close');
+		    -->
+		    window.location.href = '${This.path}#row_s' + jQuery('#divConfigRowGadgets input[name=section]').val() + '_r' + jQuery('#divConfigRowGadgets input[name=row]').val();
+		    document.location.reload(true);
+		}
     });
     jQuery('#config-gadget-form').ajaxForm({
         data: {ajax: 'true'},
-        beforeSubmit:  function() {
-            jQuery('#divConfigGadget').find('div.actions a, input, button').attr('disabled', '');
-            return true;
-        },
-        error: function() {
-            jQuery('#divConfigGadget').dialog2('close');
-        },
-        success: function() {
-            jQuery('#divConfigGadget div.actions a, input, button').removeAttr('disabled');
-            jQuery('#waitingPopup').dialog2('open');
-            <#--
-            jQuery('#divConfigGadget').dialog2('close');
-            -->
-            window.location.href = '${This.path}#row_s' + jQuery('#divConfigGadget input[name=section]').val() + '_r' + jQuery('#divConfigGadget input[name=row]').val();
-            document.location.reload(true);
-        }
+        beforeSubmit:  defaultConfigGadgetAjaxFormBeforeSubmit,
+        error: defaultConfigGadgetAjaxFormError,
+        success: defaultConfigGadgetAjaxFormSucess
     });
     jQuery('#config-row-gadgets-form-btn').click(function() {
         rowWidgetsAtSubmit = [];
@@ -69,7 +72,7 @@ jQuery(document).ready(function() {
         return false; <#-- prevents form submit -->
     });
     jQuery('#config-gadget-form-btn').click(function() {
-        var inputs = jQuery("#divConfigGadget form > fieldset").find("input[type=text],select,checkbox,textarea");
+        var inputs = jQuery("#divConfigGadget form > fieldset").find("input[type=text],input[type=file],select,checkbox,textarea");
         if (inputs.length == 0) {
             jQuery('#divConfigGadget').dialog2('close');
             return false; <#-- prevents form submit -->
