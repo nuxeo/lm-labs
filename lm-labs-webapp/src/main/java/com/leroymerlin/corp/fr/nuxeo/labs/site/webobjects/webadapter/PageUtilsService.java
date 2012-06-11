@@ -1,8 +1,11 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
+import java.util.List;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -33,6 +36,11 @@ public class PageUtilsService extends DefaultAdapter {
             "label.PageClasseur.folder.notMoved",
             "label.PageClasseur.folder.copy.destinationNotFolder" };
 
+    static final String[] PAGE_CLASSEUR_ELMENTS_MSG = {
+            "label.PageClasseur.moveElements.moved",
+            "label.PageClasseur.moveElements.notMoved",
+            "label.PageClasseur.moveElements.move.destinationNotFolder" };
+
     @POST
     @Path("move")
     public Response doAdminMove(@FormParam("source") String sourceId,
@@ -42,6 +50,28 @@ public class PageUtilsService extends DefaultAdapter {
             @FormParam("view") String view) throws ClientException {
         return doMove(sourceId, destinationId, afterId, redirect, view,
                 ADMIN_MSG);
+    }
+
+    @POST
+    @Path("bulkMove")
+    public Response doBulkMove(@QueryParam("id")  List<String> ids,
+            @QueryParam("destinationContainer") String destinationId){
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel source = null;
+        try {
+            DocumentModel destination = session.getDocument(new IdRef(destinationId));
+            if (!destination.isFolder()) {
+                return Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[2]).build();
+            }
+            for (String id : ids){
+                source = session.getDocument(new IdRef(id));
+                session.move(new IdRef(id), destination.getRef(), source.getTitle());
+            }
+            session.save();
+        } catch (Exception e) {
+            return Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[1]).build();
+        }
+        return  Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[0]).build();
     }
 
     @POST

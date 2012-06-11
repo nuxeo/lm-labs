@@ -72,7 +72,7 @@
 		              <#-- This button submits the hidden delete form -->
 		              <li><a href="#" onclick="$('#delete_${folder.document.id}').submit();return false;"><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteFolder')}</a></li>
 				      <#-- rename   -->
-				      <li><a href="#" onClick='javascript:renameFolder("${This.path}/${folder.document.name}/@put", "${folder.document.id}");return false;'><i class="icon-edit"></i>${Context.getMessage("command." + Document.type + ".renameFolder" )}</a></li>
+				      <li><a href="#" onClick='javascript:renameFolder("${This.path}/${folder.document.name}/@put", "${folder.document.id}");return false;'><i class="icon-edit"></i>${Context.getMessage("command." + Document.type + ".renameFolder" )}</a></li>	
 		            </ul>
 		          </div> <#-- btn-group -->
 		    </div>
@@ -159,6 +159,29 @@
 
   </div><!-- table -->
 
+
+<div id="div-moveElements" style="display: none;">
+	<h1>${Context.getMessage('label.PageClasseur.moveElements.title')}</h1>
+	<form class="form-horizontal" onsubmit="javascript:bulkMove();return false;">
+		<fieldset>
+	      <div class="control-group">
+	          <label class="control-label" for="selectedFolder">${Context.getMessage('label.PageClasseur.moveElements.selectedFolder')}</label>
+	            <div class="controls">
+          			<#list folders as folder>
+	              		<label class="radio">
+                			<input type="radio" id="moveElementsSelectedFolder" name="moveElementsSelectedFolder" value="${folder.document.id}" <#if folders?first.document.id == folder.document.id>checked</#if>>
+                			${folder.document.dublincore.title?html}<br>
+              			</label>	
+            		</#list>
+	            </div>
+	       </div>
+      </fieldset>
+      <div class="actions">
+	    <button class="btn btn-primary">Valider</button>
+	  </div>									
+	</form>
+</div>
+
 <div id="div-addfolder" style="display: none;" >
     <h1>${Context.getMessage('label.PageClasseur.form.folder.title')}</h1>
   <form class="ajax form-horizontal" id="form-folder" action="${This.path}" method="post" enctype="multipart/form-data">
@@ -218,6 +241,9 @@
         <ul class="dropdown-menu" style="min-width: 40px;" >
         <#if canWrite && Session.hasPermission(Document.ref, 'RemoveChildren') >
           <li><a href="#" class="selectionActionsBt deleteSelection" ><i class="icon-remove"></i>${Context.getMessage('command.PageClasseur.deleteSelection')}</a></li>
+          <#if folders?size &gt; 1>
+	      	<li><a href="#" class="selectionActionsBt moveSelection"><i class="icon-move"></i>${Context.getMessage("command.PageClasseur.moveElements" )}</a></li>
+	      </#if>
         </#if>
         <#if isAdministrator >
           <li><a href="#" class="selectionActionsBt showSelection" ><i class="icon-eye-open"></i>${Context.getMessage('command.PageClasseur.showSelection')}</a></li>
