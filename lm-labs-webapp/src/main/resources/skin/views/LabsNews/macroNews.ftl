@@ -56,13 +56,20 @@
       			<@generateSummaryPictureNews path=path/>
       		</div>
       		<#-- Central -->
-      		<div class="span9">
+      		<div class="span9 <@generateClassNewsVisibility news=news result="hiddenNews"/>">
       			<@generateHeaderNewsEllipsis news=news path=path withHref=withHref withBy=false/>
       		</div>
   	<#else>
   		<#-- Central -->
-  		<div class="span11">
+  		<div class="span11 <@generateClassNewsVisibility news=news result="hiddenNews"/>">
   			<@generateHeaderNewsEllipsis news=news path=path withHref=withHref withBy=false/>
   		</div>
   	</#if>
+</#macro>
+
+<#macro generateClassNewsVisibility news result>
+	<#assign now = Common.getNow().timeInMillis/>
+	<#if (news.startPublication.timeInMillis >= now || news.endPublication.timeInMillis <= now)>
+		${result}
+	</#if>
 </#macro>

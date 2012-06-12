@@ -70,7 +70,7 @@
       	</#if>
           <section>
           	  <#if news != null>
-	              <div class="page-header">
+	              <div class="page-header <@generateClassNewsVisibility news=news result="hiddenNews"/>">
 	                <h1>${news.title} <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
 	                <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
 	              	<#if isContributor >

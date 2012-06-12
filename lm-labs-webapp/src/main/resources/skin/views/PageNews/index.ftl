@@ -41,7 +41,7 @@
 
         <#list allNews as news>
           <#assign path=This.path + "/" + news.documentModel.name />
-          <section class="labsnews">
+          <section class="labsnews <@generateClassNewsVisibility news=news result="editblock"/>">
 	          	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
 	          		<@generateSummaryNews news=news path=path withHref=true/>
 				  	<#-- Collapse -->
@@ -58,11 +58,11 @@
 			          			<img src="${This.path}/${news.documentModel.name}/summaryPictureTruncated" style="margin-top: 5px;"/>
 			          		</div>
 			          		<#-- Central -->
-			          		<div class="span9">
+			          		<div class="span9 <@generateClassNewsVisibility news=news result="hiddenNews"/>">
 			          			<@generateHeaderNews news=news path=path withHref=true withBy=true />
 				            </div>
 		          	<#else>
-		              	<div class="span11">
+		              	<div class="span11 <@generateClassNewsVisibility news=news result="hiddenNews"/>">
 			                <@generateHeaderNews news=news path=path withHref=true withBy=true />
 			            </div>
 			        </#if>
