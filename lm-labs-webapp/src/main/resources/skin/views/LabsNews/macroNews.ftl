@@ -69,7 +69,7 @@
 
 <#macro generateClassNewsVisibility news result>
 	<#assign now = Common.getNow().timeInMillis/>
-	<#if (news.startPublication.timeInMillis >= now || news.endPublication.timeInMillis <= now)>
+	<#if (news.startPublication.timeInMillis >= now || news.endPublication == null || news.endPublication.timeInMillis <= now)>
 		${result}
 	</#if>
 </#macro>
