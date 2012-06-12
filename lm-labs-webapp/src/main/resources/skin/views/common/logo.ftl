@@ -53,7 +53,7 @@
 		<#else>
             class="logoImgId-notmove"
 		</#if>
-		src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.getTheme(Context.coreSession).name}/logo" />
+		src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.getTheme(Context.coreSession).name}/logo" onclick="javascript:document.location.href='${Context.modulePath}/${mySite.URL}'" />
 
 	<#if canDrop>
 		<div

@@ -9,6 +9,7 @@
 		var IS_MODE_EDITION = true;
 		var pathCookie = '${Context.modulePath}/${mySite.URL}';
 		var dragDrop = null;
+		var urlHomepage = "";
 		
 		$(document).ready(function() {
 			  // handling shorcut for mode previsualisation
@@ -46,6 +47,8 @@
 					dragDrop.unlock();
 				}
 				$("#logoDragMsgId").show();
+				urlHomepage = $("#logoImgId").attr("onclick");
+				$("#logoImgId").attr("onclick", "");
 				$("#logoImgId").removeClass("logoImgId-notmove");
 				$("#logoImgId").addClass("logoImgId-move");
 			</#if>
@@ -57,6 +60,9 @@
 			<#if siteAdministrator>
 				$("#logoDragMsgId").hide();
 				$("#logoImgId").removeClass("logoImgId-move");
+				if(urlHomepage.length > 0){
+					$("#logoImgId").attr("onclick", urlHomepage);
+				}
 				$("#logoImgId").addClass("logoImgId-notmove");
 				if (dragDrop != null){
 					dragDrop.lock();
