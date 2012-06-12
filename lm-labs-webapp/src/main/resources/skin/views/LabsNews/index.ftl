@@ -6,12 +6,15 @@
 		<#assign accroche = newsDoc.labsnews.accroche?substring(0, accrocheMaxLength) + " ..." />
 	</#if>
 	<#assign picHtml = "" />
+	<#assign hasSummaryPicture = false />
 	<#if This.getLabsNews(newsDoc).hasSummaryPicture()>
-		<#assign picHtml = '<div style="float: left;" ><img src="${Root.getLink(newsDoc)}/summaryPictureTruncated" /></div>' />
+		<#assign hasSummaryPicture = true />
+		<#assign picHtml = '<div style="float: left;padding-bottom: 10px;" ><img src="${Root.getLink(newsDoc)}/summaryPictureTruncated" /></div>' />
 	</#if>
 	<a href="${Root.getLink(newsDoc)}" style="float: <#if isPrevious>left<#else>right</#if>;"
-		rel="popover" data-content="<div style='' >${picHtml?html}<div style='' >${accroche?html}</div></div>"
+		rel="popover" data-content="<div <#if hasSummaryPicture>style='min-height: 100px;'</#if> >${picHtml?html}<div style='' >${accroche?html}</div></div>"
 		data-original-title="${newsDoc.title?html}"
+		<#--data-trigger="focus"-->
 		data-placement="<#if isPrevious>right<#else>left</#if>" >
 	<#if isPrevious>
 	<i class="icon-backward" style="text-decoration: none;" ></i>${Context.getMessage('label.labsNews.navigation.previous')}
