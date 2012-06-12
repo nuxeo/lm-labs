@@ -14,7 +14,6 @@
 	<a href="${Root.getLink(newsDoc)}" style="float: <#if isPrevious>left<#else>right</#if>;"
 		rel="popover" data-content="<div <#if hasSummaryPicture>style='min-height: 100px;'</#if> >${picHtml?html}<div style='' >${accroche?html}</div></div>"
 		data-original-title="${newsDoc.title?html}"
-		<#--data-trigger="focus"-->
 		data-placement="<#if isPrevious>right<#else>left</#if>" >
 	<#if isPrevious>
 	<i class="icon-backward" style="text-decoration: none;" ></i>${Context.getMessage('label.labsNews.navigation.previous')}
