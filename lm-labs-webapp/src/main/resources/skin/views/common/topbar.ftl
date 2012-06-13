@@ -65,25 +65,25 @@
 										showCloseHandle : false,
 									});
 								});
-								
+
 							</script>
 			                <#if This.page?? && This.page != null && This.page.isAdministrator(Context.principal.name) >
 			                	<#assign hasDocActions = true />
 			                	<#--   Manage permissions's page     -->
 			                	<li><a href="${This.path}/@views/pagePermissions"><i class="icon-share"></i>${Context.getMessage('command.admin.rights')}</a></li>
 			                </#if>
-							
+
 						</@block>
 	                </#if>
 					<#if hasDocActions >
 						<li class="divider"></li>
 					</#if>
-		                
+
                 </@block>
                 <@block name="siteactions">
 	                <#if isAdministrator >
 	                	<#if mySite.visible>
-	                		<li><a href="#" onclick="javascript:draftSite();"><i class="icon-file"></i>${Context.getMessage('command.siteactions.draft')}</a></li>
+	                		<li><a href="#" onclick="javascript:draftSite();"><i class="icon-eye-close"></i>${Context.getMessage('command.siteactions.draft')}</a></li>
 	                	<#else>
 	                		<li><a href="#" onclick="javascript:publishSite();"><i class="icon-share-alt"></i>${Context.getMessage('command.siteactions.publish')}</a></li>
 	                	</#if>
@@ -117,7 +117,7 @@
       </div><#-- /fill -->
     </div><#-- /navbar -->
     </div><#-- /navbar-wrapper -->
-    
+
 <script>
 jQuery(document).ready(function() {
 <#if canSetHomePage >
@@ -132,4 +132,3 @@ jQuery(document).ready(function() {
 </#if>
 });
 </script>
-   
