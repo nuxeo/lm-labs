@@ -1,5 +1,6 @@
 <#macro labsSiteRssFeedList feed="all" nbrItems="2" divId="rss-feed-list-" >
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite() />
+<div id="${divId}-container" style="position: relative; overflow: hidden;" >
 <div id="${divId}" class="rss-feed-list bloc">
     <div class="header">${Context.getMessage('label.rss.' + feed + '.title')}</div>
         <div class="itemList">
@@ -9,6 +10,7 @@
         <div class="browseLastMsg">
         </div>
         -->
+</div>
 </div>
 
 <script type="text/javascript">
@@ -74,6 +76,12 @@ function ${divId}_loadContents(page_index, jq){
         doEllipsisTextId("${divId}-lastMessageTitleEllipsisText" + i);
         doEllipsisTextId("${divId}-lastMessageDescEllipsisText" + i);
     }
+
+    // resize DIV
+    jQuery("#${divId}-container").animate({
+        height:jQuery("#${divId}").height() + 12
+    });
+
 
     // Prevent click eventpropagation
     return false;

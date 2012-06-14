@@ -9,6 +9,8 @@ public interface PageClasseurFolder extends SubDocument {
     DocumentModel getDocument();
 
     String getTitle() throws ClientException;
+
+    String getDescription() throws ClientException;
     
     boolean setAsDeleted() throws ClientException;
     

@@ -1,26 +1,44 @@
 <div class="fixed-container">
 	<ul style="list-style: none;margin-left: 0px;">
-		<#list comments?reverse as comment>
+		<#assign comments = comments?reverse/>
+		<#list comments as comment>
 			<li class="labscomments">
 
 				<div class="labscomments by">
-					<span>${This.activeAdapter.getFullName(comment.comment.author)}</span>
-					<#if (((removeOnlyLastComment && comment.id == comments?first.id) || !removeOnlyLastComment) && (Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == comment.comment.author))>
+					<#assign isNotRejected = Common.isNotRejectedComment(comment)/>
+					<#if isNotRejected || Session.hasPermission(Document.ref, 'Everything')>
+						<span>${This.activeAdapter.getFullName(comment.comment.author)}</span>
+					</#if>
+					<#assign isFist = (comment.id == comments?first.id)/>
+					<#if (isNotRejected && isFist && Context.principal.name == comment.comment.author) || (Session.hasPermission(Document.ref, 'Everything') && isNotRejected)>
 						<p class="labscomments delete">
-							<button class="btn btn-mini btn-danger" onClick="javascript:if(confirm('${Context.getMessage('label.comments.deleted.confirm')?js_string}')){${deleteComment}('${This.path}/@labscomments', '${comment.id}');}{return false;}"><i class="icon-remove" style="padding-right:0px;"></i></button>
+							<button class="btn btn-mini btn-danger" onClick="javascript:if(confirm('${Context.getMessage('label.comments.deleted.confirm')?js_string}')){${deleteComment}('${This.path}/@labscomments', '${comment.id}', <#if isFist>true<#else>false</#if>);}{return false;}"><i class="icon-remove" style="padding-right:0px;"></i></button>
 						</p>
 					</#if>
 				</div>
 				<div class="labscomments comment">
 					<div class="row-fluid">
 						<div class="span2">
-				  			<span><img class="imgComment" width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${comment.comment.author}/picture"></span>
+							<#if isNotRejected || Session.hasPermission(Document.ref, 'Everything')>
+				  				<span><img class="imgComment" width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${comment.comment.author}/picture"></span>
+				  			</#if>
 						</div>
 						<div class="span10">
-							<span>${comment.comment.text}</span>
+							<span>
+								<#if isNotRejected>
+									${comment.comment.text}
+								<#else>
+									${Context.getMessage('label.comment.desactived')}
+									<#if Session.hasPermission(Document.ref, 'Everything')>
+										<div class="hidden">${comment.comment.text}</div>
+									</#if>
+								</#if>
+							</span>
 						</div>
 					</div>
-	      			<p class="labscomments footer" >${Context.getMessage('label.comment.date')} ${comment.comment.creationDate}</p>
+					<#if isNotRejected || Session.hasPermission(Document.ref, 'Everything')>
+	      				<p class="labscomments footer" >${Context.getMessage('label.comment.date')} ${comment.comment.creationDate}</p>
+	      			</#if>
     			</div>
     		</li>
 		</#list>

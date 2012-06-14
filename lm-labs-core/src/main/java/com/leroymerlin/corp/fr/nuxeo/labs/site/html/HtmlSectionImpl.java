@@ -34,27 +34,32 @@ public class HtmlSectionImpl implements HtmlSection {
         return innerMap;
     }
 
+    @Override
     public void setTitle(String title) throws ClientException {
         innerMap.put(TITLE_KEY, title);
         parent.onChange(this);
 
     }
 
+    @Override
     public void setDescription(String description) throws ClientException {
         innerMap.put(DESCRIPTION_KEY, description);
         parent.onChange(this);
     }
 
+    @Override
     public String getTitle() {
         return innerMap.containsKey(TITLE_KEY) ? (String) innerMap
                 .get(TITLE_KEY) : null;
     }
 
+    @Override
     public String getDescription() {
         return innerMap.containsKey(DESCRIPTION_KEY) ? (String) innerMap
                 .get(DESCRIPTION_KEY) : null;
     }
 
+    @Override
     public HtmlRow addRow() throws ClientException {
         HtmlRow row = new HtmlRow(this);
         getRows().add(row);
@@ -63,7 +68,8 @@ public class HtmlSectionImpl implements HtmlSection {
         return row;
     }
 
-    public void update() throws ClientException {
+    
+    private void update() throws ClientException {
         List<Serializable> rowsMap = new ArrayList<Serializable>();
         for (HtmlRow row : getRows()) {
             rowsMap.add((Serializable) row.toMap());
@@ -72,6 +78,7 @@ public class HtmlSectionImpl implements HtmlSection {
         parent.onChange(this);
     }
 
+    @Override
     public List<HtmlRow> getRows() {
 
         if (rows == null) {
@@ -91,19 +98,23 @@ public class HtmlSectionImpl implements HtmlSection {
 
     }
 
+    @Override
     public HtmlRow row(int index) {
         return getRows().get(index);
     }
 
+    @Override
     public HtmlSection insertBefore() throws ClientException {
         return ((HtmlPageImpl)parent).addSectionBefore(this);
     }
 
+    @Override
     public void remove() throws ClientException {
         ((HtmlPageImpl)parent).removeSection(this);
 
     }
 
+    @Override
     public HtmlRow insertBefore(HtmlRow htmlRow) throws ClientException {
         List<HtmlRow> rows = getRows();
         HtmlRow row = new HtmlRow(this);
@@ -113,6 +124,7 @@ public class HtmlSectionImpl implements HtmlSection {
 
     }
 
+    @Override
     public void remove(HtmlRow row) throws ClientException {
         getRows().remove(row);
         update();

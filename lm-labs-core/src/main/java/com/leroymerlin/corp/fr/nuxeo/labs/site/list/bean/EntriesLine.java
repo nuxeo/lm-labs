@@ -6,10 +6,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-
-import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
 
 
 /**
@@ -26,10 +23,16 @@ public class EntriesLine {
     
     private int nbComments;
     
+    private int nbFiles;
+    
+    private boolean isVisible;
+    
     public EntriesLine() {
         this.entries = new ArrayList<Entry>();
         this.docLine = null;
         this.nbComments = 0;
+        this.nbFiles = 0;
+        this.isVisible = true;
     }
 
     public List<Entry> getEntries() {
@@ -77,11 +80,23 @@ public class EntriesLine {
         this.userName = userName;
     }
 
-    public int getNbrFiles() throws ClientException, Exception{
-        return docLine.getAdapter(PageListLine.class).getFiles().size();
+    public int getNbrFiles(){
+    	return this.nbFiles;
+    }
+
+    public void setNbrFiles(int nbFiles){
+        this.nbFiles = nbFiles;
     }
 
     public void setNbComments(int nbComments) {
         this.nbComments = nbComments;
     }
+
+	public boolean isVisible() {
+		return this.isVisible;
+	}
+
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
 }

@@ -1,5 +1,29 @@
-<#assign mySite=Common.siteDoc(Document).site />
-<@extends src="/views/TemplatesBase/" + mySite.template.templateName + "/template.ftl">
+<#assign mySite=Common.siteDoc(Document).getSite() />
+<#macro displayNewsNavigation newsDoc isPrevious=true accrocheMaxLength=200 >
+	<#if newsDoc.labsnews.accroche?length < accrocheMaxLength >
+		<#assign accroche = newsDoc.labsnews.accroche />
+	<#else>
+		<#assign accroche = newsDoc.labsnews.accroche?substring(0, accrocheMaxLength) + " ..." />
+	</#if>
+	<#assign picHtml = "" />
+	<#assign hasSummaryPicture = false />
+	<#if This.getLabsNews(newsDoc).hasSummaryPicture()>
+		<#assign hasSummaryPicture = true />
+		<#assign picHtml = '<div style="float: left;padding-bottom: 10px;padding-right: 5px;" ><img src="${Root.getLink(newsDoc)}/summaryPictureTruncated" /></div>' />
+	</#if>
+	<a href="${Root.getLink(newsDoc)}" style="float: <#if isPrevious>left<#else>right</#if>;"
+		rel="popover" data-content="<div <#if hasSummaryPicture>style='min-height: 100px;'</#if> >${picHtml?html}<div style='' >${accroche?html}</div></div>"
+		data-original-title="${newsDoc.title?html}"
+		data-placement="<#if isPrevious>right<#else>left</#if>" >
+	<#if isPrevious>
+	<i class="icon-backward" style="text-decoration: none;" ></i>${Context.getMessage('label.labsNews.navigation.previous')}
+	<#else>
+	${Context.getMessage('label.labsNews.navigation.next')}&nbsp;<i class="icon-forward" style="text-decoration: none;" ></i>
+	</#if>
+	</a>
+</#macro>
+
+<@extends src="/views/TemplatesBase/" + mySite.template.getTemplateName() + "/template.ftl">
   <#assign isAuthorized = Session.hasPermission(Document.ref, 'Write')>
 
   <@block name="title">${mySite.title}-${This.document.title}</@block>
@@ -23,7 +47,7 @@
 
   <@block name="docactionsaddpage"></@block>
   <@block name="docactionsonpage"></@block>
-  
+
   <#assign isContributor = This.previous.page?? && This.previous.page.isContributor(Context.principal.name) />
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
@@ -33,9 +57,20 @@
   	<#include "views/LabsNews/macroNews.ftl">
     <#if news??>
       <div class="container-fluid">
+      	<#if This.hasPrevNewsDoc() || This.hasNextNewsDoc() >
+      	  <div class="news-navigation" style="width: 100%;" >
+      	  	<#if This.hasPrevNewsDoc() >
+      	  		<@displayNewsNavigation newsDoc=This.prevNewsDoc />
+      	  	</#if>
+      	  	<#if This.hasNextNewsDoc() >
+      	  		<@displayNewsNavigation newsDoc=This.nextNewsDoc isPrevious=false />
+      	  	</#if>
+      	  </div>
+      	  <div style="clear: both;" ></div>
+      	</#if>
           <section>
           	  <#if news != null>
-	              <div class="page-header">
+	              <div class="page-header <@generateClassNewsVisibility news=news result="hiddenNews"/>">
 	                <h1>${news.title} <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
 	                <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
 	              	<#if isContributor >
@@ -54,12 +89,12 @@
 			  	<#assign news=news/>
 			  	<#include "views/LabsNews/editProps.ftl" />
 			  </#if>
-			  
+
 		  	<#assign section_index=0/>
-				
-			
-			
-		  	<#list news.rows as row>
+
+
+
+		  	<#list news.getRows() as row>
 		  		<#if isContributor >
 			        <div class="row-fluid" id="row_s${section_index}_r${row_index}">
 			              <#list row.contents as content>
@@ -71,7 +106,7 @@
 					                      ${content.html}
 					                    </#if>
 				                    </div>
-	                    
+
 						              <div class="row-ckeditor columns editblock">
 						                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer" >${content.html}</div>
 						                <script type="text/javascript">
@@ -81,7 +116,7 @@
 						                    emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.PageHtml.double_click_to_edit_content')}</div>",
 						                    view_style: "span${content.colNumber} columns cke_hidden "
 											}, reloadPageLabsNews);
-											
+
 											function reloadPageLabsNews(response, ckeObj, ckeip_html) {
 												jQuery(ckeObj).closest('div.row-ckeditor').siblings('.viewblock').html(ckeip_html);
 												scrollToRowAfterCkeip(response, ckeObj, ckeip_html);
@@ -121,7 +156,7 @@
 		            </div>
 			     </#if>
 		    </#list>
-			
+
 			<#if isContributor >
 	          <div class="editblock">
 			    <a href="#divAddRow_${section_index}" class="btn btn-primary btn-small" style="margin-bottom: 5px" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-plus"></i>Ajouter une ligne</a>
@@ -152,8 +187,8 @@
 		            </form>
 		         </div>
 	          </div>
-	        </#if>	
-			
+	        </#if>
+
 		  </section>
       </div>
     </#if>

@@ -1,10 +1,10 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
 
 <#include "macros/PageClasseur_file_links.ftl" >
 <#include "views/common/paging.ftl" />
 <#assign nbrElemPerPage = 20 />
 
-  <@block name="title">${Common.siteDoc(Document).site.title}-${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
+  <@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title} - ${Context.getMessage('title.LabsSite.latestuploads')}</@block>
 
   <@block name="docactionsaddpage"></@block>
   <@block name="docactionsonpage"></@block>
@@ -18,7 +18,7 @@
 
   <div class="row-fluid">
     <div class="">
-      <#assign pp = latestUploadsPageProvider(Document, nbrElemPerPage) />
+      <#assign pp = latestUploadsPageProvider(Document, nbrElemPerPage, Context.getCoreSession()) />
       <#assign currentPage = Context.request.getParameter('page')?number?long />
       <#assign uploads = pp.setCurrentPage(currentPage) />
       <@resultsStatus pageProvider=pp />
@@ -42,10 +42,10 @@
             <#assign modifDate = upload.dublincore.modified?datetime >
             <td>${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</td>
             <#assign sd = Common.siteDoc(upload) />
-            <td><a href="${Context.modulePath}/${sd.parentPagePath}">${sd.parentPage.title}</a></td>
+            <td><a href="${Context.modulePath}/${sd.getParentPagePath()}">${sd.getParentPage().title}</a></td>
             <td>
-        <@fileDownloadLink url="${Context.modulePath}/${sd.resourcePath}/@blob" tooltip="${Context.getMessage('command.LabsSite.latestuploads.download')}" />
-        <@fileDisplayLink url="${Context.modulePath}/${sd.resourcePath}/@blob/preview" tooltip="${Context.getMessage('command.LabsSite.latestuploads.display')}" />
+        <@fileDownloadLink url="${Context.modulePath}/${sd.getResourcePath()}/@blob" tooltip="${Context.getMessage('command.LabsSite.latestuploads.download')}" />
+        <@fileDisplayLink url="${Context.modulePath}/${sd.getResourcePath()}/@blob/preview" tooltip="${Context.getMessage('command.LabsSite.latestuploads.display')}" />
               </td>
           </tr>
           </#list>

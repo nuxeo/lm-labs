@@ -1,8 +1,11 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter;
 
+import java.util.List;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -17,6 +20,7 @@ import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebAdapter(name = "pageUtils", type = "PageUtilsService")
 public class PageUtilsService extends DefaultAdapter {
@@ -32,6 +36,11 @@ public class PageUtilsService extends DefaultAdapter {
             "label.PageClasseur.folder.notMoved",
             "label.PageClasseur.folder.copy.destinationNotFolder" };
 
+    static final String[] PAGE_CLASSEUR_ELMENTS_MSG = {
+            "label.PageClasseur.moveElements.moved",
+            "label.PageClasseur.moveElements.notMoved",
+            "label.PageClasseur.moveElements.move.destinationNotFolder" };
+
     @POST
     @Path("move")
     public Response doAdminMove(@FormParam("source") String sourceId,
@@ -41,6 +50,28 @@ public class PageUtilsService extends DefaultAdapter {
             @FormParam("view") String view) throws ClientException {
         return doMove(sourceId, destinationId, afterId, redirect, view,
                 ADMIN_MSG);
+    }
+
+    @POST
+    @Path("bulkMove")
+    public Response doBulkMove(@QueryParam("id")  List<String> ids,
+            @QueryParam("destinationContainer") String destinationId){
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel source = null;
+        try {
+            DocumentModel destination = session.getDocument(new IdRef(destinationId));
+            if (!destination.isFolder()) {
+                return Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[2]).build();
+            }
+            for (String id : ids){
+                source = session.getDocument(new IdRef(id));
+                session.move(new IdRef(id), destination.getRef(), source.getTitle());
+            }
+            session.save();
+        } catch (Exception e) {
+            return Response.ok("?message_error=" + PAGE_CLASSEUR_ELMENTS_MSG[1]).build();
+        }
+        return  Response.ok("?message_success=" + PAGE_CLASSEUR_ELMENTS_MSG[0]).build();
     }
 
     @POST
@@ -57,8 +88,7 @@ public class PageUtilsService extends DefaultAdapter {
     private Response doMove(final String sourceId, final String destinationId,
             final String afterId, final String redirect, final String view,
             final String[] msg) throws ClientException {
-        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        CoreSession session = doc.getCoreSession();
+        CoreSession session = ctx.getCoreSession();
         DocumentModel source = session.getDocument(new IdRef(sourceId));
         DocumentModel sourceParent = session.getParentDocument(source.getRef());
         DocumentModel destination = session.getDocument(new IdRef(destinationId));
@@ -97,7 +127,7 @@ public class PageUtilsService extends DefaultAdapter {
             if (BooleanUtils.toBoolean(redirect)) {
                 return Response.ok("?message_success=" + msg[0]).build();
             } else {
-                Page page = toMoved.getAdapter(Page.class);
+                Page page = Tools.getAdapter(Page.class, toMoved, session);
                 if (page != null) {
                     return Response.ok().entity(page.getTitle()).build();
                 } else {
@@ -120,8 +150,7 @@ public class PageUtilsService extends DefaultAdapter {
             @FormParam("redirect") String redirect,
             @FormParam("view") String view) throws ClientException {
 
-        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        CoreSession session = doc.getCoreSession();
+        CoreSession session = ctx.getCoreSession();
         DocumentModel source = session.getDocument(new IdRef(sourceId));
         DocumentModel destination = session.getDocument(new IdRef(destinationId));
         String viewUrl = "";
@@ -140,7 +169,7 @@ public class PageUtilsService extends DefaultAdapter {
         try {
             DocumentModel copy = session.copy(source.getRef(),
                     destination.getRef(), null);
-            Page page = copy.getAdapter(Page.class);
+            Page page = Tools.getAdapter(Page.class, copy, session);
             String newTitle = COPYOF_PREFIX + page.getTitle();
             page.setTitle(newTitle);
             session.saveDocument(page.getDocument());
@@ -167,18 +196,18 @@ public class PageUtilsService extends DefaultAdapter {
             @FormParam("newTitle") String title,
             @FormParam("redirect") String redirect,
             @FormParam("view") String view) throws ClientException {
-        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
-        DocumentModel source = doc.getCoreSession().getDocument(
+        CoreSession session = ctx.getCoreSession();
+        DocumentModel source = session.getDocument(
                 new IdRef(sourceId));
         String viewUrl = "";
         if (!StringUtils.isEmpty(view)) {
             viewUrl = "/@views/" + view;
         }
         try {
-            Page page = source.getAdapter(Page.class);
+            Page page = Tools.getAdapter(Page.class, source, session);
             page.setTitle(title);
-            doc.getCoreSession().saveDocument(page.getDocument());
-            doc.getCoreSession().save();
+            session.saveDocument(page.getDocument());
+            session.save();
         } catch (Exception e) {
             if (BooleanUtils.toBoolean(redirect)) {
                 return redirect(getPath() + viewUrl + "?message_error="

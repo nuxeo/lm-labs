@@ -14,7 +14,46 @@ public final class LabsSiteConstants {
     public final class Comments{
         public static final String COMMENT_AUTHOR = "comment:author";
         public static final String COMMENT_TEXT = "comment:text"; 
-        public static final String COMMENT_CREATION_DATE = "comment:creationDate"; 
+        public static final String COMMENT_CREATION_DATE = "comment:creationDate";
+        
+    }
+
+    public enum CommentsState{
+    	PENDING( "", "moderation_pending"),
+    	PUBLISHED("moderation_publish", "moderation_published"),
+    	REJECT("moderation_reject", "moderation_rejected");
+    	
+        private String transition;
+        private String state;
+
+        private static final Map<String, CommentsState> stringToEnum = new HashMap<String, CommentsState>();
+        static { // Initialize map from constant name to enum constant
+            for (CommentsState op : values())
+                stringToEnum.put(op.getState(), op);
+        }
+
+        // Returns Operation for string, or null if string is invalid
+        public static CommentsState fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
+        private CommentsState(String transition, String state) {
+            this.transition = transition;
+            this.state = state;
+        }
+
+        /**
+         * @return transition name
+         */
+        public String getTransition() {
+            return transition;
+        }
+
+        /**
+         * @return state name
+         */
+        public String getState() {
+            return state;
+        }
     }
     
     public final class Forum{

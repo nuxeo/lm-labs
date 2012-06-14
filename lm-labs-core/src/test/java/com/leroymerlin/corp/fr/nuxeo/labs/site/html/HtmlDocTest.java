@@ -32,7 +32,9 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -85,7 +87,7 @@ public class HtmlDocTest {
         doc = session.getDocument(new PathRef(TEST_PATHREF));
         assertThat(doc, is(notNullValue()));
 
-        page = doc.getAdapter(HtmlPage.class);
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
         assertThat(page.getTitle(), is(TEST_TITLE));
         assertThat(page.getDescription(), is(TEST_DESCRIPTION));
 
@@ -247,7 +249,7 @@ public class HtmlDocTest {
 
     private HtmlPage retrieveTestPage() throws ClientException {
         DocumentModel doc = session.getDocument(new PathRef(TEST_PATHREF));
-        return doc.getAdapter(HtmlPage.class);
+        return Tools.getAdapter(HtmlPage.class, doc, session);
     }
 
     private HtmlPage createApageWithSectionsAndRow() throws ClientException {
@@ -261,14 +263,14 @@ public class HtmlDocTest {
         page.addSection();
         DocumentModel doc = session.createDocument(page.getDocument());
 
-        return doc.getAdapter(HtmlPage.class);
+        return Tools.getAdapter(HtmlPage.class, doc, session);
 
     }
 
     private HtmlPage createTestPage() throws ClientException {
         DocumentModel doc = session.createDocumentModel("/", "myPage",
                 "HtmlPage");
-        HtmlPage page = doc.getAdapter(HtmlPage.class);
+        HtmlPage page = Tools.getAdapter(HtmlPage.class, doc, session);
         page.setTitle(TEST_TITLE);
         page.setDescription(TEST_DESCRIPTION);
         return page;

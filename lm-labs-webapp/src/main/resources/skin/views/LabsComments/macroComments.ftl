@@ -61,11 +61,11 @@
 				jQuery("#divEditCommentable").dialog2('close');
 			}
 		
-			function deleteCommentPage(url, id){
+			function deleteCommentPage(url, id, isFirst){
 				jQuery('#waitingPopup').dialog2('open');
 				jQuery.ajax({
 					type : "DELETE",
-					url : url + '?property=' + id,
+					url : url + '?property=' + id + '&isFirst=' + isFirst,
 					data : '',
 					success : function(msg) {
 						jQuery('#waitingPopup').dialog2('close');
@@ -82,7 +82,7 @@
 				jQuery("#divListCommentsPage")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
 				jQuery.ajax({
 					type : "GET",
-					url : '${This.path}/@labscomments?isPage=yes&removeOnlyLastComment=<#if ckeditor>true<#else>fase</#if>',
+					url : '${This.path}/@labscomments?isPage=yes',
 					data : '',
 					success : function(msg) {
 						jQuery("#divListCommentsPage")[0].innerHTML = msg;

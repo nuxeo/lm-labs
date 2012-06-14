@@ -1,5 +1,5 @@
 <#if This.type.name != "sitesRoot" && !mySite?? >
-	<#assign mySite=Common.siteDoc(Document).site />
+	<#assign mySite=Common.siteDoc(Document).getSite() />
 </#if>
 <#assign siteContributor = mySite?? && mySite.isContributor(Context.principal.name) />
 <#assign siteAdministrator = mySite?? && mySite.isAdministrator(Context.principal.name) />
@@ -9,6 +9,7 @@
 		var IS_MODE_EDITION = true;
 		var pathCookie = '${Context.modulePath}/${mySite.URL}';
 		var dragDrop = null;
+		var urlHomepage = "";
 		
 		$(document).ready(function() {
 			  // handling shorcut for mode previsualisation
@@ -46,6 +47,8 @@
 					dragDrop.unlock();
 				}
 				$("#logoDragMsgId").show();
+				urlHomepage = $("#logoImgId").attr("onclick");
+				$("#logoImgId").attr("onclick", "");
 				$("#logoImgId").removeClass("logoImgId-notmove");
 				$("#logoImgId").addClass("logoImgId-move");
 			</#if>
@@ -57,6 +60,9 @@
 			<#if siteAdministrator>
 				$("#logoDragMsgId").hide();
 				$("#logoImgId").removeClass("logoImgId-move");
+				if(urlHomepage.length > 0){
+					$("#logoImgId").attr("onclick", urlHomepage);
+				}
 				$("#logoImgId").addClass("logoImgId-notmove");
 				if (dragDrop != null){
 					dragDrop.lock();

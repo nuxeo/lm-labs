@@ -81,11 +81,11 @@
 		});
 	}
 
-	function deleteComment(url, id){
+	function deleteComment(url, id, isFirst){
 		jQuery('#waitingPopup').dialog2('open');
 		jQuery.ajax({
 			type : "DELETE",
-			url : url + '?property=' + id,
+			url : url + '?property=' + id + '&isFirst=' + isFirst,
 			data : '',
 			success : function(msg) {
 				hasChangedCommentsPopup = true;

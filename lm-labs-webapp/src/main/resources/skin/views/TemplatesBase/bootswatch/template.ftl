@@ -14,7 +14,7 @@
         <@block name="css">
           <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
           <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
-          <link rel="stylesheet/less" href="${This.path}/generated.less">
+          <link rel="stylesheet/less" href="${This.path}/generated.less" />
           <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.2.1.min.js"></script>
           <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
@@ -58,7 +58,7 @@
     <body>
 	<#-- timeout -->
     <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
-            
+
     <div id="FKtopContent">
     <#include "views/common/topbar.ftl" />
 
@@ -93,21 +93,21 @@
         </#list>
       </div>
     </div>
-    
+
 	 <script type="text/javascript">
 	    <#include "views/common/ckeditor_config.ftl" />
 	 </script>
-	 
+
 	 <div class="container-fluid">
      <div class="row-fluid">
 
-		<div class="sidebar span2"> 
+		<div class="sidebar span2">
 		<@block name="sidebar">
 		    	<#include "views/TemplatesBase/bootswatch/sidebar.ftl" />
 	    </@block>
 		</div>
-	
-        <div class="span10"> 
+
+        <div class="span10">
 	    <@block name="content">
 	    </@block>
 	    <@block name="pageCommentable">
@@ -119,11 +119,11 @@
 			</#if>
 		</@block>
         </div>
-	
+
 	    <div style="clear:both;"></div>
-	
+
 	    </div><!--FKtopContent-->
-    
+
     </div><!--row-fluid-->
     </div><!--container-fluid-->
 
@@ -136,5 +136,5 @@
 &nbsp;
 </div>
     </body>
-    
+
 </html>

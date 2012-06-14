@@ -66,7 +66,7 @@ public class LabsSiteWebAppUtilsTest {
                 "ma page classeur").desc("desc page classeur").create();
         assertThat(classeur.getFolders().size(), is(0));
 
-        classeur.addFolder("My Folder");
+        classeur.addFolder("My Folder", null);
         session.save();
         PageClasseurFolder folder = classeur.getFolders().get(0);
         assertThat(folder.getFiles().size(), is(0));
@@ -75,10 +75,10 @@ public class LabsSiteWebAppUtilsTest {
         assertThat(folder.getFiles().size(), is(1));
         session.save();
 
-        classeur.getDocument().getAdapter(LabsPublisher.class).publish();
+        Tools.getAdapter(LabsPublisher.class, classeur.getDocument(), null).publish();
 
         PageProvider<DocumentModel> latestUploadsPageProvider = LabsSiteWebAppUtils.getLatestUploadsPageProvider(
-                site, 0);
+                site, 0, session);
         assertNotNull(latestUploadsPageProvider);
         List<DocumentModel> lastUploadedDoc = latestUploadsPageProvider.getCurrentPage();
         assertNotNull(lastUploadedDoc);

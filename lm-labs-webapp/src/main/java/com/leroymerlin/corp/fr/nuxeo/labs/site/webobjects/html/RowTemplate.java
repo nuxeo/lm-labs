@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
@@ -42,7 +43,7 @@ public enum RowTemplate {
 	 * @throws ClientException
 	 */
 	@Deprecated
-	public static void initRow(HtmlRow row, RowTemplate template) throws ClientException {
+	public static void initRow(HtmlRow row, RowTemplate template, CoreSession session) throws ClientException {
 		for (HtmlContent content : row.getContents()) {
 			content.remove();
 		}

@@ -5,12 +5,14 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsSessionImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
-public class LabsTemplateAdapter implements LabsTemplate {
+public class LabsTemplateAdapter extends LabsSessionImpl implements LabsTemplate {
 
     private final DocumentModel doc;
 
@@ -32,7 +34,7 @@ public class LabsTemplateAdapter implements LabsTemplate {
 
     @Override
     public String getTemplateName() throws ClientException {
-        LabsTemplate siteTemplate = doc.getAdapter(SiteDocument.class).getSite().getTemplate();
+        LabsTemplate siteTemplate = Tools.getAdapter(SiteDocument.class, doc, getSession()).getSite().getTemplate();
         String siteTemplateName = siteTemplate.getDocumentTemplateName();
         if (doc.hasSchema(Schemas.LABSTEMPLATE.getName())) {
             return StringUtils.defaultIfEmpty(StringUtils.trim((String) doc.getPropertyValue(Schemas.LABSTEMPLATE.prefix() + ":name")), siteTemplateName);

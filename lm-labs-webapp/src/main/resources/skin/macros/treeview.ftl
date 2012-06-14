@@ -15,7 +15,7 @@ jQuery(document).ready( function() {
         persist: "cookie",
         control: "#treeviewControl",
         collapsed: false,
-        cookieId: "${Common.siteDoc(Document).site.document.id}-doctree-navtree"
+        cookieId: "${Common.siteDoc(Document).getSite().document.id}-doctree-navtree"
   });
 
 });

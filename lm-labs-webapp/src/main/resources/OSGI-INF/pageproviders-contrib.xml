@@ -10,7 +10,7 @@
       class="com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider">
     </genericPageProvider>
 
-<!-- 
+<!--
     <coreQueryPageProvider name="latest_uploads_nxql">
       <pattern quoteParameters="true" escapeParameters="true">
         SELECT * FROM Document WHERE ecm:mixinType <> 'HiddenInNavigation'
@@ -21,15 +21,23 @@
       <sort column="dc:modified" ascending="false" />
     </coreQueryPageProvider>
  -->
- 
+
  	<coreQueryPageProvider name="list_line_nxql">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM PageListLine WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:parentId = ? AND ecm:mixinType != 'LabsHidden'
+      </pattern>
+      <sort column="dc:created" ascending="true" />
+    </coreQueryPageProvider>
+
+ 	<coreQueryPageProvider name="list_line_write_nxql">
       <pattern quoteParameters="true" escapeParameters="true">
         SELECT * FROM PageListLine WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
         AND ecm:parentId = ?
       </pattern>
       <sort column="dc:created" ascending="true" />
     </coreQueryPageProvider>
- 
+
  	<coreQueryPageProvider name="list_news_write_nxql">
       <pattern quoteParameters="true" escapeParameters="true">
         SELECT * FROM LabsNews WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
@@ -37,7 +45,7 @@
       </pattern>
       <sort column="ln:startPublication" ascending="false" />
     </coreQueryPageProvider>
- 
+
  	<coreQueryPageProvider name="list_news_nxql">
       <pattern quoteParameters="true" escapeParameters="true">
         SELECT * FROM LabsNews WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
@@ -45,7 +53,41 @@
       </pattern>
       <sort column="ln:startPublication" ascending="false" />
     </coreQueryPageProvider>
- 
+
+ 	<coreQueryPageProvider name="all_news_same_author">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM LabsNews WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:path STARTSWITH ? AND dc:creator = ?
+        ORDER BY ln:startPublication DESC
+      </pattern>
+    </coreQueryPageProvider>
+
+ 	<coreQueryPageProvider name="published_news_same_author">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM LabsNews WHERE ecm:isCheckedInVersion = 0
+        AND ecm:path STARTSWITH ? AND dc:creator = ?
+        AND ln:startPublication &lt;= DATE ? AND (ln:endPublication IS NULL OR ln:endPublication > DATE ?)
+        ORDER BY ln:startPublication DESC
+      </pattern>
+    </coreQueryPageProvider>
+
+ 	<coreQueryPageProvider name="all_pages_same_author">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM Page WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:primaryType != 'LabsNews'
+        AND ecm:path STARTSWITH ? AND dc:creator = ?
+        ORDER BY dc:modified DESC
+      </pattern>
+    </coreQueryPageProvider>
+
+ 	<coreQueryPageProvider name="published_pages_same_author">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM Page WHERE ecm:isCheckedInVersion = 0
+        AND ecm:primaryType != 'LabsNews'
+        AND ecm:path STARTSWITH ? AND dc:creator = ? AND ecm:currentLifeCycleState = 'published'
+        ORDER BY dc:modified DESC
+      </pattern>
+    </coreQueryPageProvider>
 
   </extension>
 

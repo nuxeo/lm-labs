@@ -41,6 +41,7 @@ public class WebHtmlRow extends DocumentObject {
         super.initialize(args);
         assert args != null && args.length == 2;
         row = (HtmlRow) args[1];
+        row.setSession(getCoreSession());
     }
 
     @Path("c/{index}")
@@ -173,7 +174,7 @@ public class WebHtmlRow extends DocumentObject {
                     saveDocument();
 //                    if ("rss".equals(gadget.getName())) {
 //                        gadgetDoc = getCoreSession().getDocument(new IdRef(gadgetDocRef));
-//                        OpenSocialAdapter adapter = (OpenSocialAdapter) gadgetDoc.getAdapter(WebContentAdapter.class);
+//                        OpenSocialAdapter adapter = (OpenSocialAdapter) Tools.getAdapter(WebContentAdapter.class, gadgetDoc, getCoreSession());
 //                        OpenSocialData data = adapter.getData();
 //                        List<UserPref> userPrefs = new ArrayList<UserPref>();
 //                        UserPref userPref = new UserPref("rssUrl1", DataType.STRING);

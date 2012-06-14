@@ -2,22 +2,18 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.notification;
 
 import java.util.Calendar;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.runtime.api.Framework;
 
-// TODO unit tests
-public class MailNotificationAdapter implements MailNotification {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsAdapterImpl;
 
-    protected final DocumentModel doc;
-    
-    private static final Log LOG = LogFactory.getLog(MailNotificationAdapter.class);
+// TODO unit tests
+public class MailNotificationAdapter extends LabsAdapterImpl implements MailNotification {
+
+//    private static final Log LOG = LogFactory.getLog(MailNotificationAdapter.class);
 
     public MailNotificationAdapter(DocumentModel doc) {
-        this.doc = doc;
+        super(doc);
     }
 
     @Override
@@ -29,7 +25,7 @@ public class MailNotificationAdapter implements MailNotification {
     @Override
     public Calendar getLastNotified() throws Exception {
         PageNotificationService notificationService = Framework.getService(PageNotificationService.class);
-        return notificationService.getLastNotified(doc);
+        return notificationService.getLastNotified(doc, getSession());
     }
 
 }

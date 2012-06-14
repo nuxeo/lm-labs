@@ -18,6 +18,7 @@ import com.leroymerlin.corp.fr.nuxeo.forum.LMForum;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
 import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
 
@@ -37,11 +38,12 @@ public class LMForumResource extends NotifiablePageResource{
     }
 
     public LMForum getLabsForum() {
-        LMForum forum = doc.getAdapter(LMForum.class);
+        CoreSession session = getCoreSession();
+        LMForum forum = Tools.getAdapter(LMForum.class, doc, session);
         afn = new AuthorFullName(new HashMap<String, String>(), LabsSiteConstants.Forum.FORUM_CREATOR);
         List<DocumentModel> listModelDoc = new LinkedList<DocumentModel>();
         try {
-            for (LMTopic aLmTopic : forum.getTopics(getCoreSession()))
+            for (LMTopic aLmTopic : forum.getTopics(session))
                 listModelDoc.add(aLmTopic.getDocument());
             
             afn.loadFullName(listModelDoc);
@@ -62,7 +64,7 @@ public class LMForumResource extends NotifiablePageResource{
            FormData form = ctx.getForm();
            String pTitle = form.getString(AbstractLabsBase.DC_TITLE);
            CoreSession session = ctx.getCoreSession();
-           LMForum lmForum = doc.getAdapter(LMForum.class);
+           LMForum lmForum = Tools.getAdapter(LMForum.class, doc, session);
            topic = lmForum.addTopic(session, pTitle);
            topic.setDescription(form.getString(AbstractLabsBase.DC_DESCRIPTION));
            topic.setCommentable(true);

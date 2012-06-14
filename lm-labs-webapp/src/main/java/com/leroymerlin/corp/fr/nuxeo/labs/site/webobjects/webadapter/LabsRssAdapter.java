@@ -9,6 +9,7 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
@@ -23,6 +24,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SyndicationUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.sun.syndication.feed.synd.SyndFeed;
 
 @WebAdapter(name = "labsrss", type = "LabsRssAdapter", targetType = "Document")
@@ -60,8 +62,8 @@ public class LabsRssAdapter extends DefaultAdapter {
             if (!LabsSiteConstants.Docs.PAGENEWS.type().equals(doc.getType())) {
                 throw new WebResourceNotFoundException(BAD_TYPE_OF_DOCUMENT);
             }
-            final PageNews pageNews = doc.getAdapter(PageNews.class);
-            List<LabsNews> topNews = pageNews.getTopNews(TOP_NEW_MAX, getContext().getCoreSession());
+            final PageNews pageNews = Tools.getAdapter(PageNews.class, doc, ctx.getCoreSession());
+            List<LabsNews> topNews = pageNews.getTopNews(TOP_NEW_MAX);
             final SyndFeed feed = pageNews.buildRssLabsNews(
                     topNews,
                     this.getContext().getBaseURL()
@@ -100,7 +102,7 @@ public class LabsRssAdapter extends DefaultAdapter {
         String rssDesc = ctx.getMessage("label.rss.last_upload.desc");
         try {
             PageProvider<DocumentModel> latestUploadsPageProvider = LabsSiteWebAppUtils.getLatestUploadsPageProvider(
-                    site.getDocument(), 0);
+                    site.getDocument(), 0, ctx.getCoreSession());
             List<DocumentModel> lastUpdatedNews = latestUploadsPageProvider.getCurrentPage();
             final SyndFeed feed = SyndicationUtils.buildRss(lastUpdatedNews,
                     rssTitle, rssDesc, StringUtils.EMPTY, getContext()); // TODO RSS feed URL
@@ -118,10 +120,11 @@ public class LabsRssAdapter extends DefaultAdapter {
         String rssTitle = ctx.getMessage("label.rss.all.title");
         String rssDesc = ctx.getMessage("label.rss.all.desc");
         try {
+            CoreSession session = ctx.getCoreSession();
             DocumentModelList lastUpdatedDocs = site.getLastUpdatedDocs();
             DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
             PageProvider<DocumentModel> latestUploadsPageProvider = LabsSiteWebAppUtils.getLatestUploadsPageProvider(
-                    site.getDocument(), 0);
+                    site.getDocument(), 0, session);
 
             DocumentModelList allDocs = lastUpdatedDocs;
             if (lastUpdatedDocs != null) {

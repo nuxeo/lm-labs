@@ -48,7 +48,6 @@ public interface LabsSite  extends LabsBase {
      */
     Blob getBanner() throws ClientException;
 
-
     /**
      * @param pBlob
      * @throws ClientException
@@ -67,10 +66,10 @@ public interface LabsSite  extends LabsBase {
      * @throws ClientException
      */
     List<Page> getAllPages() throws ClientException;
-
+    
     /**
      * @param docType
-     * @param lifecycleState can be <code>null</code>.
+     * @param llifecycleState can be <code>null</code>.
      * @return
      * @throws ClientException
      */

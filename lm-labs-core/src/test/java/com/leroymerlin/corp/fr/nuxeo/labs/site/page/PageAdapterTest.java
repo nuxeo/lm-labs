@@ -29,6 +29,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsCommentFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features({ SiteFeatures.class, LabsCommentFeature.class })
@@ -49,7 +50,7 @@ public class PageAdapterTest {
     public void iCanGetGenericAdaptorForPageClasseur() throws Exception {
         DocumentModel pageClasseur = session.getDocument(new PathRef(
                 "/page_classeur"));
-        Page adapter = pageClasseur.getAdapter(Page.class);
+        Page adapter = Tools.getAdapter(Page.class, pageClasseur, session);
         assertNotNull(adapter);
     }
 
@@ -57,7 +58,7 @@ public class PageAdapterTest {
     public void iCanSetTitle() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
         assertNotNull(doc);
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         assertNotNull(page);
         page.setTitle(TITRE_1);
         assertNotNull(page.getTitle());
@@ -68,7 +69,7 @@ public class PageAdapterTest {
     public void iCannotSetTitleToNull() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
         assertNotNull(doc);
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         assertNotNull(page);
         thrown.expect(IllegalArgumentException.class);
         page.setTitle(null);
@@ -77,7 +78,7 @@ public class PageAdapterTest {
     @Test
     public void iCanSetDescription() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         assertNotNull(page);
         page.setDescription(DESCRIPTION_1);
         assertEquals(DESCRIPTION_1, page.getDescription());
@@ -87,7 +88,7 @@ public class PageAdapterTest {
     public void canGetCommentAdapter() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
         assertTrue(doc.hasFacet("Commentable"));
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         assertNotNull(page);
         CommentableDocument commentable = doc.getAdapter(CommentableDocument.class);
         assertNotNull(commentable);
@@ -98,7 +99,7 @@ public class PageAdapterTest {
    public void canAddAndGetComments() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
         assertTrue(doc.hasFacet("Commentable"));
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         assertNotNull(page);
         CommentableDocument commentable = doc.getAdapter(CommentableDocument.class);
         assertNotNull(commentable);
@@ -126,7 +127,7 @@ public class PageAdapterTest {
     @Test
     public void iCanGetDefaultCommentable() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         assertNotNull(page);
         assertFalse(page.isCommentable());
     }
@@ -134,21 +135,21 @@ public class PageAdapterTest {
     @Test
     public void iCanSetCommentable() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         assertNotNull(page);
         assertFalse(page.isCommentable());
         page.setCommentable(true);
         session.saveDocument(doc);
         session.save();
         doc = session.getDocument(doc.getRef());
-        page = doc.getAdapter(Page.class);
+        page = Tools.getAdapter(Page.class, doc, session);
         assertTrue(page.isCommentable());
     }
 
     @Test
     public void iCanGetDefaultDisplayableParameters() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         
         assertTrue(page.isDisplayable("dc:title"));
         assertTrue(page.isDisplayable("dc:description"));
@@ -157,7 +158,7 @@ public class PageAdapterTest {
     @Test
     public void iCanSetDisplayableParameters() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         List<String> lisParamNotDisplayable = new ArrayList<String>();
         lisParamNotDisplayable.add("dc:title");
         page.setNotDisplayableParameters(lisParamNotDisplayable);
@@ -165,7 +166,7 @@ public class PageAdapterTest {
         session.saveDocument(doc);
         session.save();
         doc = session.getDocument(doc.getRef());
-        page = doc.getAdapter(Page.class);
+        page = Tools.getAdapter(Page.class, doc, session);
         
         assertFalse(page.isDisplayable("dc:title"));
         assertTrue(page.isDisplayable("dc:description"));
@@ -174,7 +175,7 @@ public class PageAdapterTest {
     @Test
     public void iCanGetDefaultElementsPerPage() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         
         assertTrue(page.getElementsPerPage() == 0);
     }
@@ -182,13 +183,13 @@ public class PageAdapterTest {
     @Test
     public void iCanSetElementsPerPage() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
-        Page page = doc.getAdapter(Page.class);
+        Page page = Tools.getAdapter(Page.class, doc, session);
         page.setElementsPerPage(5);
         
         session.saveDocument(doc);
         session.save();
         doc = session.getDocument(doc.getRef());
-        page = doc.getAdapter(Page.class);
+        page = Tools.getAdapter(Page.class, doc, session);
         assertTrue(page.getElementsPerPage() == 5);
     }
 

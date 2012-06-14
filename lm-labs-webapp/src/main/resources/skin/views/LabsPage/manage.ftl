@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 <h1>Ajouter du contenu</h1>
 
 <form class="form-horizontal" onsubmit="addDoc(null);return false;" id="add_doc_form" action="${This.path}" method="post">
@@ -21,7 +21,7 @@
     <div class="control-group">
       <#assign page = Common.sitePage(Document) />
       <label class="control-label" for="doctype">${Context.getMessage('label.doctype')}</label>
-        <#list page.allowedSubtypes as type>
+        <#list page.getAllowedSubtypes() as type>
           <div class="controls">
             <label><input class="radio" type="radio" name="doctype" value="${type}" checked> ${Context.getMessage('label.doctype.'+type)}</label>
           </div>

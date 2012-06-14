@@ -47,7 +47,7 @@ public class LastUploads {
         return 
                 new PaginableDocumentModelListImpl(
 //        (DocumentModelList)
-        LabsSiteWebAppUtils.getLatestUploadsPageProvider(document, targetPageSize)
+        LabsSiteWebAppUtils.getLatestUploadsPageProvider(document, targetPageSize, session)
 //        .setCurrentPage(0)
         )
         ;

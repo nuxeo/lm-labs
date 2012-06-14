@@ -14,13 +14,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 public class HtmlPageImpl extends AbstractPage implements HtmlPage,
         ChangeListener {
 
-    public static final String DOCTYPE = Docs.HTMLPAGE.type();
+    public HtmlPageImpl(DocumentModel document) {
+		super(document);
+	}
+
+	public static final String DOCTYPE = Docs.HTMLPAGE.type();
 
     private List<HtmlSection> sections;
-
-    public HtmlPageImpl(DocumentModel doc) {
-        this.doc = doc;
-    }
 
     @Override
     public List<HtmlSection> getSections() throws ClientException {
@@ -92,5 +92,4 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage,
     public void onChange(Object obj) throws ClientException {
         update();
     }
-
 }

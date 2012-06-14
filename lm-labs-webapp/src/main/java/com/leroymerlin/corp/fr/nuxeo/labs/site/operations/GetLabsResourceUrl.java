@@ -9,6 +9,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @Operation(id = GetLabsResourceUrl.ID, category = Constants.CAT_SERVICES, label = "",
 description = "")
@@ -22,7 +23,7 @@ public class GetLabsResourceUrl {
     @OperationMethod
     public String run(DocumentRef doc) throws Exception {
         DocumentModel resource = session.getDocument(doc);
-        SiteDocument siteDocument = resource.getAdapter(SiteDocument.class);
+        SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, resource, session);
         return siteDocument.getResourcePath();
     }
 

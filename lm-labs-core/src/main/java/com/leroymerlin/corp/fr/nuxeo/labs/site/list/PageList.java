@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.SortedSet;
 
 import org.nuxeo.ecm.core.api.ClientException;
-import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 
@@ -35,7 +34,7 @@ public interface PageList extends Page {
      * @param headersToSave
      * @throws ClientException
      */
-    void setHeaders(List<Header> headersToSave, CoreSession session) throws ClientException;
+    void setHeaders(List<Header> headersToSave) throws ClientException;
 
     /**
      * Get the set of header
@@ -55,21 +54,21 @@ public interface PageList extends Page {
      * @return
      * @throws ClientException
      */
-    List<EntriesLine> getLines(CoreSession session) throws ClientException;
+    List<EntriesLine> getLines() throws ClientException;
     
     /**
      * Save a EntriesLine
      * @param pLine
      * @throws ClientException
      */
-    void saveLine(EntriesLine pLine, LabsSite site, CoreSession session) throws ClientException;
+    void saveLine(EntriesLine pLine, LabsSite site) throws ClientException;
     
     /**
      * Remove a PageListLine by this reference
      * @param pRef
      * @throws ClientException
      */
-    void removeLine(DocumentRef pRef, CoreSession session) throws ClientException;
+    void removeLine(DocumentRef pRef) throws ClientException;
     
     /**
      * Get a EntriesLine by this reference
@@ -77,7 +76,7 @@ public interface PageList extends Page {
      * @return
      * @throws ClientException
      */
-    EntriesLine getLine(DocumentRef pRef, CoreSession session) throws ClientException;
+    EntriesLine getLine(DocumentRef pRef) throws ClientException;
     
     /**
      * If all the people are contributors for manage lines.
@@ -91,7 +90,7 @@ public interface PageList extends Page {
      * @param isAllContributors
      * @throws ClientException
      */
-    void setAllContributors(boolean isAllContributors, CoreSession session) throws ClientException;
+    void setAllContributors(boolean isAllContributors) throws ClientException;
 
     /**
      * If the lines are commentable
@@ -112,6 +111,6 @@ public interface PageList extends Page {
      * @param pOut
      * @throws IOException
      */
-    void exportExcel(OutputStream pOut, CoreSession session) throws ClientException, IOException ;
+    void exportExcel(OutputStream pOut) throws ClientException, IOException ;
     
 }

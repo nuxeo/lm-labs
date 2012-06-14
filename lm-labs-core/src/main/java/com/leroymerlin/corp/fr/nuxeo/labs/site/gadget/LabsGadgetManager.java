@@ -11,6 +11,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 
 public interface LabsGadgetManager {
 
+    public static final String GADGET_ID_PREFERENCE_NAME = "NXID_GADGET";
+
     public enum WidgetType {
 
         HTML("html"), OPENSOCIAL("opensocial");

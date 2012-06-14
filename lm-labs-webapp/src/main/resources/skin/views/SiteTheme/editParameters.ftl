@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 		  <h1>${Context.getMessage('label.labssites.appearance.theme.edit.title')}</h1>
 	      
 	      <form class="form-horizontal" action="${This.path}/parameters" method="post" enctype="multipart/form-data" id="form-parameter">
@@ -7,7 +7,7 @@
 	      		<div class="control-group">
                   <label class="control-label" for="banner">${Context.getMessage('label.labssites.appearance.theme.edit.banner.label')}</label>
                   <div class="controls">
-                  	<#if (mySite.themeManager.theme.banner != null)>
+                  	<#if (mySite.themeManager.getTheme(Context.coreSession).banner != null)>
 	                  	<div id="actionMediaBanner" style="float: right;">
 		                  	<span onclick="javascript:deleteElement('${This.path}/banner', 'hideBanner()', '${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete.confirm')}');" style="cursor: pointer;">
 						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete')}" src="${skinPath}/images/x.gif"/>
@@ -28,10 +28,10 @@
                 <div class="control-group">
                   <label class="control-label" for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
                   <div class="controls">
-                  	 <#assign logoWidth = mySite.themeManager.theme.logoWidth />
+                  	 <#assign logoWidth = mySite.themeManager.getTheme(Context.coreSession).logoWidth />
                   	 <#if logoWidth &gt; 0 >
 	                    <div id="actionMediaLogo" style="float: right;">
-	                    	<img src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.theme.name}/logo" style="width: 40px;border:1px dashed black;"/>
+	                    	<img src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.getTheme(Context.coreSession).name}/logo" style="width: 40px;border:1px dashed black;"/>
 		                  	<span onclick="javascript:deleteElement('${This.path}/logo', 'hideLogo()', '${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete.confirm')}');" style="cursor: pointer;">
 						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete')}" src="${skinPath}/images/x.gif"/>
 						  	</span>                  
@@ -47,14 +47,14 @@
                     <div class="control-group">
 	                  <label class="control-label" for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
 	                  <div class="controls">
-	                    <input id="resize_ratio" name="resize_ratio" type="text" value="${mySite.themeManager.theme.logoResizeRatio}" class="input-small" />
+	                    <input id="resize_ratio" name="resize_ratio" type="text" value="${mySite.themeManager.getTheme(Context.coreSession).logoResizeRatio}" class="input-small" />
 	                  </div>
 	                </div>
                 	<!--   LOGO AREA HEIGHT -->
                 	<div class="control-group" id="div_logo_area_height">
 	                  <label class="control-label" for="logo_area_height">${Context.getMessage('label.labssites.appearance.theme.edit.logo_area_height')}</label>
 	                  <div class="controls">
-	                    <input id="logo_area_height" name="logo_area_height" type="text" value="${mySite.themeManager.theme.logoAreaHeight}" class="input-small" />
+	                    <input id="logo_area_height" name="logo_area_height" type="text" value="${mySite.themeManager.getTheme(Context.coreSession).logoAreaHeight}" class="input-small" />
 	                  </div>
                     </div>
                 </#if>
@@ -113,7 +113,7 @@
 		      		<div class="control-group">
 	                  <label class="control-label" for="style">${Context.getMessage('label.labssites.appearance.theme.edit.style.label')}</label>
 	                  <div class="controls">
-			      		 <textarea class="input" name="style" style="width: 350px;height: 135px;">${mySite.themeManager.theme.style}</textarea>
+			      		 <textarea class="input" name="style" style="width: 350px;height: 135px;">${mySite.themeManager.getTheme(Context.coreSession).style}</textarea>
 	                    <p class="help-block" style="color: red;">${Context.getMessage('label.labssites.appearance.theme.edit.style.help.block')}</p>
 	                  </div>
 	                </div>
@@ -126,13 +126,13 @@
 	                <div class="control-group">
 	                  <label class="control-label" for="logo_posx">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posx')}</label>
 	                  <div class="controls">
-	                    <input id="logo_posx" name="logo_posx" type="text" value="${mySite.themeManager.theme.logoPosX}" class="input-small" />
+	                    <input id="logo_posx" name="logo_posx" type="text" value="${mySite.themeManager.getTheme(Context.coreSession).logoPosX}" class="input-small" />
 	                  </div>
                     </div>
                     <div class="control-group">
 	                  <label class="control-label" for="logo_posy">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.posy')}</label>
 	                  <div class="controls">
-	                    <input id="logo_posy" name="logo_posy" type="text" value="${mySite.themeManager.theme.logoPosY}" class="input-small" />
+	                    <input id="logo_posy" name="logo_posy" type="text" value="${mySite.themeManager.getTheme(Context.coreSession).logoPosY}" class="input-small" />
 	                  </div>
                     </div>
 	              </div>

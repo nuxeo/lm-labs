@@ -99,3 +99,7 @@ button.addFolder {
 	float: left;
 	margin-right: 1em;
 }
+
+div.divFolderDescription{
+	margin-left: 25px;
+}

@@ -248,6 +248,10 @@ div#siteMap {
 	&.footer > span {
 
 	}
+	div.hidden {
+		font-style: italic;
+		text-decoration: line-through;
+	}
 }
 
 li.labscomments {
@@ -270,11 +274,6 @@ li.labscomments {
 }
 
 .rss-feed-list-style() {
-
-    .itemList {
-        height:155px;
-
-    }
     .item {
         cursor:pointer;
         border-radius:10px;
@@ -310,6 +309,9 @@ li.labscomments {
 
 .lastMessage {
 	height:196px;
+    .itemList {
+        height:155px;
+    }
 	.rss-feed-list-style;
 }
 
@@ -420,7 +422,7 @@ li.labscomments {
 .logoImgId-notmove {
 	border: 0;
 	padding: 2px;
-	cursor: normal;
+	cursor: pointer;
 	z-index:2;
 }
 

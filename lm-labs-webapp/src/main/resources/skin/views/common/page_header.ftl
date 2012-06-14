@@ -1,4 +1,4 @@
-<#assign mySite=Common.siteDoc(Document).site />
+<#assign mySite=Common.siteDoc(Document).getSite() />
 <#assign page = This.page />
 <#if page.isDisplayable(This.DC_TITLE)>
 <div class="page-title">

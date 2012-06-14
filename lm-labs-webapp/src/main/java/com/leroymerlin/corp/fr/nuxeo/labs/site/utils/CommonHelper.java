@@ -1,6 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -10,14 +11,20 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.common.utils.URIUtils;
+import org.nuxeo.ecm.automation.AutomationService;
+import org.nuxeo.ecm.automation.OperationChain;
+import org.nuxeo.ecm.automation.OperationContext;
+import org.nuxeo.ecm.automation.core.operations.services.DocumentPageProviderOperation;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.webengine.WebEngine;
+import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -44,16 +51,20 @@ public final class CommonHelper {
     }
 
     public static final SiteDocument siteDoc(DocumentModel doc) {
-        return doc.getAdapter(SiteDocument.class);
+        return Tools.getAdapter(SiteDocument.class, doc, getCoreSession());
     }
 
     public static final Page sitePage(DocumentModel doc) throws ClientException {
+        return sitePage(doc, getCoreSession());
+    }
+
+    public static final Page sitePage(DocumentModel doc, CoreSession session) throws ClientException {
         Page page = null;
         if (LabsSiteConstants.Docs.SITE.type().equals(doc.getType())) {
-            DocumentModel homePage = doc.getAdapter(LabsSite.class).getIndexDocument();
-            page = homePage.getAdapter(Page.class);
+            DocumentModel homePage = Tools.getAdapter(LabsSite.class, doc, session).getIndexDocument();
+            page = Tools.getAdapter(Page.class, homePage, session);
         } else {
-            page = doc.getAdapter(Page.class);
+            page = Tools.getAdapter(Page.class, doc, session);
         }
         return page;
     }
@@ -78,10 +89,11 @@ public final class CommonHelper {
     public static final List<Page> getTopNavigationPages(DocumentModel siteDoc,
             final String userName) throws ClientException {
         List<Page> pages = new ArrayList<Page>();
+        final CoreSession session = getCoreSession();
         LabsSite site = siteDoc(siteDoc).getSite();
         Collection<Page> allTopPages = siteDoc(site.getTree()).getChildrenPages();
         final DocumentModel homePageDoc = site.getIndexDocument();
-        Page homePage = homePageDoc.getAdapter(Page.class);
+        Page homePage = Tools.getAdapter(Page.class, homePageDoc, session);
         if (!site.isAdministrator(userName)) {
             if (homePage.isVisible() && !homePage.isDeleted()) {
                 pages.add(homePage);
@@ -134,16 +146,17 @@ public final class CommonHelper {
             return adaptersList;
         }
         StringBuilder query = new StringBuilder();
+        CoreSession session = getCoreSession();
         query.append("SELECT * FROM ").append(Docs.SITE.type()).append(
                 " WHERE ").append(NXQL.ECM_LIFECYCLESTATE).append(" = '").append(
                 State.PUBLISH.getState()).append("'").append(" AND ").append(
                 NXQL.ECM_PATH).append(" STARTSWITH '").append(
-                sm.getSiteRoot(getCoreSession()).getPathAsString().replace("'", "\\'")).append("'").append(
+                sm.getSiteRoot(session).getPathAsString().replace("'", "\\'")).append("'").append(
                 " AND ").append(LabsSiteAdapter.PROPERTY_SITE_TEMPLATE).append(
                 " = 1");
-        DocumentModelList list = getCoreSession().query(query.toString());
+        DocumentModelList list = session.query(query.toString());
         for (DocumentModel site : list) {
-            adaptersList.add(site.getAdapter(LabsSite.class));
+            adaptersList.add(Tools.getAdapter(LabsSite.class, site, session));
         }
         return adaptersList;
     }
@@ -201,6 +214,17 @@ public final class CommonHelper {
             return Framework.getService(SiteManager.class);
         } catch (Exception e) {
             return null;
+        }
+    }
+    
+    public static boolean isNotRejectedComment(DocumentModel document){
+        try {
+            if (!LabsSiteConstants.CommentsState.REJECT.getState().equals(document.getCurrentLifeCycleState())){
+                return true;
+            }
+            return false;
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
         }
     }
 
@@ -263,6 +287,22 @@ public final class CommonHelper {
         return entriesTemplate;
     }
 
+    public static Calendar getNow() {
+    	return Calendar.getInstance();
+    }
+
+    public DocumentModelList getPageProviderDocs(CoreSession session, final String providerName, final String queryParams, final int pageSize) {
+        OperationContext ctx = new OperationContext(session);
+		OperationChain chain = new OperationChain(providerName + "_" + session.getSessionId());
+        chain.add(DocumentPageProviderOperation.ID).set("providerName", providerName).set("queryParams", queryParams).set("pageSize", new Integer(pageSize));
+        try {
+			return (DocumentModelList) Framework.getService(AutomationService.class).run(ctx, chain);
+		} catch (Exception e) {
+			LOG.error(e, e);
+			return new DocumentModelListImpl();
+		}
+    }
+
     /**
      * @throws Exception
      */
@@ -273,7 +313,7 @@ public final class CommonHelper {
             return null;
         }
     }
-    
+
     private static CoreSession getCoreSession() {
         return WebEngine.getActiveContext()
                 .getCoreSession();

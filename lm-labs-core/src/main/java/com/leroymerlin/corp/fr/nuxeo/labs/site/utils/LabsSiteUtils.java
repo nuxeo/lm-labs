@@ -52,12 +52,12 @@ public final class LabsSiteUtils {
      * @param doc
      * @return true if the user/group has only permissions 'Read'
      */
-    public static boolean isOnlyRead(final DocumentModel doc){
+    public static boolean isOnlyRead(final DocumentModel doc, final CoreSession session){
         boolean result = false;
         try {
-            result = !doc.getCoreSession().hasPermission(doc.getRef(), SecurityConstants.READ_WRITE);
+            result = !session.hasPermission(doc.getRef(), SecurityConstants.READ_WRITE);
             if (result){
-                result = doc.getCoreSession().hasPermission(doc.getRef(), SecurityConstants.READ);
+                result = session.hasPermission(doc.getRef(), SecurityConstants.READ);
             }
         } catch (Exception e) {
             log.error(IMPOSSIBLE_TO_VERIFY_THE_PERMISSION, e);
@@ -106,15 +106,14 @@ public final class LabsSiteUtils {
      * @throws ClientException
      * @throws Exception
      */
-    public static void unblockInherits(String permission, DocumentModel document) throws ClientException,Exception {
-        CoreSession session = document.getCoreSession();
+    public static void unblockInherits(String permission, DocumentModel document, final CoreSession session) throws ClientException,Exception {
         if(StringUtils.isEmpty(permission)){
             SecurityData sd = SecurityDataHelper.buildSecurityData(document);         
             sd.setBlockRightInheritance(false, null);
             SecurityDataHelper.updateSecurityOnDocument(document, sd);
             session.save();
             List<LMPermission> permissions = extractPermissions(document);
-            deletePagePermissions(document, permissions);
+            deletePagePermissions(document, permissions, session);
         }
         else{
             DocumentModel docParent = session.getDocument(document.getParentRef());
@@ -133,24 +132,24 @@ public final class LabsSiteUtils {
             }
             if (Rights.WRITE.getRight().equals(permission)){
                 for (LMPermission perm : permissionsWrite) {
-                    setPermission(document, perm.permission, perm.getName(), Action.GRANT, true);
+                    setPermission(document, perm.permission, perm.getName(), Action.GRANT, true, session);
                 }
             }
             if (Rights.READ.getRight().equals(permission)){
                 for (LMPermission perm : permissionsRead) {
-                    setPermission(document, perm.permission, perm.getName(), Action.GRANT, true);
+                    setPermission(document, perm.permission, perm.getName(), Action.GRANT, true, session);
                 }
             }
         }
         
         final DocumentRef ref = document.getRef();
-        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(document.getCoreSession()){
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
             
             @Override
             public void run() throws ClientException {
                 DocumentModel docu = session.getDocument(ref);
                 try{
-                    deleteDuplicate(docu);
+                    deleteDuplicate(docu, session);
                 } catch (Exception e) {
                     throw WebException.wrap("Problem for change permissions", e);
                 }
@@ -160,14 +159,14 @@ public final class LabsSiteUtils {
         };
         runner.runUnrestricted();
         
-        deleteDuplicate(document);
+        deleteDuplicate(document, session);
     }
 
     /**
      * @param document
      * @throws Exception
      */
-    private static void deleteDuplicate(DocumentModel document) throws Exception {
+    private static void deleteDuplicate(DocumentModel document, CoreSession session) throws Exception {
         List<LMPermission> permissions = extractPermissions(document);
         List<LMPermission> permissionsAdmin = new ArrayList<LMPermission>();
         List<LMPermission> permissionsWrite = new ArrayList<LMPermission>();
@@ -182,11 +181,11 @@ public final class LabsSiteUtils {
             }
         }
         Map<String, LMPermission> mapPerm = new HashMap<String, LMPermission>();
-        deleteUnusedPermissions(document, permissionsAdmin, mapPerm);
+        deleteUnusedPermissions(document, permissionsAdmin, mapPerm, session);
         mapPerm = new HashMap<String, LMPermission>();
-        deleteUnusedPermissions(document, permissionsWrite, mapPerm);
+        deleteUnusedPermissions(document, permissionsWrite, mapPerm, session);
         mapPerm = new HashMap<String, LMPermission>();
-        deleteUnusedPermissions(document, permissionsRead, mapPerm);
+        deleteUnusedPermissions(document, permissionsRead, mapPerm, session);
     }
 
     /**
@@ -196,7 +195,7 @@ public final class LabsSiteUtils {
      * @throws Exception
      */
     private static void deleteUnusedPermissions(DocumentModel document,
-            List<LMPermission> permissions, Map<String, LMPermission> mapPerm)
+            List<LMPermission> permissions, Map<String, LMPermission> mapPerm, CoreSession session)
             throws Exception {
         List<LMPermission> permToDelete = new ArrayList<LMPermission>();
         
@@ -216,7 +215,7 @@ public final class LabsSiteUtils {
         }
         
         for (LMPermission perm : permToDelete){
-            setPermission(document, perm.permission, perm.getName(), Action.REMOVE, true);
+            setPermission(document, perm.permission, perm.getName(), Action.REMOVE, true, session);
         }
     }
 
@@ -224,10 +223,10 @@ public final class LabsSiteUtils {
      * @param document
      * @throws Exception
      */
-    private static void deletePagePermissions(DocumentModel document, List<LMPermission> permissions) throws Exception {
+    private static void deletePagePermissions(DocumentModel document, List<LMPermission> permissions, CoreSession session) throws Exception {
         for (LMPermission perm : permissions) {
             if(!perm.isInherited()){
-                setPermission(document, perm.permission, perm.getName(), Action.REMOVE, true);
+                setPermission(document, perm.permission, perm.getName(), Action.REMOVE, true, session);
             }
 
         }
@@ -264,7 +263,7 @@ public final class LabsSiteUtils {
      * @throws Exception
      */
     public static void setPermission(DocumentModel doc, final String permission,
-            final String id, Action action, boolean override)
+            final String id, Action action, boolean override, CoreSession session)
             throws IllegalStateException, Exception {
         if (doc != null) {
             if (!PermissionsHelper.hasPermission(doc, permission, id)) {
@@ -286,8 +285,8 @@ public final class LabsSiteUtils {
                             throw new IllegalStateException(
                                     "message.security.permission.hasHigherPermission");
                         }
-                        helper.grantPermission(doc, permission, id, override);
-                        doc.getCoreSession().save();
+                        helper.grantPermission(doc, permission, id, override, session);
+                        session.save();
                     } catch (ClientException e) {
                         // TODO throw exception to notify unknow group/user
                         log.error("Failed to save session:" + e);
@@ -304,7 +303,7 @@ public final class LabsSiteUtils {
                     // }
                     try {
                         PermissionsHelper.removePermission(doc, permission, id);
-                        doc.getCoreSession().save();
+                        session.save();
                     } catch (Exception e) {
                         // TODO throw exception to notify unknown group/user
                         log.error("Failed to remove permission (" + id + "/"
@@ -324,12 +323,12 @@ public final class LabsSiteUtils {
         }
     }
     
-    public static DocumentModelList getChildrenPageDocuments(DocumentModel document) throws ClientException {
+    public static DocumentModelList getChildrenPageDocuments(DocumentModel document, final CoreSession session) throws ClientException {
         @SuppressWarnings("serial")
-        DocumentModelList children = document.getCoreSession().getChildren(document.getRef(), null, new Filter() {
+        DocumentModelList children = session.getChildren(document.getRef(), null, new Filter() {
             @Override
             public boolean accept(DocumentModel document) {
-                return (document.getAdapter(Page.class) != null);
+                return (Tools.getAdapter(Page.class, document, session) != null);
             }}, null);
         return children;
     }

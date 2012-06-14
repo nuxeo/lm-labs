@@ -1,6 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +19,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.OfmRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.PageClasseurPageRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -31,13 +34,13 @@ public class SiteDocumentAdapterTest {
         LabsSite site = getSiteManager().getSite(session, OfmRepositoryInit.SITE_URL);
         DocumentModel treeDocument = site.getTree();
         assertNotNull(treeDocument);
-        SiteDocument tree = treeDocument.getAdapter(SiteDocument.class);
+        SiteDocument tree = Tools.getAdapter(SiteDocument.class, treeDocument, session);
         assertNotNull(tree);
         DocumentModelList childrenPageDocuments = tree.getChildrenPageDocuments();
         assertEquals(2, childrenPageDocuments.size());
         assertEquals(tree.getChildrenPages().size(), childrenPageDocuments.size());
         DocumentModel pageDoc = childrenPageDocuments.get(0);
-        SiteDocument page = pageDoc.getAdapter(SiteDocument.class);
+        SiteDocument page = Tools.getAdapter(SiteDocument.class, pageDoc, session);
         assertNotNull(page);
         assertTrue(page.getChildrenPageDocuments().isEmpty());
         assertTrue(page.getChildrenPages().isEmpty());

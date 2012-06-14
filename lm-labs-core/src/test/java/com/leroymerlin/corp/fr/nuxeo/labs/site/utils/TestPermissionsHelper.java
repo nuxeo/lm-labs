@@ -196,9 +196,9 @@ public class TestPermissionsHelper {
     @Test public void currentUserStillHasEverythingRight() throws Exception {
         DocumentModel folder = session.getDocument(new PathRef("/myfolder"));
         assertNotNull(folder);
-        assertTrue(PermissionsHelper.currentUserHasOtherEverythingRightThan(folder, TEST_GROUP_IN_PERMISSIONSLIST));
+        assertTrue(PermissionsHelper.currentUserHasOtherEverythingRightThan(folder, TEST_GROUP_IN_PERMISSIONSLIST, session));
         PermissionsHelper.addPermission(folder, SecurityConstants.EVERYTHING, SecurityConstants.ADMINISTRATORS, true);
-        assertTrue(PermissionsHelper.currentUserHasOtherEverythingRightThan(folder, SecurityConstants.ADMINISTRATORS));
+        assertTrue(PermissionsHelper.currentUserHasOtherEverythingRightThan(folder, SecurityConstants.ADMINISTRATORS, session));
     }
 
     /**

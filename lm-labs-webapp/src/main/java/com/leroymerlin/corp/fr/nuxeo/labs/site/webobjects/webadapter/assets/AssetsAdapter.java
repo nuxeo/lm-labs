@@ -36,7 +36,7 @@ public class AssetsAdapter extends DefaultAdapter {
         if (StringUtils.isNotBlank(parameter)) {
             ctx.getRequest().getSession().setAttribute("calledRef",parameter);
         }
-        
+
         //jscallback
         parameter = ctx.getRequest().getParameter("callFunction");
         if (StringUtils.isBlank(parameter)) {
@@ -88,7 +88,7 @@ public class AssetsAdapter extends DefaultAdapter {
         if (path.endsWith("assets")) {
             path = "";
         } else {
-            path = path.substring(path.indexOf("assets/") + 7, path.length());
+            path = path.substring(path.indexOf("assets/") + "assets/".length(), path.length());
         }
 
         return res.traverse(path);

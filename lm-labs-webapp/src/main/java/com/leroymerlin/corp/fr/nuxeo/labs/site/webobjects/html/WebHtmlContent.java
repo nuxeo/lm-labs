@@ -93,15 +93,15 @@ public class WebHtmlContent extends DocumentObject {
     @POST
     @Path("@manage-widgets")
     public Response doSaveWidgetConfig() {
-        FormData form = ctx.getForm();
-        CoreSession session = getContext().getCoreSession();
+//        FormData form = ctx.getForm();
+//        CoreSession session = getContext().getCoreSession();
         // TODO widget's config
 
         return Response.ok().build();
     }
 
-    public List<LabsWidget> getGagdets() throws ClientException {
-        return content.getGadgets(getCoreSession());
+    public List<LabsWidget> getGagdets(CoreSession session) throws ClientException {
+        return content.getGadgets(session);
     }
 
 }

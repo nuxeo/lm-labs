@@ -57,3 +57,8 @@ label{
 	padding-bottom: 10px;
 	text-align: right;
 }
+
+div.hiddenNews {
+	font-style: italic;
+	text-decoration: line-through;
+}

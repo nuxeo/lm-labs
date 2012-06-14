@@ -13,7 +13,7 @@ public interface PageClasseur extends Page {
 
     public List<PageClasseurFolder> getFolders();
 
-    public PageClasseurFolder addFolder(String title) throws ClientException;
+    public PageClasseurFolder addFolder(String title, String description) throws ClientException;
 
     public void removeFolder(String title) throws ClientException;
 

@@ -67,7 +67,6 @@ public class AssetsContentProvider extends AbstractContentProvider {
         }
         if (obj instanceof DocumentModel) {
             DocumentModel doc = (DocumentModel) obj;
-            CoreSession session = doc.getCoreSession();
             try {
                 return session.getChildren(doc.getRef(), "Folder")
                         .size() > 0;

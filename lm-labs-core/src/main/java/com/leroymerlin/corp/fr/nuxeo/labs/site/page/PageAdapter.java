@@ -8,7 +8,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 public class PageAdapter extends AbstractPage implements Page {
 
     public PageAdapter(DocumentModel doc) {
-        this.doc = doc;
+        super(doc);
     }
 
 }

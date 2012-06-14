@@ -25,17 +25,19 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
+import com.leroymerlin.corp.fr.nuxeo.LabstTest;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntryType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Header;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.UrlType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
 @RepositoryConfig(cleanup=Granularity.METHOD)
-public class PageListAdapterTest {
+public class PageListAdapterTest extends LabstTest {
     private static final String FORMAT_DATE = "dd/MM/yy";
     private static final String WIDTH = "S8";
     private static final int ID_HEADER = 1;
@@ -180,7 +182,7 @@ public class PageListAdapterTest {
         head.setName(NAME);
         head.setOrderPosition(2);
         headers.add(head);
-        pageList.setHeaders(headers, session);
+        pageList.setHeaders(headers);
         pageList = model.create();
         return pageList;
     }
@@ -212,21 +214,66 @@ public class PageListAdapterTest {
         
         line.getEntries().add(entry);
         
-        assertThat(pageList.getLines(session).size(), is(0));
+        assertThat(pageList.getLines().size(), is(0));
         
-        pageList.saveLine(line, null, session);
+        pageList.saveLine(line, null);
 
-        assertThat(pageList.getLines(session).size(), is(1));
-        assertThat(pageList.getLines(session).get(0).getEntries(), notNullValue());
-        assertThat(pageList.getLines(session).get(0).getEntries().size(), is(2));
-        assertThat(pageList.getLines(session).get(0).getEntries().get(0).getIdHeader(), is(ID_HEADER));
-        assertThat(pageList.getLines(session).get(0).getEntries().get(0).getText(), is(TEXT));
-        assertThat(pageList.getLines(session).get(0).getEntries().get(0).getDate(), is(CAL));
-        assertThat(pageList.getLines(session).get(0).getEntries().get(0).isCheckbox(), is(CHECKBOX));
-        assertThat(pageList.getLines(session).get(0).getEntries().get(0).getUrl(), notNullValue());
-        assertThat(pageList.getLines(session).get(0).getEntries().get(0).getUrl().getName(), is("nameURL"));
-        assertThat(pageList.getLines(session).get(0).getEntries().get(0).getUrl().getUrl(), is("http://www.google.fr"));
-        assertThat(pageList.getLines(session).get(0).getDocLine(), notNullValue());
+        assertThat(pageList.getLines().size(), is(1));
+        assertThat(pageList.getLines().get(0).getEntries(), notNullValue());
+        assertThat(pageList.getLines().get(0).getEntries().size(), is(2));
+        assertThat(pageList.getLines().get(0).getEntries().get(0).getIdHeader(), is(ID_HEADER));
+        assertThat(pageList.getLines().get(0).getEntries().get(0).getText(), is(TEXT));
+        assertThat(pageList.getLines().get(0).getEntries().get(0).getDate(), is(CAL));
+        assertThat(pageList.getLines().get(0).getEntries().get(0).isCheckbox(), is(CHECKBOX));
+        assertThat(pageList.getLines().get(0).getEntries().get(0).getUrl(), notNullValue());
+        assertThat(pageList.getLines().get(0).getEntries().get(0).getUrl().getName(), is("nameURL"));
+        assertThat(pageList.getLines().get(0).getEntries().get(0).getUrl().getUrl(), is("http://www.google.fr"));
+        assertThat(pageList.getLines().get(0).getDocLine(), notNullValue());
+    }
+    
+    @Test
+    public void canGetLinesWithoutHidden() throws Exception {
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList = model.create();
+        
+        Entry entry = new Entry();
+        entry.setIdHeader(ID_HEADER);
+        entry.setText(TEXT);
+        entry.setDate(CAL);
+        entry.setCheckbox(CHECKBOX);
+        UrlType url = new UrlType("nameURL", "http://www.google.fr");
+        entry.setUrl(url);
+        
+        EntriesLine line = new EntriesLine();
+        line.getEntries().add(entry);
+        
+        entry = new Entry();
+        entry.setIdHeader(ID_HEADER +1);
+        entry.setText(TEXT);
+        entry.setDate(CAL);
+        entry.setCheckbox(CHECKBOX);
+        url = new UrlType("nameURL", "http://www.google.fr4444");
+        entry.setUrl(url);
+        
+        line.getEntries().add(entry);
+        
+        assertThat(pageList.getLines().size(), is(0));
+
+        pageList.saveLine(line, null);
+        line.setDocLine(null);
+        pageList.saveLine(line, null);
+
+        assertThat(pageList.getLines().size(), is(2));
+        
+        line = pageList.getLines().get(0);
+        line.setVisible(false);
+        pageList.saveLine(line, null);
+        
+        CoreSession cgmSession = changeUser("CGM");
+        pageList = Tools.getAdapter(PageList.class, pageList.getDocument(), cgmSession);
+        
+        assertThat(pageList.getLines().size(), is(1));
     }
     
     @Test
@@ -256,11 +303,11 @@ public class PageListAdapterTest {
         
         line.getEntries().add(entry);
         
-        pageList.saveLine(line, null, session);
-        assertThat(pageList.getLines(session).size(), is(1));
-        assertThat(pageList.getLines(session).get(0).getDocLine(), notNullValue());
-        pageList.removeLine(pageList.getLines(session).get(0).getDocLine().getRef(), session);
-        assertThat(pageList.getLines(session).size(), is(0));
+        pageList.saveLine(line, null);
+        assertThat(pageList.getLines().size(), is(1));
+        assertThat(pageList.getLines().get(0).getDocLine(), notNullValue());
+        pageList.removeLine(pageList.getLines().get(0).getDocLine().getRef());
+        assertThat(pageList.getLines().size(), is(0));
     }
     
     @Test
@@ -290,8 +337,8 @@ public class PageListAdapterTest {
         
         line.getEntries().add(entry);
         
-        pageList.saveLine(line, null, session);
-        EntriesLine line2 = pageList.getLine(pageList.getLines(session).get(0).getDocLine().getRef(), session);
+        pageList.saveLine(line, null);
+        EntriesLine line2 = pageList.getLine(pageList.getLines().get(0).getDocLine().getRef());
         assertThat(line2, notNullValue());
         assertThat(line2.getEntries().size(), is(2));
     }
@@ -338,7 +385,7 @@ public class PageListAdapterTest {
         PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
         PageList pageList = model.getAdapter();
         pageList = model.create();
-        pageList.setAllContributors(true, session);
+        pageList.setAllContributors(true);
         assertTrue(pageList.isAllContributors());
     }
     
@@ -365,12 +412,12 @@ public class PageListAdapterTest {
         PageList pageList = model.getAdapter();
         pageList = model.create();
         
-        pageList.setHeaders(createHeadersOnPageList(), session);
+        pageList.setHeaders(createHeadersOnPageList());
 
-        pageList.saveLine(createLine("texte1"), null, session);
-        pageList.saveLine(createLine("texte2"), null, session);
-        pageList.saveLine(createLine("texte3"), null, session);
-        pageList.saveLine(createLine("texte4"), null, session);
+        pageList.saveLine(createLine("texte1"), null);
+        pageList.saveLine(createLine("texte2"), null);
+        pageList.saveLine(createLine("texte3"), null);
+        pageList.saveLine(createLine("texte4"), null);
  
         File testFile = null;
         //For local tests
@@ -381,7 +428,7 @@ public class PageListAdapterTest {
             assertTrue(testFile.exists());
             long size = testFile.length();
             assertTrue(size == 0);
-            pageList.exportExcel(new FileOutputStream(testFile), session);
+            pageList.exportExcel(new FileOutputStream(testFile));
             assertTrue(size != testFile.length());
         }
         finally{

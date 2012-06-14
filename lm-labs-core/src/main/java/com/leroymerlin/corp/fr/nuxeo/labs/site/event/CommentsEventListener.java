@@ -12,6 +12,7 @@ import org.nuxeo.ecm.platform.comment.api.CommentEvents;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class CommentsEventListener implements EventListener {
 
@@ -28,11 +29,12 @@ public class CommentsEventListener implements EventListener {
         }
         DocumentEventContext ctx = (DocumentEventContext) evt.getContext();
         DocumentModel doc = ctx.getSourceDocument();
+        CoreSession coreSession = ctx.getCoreSession();
         if (doc != null) {
             if (!Docs.PAGELIST_LINE.type().equals(doc.getType())) {
                 return;
             }
-            PageListLine lineAdapter = doc.getAdapter(PageListLine.class);
+            PageListLine lineAdapter = Tools.getAdapter(PageListLine.class, doc, coreSession);
             if (lineAdapter == null) {
                 return;
             }
@@ -43,7 +45,6 @@ public class CommentsEventListener implements EventListener {
             else if(CommentEvents.COMMENT_REMOVED.equals(eventName)){
                 lineAdapter.removeComment();
             }
-            CoreSession coreSession = ctx.getCoreSession();
             coreSession.saveDocument(doc);
             coreSession.save();
         }

@@ -50,7 +50,6 @@ public abstract class AbstractContentProvider extends DocumentContentProvider {
         }
         if (obj instanceof DocumentModel) {
             DocumentModel doc = (DocumentModel) obj;
-            CoreSession session = doc.getCoreSession();
             try {
                 return session.getChildren(doc.getRef(), null, null,
                         getDocFilter(), null).size() > 0;

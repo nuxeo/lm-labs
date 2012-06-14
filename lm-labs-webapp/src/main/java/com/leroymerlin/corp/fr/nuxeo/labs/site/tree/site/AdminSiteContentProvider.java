@@ -10,22 +10,21 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractContentProvider;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class AdminSiteContentProvider extends AbstractContentProvider {
 
     private static final long serialVersionUID = 1L;
     
-    private static final class PageFilter implements Filter {
+    private final class PageFilter implements Filter {
         
         private static final long serialVersionUID = 1L;
         
         @Override
         public boolean accept(DocumentModel docModel) {
-            return (docModel.getAdapter(Page.class) != null);
+            return (Tools.getAdapter(Page.class, docModel, session) != null);
         }
     }
-    
-    private static final Filter pageFilter = new PageFilter();
     
     public AdminSiteContentProvider(CoreSession session) {
         super(session);
@@ -33,7 +32,7 @@ public class AdminSiteContentProvider extends AbstractContentProvider {
 
     @Override
     public Filter getDocFilter() {
-        return pageFilter;
+        return new PageFilter();
     }
 
     @Override
@@ -43,7 +42,7 @@ public class AdminSiteContentProvider extends AbstractContentProvider {
         if (StringUtils.capitalize(LabsSiteConstants.Docs.TREE.docName()).equals(
                 result)) {
             DocumentModel doc = (DocumentModel) obj;
-            SiteDocument sd = doc.getAdapter(SiteDocument.class);
+            SiteDocument sd = Tools.getAdapter(SiteDocument.class, doc, session);
             try {
                 result = sd.getSite().getTitle();
             } catch (ClientException e) {

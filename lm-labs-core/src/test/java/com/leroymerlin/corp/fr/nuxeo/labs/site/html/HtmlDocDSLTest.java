@@ -15,6 +15,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -138,7 +139,7 @@ public class HtmlDocDSLTest {
 	private HtmlPage createTestPage() throws ClientException {
 		DocumentModel doc = session.createDocumentModel("/", "myPage",
 				"HtmlPage");
-		HtmlPage page = doc.getAdapter(HtmlPage.class);
+		HtmlPage page = Tools.getAdapter(HtmlPage.class, doc, session);
 		page.setTitle("Title");
 		page.setDescription("Description");
 		return page;
@@ -147,7 +148,7 @@ public class HtmlDocDSLTest {
 	
 	private HtmlPage retrieveTestPage() throws ClientException {
 		DocumentModel doc = session.getDocument(new PathRef("/myPage"));
-		return doc.getAdapter(HtmlPage.class);
+		return Tools.getAdapter(HtmlPage.class, doc, session);
 	}
 	
 

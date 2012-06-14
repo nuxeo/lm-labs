@@ -1,8 +1,8 @@
 <div>
 <#if page.isDisplayable(This.DC_DESCRIPTION)>
-	<div class="columns viewblock">${Document.dublincore.description}</div>
+	<div class="columns viewblock page-description">${Document.dublincore.description}</div>
 </#if>
-		
+
 	<div class="row-ckeditor editblock toc-noreplace" id="pageDescription">
 		<div id="description" class="ckeditorBorder" style="cursor: pointer">${Document.dublincore.description}</div>
 		<script type="text/javascript">
@@ -30,9 +30,9 @@ function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
 		<script type="text/javascript">
 		  <#-- detect error when loading picture -->
 		  $('#description').find('img').each(function() {
-		  	$(this).error( function() { 
-		  		$(this).attr('style', ''); 
-		  		$(this).attr('src', '/nuxeo/icons/image_100.png'); 
+		  	$(this).error( function() {
+		  		$(this).attr('style', '');
+		  		$(this).attr('src', '/nuxeo/icons/image_100.png');
 		  	});
 		  });
 		   <#-- load CKEIP plugin -->

@@ -41,6 +41,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.ThemePropertiesManage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "SiteTheme")
 @Produces("text/html; charset=UTF-8")
@@ -107,8 +108,7 @@ public class SiteThemeResource extends PageResource {
     public Response doDeleteBanner() {
         try {
             site.setBanner(null);
-            CoreSession session = ctx.getCoreSession();
-            session.save();
+            ctx.getCoreSession().save();
             return Response.ok(
                     "?message_success=label.labssites.banner.deleted",
                     MediaType.TEXT_PLAIN).status(Status.CREATED).build();
@@ -123,7 +123,9 @@ public class SiteThemeResource extends PageResource {
     @GET
     @Path("banner")
     public Response getImgBanner() throws ClientException {
-        Blob blob = doc.getAdapter(SiteDocument.class).getSite().getThemeManager().getTheme().getBanner();
+        CoreSession session = ctx.getCoreSession();
+        Blob blob = Tools.getAdapter(SiteDocument.class, doc, 
+                session).getSite().getThemeManager().getTheme(session).getBanner();
         if (blob != null) {
             return Response.ok().entity(blob).type(blob.getMimeType()).build();
         }
@@ -138,7 +140,7 @@ public class SiteThemeResource extends PageResource {
             CoreSession session = ctx.getCoreSession();
             site.getTemplate().setTemplateName(form.getString("template"));
             String themeName = form.getString("theme");
-            site.getThemeManager().setTheme(themeName);
+            site.getThemeManager().setTheme(themeName, session);
             session.saveDocument(site.getDocument());
             session.save();
             return redirect(getPrevious().getPath() + "/@theme/" + themeName

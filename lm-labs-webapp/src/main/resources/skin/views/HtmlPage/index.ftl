@@ -1,7 +1,7 @@
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
   <#assign nbrOsGadgets = 0 />
-  <#assign mySite=Common.siteDoc(Document).site />
-  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews"] />
+  <#assign mySite=Common.siteDoc(Document).getSite() />
+  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "pagesSameAuthor", "publishedNewsSameAuthor"] />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
@@ -9,7 +9,8 @@
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/js/assets/prettify/prettify.css"/>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" />
-        <link rel="stylesheet" href="${contextPath}/css/opensocial/light-container-gadgets.css">
+        <link rel="stylesheet" href="${contextPath}/css/opensocial/light-container-gadgets.css" />
+        <link rel="stylesheet" type="text/css" media="screen,print" href="${skinPath}/css/slickmap/slickmap.css" />
   </@block>
 
   <@block name="scripts">
@@ -19,6 +20,54 @@
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
         <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
+        <script type="text/javascript" >
+var openSocialOptions = {
+<#--
+    baseURL: '${Context.baseURL}${contextPath}' + '/',
+-->
+	baseURL: '${contextPath}' + '/',
+	language: '${Context.locale.language}',
+};
+var openSocialGadgetOptions = {
+    displayButtons: false,
+    displaySettingsButton: false,
+    displayToggleButton: false,
+	displayTitleBar: false,
+<#-- TODO
+            <#if isContributor >
+            permission: '[SpaceContributeur]',
+            </#if>
+-->
+	width: '100%'
+};
+jQuery(document).ready(function() {
+	jQuery('div.opensocialGadgets').each(function(index, value) {
+		var userPrefs = {};
+		var userPrefsStr = jQuery(this).data('gadget-user-preferences');
+		if (userPrefsStr.length > 0) {
+			userPrefs = eval("(" + jQuery(this).data('gadget-user-preferences') + ")");
+		}
+		jQuery(this).openSocialGadget({
+			baseURL: openSocialOptions.baseURL,
+			language: openSocialOptions.language,
+			gadgetDefs: [
+				{
+				<#if 0 == 1>
+				specUrl: '${Context.baseURL}${contextPath}/site/gadgets/${widget.name}/${widget.name}.xml',
+				</#if>
+				specUrl: jQuery(this).data('gadget-specurl'),
+				userPrefs: userPrefs,
+				displayTitleBar: openSocialGadgetOptions.displayTitleBar,
+				width: openSocialGadgetOptions.width,
+				displayButtons: openSocialGadgetOptions.displayButtons,
+				displaySettingsButton: openSocialGadgetOptions.displaySettingsButton,
+				displayToggleButton: openSocialGadgetOptions.displayToggleButton,
+				title: jQuery(this).data('gadget-title') }
+			]
+		});
+	});
+});
+        </script>
 
   </@block>
 
@@ -125,7 +174,7 @@
 
 		</#if>
 
-        <#list section.rows as row>
+        <#list section.getRows() as row>
         	<#if isContributor >
 	          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 	              <#list row.contents as content>
@@ -136,8 +185,12 @@
                       <@determineWidgetType content=content />
                       <#if isOsGadgetCol >
                         <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="columns viewblock" >
-                        <@openSocialGadgetJavascript selector="#gadgetCol-s_${section_index}_r_${row_index}_c_${content_index} > div.opensocialGadgets" widget=widgets[0] />
-                        <div id="${widgets[0].doc.id}" class="opensocialGadgets bloc">
+                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
+                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
+							data-gadget-title="${widgets[0].name}"
+                        	data-gadget-specurl="http://localhost:8080/nuxeo/site/gadgets/${widgets[0].name}/${widgets[0].name}.xml"
+							data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
+                        >
                         </div>
                         </div>
                         <div class="columns editblock bloc" style="text-align: center;" >
@@ -156,6 +209,8 @@
                         <div class="columns" >
                         <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
                             <#include "widgets/${widgets[0].name}.ftl" />
+                        <#else>
+                        	Widget pas disponible.
                         </#if>
                         </div>
                       <#else>
@@ -208,14 +263,20 @@
                       <@determineWidgetType content=content />
                       <#if isOsGadgetCol >
                         <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span${content.colNumber} columns" >
-                        <@openSocialGadgetJavascript selector="#gadgetCol-s_${section_index}_r_${row_index}_c_${content_index} > div.opensocialGadgets" widget=widgets[0] />
-                        <div id="${widgets[0].doc.id}" class="opensocialGadgets bloc">
+                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
+                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
+                        	data-gadget-specurl="http://localhost:8080/nuxeo/site/gadgets/${widgets[0].name}/${widgets[0].name}.xml"
+							data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
+							data-gadget-title="${widgets[0].name}"
+                        >
                         </div>
                         </div>
                       <#elseif isWidgetCol >
                         <div class="span${content.colNumber} columns" >
                         <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
                             <#include "widgets/${widgets[0].name}.ftl" />
+                        <#else>
+                        	Widget pas disponible.
                         </#if>
                         </div>
                       <#else>
@@ -349,50 +410,6 @@
 
   </@tableOfContents>
   <#--/@cache-->
-<#macro openSocialGadgetJavascript selector widget >
-    <#assign nbrOsGadgets = nbrOsGadgets + 1 />
-<script type="text/javascript">
-jQuery(document).ready(function() {
-    var userPrefs = {};
-    <#assign userPrefs = widget.userPrefs />
-    <#list userPrefs as userPref >
-    userPrefs["${userPref.name}"] = {name: '${userPref.name}', value:'${userPref.actualValue}', default: '${userPref.defaultValue}'};
-    </#list>
-    jQuery('${selector}').openSocialGadget({
-    <#--
-        baseURL: '${Context.baseURL}${contextPath}' + '/',
-    -->
-        baseURL: '${contextPath}' + '/',
-        language: '${Context.locale.language}',
-        gadgetDefs: [
-            {
-            <#--
-            specUrl: '${Context.baseURL}${contextPath}/site/gadgets/${widget.name}/${widget.name}.xml',
-            -->
-            specUrl: 'http://localhost:8080/nuxeo/site/gadgets/${widget.name}/${widget.name}.xml',
-            <#--
-            -->
-            <#if 0 < userPrefs?size >
-            userPrefs: userPrefs,
-            </#if>
-            displayTitleBar: false,
-            width: '90%',
-            <#--
-            displayButtons: true,
-            displaySettingsButton: true,
-            displayToggleButton: false,
-            -->
-<#-- TODO
-            <#if isContributor >
-            permission: '[SpaceContributeur]',
-            </#if>
--->
-            title: '${widget.name}' }
-        ]
-    });
-})
-</script>
-</#macro>
 
 <#macro determineWidgetType content >
     <#if content.type == "widgetcontainer">
@@ -418,6 +435,8 @@ jQuery(document).ready(function() {
 <#macro displayContentHtmlWidget widget >
     <#if availableHtmlWidgets?seq_contains(widget.name) >
         <#include "widgets/${widget.name}.ftl" />
+    <#else>
+    	Widget pas disponible.
     </#if>
 </#macro>
 
@@ -428,8 +447,25 @@ jQuery(document).ready(function() {
     <#if 0 < nbrOsGadgets >
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.pack.js"></script>
     <script type="text/javascript" src="${contextPath}/opensocial/gadgets/js/rpc.js?c=1"></script>
+    <#--<script type="text/javascript" language="javascript" src="${contextPath}/opensocial/gadgets/js/rpc:pubsub:lmselectvalue.js?c=1"></script>-->
+    <script type="text/javascript" src="${skinPath}/js/register_rpc_show_fancybox.js"></script>
     <script type="text/javascript" src="${contextPath}/js/?scripts=opensocial/cookies.js|opensocial/util.js|opensocial/gadgets.js|opensocial/cookiebaseduserprefstore.js|opensocial/jquery.opensocial.gadget.js"></script>
     </#if>
     <#include "views/HtmlPage/bottom-js.ftl" />
   </@block>
 </@extends>
+
+<#function stringifyOpenSocialGadgetUserPreferences userPrefs >
+	<#assign stringified = "" />
+	<#if 0 < userPrefs?size >
+		<#assign stringified = "{" />
+	    <#list userPrefs as userPref >
+	    	<#assign stringified = stringified + "'${userPref.name}':" + "{name:'${userPref.name}',value:'${userPref.actualValue?html}',default:'${userPref.defaultValue}'}" />
+	    	<#if userPref != userPrefs?last >
+				<#assign stringified = stringified + "," />
+	    	</#if>
+	    </#list>
+		<#assign stringified = stringified + "}" />
+	</#if>
+    <#return stringified >
+</#function>

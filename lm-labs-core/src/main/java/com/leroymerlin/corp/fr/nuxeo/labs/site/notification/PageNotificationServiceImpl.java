@@ -29,26 +29,29 @@ import org.nuxeo.runtime.model.DefaultComponent;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageNotificationServiceImpl extends DefaultComponent implements PageNotificationService {
 
     private static final Log LOG = LogFactory.getLog(PageNotificationServiceImpl.class);
     
     @Override
-    public Page getRelatedPage(DocumentModel doc) throws ClientException {
-        Page page = doc.getAdapter(Page.class);
+    public Page getRelatedPage(DocumentModel doc, CoreSession session) throws ClientException {
+        Page page = Tools.getAdapter(Page.class, doc, session);
         if (page == null) {
-            page = doc.getAdapter(SiteDocument.class).getParentPage();
+            page = Tools.getAdapter(SiteDocument.class, doc, session).getParentPage();
         }
         return page;
     }
+    
     @Override
-    public boolean canBeMarked(DocumentModel doc) throws ClientException {
-        Page page = getRelatedPage(doc);
+    public boolean canBeMarked(DocumentModel doc, CoreSession session) throws ClientException {
+        Page page = getRelatedPage(doc, session);
         if (page == null || (!Docs.LABSNEWS.type().equals(doc.getType()) && !State.PUBLISH.getState().equals(page.getDocument().getCurrentLifeCycleState()))) {
             return false;
         }
@@ -59,14 +62,14 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     public boolean markForNotification(DocumentModel doc) throws ClientException {
         LoginContext loginContext = null;
         CoreSession session = null;
-        if (!canBeMarked(doc)) {
+        session = openSession(doc.getRepositoryName());
+        if (!canBeMarked(doc, session)) {
             return false;
         }
         try {
             loginContext = Framework.login();
-            session = openSession(doc.getRepositoryName());
             DocumentModel notif;
-            Page page = getRelatedPage(doc);
+            Page page = getRelatedPage(doc, session);
             PathRef ref = new PathRef(page.getDocument().getPathAsString() + "/" + Docs.NOTIFACTIVITIES.docName());
             if (!session.exists(ref)) {
                 notif = session.createDocumentModel(page.getDocument().getPathAsString(), Docs.NOTIFACTIVITIES.docName(), Docs.NOTIFACTIVITIES.type());
@@ -100,13 +103,13 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
                     DocumentModel pageNews = session.getParentDocument(doc.getRef());
                     addNews(pageNewsMap, pageNews.getId(), doc);
                 } else if (State.PUBLISH.getState().equals(doc.getCurrentLifeCycleState())) {
-                    notifyPage(doc.getAdapter(Page.class));
+                    notifyPage(Tools.getAdapter(Page.class, doc, session), session);
                 }
             }
             for (String id : pageNewsMap.keySet()) {
                 DocumentModel pageNews = session.getDocument(new IdRef(id));
                 try {
-                    notifyPageNews(pageNews.getAdapter(PageNews.class), pageNewsMap.get(id));
+                    notifyPageNews(Tools.getAdapter(PageNews.class, pageNews, session), pageNewsMap.get(id), session);
                 } catch (Exception e) {
                     LOG.error(e, e);
                 }
@@ -129,34 +132,34 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     }
 
     @Override
-    public boolean notifyPage(Page page) throws ClientException {
+    public boolean notifyPage(Page page, CoreSession session) throws ClientException {
         DocumentModel document = page.getDocument();
-        if (isToBeNotified(document)) {
-            unmarkForNotification(document);
-            document.getCoreSession().save();
+        if (isToBeNotified(document, session)) {
+            unmarkForNotification(document, session);
+            session.save();
             String eventName = EventNames.PAGE_MODIFIED;
             if (Docs.PAGENEWS.type().equals(page.getDocument().getType())) {
                 eventName = EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS;
             }
-            return notifyPageEvent(page, eventName);
+            return notifyPageEvent(page, eventName, session);
         }
         return false;
     }
 
     @Override
-    public void notifyPageNews(PageNews pageNews, List<DocumentModel> newsList) throws Exception {
+    public void notifyPageNews(PageNews pageNews, List<DocumentModel> newsList, CoreSession session) throws Exception {
         DocumentModel document = pageNews.getDocument();
         for (DocumentModel news : newsList) {
-            if (isToBeNotified(news)) {
-                unmarkForNotification(news);
-                news.getCoreSession().save();
+            if (isToBeNotified(news, session)) {
+                unmarkForNotification(news, session);
+                session.save();
             }
         }
         if (!State.PUBLISH.getState().equals(document.getCurrentLifeCycleState())) {
             return;
         }
         String eventName = EventNames.NEWS_PUBLISHED_UNDER_PAGENEWS;
-        DocumentEventContext ctx = getContext(document);
+        DocumentEventContext ctx = getContext(document, session);
         ctx.setProperty("PageNewsId", document.getId());
         List<String> titles = new ArrayList<String>();
         for (DocumentModel news : newsList) {
@@ -167,8 +170,7 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
         fireEvent(pageNews.getDocument(), eventName, ctx);
     }
     
-    private boolean isToBeNotified(DocumentModel page) {
-        CoreSession session = page.getCoreSession();
+    private boolean isToBeNotified(DocumentModel page, CoreSession session) {
         PathRef ref = new PathRef(page.getPathAsString() + "/" + Docs.NOTIFACTIVITIES.docName());
         try {
             if (session.exists(ref)) {
@@ -184,10 +186,10 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     }
 
     @Override
-    public boolean notifyPageEvent(Page page, String eventName) throws ClientException {
+    public boolean notifyPageEvent(Page page, String eventName, CoreSession session) throws ClientException {
         try {
             DocumentModel document = page.getDocument();
-            fireEvent(document, eventName, getContext(document));
+            fireEvent(document, eventName, getContext(document, session));
             return true;
         } catch (Exception e) {
             LOG.error(e, e);
@@ -195,12 +197,12 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
         return false;
     }
 
-    private void unmarkForNotification(DocumentModel page) throws ClientException {
+    private void unmarkForNotification(DocumentModel page, CoreSession session) throws ClientException {
+    	//No need session for nullable test
         Page adapter = page.getAdapter(Page.class);
         if (adapter == null) {
             return;
         }
-        CoreSession session = page.getCoreSession();
         PathRef ref = new PathRef(page.getPathAsString() + "/" + Docs.NOTIFACTIVITIES.docName());
         if (session.exists(ref)) {
 //            session.removeDocument(ref);
@@ -233,14 +235,15 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
         evtProducer.fireEvent(ctx.newEvent(eventName));
     }
 
-    private DocumentEventContext getContext(DocumentModel doc) throws ClientException, PropertyException {
-        DocumentEventContext ctx = new DocumentEventContext(doc.getCoreSession(), doc.getCoreSession().getPrincipal(), doc);
+    private DocumentEventContext getContext(DocumentModel doc, CoreSession session) throws ClientException, PropertyException {
+        DocumentEventContext ctx = new DocumentEventContext(session, session.getPrincipal(), doc);
         ctx.setProperty("PageId", doc.getId());
         String baseUrl = Framework.getProperty("labs.baseUrl", "nuxeo.loopback.url" + "/site/labssites");
         ctx.setProperty("labsBaseUrl", baseUrl);
-        ctx.setProperty("siteUrl", (Serializable) doc.getAdapter(SiteDocument.class).getSite().getURL());
-        ctx.setProperty("siteTitle", (Serializable) doc.getAdapter(SiteDocument.class).getSite().getTitle());
-        ctx.setProperty("pageUrl", doc.getAdapter(Page.class).getPath());
+        LabsSite site = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
+		ctx.setProperty("siteUrl", (Serializable) site.getURL());
+        ctx.setProperty("siteTitle", (Serializable) site.getTitle());
+        ctx.setProperty("pageUrl", Tools.getAdapter(Page.class, doc, session).getPath());
         return ctx;
     }
 
@@ -271,8 +274,7 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
         }
     }
     @Override
-    public Calendar getLastNotified(DocumentModel page) throws ClientException, PropertyException {
-        CoreSession session = page.getCoreSession();
+    public Calendar getLastNotified(DocumentModel page, CoreSession session) throws ClientException, PropertyException {
         PathRef ref = new PathRef(page.getPathAsString() + "/" + Docs.NOTIFACTIVITIES.docName());
         try {
             if (session.exists(ref)) {

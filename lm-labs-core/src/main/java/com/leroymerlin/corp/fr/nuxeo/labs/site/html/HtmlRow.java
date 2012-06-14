@@ -19,9 +19,10 @@ import org.nuxeo.ecm.directory.Session;
 import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsSessionImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Directories;
 
-public class HtmlRow {
+public class HtmlRow extends LabsSessionImpl {
 
     private static final Log LOG = LogFactory.getLog(HtmlRow.class);
     private static final String SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT = Directories.COLUMNS_LAYOUT.schema();
@@ -29,7 +30,7 @@ public class HtmlRow {
     private static final String PROPERTY_NAME_COLUMNS_LAYOUT_LABEL = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":label";
     private static final String PROPERTY_NAME_COLUMNS_LAYOUT_CODE = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":" + Directories.COLUMNS_LAYOUT.idField();
     private static final String PROPERTY_NAME_COLUMNS_LAYOUT_SPANS = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":spans";
-    private static final String PROPERTY_NAME_COLUMNS_LAYOUT_ORDER = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":" + PROPERTY_SHORT_NAME_ORDER;
+//    private static final String PROPERTY_NAME_COLUMNS_LAYOUT_ORDER = SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT + ":" + PROPERTY_SHORT_NAME_ORDER;
     private static final String DIRECTORY_NAME_COLUMNS_LAYOUT = Directories.COLUMNS_LAYOUT.dirName();
 
     private static final String CSS_PROPERTY_NAME = "cssclass";

@@ -1,5 +1,5 @@
-<#assign mySite=Common.siteDoc(Document).site />
-<@extends src="/views/TemplatesBase/" + This.page.template.templateName + "/template.ftl">
+<#assign mySite=Common.siteDoc(Document).getSite() />
+<@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
 
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
