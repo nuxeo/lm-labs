@@ -16,6 +16,8 @@ headersCollection.toString = function(){
 			output.push('idHeader:' + myCollection[myOrder[ii]].idHeader + '\n');
 			output.push('orderPosition:' + myCollection[myOrder[ii]].orderPosition+ '\n');
 			output.push('formatDate:' + myCollection[myOrder[ii]].formatDate + '\n');
+			output.push('alterable:' + myCollection[myOrder[ii]].alterable + '\n');
+			output.push('mandatory:' + myCollection[myOrder[ii]].mandatory + '\n');
 			output.push('selectlist:\n');
 			var selectlist = myCollection[myOrder[ii]].selectlist;
 			for ( var j = 0; j< selectlist.length; j++) {
@@ -93,6 +95,8 @@ function initNewHeader() {
 	$('#headerFontName option:nth(0)').attr("selected", "selected");
 	$('#headerFontSize option:nth(0)').attr("selected", "selected");
 	$('#headerWidth option:nth(0)').attr("selected", "selected");
+	$('#headerAlterable[value="true"]').attr("checked", true);
+	$('#headerMandatory[value="false"]').attr("checked", true);
 	clearDivEditOptions();
 	hideEditSelect();
 	hideEditFormatDate();
@@ -225,6 +229,14 @@ function changeAllHeaderFontSize() {
 	headersCollection.getSelectedItem().fontSize = $("#headerFontSize").val();
 }
 
+function changeAllHeaderAlterable() {
+	headersCollection.getSelectedItem().alterable = $("#headerAlterable:checked").val();
+}
+
+function changeAllHeaderMandatory() {
+	headersCollection.getSelectedItem().mandatory = $("#headerMandatory:checked").val();
+}
+
 function changeHeader(selected) {
 	headersCollection.setSelected(selected) ;
 	var selectedItem = headersCollection.getSelectedItem();
@@ -235,6 +247,8 @@ function changeHeader(selected) {
 	$('#headerFontSize option[value=' + selectedItem.fontSize + ']').attr( "selected", "selected");
 	$('#headerWidth option[value=' + selectedItem.width + ']').attr( "selected", "selected");
 	$('#headerFormatDate option[value="' + selectedItem.formatDate + '"]').attr( "selected", "selected");
+	$('#headerAlterable[value="' + selectedItem.alterable + '"]').attr( "checked", true);
+	$('#headerMandatory[value="' + selectedItem.mandatory + '"]').attr( "checked", true);
 	addClassLineheaderSelected();
 	manageEditType();
 	loadEditOptions();
@@ -318,6 +332,8 @@ function createNewHeader() {
 	obj.orderPosition = obj.idHeader;
 	obj.selectlist = [];
 	obj.formatDate = $('#headerFormatDate').val();
+	obj.alterable = $('#headerAlterable:checked').val();
+	obj.mandatory = $('#headerMandatory:checked').val();
 	return obj;
 }
 

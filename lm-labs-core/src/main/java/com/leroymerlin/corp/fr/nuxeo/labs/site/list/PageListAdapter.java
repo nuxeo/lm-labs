@@ -61,6 +61,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
     private static final String ORDER_POSITION = "orderPosition";
     private static final String SELECT_LIST = "selectlist";
     private static final String FORMAT_DATE = "formatDate";
+    private static final String ALTERABLE = "alterable";
+    private static final String MANDATORY = "mandatory";
     public static final int NULL_VALUE_FOR_INT = -1;
     
     private static SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMMM yyyy");
@@ -196,6 +198,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
         map.put(ORDER_POSITION, pHead.getOrderPosition());
         map.put(SELECT_LIST, pHead.getSelectlist());
         map.put(FORMAT_DATE, pHead.getFormatDate());
+        map.put(ALTERABLE, pHead.isAlterable());
+        map.put(MANDATORY, pHead.isMandatory());
         return map;
     }
 
@@ -239,6 +243,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
         }
         try {
             header.setOrderPosition(Tools.getInt(pMap.get(ORDER_POSITION)));
+            header.setAlterable(Tools.getBoolean(pMap.get(ALTERABLE)));
+            header.setMandatory(Tools.getBoolean(pMap.get(MANDATORY)));
         } catch (NullException e) {
             throw new IllegalArgumentException("This object is null.", e);
         }

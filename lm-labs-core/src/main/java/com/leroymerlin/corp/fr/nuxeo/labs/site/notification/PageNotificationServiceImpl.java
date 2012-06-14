@@ -60,14 +60,15 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     
     @Override
     public boolean markForNotification(DocumentModel doc) throws ClientException {
-        LoginContext loginContext = null;
-        CoreSession session = null;
-        session = openSession(doc.getRepositoryName());
-        if (!canBeMarked(doc, session)) {
-            return false;
-        }
+    	LoginContext loginContext = null;
+    	CoreSession session = null;
         try {
-            loginContext = Framework.login();
+        	//A placer avant le récupération de la session
+        	loginContext = Framework.login();
+        	session = openSession(doc.getRepositoryName());
+        	if (!canBeMarked(doc, session)) {
+        		return false;
+        	}
             DocumentModel notif;
             Page page = getRelatedPage(doc, session);
             PathRef ref = new PathRef(page.getDocument().getPathAsString() + "/" + Docs.NOTIFACTIVITIES.docName());
@@ -94,6 +95,7 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
         LoginContext loginContext = null;
         CoreSession session = null;
         try {
+        	//A placer avant le récupération de la session
             loginContext = Framework.login();
             session = openSession(site.getRepositoryName());
             List<DocumentModel> docs = getMarkedDocsOfSite(site, session);

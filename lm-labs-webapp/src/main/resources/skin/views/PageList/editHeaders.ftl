@@ -97,6 +97,34 @@
 							</select>
 			            </div>
 		            </div>
+		            <!--         ALTERABLE      ------->
+					<div class="control-group">
+						<label class="control-label" for="headerAlterable">${Context.getMessage('label.pageList.edit.editHeader.alterable')}</label>
+			            <div class="controls">
+			            	<label class="radio inline">
+                				<input type="radio" id="headerAlterable" name="headerAlterable" value="true" onchange="javascript:changeAllHeaderAlterable();">
+                				OUI
+              				</label>
+			            	<label class="radio inline">
+                				<input type="radio" id="headerAlterable" name="headerAlterable" value="false" onchange="javascript:changeAllHeaderAlterable();">
+                				NON
+              				</label>
+			            </div>
+		            </div>
+		            <!--         MANDATORY      ------->
+					<!--<div class="control-group">
+						<label class="control-label" for="headerMandatory">${Context.getMessage('label.pageList.edit.editHeader.mandatory')}</label>
+			            <div class="controls">
+			            	<label class="radio inline">
+                				<input type="radio" id="headerMandatory" name="headerMandatory" value="true" onchange="javascript:changeAllHeaderMandatory();">
+                				OUI
+              				</label>
+			            	<label class="radio inline">
+                				<input type="radio" id="headerMandatory" name="headerMandatory" value="false" onchange="javascript:changeAllHeaderMandatory();">
+                				NON
+              				</label>
+			            </div>
+		            </div>-->
 				</fieldset>
 			</form>
 		</div>
@@ -106,6 +134,6 @@
 <div  class="actions">
 	<button id="saveHeaderList" class="btn btn-primary" onClick="javascript:saveHeaderList('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
 	<button id="cancel" class="btn" onClick="javascript:closeManageList();" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
-	<!--<br /><br />
+	<!-- <br /><br />
 	<button id="StructureJsHeaders" class="btn btn-info" onClick="javascript:alert(headersCollection.toString());" >StructureJsHeaders</button>-->
 </div>
