@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -504,6 +505,11 @@ public class PageListAdapter extends AbstractPage implements PageList {
         //Add hearder for comments
         cell = headerRow.createCell(numCell);
         cell.setCellStyle(style);
+        cell.setCellValue("Ligne cachée");
+        numCell++;
+        //Add hearder for comments
+        cell = headerRow.createCell(numCell);
+        cell.setCellStyle(style);
         cell.setCellValue("Commentaires");
         
         numCell = 0;
@@ -569,6 +575,16 @@ public class PageListAdapter extends AbstractPage implements PageList {
                 }
                 numCell++;
             }
+            //Lignes cachées
+            cell = row.createCell(numCell);
+            if (line.isVisible()){
+            	cell.setCellValue(false);
+            }
+            else{
+            	cell.setCellValue(true);
+            }
+            numCell++;
+            
             //Write comments of line
             CommentableDocument adapterComments = line.getDocLine().getAdapter(CommentableDocument.class);
             if (adapterComments != null){
@@ -578,7 +594,10 @@ public class PageListAdapter extends AbstractPage implements PageList {
                     afn.loadFullName(comments);
                     for (DocumentModel comment : comments){
                         cell = row.createCell(numCell);
-                        cell.setCellValue(afn.getFullName((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_AUTHOR)) + " : " + (String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT));
+                        sdfHeader = new SimpleDateFormat("dd MMMMM yyyy 'à' HH:mm:ss");
+                        cell.setCellValue(afn.getFullName((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_AUTHOR)) 
+                        		+ "(Commenté le " + sdfHeader.format(((GregorianCalendar)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_CREATION_DATE)).getTime()) 
+                        		+ ")" + " : " + (String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT));
                         numCell++;
                     }
                 }
