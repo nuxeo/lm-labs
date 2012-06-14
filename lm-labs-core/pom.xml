@@ -12,7 +12,6 @@
   <artifactId>lm-labs-core</artifactId>
   <name>LM Labs :: Core Types And Adapter</name>
 
-
   <dependencies>
     <dependency>
       <groupId>org.nuxeo.ecm.core</groupId>
@@ -76,6 +75,16 @@
     <dependency>
       <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
       <artifactId>lm-portal-user</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.nuxeo.ecm.automation</groupId>
+      <artifactId>nuxeo-automation-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.nuxeo.ecm.automation</groupId>
+      <artifactId>nuxeo-automation-features</artifactId>
     </dependency>
 
     <!-- Test -->
