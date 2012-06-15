@@ -49,7 +49,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageListAdapter extends AbstractPage implements PageList {
 
-    public static final String LINE_TITTLE = "lineTitle";
+    private static final String NO = "NON";
+	private static final String YES = "OUI";
+	private static final String EMPTY_STRING = "";
+	private static final String DOUBLE_POINT = ") : ";
+	private static final String COMMENTED_BY = "(Commenté le ";
+	private static final String FORMAT_DATE_COMMENTS_EXTRACTION = "dd MMMMM yyyy 'à' HH:mm:ss";
+	public static final String LINE_TITTLE = "lineTitle";
     private static final String PGL_HEADERLIST = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":headerlist";
     private static final String ALL_CONTRIBUTORS = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":allContributors";
     private static final String COMMENTABLE_LINES = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":commentableLines";
@@ -167,7 +173,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
                 if (entry == null) {
                     Entry newEntry = new Entry();
                     newEntry.setIdHeader(idHeader);
-                    newEntry.setText("");
+                    newEntry.setText(EMPTY_STRING);
                     line.addEntry(newEntry);
                     entry = newEntry;
                 }
@@ -524,10 +530,10 @@ public class PageListAdapter extends AbstractPage implements PageList {
                     switch (EntryType.valueOf(head.getType())) {
                     case CHECKBOX:
                         if (entry.isCheckbox()){
-                            cell.setCellValue("OUI");
+                            cell.setCellValue(YES);
                         }
                         else{
-                            cell.setCellValue("NON");
+                            cell.setCellValue(NO);
                         }
                         break;
                     case DATE:
@@ -541,7 +547,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
                             }
                         }
                         else{
-                            cell.setCellValue("");
+                            cell.setCellValue(EMPTY_STRING);
                         }
                         break;
                     case SELECT:
@@ -559,19 +565,19 @@ public class PageListAdapter extends AbstractPage implements PageList {
                             cell.setCellValue(entry.getUrl()
                                     .getUrl());
                         } else {
-                            cell.setCellValue("");
+                            cell.setCellValue(EMPTY_STRING);
                         }
                         break;
                     case TEXTAREA:
                         cell.setCellValue(entry.getText());
                         break;
                     default:
-                        cell.setCellValue("");
+                        cell.setCellValue(EMPTY_STRING);
                         break;
                     }
                 }
                 else{
-                    cell.setCellValue("");
+                    cell.setCellValue(EMPTY_STRING);
                 }
                 numCell++;
             }
@@ -594,10 +600,12 @@ public class PageListAdapter extends AbstractPage implements PageList {
                     afn.loadFullName(comments);
                     for (DocumentModel comment : comments){
                         cell = row.createCell(numCell);
-                        sdfHeader = new SimpleDateFormat("dd MMMMM yyyy 'à' HH:mm:ss");
-                        cell.setCellValue(afn.getFullName((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_AUTHOR)) 
-                        		+ "(Commenté le " + sdfHeader.format(((GregorianCalendar)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_CREATION_DATE)).getTime()) 
-                        		+ ")" + " : " + (String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT));
+                        sdfHeader = new SimpleDateFormat(FORMAT_DATE_COMMENTS_EXTRACTION);
+                        StringBuilder strBuider = new StringBuilder(afn.getFullName((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_AUTHOR)));
+                        strBuider.append(COMMENTED_BY)
+                        	.append(sdfHeader.format(((GregorianCalendar)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_CREATION_DATE)).getTime()))
+                        	.append(DOUBLE_POINT).append((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT));
+                        cell.setCellValue(strBuider.toString());
                         numCell++;
                     }
                 }
