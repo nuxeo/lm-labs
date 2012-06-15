@@ -8,6 +8,7 @@
 			<#--  Logo  -->
 			<#include "views/common/logo.ftl" />
 			<#--  Banner  -->
+			<#include "views/common/banner.ftl" />
 			</div>
 		
 		<#--  breadcrumbs  -->
