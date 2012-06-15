@@ -38,7 +38,7 @@
 				<#if isAuthorized>
 					<div id="divActionManageList">
 						<#if Context.principal.isAnonymous() != true && (bean.headersSet?size > 0)>
-							<a href="#" style="margin-bottom: 3px;margin-top: 3px;" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine(${pp.numberOfPages-1});"><i class="icon-plus"></i>${Context.getMessage('label.pageList.addLine')}</a>
+							<a href="#" style="margin-bottom: 3px;margin-top: 3px;" class="btn open-dialog" rel="divEditLine" onClick="javascript:addLine(${pp.numberOfPages-1}, '${This.path}');"><i class="icon-plus"></i>${Context.getMessage('label.pageList.addLine')}</a>
 						</#if>
 						<#if This.page?? && This.page.isContributor(Context.principal.name)>
 							<a href="#" id="PageList-editcolumns" class="editblock open-dialog" rel="divManageList" onClick="javascript:manageList();"><i class="icon-edit"></i>${Context.getMessage('label.pageList.manageList')}</a>
@@ -53,12 +53,18 @@
 				<#if isAuthorized>
 					<div id="divEditLine" class="dialog2" style="display: none;">
 						<h1>${Context.getMessage('label.pageList.edit.line.title')}</h1>
-						<#include "/views/PageList/editLine.ftl" />
-						<div id="divActionsLine"  class="actions">
-							<button id="saveLine" class="btn btn-primary" onClick="javascript:saveLine('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
-							<button id="cancelLine" class="btn" onClick="javascript:closeEditLine('${This.path}');" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
-							<!--<button id="deleteLine" class="btn" onClick="javascript:if(confirm('${Context.getMessage('label.pageList.line_deleted.confirm')?js_string}')){deleteLine('${This.path}');}{return false;}" title="${Context.getMessage('label.pageList.edit.manage.delete')}">${Context.getMessage('label.pageList.edit.manage.delete')}</button>
-							<button id="StructureJsLine" class="btn btn-info" onClick="javascript:alert(linesCollection.toString());" >line structure</button>-->
+						<div class="container" style="width: auto;">
+							<form class="form-horizontal" method="post" name="form-editLine" id="form-editLine"  onSubmit="javascript:saveLine('${This.path}');return false;">
+								<input type="hidden" id="pathFormEditLine" value="" />
+								<input type="hidden" id="pathPageList" value="${This.path}" />
+								<div id="contentFormLine"><#include "/views/PageList/editLine.ftl" /></div>
+								<div id="divActionsLine"  class="actions">
+									<button id="btnSaveLine" form-id="form-editLine" class="btn btn-primary required-fields" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
+									<button id="btnCancelLine" class="btn" onClick="javascript:closeEditLine('${This.path}');return false" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>
+									<!--<button id="deleteLine" class="btn" onClick="javascript:if(confirm('${Context.getMessage('label.pageList.line_deleted.confirm')?js_string}')){deleteLine('${This.path}');}{return false;}" title="${Context.getMessage('label.pageList.edit.manage.delete')}">${Context.getMessage('label.pageList.edit.manage.delete')}</button>
+									<button id="StructureJsLine" class="btn btn-info" onClick="javascript:alert(linesCollection.toString());" >line structure</button>-->
+								</div>
+							</form>
 						</div>
 					</div>
 				</#if>

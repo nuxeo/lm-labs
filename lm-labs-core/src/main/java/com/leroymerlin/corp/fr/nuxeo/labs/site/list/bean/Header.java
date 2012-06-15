@@ -43,6 +43,10 @@ public class Header implements Comparable<Header> {
 
     private String formatDate;
 
+    private boolean alterable = true;
+
+    private boolean mandatory = false;
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -182,4 +186,20 @@ public class Header implements Comparable<Header> {
     public void setFormatDate(String formatDate) {
         this.formatDate = formatDate;
     }
+
+	public boolean isAlterable() {
+		return alterable;
+	}
+
+	public void setAlterable(boolean alterable) {
+		this.alterable = alterable;
+	}
+
+	public boolean isMandatory() {
+		return mandatory;
+	}
+
+	public void setMandatory(boolean mandatory) {
+		this.mandatory = mandatory;
+	}
 }
