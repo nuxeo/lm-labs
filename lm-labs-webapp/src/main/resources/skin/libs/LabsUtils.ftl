@@ -9,3 +9,14 @@
 		<#return aDate?string.short>
 	</#if>
 </#function>
+
+<#function validDocProperty property doc >
+	<#if property?length == 0 >
+		<#return false >
+	</#if>
+	<#if !property?contains(":") >
+		<#return false >
+	</#if>
+	<#assign schema = property?split(":", 'f') />
+	<#return true >
+</#function>
