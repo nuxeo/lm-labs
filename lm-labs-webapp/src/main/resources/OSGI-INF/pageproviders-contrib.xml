@@ -89,6 +89,15 @@
       </pattern>
     </coreQueryPageProvider>
 
+ 	<coreQueryPageProvider name="draft_pages_same_author">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM Page WHERE ecm:isCheckedInVersion = 0
+        AND ecm:primaryType != 'LabsNews'
+        AND ecm:path STARTSWITH ? AND dc:creator = ? AND ecm:currentLifeCycleState = 'draft'
+        ORDER BY dc:modified DESC
+      </pattern>
+    </coreQueryPageProvider>
+
   </extension>
 
 </component>
