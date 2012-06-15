@@ -86,6 +86,10 @@ jQuery(document).ready(function() {
   </#if>
 
   <#list page.sections as section>
+  <div>
+  	<#if (section.getRows()?size > 0)>
+  		<img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideSection(this, '');" style="float: left; margin-top: 6px;margin-left: -14px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
+  	</#if>
     <section id="section_${section_index}">
         <div class="page-header">
             <a name="section_${section_index}"></a>
@@ -173,7 +177,8 @@ jQuery(document).ready(function() {
           </form>
 
 		</#if>
-
+		
+		<div class="section-collapsable">
         <#list section.getRows() as row>
         	<#if isContributor >
 	          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
@@ -288,9 +293,9 @@ jQuery(document).ready(function() {
 	           </div>
 	        </#if>
         </#list>
-
+		</div>
     </section>
-
+	</div>
   </#list>
 
 		<#if isContributor >
