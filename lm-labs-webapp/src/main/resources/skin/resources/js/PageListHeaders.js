@@ -36,7 +36,7 @@ headersCollection.organizeOrderPosition = function(){
 	var myOrder = headersCollection.getOrder();
 	var myCollection = headersCollection.getCollection();
 	for ( var ii = 0; ii < myOrder.length; ++ii) {
-		if (myOrder[ii] != null) {		
+		if (myOrder[ii] != null) {
 			myCollection[myOrder[ii]].orderPosition = ii;
 		}
 	}
@@ -47,9 +47,9 @@ jQuery(document).ready(function() {
 		height : '385px',
 		overflowy : 'auto',
 		overflowx : 'hidden',
-		autoOpen : false, 
-		closeOnOverlayClick : false, 
-		removeOnClose : false, 
+		autoOpen : false,
+		closeOnOverlayClick : false,
+		removeOnClose : false,
 		showCloseHandle : false
 	});
 });
@@ -110,7 +110,7 @@ function manageEditType() {
 		clearDivEditOptions();
 		hideEditSelect();
 	}
-	if (jQuery("#headerType").val() == "DATE") {
+	if (jQuery("#headerType").val() == "DATE" || jQuery("#headerType").val() == "MODIFIED") {
 		displayEditFormatDate();
 	}
 	else{

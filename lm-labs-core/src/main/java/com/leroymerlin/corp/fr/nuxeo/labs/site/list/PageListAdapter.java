@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -50,12 +51,12 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 public class PageListAdapter extends AbstractPage implements PageList {
 
     private static final String NO = "NON";
-	private static final String YES = "OUI";
-	private static final String EMPTY_STRING = "";
-	private static final String DOUBLE_POINT = ") : ";
-	private static final String COMMENTED_BY = "(Commenté le ";
-	private static final String FORMAT_DATE_COMMENTS_EXTRACTION = "dd MMMMM yyyy 'à' HH:mm:ss";
-	public static final String LINE_TITTLE = "lineTitle";
+    private static final String YES = "OUI";
+    private static final String EMPTY_STRING = "";
+    private static final String DOUBLE_POINT = ") : ";
+    private static final String COMMENTED_BY = "(Commenté le ";
+    private static final String FORMAT_DATE_COMMENTS_EXTRACTION = "dd MMMMM yyyy 'à' HH:mm:ss";
+    public static final String LINE_TITTLE = "lineTitle";
     private static final String PGL_HEADERLIST = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":headerlist";
     private static final String ALL_CONTRIBUTORS = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":allContributors";
     private static final String COMMENTABLE_LINES = LabsSiteConstants.Schemas.PAGELIST.prefix() + ":commentableLines";
@@ -71,7 +72,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
     private static final String ALTERABLE = "alterable";
     private static final String MANDATORY = "mandatory";
     public static final int NULL_VALUE_FOR_INT = -1;
-    
+
     private static SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMMM yyyy");
 
     public PageListAdapter(DocumentModel doc) {
@@ -80,51 +81,51 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     public static class Model {
         private DocumentModel doc;
-        
+
         private CoreSession session;
 
         /**
          * PageList adapter = new PageListAdapter.Model(session, "/",
          * "title").create();
-         * 
+         *
          * @param session
          * @param parentPath
          * @param title
          * @throws ClientException
          */
         public Model(CoreSession session, String parentPath, String title) throws ClientException {
-        	this.session = session;
+            this.session = session;
             this.doc = session.createDocumentModel(parentPath, title, Docs.PAGELIST.type());
         }
 
         /**
          * Creates document model in repository.
-         * 
+         *
          * @return an adapter
          * @throws ClientException
          */
         public PageList create() throws ClientException {
             PageListAdapter pageListAdapter = new PageListAdapter(session.createDocument(this.doc));
             pageListAdapter.setSession(session);
-			return pageListAdapter;
+            return pageListAdapter;
         }
 
         /**
          * Getter an adapter
-         * 
+         *
          * @return an adapter
          * @throws ClientException
          */
         public PageList getAdapter() throws ClientException {
             PageListAdapter pageListAdapter = new PageListAdapter(this.doc);
             pageListAdapter.setSession(session);
-			return pageListAdapter;
+            return pageListAdapter;
         }
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#addHeader(com.
      * leroymerlin.corp.fr.nuxeo.labs.site.list.dto.Header)
      */
@@ -141,7 +142,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#setHeaders(java
      * .util.List)
@@ -190,7 +191,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /**
      * Get the map of header, the keys are the properties of header
-     * 
+     *
      * @param pHead
      * @return the map of header
      */
@@ -212,7 +213,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#getHeaderlist()
      */
@@ -230,7 +231,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /**
      * Create the header with a map of property and value
-     * 
+     *
      * @param pMap
      * @throws PropertyException
      * @throws NullException
@@ -264,7 +265,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#resetHeaders()
      */
     @Override
@@ -276,7 +277,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#getLines()
      */
     @Override
@@ -294,7 +295,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         }
         sb.append(" ORDER BY dc:created ASC");
         listDocLines = session.query(sb.toString());
-		//listDocLines = session.getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
+        //listDocLines = session.getChildren(doc.getRef(), LabsSiteConstants.Docs.PAGELIST_LINE.type());
         EntriesLine line;
         PageListLine adapterLine;
         for (DocumentModel docTmp : listDocLines) {
@@ -303,7 +304,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
             line.setDocLine(docTmp);
             line.setNbComments(adapterLine.getNbComments());
             line.setVisible(adapterLine.isVisible());
-            line.setNbrFiles(adapterLine.getFiles().size());            
+            line.setNbrFiles(adapterLine.getFiles().size());
             entriesLines.add(line);
         }
         return entriesLines;
@@ -311,13 +312,13 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#saveLine(com.
      * leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine)
      */
     @Override
     public void saveLine(EntriesLine pLine, LabsSite pSite) throws ClientException {
-    	CoreSession session = getSession();
+        CoreSession session = getSession();
         DocumentModel lineDoc = null;
         boolean isNew = pLine.getDocLine() == null;
         if (isNew) {
@@ -328,10 +329,10 @@ public class PageListAdapter extends AbstractPage implements PageList {
         PageListLine line = Tools.getAdapter(PageListLine.class, lineDoc, session);
         line.setLine(pLine);
         if(pLine.isVisible()){
-        	line.show();
+            line.show();
         }
         else{
-        	line.hide();
+            line.hide();
         }
         if (isNew) {
             lineDoc = session.createDocument(lineDoc);
@@ -344,13 +345,13 @@ public class PageListAdapter extends AbstractPage implements PageList {
             manageAddedPermission(pLine, pSite);
         }
     }
-    
+
     private void manageAddedPermission(final EntriesLine pLine, final LabsSite site) throws ClientException{
         if (site == null){
             return;
         }
         final boolean isAllContributors = isAllContributors();
-        if (!isAllContributors || site.isAdministrator(pLine.getUserName()) || site.isContributor(pLine.getUserName())){       
+        if (!isAllContributors || site.isAdministrator(pLine.getUserName()) || site.isContributor(pLine.getUserName())){
             return;
         }
         final DocumentRef ref = pLine.getDocLine().getRef();
@@ -365,7 +366,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
                 SecurityDataHelper.updateSecurityOnDocument(docu, data);
                 session.save();
             }
-            
+
         };
         runner.runUnrestricted();
 
@@ -373,7 +374,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#removeLine(org.
      * nuxeo.ecm.core.api.DocumentRef)
@@ -385,7 +386,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#getLine(org.nuxeo
      * .ecm.core.api.DocumentRef)
@@ -394,7 +395,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
     public EntriesLine getLine(DocumentRef pRef) throws ClientException {
         EntriesLine line = new EntriesLine();
         CoreSession session = getSession();
-		DocumentModel lineDoc = session.getDocument(pRef);
+        DocumentModel lineDoc = session.getDocument(pRef);
         if (lineDoc != null) {
             line.setDocLine(lineDoc);
             line = Tools.getAdapter(PageListLine.class, lineDoc, session)
@@ -405,7 +406,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#isAllCintibutors()
      */
@@ -420,7 +421,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#setAllContributors
      * (boolean)
@@ -430,7 +431,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         if (isAllContributors != isAllContributors()){
             final DocumentRef ref = doc.getRef();
             UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(getSession()){
-    
+
                 @SuppressWarnings("deprecation")
                 @Override
                 public void run() throws ClientException {
@@ -447,7 +448,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
                     SecurityDataHelper.updateSecurityOnDocument(docu, data);
                     session.save();
                 }
-                
+
             };
             runner.runUnrestricted();
             doc.setPropertyValue(ALL_CONTRIBUTORS, isAllContributors);
@@ -456,7 +457,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#isCommentableLines
      * ()
@@ -472,7 +473,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList#setCommentableLines
      * (boolean)
@@ -495,12 +496,12 @@ public class PageListAdapter extends AbstractPage implements PageList {
         Cell cell = null;
         Row row = null;
         SortedSet<Header> headers = getHeaderSet();
-        
+
         Font titleFont = wb.createFont();
         titleFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
         CellStyle style = wb.createCellStyle();
         style.setFont(titleFont);
-        
+
         Row headerRow = sheet.createRow(numRow);
         for (Header head : headers) {
             cell = headerRow.createCell(numCell);
@@ -517,7 +518,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
         cell = headerRow.createCell(numCell);
         cell.setCellStyle(style);
         cell.setCellValue("Commentaires");
-        
+
         numCell = 0;
         numRow ++;
         SimpleDateFormat sdfHeader = null;
@@ -537,18 +538,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
                         }
                         break;
                     case DATE:
-                        if (entry.getDate() != null) {
-                            if(!StringUtils.isEmpty(head.getFormatDate())){
-                                sdfHeader = new SimpleDateFormat(head.getFormatDate());
-                                cell.setCellValue(sdfHeader.format(entry.getDate().getTime()));
-                            }
-                            else{
-                                cell.setCellValue(sdf.format(entry.getDate().getTime()));
-                            }
-                        }
-                        else{
-                            cell.setCellValue(EMPTY_STRING);
-                        }
+                        cell.setCellValue(getCellFormattedDateString(entry.getDate(), head.getFormatDate()));
                         break;
                     case SELECT:
                         cell.setCellValue(entry.getText());
@@ -556,6 +546,11 @@ public class PageListAdapter extends AbstractPage implements PageList {
                     case TEXT:
                         cell.setCellValue(entry.getText());
                         break;
+                    case MODIFIED: {
+                        Calendar modified = (Calendar) line.getDocLine().getPropertyValue(StringUtils.defaultIfEmpty(entry.getText(), EntryType.MODIFIED.xpath()));
+                        cell.setCellValue(getCellFormattedDateString(modified, head.getFormatDate()));
+                        break;
+                    }
                     case CREATOR:
                         String creator = (String) line.getDocLine().getPropertyValue(StringUtils.defaultIfEmpty(entry.getText(), EntryType.CREATOR.xpath()));
                         cell.setCellValue(AuthorFullName.getFormattedUserName(creator, null));
@@ -584,13 +579,13 @@ public class PageListAdapter extends AbstractPage implements PageList {
             //Lignes cachées
             cell = row.createCell(numCell);
             if (line.isVisible()){
-            	cell.setCellValue(false);
+                cell.setCellValue(false);
             }
             else{
-            	cell.setCellValue(true);
+                cell.setCellValue(true);
             }
             numCell++;
-            
+
             //Write comments of line
             CommentableDocument adapterComments = line.getDocLine().getAdapter(CommentableDocument.class);
             if (adapterComments != null){
@@ -603,8 +598,8 @@ public class PageListAdapter extends AbstractPage implements PageList {
                         sdfHeader = new SimpleDateFormat(FORMAT_DATE_COMMENTS_EXTRACTION);
                         StringBuilder strBuider = new StringBuilder(afn.getFullName((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_AUTHOR)));
                         strBuider.append(COMMENTED_BY)
-                        	.append(sdfHeader.format(((GregorianCalendar)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_CREATION_DATE)).getTime()))
-                        	.append(DOUBLE_POINT).append((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT));
+                            .append(sdfHeader.format(((GregorianCalendar)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_CREATION_DATE)).getTime()))
+                            .append(DOUBLE_POINT).append((String)comment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT));
                         cell.setCellValue(strBuider.toString());
                         numCell++;
                     }
@@ -614,6 +609,20 @@ public class PageListAdapter extends AbstractPage implements PageList {
             numRow++;
         }
         wb.write(pOut);
+    }
+
+    private String getCellFormattedDateString(Calendar entryDate, String dateFormat) {
+        String cellValue = EMPTY_STRING;
+        if (entryDate != null) {
+            if(!StringUtils.isEmpty(dateFormat)){
+                SimpleDateFormat sdfHeader = new SimpleDateFormat(dateFormat);
+                cellValue = sdfHeader.format(entryDate.getTime());
+            }
+            else{
+                cellValue = sdf.format(entryDate.getTime());
+            }
+        }
+        return cellValue;
     }
 
 }
