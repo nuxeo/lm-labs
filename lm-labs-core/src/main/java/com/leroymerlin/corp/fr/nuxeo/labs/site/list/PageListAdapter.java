@@ -546,9 +546,11 @@ public class PageListAdapter extends AbstractPage implements PageList {
                     case TEXT:
                         cell.setCellValue(entry.getText());
                         break;
-                    case MODIFIED: {
-                        Calendar modified = (Calendar) line.getDocLine().getPropertyValue(StringUtils.defaultIfEmpty(entry.getText(), EntryType.MODIFIED.xpath()));
-                        cell.setCellValue(getCellFormattedDateString(modified, head.getFormatDate()));
+                    case MODIFIED:
+                    case CREATED:
+                    {
+                        Calendar datePropVal = (Calendar) line.getDocLine().getPropertyValue(StringUtils.defaultIfEmpty(entry.getText(), EntryType.valueOf(head.getType()).xpath()));
+                        cell.setCellValue(getCellFormattedDateString(datePropVal, head.getFormatDate()));
                         break;
                     }
                     case CREATOR:

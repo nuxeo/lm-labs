@@ -110,7 +110,7 @@ function manageEditType() {
 		clearDivEditOptions();
 		hideEditSelect();
 	}
-	if (jQuery("#headerType").val() == "DATE" || jQuery("#headerType").val() == "MODIFIED") {
+	if (jQuery("#headerType").val() == "DATE" || jQuery("#headerType").val() == "MODIFIED" || jQuery("#headerType").val() == "CREATED") {
 		displayEditFormatDate();
 	}
 	else{

@@ -20,6 +20,7 @@ public enum EntryType {
     SELECT("label.pageList.edit.editHeader.options.select", ""),
     CREATOR("label.pageList.edit.editHeader.options.creator", "dc:creator"),
     MODIFIED("label.pageList.edit.editHeader.options.modified", "dc:modified"),
+    CREATED("label.pageList.edit.editHeader.options.created", "dc:created"),
     FILES("label.pageList.edit.editHeader.options.attachedFiles", ""),
     URL("label.pageList.edit.editHeader.options.url", ""),
     TEXTAREA("label.pageList.edit.editHeader.options.textarea", "");
@@ -41,6 +42,6 @@ public enum EntryType {
     }
 
     public static EnumSet<EntryType> linePropTypes() {
-        return EnumSet.of(CREATOR, MODIFIED);
+        return EnumSet.of(CREATOR, MODIFIED, CREATED);
     }
 }
