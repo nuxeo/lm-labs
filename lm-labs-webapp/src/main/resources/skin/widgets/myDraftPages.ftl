@@ -3,7 +3,7 @@
 <#assign params = "/default-domain/sites/" + Common.siteDoc(Document).site.document.name+","+Context.principal.name >
 <@documentModelList documentModelList=Common.getPageProviderDocs(Session, "draft_pages_same_author", params, 5)
     divId=pagesSameAuthorDivId
-    divTitle=Context.getMessage('label.HtmlPage.widget.html.draftPagesSameAuthor')
+    divTitle=Context.getMessage('label.HtmlPage.widget.html.myDraftPages')
     tooltipDocProp="dc:modified"
     divClass="draftPagesSameAuthor supplychain-unstyled-bloc"
     showDate=true  />

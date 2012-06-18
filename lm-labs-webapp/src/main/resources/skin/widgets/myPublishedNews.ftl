@@ -4,7 +4,7 @@
 <#assign params = "/default-domain/sites/" + Common.siteDoc(Document).site.document.name+","+Context.principal.name + "," + dateStr + "," + dateStr >
 <@documentModelList documentModelList=Common.getPageProviderDocs(Session, "published_news_same_author", params, 5)
     divId=pagesSameAuthorDivId
-    divTitle=Context.getMessage('label.HtmlPage.widget.html.publishedNewsSameAuthor')
+    divTitle=Context.getMessage('label.HtmlPage.widget.html.myPublishedNews')
     tooltipDocProp="ln:accroche"
     divClass="publishedNewsSameAuthor supplychain-unstyled-bloc"
     showDate=true
