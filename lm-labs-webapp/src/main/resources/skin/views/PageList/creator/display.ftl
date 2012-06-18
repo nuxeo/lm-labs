@@ -1,5 +1,5 @@
-<#assign errorValue = "N/A" />
-<#if LabsUtils.validDocProperty(entry.text, entriesLine.docLine) >
+<#assign errorValue = "N.D." />
+<#if LabsUtils.validDocProperty(entry.text!"", entriesLine.docLine) >
     <#-- on devrait TOUJOURS rentrer ici -->
     <#attempt>
 	    <#assign propValue = entriesLine.docLine[entry.text] />
