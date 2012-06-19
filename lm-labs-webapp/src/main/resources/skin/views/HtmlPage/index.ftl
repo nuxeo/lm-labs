@@ -93,7 +93,7 @@ jQuery(document).ready(function() {
     <section id="section_${section_index}">
         <div class="page-header"<#if section.title?length == 0 && section.description?length == 0 > style="padding-bottom: 0px;"</#if> >
             <a name="section_${section_index}"></a>
-            <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;"> <small>${section.description}</small></h2>
+            <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;">&nbsp;${section.description}</h2>
 	        <#if isContributor >
 		        <div class=" editblock btn-group pull-right" style="float: right;margin-top: 7px;">
 			      	<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section <span class="caret"></span></a>
