@@ -45,7 +45,7 @@
 					  		</td>
 					  		<td>
 					  			<center>
-						  			<span><img class="imgTopic" width="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${topic.document.author}/picture"></span><br/>
+						  			<span><img class="imgTopic thumbnail" width="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${topic.document.author}/picture"></span><br/>
 									<span>${This.getFullName(topic.document.author)}</span>
 								</center>
 					  		</td>
@@ -92,9 +92,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$(".imgTopic").each(function(i){
-			$(this).error(function(){
-				$(this).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture");
+		$(".imgTopic").each(function(i, obj){
+			$(obj).error(function(){
+				$(obj).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/skin/images/lm-man.png");
 			});
 		});
 	});
