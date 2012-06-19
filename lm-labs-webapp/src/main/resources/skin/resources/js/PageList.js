@@ -29,7 +29,6 @@ function addLine(lastIndexPage, path) {
 	});
 	jQuery("#lastPage").val(lastIndexPage);
 	$("#divBtnDeleteLine").attr("style", "display:none;");
-	$('#isHidden[value="no"]').attr("checked", true);
 	$('#divLineIsHidden').hide();
 	$('#pathFormEditLine').val($('#pathPageList').val() + '/addline/@put');
 }

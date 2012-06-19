@@ -36,6 +36,8 @@
 		              	</label>
 					</div>
 				</div>
+			<#else>
+				<input type="hidden" name="isHidden" id="isHidden" value="no" />
 			</#if>
 		</fieldset>
 <#if line != null>
