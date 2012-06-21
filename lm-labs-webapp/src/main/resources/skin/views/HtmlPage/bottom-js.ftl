@@ -1,6 +1,6 @@
+<script type="text/javascript">
 <#assign isContributor = This.page?? && This.page.isContributor(Context.principal.name) />
 <#if isContributor >
-<script type="text/javascript">
 var rowWidgetsAtLoad = [];
 function defaultConfigGadgetAjaxFormBeforeSubmit() {
     jQuery('#divConfigGadget').find('div.actions a, input, button').attr('disabled', '');
@@ -18,6 +18,7 @@ function defaultConfigGadgetAjaxFormSucess() {
     window.location.href = '${This.path}#row_s' + jQuery('#divConfigGadget input[name=section]').val() + '_r' + jQuery('#divConfigGadget input[name=row]').val();
     document.location.reload(true);
 }
+
 jQuery(document).ready(function() {
     jQuery('#divConfigGadget form').removeAttr('enctype');
     jQuery("#divConfigRowGadgets").dialog2({
@@ -127,5 +128,39 @@ jQuery(document).ready(function() {
         });
     });
 })
-</script>
 </#if>
+
+function updateSectionLabels(bt, title, alt) {
+    jQuery(bt).attr("title", title);
+    jQuery(bt).attr("alt", alt);
+}
+
+function changeSectionBt(imgObj, newStatus) {
+    if (newStatus === 'open') {
+        jQuery(imgObj).attr("src", "${skinPath}/images/toggle_plus.png");
+    } else {
+        jQuery(imgObj).attr("src", "${skinPath}/images/toggle_minus.png");
+    }
+}
+
+function slideSection(imgObj, action) {
+    var collapsables = jQuery(imgObj).parent().find("div[class*='section-collapsable']");
+    if (action === '') {
+        if (collapsables.is(":visible")) {
+            action = 'open';
+        } else {
+            action = 'close';
+        }
+    }
+    if (action === "open") {
+        changeSectionBt(imgObj, 'open');
+        updateSectionLabels(imgObj, "${Context.getMessage('label.HtmlPage.open')}", "${Context.getMessage('command.HtmlPage.open')}");
+        collapsables.slideUp("fast");
+    } else {
+        changeSectionBt(imgObj, 'close');
+        updateSectionLabels(imgObj, "${Context.getMessage('label.HtmlPage.collapse')}", "${Context.getMessage('command.HtmlPage.collapse')}");
+        collapsables.slideDown("fast");
+        refreshDisplayMode(collapsables);
+    }
+}
+</script>

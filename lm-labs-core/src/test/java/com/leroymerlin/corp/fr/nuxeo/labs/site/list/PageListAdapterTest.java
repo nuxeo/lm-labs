@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
@@ -66,13 +67,7 @@ public class PageListAdapterTest extends LabstTest {
         PageList pageList = model.getAdapter();
         assertThat(pageList,is(notNullValue()));
         
-        Header head = new Header();
-        head.setName(NAME);
-        head.setType(TYPE);
-        head.setFontName(FONT_NAME);
-        head.setFontSize(FONT_SIZE);
-        head.setIdHeader(ID_HEADER);
-        head.setWidth(WIDTH);
+        Header head = createHeader();
         pageList.addHeader(head);
         pageList = model.create();
         
@@ -90,19 +85,24 @@ public class PageListAdapterTest extends LabstTest {
         }
     }
 
-    @Test
-    public void canGetFormatDateDefault() throws Exception {
-        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
-        PageList pageList = model.getAdapter();
-        assertThat(pageList,is(notNullValue()));
-        
-        Header head = new Header();
+	private Header createHeader() {
+		Header head = new Header();
         head.setName(NAME);
         head.setType(TYPE);
         head.setFontName(FONT_NAME);
         head.setFontSize(FONT_SIZE);
         head.setIdHeader(ID_HEADER);
         head.setWidth(WIDTH);
+		return head;
+	}
+
+    @Test
+    public void canGetFormatDateDefault() throws Exception {
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        assertThat(pageList,is(notNullValue()));
+        
+        Header head = createHeader();
         pageList.addHeader(head);
         pageList = model.create();
         
@@ -120,13 +120,7 @@ public class PageListAdapterTest extends LabstTest {
         PageList pageList = model.getAdapter();
         assertThat(pageList,is(notNullValue()));
         
-        Header head = new Header();
-        head.setName(NAME);
-        head.setType(TYPE);
-        head.setFontName(FONT_NAME);
-        head.setFontSize(FONT_SIZE);
-        head.setIdHeader(ID_HEADER);
-        head.setWidth(WIDTH);
+        Header head = createHeader();
         head.setFormatDate(FORMAT_DATE);
         pageList.addHeader(head);
         pageList = model.create();
@@ -136,6 +130,103 @@ public class PageListAdapterTest extends LabstTest {
         assertTrue(headerList.size() == 1);
         for (Header header:headerList){
             assertTrue(FORMAT_DATE.equals(header.getFormatDate()));
+        }
+    }
+    
+    @Test
+    public void canGetDefaultAlterable() throws Exception{
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList = createPageListWithHeaders(model, pageList);
+        Set<Header> headerList = pageList.getHeaderSet();
+        assertNotNull(headerList);
+        assertTrue(headerList.size() == 3);
+        for(Header head: headerList){
+        	assertTrue(head.isAlterable());
+        }
+    }
+    
+    @Test
+    public void canGetDefaultMandatory() throws Exception{
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList = createPageListWithHeaders(model, pageList);
+        Set<Header> headerList = pageList.getHeaderSet();
+        assertNotNull(headerList);
+        assertTrue(headerList.size() == 3);
+        for(Header head: headerList){
+        	assertFalse(head.isMandatory());
+        }
+    }
+    
+    @Test
+    public void canSetAlterable() throws Exception{
+        PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList = createPageListWithHeaders(model, pageList);
+        
+        
+        Set<Header> headerList = pageList.getHeaderSet();
+        assertNotNull(headerList);
+        assertTrue(headerList.size() == 3);
+        
+        List<Header> listHaed = new ArrayList<Header>();
+        for(Header head: headerList){
+        	head.setAlterable(false);
+        	listHaed.add(head);
+        }
+        
+        
+        pageList.setHeaders(listHaed);
+        String pathPageList = pageList.getDocument().getPathAsString();
+        
+        session.saveDocument(pageList.getDocument());
+        session.save();
+        
+        DocumentModel document = session.getDocument(new PathRef(pathPageList));
+        pageList = document.getAdapter(PageList.class);
+        
+        headerList = pageList.getHeaderSet();
+        assertNotNull(headerList);
+        assertTrue(headerList.size() == 3);
+        for(Header head: headerList){
+        	assertFalse(head.isAlterable());
+        }
+        
+    }
+    
+    @Test
+    public void canSetMandatory() throws Exception{
+    	PageListAdapter.Model model = new PageListAdapter.Model(session, PATH_SEPARATOR, PAGE_LIST_TITLE);
+        PageList pageList = model.getAdapter();
+        pageList = createPageListWithHeaders(model, pageList);
+        
+        
+        Set<Header> headerList = pageList.getHeaderSet();
+        assertNotNull(headerList);
+        assertTrue(headerList.size() == 3);
+        
+        List<Header> listHaed = new ArrayList<Header>();
+        for(Header head: headerList){
+        	head.setMandatory(true);
+        	listHaed.add(head);
+        }
+        
+        
+        pageList.setHeaders(listHaed);
+        String pathPageList = pageList.getDocument().getPathAsString();
+        
+        session.saveDocument(pageList.getDocument());
+        session.save();
+        
+        DocumentModel document = session.getDocument(new PathRef(pathPageList));
+        pageList = document.getAdapter(PageList.class);
+        
+        headerList = pageList.getHeaderSet();
+        assertNotNull(headerList);
+        assertTrue(headerList.size() == 3);
+        for(Header head: headerList){
+        	assertTrue(head.isMandatory());
         }
     }
     

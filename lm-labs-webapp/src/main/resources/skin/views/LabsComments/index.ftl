@@ -20,7 +20,7 @@
 					<div class="row-fluid">
 						<div class="span2">
 							<#if isNotRejected || Session.hasPermission(Document.ref, 'Everything')>
-				  				<span><img class="imgComment" width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${comment.comment.author}/picture"></span>
+				  				<span><img class="imgComment thumbnail" width="80px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${comment.comment.author}/picture"></span>
 				  			</#if>
 						</div>
 						<div class="span10">

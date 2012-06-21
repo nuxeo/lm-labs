@@ -1,4 +1,4 @@
-
+<#import "libs/LabsUtils.ftl" as LabsUtils />
 <table id="sortArray" class="table labstable table-striped table-bordered bs arrayPageList">
   <thead>
     <tr>
@@ -33,7 +33,7 @@
                 <#assign commentLabel = Context.getMessage('label.comments.null.nbComments') />
      		</#if>
   			<td style="vertical-align: middle;width: 15px;" rel="tooltip" data-original-title="${commentLabel}" alt="${Context.getMessage('label.comments.title')}">
-  				<a href="#" class="btn btn-mini <#if nbComments == 0 >labscomments noComments</#if> open-dialog" rel="divCommentable" 
+  				<a href="#" class="btn btn-mini <#if nbComments == 0 >labscomments noComments</#if> open-dialog" rel="divCommentable"
   				  onClick="javascript:openComments('${This.path}/${entriesLine.docLine.name}/@labscomments/');">
   				  <i class="icon-comments" ></i>
 			  </a>
@@ -73,8 +73,8 @@ jQuery(document).ready(function () {
         title: '${Context.getMessage('label.PageList.line.files.form.title')}',
         closeOnOverlayClick: false,
         buttons: {
-            '${Context.getMessage('command.PageList.line.files.form.close')}': { 
-                primary: false, 
+            '${Context.getMessage('command.PageList.line.files.form.close')}': {
+                primary: false,
                 click: function() {
                     <#-- TODO
                     var lineName = jQuery('#linename').val();

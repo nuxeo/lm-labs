@@ -535,6 +535,20 @@ input &.search-query{
 	margin-top: 2px;
 }
 
+.labs-pagination-background-color(@labsColor) when (@labsColor = transparent) {
+      background-color: transparent;
+}
+.labs-pagination-background-color(@labsColor) when not (@labsColor = transparent) {
+      background-color: darken(@labsColor, 10%);
+}
+
+.labs-pagination-box-shadow(@labsColor) when (@labsColor = transparent) {
+      .box-shadow(1px 1px 5px transparent);
+}
+.labs-pagination-box-shadow(@labsColor) when not (@labsColor = transparent) {
+      .box-shadow(1px 1px 5px darken(@labsColor, 30%));
+}
+
 .pagination {
 	height: auto;
 	margin: 5px 0;
@@ -549,8 +563,8 @@ input &.search-query{
 		margin-right: 7px;
 		font-weight: bold;
 		font-size: @baseFontSize + 2;
-		background-color: darken(@labsContentBackgroundColor, 10%);
-		.box-shadow(1px 1px 5px darken(@labsContentBackgroundColor, 30%));
+		.labs-pagination-background-color(@labsContentBackgroundColor);
+		.labs-pagination-box-shadow(@labsContentBackgroundColor);
 		padding-bottom: 2px;
 	}
 	li:last-child a {

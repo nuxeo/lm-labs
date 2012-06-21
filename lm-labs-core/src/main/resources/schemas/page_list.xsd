@@ -26,6 +26,8 @@
 			<xs:element name="orderPosition" type="xs:int" />
 			<xs:element name="selectlist" type="tns:selectlist" />
 			<xs:element name="formatDate" type="xs:string" default="dd MMMMM yyyy" />
+			<xs:element name="alterable" type="xs:boolean" default="true" />
+			<xs:element name="mandatory" type="xs:boolean" default="false" />
 		</xs:sequence>
 	</xs:complexType>
 	

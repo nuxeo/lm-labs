@@ -12,6 +12,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.model.impl.ListProperty;
+import org.nuxeo.ecm.core.api.model.impl.primitives.BooleanProperty;
 import org.nuxeo.ecm.core.api.model.impl.primitives.LongProperty;
 import org.nuxeo.ecm.core.api.model.impl.primitives.StringProperty;
 
@@ -39,6 +40,17 @@ public class Tools {
             Long value = ((LongProperty) obj).getValue(Long.class);
             if (value != null){
                 return value.intValue();
+            }
+        }
+        throw new NullException("This object is null.");
+    }
+    
+
+    public static boolean getBoolean(Object obj) throws NullException, PropertyException{
+    	if (obj != null){
+            Boolean value = ((BooleanProperty) obj).getValue(Boolean.class);
+            if (value != null){
+                return value.booleanValue();
             }
         }
         throw new NullException("This object is null.");

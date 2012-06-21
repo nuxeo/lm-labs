@@ -1,6 +1,12 @@
-<#assign propValue = entriesLine.docLine.dublincore.creator />
-<#if 0 < entry.text?length >
+<#assign errorValue = "N.D." />
+<#if LabsUtils.validDocProperty(entry.text!"", entriesLine.docLine) >
     <#-- on devrait TOUJOURS rentrer ici -->
-    <#assign propValue = entriesLine.docLine[entry.text] />
+    <#attempt>
+	    <#assign propValue = entriesLine.docLine[entry.text] />
+    <#recover>
+	    <#assign propValue = errorValue />
+    </#attempt>
+<#else>
+	<#assign propValue = errorValue />
 </#if>
 ${userFullName(propValue)?html}

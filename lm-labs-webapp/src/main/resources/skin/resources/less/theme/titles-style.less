@@ -1,12 +1,16 @@
 h1 {
   font-size: @basefontTitleH1;
   color: @baseFontColorTitleH1;
-} 
+}
 
 h2 {
   font-size: @basefontTitleH2;
   color: @baseFontColorTitleH2;
-} 
+  small {
+  	font-size: @basefontTitleH2 - 1;
+  	color: lighten(@baseFontColorTitleH2, 20%);
+  }
+}
 
 h5 {
   font-size: @basefontTitleH5;

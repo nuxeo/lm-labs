@@ -1,7 +1,7 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
-  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "pagesSameAuthor", "publishedNewsSameAuthor"] />
+  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor"] />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
@@ -86,8 +86,12 @@ jQuery(document).ready(function() {
   </#if>
 
   <#list page.sections as section>
+  <div>
+  	<#if (section.getRows()?size > 0)>
+  		<img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideSection(this, '');" style="float: left; margin-top: 6px;margin-left: -14px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
+  	</#if>
     <section id="section_${section_index}">
-        <div class="page-header">
+        <div class="page-header"<#if section.title?length == 0 && section.description?length == 0 > style="padding-bottom: 0px;"</#if> >
             <a name="section_${section_index}"></a>
             <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;"> <small>${section.description}</small></h2>
 	        <#if isContributor >
@@ -174,6 +178,7 @@ jQuery(document).ready(function() {
 
 		</#if>
 
+		<div class="section-collapsable">
         <#list section.getRows() as row>
         	<#if isContributor >
 	          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
@@ -288,9 +293,9 @@ jQuery(document).ready(function() {
 	           </div>
 	        </#if>
         </#list>
-
+		</div>
     </section>
-
+	</div>
   </#list>
 
 		<#if isContributor >

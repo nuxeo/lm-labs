@@ -33,7 +33,7 @@
 			            <th width="8%"></th>
 	          		</tr>
 		        </thead>
-			  	
+
 				<#list allTopics as topic>
 					<#if !topic.document.facets?seq_contains("LabsHidden") || (Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == topic.document.author)>
 					  	<tr <#if topic.document.facets?seq_contains("LabsHidden")> class="hidden"</#if>>
@@ -45,7 +45,7 @@
 					  		</td>
 					  		<td>
 					  			<center>
-						  			<span><img class="imgTopic" width="50px;" height="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${topic.document.author}/picture"></span><br/>
+						  			<span><img class="imgTopic thumbnail" width="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${topic.document.author}/picture"></span><br/>
 									<span>${This.getFullName(topic.document.author)}</span>
 								</center>
 					  		</td>
@@ -86,15 +86,15 @@
 			  </div>
 		  </div>
 	  	</#if>
-	</div>	 	
+	</div>
   </@block>
 </@extends>
 
 <script type="text/javascript">
-	$(document).ready(function() {				  		
-		$(".imgTopic").each(function(i){
-			$(this).error(function(){
-				$(this).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture");
+	$(document).ready(function() {
+		$(".imgTopic").each(function(i, obj){
+			$(obj).error(function(){
+				$(obj).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/skin/images/lm-man.png");
 			});
 		});
 	});
