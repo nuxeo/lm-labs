@@ -1,4 +1,4 @@
-		
+
 		<fieldset>
 			<input type="hidden" name="lastPage" id="lastPage" value="" />
 			<input type="hidden" name="currentPage" id="currentPage" value="" />
@@ -27,17 +27,17 @@
 					<label class="control-label" for="isVisible">${Context.getMessage('label.pageList.edit.line.hidden')?js_string}</label>
 					<div class="controls">
 						<label class="radio inline">
-		                	<input type="radio" name="isHidden" id="isHidden" value="yes" <#if line?? && !line.visible >checked</#if>>
+		                	<input type="radio" name="isHidden" class="isHidden" value="yes" <#if line?? && !line.visible >checked</#if>>
 		                	Oui
 		              	</label>
 						<label class="radio inline">
-		                	<input type="radio" name="isHidden" id="isHidden" value="no" <#if line?? && line.visible >checked</#if>>
+		                	<input type="radio" name="isHidden" class="isHidden" value="no" <#if line?? && line.visible >checked</#if>>
 		                	Non
 		              	</label>
 					</div>
 				</div>
 			<#else>
-				<input type="hidden" name="isHidden" id="isHidden" value="no" />
+				<input type="hidden" name="isHidden" class="isHidden" value="no" />
 			</#if>
 		</fieldset>
 <#if line != null>

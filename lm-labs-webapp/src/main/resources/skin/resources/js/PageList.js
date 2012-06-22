@@ -1,6 +1,6 @@
 jQuery(document).ready(function() {
 	initModal();
-	
+
 	$(".pageListDisplayUrl").on("click", function(event){
 		event.stopPropagation();
 	});
@@ -29,6 +29,8 @@ function addLine(lastIndexPage, path) {
 	});
 	jQuery("#lastPage").val(lastIndexPage);
 	$("#divBtnDeleteLine").attr("style", "display:none;");
+	jQuery('input.isHidden[value="no"]').attr("checked", true);
+	jQuery('input.isHidden[value="yes"]').removeAttr("checked");
 	$('#divLineIsHidden').hide();
 	$('#pathFormEditLine').val($('#pathPageList').val() + '/addline/@put');
 }
@@ -58,7 +60,7 @@ function initEditLinesDates(){
 			});
 		});
 	openFirstDatePicker();
-} 
+}
 
 function openFirstDatePicker(){
 	var inputFirstDate = $("#form-editLine input:first");
