@@ -42,6 +42,6 @@
 		</fieldset>
 <#if line != null>
 	<div id="divBtnDeleteLine" style="text-align: right;">
-		<button id="deleteLine" class="btn btn-warning" onClick="javascript:if(confirm('${Context.getMessage('label.pageList.line_deleted.confirm')?js_string}')){deleteLine('${This.previous.path}');}{return false;}" title="${Context.getMessage('label.pageList.edit.manage.delete')}"><i class="icon-remove"></i>${Context.getMessage('label.pageList.edit.manage.delete')}</button>
+		<a href="#" id="deleteLine" class="btn btn-warning" onClick="javascript:if(confirm('${Context.getMessage('label.pageList.line_deleted.confirm')?js_string}')){deleteLine('${This.previous.path}', '${line.docLine.id}');}{return false;}" title="${Context.getMessage('label.pageList.edit.manage.delete')}"><i class="icon-remove"></i>${Context.getMessage('label.pageList.edit.manage.delete')}</a>
 	</div>
 </#if>

@@ -90,11 +90,11 @@ function saveLine(path) {
 	return false;
 }
 
-function deleteLine(path){
+function deleteLine(path, id){
 	jQuery('#waitingPopup').dialog2('open');
 	jQuery.ajax({
 		type: "DELETE",
-		url: $('#form-editLine').attr("action") + '?currentPage=' + jQuery("#currentPage").val() ,
+		url: path + '/line/' + id  + '?currentPage=' + jQuery("#currentPage").val() ,
 		data: '',
 		success: function(msg){
 			document.location.href=path + msg;
