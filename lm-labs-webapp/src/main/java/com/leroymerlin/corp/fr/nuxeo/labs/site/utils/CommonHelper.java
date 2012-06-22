@@ -216,7 +216,7 @@ public final class CommonHelper {
             return null;
         }
     }
-    
+
     public static boolean isNotRejectedComment(DocumentModel document){
         try {
             if (!LabsSiteConstants.CommentsState.REJECT.getState().equals(document.getCurrentLifeCycleState())){
@@ -301,6 +301,10 @@ public final class CommonHelper {
 			LOG.error(e, e);
 			return new DocumentModelListImpl();
 		}
+    }
+
+    public String getPathAsString(DocumentModel doc) {
+    	return doc.getPathAsString();
     }
 
     /**

@@ -17,5 +17,12 @@
       <icon>navigation.png</icon>
     </internalGadget>
 
+    <internalGadget name="pageclasseurfolder" disabled="false">
+      <mountPoint>/pageclasseurfolder</mountPoint>
+      <entryPoint>pageclasseurfolder.xml</entryPoint>
+      <category>Labs</category>
+      <icon>navigation.png</icon>
+    </internalGadget>
+
   </extension>
 </component>
