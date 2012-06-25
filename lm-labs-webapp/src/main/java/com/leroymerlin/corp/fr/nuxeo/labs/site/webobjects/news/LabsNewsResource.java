@@ -157,7 +157,7 @@ public class LabsNewsResource extends PageResource {
     @Path("s/{index}")
     public Object doGetSection(@PathParam("index") int sectionIndex) {
         // For the news there is only one section
-        return newObject("HtmlSection", doc, getLabsNews(), sectionIndex);
+        return newObject("HtmlSection", doc, getLabsNews(), sectionIndex, null);
     }
 
     static Calendar getDateFromStr(String strDate) {
