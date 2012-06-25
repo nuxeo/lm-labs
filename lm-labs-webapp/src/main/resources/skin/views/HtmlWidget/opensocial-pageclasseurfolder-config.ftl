@@ -10,6 +10,7 @@
     <label class="control-label" for="pageClasseurFolderShortPath" >Chemin du répertoire</label>
     <div class="controls" >
         <input type="hidden" disabled='' name="pageClasseurFolderPath" value='' />
+		<input type="hidden" disabled='' name="pageClasseurTitle" value='' />
         <input type="text" class="disabled span4" disabled='' name="pageClasseurFolderShortPath" value='' />
     </div>
 </div>
@@ -31,8 +32,8 @@
 <div id="foldersSelection" >
 </div>
 <script type="text/javascript">
-function buildGadgetIdProp(folderPath, folderId, folderTitle) {
-	return '{"NXPATH":"' + folderPath + '","NXID":"' + folderId + '","NXTITLE":"' + folderTitle + '"}';
+function buildGadgetIdProp(folderPath, folderId, folderTitle, classeurTitle) {
+	return '{"NXPATH":"' + escape(folderPath) + '","NXID":"' + folderId + '","NXTITLE":"' + escape(folderTitle) + '","NXCLASSEURTITLE":"' + escape(classeurTitle) + '"}';
 }
 
 function setSelectFn() {
@@ -43,12 +44,14 @@ function setSelectFn() {
         var inputPageClasseurFolderShortPath = jQuery('#divConfigGadget form input[name=pageClasseurFolderShortPath]');
         var inputPageClasseurFolderId = jQuery('#divConfigGadget form input[name=pageClasseurFolderId]');
         var inputPageClasseurFolderTitle = jQuery('#divConfigGadget form input[name=pageClasseurFolderTitle]');
+        var inputPageClasseurTitle = jQuery('#divConfigGadget form input[name=pageClasseurTitle]');
         jQuery(inputPageClasseurFolderPath).val(json.pageClasseurFolderPath);
         jQuery(inputPageClasseurFolderShortPath).val(getShortFolderPath(json.pageClasseurFolderPath));
         jQuery(inputPageClasseurFolderId).val(json.pageClasseurFolderId);
         jQuery(inputPageClasseurFolderTitle).val(json.pageClasseurFolderTitle);
+        jQuery(inputPageClasseurTitle).val(json.pageClasseurTitle);
         if (jQuery(inputPageClasseurFolderPath).val() !== "") {
-            jQuery('#divConfigGadget form input[name=NX_FOLDER]').val(buildGadgetIdProp(json.pageClasseurFolderPath, jQuery(inputPageClasseurFolderId).val(), jQuery(inputPageClasseurFolderTitle).val()));
+            jQuery('#divConfigGadget form input[name=NX_FOLDER]').val(buildGadgetIdProp(json.pageClasseurFolderPath, jQuery(inputPageClasseurFolderId).val(), jQuery(inputPageClasseurFolderTitle).val(), jQuery(inputPageClasseurTitle).val()));
         }
         jQuery.fancybox.close();
     }
@@ -85,9 +88,11 @@ jQuery(document).ready(function() {
         var inputPageClasseurFolderPath = jQuery('#divConfigGadget form input[name=pageClasseurFolderPath]');
         var inputPageClasseurFolderId = jQuery('#divConfigGadget form input[name=pageClasseurFolderId]');
         var inputPageClasseurFolderTitle = jQuery('#divConfigGadget form input[name=pageClasseurFolderTitle]');
+        var inputPageClasseurTitle = jQuery('#divConfigGadget form input[name=pageClasseurTitle]');
         jQuery(inputPageClasseurFolderPath).val(json.NXPATH);
         jQuery(inputPageClasseurFolderId).val(json.NXID);
         jQuery(inputPageClasseurFolderTitle).val(json.NXTITLE);
+        jQuery(inputPageClasseurTitle).val(json.NXCLASSEURTITLE);
     }
     jQuery('#selectFolderIframeBtn').fancybox({
         'onComplete' : setSelectFn,

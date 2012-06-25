@@ -21,14 +21,19 @@ var NXID_GADGET = gadgets.nuxeo.getGadgetId();
 var gadgetId = prefs.getString("NXID_GADGET");
 var oddColor = prefs.getString("oddColor");
 var evenColor = prefs.getString("evenColor");
+var displayTitleStr = prefs.getString("displayTitle");
 if (gadgetId !== "") {
 	NXID_GADGET = gadgetId;
 }
 var NX_FOLDER_jsonstr = gadgets.util.unescapeString(prefs.getString("NX_FOLDER"));
 var NXPATH = "";
+var NXFOLDERTITLE = "";
+var NXCLASSEURTITLE = "";
 if(NX_FOLDER_jsonstr !== "") {
 	var docidjson = gadgets.json.parse(NX_FOLDER_jsonstr);
 	NXPATH = docidjson.NXPATH;
+	NXFOLDERTITLE = unescape(docidjson.NXTITLE);
+	NXCLASSEURTITLE = unescape(docidjson.NXCLASSEURTITLE);
 }
 // configure Automation REST call
 var NXRequestParams = {
@@ -133,40 +138,61 @@ function callbackSiteUrl(response, nxParams) {
 }
 
 function displayDetailsUrl(siteUrl, modulePath) {
-	var html = "";
-	var fullUrl = "";
-	fullUrl = NXPATH.replace("/default-domain/sites", "").replace("/tree", "");
-	var title = fullUrl;
-	fullUrl = fullUrl.replace(/^\/([^\/]+)\//, "/" + siteUrl + "/");
-	var pos = fullUrl.lastIndexOf("/");
-	if (pos >= 0) {
-		fullUrl = fullUrl.replaceAt(pos, "?folder=", 1);
-	}
-	fullUrl = NXGadgetContext.clientSideBaseUrl + modulePath + fullUrl;
-	title = title.replace(/^\/([^\/]+)\//, "");
-	pos = title.lastIndexOf("/");
-	if (pos >= 0) {
-		title = title.replaceAt(pos, " - ", 1);
-	}
-	html += "<a title=\"";
-	html += "";
-	html += "\" href=\"";
-	html += "#";
-	html += "\" ";
+	if (displayTitleStr === 'yes') {
+		// build URL
+		var html = "";
+		var fullUrl = "";
+		fullUrl = NXPATH.replace("/default-domain/sites", "").replace("/tree", "");
+		var title = fullUrl;
+		fullUrl = fullUrl.replace(/^\/([^\/]+)\//, "/" + siteUrl + "/");
+		var pos = fullUrl.lastIndexOf("/");
+		if (pos >= 0) {
+			fullUrl = fullUrl.replaceAt(pos, "?folder=", 1);
+		}
+		fullUrl = NXGadgetContext.clientSideBaseUrl + modulePath + fullUrl;
+
+		// build title
+		pos = title.lastIndexOf("/");
+		if (pos >= 0) {
+			title = title.replaceAt(pos, " - ", 1);
+		}
+		pos = title.lastIndexOf("/");
+		if (pos >= 0) {
+			title = title.substring(pos + 1);
+		}
+
+		var newTitle = "";
+		if (NXCLASSEURTITLE !== "") {
+			newTitle = NXCLASSEURTITLE + ' - ';
+		}
+		newTitle += NXFOLDERTITLE;
+
+		html += "<a title=\"";
+		html += "";
+		html += "\" href=\"";
+		html += "#";
+		html += "\" ";
 //	if (NXRequestParams.bootstrapEnabled) {
 //		html += "class='btn btn-mini btn-primary' ";
 //	}
-	html += "class='btn btn-mini' ";
-	html += "style='padding-left: 4px; font-size: larger' ";
-	html += "onclick=\"containerNavigateTo('";
-	html += fullUrl;
-	html += "');\" ";
-	html += "/>";
-	html += "<strong>" + title + "</strong>";
-	html += "</a>";
-	_gel("nxBottomZone").innerHTML = html;
-	jQuery("#nxBottomZone").css('margin-bottom', '10px');
-	gadgets.window.adjustHeight();
+		html += "class='btn btn-mini' ";
+		html += "style='padding-left: 4px; font-size: larger' ";
+		html += "onclick=\"containerNavigateTo('";
+		html += fullUrl;
+		html += "');\" ";
+		html += "/>";
+		html += "<strong>";
+		if (newTitle !== "") {
+			html += newTitle;
+		} else {
+			html += title;
+		}
+		html += "</strong>";
+		html += "</a>";
+		_gel("nxBottomZone").innerHTML = html;
+		jQuery("#nxBottomZone").css('margin-bottom', '10px');
+		gadgets.window.adjustHeight();
+	}
 }
 
 function initGadget() {

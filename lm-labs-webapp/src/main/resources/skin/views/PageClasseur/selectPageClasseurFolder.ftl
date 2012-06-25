@@ -1,15 +1,16 @@
 <#assign modeSelectParam = Context.request.getParameter('modeSelect') />
-<#assign folders = Session.getChildren(Document.ref, 'Folder') />
+<#assign folders = classeur.folders />
 <#if 0 < folders?size >
 <label>2. Choisissez un répertoire :</label>
 <div class="" >
 	<#list folders as folder >
 	<div class="" >
 		<label class="radio">
-			<input type="radio" value="${folder.id}" name="optionPageClasseurFolder">${folder.dublincore.title}</input>
-			<input type="hidden" class="selectedFolderPath" disabled='' value="${Common.getPathAsString(folder)}" >
-			<input type="hidden" class="selectedFolderId" disabled='' value="${folder.id}" >
-			<input type="hidden" class="selectedFolderTitle" disabled='' value="${folder.dublincore.title}" >
+			<input type="radio" value="${folder.document.id}" name="optionPageClasseurFolder">${folder.document.dublincore.title}</input>
+			<input type="hidden" class="selectedFolderPath" disabled='' value="${Common.getPathAsString(folder.document)}" >
+			<input type="hidden" class="selectedFolderId" disabled='' value="${folder.document.id}" >
+			<input type="hidden" class="selectedFolderTitle" disabled='' value="${folder.document.dublincore.title?html}" >
+			<input type="hidden" class="selectedClasseurTitle" disabled='' value="${Document.title?html}" >
 		</label>
 	</div>
 	</#list>
@@ -34,11 +35,13 @@ jQuery(document).ready(function() {
 		var folderPath = jQuery(checkedFolder).siblings('input[class~=selectedFolderPath]').val();
 		var folderId = jQuery(checkedFolder).siblings('input[class~=selectedFolderId]').val();
 		var folderTitle = jQuery(checkedFolder).siblings('input[class~=selectedFolderTitle]').val();
+		var classeurTitle = jQuery(checkedFolder).siblings('input[class~=selectedClasseurTitle]').val();
 		jQuery(thisForm).find('input[name=pageClasseurFolderPath]').val(folderPath);
 		jQuery(thisForm).find('input[name=pageClasseurFolderShortPath]').val(getShortFolderPath(folderPath));
 		jQuery(thisForm).find('input[name=pageClasseurFolderId]').val(folderId);
 		jQuery(thisForm).find('input[name=pageClasseurFolderTitle]').val(folderTitle);
-		jQuery(thisForm).find('input[name=NX_FOLDER]').val(buildGadgetIdProp(folderPath, folderId, folderTitle));
+		jQuery(thisForm).find('input[name=pageClasseurTitle]').val(classeurTitle);
+		jQuery(thisForm).find('input[name=NX_FOLDER]').val(buildGadgetIdProp(folderPath, folderId, folderTitle, classeurTitle));
 		jQuery('#foldersSelection').hide();
 	});
 <#else>
@@ -48,7 +51,8 @@ jQuery(document).ready(function() {
 		var folderPath = jQuery(checkedFolder).siblings('input[class~=selectedFolderPath]').val();
 		var folderId = jQuery(checkedFolder).siblings('input[class~=selectedFolderId]').val();
 		var folderTitle = jQuery(checkedFolder).siblings('input[class~=selectedFolderTitle]').val();
-		gadgets.lmselectvalue.selectFromFrame('{\'pageClasseurFolderPath\':\''+ folderPath +'\', \'pageClasseurFolderId\':\''+ folderId +'\', \'pageClasseurFolderTitle\':\''+ folderTitle +'\'}');
+		var classeurTitle = jQuery(checkedFolder).siblings('input[class~=selectedClasseurTitle]').val();
+		gadgets.lmselectvalue.selectFromFrame('{\'pageClasseurFolderPath\':\''+ folderPath +'\', \'pageClasseurFolderId\':\''+ folderId +'\', \'pageClasseurFolderTitle\':\''+ folderTitle +'\', \'pageClasseurTitle\':\''+ classeurTitle +'\'}');
 	});
 </#if>
 });
