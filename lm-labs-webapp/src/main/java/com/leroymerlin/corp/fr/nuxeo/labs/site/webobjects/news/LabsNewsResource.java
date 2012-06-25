@@ -47,6 +47,7 @@ public class LabsNewsResource extends PageResource {
     private static final SimpleDateFormat sdf = new SimpleDateFormat(
             "dd/MM/yyyy");
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
@@ -266,7 +267,8 @@ public class LabsNewsResource extends PageResource {
         return labsNews;
     }
 
-	private void logNewsPageProvider() {
+	@SuppressWarnings("unused")
+    private void logNewsPageProvider() {
 		if (log.isDebugEnabled()) {
     		final String logPrefix = "<getNewsPageProvider> ";
     		try {

@@ -32,7 +32,6 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
@@ -246,6 +245,407 @@ public class HtmlDocTest {
             prev = new Long((Long) entry.getPropertyValue("columns_layout:order"));
         }
     }
+    
+    @Test
+    public void iCanMoveUpSection() throws Exception {
+    	HtmlPage page = createTestPage();
+        createListSectionsInHtmlPage(page);
+        DocumentModel doc = session.createDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+
+        assertNotNull(page);
+        List<HtmlSection> sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(4));
+		assertNotNull(sections.get(0));
+        assertThat(sections.get(0).getTitle(), is("titre1"));
+		assertNotNull(sections.get(1));
+        assertThat(sections.get(1).getTitle(), is("titre2"));
+		assertNotNull(sections.get(2));
+        assertThat(sections.get(2).getTitle(), is("titre3"));
+		assertNotNull(sections.get(3));
+        assertThat(sections.get(3).getTitle(), is("titre4"));
+        
+        page.moveUp(2);
+        doc = session.saveDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+        
+        assertNotNull(page);
+        sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(4));
+		assertNotNull(sections.get(0));
+        assertThat(sections.get(0).getTitle(), is("titre1"));
+		assertNotNull(sections.get(1));
+        assertThat(sections.get(1).getTitle(), is("titre3"));
+		assertNotNull(sections.get(2));
+        assertThat(sections.get(2).getTitle(), is("titre2"));
+		assertNotNull(sections.get(3));
+        assertThat(sections.get(3).getTitle(), is("titre4"));
+    }
+    
+    @Test
+    public void iCantMoveUpFirstSection() throws Exception {
+    	HtmlPage page = createTestPage();
+        createListSectionsInHtmlPage(page);
+        DocumentModel doc = session.createDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+
+        assertNotNull(page);
+        List<HtmlSection> sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(4));
+		assertNotNull(sections.get(0));
+        assertThat(sections.get(0).getTitle(), is("titre1"));
+		assertNotNull(sections.get(1));
+        assertThat(sections.get(1).getTitle(), is("titre2"));
+		assertNotNull(sections.get(2));
+        assertThat(sections.get(2).getTitle(), is("titre3"));
+		assertNotNull(sections.get(3));
+        assertThat(sections.get(3).getTitle(), is("titre4"));
+        
+        page.moveUp(0);
+        doc = session.saveDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+        
+        assertNotNull(page);
+        sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(4));
+		assertNotNull(sections.get(0));
+        assertThat(sections.get(0).getTitle(), is("titre1"));
+		assertNotNull(sections.get(1));
+        assertThat(sections.get(1).getTitle(), is("titre2"));
+		assertNotNull(sections.get(2));
+        assertThat(sections.get(2).getTitle(), is("titre3"));
+		assertNotNull(sections.get(3));
+        assertThat(sections.get(3).getTitle(), is("titre4"));
+    }
+
+	private void createListSectionsInHtmlPage(HtmlPage page)
+			throws ClientException {
+		HtmlSection section = page.addSection();
+        section.setTitle("titre1");
+        section = page.addSection();
+        section.setTitle("titre2");
+        section = page.addSection();
+        section.setTitle("titre3");
+        section = page.addSection();
+        section.setTitle("titre4");
+	}
+    
+    @Test
+    public void iCanMoveDownSection() throws Exception {
+    	HtmlPage page = createTestPage();
+        createListSectionsInHtmlPage(page);
+        DocumentModel doc = session.createDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+
+        assertNotNull(page);
+        List<HtmlSection> sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(4));
+		assertNotNull(sections.get(0));
+        assertThat(sections.get(0).getTitle(), is("titre1"));
+		assertNotNull(sections.get(1));
+        assertThat(sections.get(1).getTitle(), is("titre2"));
+		assertNotNull(sections.get(2));
+        assertThat(sections.get(2).getTitle(), is("titre3"));
+		assertNotNull(sections.get(3));
+        assertThat(sections.get(3).getTitle(), is("titre4"));
+        
+        page.moveDown(2);
+        doc = session.saveDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+        
+        assertNotNull(page);
+        sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(4));
+		assertNotNull(sections.get(0));
+        assertThat(sections.get(0).getTitle(), is("titre1"));
+		assertNotNull(sections.get(1));
+        assertThat(sections.get(1).getTitle(), is("titre2"));
+		assertNotNull(sections.get(2));
+        assertThat(sections.get(2).getTitle(), is("titre4"));
+		assertNotNull(sections.get(3));
+        assertThat(sections.get(3).getTitle(), is("titre3"));
+    }
+    
+    @Test
+    public void iCantMoveDownLastSection() throws Exception {
+    	HtmlPage page = createTestPage();
+        createListSectionsInHtmlPage(page);
+        DocumentModel doc = session.createDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+
+        assertNotNull(page);
+        List<HtmlSection> sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(4));
+		assertNotNull(sections.get(0));
+        assertThat(sections.get(0).getTitle(), is("titre1"));
+		assertNotNull(sections.get(1));
+        assertThat(sections.get(1).getTitle(), is("titre2"));
+		assertNotNull(sections.get(2));
+        assertThat(sections.get(2).getTitle(), is("titre3"));
+		assertNotNull(sections.get(3));
+        assertThat(sections.get(3).getTitle(), is("titre4"));
+        
+        page.moveDown(3);
+        doc = session.saveDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+        
+        assertNotNull(page);
+        sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(4));
+		assertNotNull(sections.get(0));
+        assertThat(sections.get(0).getTitle(), is("titre1"));
+		assertNotNull(sections.get(1));
+        assertThat(sections.get(1).getTitle(), is("titre2"));
+		assertNotNull(sections.get(2));
+        assertThat(sections.get(2).getTitle(), is("titre3"));
+		assertNotNull(sections.get(3));
+        assertThat(sections.get(3).getTitle(), is("titre4"));
+    }
+    
+    @Test
+    public void iCanMoveDownRow() throws Exception {
+    	HtmlPage page = createTestPage();
+    	HtmlSection section = page.addSection();
+    	DocumentModel doc = createRowsForMove(page, section);
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+
+        assertNotNull(page);
+        List<HtmlSection> sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(1));
+		HtmlSection htmlsection = sections.get(0);
+		testCreatedRowsForMove(htmlsection);
+        
+        htmlsection.moveDown(2);
+        doc = session.saveDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+        
+        assertNotNull(page);
+        sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(1));
+		htmlsection = sections.get(0);
+		assertNotNull(htmlsection);
+		assertNotNull(htmlsection.getRows());
+        assertThat(htmlsection.getRows().size(), is(4));
+
+        assertNotNull(htmlsection.getRows().get(0));
+        assertNotNull(htmlsection.getRows().get(0).content(0));
+        assertNotNull(htmlsection.getRows().get(0).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(0).content(0).getHtml(), is("html1"));
+
+        assertNotNull(htmlsection.getRows().get(1));
+        assertNotNull(htmlsection.getRows().get(1).content(0));
+        assertNotNull(htmlsection.getRows().get(1).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(1).content(0).getHtml(), is("html2"));
+
+        assertNotNull(htmlsection.getRows().get(2));
+        assertNotNull(htmlsection.getRows().get(2).content(0));
+        assertNotNull(htmlsection.getRows().get(2).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(2).content(0).getHtml(), is("html4"));
+
+        assertNotNull(htmlsection.getRows().get(3));
+        assertNotNull(htmlsection.getRows().get(3).content(0));
+        assertNotNull(htmlsection.getRows().get(3).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(3).content(0).getHtml(), is("html3"));
+    }
+    
+    @Test
+    public void iCanMoveUpRow() throws Exception {
+    	HtmlPage page = createTestPage();
+    	HtmlSection section = page.addSection();
+    	DocumentModel doc = createRowsForMove(page, section);
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+
+        assertNotNull(page);
+        List<HtmlSection> sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(1));
+		HtmlSection htmlsection = sections.get(0);
+		testCreatedRowsForMove(htmlsection);
+        
+        htmlsection.moveUp(2);
+        doc = session.saveDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+        
+        assertNotNull(page);
+        sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(1));
+		htmlsection = sections.get(0);
+		assertNotNull(htmlsection);
+		assertNotNull(htmlsection.getRows());
+        assertThat(htmlsection.getRows().size(), is(4));
+
+        assertNotNull(htmlsection.getRows().get(0));
+        assertNotNull(htmlsection.getRows().get(0).content(0));
+        assertNotNull(htmlsection.getRows().get(0).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(0).content(0).getHtml(), is("html1"));
+
+        assertNotNull(htmlsection.getRows().get(1));
+        assertNotNull(htmlsection.getRows().get(1).content(0));
+        assertNotNull(htmlsection.getRows().get(1).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(1).content(0).getHtml(), is("html3"));
+
+        assertNotNull(htmlsection.getRows().get(2));
+        assertNotNull(htmlsection.getRows().get(2).content(0));
+        assertNotNull(htmlsection.getRows().get(2).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(2).content(0).getHtml(), is("html2"));
+
+        assertNotNull(htmlsection.getRows().get(3));
+        assertNotNull(htmlsection.getRows().get(3).content(0));
+        assertNotNull(htmlsection.getRows().get(3).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(3).content(0).getHtml(), is("html4"));
+    }
+    
+    @Test
+    public void iCantMoveDownLastRow() throws Exception {
+    	HtmlPage page = createTestPage();
+    	HtmlSection section = page.addSection();
+    	DocumentModel doc = createRowsForMove(page, section);
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+
+        assertNotNull(page);
+        List<HtmlSection> sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(1));
+		HtmlSection htmlsection = sections.get(0);
+		testCreatedRowsForMove(htmlsection);
+        
+        htmlsection.moveDown(3);
+        doc = session.saveDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+        
+        assertNotNull(page);
+        sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(1));
+		htmlsection = sections.get(0);
+		testCreatedRowsForMove(htmlsection);
+    }
+
+	private void testCreatedRowsForMove(HtmlSection htmlsection) {
+		assertNotNull(htmlsection);
+		assertNotNull(htmlsection.getRows());
+        assertThat(htmlsection.getRows().size(), is(4));
+
+        assertNotNull(htmlsection.getRows().get(0));
+        assertNotNull(htmlsection.getRows().get(0).content(0));
+        assertNotNull(htmlsection.getRows().get(0).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(0).content(0).getHtml(), is("html1"));
+
+        assertNotNull(htmlsection.getRows().get(1));
+        assertNotNull(htmlsection.getRows().get(1).content(0));
+        assertNotNull(htmlsection.getRows().get(1).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(1).content(0).getHtml(), is("html2"));
+
+        assertNotNull(htmlsection.getRows().get(2));
+        assertNotNull(htmlsection.getRows().get(2).content(0));
+        assertNotNull(htmlsection.getRows().get(2).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(2).content(0).getHtml(), is("html3"));
+
+        assertNotNull(htmlsection.getRows().get(3));
+        assertNotNull(htmlsection.getRows().get(3).content(0));
+        assertNotNull(htmlsection.getRows().get(3).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(3).content(0).getHtml(), is("html4"));
+	}
+    
+    @Test
+    public void iCantMoveUpFirstRow() throws Exception {
+    	HtmlPage page = createTestPage();
+    	HtmlSection section = page.addSection();
+    	DocumentModel doc = createRowsForMove(page, section);
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+
+        assertNotNull(page);
+        List<HtmlSection> sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(1));
+		HtmlSection htmlsection = sections.get(0);
+		testCreatedRowsForMove(htmlsection);
+        
+        htmlsection.moveUp(0);
+        doc = session.saveDocument(page.getDocument());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(HtmlPage.class, doc, session);
+        
+        assertNotNull(page);
+        sections = page.getSections();
+		assertNotNull(sections);
+        assertThat(sections.size(), is(1));
+		htmlsection = sections.get(0);
+		testCreatedRowsForMove(htmlsection);
+    }
+
+	private DocumentModel createRowsForMove(HtmlPage page, HtmlSection section)
+			throws ClientException {
+		section.addRow();
+    	section.addRow();
+    	section.addRow();
+    	section.addRow();
+    	List<HtmlRow> rows = section.getRows();
+		rows.get(0).addContent(0, "html1");
+    	rows.get(1).addContent(0, "html2");
+    	rows.get(2).addContent(0, "html3");
+    	rows.get(3).addContent(0, "html4");
+        DocumentModel doc = session.createDocument(page.getDocument());
+		return doc;
+	}
 
     private HtmlPage retrieveTestPage() throws ClientException {
         DocumentModel doc = session.getDocument(new PathRef(TEST_PATHREF));

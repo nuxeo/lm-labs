@@ -14,7 +14,6 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -27,9 +26,10 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsOpensocialGadget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 
 @WebObject(type = "HtmlRow")
-public class WebHtmlRow extends DocumentObject {
+public class WebHtmlRow extends MovableElementResource {
 
     private static final Log LOG = LogFactory.getLog(WebHtmlRow.class);
 
@@ -39,9 +39,12 @@ public class WebHtmlRow extends DocumentObject {
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        assert args != null && args.length == 2;
+        assert args != null && args.length == 4;
         row = (HtmlRow) args[1];
         row.setSession(getCoreSession());
+        element = (HtmlSection) args[2];
+        index = (Integer) args[3];
+        
     }
 
     @Path("c/{index}")

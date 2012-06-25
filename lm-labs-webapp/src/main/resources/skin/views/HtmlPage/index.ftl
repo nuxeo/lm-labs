@@ -19,6 +19,7 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/move.js"></script>
         <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
         <script type="text/javascript" >
 var openSocialOptions = {
@@ -85,218 +86,228 @@ jQuery(document).ready(function() {
     <#assign layouts = This.columnLayoutsSelect />
   </#if>
 
-  <#list page.sections as section>
-  <div>
-  	<#if (section.getRows()?size > 0)>
-  		<img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideSection(this, '');" style="float: left; margin-top: 6px;margin-left: -14px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
-  	</#if>
-    <section id="section_${section_index}">
-        <div class="page-header"<#if section.title?length == 0 && section.description?length == 0 > style="padding-bottom: 0px;"</#if> >
-            <a name="section_${section_index}"></a>
-            <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;"> <small>${section.description}</small></h2>
+  <div id="divPageHTML">
+  <#assign sections = page.sections />
+  <#list sections as section>
+  	<div id="div_section_${section_index}">
+	  	<#if (section.getRows()?size > 0)>
+	  		<img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideSection(this, '');" style="float: left; margin-top: 6px;margin-left: -14px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
+	  	</#if>
+	    <section id="section_${section_index}">
+	        <div class="page-header">
+	            <a name="section_${section_index}"></a>
+	            <h1 style="display:inline;">${section.title}</h1><h2 style="display:inline;"> <small>${section.description}</small></h2>
+		        <#if isContributor >
+			        <div class=" editblock btn-group pull-right" style="float: right;margin-top: 7px;">
+				      	<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section <span class="caret"></span></a>
+						<ul class="dropdown-menu" style="left: auto;right: 0px;">
+							<li>
+								<a id="addsectionlink" href="#" rel="addsection" class="open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
+								<a href="#" rel="editsection_${section_index}" class="open-dialog" ><i class="icon-edit"></i>Modifier la section</a>
+								<a href="#section_${section_index}" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-eye-open"></i>Ajouter une ligne</a>
+								<a href="#" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;"><i class="icon-remove"></i>Supprimer la section</a>
+								<a href="#" onClick="javascript:moveUp('${This.path}/s/${section_index}', '${This.path}#section_${section_index - 1}', 'div_section_${section_index}', '#divPageHTML>div');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
+	    						<a href="#" onClick="javascript:moveDown('${This.path}/s/${section_index}', '${This.path}#section_${section_index + 1}', 'div_section_${section_index}', '#divPageHTML>div');" title="Descendre" alt="Descendre"><i class="icon-arrow-down"></i>Descendre</a>
+							</li>
+						</ul>
+				    </div>
+				</#if>
+	        </div>
+	
 	        <#if isContributor >
-		        <div class=" editblock btn-group pull-right" style="float: right;margin-top: 7px;">
-			      	<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i>Section <span class="caret"></span></a>
-					<ul class="dropdown-menu" style="left: auto;right: 0px;">
-						<li>
-							<a id="addsectionlink" href="#" rel="addsection" class="open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
-							<a href="#" rel="editsection_${section_index}" class="open-dialog" ><i class="icon-edit"></i>Modifier la section</a>
-							<a href="#section_${section_index}" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-eye-open"></i>Ajouter une ligne</a>
-							<a href="#" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;"><i class="icon-remove"></i>Supprimer la section</a>
-						</li>
-					</ul>
-			    </div>
-			</#if>
-        </div>
-
-        <#if isContributor >
-        	<div class="editblock">
-		        <div id="divAddRow_${section_index}" class="well" style="padding: 5px;display: none;">
-		          <div style="float: right;">
-		          	<a href="#section_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-remove"></i></a>
-		          </div>
-		          <form class="form-horizontal" id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
-		          	  <input type="hidden" name="action" value="addrow"/>
-		              <fieldset>
-		                <legend>Ajouter une ligne</legend>
-		                <div class="control-group">
-		                  <label class="control-label" for="title">Type de ligne</label>
-		                  <div class="controls">
-		                    <select name="rowTemplate">
-		                    <#list layouts?keys as layoutCode >
-		                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
-		                    </#list>
-			                </select>
-			                <div id="displayCssClass_${section_index}" style="display: none;float: right;">
-			                	Classe CSS : <input class="input-medium" name="cssClass" />
-			                </div>
-			                <div id="herfDisplayCssClass_${section_index}" style="float: right;cursor: pointer;" onClick="javascript:displayCssClass('${section_index}');">
-			                	<br>Ajouter un style à la ligne
-			                </div>
-			                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
-			                <p class="help-block">
-			                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
-			                    parenthèses représentent des pourcentages de taille de colonne.
-			                </p>
-		                  </div>
-
-		                </div>
-		              </fieldset>
-		          </form>
-		        </div>
-		     </div>
-
-          <div id="editsection_${section_index}" >
-          	  <h1>Modifier la section</h1>
-		      <form class="form-horizontal " name="formEditsection_${section_index}" action="${This.path}/s/${section_index}/@put" method="post">
-			      <fieldset>
-		            <div class="control-group">
-		              <label class="control-label" for="title">Titre</label>
-		              <div class="controls">
-		                <input class="input-large" id="sectionTitle" name="title" size="30" type="text" value="${section.title}"/>
-		              </div>
-		            </div>
-
-		            <div class="control-group">
-		              <label class="control-label" for="description">Sous-titre</label>
-		              <div class="controls">
-		                <input class="input-large" id="sectionDescription" name="description" size="30" type="text" value="${section.description}"/>
-		                <p class="help-block">
-		                  Texte ajouté en petit à côté du titre
-		                </p>
-		              </div>
-		            </div>
-			      </fieldset>
-		          <div class="actions">
-		            <button onclick="javascript:jQuery('#waitingPopup').dialog2('open');document.formEditsection_${section_index}.submit();return true;" class="btn btn-primary">Modifier</button>&nbsp;
-		          </div>
-		      </form>
-          </div>
-       	  <!-- Hidden form to handle delete action -->
-          <form action="${This.path}/s/${section_index}/@delete" method="get" id="frm_section_${section_index}_delete">
-          </form>
-
-		</#if>
-
-		<div class="section-collapsable">
-        <#list section.getRows() as row>
-        	<#if isContributor >
-	          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
-	              <#list row.contents as content>
-		              <div class="span${content.colNumber}">
-                      <#assign isWidgetCol = false />
-                      <#assign isOsGadgetCol = false />
-                      <#assign widgets = [] />
-                      <@determineWidgetType content=content />
-                      <#if isOsGadgetCol >
-                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="columns viewblock" >
-                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
-                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
-							data-gadget-title="${widgets[0].name}"
-                        	data-gadget-specurl="http://localhost:8080/nuxeo/site/gadgets/${widgets[0].name}/${widgets[0].name}.xml"
-							data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
-                        >
-                        </div>
-                        </div>
-                        <div class="columns editblock bloc" style="text-align: center;" >
-                            <input type="hidden" class="section-index-value" value="${section_index}" />
-                            <input type="hidden" class="row-index-value" value="${row_index}" />
-                            <input type="hidden" class="content-index-value" value="${content_index}" />
-                            <input type="hidden" class="widget-type" value="${widgets[0].type.type()}" />
-                            <input type="hidden" class="widget-name" value="${widgets[0].name}" />
-                            <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + widgets[0].type.type() + '.' + widgets[0].name) />
-                            <#if widgetTitle?starts_with('!') >
-                                <#assign widgetTitle = widgets[0].name />
-                            </#if>
-                            <a class="btn open-dialog" rel="divConfigGadget" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')} ${widgetTitle}</a>
-                        </div>
-                      <#elseif isWidgetCol >
-                        <div class="columns" >
-                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
-                            <#include "widgets/${widgets[0].name}.ftl" />
-                        <#else>
-                        	Widget pas disponible.
-                        </#if>
-                        </div>
-                      <#else>
-	                    <div class="columns viewblock">
-	                       <@displayContentHtml content=content />
-	                    </div>
-			            <div class="row-ckeditor columns editblock toc-noreplace">
-			                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer" >${content.html}</div>
-			                <script type="text/javascript">
-			                  $('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
-			                    e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
-			                    ckeditor_config: ckeditorconfig,
-			                    emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.ckeditor.double_click_to_edit_content')}</div>",
-			                    view_style: "span${content.colNumber} columns cke_hidden "
-			                    }, reloadPageForTocIfNeeded);
-			                </script>
-			                <noscript>
-			                  <a  class="btn" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
-			                </noscript>
-			                &nbsp; <!-- Needed to give an empty cell a content -->
-			            </div>
-                      </#if>
+	        	<div class="editblock">
+			        <div id="divAddRow_${section_index}" class="well" style="padding: 5px;display: none;">
+			          <div style="float: right;">
+			          	<a href="#section_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-remove"></i></a>
 			          </div>
-	              </#list>
-
+			          <form class="form-horizontal" id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
+			          	  <input type="hidden" name="action" value="addrow"/>
+			              <fieldset>
+			                <legend>Ajouter une ligne</legend>
+			                <div class="control-group">
+			                  <label class="control-label" for="title">Type de ligne</label>
+			                  <div class="controls">
+			                    <select name="rowTemplate">
+			                    <#list layouts?keys as layoutCode >
+			                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
+			                    </#list>
+				                </select>
+				                <div id="displayCssClass_${section_index}" style="display: none;float: right;">
+				                	Classe CSS : <input class="input-medium" name="cssClass" />
+				                </div>
+				                <div id="herfDisplayCssClass_${section_index}" style="float: right;cursor: pointer;" onClick="javascript:displayCssClass('${section_index}');">
+				                	<br>Ajouter un style à la ligne
+				                </div>
+				                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
+				                <p class="help-block">
+				                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
+				                    parenthèses représentent des pourcentages de taille de colonne.
+				                </p>
+			                  </div>
+	
+			                </div>
+			              </fieldset>
+			          </form>
+			        </div>
+			     </div>
+	
+	          <div id="editsection_${section_index}" >
+	          	  <h1>Modifier la section</h1>
+			      <form class="form-horizontal " name="formEditsection_${section_index}" action="${This.path}/s/${section_index}/@put" method="post">
+				      <fieldset>
+			            <div class="control-group">
+			              <label class="control-label" for="title">Titre</label>
+			              <div class="controls">
+			                <input class="input-large" id="sectionTitle" name="title" size="30" type="text" value="${section.title}"/>
+			              </div>
+			            </div>
+	
+			            <div class="control-group">
+			              <label class="control-label" for="description">Sous-titre</label>
+			              <div class="controls">
+			                <input class="input-large" id="sectionDescription" name="description" size="30" type="text" value="${section.description}"/>
+			                <p class="help-block">
+			                  Texte ajouté en petit à côté du titre
+			                </p>
+			              </div>
+			            </div>
+				      </fieldset>
+			          <div class="actions">
+			            <button onclick="javascript:jQuery('#waitingPopup').dialog2('open');document.formEditsection_${section_index}.submit();return true;" class="btn btn-primary">Modifier</button>&nbsp;
+			          </div>
+			      </form>
 	          </div>
-			  <div class=" editblock btn-group" style="float: right;">
-			      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"> </i>Ligne <span class="caret"></span></a>
-					<ul class="dropdown-menu" style="left: auto;right: 0px;">
-						<li>
-						    <input type="hidden" class="section-index-value" value="${section_index}" />
-                            <input type="hidden" class="row-index-value" value="${row_index}" />
-                            <input type="hidden" class="content-index-value" value="${content_index}" />
-							<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
-							<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
-							<a href="#" class="open-dialog" rel="divConfigRowGadgets" ><i class="icon-gift"></i>${Context.getMessage('command.HtmlPage.row.widgets.config.button')}</a>
-						</li>
-					</ul>
-			  </div>
-			  <form id="rowdelete_s${section_index}_r${row_index}" style="margin: 0px 0px 0px" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');" >
-			  </form>
-			  <br />
-	          <hr class="editblock"/>
-	        <#else>
-	           <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
-	              <#list row.contents as content>
-                      <#assign isWidgetCol = false />
-                      <#assign isOsGadgetCol = false />
-                      <#assign widgets = [] />
-                      <@determineWidgetType content=content />
-                      <#if isOsGadgetCol >
-                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span${content.colNumber} columns" >
-                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
-                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
-                        	data-gadget-specurl="http://localhost:8080/nuxeo/site/gadgets/${widgets[0].name}/${widgets[0].name}.xml"
-							data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
-							data-gadget-title="${widgets[0].name}"
-                        >
-                        </div>
-                        </div>
-                      <#elseif isWidgetCol >
-                        <div class="span${content.colNumber} columns" >
-                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
-                            <#include "widgets/${widgets[0].name}.ftl" />
-                        <#else>
-                        	Widget pas disponible.
-                        </#if>
-                        </div>
-                      <#else>
-    	                <div class="span${content.colNumber} columns">
-                           <@displayContentHtml content=content />
-    	                </div>
-                      </#if>
-	              </#list>
-	           </div>
-	        </#if>
-        </#list>
-		</div>
-    </section>
+	       	  <!-- Hidden form to handle delete action -->
+	          <form action="${This.path}/s/${section_index}/@delete" method="get" id="frm_section_${section_index}_delete">
+	          </form>
+	
+			</#if>
+			
+			<div class="section-collapsable" id="div_section_${section_index}_rows">
+			<#assign rows = section.getRows() />
+	        <#list rows as row>
+	        	<#if isContributor >
+	        		<div id="div_row_${row_index}">
+			          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
+			              <#list row.contents as content>
+				              <div class="span${content.colNumber}">
+		                      <#assign isWidgetCol = false />
+		                      <#assign isOsGadgetCol = false />
+		                      <#assign widgets = [] />
+		                      <@determineWidgetType content=content />
+		                      <#if isOsGadgetCol >
+		                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="columns viewblock" >
+		                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
+		                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
+									data-gadget-title="${widgets[0].name}"
+		                        	data-gadget-specurl="http://localhost:8080/nuxeo/site/gadgets/${widgets[0].name}/${widgets[0].name}.xml"
+									data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
+		                        >
+		                        </div>
+		                        </div>
+		                        <div class="columns editblock bloc" style="text-align: center;" >
+		                            <input type="hidden" class="section-index-value" value="${section_index}" />
+		                            <input type="hidden" class="row-index-value" value="${row_index}" />
+		                            <input type="hidden" class="content-index-value" value="${content_index}" />
+		                            <input type="hidden" class="widget-type" value="${widgets[0].type.type()}" />
+		                            <input type="hidden" class="widget-name" value="${widgets[0].name}" />
+		                            <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + widgets[0].type.type() + '.' + widgets[0].name) />
+		                            <#if widgetTitle?starts_with('!') >
+		                                <#assign widgetTitle = widgets[0].name />
+		                            </#if>
+		                            <a class="btn open-dialog" rel="divConfigGadget" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')} ${widgetTitle}</a>
+		                        </div>
+		                      <#elseif isWidgetCol >
+		                        <div class="columns" >
+		                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
+		                            <#include "widgets/${widgets[0].name}.ftl" />
+		                        <#else>
+		                        	Widget pas disponible.
+		                        </#if>
+		                        </div>
+		                      <#else>
+			                    <div class="columns viewblock">
+			                       <@displayContentHtml content=content />
+			                    </div>
+					            <div class="row-ckeditor columns editblock toc-noreplace">
+					                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer" >${content.html}</div>
+					                <script type="text/javascript">
+					                  $('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
+					                    e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
+					                    ckeditor_config: ckeditorconfig,
+					                    emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.ckeditor.double_click_to_edit_content')}</div>",
+					                    view_style: "span${content.colNumber} columns cke_hidden "
+					                    }, reloadPageForTocIfNeeded);
+					                </script>
+					                <noscript>
+					                  <a  class="btn" href="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}/@views/edit">Modifier</a>
+					                </noscript>
+					                &nbsp; <!-- Needed to give an empty cell a content -->
+					            </div>
+		                      </#if>
+					          </div>
+			              </#list>
+		
+			          </div>
+					  <div class=" editblock btn-group" style="float: right;">
+					      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"> </i>Ligne <span class="caret"></span></a>
+							<ul class="dropdown-menu" style="left: auto;right: 0px;">
+								<li>
+								    <input type="hidden" class="section-index-value" value="${section_index}" />
+		                            <input type="hidden" class="row-index-value" value="${row_index}" />
+		                            <input type="hidden" class="content-index-value" value="${content_index}" />
+									<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
+									<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
+									<a href="#" class="open-dialog" rel="divConfigRowGadgets" ><i class="icon-gift"></i>${Context.getMessage('command.HtmlPage.row.widgets.config.button')}</a>
+									<a href="#" onClick="javascript:moveUp('${This.path}/s/${section_index}/r/${row_index}', '${This.path}#section_${section_index - 1}', 'div_row_${row_index}', '#div_section_${section_index}_rows>div');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
+		    						<a href="#" onClick="javascript:moveDown('${This.path}/s/${section_index}/r/${row_index}', '${This.path}#section_${section_index + 1}', 'div_row_${row_index}', '#div_section_${section_index}_rows>div');" title="Descendre" alt="Descendre"><i class="icon-arrow-down"></i>Descendre</a>
+								</li>
+							</ul>
+					  </div>
+					  <form id="rowdelete_s${section_index}_r${row_index}" style="margin: 0px 0px 0px" action="${This.path}/s/${section_index}/r/${row_index}/@delete" method="get" onsubmit="return confirm('Voulez vous vraiment supprimer la ligne ?');" >
+					  </form>
+					  <br />
+			          <hr class="editblock"/>
+			    	</div>
+		        <#else>
+		           <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
+		              <#list row.contents as content>
+	                      <#assign isWidgetCol = false />
+	                      <#assign isOsGadgetCol = false />
+	                      <#assign widgets = [] />
+	                      <@determineWidgetType content=content />
+	                      <#if isOsGadgetCol >
+	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span${content.colNumber} columns" >
+	                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
+	                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
+	                        	data-gadget-specurl="http://localhost:8080/nuxeo/site/gadgets/${widgets[0].name}/${widgets[0].name}.xml"
+								data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
+								data-gadget-title="${widgets[0].name}"
+	                        >
+	                        </div>
+	                        </div>
+	                      <#elseif isWidgetCol >
+	                        <div class="span${content.colNumber} columns" >
+	                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
+	                            <#include "widgets/${widgets[0].name}.ftl" />
+	                        <#else>
+	                        	Widget pas disponible.
+	                        </#if>
+	                        </div>
+	                      <#else>
+	    	                <div class="span${content.colNumber} columns">
+	                           <@displayContentHtml content=content />
+	    	                </div>
+	                      </#if>
+		              </#list>
+		           </div>
+		        </#if>
+	        </#list>
+			</div>
+	    </section>
 	</div>
   </#list>
+ </div>
 
 		<#if isContributor >
 			<#if (page.sections?size == 0)>

@@ -7,30 +7,30 @@ import javax.ws.rs.core.Response;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 
 @WebObject(type = "HtmlSection")
-public class WebHtmlSection extends DocumentObject {
+public class WebHtmlSection extends MovableElementResource {
 
     private static final String FAILED_TO_POST_SECTION = "Failed to post html section ";
     private static final String FAILED_TO_DELETE_SECTION = "Failed to delete html section ";
     private HtmlSection section;
-    private int sectionIndex = -1;
+    private HtmlPage htmlPage;
 
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
-        assert args != null && args.length >= 2;
+        assert args != null && args.length >= 3;
         section = (HtmlSection) args[1];
-        if (args.length > 2) {
-            sectionIndex = (Integer) args[2];
-        }
+        index = (Integer) args[2];
+        htmlPage = (HtmlPage) args[3];
+        element = htmlPage;
     }
 
     @DELETE
@@ -61,7 +61,7 @@ public class WebHtmlSection extends DocumentObject {
             throw WebException.wrap(
                     FAILED_TO_POST_SECTION + doc.getPathAsString(), e);
         }
-        return redirect(prev.getPath() + "#row_s" + sectionIndex + "_r" + (section.getRows().size() - 1));
+        return redirect(prev.getPath() + "#row_s" + index + "_r" + (section.getRows().size() - 1));
     }
 
     @Override
@@ -79,14 +79,14 @@ public class WebHtmlSection extends DocumentObject {
                     FAILED_TO_POST_SECTION + doc.getPathAsString(), e);
         }
 
-        return redirect(prev.getPath() + "#section_" + sectionIndex);
+        return redirect(prev.getPath() + "#section_" + index);
     }
 
     @Path("r/{index}")
     public Object getRow(@PathParam("index") int rowIndex) {
         HtmlRow row = section.row(rowIndex);
         row.setSession(getCoreSession());
-        return newObject("HtmlRow", doc, row);
+        return newObject("HtmlRow", doc, row, section, rowIndex);
     }
 
     private void saveDocument() throws ClientException {

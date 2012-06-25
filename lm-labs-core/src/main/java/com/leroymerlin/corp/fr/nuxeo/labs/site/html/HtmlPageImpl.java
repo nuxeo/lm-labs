@@ -10,6 +10,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class HtmlPageImpl extends AbstractPage implements HtmlPage,
         ChangeListener {
@@ -92,4 +93,22 @@ public class HtmlPageImpl extends AbstractPage implements HtmlPage,
     public void onChange(Object obj) throws ClientException {
         update();
     }
+
+	@Override
+	public void moveUp(int index) throws ClientException {
+		if (index - 1 < 0){
+			return;
+		}
+		Tools.changePositionWith(index, index - 1, sections);
+		update();
+	}
+
+	@Override
+	public void moveDown(int index) throws ClientException  {
+		if (index + 1 > sections.size()){
+			return;
+		}
+		Tools.changePositionWith(index, index + 1, sections);
+		update();
+	}
 }

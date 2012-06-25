@@ -322,4 +322,10 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
         setDescription(doc, description);
     }
 
+	@Override
+	public void moveUp(int index) throws ClientException {}
+
+	@Override
+	public void moveDown(int index) throws ClientException {}
+
 }

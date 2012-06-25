@@ -6,7 +6,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 
-public interface HtmlPage extends Page {
+public interface HtmlPage extends Page, MovableElement {
 
     List<HtmlSection> getSections() throws ClientException;
 

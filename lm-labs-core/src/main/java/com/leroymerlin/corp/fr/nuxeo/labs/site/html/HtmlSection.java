@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
 
-public interface HtmlSection extends ChangeListener {
+public interface HtmlSection extends ChangeListener, MovableElement {
 
     public void setTitle(String title) throws ClientException;
 

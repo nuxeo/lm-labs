@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
+
 public class HtmlSectionImpl implements HtmlSection {
 
     private static final String DESCRIPTION_KEY = "subtitle";
@@ -146,4 +148,21 @@ public class HtmlSectionImpl implements HtmlSection {
             return row;
     }
 
+	@Override
+	public void moveUp(int index) throws ClientException {
+		if (index - 1 < 0){
+			return;
+		}
+		Tools.changePositionWith(index, index - 1, rows);
+		update();
+	}
+
+	@Override
+	public void moveDown(int index) throws ClientException  {
+		if (index + 1 > rows.size()){
+			return;
+		}
+		Tools.changePositionWith(index, index + 1, rows);
+		update();
+	}
 }

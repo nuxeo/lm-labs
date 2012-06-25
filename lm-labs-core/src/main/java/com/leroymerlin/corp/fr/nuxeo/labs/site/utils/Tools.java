@@ -85,6 +85,14 @@ public class Tools {
         return null;
     }
     
+    public static <T> void changePositionWith(int oldIndex, int newIndex, List<T> list) throws AssertionError{
+    	if( oldIndex > -1 && oldIndex < list.size() && newIndex > -1 && newIndex < list.size()){
+	    	T tmp = list.get(newIndex);
+			list.set(newIndex, list.get(oldIndex));
+			list.set(oldIndex, tmp);
+    	}
+    }
+    
     /**
      * Return the adapter and set the session if itf implements LabsSession
      * @param itf
@@ -99,7 +107,7 @@ public class Tools {
 			if (adapter != null && hasInterfaceLabsSession(itf)){
 				if (session == null){
 					LOG.error("No session for adapter " + itf.getName() + "; This is mandatory! - IN : " + adapter.getClass().getName());
-					NullException nunu = new NullException("adapter" + adapter.getClass().getName());
+					Exception nunu = new Exception("adapter" + adapter.getClass().getName());
 					nunu.printStackTrace();
 				}
 				((LabsSession)adapter).setSession(session);

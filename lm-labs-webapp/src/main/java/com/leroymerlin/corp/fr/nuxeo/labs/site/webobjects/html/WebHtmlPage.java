@@ -78,8 +78,9 @@ public class WebHtmlPage extends CacheablePageResource {
     @Path("s/{index}")
     public Object getSection(@PathParam("index") int sectionIndex) {
         try {
-            HtmlSection section = getHtmlPage().section(sectionIndex);
-            return newObject("HtmlSection", doc, section, sectionIndex);
+            HtmlPage htmlPage = getHtmlPage();
+            HtmlSection section = htmlPage.section(sectionIndex);
+            return newObject("HtmlSection", doc, section, sectionIndex, htmlPage);
         } catch (ClientException e) {
             return Response.serverError().build();
         }
