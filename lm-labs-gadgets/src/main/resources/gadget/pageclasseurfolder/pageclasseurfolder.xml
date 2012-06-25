@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <ModulePrefs title="List PageClasseur Folder"
+		description="Lists the content of a PageClasseur Folder"
+		author="Vincent Dutat" author_email="vincent.dutat@ext.leroymerlin.fr"
+		>
+	<Require feature="nuxeo" />
+    <Require feature="setprefs" />
+    <#include "dynamic-translations.ftl"/>
+    <Require feature="dynamic-height"/>
+    <#include "default-oauth-prefs.ftl"/>
+  </ModulePrefs>
+  <#include "context-prefs.ftl"/>
+  <UserPref name="pageSize" display_name="nombre d'elements par page"
+		default_value="0" />
+  <UserPref name="displayMode" display_name="Mode d'affichage"
+          default_value="SIMPLE"  datatype="enum" required="true">
+       <EnumValue value="STD" display_value="Standard" />
+       <EnumValue value="COMPACT" display_value="Compact" />
+       <EnumValue value="SIMPLE" display_value="Simple" />
+  </UserPref>
+  <UserPref name="evenColor" display_name="Couleur ligne paire" datatype="string" default_value="#F2F7FC" />
+  <UserPref name="oddColor" display_name="Couleur ligne impaire" datatype="string" default_value="transparent" />
+  <UserPref name="NXID_GADGET" datatype="hidden" default="" />
+  <UserPref name="NX_FOLDER" datatype="hidden" default="" />
+  <UserPref name="displayTitle" display_name="Affichage du titre"
+    datatype="enum" default_value="yes">
+    <EnumValue value="yes" display_value="oui" />
+    <EnumValue value="no" display_value="non" />
+  </UserPref>
+  <Content type="html">
+
+    <![CDATA[
+  <#-- "{'NXPATH':'','NXID':'','NXTITLE':'','NXCLASSEURTITLE':''}" -->
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="${specDirectoryUrl}gadget-common.css"/>
+    <link rel="stylesheet" type="text/css" href="${specDirectoryUrl}documentlists.css"/>
+    <#-- @baseFontSize : 10px TODO
+    <link rel="stylesheet" type="text/css" href="${specDirectoryUrl}bootstrap-2.0.4.custom.min.css">
+    -->
+
+    <!-- insert JS Context -->
+    ${jsContext}
+    <script src="${clientSideBaseUrl}nxthemes-lib/jquery.js"></script>
+    <script src="${specDirectoryUrl}default-automation-request.js"></script>
+    <script src="${specDirectoryUrl}labs-documentlist-display.js"></script>
+    <script src="${specDirectoryUrl}context-management.js"></script>
+    <script src="${specDirectoryUrl}filesize-1.6.4.js"></script>
+
+    <script type="text/javascript" language="javascript" src="pageclasseurfolder.js"></script>
+  </head>
+
+  <body>
+    <#include "default-request-controls.ftl"/>
+    <div class="tools"></div>
+    <div id="content">
+      <#include "labs-bottom-layout.ftl"/>
+      <#include "documentlist-layout-bottom-nav.ftl"/>
+    </div>
+  </body>
+</html>
+]]>
+
+  </Content>
+</Module>

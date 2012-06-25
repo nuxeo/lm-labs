@@ -98,6 +98,31 @@
       </pattern>
     </coreQueryPageProvider>
 
+    <coreQueryPageProvider name="list_PageClasseur_folder_files">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM Document WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:path STARTSWITH ?
+        ORDER BY dc:title ASC
+      </pattern>
+    </coreQueryPageProvider>
+
+    <coreQueryPageProvider name="list_PageClasseur_folder_files_byId">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM Document WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:parentId = ?
+        ORDER BY dc:title ASC
+      </pattern>
+    </coreQueryPageProvider>
+
+    <coreQueryPageProvider name="list_Pages">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM Document WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:primaryType = ?
+        AND ecm:path STARTSWITH ?
+        ORDER BY dc:title ASC
+      </pattern>
+    </coreQueryPageProvider>
+
   </extension>
 
 </component>

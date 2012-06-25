@@ -3,16 +3,23 @@
 
   <extension target="org.nuxeo.opensocial.gadgets.service" point="gadget">
 
-    <internalGadget name="lastuploads" disabled="false">
+    <internalGadget name="lastuploads" disabled="true">
       <mountPoint>/lastuploads</mountPoint>
       <entryPoint>lastuploads.xml</entryPoint>
       <category>Labs</category>
       <icon>last_uploads.png</icon>
     </internalGadget>
 
-    <internalGadget name="navigation" disabled="false">
+    <internalGadget name="navigation" disabled="true">
       <mountPoint>/navigation</mountPoint>
       <entryPoint>navigation.xml</entryPoint>
+      <category>Labs</category>
+      <icon>navigation.png</icon>
+    </internalGadget>
+
+    <internalGadget name="pageclasseurfolder" disabled="false">
+      <mountPoint>/pageclasseurfolder</mountPoint>
+      <entryPoint>pageclasseurfolder.xml</entryPoint>
       <category>Labs</category>
       <icon>navigation.png</icon>
     </internalGadget>

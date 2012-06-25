@@ -1,10 +1,18 @@
 // insert the whole table, as stupid IE can't do a tbody.innerHtml
 function tableStart(jsonObject, nxParams) {
   var html = "";
-  html += "<table class='dataList'>";
+  if (nxParams.bootstrapEnabled) {
+	  html += "<table class='table table-striped table-condensed' style='width: 100%;' >";
+  } else {
+	  html += "<table class='dataList'>";
+  }
   if (!nxParams.hideHeaders) {
 	  html += "  <thead>";
-	  html += "    <tr>";
+	  html += "    <tr";
+	  if (nxParams.rowOddColor && nxParams.rowOddColor !== "") {
+		  html += " style='background-color: " + nxParams.rowOddColor + "'";
+	  }
+	  html += ">";
 	  for (idx in nxParams.displayColumns) {
 		  html += mkColHeader(nxParams.displayColumns[idx]);
 	  }
@@ -108,27 +116,42 @@ function getDateForDisplay(datestr) {
 }
 
 function mkRow(dashBoardItem, i, nxParams) {
-    var htmlRow = "<tr class=\"";
-    if (i % 2 == 0) {
-        htmlRow += "dataRowEven";
-    } else {
-        htmlRow += "dataRowOdd";
+	var htmlRow = "<tr";
+	if (nxParams.bootstrapEnabled) {
+
+	} else {
+		htmlRow += " class=\"";
+		if (i % 2 == 0) {
+			htmlRow += "dataRowEven";
+		} else {
+			htmlRow += "dataRowOdd";
+		}
+		htmlRow += "\"";
+	}
+    if (i % 2 == 0 && nxParams.rowEvenColor && nxParams.rowEvenColor !== "") {
+        htmlRow += " style='background-color: " + nxParams.rowEvenColor + "'";
+    } else if (nxParams.rowOddColor && nxParams.rowOddColor !== "") {
+        htmlRow += " style='background-color: " + nxParams.rowOddColor + "'";
     }
-    htmlRow += "\">";
+    htmlRow += ">";
 
     for (idx in nxParams.displayColumns) {
-        htmlRow += mkCell(nxParams.displayColumns[idx], dashBoardItem);
+        htmlRow += mkCell(nxParams.displayColumns[idx], dashBoardItem, nxParams);
     }
 
     htmlRow += "</tr>";
     return htmlRow;
 }
 
-function mkCell(colDef, dashBoardItem) {
+function mkCell(colDef, dashBoardItem, nxParams) {
     var html = "";
     if (colDef.type == 'builtin') {
         if (colDef.field == "icon") {
-            html += "<td class=\"iconColumn\">";
+        	if (nxParams.bootstrapEnabled) {
+        		html += "<td>";
+        	} else {
+        		html += "<td class=\"iconColumn\">";
+        	}
             html += "<img alt=\"File\" src=\"";
             html += NXGadgetContext.clientSideBaseUrl;
             html += dashBoardItem.properties["common:icon"];
@@ -136,7 +159,11 @@ function mkCell(colDef, dashBoardItem) {
             html += "</td>";
         }
         else if (colDef.field == "download") {
-            html += "<td class=\"iconColumn\">";
+        	if (nxParams.bootstrapEnabled) {
+        		html += "<td>";
+        	} else {
+        		html += "<td class=\"iconColumn\">";
+        	}
             html += "<a title=\"";
             if (colDef.tooltip) {
             	html += colDef.tooltip;
@@ -203,10 +230,26 @@ function mkCell(colDef, dashBoardItem) {
             html += dashBoardItem.title;
             html += "</a></td>";
         }
+        else if (colDef.field == "titleWithLabsDownloadLink") {
+            html += "<td><a target = \"_blank\" title=\"";
+            if (colDef.tooltip) {
+            	html += colDef.tooltip;
+            }
+            html += "\" href=\"";
+            html += NXGadgetContext.clientSideBaseUrl;
+            html += "site/labssites/id/";
+            html += dashBoardItem.uid;
+            html += "/@blob";
+            html += "\" />";
+            html += dashBoardItem.title;
+            html += "</a></td>";
+        }
     } else {
         html += "<td>";
         if (colDef.type == 'date') {
             html += getDateForDisplay(dashBoardItem.properties[colDef.field]);
+        } else if (colDef.type == 'filesize') {
+        	html += filesize(dashBoardItem.properties[colDef.field]);
         } else {
             html += dashBoardItem.properties[colDef.field];
         }
