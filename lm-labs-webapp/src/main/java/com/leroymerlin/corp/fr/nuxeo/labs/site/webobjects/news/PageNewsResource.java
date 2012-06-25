@@ -128,7 +128,8 @@ public class PageNewsResource extends NotifiablePageResource {
 		return newsPageProvider;
 	}
 
-	private void logNewsPageProvider() {
+	@SuppressWarnings("unused")
+    private void logNewsPageProvider() {
 		if (log.isDebugEnabled()) {
 			final String logPrefix = "<getNewsPageProvider> ";
 			try {
