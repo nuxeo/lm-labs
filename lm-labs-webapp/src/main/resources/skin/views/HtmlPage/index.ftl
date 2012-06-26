@@ -104,7 +104,7 @@ jQuery(document).ready(function() {
 							<li>
 								<a id="addsectionlink" href="#" rel="addsection" class="open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
 								<a href="#" rel="editsection_${section_index}" class="open-dialog" ><i class="icon-edit"></i>Modifier la section</a>
-								<a href="#section_${section_index}" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-eye-open"></i>Ajouter une ligne</a>
+								<a href="#section_${section_index}" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-plus-sign"></i>Ajouter une ligne</a>
 								<a href="#" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;"><i class="icon-remove"></i>Supprimer la section</a>
 								<a href="#" onClick="javascript:moveUp('${This.path}/s/${section_index}', '${This.path}#section_${section_index - 1}', 'div_section_${section_index}', '#divPageHTML>div');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
 	    						<a href="#" onClick="javascript:moveDown('${This.path}/s/${section_index}', '${This.path}#section_${section_index + 1}', 'div_section_${section_index}', '#divPageHTML>div');" title="Descendre" alt="Descendre"><i class="icon-arrow-down"></i>Descendre</a>
@@ -113,7 +113,7 @@ jQuery(document).ready(function() {
 				    </div>
 				</#if>
 	        </div>
-	
+
 	        <#if isContributor >
 	        	<div class="editblock">
 			        <div id="divAddRow_${section_index}" class="well" style="padding: 5px;display: none;">
@@ -144,13 +144,13 @@ jQuery(document).ready(function() {
 				                    parenthèses représentent des pourcentages de taille de colonne.
 				                </p>
 			                  </div>
-	
+
 			                </div>
 			              </fieldset>
 			          </form>
 			        </div>
 			     </div>
-	
+
 	          <div id="editsection_${section_index}" >
 	          	  <h1>Modifier la section</h1>
 			      <form class="form-horizontal " name="formEditsection_${section_index}" action="${This.path}/s/${section_index}/@put" method="post">
@@ -161,7 +161,7 @@ jQuery(document).ready(function() {
 			                <input class="input-large" id="sectionTitle" name="title" size="30" type="text" value="${section.title}"/>
 			              </div>
 			            </div>
-	
+
 			            <div class="control-group">
 			              <label class="control-label" for="description">Sous-titre</label>
 			              <div class="controls">
@@ -180,9 +180,9 @@ jQuery(document).ready(function() {
 	       	  <!-- Hidden form to handle delete action -->
 	          <form action="${This.path}/s/${section_index}/@delete" method="get" id="frm_section_${section_index}_delete">
 	          </form>
-	
+
 			</#if>
-			
+
 			<div class="section-collapsable" id="div_section_${section_index}_rows">
 			<#assign rows = section.getRows() />
 	        <#list rows as row>
@@ -247,7 +247,7 @@ jQuery(document).ready(function() {
 		                      </#if>
 					          </div>
 			              </#list>
-		
+
 			          </div>
 					  <div class=" editblock btn-group" style="float: right;">
 					      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"> </i>Ligne <span class="caret"></span></a>
