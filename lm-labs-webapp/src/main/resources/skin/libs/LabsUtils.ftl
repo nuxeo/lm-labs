@@ -20,3 +20,16 @@
 	<#assign schema = property?split(":", 'f') />
 	<#return true >
 </#function>
+
+<#function isDocumentVisible doc >
+    <#assign isChildVisible = false />
+    <#if doc.type != 'LabsNews' >
+        <#assign childSitePage = Common.sitePage(doc) />
+        <#if childSitePage?? && childSitePage.visible >
+            <#assign isChildVisible = true />
+        </#if>
+    <#else>
+        <#assign isChildVisible = false />
+    </#if>
+    <#return isChildVisible >
+</#function>
