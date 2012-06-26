@@ -1,6 +1,18 @@
 <#assign mySite=Common.siteDoc(Document).getSite() />
 <@extends src="/views/labs-admin-base.ftl">
 
+<#assign
+	lastNewsUrl = "${Context.modulePath}/${mySite.URL}/@labsrss/lastNews"
+	lastUploadUrl = "${Context.modulePath}/${mySite.URL}/@labsrss/lastUpload"
+	allUrl = "${Context.modulePath}/${mySite.URL}/@labsrss/all"
+/>
+	<@block name="css">
+		<@superBlock/>
+	    <link href="${lastNewsUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastNews.title')}" />
+	    <link href="${lastUploadUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastUpload.title')}" />
+	    <link href="${allUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.all.title')}" />
+	</@block>
+
   <@block name="docactions"></@block>
 
   <@block name="tabs">
@@ -16,10 +28,9 @@
         </div>
         <div class="rssfeeds-list" >
             <ul>
-                <li><a target="_blank" href="${Context.modulePath}/${mySite.URL}/@labsrss/topnews">Top Actualités</a></li>
-                <li><a target="_blank" href="${Context.modulePath}/${mySite.URL}/@labsrss/lastNews">Dernières Actualités</a></li>
-                <li><a target="_blank" href="${Context.modulePath}/${mySite.URL}/@labsrss/lastUpload">Derniers Téléchargements</a></li>
-                <li><a target="_blank" href="${Context.modulePath}/${mySite.URL}/@labsrss/all">Tous Les Flux</a></li>
+                <li><a target="_blank" href="${lastNewsUrl}">${Context.getMessage('label.rss.lastNews.title')}</a></li>
+                <li><a target="_blank" href="${lastUploadUrl}">${Context.getMessage('label.rss.lastUpload.title')}</a></li>
+                <li><a target="_blank" href="${allUrl}">${Context.getMessage('label.rss.all.title')}</a></li>
             </ul>
         </div>
 

@@ -5,6 +5,8 @@
 		});
 	});
 </script>
+<#import "libs/LabsUtils.ftl" as LabsUtils />
+
 <#macro children_block parentDoc title="" spanClass="span5" uniqueId="1">
 	<#assign mySite=Common.siteDoc(Document).getSite() />
     <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
@@ -19,17 +21,9 @@
     	-->
 	    	<#assign children = Common.siteDoc(parentDoc).getChildrenPageDocuments() />
 	    	<#list children as child>
-                <#assign isChildVisible = false />
-                <#if child.type != 'LabsNews' >
-                        <#assign childSitePage = Common.sitePage(child) />
-                        <#if childSitePage?? && childSitePage.visible >
-                                <#assign isChildVisible = true />
-                        </#if>
-                <#else>
-                        <#assign isChildVisible = true />
-                </#if>
+                <#assign isChildVisible = LabsUtils.isDocumentVisible(child) />
 	    		<#if !child.facets?seq_contains("HiddenInNavigation")
-                    && (isContributor || (!isContributor && isChildVisible)) >
+                    && ((isContributor && child.type != 'LabsNews') || (!isContributor && isChildVisible)) >
 	    			<#assign childrenNbr = childrenNbr + 1 />
 	    		</#if>
 	    	</#list>
@@ -62,17 +56,9 @@
             <#else>
             -->
               <#list children as child>
-                <#assign isChildVisible = false />
-                <#if child.type != 'LabsNews' >
-                        <#assign childSitePage = Common.sitePage(child) />
-                        <#if childSitePage?? && childSitePage.visible >
-                                <#assign isChildVisible = true />
-                        </#if>
-                <#else>
-                        <#assign isChildVisible = true />
-                </#if>
+                <#assign isChildVisible = LabsUtils.isDocumentVisible(child) />
                 <#if !child.facets?seq_contains("HiddenInNavigation")
-                    && (isContributor || (!isContributor && isChildVisible)) >
+                    && ((isContributor && child.type != 'LabsNews') || (!isContributor && isChildVisible)) >
                 	<li><a href="${Context.modulePath}/${Common.siteDoc(child).getResourcePath()?html}"
                 		<#if (child.dublincore.description?length > 0) >
                 	  		rel="popover" data-content="${child.dublincore.description?html}"
