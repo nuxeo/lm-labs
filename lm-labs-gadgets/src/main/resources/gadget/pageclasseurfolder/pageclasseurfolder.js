@@ -19,8 +19,12 @@ if (pageSize > 0) {
 }
 var NXID_GADGET = gadgets.nuxeo.getGadgetId();
 var gadgetId = prefs.getString("NXID_GADGET");
-var oddColor = prefs.getString("oddColor");
-var evenColor = prefs.getString("evenColor");
+var oddColor = jQuery.trim(prefs.getString("oddColor"));
+var evenColor = jQuery.trim(prefs.getString("evenColor"));
+var textColor = jQuery.trim(prefs.getString("textColor"));
+if (textColor === "") {
+	textColor = "#0066CC";
+}
 var displayTitleStr = prefs.getString("displayTitle");
 if (gadgetId !== "") {
 	NXID_GADGET = gadgetId;
@@ -114,6 +118,9 @@ if (oddColor !== "") {
 if (evenColor !== "") {
 	NXRequestParams.rowEvenColor = evenColor;
 }
+if (textColor !== "") {
+	NXRequestParams.textColor = textColor;
+}
 //TODO
 //NXRequestParams.bootstrapEnabled = true;
 
@@ -138,7 +145,12 @@ function callbackSiteUrl(response, nxParams) {
 }
 
 function displayDetailsUrl(siteUrl, modulePath) {
-	if (displayTitleStr === 'yes') {
+	var titleStyle = "style='padding-left: 4px; font-size: larger;";
+	if (textColor !== "") {
+		titleStyle += "color: " + textColor + ";";
+	}
+	titleStyle += "'";
+	if (displayTitleStr === 'CLASSEURFOLDER') {
 		// build URL
 		var html = "";
 		var fullUrl = "";
@@ -176,7 +188,7 @@ function displayDetailsUrl(siteUrl, modulePath) {
 //		html += "class='btn btn-mini btn-primary' ";
 //	}
 		html += "class='btn btn-mini' ";
-		html += "style='padding-left: 4px; font-size: larger' ";
+		html += titleStyle + " ";
 		html += "onclick=\"containerNavigateTo('";
 		html += fullUrl;
 		html += "');\" ";
@@ -192,6 +204,21 @@ function displayDetailsUrl(siteUrl, modulePath) {
 		_gel("nxBottomZone").innerHTML = html;
 		jQuery("#nxBottomZone").css('margin-bottom', '10px');
 		gadgets.window.adjustHeight();
+	} else if (displayTitleStr === 'CUSTOM') {
+		var customTitle = prefs.getString("customTitle");
+		if (customTitle !== "") {
+			var html = "";
+			html += "<span ";
+			html += titleStyle;
+			html += ">";
+			html += "<strong>";
+			html += customTitle;
+			html += "</strong>";
+			html += "</span>";
+			_gel("nxBottomZone").innerHTML = html;
+			jQuery("#nxBottomZone").css('margin-bottom', '10px');
+			gadgets.window.adjustHeight();
+		}
 	}
 }
 

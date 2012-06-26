@@ -129,9 +129,17 @@ function mkRow(dashBoardItem, i, nxParams) {
 		htmlRow += "\"";
 	}
     if (i % 2 == 0 && nxParams.rowEvenColor && nxParams.rowEvenColor !== "") {
-        htmlRow += " style='background-color: " + nxParams.rowEvenColor + "'";
+        htmlRow += " style='background-color: " + nxParams.rowEvenColor + ";";
+        if (nxParams.textColor && nxParams.textColor !== "") {
+        	htmlRow += "color: " + textColor;
+        }
+        htmlRow += "'";
     } else if (nxParams.rowOddColor && nxParams.rowOddColor !== "") {
-        htmlRow += " style='background-color: " + nxParams.rowOddColor + "'";
+        htmlRow += " style='background-color: " + nxParams.rowOddColor + ";";
+        if (nxParams.textColor && nxParams.textColor !== "") {
+        	htmlRow += "color: " + textColor + ";";
+        }
+        htmlRow += "'";
     }
     htmlRow += ">";
 
@@ -145,6 +153,12 @@ function mkRow(dashBoardItem, i, nxParams) {
 
 function mkCell(colDef, dashBoardItem, nxParams) {
     var html = "";
+    var textColorStyle = "";
+    if (nxParams.textColor && nxParams.textColor !== "") {
+    	textColorStyle += " style='";
+    	textColorStyle += "color: " + textColor + ";";
+    	textColorStyle += "' ";
+    }
     if (colDef.type == 'builtin') {
         if (colDef.field == "icon") {
         	if (nxParams.bootstrapEnabled) {
@@ -173,7 +187,11 @@ function mkCell(colDef, dashBoardItem, nxParams) {
             html += "site/labssites/id/";
             html += dashBoardItem.uid;
             html += "/@blob";
-            html += "\" />";
+            html += "\"";
+            if (textColorStyle !== "") {
+            	html += textColorStyle;
+            }
+            html += " />";
             html += "<img alt=\"";
             html += colDef.field;
             html += "\" src=\"";
@@ -194,7 +212,11 @@ function mkCell(colDef, dashBoardItem, nxParams) {
             html += "nxpath/default";
             html += dashBoardItem.path;
             html += "@" + view;
-            html += "\" />";
+            html += "\"";
+            if (textColorStyle !== "") {
+            	html += textColorStyle;
+            }
+            html += " />";
             html += dashBoardItem.title;
             html += "</a></td>";
         }
@@ -212,7 +234,10 @@ function mkCell(colDef, dashBoardItem, nxParams) {
         	html += "onclick=\"containerNavigateTo('";
         	html += fullUrl;
         	html += "');\" ";
-        	html += "/>";
+            if (textColorStyle !== "") {
+            	html += textColorStyle;
+            }
+            html += " />";
             html += dashBoardItem.title;
             html += "</a></td>";
         }
@@ -226,7 +251,11 @@ function mkCell(colDef, dashBoardItem, nxParams) {
             html += "restAPI/preview/default/";
             html += dashBoardItem.uid;
             html += "/default/";
-            html += "\" />";
+            html += "\"";
+            if (textColorStyle !== "") {
+            	html += textColorStyle;
+            }
+            html += " />";
             html += dashBoardItem.title;
             html += "</a></td>";
         }
@@ -240,7 +269,11 @@ function mkCell(colDef, dashBoardItem, nxParams) {
             html += "site/labssites/id/";
             html += dashBoardItem.uid;
             html += "/@blob";
-            html += "\" />";
+            html += "\"";
+            if (textColorStyle !== "") {
+            	html += textColorStyle;
+            }
+            html += " />";
             html += dashBoardItem.title;
             html += "</a></td>";
         }
