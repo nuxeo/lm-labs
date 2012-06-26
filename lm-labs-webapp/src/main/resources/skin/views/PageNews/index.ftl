@@ -1,4 +1,5 @@
 <#assign mySite=Common.siteDoc(Document).getSite() />
+<#assign topnewsUrl = "${This.path}/@labsrss/topnews" />
 <@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
   <#assign isAuthorized = This.page?? && This.page.isContributor(Context.principal.name)>
 
@@ -14,6 +15,7 @@
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
       <#include "views/common/datepicker_css.ftl">
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
+      <link href="${topnewsUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.topnews.PageNews.title', This.document.title)}" />
   </@block>
 
   <@block name="content">
@@ -84,7 +86,7 @@
 					<@resultsStatus pageProvider=pp />
 				</div>
         <hr />
-        <a href="${This.path}/@labsrss/topnews" title="${Context.getMessage('tooltip.PageNews.rss')}<#if !mySite.visible> ${Context.getMessage('tooltip.PageNews.rss.siteNotPublish')}</#if>" target="_blank"><img src="${skinPath}/images/iconRss.gif"/></a>
+        <a href="${topnewsUrl}" title="${Context.getMessage('tooltip.PageNews.rss')}<#if !mySite.visible> ${Context.getMessage('tooltip.PageNews.rss.siteNotPublish')}</#if>" target="_blank"><img src="${skinPath}/images/iconRss.gif"/></a>
       </div>
   </@block>
 </@extends>
