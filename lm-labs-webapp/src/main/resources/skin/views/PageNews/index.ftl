@@ -15,7 +15,7 @@
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
       <#include "views/common/datepicker_css.ftl">
       <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-      <link href="${topnewsUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.topnews.PageNews.title', This.document.title)}" />
+      <link href="${topnewsUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.topnews.PageNews.title', Document.title?html)}" />
   </@block>
 
   <@block name="content">

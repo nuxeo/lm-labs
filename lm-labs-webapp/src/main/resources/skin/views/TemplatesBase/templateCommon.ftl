@@ -1,17 +1,21 @@
 <#assign canWrite = Session.hasPermission(Document.ref, 'Write') />
+<#if !mySite?? >
+	<#assign mySite=Common.siteDoc(Document).site />
+</#if>
 <@extends src="/views/labs-common-base.ftl">
 
 	<@block name="css">
 		<@superBlock/>
         <link rel="stylesheet/less" href="${This.path}/generated.less" />
                <#--
-<#assign mySite=Common.siteDoc(Document).site />
-        <link rel="stylesheet" type="text/css" href="${skinPath}/less/theme/${mySite.themeManager.theme.name}.css"/>
         -->
         <#if canWrite>
         	<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
         </#if>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/pagination.css"/>
+        <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastNews" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastNews.title')}" />
+        <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastUpload" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastUpload.title')}" />
+        <link href="${Context.modulePath}/${mySite.URL}/@labsrss/all" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.all.title')}" />
 	</@block>
 
 	<@block name="scripts">
