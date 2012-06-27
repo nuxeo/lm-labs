@@ -35,7 +35,7 @@
 	<#-- timeout -->
     <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
 
-  <div id="FKtopContent" style="padding-bottom: 10px;" >
+  <div id="FKtopContent" style="padding: 10px 10px;" >
   <div class="container" >
     <div class="row-fluid">
 
