@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.news;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -16,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
 import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
@@ -28,6 +30,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
@@ -328,5 +331,186 @@ public class NewsAdapterTest {
         //assertThat(news.getBlobHolder(),is(notNullValue()));
         assertThat(news.hasSummaryPicture(),is(true));
         assertThat(news.getSummaryPicture(),is(notNullValue()));
+    }
+    
+    @Test
+    public void iCanMoveDownRow() throws Exception {
+    	DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
+        news.setTitle("le titre");
+    	
+    	doc = createRowsForMove(news);
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        news = Tools.getAdapter(LabsNews.class, doc, session);
+
+		testCreatedRowsForMove(news);
+        
+        news.moveDown(2);
+        doc = session.saveDocument(news.getDocumentModel());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        news = Tools.getAdapter(LabsNews.class, doc, session);
+        
+		assertNotNull(news);
+		assertNotNull(news.getRows());
+        assertThat(news.getRows().size(), is(4));
+
+        assertNotNull(news.getRows().get(0));
+        assertNotNull(news.getRows().get(0).content(0));
+        assertNotNull(news.getRows().get(0).content(0).getHtml());
+        assertThat(news.getRows().get(0).content(0).getHtml(), is("html1"));
+
+        assertNotNull(news.getRows().get(1));
+        assertNotNull(news.getRows().get(1).content(0));
+        assertNotNull(news.getRows().get(1).content(0).getHtml());
+        assertThat(news.getRows().get(1).content(0).getHtml(), is("html2"));
+
+        assertNotNull(news.getRows().get(2));
+        assertNotNull(news.getRows().get(2).content(0));
+        assertNotNull(news.getRows().get(2).content(0).getHtml());
+        assertThat(news.getRows().get(2).content(0).getHtml(), is("html4"));
+
+        assertNotNull(news.getRows().get(3));
+        assertNotNull(news.getRows().get(3).content(0));
+        assertNotNull(news.getRows().get(3).content(0).getHtml());
+        assertThat(news.getRows().get(3).content(0).getHtml(), is("html3"));
+    }
+
+	private DocumentModel createRowsForMove(LabsNews labsNews)
+			throws ClientException {
+		labsNews.addRow();
+    	labsNews.addRow();
+    	labsNews.addRow();
+    	labsNews.addRow();
+    	List<HtmlRow> rows = labsNews.getRows();
+		rows.get(0).addContent(0, "html1");
+    	rows.get(1).addContent(0, "html2");
+    	rows.get(2).addContent(0, "html3");
+    	rows.get(3).addContent(0, "html4");
+        DocumentModel doc = session.createDocument(labsNews.getDocumentModel());
+		return doc;
+	}
+
+	private void testCreatedRowsForMove(HtmlSection htmlsection) {
+		assertNotNull(htmlsection);
+		assertNotNull(htmlsection.getRows());
+        assertThat(htmlsection.getRows().size(), is(4));
+
+        assertNotNull(htmlsection.getRows().get(0));
+        assertNotNull(htmlsection.getRows().get(0).content(0));
+        assertNotNull(htmlsection.getRows().get(0).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(0).content(0).getHtml(), is("html1"));
+
+        assertNotNull(htmlsection.getRows().get(1));
+        assertNotNull(htmlsection.getRows().get(1).content(0));
+        assertNotNull(htmlsection.getRows().get(1).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(1).content(0).getHtml(), is("html2"));
+
+        assertNotNull(htmlsection.getRows().get(2));
+        assertNotNull(htmlsection.getRows().get(2).content(0));
+        assertNotNull(htmlsection.getRows().get(2).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(2).content(0).getHtml(), is("html3"));
+
+        assertNotNull(htmlsection.getRows().get(3));
+        assertNotNull(htmlsection.getRows().get(3).content(0));
+        assertNotNull(htmlsection.getRows().get(3).content(0).getHtml());
+        assertThat(htmlsection.getRows().get(3).content(0).getHtml(), is("html4"));
+	}
+    
+    @Test
+    public void iCantMoveDownLastRow() throws Exception {
+    	DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
+        news.setTitle("le titre");
+    	
+    	doc = createRowsForMove(news);
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        news = Tools.getAdapter(LabsNews.class, doc, session);
+
+		testCreatedRowsForMove(news);
+        
+        news.moveDown(3);
+        doc = session.saveDocument(news.getDocumentModel());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        news = Tools.getAdapter(LabsNews.class, doc, session);
+        
+        testCreatedRowsForMove(news);
+    }
+    
+    @Test
+    public void iCanMoveUpRow() throws Exception {
+    	DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
+        news.setTitle("le titre");
+    	
+    	doc = createRowsForMove(news);
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        news = Tools.getAdapter(LabsNews.class, doc, session);
+
+		testCreatedRowsForMove(news);
+        
+        news.moveUp(2);
+        doc = session.saveDocument(news.getDocumentModel());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        news = Tools.getAdapter(LabsNews.class, doc, session);
+        
+		assertNotNull(news);
+		assertNotNull(news.getRows());
+        assertThat(news.getRows().size(), is(4));
+
+        assertNotNull(news.getRows().get(0));
+        assertNotNull(news.getRows().get(0).content(0));
+        assertNotNull(news.getRows().get(0).content(0).getHtml());
+        assertThat(news.getRows().get(0).content(0).getHtml(), is("html1"));
+
+        assertNotNull(news.getRows().get(1));
+        assertNotNull(news.getRows().get(1).content(0));
+        assertNotNull(news.getRows().get(1).content(0).getHtml());
+        assertThat(news.getRows().get(1).content(0).getHtml(), is("html3"));
+
+        assertNotNull(news.getRows().get(2));
+        assertNotNull(news.getRows().get(2).content(0));
+        assertNotNull(news.getRows().get(2).content(0).getHtml());
+        assertThat(news.getRows().get(2).content(0).getHtml(), is("html2"));
+
+        assertNotNull(news.getRows().get(3));
+        assertNotNull(news.getRows().get(3).content(0));
+        assertNotNull(news.getRows().get(3).content(0).getHtml());
+        assertThat(news.getRows().get(3).content(0).getHtml(), is("html4"));
+    }
+    
+    @Test
+    public void iCantMoveUpFirstRow() throws Exception {
+    	DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
+        news.setTitle("le titre");
+    	
+    	doc = createRowsForMove(news);
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        news = Tools.getAdapter(LabsNews.class, doc, session);
+
+		testCreatedRowsForMove(news);
+        
+        news.moveUp(0);
+        doc = session.saveDocument(news.getDocumentModel());
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        news = Tools.getAdapter(LabsNews.class, doc, session);
+        
+        testCreatedRowsForMove(news);
     }
 }

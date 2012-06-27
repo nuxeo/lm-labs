@@ -33,6 +33,7 @@
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery.ui.datepicker-fr.js"></script>
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.18.datepicker.min.js"></script>
       <script type="text/javascript" src="${skinPath}/js/LabsNews.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/move.js"></script>
       <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
       <script type="text/javascript" src="${skinPath}/js/jcrop/jquery.Jcrop.min.js"></script>
   </@block>
@@ -71,6 +72,7 @@
           <section>
           	  <#if news != null>
 	              <div class="page-header <@generateClassNewsVisibility news=news result="hiddenNews"/>">
+	                <a name="section_0"></a>
 	                <h1>${news.title} <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
 	                <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
 	              	<#if isContributor >
@@ -94,8 +96,10 @@
 
 
 
+      		<div id="div_section_0_rows">
 		  	<#list news.getRows() as row>
 		  		<#if isContributor >
+		  		  <div id="div_row_${row_index}">
 			        <div class="row-fluid" id="row_s${section_index}_r${row_index}">
 			              <#list row.contents as content>
 			              	  <div class="span${content.colNumber}">
@@ -135,6 +139,8 @@
 							<ul class="dropdown-menu" style="left: auto;right: 0px;">
 								<li>
 									<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
+									<a href="#" onClick="javascript:moveUp('${This.path}/s/0/r/${row_index}', '${This.path}', 'div_row_${row_index}', '#div_section_0_rows>div');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
+		    						<a href="#" onClick="javascript:moveDown('${This.path}/s/0/r/${row_index}', '${This.path}', 'div_row_${row_index}', '#div_section_0_rows>div');" title="Descendre" alt="Descendre"><i class="icon-arrow-down"></i>Descendre</a>
 								</li>
 							</ul>
 					  </div>
@@ -142,7 +148,9 @@
 					  </form>
 					  <br />
 			          <hr class="editblock"/>
+			       </div>
 			    <#else>
+			      <div id="div_row_${row_index}">
 			    	<div class="row-fluid" id="row_s${section_index}_r${row_index}">
 		                  <#list row.contents as content>
 		                    <div class="span${content.colNumber} columns">
@@ -154,8 +162,10 @@
 		                    </div>
 		                  </#list>
 		            </div>
+		          </div>
 			     </#if>
 		    </#list>
+		    </div>
 
 			<#if isContributor >
 	          <div class="editblock">

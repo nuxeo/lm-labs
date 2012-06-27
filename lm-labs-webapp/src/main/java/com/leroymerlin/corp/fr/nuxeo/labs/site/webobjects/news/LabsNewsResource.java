@@ -155,9 +155,9 @@ public class LabsNewsResource extends PageResource {
     }
 
     @Path("s/{index}")
-    public Object doGetSection(@PathParam("index") int sectionIndex) {
+    public Object doGetSection(@PathParam("index") int sectionIndex) throws ClientException {
         // For the news there is only one section
-        return newObject("HtmlSection", doc, getLabsNews(), sectionIndex, null);
+        return newObject("HtmlSection", doc, getLabsNews(), sectionIndex, getLabsNews());
     }
 
     static Calendar getDateFromStr(String strDate) {

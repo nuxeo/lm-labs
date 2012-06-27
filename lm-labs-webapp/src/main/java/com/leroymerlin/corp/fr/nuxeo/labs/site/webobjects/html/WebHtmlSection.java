@@ -14,6 +14,7 @@ import org.nuxeo.ecm.webengine.model.WebObject;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.MovableElement;
 
 @WebObject(type = "HtmlSection")
 public class WebHtmlSection extends MovableElementResource {
@@ -21,7 +22,6 @@ public class WebHtmlSection extends MovableElementResource {
     private static final String FAILED_TO_POST_SECTION = "Failed to post html section ";
     private static final String FAILED_TO_DELETE_SECTION = "Failed to delete html section ";
     private HtmlSection section;
-    private HtmlPage htmlPage;
 
     @Override
     public void initialize(Object... args) {
@@ -29,8 +29,7 @@ public class WebHtmlSection extends MovableElementResource {
         assert args != null && args.length >= 3;
         section = (HtmlSection) args[1];
         index = (Integer) args[2];
-        htmlPage = (HtmlPage) args[3];
-        element = htmlPage;
+        element = (MovableElement) args[3];
     }
 
     @DELETE

@@ -1,6 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.html;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.nuxeo.ecm.core.api.ClientException;
 
@@ -29,5 +31,7 @@ public interface HtmlSection extends ChangeListener, MovableElement {
     public void remove(HtmlRow row) throws ClientException;
 
     public HtmlRow addRow(String cssClass) throws ClientException;
+    
+    public Map<String, Serializable> toMap();
 
 }
