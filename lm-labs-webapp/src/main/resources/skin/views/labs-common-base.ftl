@@ -24,43 +24,44 @@
           <!--[if lt IE 9]>
             <script type="text/javascript" src="${skinPath}/js/assets/html5.js"></script>
           <![endif]-->
-          
+
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.2.min.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
+          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-carousel${bsMinified}.js"></script>
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form-3.09.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown${bsMinified}.js"></script>
           <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button${bsMinified}.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/scroll-startstop.events.jquery.js"></script>
 	      <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script> 
+          <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
           <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.3.0.min.js"></script>
 
         </@block>
     </head>
-    
+
     <body>
-    	
+
 		<#-- timeout -->
 	    <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
-	    
+
 		<@block name="topbar">
 			<#include "views/common/topbar.ftl" />
 		</@block>
-		
+
 		<div id="FKtopContent" style="position: relative;">
 			<@block name="FKtopContent" />
 		</div><#-- /FKtopContent -->
-		
+
 		<div style="display:none;" class="nav_up" id="nav_up"></div>
 		<div style="display:none;" class="nav_down" id="nav_down"></div>
-		
+
 		<@block name="FKfooter" />
-		
+
 		<@block name="bottom-page-js" >
 			<#include "views/common/topbar_js.ftl" />
 			<#if (mySite?? && mySite.isContributor(Context.principal.name) ) >

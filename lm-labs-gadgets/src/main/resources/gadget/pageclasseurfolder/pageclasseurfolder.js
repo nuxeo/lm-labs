@@ -137,7 +137,9 @@ var NXRequestParamsSiteUrl = {
 
 function classeurDisplayDocumentList(entries, nxParams) {
 	displayDocumentList(entries, nxParams);
-	doAutomationRequest(NXRequestParamsSiteUrl);
+	if (displayTitleStr === 'CLASSEURFOLDER') {
+		doAutomationRequest(NXRequestParamsSiteUrl);
+	}
 }
 function callbackSiteUrl(response, nxParams) {
 	var labsSiteUrl = response.data['string'];
