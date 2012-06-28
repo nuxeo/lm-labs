@@ -17,7 +17,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractJSONSerializer;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
@@ -69,10 +68,7 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
             SiteDocument siteAdapter = Tools.getAdapter(SiteDocument.class, doc, session);
             if (siteAdapter != null) {
                 LabsSite site = siteAdapter.getSite();
-                DocumentModel tree = site.getTree();
-                if (Tools.getAdapter(Page.class, doc, session) == null
-                        || (Docs.WELCOME.docName().equals(doc.getName()) && session.getParentDocumentRef(
-                                doc.getRef()).equals(tree.getRef()))) {
+                if (Tools.getAdapter(Page.class, doc, session) == null) {
                     metadata.put("url", siteAdapter.getSite().getURL());
                 } else {
                     metadata.put("url", siteAdapter.getResourcePath());
