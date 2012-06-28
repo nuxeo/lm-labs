@@ -1,23 +1,9 @@
 <@extends src="/views/labs-admin-base.ftl">
 
+<#import "libs/LabsUtils.ftl" as LabsUtils />
 <#if adminTreeviewType == "Pages" >
 	<#assign mySite=Common.siteDoc(Document).getSite() />
-	<#assign parents = Session.getParentDocuments(mySite.getIndexDocument().ref) />
-	<#assign ids = [] />
-	<#list parents?reverse as parent>
-		<#if parent.type == "Tree" >
-			<#break>
-		</#if>
-		<#assign ids = ids + [ parent.id ] />
-	</#list>
-	<#assign parentIds = "[" />
-	<#list ids as id >
-		<#if id_index &gt; 0 >
-			<#assign parentIds = parentIds + "," />
-		</#if>
-		<#assign parentIds = parentIds + "'#" + id + "'" />
-	</#list>
-	<#assign parentIds = parentIds + "]" />
+	<#assign parentIds = LabsUtils.getHomePageDocIdSelectorsStr(Document) />
 </#if>
 
 <#assign canManage = Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(Document.ref, 'ReadWrite')/>
@@ -50,10 +36,10 @@
 				jQuery.ajax({
 					async : false,
 					type: 'GET',
-					url: "${This.previous.path}/id/" + id + "/@delete", 
+					url: "${This.previous.path}/id/" + id + "/@delete",
 					success : function (r) {
 						refreshTreeview();
-					}, 
+					},
 					error : function (r, responseData) {
 						//jQuery.jstree.rollback(data.rlbk);
 						jQuery('#waitingPopup').dialog2('close');
@@ -79,23 +65,21 @@
 					success : function (r) {
 						jQuery("#addFolderDialog").dialog2('close');
 			        	refreshTreeview();
-			        }, 
+			        },
 					error : function (r, responseData) {
 						jQuery('#waitingPopup').dialog2('close');
 					}
 			  });
 			return false;
 		}
-	
-		var homePageId = '<#if adminTreeviewType == "Pages" && mySite?? && mySite != null >${mySite.getHomePageRef()}</#if>';
-		
+
 		jQuery().ready(function() {
 			jQuery("#currentNodeId").val(jQuery("li[rel=Assets]").attr("id"));
 			initFileDrop('fileContent', '${This.path}/@assets/paramId', refreshTreeview, 'currentNodeId', '${Context.getMessage("label.admin.error.too_many_file", 25)}', '${Context.getMessage("label.admin.error.file_too_large", 5)}');
-		
-			jQuery('#addFileForm').ajaxForm(function() { 
+
+			jQuery('#addFileForm').ajaxForm(function() {
 				jQuery("#addFileDialog").dialog2('close');
-                loadPictures(jQuery(jQuery("li[rel=Assets]").attr("id")));
+                loadPictures(jQuery("li[rel=Assets]").attr("id"));
                 refreshTreeview();
             });
 			jQuery("#addFileDialog").dialog2({
@@ -104,68 +88,10 @@
 				removeOnClose : false,
 				showCloseHandle : true
 			});
-			
+
 <#if adminTreeviewType == "Pages" >
-			function changeIconOfHomePage() {
-				jQuery('li#' + homePageId + ' > a > ins.jstree-icon:eq(0)').css('background-image', 'url(/nuxeo/icons/home.gif)');
-			}
-			
-			function getLabelHtml(state) {
-				var labelHtml = '';
-				if (state == 'draft') {
-					labelHtml = '<ins>&nbsp;<span class="label label-success">${Context.getMessage('label.status.draft')}</span></ins>';
-				} else if (state == 'deleted') {
-					labelHtml = '<ins>&nbsp;<span class="label label-warning">${Context.getMessage('label.status.deleted')}</span></ins>';
-				}
-				return labelHtml;
-			}
-			
-			function appenStatusLabel(ahref, state) {
-				var label = getLabelHtml(state);
-				if (label.length > 0 && !jQuery(ahref).html().match(label + '$')) {
-					jQuery(ahref).append(getLabelHtml(state));
-				}
-			}
-			
-			function addNodesStatusLabels(data) {
-			<#--
-				//console.log('<addNodesStatusLabels> ' + data.inst);
-			-->
-				jQuery.each(data.args, function (i, node) {
-				<#--
-					//console.log(i + '+++' + jQuery(node).html());
-				-->
-					data.inst._get_children(node)
-					jQuery.each(data.inst._get_children(node), function (index, subnode) {
-					<#--
-						//console.log('  ' + index + '+++' + jQuery(subnode).children('a').html());
-					-->
-						appenStatusLabel(
-							jQuery(subnode).children('a:first'),
-							data.inst._get_node(subnode).data("lifecyclestate")
-						);
-					});
-				});
-			}
-			
-			function addStatusLabels(data) {
-			<#--
-				//console.log('<addStatusLabels> ' + data.inst);
-			-->
-				hrefs = jQuery('div.jstree li > a');
-				jQuery.each(hrefs, function(i, href) {
-				<#--
-					//console.log(i + '---' + jQuery(href).html());
-					//console.log(i + '---' + data.inst._get_node(jQuery(href).parent()).data("lifecyclestate"));
-					//console.log(i + '---' + getLabelHtml(data.inst._get_node(jQuery(href).parent()).data("lifecyclestate")));
-				-->
-					appenStatusLabel(
-						href,
-						data.inst._get_node(jQuery(href).parent()).data("lifecyclestate")
-					);
-				});
-			}
-			
+<#include "common/jstree-icons-labels-js.ftl" >
+
 			function labsPublish(operation, url, node) {
 			    jQuery('#waitingPopup').dialog2('open');
     			jQuery.ajax({
@@ -181,7 +107,7 @@
 					}
 				});
 			}
-			
+
 			function setAsHome(url, node) {
 			    jQuery('#waitingPopup').dialog2('open');
     			jQuery.ajax({
@@ -199,7 +125,7 @@
 				});
 			}
 </#if>
-			
+
 			function customMenu(node) {
 				<#-- ALL ITEM MENU -->
 				var items = {
@@ -234,7 +160,7 @@
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.edit')}",
 						"action"			: false,
-						"submenu" : { 
+						"submenu" : {
 							"cut" : false,
 							"copy" : false,
 							"paste" : {
@@ -326,7 +252,7 @@
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.edit')}",
 						"action"			: false,
-						"submenu" : { 
+						"submenu" : {
 							"cut" : {
 								"separator_before"	: false,
 								"separator_after"	: false,
@@ -350,14 +276,14 @@
 						}
 					}
 				};
-				
+
 				<#if !Session.hasPermission(Document.ref, 'Everything')>
 					delete items.remove;
 				</#if>
 				<#if !(mySite?? && mySite.isAdministrator(Context.principal.name)) >
 					delete items.home;
 				</#if>
-				
+
 				<#-- selected item we want -->
 				if(jQuery(node).attr('rel') == 'Tree' || jQuery(node).attr('rel') == 'Assets') {
 					delete items.goto;
@@ -424,7 +350,7 @@
 				}
 				return items;
 			}
-		
+
 			jQuery("#jstree")
 			.bind("loaded.jstree", function (event, data) {
 			<#if adminTreeviewType=="Assets">
@@ -441,9 +367,9 @@
 			-->
 			<#if adminTreeviewType=="Pages">
 			.bind("before.jstree", function (e, data) {
-				
+
 				//console.log('before.jstree ' + data.func + ' ' + data.args.length);
-				
+
 				if(data.func === "reload_nodes") {
 					changeIconOfHomePage();
 					addStatusLabels(data);
@@ -477,7 +403,7 @@
 							type: 'POST',
 							url: "${This.path}/@pageUtils/move",
 							data : {
-								"source" : data.o.id, 
+								"source" : data.o.id,
 								"destinationContainer" : data.r.attr("id")
 							},
 							success : function (r) {
@@ -495,7 +421,7 @@
 				</#if>
 				],
 				"json_data" : {
-					"ajax" : { 
+					"ajax" : {
 						"url" : "${This.path}/@treeview"
 						, "data" : function (n) {
 							return {
@@ -562,7 +488,7 @@
 							if (jQuery(element).attr("id") == currentId){
 								finded = true;
 							}
-							
+
 						});
 						<#--
 						console.log("operation:" + operation);
@@ -572,7 +498,7 @@
 							type: 'POST',
 							url: "${This.path}/@pageUtils/" + operation,
 							data : {
-								"source" : currentId, 
+								"source" : currentId,
 								"destinationContainer" : data.rslt.np.attr("id"),
 								"after" : jQuery(after).attr("id")
 							},
@@ -593,7 +519,7 @@
 						        }
 							}
 						});
-						
+
 					}
 				});
 			})
@@ -609,7 +535,7 @@
 							jQuery.ajax({
 								async : false,
 								type: 'GET',
-								url: "${This.previous.path}/id/" + this.id + "/@delete", 
+								url: "${This.previous.path}/id/" + this.id + "/@delete",
 								success : function (r) {
 									if(!r.status) {
 										data.inst.refresh();
@@ -635,10 +561,10 @@
 			.bind("rename.jstree", function (e, data) {
 				if (data.rslt.obj.attr('rel') != 'Tree') {
 					jQuery.post(
-						"${This.previous.path}/id/" + data.rslt.obj.attr("id") + "/@put", 
-						{ 
+						"${This.previous.path}/id/" + data.rslt.obj.attr("id") + "/@put",
+						{
 							"dc:title" : data.rslt.new_name
-						}, 
+						},
 						function (r) {
 							if(!r.status) {
 								//jQuery.jstree.rollback(data.rlbk);
@@ -650,12 +576,12 @@
 				}
 			})
 			.bind("create.jstree", function (e, data) {
-			
+
 			    //if creating a root node
 			    if(!$(data.rslt.parent).attr("id")) var id = 1;
 			    //else get parent
 			    else var id = data.rslt.parent.attr("id").replace("node_","");
-			    
+
 			   if(data.rslt.name!='New node') {
 	   			   jQuery.ajax({
 						async : false,
@@ -678,7 +604,7 @@
 			   	alert("${Context.getMessage('label.admin.asset.dirTitleRequire')}");
 			   	refreshTreeview();
 			   }
-			    
+
 			})
 			.bind("select_node.jstree", function (e, data) {
 				rel = $(data.rslt.obj).attr("rel");
@@ -686,7 +612,7 @@
 					loadPictures($(data.rslt.obj).attr("id"));
 				} else if(rel=='Picture') {
 					jQuery("#contentAdminPictures").html("<img src='${This.path}/@assets/id/"+$(data.rslt.obj).attr("id")+"/@blob' width='500' />");
-				}					
+				}
 			})
 			;
 		})
@@ -705,15 +631,16 @@
   </@block>
 
 	<@block name="content">
+		<#include "macros/jstree-controls.ftl" />
 		<#if adminTreeviewType=="Assets">
 			<div style="display: none">
 				<#include "macros/add_file_dialog.ftl" />
 				<@addFileDialog action="${formPath}" onSubmit=""/>
 		    </div>
 		</#if>
-	
+
 		<div class="page-header">
-			<h3><#if adminTreeviewType=="Assets">Gérer les médias<#else>Gérer les Pages</#if>	
+			<h3><#if adminTreeviewType=="Assets">Gérer les médias<#else>Gérer les Pages</#if>
 			<i style="cursor:pointer;" class="icon-question-sign" onclick="jQuery('#help-jstree').show();return false;" ></i>
 			</h3>
 		</div>
@@ -731,16 +658,16 @@
 			</#list>
 			</p>
 		</div>
-		
+
 		<#if adminTreeviewType=="Assets">
 		<div style="margin: 0px 0px 8px 283px;">
             <a href="#" rel="addFileDialog" class="open-dialog btn" onclick="openAddFileDialog(jQuery('#currentNodeId').val())"><i class="icon-file"></i>Ajouter un fichier</a>
             <a href="#" rel="addFolderDialog" class="open-dialog btn"><i class="icon-folder-close"></i>Ajouter un répertoire</a>
-			
+
 			<div style="font-weight: bold;font-size:16px;margin:10px 0px -6px 0px">
 				${Context.getMessage("label.admin.help.dragNDrop")}
 			</div>
-			
+
 			<#-- TODO IN MACRO -->
 	          <div id="addFolderDialog" style="display:none;">
 	            <h1>Ajouter un répertoire</h1>
@@ -761,20 +688,20 @@
 	         </div>
 		</div>
 		</#if>
-	
+
 		<div id="content" class="container jsTreeControlsContent">
 			<section>
 				<div>
-					<@jsTreeControls id="jsTreeControlsTop" />
-					<div class="span16 columns" style="margin-top:10px;margin-bottom:10px">
+					<@jsTreeControls treeId="jstree" />
+					<div class="span12 columns" style="margin-top:10px;margin-bottom:10px">
 						<div id="jstree">
 						</div>
 					</div>
-					<@jsTreeControls id="jsTreeControlsBottom" />
+					<@jsTreeControls treeId="jstree" />
 				</div>
 			</section>
 		</div>
-		
+
 		<#if adminTreeviewType=="Assets">
 			<input type="hidden" id="currentNodeId" value="" />
 		    <div id="fileContent" class="span11 columns" style="min-height:300px;width:570px;background-color:#F5F5F5;border:1px solid rgba(0, 0, 0, 0.05);border-radius:4px;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;padding-left:30px;margin-bottom:20px">
@@ -800,21 +727,5 @@
 			</script>
 		</#if>
 	</@block>
-	
+
 </@extends>
-<#macro jsTreeControls id>
-<style>
-.mini {
-	font-size: 11px;
-	padding: 3px 5px 3px 6px;
-}
-</style>
-<div id="${id}" class="span16 columns jsTreeControls">
-	<button class="btn btn-mini" id="expandTreeBt" onclick="jQuery('#jstree').jstree('open_all');return false;">
-	<i class="icon-plus"></i>${Context.getMessage('command.admin.tree.expandAll')}
-	</button>
-	<button class="btn btn-mini" id="collapseTreeBt" onclick="jQuery('#jstree').jstree('close_all');return false;">
-	<i class="icon-minus"></i>${Context.getMessage('command.admin.tree.collapseAll')}
-	</button>
-</div>
-</#macro>

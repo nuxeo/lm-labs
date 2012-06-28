@@ -18,13 +18,13 @@ import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.WebContext;
-import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.assets.AssetsDocumentTree;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter.CkEditorParametersAdapter;
 
 @WebAdapter(name = "assets", type = "assetsAdapter", targetType = "LabsSite")
-public class AssetsAdapter extends DefaultAdapter {
+public class AssetsAdapter extends CkEditorParametersAdapter {
 
     public AssetsAdapter() {
         WebContext ctx = WebEngine.getActiveContext();

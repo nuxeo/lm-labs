@@ -33,3 +33,29 @@
     </#if>
     <#return isChildVisible >
 </#function>
+
+<#function getHomePageDocIdsTab doc >
+	<#assign mySite = Common.siteDoc(doc).site />
+	<#assign parents = Session.getParentDocuments(mySite.indexDocument.ref) />
+	<#assign ids = [] />
+	<#list parents?reverse as parent>
+		<#if parent.type == "Tree" >
+			<#break>
+		</#if>
+		<#assign ids = ids + [ parent.id ] />
+	</#list>
+	<#return ids >
+</#function>
+
+<#function getHomePageDocIdSelectorsStr doc >
+	<#assign ids = getHomePageDocIdsTab(doc) />
+	<#assign parentIds = "[" />
+	<#list ids as id >
+		<#if 0 < id_index >
+			<#assign parentIds = parentIds + "," />
+		</#if>
+		<#assign parentIds = parentIds + "'#" + id + "'" />
+	</#list>
+	<#assign parentIds = parentIds + "]" />
+	<#return parentIds >
+</#function>
