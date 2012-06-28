@@ -5,6 +5,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -39,7 +40,7 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
     protected String getBasePath(WebContext ctx) throws ClientException {
         StringBuilder sb = new StringBuilder(ctx.getModulePath());
         LabsSite site = (LabsSite) ctx.getProperty("site");
-        sb.append("/" + site.getURL());
+        sb.append("/" + URIUtils.quoteURIPathComponent(site.getURL(), true));
         return sb.toString();
     }
 
@@ -73,7 +74,7 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
                 if (Tools.getAdapter(Page.class, doc, session) == null
                         || (Docs.WELCOME.docName().equals(doc.getName()) && session.getParentDocumentRef(
                                 doc.getRef()).equals(tree.getRef()))) {
-                    metadata.put("url", siteAdapter.getSite().getURL());
+                    metadata.put("url", URIUtils.quoteURIPathComponent(siteAdapter.getSite().getURL(), true));
                 } else {
                     metadata.put("url", siteAdapter.getResourcePath());
                 }
