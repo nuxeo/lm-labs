@@ -1,6 +1,6 @@
 var ckeditorconfig = {
 	extraPlugins : 'tableresize,insertlabspagetoc',
-	filebrowserBrowseUrl : '@assets',
+	filebrowserBrowseUrl : '@views/selectionTree',
 	filebrowserImageBrowseUrl : '@assets',
 	filebrowserFlashBrowseUrl : '@assets',
 	filebrowserUploadUrl : '@assets',
