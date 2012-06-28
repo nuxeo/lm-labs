@@ -1,7 +1,5 @@
 
 		<fieldset>
-			<input type="hidden" name="lastPage" id="lastPage" value="" />
-			<input type="hidden" name="currentPage" id="currentPage" value="" />
 			<#list bean.headersSet as header>
 				<div class="control-group">
 					<label class="control-label" for="${header.idHeader}">${header.name}</label>
@@ -39,6 +37,8 @@
 			<#else>
 				<input type="hidden" name="isHidden" class="isHidden" value="no" />
 			</#if>
+			<input type="hidden" name="lastPage" id="lastPage" value="" />
+			<input type="hidden" name="currentPage" id="currentPage" value="" />
 		</fieldset>
 <#if line != null>
 	<div id="divBtnDeleteLine" style="text-align: right;">
