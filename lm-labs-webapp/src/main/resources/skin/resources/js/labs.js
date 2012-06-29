@@ -169,7 +169,7 @@ function scrollToRowAfterCkeip(response, ckeObj, ckeip_html) {
 function changeImgError() {
   	$(".imgComment").each(function(i){
   		$(this).error(function(){
-			$(this).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/id/10060732/picture");
+			$(this).attr("src", "http://intralm2.fr.corp.leroymerlin.com/contact/skin/images/lm-man.png");
 		});
   	});
 }
