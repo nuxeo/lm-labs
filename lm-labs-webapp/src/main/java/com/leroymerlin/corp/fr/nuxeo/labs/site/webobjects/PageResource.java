@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +23,7 @@ import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
@@ -35,6 +37,7 @@ import org.nuxeo.ecm.webengine.model.ResourceType;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.model.WebObject;
+import org.nuxeo.ecm.webengine.model.exceptions.IllegalParameterException;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.runtime.api.Framework;
 
@@ -477,6 +480,42 @@ public class PageResource extends DocumentObject {
             Object... args) {
         // TODO Auto-generated method stub
         return super.initialize(ctx, type, args);
+    }
+
+    @GET
+    @Path("@search")
+    @Override
+    public Object search() {
+        final HttpServletRequest request = ctx.getRequest();
+        String query = request.getParameter("query");
+        if (query == null) {
+            String fullText = request.getParameter("fullText");
+            if (fullText == null) {
+                throw new IllegalParameterException("Expecting a query or a fullText parameter");
+            }
+            String orderBy = request.getParameter("orderBy");
+            String orderClause = "";
+            if (orderBy != null) {
+                orderClause = " ORDER BY " + orderBy;
+            }
+            String path;
+            if (doc.isFolder()) {
+                path = doc.getPathAsString();
+                //Always in labsSiste the path is the URL of site
+                //The search is after the folder Tree
+                path = path + "/" + LabsSiteConstants.Docs.TREE.docName();
+            } else {
+                path = doc.getPath().removeLastSegments(1).toString();
+            }
+            query = "SELECT * FROM Document WHERE (ecm:fulltext = \"" + fullText
+                    + "\") AND (ecm:isCheckedInVersion = 0) AND (ecm:path STARTSWITH \"" + path + "\")" + orderClause;
+        }
+        try {
+            DocumentModelList docs = ctx.getCoreSession().query(query);
+            return getView("search").arg("query", query).arg("result", docs);
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
     }
 
     protected Response addContent(String name, PageCreationLocation location, boolean overwrite) throws ClientException {
