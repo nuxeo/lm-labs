@@ -55,9 +55,9 @@
 						<h1>${Context.getMessage('label.pageList.edit.line.title')}</h1>
 						<div class="container" style="width: auto;">
 							<form class="form-horizontal" method="post" name="form-editLine" id="form-editLine"  onSubmit="javascript:saveLine('${This.path}');return false;">
+								<div id="contentFormLine"><#include "/views/PageList/editLine.ftl" /></div>
 								<input type="hidden" id="pathFormEditLine" value="" />
 								<input type="hidden" id="pathPageList" value="${This.path}" />
-								<div id="contentFormLine"><#include "/views/PageList/editLine.ftl" /></div>
 								<div id="divActionsLine"  class="actions">
 									<button id="btnSaveLine" form-id="form-editLine" class="btn btn-primary required-fields" title="${Context.getMessage('label.pageList.edit.manage.save')}">${Context.getMessage('label.pageList.edit.manage.save')}</button>
 									<button id="btnCancelLine" class="btn" onClick="javascript:closeEditLine('${This.path}');return false" title="${Context.getMessage('label.pageList.edit.manage.cancel')}">${Context.getMessage('label.pageList.edit.manage.cancel')}</button>

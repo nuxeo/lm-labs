@@ -19,6 +19,7 @@
 
 package com.leroymerlin.corp.fr.nuxeo.labs.site.tree.assets;
 
+import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.webengine.model.WebContext;
 
@@ -31,7 +32,7 @@ public class AssetsTreeSerializer extends AbstractJSONSerializer {
     protected String getBasePath(WebContext ctx) throws ClientException {
         StringBuilder sb = new StringBuilder(ctx.getModulePath());
         LabsSite site = (LabsSite) ctx.getProperty("site");
-        sb.append("/" + site.getURL() + "/@assets");
+        sb.append("/" + URIUtils.quoteURIPathComponent(site.getURL(), true) + "/@assets");
         return sb.toString();
     }
 

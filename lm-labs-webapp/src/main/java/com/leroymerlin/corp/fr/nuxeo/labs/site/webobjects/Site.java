@@ -156,7 +156,7 @@ public class Site extends NotifiablePageResource {
                 session.save();
                 msgLabel = "label.labssites.edit.site.updated";
             }
-            return redirect(ctx.getModulePath() + "/" + site.getURL()
+            return redirect(ctx.getModulePath() + "/" + URIUtils.quoteURIPathComponent(site.getURL(), true)
                     + "/@views/edit?message_success=" + msgLabel);
         } catch (SiteManagerException e) {
             return redirect(getPath() + "/@views/edit?message_error="

@@ -28,6 +28,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -343,7 +344,7 @@ public class SitesRoot extends ModuleRoot {
                 return redirect(getPath()
                         + "?message_error=label.labssites.edit.error.template.copy.failed");
             }
-            return redirect(getPath() + "/" + labSite.getURL());
+            return redirect(getPath() + "/" + URIUtils.quoteURIPathComponent(labSite.getURL(), true));
         } catch (SiteManagerException e) {
             return redirect(getPath() + "?message_error=" + e.getMessage());
         } catch (ClientException e) {

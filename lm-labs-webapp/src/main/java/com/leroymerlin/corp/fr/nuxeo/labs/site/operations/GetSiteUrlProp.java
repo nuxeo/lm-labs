@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.operations;
 
+import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.automation.core.Constants;
 import org.nuxeo.ecm.automation.core.annotations.Context;
 import org.nuxeo.ecm.automation.core.annotations.Operation;
@@ -30,7 +31,7 @@ public class GetSiteUrlProp {
         DocumentModel document = session.getDocument(new IdRef(docId));
         SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, document, session);
         
-        return siteDocument.getSite().getURL();
+        return URIUtils.quoteURIPathComponent(siteDocument.getSite().getURL(), true);
     }
     
 }

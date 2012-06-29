@@ -23,6 +23,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.html.ChangeListener;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSectionImpl;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class LabsNewsAdapter extends AbstractPage implements LabsNews,
         ChangeListener {
@@ -321,11 +322,60 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
             ClientException {
         setDescription(doc, description);
     }
+//
+//	@Override
+//	public void moveUp(int index) throws ClientException {
+//		if (index - 1 < 0){
+//			return;
+//		}
+//		Tools.changePositionWith(index, index - 1, getRows());
+//		update();
+//	}
+//
+//	@Override
+//	public void moveDown(int index) throws ClientException  {
+//		if (index + 1 > getRows().size()){
+//			return;
+//		}
+//		Tools.changePositionWith(index, index + 1, getRows());
+//		update();
+//	}
+
 
 	@Override
-	public void moveUp(int index) throws ClientException {}
+	public void moveUp(int index) throws ClientException {
+		if (index - 1 < 0){
+			return;
+		}
+		Tools.changePositionWith(index, index - 1, getSection().getRows());
+		updateRows();
+		update();
+	}
 
 	@Override
-	public void moveDown(int index) throws ClientException {}
+	public void moveDown(int index) throws ClientException  {
+		if (index + 1 > getSection().getRows().size()){
+			return;
+		}
+		Tools.changePositionWith(index, index + 1, getSection().getRows());
+		updateRows();
+		update();
+	}
 
+	private void updateRows() {
+		List<Serializable> rowsMap = new ArrayList<Serializable>();
+        for (HtmlRow row : getRows()) {
+            rowsMap.add((Serializable) row.toMap());
+        }
+        toMap().put("rows", (Serializable) rowsMap);
+	}
+
+	@Override
+	public Map<String, Serializable> toMap() {
+		try {
+			return getSection().toMap();
+		} catch (ClientException e) {
+			return null;
+		}
+	}
 }

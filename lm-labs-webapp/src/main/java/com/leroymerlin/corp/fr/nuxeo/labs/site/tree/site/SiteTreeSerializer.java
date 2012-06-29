@@ -3,6 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
@@ -16,7 +17,7 @@ public class SiteTreeSerializer extends AbstractJSONSerializer {
     protected String getBasePath(WebContext ctx) throws ClientException {
         StringBuilder sb = new StringBuilder(ctx.getModulePath());
         LabsSite site = (LabsSite) ctx.getProperty("site");
-        sb.append("/" + site.getURL());
+        sb.append("/" + URIUtils.quoteURIPathComponent(site.getURL(), true));
         return sb.toString();
     }
 
