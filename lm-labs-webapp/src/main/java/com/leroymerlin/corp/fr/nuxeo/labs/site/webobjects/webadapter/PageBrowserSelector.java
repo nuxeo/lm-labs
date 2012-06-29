@@ -8,6 +8,8 @@ import org.nuxeo.ecm.webengine.model.WebAdapter;
 
 @WebAdapter(name = "pagesBrowser", type = "PagesBrowser", targetType = "LabsSite")
 public class PageBrowserSelector extends CkEditorParametersAdapter {
+	
+	private String viewMode = "admin";
 
 	public PageBrowserSelector() {
 		super();
@@ -17,5 +19,9 @@ public class PageBrowserSelector extends CkEditorParametersAdapter {
     public Template doGet() throws ClientException {
         return getView("index");
     }
+
+	public String getViewMode() {
+		return viewMode;
+	}
 
 }

@@ -1,10 +1,11 @@
 <@extends src="/views/labs-common-base.ftl">
 <#import "libs/LabsUtils.ftl" as LabsUtils />
+
 <#assign adminTreeviewType = "Pages" />
 <#assign mySite=Common.siteDoc(Document).site />
 <#assign parentIds = LabsUtils.getHomePageDocIdSelectorsStr(Document) />
 
-<@block name="title">${mySite.title}-${This.document.title}-Sélection Page</@block>
+<@block name="title">${mySite.title} - Sélection Page</@block>
 
 <@block name="css">
     <@superBlock/>
@@ -17,6 +18,8 @@
 	<script type="text/javascript" >
 <#include "common/jstree-icons-labels-js.ftl" >
 <#include "macros/jstree-controls.ftl" />
+
+var selectedUrl = '';
 
 function sendToCallFunction(href) {
 	window.opener.${This.activeAdapter.getCallFunction()}('${This.activeAdapter.getCalledRef()}', href);
@@ -42,8 +45,8 @@ jQuery(document).ready(function() {
 	})
 	.bind("select_node.jstree", function (e, data) {
 		var id = jQuery(data.rslt.obj).attr("id");
-		var url = '${Context.modulePath}/' + data.rslt.obj.data("url");
-		sendToCallFunction(url);
+		selectedUrl = '${Context.modulePath}/' + data.rslt.obj.data("url");
+		sendToCallFunction(selectedUrl);
 	})
 	.jstree({
 		"core": {
@@ -66,7 +69,8 @@ jQuery(document).ready(function() {
 				},
 				"File" : {
 					"icon" : {
-						"image" : "/nuxeo/icons/page_text.gif"
+						"image" : "/nuxeo/icons/page_text.gif",
+						"position" : "0px 0px"
 					}
 				},
 				"Picture" : {
@@ -76,7 +80,8 @@ jQuery(document).ready(function() {
 				},
 				"default" : {
 					"icon" : {
-						"image" : "/nuxeo/icons/page_text.gif"
+						"image" : "/nuxeo/icons/page_text.gif",
+						"position" : "0px 0px"
 					}
 				}
 			}
@@ -86,7 +91,7 @@ jQuery(document).ready(function() {
 				"url" : "${Root.getLink(mySite.document)}/@treeview"
 				, "data" : function (n) {
 					return {
-						"view" : "admin",
+						"view" : "${This.activeAdapter.viewMode}",
 						"id" : n.attr ? n.attr("id") : 0
 					};
 				}
@@ -105,6 +110,9 @@ jQuery(document).ready(function() {
 	<div id="FKtopContent">
 <@block name="FKtopContent">
 		<div class="container">
+			<div class="row"><div class="span11 well">
+			<strong>Veuillez sélectionner une page en cliquant sur son titre.</strong>
+			</div></div>
 			<div class="row"><div class="span12">
 				<@jsTreeControls treeId="jstree" />
 			</div></div>
