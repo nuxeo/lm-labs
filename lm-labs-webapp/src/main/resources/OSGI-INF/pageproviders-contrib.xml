@@ -54,6 +54,18 @@
       <sort column="ln:startPublication" ascending="false" />
     </coreQueryPageProvider>
 
+ 	<coreQueryPageProvider name="published_news">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM LabsNews WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:mixinType != 'HiddenInNavigation'
+        AND ecm:path STARTSWITH ? AND ln:startPublication &lt;= DATE ? AND (ln:endPublication IS NULL OR ln:endPublication > DATE ?)
+        ORDER BY ln:startPublication DESC
+      </pattern>
+      <!-- DOES NOT WORK
+      <sort column="ln:startPublication" ascending="false" />
+       -->
+    </coreQueryPageProvider>
+
  	<coreQueryPageProvider name="all_news_same_author">
       <pattern quoteParameters="true" escapeParameters="true">
         SELECT * FROM LabsNews WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'

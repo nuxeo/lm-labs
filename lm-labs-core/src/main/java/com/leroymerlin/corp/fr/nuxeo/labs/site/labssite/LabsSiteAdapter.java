@@ -4,8 +4,10 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.labssite;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
@@ -339,7 +341,15 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     @Override
     public DocumentModelList getLastUpdatedNewsDocs() throws ClientException {
-        StringBuilder query = new StringBuilder("SELECT * FROM ");
+    	List<String> queryParams = new ArrayList<String>();
+    	queryParams.add(doc.getPathAsString().replace("'", "\\'") + "/" + LabsSiteConstants.Docs.TREE.docName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdf.format(Calendar.getInstance().getTime());
+        queryParams.add(dateStr);
+        queryParams.add(dateStr);
+        StringUtils.join(queryParams, ',');
+        
+    	StringBuilder query = new StringBuilder("SELECT * FROM ");
         query.append(Docs.LABSNEWS.type());
         query.append(" WHERE ").append(NXQL.ECM_PATH).append(" STARTSWITH '").append(
                 doc.getPathAsString().replace("'", "\\'")).append("/").append(
@@ -352,6 +362,27 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
         CoreSession session = getSession();
 		return session.query(query.toString(), new DocUnderVisiblePageFilter(session), NB_LAST_UPDATED_NEWS_DOCS);
+    }
+
+    @Override
+    public DocumentModelList getLastPublishedNewsDocs(CoreSession session) throws ClientException {
+    	List<String> queryParamsList = new ArrayList<String>();
+    	queryParamsList.add(doc.getPathAsString().replace("'", "\\'") + "/" + LabsSiteConstants.Docs.TREE.docName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr = sdf.format(Calendar.getInstance().getTime());
+        queryParamsList.add(dateStr);
+        queryParamsList.add(dateStr);
+        String queryParams = StringUtils.join(queryParamsList, ',');
+        OperationContext ctx = new OperationContext(session);
+        final String providerName = "published_news";
+		OperationChain chain = new OperationChain(providerName + "_" + session.getSessionId());
+        chain.add(DocumentPageProviderOperation.ID).set("providerName", providerName).set("queryParams", queryParams).set("pageSize", new Integer(NB_LAST_UPDATED_NEWS_DOCS));
+        try {
+			return (DocumentModelList) Framework.getService(AutomationService.class).run(ctx, chain);
+		} catch (Exception e) {
+			LOG.error(e, e);
+			return new DocumentModelListImpl();
+		}
     }
 
     @Override

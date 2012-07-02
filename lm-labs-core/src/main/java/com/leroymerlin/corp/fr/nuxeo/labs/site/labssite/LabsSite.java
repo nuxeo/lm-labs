@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 
@@ -107,6 +108,8 @@ public interface LabsSite  extends LabsBase {
     DocumentModelList getLastUpdatedDocs() throws ClientException;
     
     DocumentModelList getLastUpdatedNewsDocs() throws ClientException;
+    
+    DocumentModelList getLastPublishedNewsDocs(CoreSession session) throws ClientException;
 
     ArrayList<ExternalURL> getExternalURLs() throws ClientException;
     

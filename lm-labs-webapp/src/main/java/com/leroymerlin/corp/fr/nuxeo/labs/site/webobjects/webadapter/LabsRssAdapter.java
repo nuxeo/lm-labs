@@ -84,7 +84,7 @@ public class LabsRssAdapter extends DefaultAdapter {
         String rssTitle = ctx.getMessage("label.rss.last_news.title");
         String rssDesc = ctx.getMessage("label.rss.last_news.desc");
         try {
-            DocumentModelList lastUpdatedNewsDocs = site.getLastUpdatedNewsDocs();
+            DocumentModelList lastUpdatedNewsDocs = site.getLastPublishedNewsDocs(ctx.getCoreSession());
             final SyndFeed feed = SyndicationUtils.buildRss(
                     lastUpdatedNewsDocs, rssTitle, rssDesc, StringUtils.EMPTY, getContext()); // TODO RSS feed URL
             return SyndicationUtils.generateStreamingOutput(feed);

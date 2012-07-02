@@ -46,6 +46,9 @@ function ${divId}_parseXml(xml) {
     });
     -->
 }
+
+<#include "common/SupplyChainNewsDisplay-js.ftl" />
+
 function ${divId}_loadContents(page_index, jq){
     // Get number of elements per pagination page from form
     var items_per_page = ${nbrItems};
@@ -54,20 +57,11 @@ function ${divId}_loadContents(page_index, jq){
 
     // Iterate through a selection of the content and build an HTML string
     for(var i=page_index*items_per_page;i<max_elem;i++) {
-        var desc = ${divId}_last_messages[i][2];
-        if(desc=='') {
-            desc = '${Context.getMessage("label.last_message.no_desc")}';
-        }
-
-        newcontent += '<a href="'+${divId}_last_messages[i][3]+'"><div class="item">';
-        newcontent += '<div class="date">' + dateAsString(${divId}_last_messages[i][0]) + '</div>';
-        newcontent += '<div class="title"><div id="${divId}-lastMessageTitleEllipsisText' + i +'" class="ellipsisText" ellipsisTextOptions="{ max_rows:1, alt_text_e:true, alt_text_t:true }">' + ${divId}_last_messages[i][1] + '</div></div>';
-        newcontent += '<div class="ellipsisText desc" id="${divId}-lastMessageDescEllipsisText' + i +'"" ellipsisTextOptions="{ max_rows:2, alt_text_e:true, alt_text_t:true }">' + jQuery("<div>" + desc + "</div>").text() + '</div>';
-        newcontent += '</div></a>';
+    	var ahref = getEntryAhref(${divId}_last_messages[i][1], ${divId}_last_messages[i][2], dateAsString(${divId}_last_messages[i][0]), ${divId}_last_messages[i][3], '${divId}', i);
+        newcontent += ahref;
         if (i < max_elem - 1){
             newcontent += '<hr style="margin:0;">';
         }
-
     }
 
     // Replace old content with new content
