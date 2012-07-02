@@ -35,7 +35,7 @@
 		        </thead>
 
 				<#list allTopics as topic>
-					<#if !topic.document.facets?seq_contains("LabsHidden") || (Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == topic.document.author)>
+					<#if !topic.document.facets?seq_contains("LabsHidden") || canWrite || Context.principal.name == topic.document.author >
 					  	<tr <#if topic.document.facets?seq_contains("LabsHidden")> class="hidden"</#if>>
 					  		<td>
 					  			<a href="${This.path}/${topic.document.name}">
@@ -58,8 +58,8 @@
 									${topic.comments?last.comment.text}
 								</#if>
 					  		</td>
-					  		<#if Session.hasPermission(Document.ref, 'Everything') || Session.hasPermission(This.document.ref, 'ReadWrite') || Context.principal.name == topic.document.author>
-						  		<td>
+					  		<#if canWrite || Context.principal.name == topic.document.author >
+						  		<td class="editblock">
 								  	<div class="btn-group">
 								      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
 										<ul class="dropdown-menu" style="left: auto;right: 0px;">
