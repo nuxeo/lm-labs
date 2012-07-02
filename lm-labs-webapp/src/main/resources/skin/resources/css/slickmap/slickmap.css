@@ -136,7 +136,7 @@ h2 {
 }
 .slickmap a:link:before,
 .slickmap a:visited:before {
-	content: " "attr(href)" ";
+	/* content: " "attr(href)" ";*/
 	display: block;
 	text-transform: uppercase;
 	font-size: 10px;
