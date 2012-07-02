@@ -5,6 +5,7 @@
 		});
 	});
 </script>
+<#assign hiddenSubDocTypes = ["LabsNews", "LMForumTopic"] />
 <#import "libs/LabsUtils.ftl" as LabsUtils />
 
 <#macro children_block parentDoc title="" spanClass="span5" uniqueId="1">
@@ -23,7 +24,7 @@
 	    	<#list children as child>
                 <#assign isChildVisible = LabsUtils.isDocumentVisible(child) />
 	    		<#if !child.facets?seq_contains("HiddenInNavigation")
-                    && ((isContributor && child.type != 'LabsNews') || (!isContributor && isChildVisible)) >
+                    && ((isContributor && !hiddenSubDocTypes?seq_contains(child.type)) || (!isContributor && isChildVisible)) >
 	    			<#assign childrenNbr = childrenNbr + 1 />
 	    		</#if>
 	    	</#list>
@@ -58,7 +59,7 @@
               <#list children as child>
                 <#assign isChildVisible = LabsUtils.isDocumentVisible(child) />
                 <#if !child.facets?seq_contains("HiddenInNavigation")
-                    && ((isContributor && child.type != 'LabsNews') || (!isContributor && isChildVisible)) >
+                    && ((isContributor && !hiddenSubDocTypes?seq_contains(child.type)) || (!isContributor && isChildVisible)) >
                 	<li><a href="${Context.modulePath}/${Common.siteDoc(child).getResourcePath()?html}"
                 		<#if (child.dublincore.description?length > 0) >
                 	  		rel="popover" data-content="${child.dublincore.description?html}"
