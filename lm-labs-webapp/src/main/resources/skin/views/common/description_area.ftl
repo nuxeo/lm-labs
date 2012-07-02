@@ -42,7 +42,7 @@ function reloadPageForTocIfNeeded(response, ckeObj, ckeip_html) {
 	        e_url: '${This.path}/updateDescriptionCKEIP',
 	        ckeditor_config: ckeditorconfig,
 	        view_style: "cke_hidden",
-	        emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.ckeditor.double_click_to_edit_content')}</div>"<#if (!This.page.isDisplayable(This.DC_DESCRIPTION))>,
+	        emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.ckeditor.description.double_click_to_edit_content')}</div>"<#if (!This.page.isDisplayable(This.DC_DESCRIPTION))>,
 	        display_ckeipTex: false</#if>
 	        }, reloadPageData);
 	    </script>
