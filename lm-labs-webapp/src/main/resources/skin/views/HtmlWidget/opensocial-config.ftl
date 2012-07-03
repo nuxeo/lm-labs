@@ -27,5 +27,5 @@ ${Context.getMessage('label.HtmlPage.widget.config.preference.not-supported', pr
 </div>
     </#list>
 <#else>
-    Pas de préférence configurable
+    ${Context.getMessage('label.HtmlPage.widget.config.preference.none')}
 </#if>
