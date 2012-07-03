@@ -62,7 +62,7 @@ jQuery(document).ready(function(){
       url: link + "/addFile",
       paramname: 'userfile',
       maxfiles: 50,
-      maxfilesize: 5,    // max file size in MBs
+      maxfilesize: 20,    // max file size in MBs
       error: function(err, file) {
         switch(err) {
             case 'BrowserNotSupported':

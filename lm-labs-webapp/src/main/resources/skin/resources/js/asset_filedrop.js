@@ -26,7 +26,7 @@ function initFileDrop(dropzoneId, upload_url, callback_function, input_id, tooMa
 	        jQuery('#'+dropzoneId).removeClass('dropzonehighlighted');
 	    },
 	    maxfiles: 25,
-	    maxfilesize: 5,
+	    maxfilesize: 20, // max file size in MBs. Maybe still not enough ...
 	    dragOver: function() {
 	        jQuery('#'+dropzoneId).addClass('dropzonehighlighted');
 	    },
