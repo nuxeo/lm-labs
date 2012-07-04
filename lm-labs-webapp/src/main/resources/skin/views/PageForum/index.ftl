@@ -59,8 +59,8 @@
 								</#if>
 					  		</td>
 					  		<#if canWrite || Context.principal.name == topic.document.author >
-						  		<td class="editblock">
-								  	<div class="btn-group">
+						  		<td>
+								  	<div class="btn-group editblock">
 								      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i><span class="caret"></span></a>
 										<ul class="dropdown-menu" style="left: auto;right: 0px;">
 											<li>
