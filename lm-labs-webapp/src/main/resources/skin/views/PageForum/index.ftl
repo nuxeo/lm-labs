@@ -45,7 +45,7 @@
 					  		</td>
 					  		<td>
 					  			<center>
-						  			<span><img class="imgTopic thumbnail" width="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${topic.document.author}/picture"></span><br/>
+						  			<span><img class="imgTopic thumbnail" width="50px;" src="http://intralm2.fr.corp.leroymerlin.com/contact/id/${topic.document.author}/picture"></span>
 									<span>${This.getFullName(topic.document.author)}</span>
 								</center>
 					  		</td>
