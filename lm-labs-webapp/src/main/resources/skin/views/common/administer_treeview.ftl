@@ -217,7 +217,7 @@
 					},
 					"markasdeleted" : {
 						"separator_before"	: false,
-						"icon"				: "/nuxeo/icons/bin_closed.png",
+						"icon"				: "/nuxeo/icons/action_delete.gif",
 						"separator_after"	: false,
 						"label"				: "${Context.getMessage('command.admin.markAsDeleted')}",
 						"action"			: function (nodes) {
@@ -233,6 +233,7 @@
 							labsPublish("undelete", this._get_node(nodes[0]).data("url"), this._get_node(nodes[0]));
 						}
 					},
+					<#--
 					"remove" : {
 						"separator_before"	: false,
 						"icon"				: "/nuxeo/icons/action_delete.gif",
@@ -246,6 +247,7 @@
 							}
 						}
 					},
+					-->
 					"ccp" : {
 						"separator_before"	: true,
 						"icon"				: false,
