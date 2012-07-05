@@ -16,7 +16,9 @@
 </div>
 <script type="text/javascript">
 function refreshPageTitle(description) {
+<#-- GSA-Crawler might follow the link
     //jQuery('.page-title').load('${This.path}/@views/page_title');
+-->
     jQuery('#pageHeaderTitle').attr('data-content', description);
 }
 </script>
