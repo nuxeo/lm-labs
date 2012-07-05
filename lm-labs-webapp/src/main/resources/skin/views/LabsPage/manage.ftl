@@ -23,7 +23,7 @@
       <label class="control-label" for="doctype">${Context.getMessage('label.doctype')}</label>
         <#list page.getAllowedSubtypes() as type>
           <div class="controls">
-            <label><input class="radio" type="radio" name="doctype" value="${type}" checked> ${Context.getMessage('label.doctype.'+type)}</label>
+            <label><input class="radio" type="radio" name="doctype" value="${type}" <#if type == "HtmlPage">checked</#if> > ${Context.getMessage('label.doctype.'+type)}</label>
           </div>
         </#list>
     </div>
