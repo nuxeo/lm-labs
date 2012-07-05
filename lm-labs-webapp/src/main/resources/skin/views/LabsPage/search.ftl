@@ -90,7 +90,7 @@
                   <#if !hasFile>
                   <a href="#" class="btn disabled">
                   <#elseif doc.type != "LabsNews">
-                  <a href="${Context.modulePath}/${sd.getResourcePath()}/@blob/preview" target="_blank" class="btn">
+                  <a rel="nofollow" href="${Context.modulePath}/${sd.getResourcePath()}/@blob/preview" target="_blank" class="btn">
                   </#if>
                   <#if !hasFile || doc.type != "LabsNews">
                   <i class="icon-eye-open"></i>${Context.getMessage('command.LabsSite.latestuploads.display')}</a>
@@ -98,7 +98,7 @@
                   <#if !hasFile>
                   <a disabled="disabled" href="#" class="btn disabled">
                   <#elseif doc.type != "LabsNews">
-                  <a href="${Context.modulePath}/${sd.getResourcePath()}/@blob" target="_blank" class="btn">
+                  <a rel="nofollow" href="${Context.modulePath}/${sd.getResourcePath()}/@blob" target="_blank" class="btn">
                   </#if>
                   <#if !hasFile || doc.type != "LabsNews">
                   <i class="icon-download"></i>${Context.getMessage('command.LabsSite.latestuploads.download')}</a>

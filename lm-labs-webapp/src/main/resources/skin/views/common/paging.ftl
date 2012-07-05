@@ -6,21 +6,21 @@
 	<#if pageProvider.numberOfPages &gt; 1 >
 	<ul>
 		<#if (pageProvider.currentPageIndex - 1 > 1) >
-			<li class="first"><a href="${url}0" ><i class="icon-fast-backward"></i></a></li>
+			<li class="first"><a rel="nofollow" href="${url}0" ><i class="icon-fast-backward"></i></a></li>
 		</#if>	
 		<li class="prev<#if pp.previousPageAvailable == false > disabled</#if>">
-			<a href="<#if pp.previousPageAvailable == true >${url}${pageProvider.currentPageIndex-1}<#else>#</#if>" ><i class="icon-backward"></i></a>
+			<a rel="nofollow" href="<#if pp.previousPageAvailable == true >${url}${pageProvider.currentPageIndex-1}<#else>#</#if>" ><i class="icon-backward"></i></a>
 		</li>
 		<#list (pageProvider.currentPageIndex - 1)..(pageProvider.currentPageIndex + 3) as p>
 			<#if ((p > 0) && (p < pageProvider.numberOfPages + 1))>
-				<li <#if (pageProvider.currentPageIndex+1) = p>class="active"</#if> ><a href="${url}${p-1}" >${p}</a></li>
+				<li <#if (pageProvider.currentPageIndex+1) = p>class="active"</#if> ><a rel="nofollow" href="${url}${p-1}" >${p}</a></li>
 			</#if>
 		</#list>
 		<li class="next<#if pageProvider.nextPageAvailable == false > disabled</#if>">
-			<a href="<#if pageProvider.nextPageAvailable == true >${url}${pageProvider.currentPageIndex+1}<#else>#</#if>" ><i class="icon-forward"></i></a>
+			<a rel="nofollow" href="<#if pageProvider.nextPageAvailable == true >${url}${pageProvider.currentPageIndex+1}<#else>#</#if>" ><i class="icon-forward"></i></a>
 		</li>
 		<#if (pageProvider.currentPageIndex < pageProvider.numberOfPages - 3) >
-			<li class="last"><a href="${url}${pageProvider.numberOfPages-1}" ><i class="icon-fast-forward"></i></a></li>
+			<li class="last"><a rel="nofollow" href="${url}${pageProvider.numberOfPages-1}" ><i class="icon-fast-forward"></i></a></li>
 		</#if>	
 	</ul>
 	</#if>

@@ -11,6 +11,6 @@
     </li>
   </#list>
   </ul>
-  <a class="btn btn-mini" href="${detailedPageUrl}"><i class="icon-list"></i>Détails</a>
+  <a class="btn btn-mini" rel="nofollow" href="${detailedPageUrl}"><i class="icon-list"></i>Détails</a>
 </div>
 </#macro>
