@@ -111,7 +111,7 @@ public class PageUtilsService extends DefaultAdapter {
                 toMoved = session.getDocument(new IdRef(sourceId));
             } else {
                 toMoved = session.move(source.getRef(), destination.getRef(),
-                        source.getTitle());
+                        null);
             }
             DocumentModel after = null;
             if (!StringUtils.isEmpty(afterId)) {
