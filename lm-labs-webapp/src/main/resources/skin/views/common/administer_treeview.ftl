@@ -448,6 +448,21 @@
 								"image" : "/nuxeo/icons/site.jpeg"
 							}
 						},
+						"PageForum" : {
+							"icon" : {
+								"image" : "/nuxeo/icons/forum.gif"
+							}
+						},
+						"LMForumTopic" : {
+							"icon" : {
+								"image" : "/nuxeo/icons/forum_thread.gif"
+							}
+						},
+						"LabsNews" : {
+							"icon" : {
+								"image" : "/nuxeo/icons/news.png"
+							}
+						},
 						<#if adminTreeviewType=="Assets">
 							"File" : {
 								"icon" : {
