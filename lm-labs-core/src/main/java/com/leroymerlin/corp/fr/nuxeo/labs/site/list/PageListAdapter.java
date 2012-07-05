@@ -178,7 +178,7 @@ public class PageListAdapter extends AbstractPage implements PageList {
                     line.addEntry(newEntry);
                     entry = newEntry;
                 }
-                if (entry.getText().isEmpty()) {
+                if (entry.getText().isEmpty() || !idHeaders.get(idHeader).xpath().isEmpty()) {
                     entry.setText(idHeaders.get(idHeader).xpath());
                     lineModified = true;
                 }
