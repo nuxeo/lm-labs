@@ -65,12 +65,20 @@ public class HtmlContent {
         this.type = Type.HTML.type();
 		this.html = html;
 	}
+	
+	public HtmlContent(HtmlRow parent, int colNumber, List<String> widgetRefs) {
+		this.parent = parent;
+		this.colNumber = colNumber;
+		this.type = Type.WIDGET_CONTAINER.type();
+		this.widgetRefs = widgetRefs;
+	}
 
-    public HtmlContent(HtmlRow parent, int colNumber, List<String> widgetRefs) {
+    public HtmlContent(HtmlRow parent, int colNumber, List<String> widgetRefs, String html) {
         this.parent = parent;
         this.colNumber = colNumber;
         this.type = Type.WIDGET_CONTAINER.type();
         this.widgetRefs = widgetRefs;
+		this.html = html;
     }
 
 	public Integer getColNumber() {

@@ -459,6 +459,25 @@ section.labsnews {
 	padding-left: 2px;
 }
 
+.row-ckeditor{
+	position: relative;
+	.col-link {
+		display:none;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+	}
+	.col-link:hover {
+		cursor: default;
+	}
+}
+
+.row-ckeditor:hover {
+	.col-link {
+		display: block;
+	}
+}
+
 input,
 button,
 select,

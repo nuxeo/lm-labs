@@ -24,6 +24,7 @@ import org.nuxeo.opensocial.container.shared.webcontent.enume.DataType;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager.WidgetType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
@@ -48,7 +49,9 @@ public class WebHtmlWidget extends DocumentObject {
         widget = (LabsWidget) args[3];
 //        RenderingEngine engine = ctx.getEngine().getRendering();
 //        engine.setSharedVariable("content", content);
-        setUserPreferences();
+        if (WidgetType.OPENSOCIAL.equals(widget.getType())) {
+        	setUserPreferences();
+        }
     }
 
     @Override
@@ -78,36 +81,38 @@ public class WebHtmlWidget extends DocumentObject {
 
     @Override
     public Response doPut() {
-        OpenSocialAdapter adapter = (OpenSocialAdapter) Tools.getAdapter(WebContentAdapter.class, doc, getCoreSession());
-        FormData form = ctx.getForm();
-        boolean modified = false;
-        try {
-            OpenSocialData data = adapter.getData();
-            List<UserPref> userPrefs = data.getUserPrefs();
-            for (UserPref pref : userPrefs) {
-                if (pref.getDataType() == DataType.STRING || pref.getDataType() == DataType.ENUM || pref.getDataType() == DataType.NUMBER || pref.getDataType() == DataType.HIDDEN) {
-                    String value = form.getString(pref.getName());
-                    if (value != null && !value.equals(pref.getActualValue())) {
-                        pref.setActualValue(value);
-                        modified = true;
-                    }
-                } else {
-                    if (LabsGadgetManager.GADGET_ID_PREFERENCE_NAME.equals(pref.getName()) && StringUtils.isBlank(pref.getActualValue())) {
-                        pref.setActualValue(doc.getId());
-                        modified = true;
-                    }
-                    // TODO other types
-                }
-            }
-            if (modified) {
-                data.setUserPrefs(userPrefs);
-                adapter.feedFrom(data);
-                saveWidgetDocument();
-            }
-        } catch (ClientException e) {
-            LOG.error("Unable to get gadget's data", e);
-            return Response.notModified().build();
-        }
+    	boolean modified = false;
+    	if (WidgetType.OPENSOCIAL.equals(widget.getType())) {
+    		OpenSocialAdapter adapter = (OpenSocialAdapter) Tools.getAdapter(WebContentAdapter.class, doc, getCoreSession());
+    		FormData form = ctx.getForm();
+    		try {
+    			OpenSocialData data = adapter.getData();
+    			List<UserPref> userPrefs = data.getUserPrefs();
+    			for (UserPref pref : userPrefs) {
+    				if (pref.getDataType() == DataType.STRING || pref.getDataType() == DataType.ENUM || pref.getDataType() == DataType.NUMBER || pref.getDataType() == DataType.HIDDEN) {
+    					String value = form.getString(pref.getName());
+    					if (value != null && !value.equals(pref.getActualValue())) {
+    						pref.setActualValue(value);
+    						modified = true;
+    					}
+    				} else {
+    					if (LabsGadgetManager.GADGET_ID_PREFERENCE_NAME.equals(pref.getName()) && StringUtils.isBlank(pref.getActualValue())) {
+    						pref.setActualValue(doc.getId());
+    						modified = true;
+    					}
+    					// TODO other types
+    				}
+    			}
+    			if (modified) {
+    				data.setUserPrefs(userPrefs);
+    				adapter.feedFrom(data);
+    				saveWidgetDocument();
+    			}
+    		} catch (ClientException e) {
+    			LOG.error("Unable to get gadget's data", e);
+    			return Response.notModified().build();
+    		}
+    	}
         if (modified) {
             return Response.ok().build();
         } else {

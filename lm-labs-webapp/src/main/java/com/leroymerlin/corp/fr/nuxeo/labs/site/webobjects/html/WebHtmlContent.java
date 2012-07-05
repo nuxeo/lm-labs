@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html;
 
 import java.util.List;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
@@ -22,6 +23,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager.WidgetTy
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsOpensocialGadget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent.Type;
 
 @WebObject(type = "HtmlContent")
 public class WebHtmlContent extends DocumentObject {
@@ -40,6 +42,16 @@ public class WebHtmlContent extends DocumentObject {
         RenderingEngine engine = ctx.getEngine()
                 .getRendering();
         engine.setSharedVariable("content", content);
+    }
+
+    @GET
+    @Override
+    public Object doGet() {
+    	if (Type.HTML.type().equals(content.getType())) {
+    		return getView("index");
+    	} else {
+    		return getView("content-error");
+    	}
     }
 
     @POST

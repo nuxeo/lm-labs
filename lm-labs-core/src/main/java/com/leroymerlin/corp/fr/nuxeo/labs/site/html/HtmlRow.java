@@ -88,7 +88,8 @@ public class HtmlRow extends LabsSessionImpl {
                     if (HtmlContent.Type.WIDGET_CONTAINER.type().equals(type)) {
                         @SuppressWarnings("unchecked")
                         List<String> refs = (List<String>) map.get("widgetRefs");
-                        this.contents.add(new HtmlContent(this, (int)colNumber, refs));
+                        String html = (String) map.get("html");
+                        this.contents.add(new HtmlContent(this, (int)colNumber, refs, html));
                     } else {
                         String html = (String) map.get("html");
                         this.contents.add(new HtmlContent(this, (int)colNumber, html));

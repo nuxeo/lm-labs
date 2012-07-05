@@ -29,6 +29,10 @@ jQuery(document).ready(function() {
         autoOpen : false,
         closeOnOverlayClick : false
     });
+    jQuery("#divColumnUrl").dialog2({
+        autoOpen : false,
+        closeOnOverlayClick : true
+    });
     jQuery('#config-row-gadgets-form').ajaxForm({
         data: {ajax: 'true'},
         beforeSubmit:  function () {
@@ -127,8 +131,23 @@ jQuery(document).ready(function() {
             }
         });
     });
+    jQuery('.row-ckeditor .col-link a').click(function() {
+    	var inputObj = jQuery('#' + jQuery(this).attr('rel')).find('input');
+    	jQuery(inputObj).val(jQuery(this).siblings('input[type=hidden]').val());
+    	jQuery(inputObj).select();
+    });
 })
 </#if>
+
+function isValidExternalContent(content) {
+	return (content.indexOf('dontbeevil') !== -1);
+}
+
+function isValidExternalContentUrl(url) {
+	var modulePath = '${Context.modulePath}';
+	var elems = modulePath.split('/');
+	return (url.length > 0 && url.indexOf(elems[elems.length-1]) !== -1);
+}
 
 function updateSectionLabels(bt, title, alt) {
     jQuery(bt).attr("title", title);

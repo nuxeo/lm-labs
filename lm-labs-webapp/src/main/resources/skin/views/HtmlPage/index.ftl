@@ -1,7 +1,7 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
-  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor"] />
+  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor", "externalContent"] />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
@@ -21,6 +21,7 @@
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
         <script type="text/javascript" src="${skinPath}/js/move.js"></script>
         <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
+      	<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button.min.js"></script>
         <script type="text/javascript" >
 var openSocialOptions = {
 <#--
@@ -206,11 +207,7 @@ jQuery(document).ready(function() {
 		                        </div>
 		                        </div>
 		                        <div class="columns editblock bloc" style="text-align: center;" >
-		                            <input type="hidden" class="section-index-value" value="${section_index}" />
-		                            <input type="hidden" class="row-index-value" value="${row_index}" />
-		                            <input type="hidden" class="content-index-value" value="${content_index}" />
-		                            <input type="hidden" class="widget-type" value="${widgets[0].type.type()}" />
-		                            <input type="hidden" class="widget-name" value="${widgets[0].name}" />
+		                        	<@editblockHiddenInputs widget=widgets[0] sectionIdx=section_index rowIdx=row_index contentIdx=content_index />
 		                            <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + widgets[0].type.type() + '.' + widgets[0].name) />
 		                            <#if widgetTitle?starts_with('!') >
 		                                <#assign widgetTitle = widgets[0].name />
@@ -218,19 +215,43 @@ jQuery(document).ready(function() {
 		                            <a class="btn open-dialog" rel="divConfigGadget" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')} ${widgetTitle}</a>
 		                        </div>
 		                      <#elseif isWidgetCol >
-		                        <div class="columns" >
-		                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
-		                            <#include "widgets/${widgets[0].name}.ftl" />
+		                        <#if widgets[0].name == "externalContent" >
+			                    <div class="columns viewblock">
+			                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
+			                            <#include "widgets/${widgets[0].name}.ftl" />
+			                        <#else>
+			                        	Widget pas disponible.
+			                        </#if>
+			                    </div>
+					            <div class="columns editblock bloc" style="text-align: center;">
+		                        	<@editblockHiddenInputs widget=widgets[0] sectionIdx=section_index rowIdx=row_index contentIdx=content_index />
+		                            <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + widgets[0].type.type() + '.' + widgets[0].name) />
+		                            <#if widgetTitle?starts_with('!') >
+		                                <#assign widgetTitle = widgets[0].name />
+		                            </#if>
+		                            <a class="btn open-dialog" rel="divConfigGadget" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')} ${widgetTitle}</a>
+					            </div>
 		                        <#else>
-		                        	Widget pas disponible.
-		                        </#if>
+		                        <div class="columns" >
+			                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
+			                            <#include "widgets/${widgets[0].name}.ftl" />
+			                        <#else>
+			                        	Widget pas disponible.
+			                        </#if>
 		                        </div>
+		                        </#if>
 		                      <#else>
 			                    <div class="columns viewblock">
 			                       <@displayContentHtml content=content />
 			                    </div>
 					            <div class="row-ckeditor columns editblock toc-noreplace">
-					                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer" >${content.html}</div>
+					                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer;" >${content.html}</div>
+					            	<div class="col-link" >
+					            		<input type="hidden" value="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}" ></input>
+				            			<a class="open-dialog" rel="divColumnUrl" style="text-decoration:none;" >
+						            		<i class="icon-link" ></i>
+				            			</a>
+					            	</div>
 					                <script type="text/javascript">
 					                  $('#s_${section_index}_r_${row_index}_c_${content_index}').ckeip({
 					                    e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
@@ -420,6 +441,13 @@ jQuery(document).ready(function() {
                 </div>
               </form>
             </div>
+            <div id="divColumnUrl" class="dialog2" >
+            	<h1>${Context.getMessage('label.HtmlPage.column.url.title')}</h1>
+            	<input type="text" value="" class="input-xxlarge input-focused" />
+                <div class="actions">
+                    <a class="btn btn-primary close-dialog" href="#" title="${Context.getMessage('label.close')}" >${Context.getMessage('label.close')}</a>
+                </div>
+            </div>
 		</#if>
 
 	</div>
@@ -456,6 +484,14 @@ jQuery(document).ready(function() {
     </#if>
 </#macro>
 
+<#macro editblockHiddenInputs widget sectionIdx rowIdx contentIdx >
+<input type="hidden" class="section-index-value" value="${sectionIdx}" />
+<input type="hidden" class="row-index-value" value="${rowIdx}" />
+<input type="hidden" class="content-index-value" value="${contentIdx}" />
+<input type="hidden" class="widget-type" value="${widget.type.type()}" />
+<input type="hidden" class="widget-name" value="${widget.name}" />
+</#macro>
+
   </@block>
 
   <@block name="bottom-page-js" >
@@ -468,6 +504,7 @@ jQuery(document).ready(function() {
     <script type="text/javascript" src="${skinPath}/js/register_rpc_navigateto.js"></script>
     <script type="text/javascript" src="${contextPath}/js/?scripts=opensocial/cookies.js|opensocial/util.js|opensocial/gadgets.js|opensocial/cookiebaseduserprefstore.js|opensocial/jquery.opensocial.gadget.js"></script>
     </#if>
+    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-collapse.min.js"></script>
     <#include "views/HtmlPage/bottom-js.ftl" />
   </@block>
 </@extends>
