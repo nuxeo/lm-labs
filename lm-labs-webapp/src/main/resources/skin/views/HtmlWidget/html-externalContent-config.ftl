@@ -73,7 +73,7 @@ jQuery(document).ready(function() {
 						jQuery(btnObj).addClass('btn-success');
 					}
 				},
-				error: function(msg) {
+				error: function(xhr, textStatus, errorThrown) {
 					jQuery(btnObj).button('failed');
 					jQuery(btnObj).removeClass('btn-primary');
 					jQuery(btnObj).addClass('btn-warning');

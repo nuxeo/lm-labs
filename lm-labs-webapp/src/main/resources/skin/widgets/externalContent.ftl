@@ -17,21 +17,32 @@
 		</div>
 	</div>
 <script type="text/javascript">
-jQuery(document).ready(function() {
+jQuery('#${id}').ready(function() {
 	var externalContentUrl = '${url}';
+	var contentObj = jQuery('#${id} > div.external-content');
 	if (isValidExternalContentUrl(externalContentUrl)) {
-		jQuery('#${id} > div.external-content').load('${url}', function(response, status, xhr) {
-			if (status == "error") {
-				jQuery(this).siblings('div.external-content-error').find('div.extra-error').html('Erreur: ' + xhr.status + " " + xhr.statusText)
-				jQuery(this).hide();
-				jQuery(this).siblings('div.external-content-error').show();
-			} else {
-				if (!isValidExternalContent(response)) {
-					jQuery(this).hide();
-					jQuery(this).siblings('div.external-content-error').show();
+		jQuery.ajax({
+			type: 'GET',
+			url: externalContentUrl,
+			dataType: 'html',
+			success: function(data, textStatus, xhr) {
+				if (xhr.status != 200 || !isValidExternalContent(data)) {
+					jQuery(contentObj).hide();
+					jQuery(contentObj).siblings('div.external-content-error').show();
+				} else {
+					jQuery(contentObj).html(data);
 				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				jQuery(contentObj).siblings('div.external-content-error').find('div.extra-error').html('Erreur: ' + xhr.status + " " + xhr.statusText)
+				jQuery(contentObj).hide();
+				jQuery(contentObj).siblings('div.external-content-error').show();
 			}
 		});
+	} else {
+		jQuery(contentObj).siblings('div.external-content-error').find('div.extra-error').html('Erreur: référence de colonne invalide')
+		jQuery(contentObj).hide();
+		jQuery(contentObj).siblings('div.external-content-error').show();
 	}
 });
 </script>
