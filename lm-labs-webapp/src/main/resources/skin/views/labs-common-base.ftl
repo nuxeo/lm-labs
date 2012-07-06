@@ -55,7 +55,7 @@
 
 		<div id="FKtopContent" style="position: relative;">
 			<@block name="FKtopContent" />
-		</div><#-- /FKtopContent -->
+		</div><!-- /FKtopContent -->
 
 		<div style="display:none;" class="nav_up" id="nav_up"></div>
 		<div style="display:none;" class="nav_down" id="nav_down"></div>

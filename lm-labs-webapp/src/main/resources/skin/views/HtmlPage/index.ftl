@@ -1,4 +1,5 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
+  <#assign maxSpanSize = 12 />
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
   <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor", "externalContent"] />
@@ -78,7 +79,7 @@ jQuery(document).ready(function() {
   <@cache name="${This.cacheName}" key="${This.cacheKey}" >
   -->
   <@tableOfContents>
-   	<div class="container-fluid">
+   	<div class="container-fluid" style="padding-left: 10px; padding-right: 10px;" >
 
    	<#include "views/common/page_header.ftl">
 
@@ -191,7 +192,7 @@ jQuery(document).ready(function() {
 	        		<div id="div_row_${row_index}">
 			          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
 			              <#list row.contents as content>
-				              <div class="span${content.colNumber}">
+				              <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if>">
 		                      <#assign isWidgetCol = false />
 		                      <#assign isOsGadgetCol = false />
 		                      <#assign widgets = [] />
@@ -298,7 +299,7 @@ jQuery(document).ready(function() {
 	                      <#assign widgets = [] />
 	                      <@determineWidgetType content=content />
 	                      <#if isOsGadgetCol >
-	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span${content.colNumber} columns" >
+	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 	                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
 	                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
 	                        	data-gadget-specurl="http://localhost:8080/nuxeo/site/gadgets/${widgets[0].name}/${widgets[0].name}.xml"
@@ -308,7 +309,7 @@ jQuery(document).ready(function() {
 	                        </div>
 	                        </div>
 	                      <#elseif isWidgetCol >
-	                        <div class="span${content.colNumber} columns" >
+	                        <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 	                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
 	                            <#include "widgets/${widgets[0].name}.ftl" />
 	                        <#else>
@@ -316,7 +317,7 @@ jQuery(document).ready(function() {
 	                        </#if>
 	                        </div>
 	                      <#else>
-	    	                <div class="span${content.colNumber} columns">
+	    	                <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns">
 	                           <@displayContentHtml content=content />
 	    	                </div>
 	                      </#if>
