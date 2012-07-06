@@ -506,6 +506,7 @@ jQuery(document).ready(function() {
     </#if>
     <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-collapse.min.js"></script>
     <#include "views/HtmlPage/bottom-js.ftl" />
+    <script type="text/javascript" src="${skinPath}/js/widgetExternalContent.js"></script>
   </@block>
 </@extends>
 
