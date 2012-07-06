@@ -1,5 +1,21 @@
+<#assign isContributor = This.page?? && This.page.isContributor(Context.principal.name) />
+<#assign showBreadcrumbs = false />
+<#assign showBreadcrumbs_draftContrib = false />
+<#assign parentDoc = Session.getParentDocument(Document.ref) />
+<#if !mySite?? >
+	<#assign mySite = Common.siteDoc(Document).site />
+</#if>
+<#if parentDoc.id != mySite.tree.id >
+	<#assign showBreadcrumbs = true />
+</#if>
+<#if isContributor >
+	<#if This.page.draft >
+		<#assign showBreadcrumbs_draftContrib = true />
+	</#if>
+</#if>
+<#if showBreadcrumbs || showBreadcrumbs_draftContrib >
 <#include "macros/status_label.ftl" />
-	<div class="container-fluid">
+	<div class="container-fluid<#if showBreadcrumbs_draftContrib > editblock</#if>">
 		<div class="row-fluid">
 			<ul class="breadcrumb">
 				<#macro breadcrumb resource>
@@ -13,7 +29,12 @@
 				    	<#else>
 				    		<a href="${resource.path}">${resource.document.title}</a>
 				    	</#if>
-		    			<@pageStatusLabel resource />
+				    	<#if showBreadcrumbs_draftContrib >
+				    		<#assign editblockClass = "" />
+				    	<#else>
+				    		<#assign editblockClass = "editblock" />
+				    	</#if>
+		    			<@pageStatusLabel resource editblockClass=editblockClass />
 					</li>
 				  </#if>
 				
@@ -25,3 +46,4 @@
 			</ul>
 	    </div><#--  /row-fluid -->
 	</div><#-- /container-fluid -->
+</#if>
