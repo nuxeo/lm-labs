@@ -44,13 +44,13 @@ jQuery(document).ready(function() {
 		}
 	})
 	.bind("select_node.jstree", function (e, data) {
-		//alert(jQuery(data.rslt.obj).attr("rel"));
-		if (jQuery(data.rslt.obj).attr("rel") != "Folder"){
+		var type = jQuery(data.rslt.obj).attr("rel");
+		if (type != "Folder" && type != "Tree"){
 			selectedUrl = '${Context.modulePath}/' + data.rslt.obj.data("url");
 			sendToCallFunction(selectedUrl);
 		}
 		else{
-			alert('${Context.getMessage('label.sharedelement.noselect.folder')?js_string}');
+			alert('${Context.getMessage('label.sharedelement.noselect.element')?js_string}');
 		}
 	})
 	.jstree({

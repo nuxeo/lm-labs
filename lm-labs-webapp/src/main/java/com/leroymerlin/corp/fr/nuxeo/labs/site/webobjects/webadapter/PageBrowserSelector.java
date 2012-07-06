@@ -9,7 +9,7 @@ import org.nuxeo.ecm.webengine.model.WebAdapter;
 @WebAdapter(name = "pagesBrowser", type = "PagesBrowser", targetType = "LabsSite")
 public class PageBrowserSelector extends CkEditorParametersAdapter {
 	
-	private String viewMode = "sharedElement";
+	private String viewMode = "admin";
 
 	public PageBrowserSelector() {
 		super();

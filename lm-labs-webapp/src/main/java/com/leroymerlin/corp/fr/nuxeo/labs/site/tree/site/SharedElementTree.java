@@ -5,7 +5,9 @@ import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.ui.tree.ContentProvider;
 import org.nuxeo.ecm.webengine.ui.tree.JSonTreeSerializer;
 
-public class SharedElementTree extends AdminSiteTree {
+import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractDocumentTree;
+
+public class SharedElementTree extends AbstractDocumentTree {
 
     public SharedElementTree(WebContext ctx, DocumentModel rootDoc) {
         super(ctx, rootDoc);
