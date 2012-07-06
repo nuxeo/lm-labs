@@ -42,6 +42,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTreeAsset;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SharedElementTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
@@ -210,6 +211,9 @@ public class Site extends NotifiablePageResource {
                 tree = "0".equals(id) ? site.getAssetsDoc()
                         : getCoreSession().getDocument(new IdRef(id));
                 siteTree = new AdminSiteTreeAsset(ctx, tree);
+            } else if ("sharedElement".equals(view)) {
+                tree = site.getTree();
+                siteTree = new SharedElementTree(ctx, tree);
             } else {
                 tree = site.getTree();
                 siteTree = new SiteDocumentTree(ctx, tree);

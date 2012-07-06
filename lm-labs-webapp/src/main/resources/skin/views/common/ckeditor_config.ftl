@@ -1,6 +1,6 @@
 var ckeditorconfig = {
 	extraPlugins : 'tableresize,insertlabspagetoc',
-	filebrowserBrowseUrl : '@pagesBrowser',
+	filebrowserBrowseUrl : '@sharedElementBrowser',
 	filebrowserImageBrowseUrl : '@assets',
 	filebrowserFlashBrowseUrl : '@assets',
 	filebrowserUploadUrl : '@assets',
@@ -27,7 +27,7 @@ var ckeditorconfig = {
 
 var ckeditorconfigUser = {
     extraPlugins : 'tableresize',
-    filebrowserBrowseUrl : '@assets',
+    filebrowserBrowseUrl : '@sharedElementBrowser',
     filebrowserImageBrowseUrl : '@assets',
     filebrowserFlashBrowseUrl : '@assets',
     filebrowserUploadUrl : '@assets',
