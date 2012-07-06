@@ -3,6 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.common.utils.URIUtils;
@@ -16,31 +17,20 @@ import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractJSONSerializer;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
-public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
+public class SharedElementTreeSerializer extends AdminSiteTreeSerializer {
 
-    protected WebContext ctx;
+    private static final Log LOG = LogFactory.getLog(SharedElementTreeSerializer.class);
 
-    private static final Log LOG = LogFactory.getLog(AdminSiteTreeSerializer.class);
-
-    public AdminSiteTreeSerializer() {
+    public SharedElementTreeSerializer() {
         super();
     }
 
-    public AdminSiteTreeSerializer(WebContext ctx) {
+    public SharedElementTreeSerializer(WebContext ctx) {
         this();
         this.ctx = ctx;
-    }
-
-    @Override
-    protected String getBasePath(WebContext ctx) throws ClientException {
-        StringBuilder sb = new StringBuilder(ctx.getModulePath());
-        LabsSite site = (LabsSite) ctx.getProperty("site");
-        sb.append("/" + URIUtils.quoteURIPathComponent(site.getURL(), true));
-        return sb.toString();
     }
 
     @Override
@@ -70,7 +60,17 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
             if (siteAdapter != null) {
                 LabsSite site = siteAdapter.getSite();
                 if (Tools.getAdapter(Page.class, doc, session) == null) {
-                    metadata.put("url", URIUtils.quoteURIPathComponent(siteAdapter.getSite().getURL(), true));
+                    if (LabsSiteConstants.Docs.PAGECLASSEURFOLDER.type().equals(doc.getType())){
+                        metadata.put("url", "#");
+                    }
+                    else if(!StringUtils.isEmpty(siteAdapter.getResourcePath())){
+                        metadata.put("url", siteAdapter.getResourcePath() + "/@blob");
+                        //TODO
+                        //metadata.put("srcImg", "/nuxeo" + doc.getProperty("common", "icon"));
+                    }
+                    else{
+                        metadata.put("url", URIUtils.quoteURIPathComponent(siteAdapter.getSite().getURL(), true));
+                    }
                 } else {
                     metadata.put("url", siteAdapter.getResourcePath());
                 }
