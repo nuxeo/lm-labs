@@ -44,9 +44,14 @@ jQuery(document).ready(function() {
 		}
 	})
 	.bind("select_node.jstree", function (e, data) {
-		var id = jQuery(data.rslt.obj).attr("id");
-		selectedUrl = '${Context.modulePath}/' + data.rslt.obj.data("url");
-		sendToCallFunction(selectedUrl);
+		var type = jQuery(data.rslt.obj).attr("rel");
+		if (type != "Folder" && type != "Tree"){
+			selectedUrl = '${Context.modulePath}/' + data.rslt.obj.data("url");
+			sendToCallFunction(selectedUrl);
+		}
+		else{
+			alert('${Context.getMessage('label.sharedelement.noselect.element')?js_string}');
+		}
 	})
 	.jstree({
 		"core": {
@@ -69,7 +74,13 @@ jQuery(document).ready(function() {
 				},
 				"File" : {
 					"icon" : {
-						"image" : "/nuxeo/icons/page_text.gif",
+						"image" : "/nuxeo/icons/file.gif",
+						"position" : "0px 0px"
+					}
+				},
+				"Folder" : {
+					"icon" : {
+						"image" : "/nuxeo/icons/folder.gif",
 						"position" : "0px 0px"
 					}
 				},

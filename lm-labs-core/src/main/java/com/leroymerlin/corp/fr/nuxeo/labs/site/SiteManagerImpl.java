@@ -168,7 +168,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
     public void updateSite(CoreSession session, LabsSite site) throws ClientException, SiteManagerException {
         //Check if url change gets a collision on another site
         if(hasChangedUrl(session,site) && siteExists(session, site.getURL())) {
-            throw new SiteManagerException("label.sitemanager.error.url_already_exists");
+            throw new SiteManagerException("label.labssites.edit.error.url.exist");
         }
 
         session.saveDocument(site.getDocument());
