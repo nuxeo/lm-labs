@@ -6,12 +6,12 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebAdapter;
 
-@WebAdapter(name = "pagesBrowser", type = "PagesBrowser", targetType = "LabsSite")
-public class PageBrowserSelector extends CkEditorParametersAdapter {
+@WebAdapter(name = "sharedElementBrowser", type = "SharedElementBrowser", targetType = "LabsSite")
+public class SharedElementBrowserSelector extends CkEditorParametersAdapter {
 	
 	private String viewMode = "sharedElement";
 
-	public PageBrowserSelector() {
+	public SharedElementBrowserSelector() {
 		super();
 	}
 
