@@ -77,6 +77,7 @@ public class LabsGadgetService extends DefaultComponent implements LabsGadgetMan
             return docGadget.getRef().toString();
         } else if (WidgetType.HTML.equals(widget.getType())) {
             content.setType("widgetcontainer");
+            content.setHtml("");
             content.addWidgetRef(widget.getName());
             return widget.getName();
         }

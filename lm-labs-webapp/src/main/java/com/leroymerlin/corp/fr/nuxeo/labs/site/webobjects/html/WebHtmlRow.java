@@ -135,6 +135,7 @@ public class WebHtmlRow extends MovableElementResource {
                         content.removeGadgets(getCoreSession());
                     }
                     content.setType(HtmlContent.Type.HTML.type());
+                    content.setHtml("");
                     saveDocument();
                 } catch (ClientException e) {
                     LOG.error(e, e);
