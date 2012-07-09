@@ -35,7 +35,7 @@ var NXFOLDERTITLE = "";
 var NXCLASSEURTITLE = "";
 if(NX_FOLDER_jsonstr !== "") {
 	var docidjson = gadgets.json.parse(NX_FOLDER_jsonstr);
-	NXPATH = docidjson.NXPATH;
+	NXPATH = unescape(docidjson.NXPATH);
 	NXFOLDERTITLE = unescape(docidjson.NXTITLE);
 	NXCLASSEURTITLE = unescape(docidjson.NXCLASSEURTITLE);
 }

@@ -7,7 +7,7 @@
 			<label>1. Choisissez une Page Classeur :</label>
 			<select id="pageClasseurChooser" >
 		<#list docs as doc >
-				<option value="${Root.getLink(doc)?html}" <#if docs?first.id == doc.id >selected='selected'</#if> >${doc.dublincore.title}</option>
+				<option value="${Root.getLink(doc)?html}" <#if docs?first.id == doc.id >selected='selected'</#if> >${doc.dublincore.title?html}</option>
 		</#list>
 			</select>
 		</div>
@@ -18,7 +18,7 @@
 </div>
 <script type="text/javascript">
 function updateFoldersDiv() {
-	var url = jQuery('#pageClasseurChooser option:selected').val();
+	var url = escape(jQuery('#pageClasseurChooser option:selected').val());
 	jQuery('.selectFolderDiv').load(url + '/@views/selectPageClasseurFolder<#if modeSelectParam != null>?modeSelect=true</#if>');
 }
 jQuery(document).ready(function() {
