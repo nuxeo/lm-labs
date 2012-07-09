@@ -81,6 +81,11 @@ public class SharedElementContentProvider extends DocumentContentProvider {
         if(LabsSiteConstants.Docs.PAGECLASSEURFOLDER.type().equals(docParent.getType())){
             accept = true;
         }
+        try {
+            accept = accept && !LabsSiteConstants.State.DELETE.getState().equals(doc.getCurrentLifeCycleState());
+        } catch (ClientException e) {
+            accept = false;
+        }
         return accept;
     }
 

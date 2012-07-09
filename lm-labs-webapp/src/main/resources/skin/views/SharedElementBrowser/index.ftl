@@ -119,24 +119,24 @@ jQuery(document).ready(function() {
 <@block name="topbar" />
 
 	<div id="FKtopContent">
-<@block name="FKtopContent">
-		<div class="container">
-			<div class="row"><div class="span11 well">
-			<strong>Veuillez sélectionner une page en cliquant sur son titre.</strong>
-			</div></div>
-			<div class="row"><div class="span12">
-				<@jsTreeControls treeId="jstree" />
-			</div></div>
-			<div class="row">
-				<div class="span12" style="margin-top:10px;margin-bottom:10px">
-					<div id="jstree"></div>
-				</div>
-			</div><#-- row -->
-			<div class="row"><div class="span12">
-				<@jsTreeControls treeId="jstree" />
-			</div></div>
-		</div><#-- container -->
-</@block>
+		<@block name="FKtopContent">
+			<div class="container">
+				<div class="row"><div class="span11 well">
+				<strong>Veuillez sélectionner un élément en cliquant sur son titre.</strong>
+				</div></div>
+				<div class="row"><div class="span12">
+					<@jsTreeControls treeId="jstree" />
+				</div></div>
+				<div class="row">
+					<div class="span12" style="margin-top:10px;margin-bottom:10px">
+						<div id="jstree"></div>
+					</div>
+				</div><#-- row -->
+				<div class="row"><div class="span12">
+					<@jsTreeControls treeId="jstree" />
+				</div></div>
+			</div><#-- container -->
+		</@block>
 	</div>
 
 <@block name="FKfooter" />
