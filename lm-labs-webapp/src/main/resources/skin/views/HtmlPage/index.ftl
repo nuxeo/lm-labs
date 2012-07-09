@@ -202,7 +202,7 @@ jQuery(document).ready(function() {
 		                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
 		                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
 									data-gadget-title="${widgets[0].name}"
-		                        	data-gadget-specurl="http://localhost:8080/nuxeo/site/gadgets/${widgets[0].name}/${widgets[0].name}.xml"
+		                        	data-gadget-specurl="${widgets[0].specUrl}"
 									data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
 		                        >
 		                        </div>
@@ -302,7 +302,7 @@ jQuery(document).ready(function() {
 	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 	                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
 	                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
-	                        	data-gadget-specurl="http://localhost:8080/nuxeo/site/gadgets/${widgets[0].name}/${widgets[0].name}.xml"
+	                        	data-gadget-specurl="${widgets[0].specUrl}"
 								data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
 								data-gadget-title="${widgets[0].name}"
 	                        >
