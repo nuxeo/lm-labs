@@ -42,7 +42,7 @@
 	<#assign patt = "/s/" />
 	<#assign pos = content.html?last_index_of(patt) />
 	<#assign externalContentPageUrl = content.html?substring(0, pos) />
-<a href="${externalContentPageUrl}" >Aller sur la page contenant la colonne référencée</a>
+<a href="${externalContentPageUrl}" target="_blank" >Aller sur la page contenant la colonne référencée</a>
 </#if>
 <script type="text/javascript">
 jQuery(document).ready(function() {
