@@ -5,13 +5,14 @@
 <#if !mySite?? >
 	<#assign mySite = Common.siteDoc(Document).site />
 </#if>
-<#if parentDoc.id != mySite.tree.id >
-	<#assign showBreadcrumbs = true />
-</#if>
 <#if isContributor >
 	<#if This.page.draft >
 		<#assign showBreadcrumbs_draftContrib = true />
 	</#if>
+</#if>
+<#if parentDoc.id != mySite.tree.id >
+	<#assign showBreadcrumbs = true />
+	<#assign showBreadcrumbs_draftContrib = false />
 </#if>
 <#if showBreadcrumbs || showBreadcrumbs_draftContrib >
 <#include "macros/status_label.ftl" />
@@ -34,7 +35,7 @@
 				    	<#else>
 				    		<#assign editblockClass = "editblock" />
 				    	</#if>
-		    			<@pageStatusLabel resource editblockClass=editblockClass />
+		    			<@pageStatusLabel resource editblockClass />
 					</li>
 				  </#if>
 				
