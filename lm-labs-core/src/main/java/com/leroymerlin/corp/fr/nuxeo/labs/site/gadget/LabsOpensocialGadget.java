@@ -32,6 +32,8 @@ public class LabsOpensocialGadget implements LabsWidget {
 
     private static final String GADGET_DIR_SCHEMA = "externalgadget";
 
+    private static final String EXTERNAL_PROP_ID = "id";
+
     private static final String EXTERNAL_PROP_NAME = "label";
 
     private static final String EXTERNAL_PROP_CATEGORY = "category";
@@ -128,6 +130,8 @@ public class LabsOpensocialGadget implements LabsWidget {
                 for (DocumentModel model : session.getEntries()) {
                     String name = (String) model.getProperty(GADGET_DIR_SCHEMA,
                             EXTERNAL_PROP_NAME);
+                    String id = (String) model.getProperty(GADGET_DIR_SCHEMA,
+                            EXTERNAL_PROP_ID);
                     String category = (String) model.getProperty(
                             GADGET_DIR_SCHEMA, EXTERNAL_PROP_CATEGORY);
                     long enabled = (Long) model.getProperty(GADGET_DIR_SCHEMA,
@@ -142,7 +146,7 @@ public class LabsOpensocialGadget implements LabsWidget {
                             category, disabled, new URL(gadgetDefinition),
                             iconURL, name);
                     if (!desc.getDisabled()) {
-                        result.put(desc.getName(), desc);
+                        result.put(id, desc);
                     }
                 }
             } finally {

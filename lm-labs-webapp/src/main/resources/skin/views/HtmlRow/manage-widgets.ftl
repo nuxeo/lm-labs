@@ -67,11 +67,15 @@
             <#assign gadgetType = "opensocial" gadgetName = "flash" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             </optgroup>
-            <optgroup label="Divers">
+            <optgroup label="Intranet">
+            <#assign gadgetType = "opensocial" gadgetName = "idenov" />
+            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "Contact" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "hi42" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+            </optgroup>
+            <optgroup label="Divers">
             <#assign gadgetType = "opensocial" gadgetName = "calculette" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             </optgroup>
@@ -91,11 +95,11 @@
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             -->
             <#-- Gadgets opensocial externes
-            <#assign gadgetType = "opensocial" gadgetName = "idenov" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             -->
             <#-- Gadgets opensocial externes qui ne marchent pas
-            <#assign gadgetType = "opensocial" gadgetName = "Le Monde" />
+            <#assign gadgetType = "opensocial" gadgetName = "googleweather" />
+            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+            <#assign gadgetType = "opensocial" gadgetName = "lemonde" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "Weather" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
