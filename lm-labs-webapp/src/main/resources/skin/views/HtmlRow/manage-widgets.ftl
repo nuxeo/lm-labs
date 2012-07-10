@@ -68,7 +68,7 @@
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             </optgroup>
             <optgroup label="Intranet">
-            <#assign gadgetType = "opensocial" gadgetName = "idenov" />
+            <#assign gadgetType = "opensocial" gadgetName = "IDENOV" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "Contact" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
@@ -99,7 +99,7 @@
             <#-- Gadgets opensocial externes qui ne marchent pas
             <#assign gadgetType = "opensocial" gadgetName = "googleweather" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "opensocial" gadgetName = "lemonde" />
+            <#assign gadgetType = "opensocial" gadgetName = "Le Monde" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "Weather" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />

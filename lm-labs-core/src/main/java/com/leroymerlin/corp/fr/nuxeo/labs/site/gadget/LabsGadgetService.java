@@ -3,16 +3,25 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.gadget;
 import static org.nuxeo.ecm.spaces.api.Constants.OPEN_SOCIAL_GADGET_DOCUMENT_TYPE;
 
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.directory.Session;
+import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.opensocial.container.server.webcontent.api.WebContentAdapter;
 import org.nuxeo.opensocial.container.server.webcontent.gadgets.opensocial.OpenSocialAdapter;
 import org.nuxeo.opensocial.container.shared.webcontent.OpenSocialData;
 import org.nuxeo.opensocial.container.shared.webcontent.UserPref;
+import org.nuxeo.opensocial.gadgets.service.ExternalGadgetDescriptor;
+import org.nuxeo.opensocial.gadgets.service.GadgetServiceImpl;
 import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 import org.nuxeo.opensocial.gadgets.service.api.GadgetService;
 import org.nuxeo.opensocial.helper.OpenSocialGadgetHelper;
@@ -22,6 +31,22 @@ import org.nuxeo.runtime.model.DefaultComponent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 
 public class LabsGadgetService extends DefaultComponent implements LabsGadgetManager {
+
+    private static final Log LOG = LogFactory.getLog(LabsGadgetService.class);
+
+    private static final String GADGET_DIR_SCHEMA = "externalgadget";
+
+    private static final String EXTERNAL_PROP_ID = "id";
+
+    private static final String EXTERNAL_PROP_NAME = "label";
+
+    private static final String EXTERNAL_PROP_CATEGORY = "category";
+
+    private static final String EXTERNAL_PROP_ENABLED = "enabled";
+
+    private static final String EXTERNAL_PROP_URL = "url";
+
+    private static final String EXTERNAL_PROP_ICON_URL = "iconUrl";
 
 //    private static final Log LOG = LogFactory.getLog(LabsGadgetService.class);
 
@@ -112,14 +137,49 @@ public class LabsGadgetService extends DefaultComponent implements LabsGadgetMan
         return removed;
     }
 
-    private static String getGadgetDefUrlFor(String name) {
+    public Map<String, GadgetDeclaration> getExternalGadgets() {
+        HashMap<String, GadgetDeclaration> result = new HashMap<String, GadgetDeclaration>();
+        try {
+            Session session = null;
+            try {
+                DirectoryService dirService = Framework.getService(DirectoryService.class);
+                session = dirService.open(GadgetServiceImpl.GADGET_DIRECTORY);
+                for (DocumentModel model : session.getEntries()) {
+                    String label = (String) model.getProperty(GADGET_DIR_SCHEMA, EXTERNAL_PROP_NAME);
+                    String id = (String) model.getProperty(GADGET_DIR_SCHEMA, EXTERNAL_PROP_ID);
+                    String category = (String) model.getProperty( GADGET_DIR_SCHEMA, EXTERNAL_PROP_CATEGORY);
+                    long enabled = (Long) model.getProperty(GADGET_DIR_SCHEMA, EXTERNAL_PROP_ENABLED);
+                    boolean disabled = enabled != 0 ? false : true;
+
+                    String gadgetDefinition = (String) model.getProperty( GADGET_DIR_SCHEMA, EXTERNAL_PROP_URL);
+                    String iconURL = (String) model.getProperty( GADGET_DIR_SCHEMA, EXTERNAL_PROP_ICON_URL);
+                    ExternalGadgetDescriptor desc = new ExternalGadgetDescriptor(
+                            category, disabled, new URL(gadgetDefinition),
+                            iconURL, label);
+                    if (!desc.getDisabled()) {
+                    	result.put(label, desc);
+                    }
+                }
+            } finally {
+                if (session != null) {
+                    session.close();
+                }
+            }
+
+        } catch (Exception e) {
+            LOG.error("Unable to read external gadget directory!", e);
+
+        }
+        return result;
+    }
+
+    private String getGadgetDefUrlFor(String name) {
         GadgetService gs;
         try {
             gs = Framework.getService(GadgetService.class);
         } catch (Exception e) {
             return null;
         }
-
         for (GadgetDeclaration gadgetDef : gs.getGadgetList()) {
             if (gadgetDef.getName().equals(name)) {
                 try {

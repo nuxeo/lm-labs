@@ -1,7 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.gadget;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,14 +10,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.directory.Session;
-import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.ecm.spaces.api.Constants;
 import org.nuxeo.opensocial.container.server.webcontent.api.WebContentAdapter;
 import org.nuxeo.opensocial.container.server.webcontent.gadgets.opensocial.OpenSocialAdapter;
 import org.nuxeo.opensocial.container.shared.webcontent.UserPref;
-import org.nuxeo.opensocial.gadgets.service.ExternalGadgetDescriptor;
-import org.nuxeo.opensocial.gadgets.service.GadgetServiceImpl;
 import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 import org.nuxeo.runtime.api.Framework;
 
@@ -29,20 +24,6 @@ public class LabsOpensocialGadget implements LabsWidget {
     private static final Log LOG = LogFactory.getLog(LabsOpensocialGadget.class);
 
     public static final String DOC_TYPE = Constants.OPEN_SOCIAL_GADGET_DOCUMENT_TYPE;
-
-    private static final String GADGET_DIR_SCHEMA = "externalgadget";
-
-    private static final String EXTERNAL_PROP_ID = "id";
-
-    private static final String EXTERNAL_PROP_NAME = "label";
-
-    private static final String EXTERNAL_PROP_CATEGORY = "category";
-
-    private static final String EXTERNAL_PROP_ENABLED = "enabled";
-
-    private static final String EXTERNAL_PROP_URL = "url";
-
-    private static final String EXTERNAL_PROP_ICON_URL = "iconUrl";
 
     private DocumentModel doc;
 
@@ -121,45 +102,14 @@ public class LabsOpensocialGadget implements LabsWidget {
     }
 
     private Map<String, GadgetDeclaration> getExternalGadgets() {
-        HashMap<String, GadgetDeclaration> result = new HashMap<String, GadgetDeclaration>();
+    	HashMap<String, GadgetDeclaration> result = new HashMap<String, GadgetDeclaration>();
         try {
-            Session session = null;
-            try {
-                DirectoryService dirService = Framework.getService(DirectoryService.class);
-                session = dirService.open(GadgetServiceImpl.GADGET_DIRECTORY);
-                for (DocumentModel model : session.getEntries()) {
-                    String name = (String) model.getProperty(GADGET_DIR_SCHEMA,
-                            EXTERNAL_PROP_NAME);
-                    String id = (String) model.getProperty(GADGET_DIR_SCHEMA,
-                            EXTERNAL_PROP_ID);
-                    String category = (String) model.getProperty(
-                            GADGET_DIR_SCHEMA, EXTERNAL_PROP_CATEGORY);
-                    long enabled = (Long) model.getProperty(GADGET_DIR_SCHEMA,
-                            EXTERNAL_PROP_ENABLED);
-                    boolean disabled = enabled != 0 ? false : true;
-
-                    String gadgetDefinition = (String) model.getProperty(
-                            GADGET_DIR_SCHEMA, EXTERNAL_PROP_URL);
-                    String iconURL = (String) model.getProperty(
-                            GADGET_DIR_SCHEMA, EXTERNAL_PROP_ICON_URL);
-                    ExternalGadgetDescriptor desc = new ExternalGadgetDescriptor(
-                            category, disabled, new URL(gadgetDefinition),
-                            iconURL, name);
-                    if (!desc.getDisabled()) {
-                        result.put(id, desc);
-                    }
-                }
-            } finally {
-                if (session != null) {
-                    session.close();
-                }
-            }
-
-        } catch (Exception e) {
-            LOG.error("Unable to read external gadget directory!", e);
-
-        }
+			LabsGadgetManager service = Framework.getService(LabsGadgetManager.class);
+			return service.getExternalGadgets();
+		} catch (Exception e) {
+			LOG.error("Unable to read external gadget directory!", e);
+		}
         return result;
-    	
     }
+    
 }

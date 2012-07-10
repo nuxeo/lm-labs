@@ -6,6 +6,7 @@ import java.util.Map;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 
@@ -57,4 +58,7 @@ public interface LabsGadgetManager {
      * @throws ClientException
      */
     boolean removeAllGadgetsOfHtmlContent(HtmlContent content, CoreSession session) throws ClientException;
+    
+    public Map<String, GadgetDeclaration> getExternalGadgets();
+    
 }
