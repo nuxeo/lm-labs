@@ -41,14 +41,19 @@
 	<#assign externalContentPageUrl = content.html />
 	<#assign patt = "/s/" />
 	<#assign pos = content.html?last_index_of(patt) />
-	<#assign externalContentPageUrl = content.html?substring(0, pos) />
-<a href="${externalContentPageUrl}" target="_blank" >Aller sur la page contenant la colonne référencée</a>
+	<#if 0 <= pos >
+		<#assign externalContentPageUrl = content.html?substring(0, pos) />
+	<#else>
+		<#assign externalContentPageUrl = "" />
+	</#if>
+<a id="configExternalContentEditLnk" href="${externalContentPageUrl}" target="_blank"<#if 0 == externalContentPageUrl?length> style="display:none;"</#if> >Aller sur la page contenant la colonne référencée</a>
 </#if>
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	jQuery('#configExternalContentTestBtn').button();
 	jQuery('#configExternalContentTestBtn').click(function() {
 		btnObj = this;
+		editLnkObj = jQuery('#configExternalContentEditLnk');
 		jQuery(btnObj).removeClass('btn-warning');
 		jQuery(btnObj).removeClass('btn-success');
 		jQuery(btnObj).addClass('btn-primary');
@@ -58,6 +63,7 @@ jQuery(document).ready(function() {
 			jQuery(btnObj).button('failed');
 			jQuery(btnObj).removeClass('btn-primary');
 			jQuery(btnObj).addClass('btn-warning');
+			jQuery(editLnkObj).hide();
 		} else {
 			jQuery.ajax({
 				type: 'GET',
@@ -67,16 +73,20 @@ jQuery(document).ready(function() {
 						jQuery(btnObj).button('failed');
 						jQuery(btnObj).removeClass('btn-primary');
 						jQuery(btnObj).addClass('btn-warning');
+						jQuery(editLnkObj).hide();
 					} else {
 						jQuery(btnObj).button('complete');
 						jQuery(btnObj).removeClass('btn-primary');
 						jQuery(btnObj).addClass('btn-success');
+						jQuery(editLnkObj).attr('href', url.split('/s/')[0]);
+						jQuery(editLnkObj).show();
 					}
 				},
 				error: function(xhr, textStatus, errorThrown) {
 					jQuery(btnObj).button('failed');
 					jQuery(btnObj).removeClass('btn-primary');
 					jQuery(btnObj).addClass('btn-warning');
+					jQuery(editLnkObj).hide();
 				}
 			});
 		}
