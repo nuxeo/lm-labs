@@ -47,8 +47,8 @@
 	          	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
 	          		<@generateSummaryNews news=news path=path withHref=true/>
 				  	<#-- Collapse -->
-					<div class="span1" style="margin-left: 15px;float: right;">
-						<img src="${skinPath}/images/newsOpen.png" style="cursor: pointer;margin-top:5px;" onclick="javascript:openNews('${news.documentModel.ref}', '${skinPath}');"/>
+					<div style="font-size: 35px; margin-left: 15px;float: right;margin-top:5px;">
+				    	<i class="icon-plus-sign openCloseBt" style="cursor: pointer;" onclick="javascript:openNews('${news.documentModel.ref}', '${skinPath}');" ></i>
 					</div>
 	          	</div>
 
@@ -68,9 +68,9 @@
 			                <@generateHeaderNews news=news path=path withHref=true withBy=true />
 			            </div>
 			        </#if>
-	                <div class="span1" style="margin-left: 15px;float: right;">
-	                	<img src="${skinPath}/images/newsClose.png" style="cursor: pointer;margin-top:5px;" onclick="javascript:closeNews('${news.documentModel.ref}', '${skinPath}');"/>
-	                </div>
+					<div style="font-size: 35px; margin-left: 15px;float: right;margin-top:5px;">
+				    	<i class="icon-minus-sign openCloseBt" style="cursor: pointer;" onclick="javascript:closeNews('${news.documentModel.ref}', '${skinPath}');" ></i>
+					</div>
 	              </div>
 
 				  <div id="contentContentNews${news.documentModel.ref}">
