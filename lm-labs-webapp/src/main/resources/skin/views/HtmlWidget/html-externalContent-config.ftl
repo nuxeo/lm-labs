@@ -2,7 +2,7 @@
 	<h4 class="alert-heading">
 		Information importante
 	</h4>
-	<p>Le rendu du contenu externe peut être affecté si ce contenu se trouve dans une colonne ayant une largeur différente.</p>
+	<p>Le rendu du fragment externe peut être affecté si ce fragment se trouve dans une colonne ayant une largeur différente.</p>
 	<p>De même, seule une colonne contenant du texte peut être rendue dans ce widget.</p>
 	<button class="btn btn-mini" onClick="return false;" data-toggle="collapse" data-target="#divConfigGadget div.extra-info" ><i class="icon-question-sign" ></i>Plus d'infos</button>
 	<div id="configExternalContentExtraInfo" class="extra-info collapse" >
