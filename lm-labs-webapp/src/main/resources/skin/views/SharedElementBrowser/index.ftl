@@ -5,7 +5,7 @@
 <#assign mySite=Common.siteDoc(Document).site />
 <#assign parentIds = LabsUtils.getHomePageDocIdSelectorsStr(Document) />
 
-<@block name="title">${mySite.title} - Sélection Page</@block>
+<@block name="title">${mySite.title} - Sélection Eléments</@block>
 
 <@block name="css">
     <@superBlock/>
@@ -45,7 +45,7 @@ jQuery(document).ready(function() {
 	})
 	.bind("select_node.jstree", function (e, data) {
 		var type = jQuery(data.rslt.obj).attr("rel");
-		if (type != "Folder" && type != "Tree"){
+		if (type != "Folder" && type != "Tree" && type != "Site" && type != "Assets"){
 			selectedUrl = '${Context.modulePath}/' + data.rslt.obj.data("url");
 			sendToCallFunction(selectedUrl);
 		}
@@ -69,7 +69,22 @@ jQuery(document).ready(function() {
 					"remove" : false,
 					"rename" : false,
 					"icon" : {
-						"image" : "/nuxeo/icons/site.jpeg"
+						"image" : "/nuxeo/icons/folder_template.gif"
+					}
+				},
+				"PageForum" : {
+					"icon" : {
+						"image" : "/nuxeo/icons/forum.gif"
+					}
+				},
+				"LMForumTopic" : {
+					"icon" : {
+						"image" : "/nuxeo/icons/forum_thread.gif"
+					}
+				},
+				"LabsNews" : {
+					"icon" : {
+						"image" : "/nuxeo/icons/news.png"
 					}
 				},
 				"File" : {
@@ -89,6 +104,11 @@ jQuery(document).ready(function() {
 						"image" : "/nuxeo/icons/picture.gif"
 					}
 				},
+				"Assets" : {
+					"icon" : {
+						"image" : "/nuxeo/icons/picturebook.gif"
+					}
+				},
 				"default" : {
 					"icon" : {
 						"image" : "/nuxeo/icons/page_text.gif",
@@ -99,7 +119,7 @@ jQuery(document).ready(function() {
 		},
 		"json_data" : {
 			"ajax" : {
-				"url" : "${Root.getLink(mySite.document)}/@treeview"
+				"url" : "${Root.getLink(mySite.document)}/@sharedElementTreeview"
 				, "data" : function (n) {
 					return {
 						"view" : "${This.activeAdapter.viewMode}",
@@ -120,6 +140,7 @@ jQuery(document).ready(function() {
 
 	<div id="FKtopContent">
 		<@block name="FKtopContent">
+		 
 			<div class="container">
 				<div class="row"><div class="span11 well">
 				<strong>Veuillez sélectionner un élément en cliquant sur son titre.</strong>

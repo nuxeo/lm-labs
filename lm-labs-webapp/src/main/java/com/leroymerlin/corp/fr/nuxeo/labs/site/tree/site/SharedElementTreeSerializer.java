@@ -36,11 +36,7 @@ public class SharedElementTreeSerializer extends AdminSiteTreeSerializer {
     @Override
     protected JSONObject item2JSON(TreeItem item, JSONArray children) {
         JSONObject json = new JSONObject();
-
-        String text = (ctx != null && LabsSiteConstants.Docs.ASSETS.type().equals(
-                getText(item))) ? ctx.getMessage("label.admin.asset.rootNode")
-                : getText(item);
-        json.element("data", text);
+        json.element("data", getText(item));
 
         JSONObject attrs = new JSONObject();
         DocumentModel doc = (DocumentModel) item.getObject();
@@ -93,9 +89,16 @@ public class SharedElementTreeSerializer extends AdminSiteTreeSerializer {
     }
 
     private String getText(TreeItem item) {
-        return item.getLabel()
-        // + " (" + ((DocumentModel) item.getObject()).getId() + ")"
-        ;
+        String text = item.getLabel();
+        if (ctx != null){
+            if(LabsSiteConstants.Docs.ASSETS.type().equals(text)){
+                return ctx.getMessage("label.sharedelement.asset.rootNode");
+            }
+            if(LabsSiteConstants.Docs.TREE.type().equals(text)){
+                return ctx.getMessage("label.sharedelement.tree.rootNode");
+            }
+        }
+        return text;
     }
 
 }

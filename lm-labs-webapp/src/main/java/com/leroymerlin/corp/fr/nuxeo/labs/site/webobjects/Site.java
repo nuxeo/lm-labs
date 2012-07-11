@@ -211,9 +211,6 @@ public class Site extends NotifiablePageResource {
                 tree = "0".equals(id) ? site.getAssetsDoc()
                         : getCoreSession().getDocument(new IdRef(id));
                 siteTree = new AdminSiteTreeAsset(ctx, tree);
-            } else if ("sharedElement".equals(view)) {
-                tree = site.getTree();
-                siteTree = new SharedElementTree(ctx, tree);
             } else {
                 tree = site.getTree();
                 siteTree = new SiteDocumentTree(ctx, tree);
@@ -228,6 +225,35 @@ public class Site extends NotifiablePageResource {
                             document.getPathAsString(),
                             site.getDocument().getPathAsString() + "/"
                                     + Docs.TREE.docName());
+                    result = siteTree.enter(ctx, entryPoint);
+                } else {
+                    siteTree.enter(ctx, "");
+                    result = siteTree.getTreeAsJSONArray(ctx);
+                }
+            } else {
+                result = siteTree.enter(ctx, root);
+            }
+            return Response.ok().entity(result).type(MediaType.APPLICATION_JSON).build();
+        }
+        return null;
+    }
+
+    @GET
+    @Path("@sharedElementTreeview")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response doSharedElementTreeview(@QueryParam("root") String root,
+            @QueryParam("view") String view, @QueryParam("id") String id)
+            throws ClientException {
+
+        LabsSite site = (LabsSite) ctx.getProperty("site");
+        if (site != null) {
+            AbstractDocumentTree siteTree = new SharedElementTree(ctx, site.getDocument());
+
+            String result = "";
+            if (root == null || "source".equals(root)) {
+                if (id != null && !"0".equals(id)) {
+                    DocumentModel document = getCoreSession().getDocument(new IdRef(id));
+                    String entryPoint = document.getPathAsString().replaceFirst(site.getDocument().getPathAsString(), "");
                     result = siteTree.enter(ctx, entryPoint);
                 } else {
                     siteTree.enter(ctx, "");
