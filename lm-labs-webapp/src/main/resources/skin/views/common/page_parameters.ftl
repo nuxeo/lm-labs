@@ -57,7 +57,7 @@
             <div class="control-group">
 				<div class="controls">
 					<label class="checkbox" for="display-page:collapseType">
-					<input class="checkbox" type="checkbox" name="display-page:collapseType"
+					<input class="checkbox" type="checkbox" id="display-page:collapseType" name="display-page:collapseType"
 						<#if This.page.isDisplayable("page:collapseType") >checked="true"</#if> />
 					${Context.getMessage('label.parameters.' + Document.type + '.displayableCollapseType')}</label>
 				</div>
