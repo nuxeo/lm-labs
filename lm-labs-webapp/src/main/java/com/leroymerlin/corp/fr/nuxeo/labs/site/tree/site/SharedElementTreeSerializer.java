@@ -60,7 +60,7 @@ public class SharedElementTreeSerializer extends AdminSiteTreeSerializer {
                         metadata.put("url", "#");
                     }
                     else if(!StringUtils.isEmpty(siteAdapter.getResourcePath())){
-                        metadata.put("url", siteAdapter.getResourcePath() + "/@blob");
+                        metadata.put("url", getResourcePath(siteAdapter) + "/@blob");
                         //TODO
                         //metadata.put("srcImg", "/nuxeo" + doc.getProperty("common", "icon"));
                     }
@@ -86,6 +86,12 @@ public class SharedElementTreeSerializer extends AdminSiteTreeSerializer {
             json.element("state", item.isExpanded() ? "open" : "closed");
         }
         return json;
+    }
+
+    private String getResourcePath(SiteDocument siteAdapter) throws ClientException {
+        String resourcePath = siteAdapter.getResourcePath();
+        resourcePath = resourcePath.replaceFirst(siteAdapter.getSite().getURL() + "/assets", siteAdapter.getSite().getURL() + "/@assets");
+        return resourcePath;
     }
 
     private String getText(TreeItem item) {
