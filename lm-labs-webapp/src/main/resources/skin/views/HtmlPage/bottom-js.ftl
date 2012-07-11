@@ -136,6 +136,13 @@ jQuery(document).ready(function() {
     	jQuery(inputObj).val(jQuery(this).siblings('input[type=hidden]').val());
     	jQuery(inputObj).select();
     });
+<#-- A GARDER
+    <#if This.page.isDisplayable("page:collapseType") && This.page.collapseType == "collapse_all" >
+    jQuery.each(jQuery('img.openCloseBt'), function(i, imgObj) {
+	    slideSection(imgObj, 'open');
+    });
+    </#if>
+-->
 })
 </#if>
 

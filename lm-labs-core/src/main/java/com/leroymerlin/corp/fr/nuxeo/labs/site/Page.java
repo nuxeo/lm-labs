@@ -24,4 +24,12 @@ public interface Page extends LabsBase {
 	public int getElementsPerPage() throws ClientException;
 	
 	void setElementsPerPage(int elementsPerPage) throws ClientException;
+	
+	/* A GARDER
+	void setCollapseType(final String collapseType) throws ClientException;
+
+	public void setCollapseType(final CollapseTypes collapseType) throws ClientException;
+	
+	public String getCollapseType() throws ClientException;
+	*/
 }

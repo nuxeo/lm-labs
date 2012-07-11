@@ -32,6 +32,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.page.CollapseTypes;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.FontFamily;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.FontSize;
@@ -307,6 +308,13 @@ public final class CommonHelper {
     	return doc.getPathAsString();
     }
 
+    public List<String> getCollapseTypesList() {
+    	List<String> list = new ArrayList<String>();
+    	for (CollapseTypes type : CollapseTypes.values()) {
+    		list.add(type.type());
+    	}
+    	return list;
+    }
     /**
      * @throws Exception
      */

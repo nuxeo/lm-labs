@@ -92,8 +92,8 @@ jQuery(document).ready(function() {
   <#assign sections = page.sections />
   <#list sections as section>
   	<div id="div_section_${section_index}">
-	  	<#if (section.getRows()?size > 0)>
-	  		<img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideSection(this, '');" style="float: left; margin-top: 6px;margin-left: -14px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
+	  	<#if This.page.isDisplayable("page:collapseType") && (section.rows?size > 0) >
+  		<img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideSection(this, '');" style="float: left; margin-top: 6px;margin-left: -14px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
 	  	</#if>
 	    <section id="section_${section_index}">
 	        <div class="page-header"<#if section.title?length == 0 && section.description?length == 0 > style="padding-bottom: 0px;"</#if> >

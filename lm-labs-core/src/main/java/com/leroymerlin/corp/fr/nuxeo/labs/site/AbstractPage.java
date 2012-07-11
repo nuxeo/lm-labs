@@ -22,6 +22,8 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     private static final String PG_COMMENTABLE = Schemas.PAGE.prefix() + ":commentable";
     private static final String PG_DISPLAYABLE_PARAMETERS = Schemas.PAGE.prefix() + ":displayableParameters";
     private static final String PG_ELEMENTS_PER_PAGE = Schemas.PAGE.prefix() + ":elementsPerPage";
+    
+    public static final String PG_COLLAPSETYPE = Schemas.PAGE.prefix() + ":collapseType";
 
     public AbstractPage(DocumentModel document) {
 		super(document);
@@ -109,5 +111,22 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     public void setElementsPerPage(int elementsPerPage) throws ClientException {
         doc.setPropertyValue(PG_ELEMENTS_PER_PAGE, elementsPerPage);
     }
+
+    /* A GARDER
+	@Override
+	public void setCollapseType(final String collapseType) throws ClientException {
+		doc.setPropertyValue(PG_COLLAPSETYPE, collapseType);
+	}
+
+	@Override
+	public void setCollapseType(CollapseTypes collapseType) throws ClientException {
+		doc.setPropertyValue(PG_COLLAPSETYPE, collapseType.type());
+	}
+
+	@Override
+	public String getCollapseType() throws ClientException {
+		return (String) doc.getPropertyValue(PG_COLLAPSETYPE);
+	}
+	*/
 
 }

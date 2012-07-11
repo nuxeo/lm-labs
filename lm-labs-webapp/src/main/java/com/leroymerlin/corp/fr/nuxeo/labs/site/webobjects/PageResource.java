@@ -70,6 +70,8 @@ public class PageResource extends DocumentObject {
     public static final String DC_DESCRIPTION = "dc:description";
 
     public static final String DC_TITLE = "dc:title";
+    
+    private static final String PROPNAME_COLLAPSETYPE = "page:collapseType";
 
     private static final String ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT = " isn't authorized to display this element!";
 
@@ -376,10 +378,15 @@ public class PageResource extends DocumentObject {
             if(!DC_DESCRIPTION.equals(ctx.getForm().getString(DC_DESCRIPTION))){
                 fieldsNotDisplayable.add(DC_DESCRIPTION);
             }
-            boolean isCheckedCommentable = "on".equalsIgnoreCase(ctx.getForm().getString(
-            "commentablePage"));
             String templateName = ctx.getForm().getString("template");
+            if (!BooleanUtils.toBoolean(ctx.getForm().getString("display-" + PROPNAME_COLLAPSETYPE))) {
+            	fieldsNotDisplayable.add(PROPNAME_COLLAPSETYPE);
+            }
             Page page = Tools.getAdapter(Page.class, doc, ctx.getCoreSession());
+            /* A GARDER
+            page.setCollapseType(ctx.getForm().getString(PROPNAME_COLLAPSETYPE));
+             */
+            page.setNotDisplayableParameters(fieldsNotDisplayable);
             String elementsPerPage_str = ctx.getForm().getString(ELEMENTS_PER_PAGE);
             if (!StringUtils.isEmpty(elementsPerPage_str) && StringUtils.isNumeric(elementsPerPage_str)){
                 int elementsPerPage = new Integer(elementsPerPage_str).intValue();
@@ -387,8 +394,7 @@ public class PageResource extends DocumentObject {
                     page.setElementsPerPage(elementsPerPage);
                 }
             }
-            page.setCommentable(isCheckedCommentable);
-            page.setNotDisplayableParameters(fieldsNotDisplayable);
+            page.setCommentable(BooleanUtils.toBoolean(ctx.getForm().getString("commentablePage")));
             page.setTitle(pageTitle);
             CoreSession session = getCoreSession();
             String documentTemplateName = Tools.getAdapter(LabsTemplate.class, doc, session).getDocumentTemplateName();
@@ -549,6 +555,12 @@ public class PageResource extends DocumentObject {
         }
         DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
         newDoc.setPropertyValue("dc:title", name);
+        if (Docs.HTMLPAGE.type().equals(newDoc.getType())) {
+            List<String> fieldsNotDisplayable = new ArrayList<String>();
+            fieldsNotDisplayable.add(PROPNAME_COLLAPSETYPE);
+            Page page = Tools.getAdapter(Page.class, newDoc, ctx.getCoreSession());
+            page.setNotDisplayableParameters(fieldsNotDisplayable);
+        }
         session.saveDocument(newDoc);
 
 		final DocumentModel myForumDoc = newDoc;

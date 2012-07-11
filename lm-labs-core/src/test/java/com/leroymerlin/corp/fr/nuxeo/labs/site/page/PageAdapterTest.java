@@ -192,5 +192,22 @@ public class PageAdapterTest {
         page = Tools.getAdapter(Page.class, doc, session);
         assertTrue(page.getElementsPerPage() == 5);
     }
+    
+    /* A GARDER
+    @Test
+    public void iCanSetCollapseType() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = Tools.getAdapter(Page.class, doc, session);
+        assertEquals(CollapseTypes.EXPAND_ALL.type(), page.getCollapseType());
+
+        page.setCollapseType(CollapseTypes.COLLAPSE_ALL);
+
+        session.saveDocument(doc);
+        session.save();
+        doc = session.getDocument(doc.getRef());
+        page = Tools.getAdapter(Page.class, doc, session);
+        assertEquals(CollapseTypes.COLLAPSE_ALL.type(), page.getCollapseType());
+    }
+     */
 
 }

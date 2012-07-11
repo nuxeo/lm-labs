@@ -53,6 +53,30 @@
 					${Context.getMessage('label.parameters.page.displayableDescriptionPage')}</label>
 				</div>
 			</div>
+			<#if Document.type == "HtmlPage" >
+            <div class="control-group">
+				<div class="controls">
+					<label class="checkbox" for="display-page:collapseType">
+					<input class="checkbox" type="checkbox" name="display-page:collapseType"
+						<#if This.page.isDisplayable("page:collapseType") >checked="true"</#if> />
+					${Context.getMessage('label.parameters.' + Document.type + '.displayableCollapseType')}</label>
+				</div>
+			</div>
+<#-- A GARDER
+            <div class="control-group"<#if !This.page.isDisplayable("page:collapseType") > style="display:none;"</#if> >
+              <label class="control-label" for="page:collapseType">${Context.getMessage('label.parameters.' + Document.type + '.collapseType')}</label>
+              <div class="controls">
+                <select name="page:collapseType" class="span4" >
+                    <#assign collapseTypesList = Common.collapseTypesList />
+                    <#assign currentCollapseType = This.page.collapseType />
+                    <#list collapseTypesList?sort as collapseType>
+                        <option value="${collapseType}" <#if currentCollapseType == collapseType >selected</#if>>${Context.getMessage('label.parameters.' + Document.type + '.collapseType.' + collapseType)}</option>
+                    </#list>
+                </select>
+              </div>
+            </div>
+-->
+			</#if>
 			<#if Document.type == "PageList" || Document.type == "PageNews" >
 	            <div class="control-group">
 					<div class="control-label" for="elementsPerPage">${Context.getMessage('label.parameters.page.elementsPerPage')}</div>
@@ -92,8 +116,32 @@
 	</div>
 </#if>
 <script>
+<#-- A GARDER
+<#if This.page?? >
+	<#if Document.type == "HtmlPage" >
+function showHideCollapseTypeSelect(checkboxObj, selectDivObj) {
+	if (jQuery(checkboxObj).is(':checked')) {
+		jQuery(selectDivObj).show();
+	}
+	else {
+		jQuery(selectDivObj).hide();
+	}
+}
+	</#if>
+</#if>
+-->
 jQuery(document).ready(function() {
 <#if This.page?? >
+<#-- A GARDER
+	<#if Document.type == "HtmlPage" >
+	var selectCollapseTypeDivObj = jQuery('select[name="page:collapseType"]').closest('div.control-group');
+	var collapseTypeCheckboxObj = jQuery('input[name="display-page:collapseType"]');
+	jQuery(collapseTypeCheckboxObj).change(function() {
+		showHideCollapseTypeSelect(this, selectCollapseTypeDivObj);
+	});
+	showHideCollapseTypeSelect(collapseTypeCheckboxObj, selectCollapseTypeDivObj);
+	</#if>
+-->
     jQuery("#page-parameters-submit").click(function() {
         submitParametersPage();
     });
