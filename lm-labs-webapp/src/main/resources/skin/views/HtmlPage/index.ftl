@@ -92,9 +92,6 @@ jQuery(document).ready(function() {
   <#assign sections = page.sections />
   <#list sections as section>
   	<div id="div_section_${section_index}">
-	  	<#if This.page.isDisplayable("page:collapseType") && (section.rows?size > 0) >
-  		<img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideSection(this, '');" style="float: left; margin-top: 6px;margin-left: -14px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
-	  	</#if>
 	    <section id="section_${section_index}">
 	        <div class="page-header"<#if section.title?length == 0 && section.description?length == 0 > style="padding-bottom: 0px;"</#if> >
 	            <a name="section_${section_index}"></a>
@@ -112,6 +109,11 @@ jQuery(document).ready(function() {
 	    						<a href="#" onClick="javascript:moveDown('${This.path}/s/${section_index}', '${This.path}#section_${section_index + 1}', 'div_section_${section_index}', '#divPageHTML>div');" title="Descendre" alt="Descendre"><i class="icon-arrow-down"></i>Descendre</a>
 							</li>
 						</ul>
+				    </div>
+				</#if>
+				<#if This.page.isDisplayable("page:collapseType") >
+				    <div class="viewblock" style="font-size: 35px; float: right; margin-top: 7px;" >
+				    	<i class="icon-minus-sign openCloseBt" title="${Context.getMessage('label.HtmlPage.collapse')}" onclick="slideSection(this, '');" ></i>
 				    </div>
 				</#if>
 	        </div>

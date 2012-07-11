@@ -156,21 +156,22 @@ function isValidExternalContentUrl(url) {
 	return (url.length > 0 && url.indexOf(elems[elems.length-1]) !== -1);
 }
 
-function updateSectionLabels(bt, title, alt) {
+function updateSectionLabels(bt, title) {
     jQuery(bt).attr("title", title);
-    jQuery(bt).attr("alt", alt);
 }
 
-function changeSectionBt(imgObj, newStatus) {
+function changeSectionBt(obj, newStatus) {
     if (newStatus === 'open') {
-        jQuery(imgObj).attr("src", "${skinPath}/images/toggle_plus.png");
+        jQuery(obj).removeClass("icon-minus-sign");
+        jQuery(obj).addClass("icon-plus-sign");
     } else {
-        jQuery(imgObj).attr("src", "${skinPath}/images/toggle_minus.png");
+        jQuery(obj).removeClass("icon-plus-sign");
+        jQuery(obj).addClass("icon-minus-sign");
     }
 }
 
-function slideSection(imgObj, action) {
-    var collapsables = jQuery(imgObj).parent().find("div[class*='section-collapsable']");
+function slideSection(obj, action) {
+    var collapsables = jQuery(obj).closest('section').find("div[class*='section-collapsable']");
     if (action === '') {
         if (collapsables.is(":visible")) {
             action = 'open';
@@ -179,12 +180,12 @@ function slideSection(imgObj, action) {
         }
     }
     if (action === "open") {
-        changeSectionBt(imgObj, 'open');
-        updateSectionLabels(imgObj, "${Context.getMessage('label.HtmlPage.open')}", "${Context.getMessage('command.HtmlPage.open')}");
         collapsables.slideUp("fast");
+        changeSectionBt(obj, 'open');
+        updateSectionLabels(obj, "${Context.getMessage('label.HtmlPage.open')}");
     } else {
-        changeSectionBt(imgObj, 'close');
-        updateSectionLabels(imgObj, "${Context.getMessage('label.HtmlPage.collapse')}", "${Context.getMessage('command.HtmlPage.collapse')}");
+        changeSectionBt(obj, 'close');
+        updateSectionLabels(obj, "${Context.getMessage('label.HtmlPage.collapse')}");
         collapsables.slideDown("fast");
         refreshDisplayMode(collapsables);
     }
