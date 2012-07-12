@@ -592,7 +592,15 @@ input &.search-query{
 	}
 }
 
+.openCloseBt-color (@color) when (lightness(@color) >= 91%) {
+	color: lightgrey;
+}
+
+.openCloseBt-color (@color) when (lightness(@color) < 91%) {
+	color: @color;
+}
+
 i.openCloseBt {
-	color: lighten(@baseFontColorTitleH1, 40%);
+	.openCloseBt-color(lighten(@baseFontColorTitleH1, 35%));
 	cursor: pointer;
 }
