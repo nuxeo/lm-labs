@@ -68,7 +68,7 @@ jQuery(function () {
 	}
 )
 jQuery(document).ready(function () {
-<#if This.allContributors >
+
     jQuery("#lineFiles").dialog2({
         title: '${Context.getMessage('label.PageList.line.files.form.title')}',
         closeOnOverlayClick: false,
@@ -94,7 +94,7 @@ jQuery(document).ready(function () {
         var lineName = jQuery(this).siblings('input[type=hidden]').val();
         jQuery("#lineFiles").load('${This.path}/' + lineName + '/@views/files?linename=' + lineName);
     });
-</#if>
+
 });
 </script>
 <#--  --------------------COMMENTS OF LINE --------------->

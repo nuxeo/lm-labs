@@ -1,4 +1,4 @@
-<#if Session.hasPermission(Document.ref, 'AddChildren') && !Context.principal.anonymous >
+<#if Session.hasPermission(Document.ref, 'ReadWrite') >
     <input type="hidden" id="linename" value="${Context.request.getParameter('linename')}" />
     <button class="btn" data-toggle="collapse" data-target="#list-line-input"><i class="icon-plus"></i>${Context.getMessage('command.PageList.line.files.form.add.open')}</button>
     <div id="list-line-input" class="collapse" >
