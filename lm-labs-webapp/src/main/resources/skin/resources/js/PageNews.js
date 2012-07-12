@@ -14,25 +14,26 @@ function deleteNews(url, path){
 	});
 }
 
-
 var isOpen = false;
-function openNews(id, skinBase){
-	jQuery("#contentNews" + id).slideDown("slow");
-	jQuery("#summaryNews" + id).hide();
+function openNews(id, skinBase, iconObj) {
+	jQuery(iconObj).closest('section').find('div.news-title div.for-summary').hide();
+	jQuery(iconObj).closest('section').find('div.news-title div.for-content').show();
+	jQuery(iconObj).closest('section').find('div.newsContent').slideDown("slow");
 	isOpen = true;
 }
 
-function closeNews(id, skinBase){
-	jQuery("#contentNews" + id).hide();
-	jQuery("#summaryNews" + id).show();
+function closeNews(id, skinBase, iconObj) {
+	jQuery(iconObj).closest('section').find('div.news-title div.for-content').hide();
+	jQuery(iconObj).closest('section').find('div.news-title div.for-summary').show();
+	jQuery(iconObj).closest('section').find('div.newsContent').hide();
 	isOpen = false;
 }
 
-function actionNews(id, skinBase){
+function actionNews(id, skinBase, obj){
 	if(isOpen == false){
-		openNews(id, skinBase);
+		openNews(id, skinBase, obj);
 	}
 	else{
-		closeNews(id, skinBase);
+		closeNews(id, skinBase, obj);
 	}
 }

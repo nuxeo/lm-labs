@@ -44,16 +44,15 @@
         <#list allNews as news>
           <#assign path=This.path + "/" + news.documentModel.name />
           <section class="labsnews <@generateClassNewsVisibility news=news result="editblock"/>">
-	          	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
+          		<div class="news-title">
+	          		<div class="for-summary">
 	          		<@generateSummaryNews news=news path=path withHref=true/>
-				  	<#-- Collapse -->
-					<div style="font-size: 35px; margin-left: 15px;float: right;margin-top:5px;">
-				    	<i class="icon-plus-sign openCloseBt" style="cursor: pointer;" onclick="javascript:openNews('${news.documentModel.ref}', '${skinPath}');" ></i>
-					</div>
-	          	</div>
-
-	          	<div id="contentNews${news.documentModel.ref}" style="display: none;">
-	              <div class="row-fluid">
+				  		<#-- Expand -->
+						<div style="font-size: 35px; margin-left: 15px;float: right;margin-top:5px;">
+					    	<i class="icon-plus-sign openCloseBt" style="cursor: pointer;" onclick="javascript:openNews('${news.documentModel.ref}', '${skinPath}', this);" ></i>
+						</div>
+	          		</div>
+	          		<div class="for-content" style="display:none;" >
 	              	 <#if news.hasSummaryPicture()>
 			          		<#-- Image -->
 			          		<div class="span2">
@@ -68,9 +67,17 @@
 			                <@generateHeaderNews news=news path=path withHref=true withBy=true />
 			            </div>
 			        </#if>
-					<div style="font-size: 35px; margin-left: 15px;float: right;margin-top:5px;">
-				    	<i class="icon-minus-sign openCloseBt" style="cursor: pointer;" onclick="javascript:closeNews('${news.documentModel.ref}', '${skinPath}');" ></i>
-					</div>
+					  	<#-- Collapse -->
+						<div style="font-size: 35px; margin-left: 15px;float: right;margin-top:5px;">
+					    	<i class="icon-minus-sign openCloseBt" style="cursor: pointer;" onclick="javascript:closeNews('${news.documentModel.ref}', '${skinPath}', this);" ></i>
+						</div>
+	          		</div>
+          		</div>
+	          	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
+	          	</div>
+
+	          	<div class="newsContent" id="contentNews${news.documentModel.ref}" style="display: none;">
+	              <div class="row-fluid">
 	              </div>
 
 				  <div id="contentContentNews${news.documentModel.ref}">
