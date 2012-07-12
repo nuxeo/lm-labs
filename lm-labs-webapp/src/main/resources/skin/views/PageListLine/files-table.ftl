@@ -18,7 +18,7 @@
           <td>${bytesFormat(blobLength, "K", "fr_FR")}<span class="sortValue">${blobLength?string.computer}</span></td>
           <td>
             <input type="hidden" value="${file.name}" />
-            <#if Session.hasPermission(Document.ref, 'RemoveChildren') >
+            <#if Session.hasPermission(file.ref, 'ReadWrite')>
             <button class="btn btn-mini btn-danger delete" title="${Context.getMessage('tooltip.PageList.line.files.form.table.delete')}" ><i class="icon-remove" style="padding-right:0px;"></i></button>
             </#if>
             <a rel="nofollow" class="btn btn-mini download" href="${Root.getLink(file)}/@blob/" title="${Context.getMessage('tooltip.PageList.line.files.form.table.download')}" ><i class="icon-download" style="padding-right:0px;"></i></a>
