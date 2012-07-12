@@ -6,10 +6,9 @@
 						  <section class="labsnews well">
 						  	<div class="row-fluid" id="summaryNews${news.documentModel.ref}">
 			          			<@generateSummaryNews news=news path=This.path withHref=false />
-				          		<#-- Collapse -->
-				          		<div class="span1" style="margin-left: 15px;float: right;">
-				          			<img src="${skinPath}/images/newsOpen.png" style="margin-top:5px;"/>
-				          		</div>
+								<div style="font-size: 32px; margin-left: 15px;float: right;margin-top:5px;">
+							    	<i class="icon-plus-sign openCloseBt" style="cursor: default;" ></i>
+								</div>
 				          	</div>
 				          </section>
 				        </div>

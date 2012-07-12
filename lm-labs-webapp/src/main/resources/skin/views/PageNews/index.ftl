@@ -48,7 +48,7 @@
 	          		<div class="for-summary">
 	          		<@generateSummaryNews news=news path=path withHref=true/>
 				  		<#-- Expand -->
-						<div style="font-size: 35px; margin-left: 15px;float: right;margin-top:5px;">
+						<div style="font-size: 32px; margin-left: 15px;float: right;margin-top:5px;">
 					    	<i class="icon-plus-sign openCloseBt" style="cursor: pointer;" onclick="javascript:openNews('${news.documentModel.ref}', '${skinPath}', this);" ></i>
 						</div>
 	          		</div>
@@ -68,7 +68,7 @@
 			            </div>
 			        </#if>
 					  	<#-- Collapse -->
-						<div style="font-size: 35px; margin-left: 15px;float: right;margin-top:5px;">
+						<div style="font-size: 32px; margin-left: 15px;float: right;margin-top:5px;">
 					    	<i class="icon-minus-sign openCloseBt" style="cursor: pointer;" onclick="javascript:closeNews('${news.documentModel.ref}', '${skinPath}', this);" ></i>
 						</div>
 	          		</div>

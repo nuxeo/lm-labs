@@ -112,7 +112,7 @@ jQuery(document).ready(function() {
 				    </div>
 				</#if>
 				<#if This.page.isDisplayable("page:collapseType") >
-				    <div class="viewblock" style="font-size: 35px; float: right; margin-top: 7px;" >
+				    <div class="viewblock" style="font-size: 32px; float: right; margin-top: 7px;" >
 				    	<i class="icon-minus-sign openCloseBt" title="${Context.getMessage('label.HtmlPage.collapse')}" onclick="slideSection(this, '');" ></i>
 				    </div>
 				</#if>
