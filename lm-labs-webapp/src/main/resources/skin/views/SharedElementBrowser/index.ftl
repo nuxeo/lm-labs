@@ -63,8 +63,15 @@ jQuery(document).ready(function() {
             "theme" : "classic"
         },
 		"types" : {
-			"valid_children" : [ "Tree" ],
+			"valid_children" : [ "Site" ],
 			"types" : {
+				"Site" : {
+					"remove" : false,
+					"rename" : false,
+					"icon" : {
+						"image" : "/nuxeo/icons/site.jpeg"
+					}
+				},
 				"Tree" : {
 					"remove" : false,
 					"rename" : false,
