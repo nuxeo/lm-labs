@@ -137,7 +137,7 @@ jQuery(document).ready(function() {
     	jQuery(inputObj).select();
     });
 <#-- A GARDER
-    <#if This.page.isDisplayable("page:collapseType") && This.page.collapseType == "collapse_all" >
+    <#if This.page.isDisplayable("pg:collapseType") && This.page.collapseType == "collapse_all" >
     jQuery.each(jQuery('img.openCloseBt'), function(i, imgObj) {
 	    slideSection(imgObj, 'open');
     });

@@ -56,17 +56,17 @@
 			<#if Document.type == "HtmlPage" >
             <div class="control-group">
 				<div class="controls">
-					<label class="checkbox" for="display-page:collapseType">
-					<input class="checkbox" type="checkbox" id="display-page:collapseType" name="display-page:collapseType"
-						<#if This.page.isDisplayable("page:collapseType") >checked="true"</#if> />
+					<label class="checkbox" for="display-pg:collapseType">
+					<input class="checkbox" type="checkbox" id="display-pg:collapseType" name="display-pg:collapseType"
+						<#if This.page.isDisplayable("pg:collapseType") >checked="true"</#if> />
 					${Context.getMessage('label.parameters.' + Document.type + '.displayableCollapseType')}</label>
 				</div>
 			</div>
 <#-- A GARDER
-            <div class="control-group"<#if !This.page.isDisplayable("page:collapseType") > style="display:none;"</#if> >
-              <label class="control-label" for="page:collapseType">${Context.getMessage('label.parameters.' + Document.type + '.collapseType')}</label>
+            <div class="control-group"<#if !This.page.isDisplayable("pg:collapseType") > style="display:none;"</#if> >
+              <label class="control-label" for="pg:collapseType">${Context.getMessage('label.parameters.' + Document.type + '.collapseType')}</label>
               <div class="controls">
-                <select name="page:collapseType" class="span4" >
+                <select name="pg:collapseType" class="span4" >
                     <#assign collapseTypesList = Common.collapseTypesList />
                     <#assign currentCollapseType = This.page.collapseType />
                     <#list collapseTypesList?sort as collapseType>
@@ -134,8 +134,8 @@ jQuery(document).ready(function() {
 <#if This.page?? >
 <#-- A GARDER
 	<#if Document.type == "HtmlPage" >
-	var selectCollapseTypeDivObj = jQuery('select[name="page:collapseType"]').closest('div.control-group');
-	var collapseTypeCheckboxObj = jQuery('input[name="display-page:collapseType"]');
+	var selectCollapseTypeDivObj = jQuery('select[name="pg:collapseType"]').closest('div.control-group');
+	var collapseTypeCheckboxObj = jQuery('input[name="display-pg:collapseType"]');
 	jQuery(collapseTypeCheckboxObj).change(function() {
 		showHideCollapseTypeSelect(this, selectCollapseTypeDivObj);
 	});
