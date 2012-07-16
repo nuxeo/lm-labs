@@ -53,6 +53,7 @@
       <type noRecursionForTransitions="delete,publish,draft,undelete" name="PageList">labs</type>
       <type noRecursionForTransitions="delete,publish,draft,undelete" name="HtmlPage">labs</type>
       <type noRecursionForTransitions="delete,publish,draft,undelete" name="Space">labs</type>
+      <type noRecursionForTransitions="delete,publish,draft,undelete" name="LabsNews">default</type>
     </types>
   </extension>
 
