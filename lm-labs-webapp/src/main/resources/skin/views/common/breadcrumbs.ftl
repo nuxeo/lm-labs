@@ -1,3 +1,5 @@
+<#if This.document.type != "Site" >
+
 <#assign isContributor = This.page?? && This.page.isContributor(Context.principal.name) />
 <#assign showBreadcrumbs = false />
 <#assign showBreadcrumbs_draftContrib = false />
@@ -47,4 +49,6 @@
 			</ul>
 	    </div><#--  /row-fluid -->
 	</div><#-- /container-fluid -->
+</#if>
+
 </#if>
