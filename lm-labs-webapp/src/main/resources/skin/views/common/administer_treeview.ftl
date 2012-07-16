@@ -322,11 +322,24 @@
 						delete items.home;
 					<#else>
 						if(jQuery(node).data('lifecyclestate') == 'undefined') {
-							delete items.markasdeleted;
-							delete items.publish;
+							if (jQuery(node).attr('rel') != 'LabsNews') {
+								delete items.markasdeleted;
+								delete items.publish;
+								delete items.draft;
+								delete items.undelete;
+								delete items.home;
+							} else {
+								delete items.draft;
+								delete items.publish;
+								delete items.undelete;
+							}
+						} else if(jQuery(node).data('lifecyclestate') == 'project') {
+							if (jQuery(node).attr('rel') != 'LabsNews') {
+								delete items.home;
+							}
 							delete items.draft;
+							delete items.publish;
 							delete items.undelete;
-							delete items.home;
 						} else if(jQuery(node).data('lifecyclestate') == 'deleted') {
 							delete items.publish;
 							delete items.draft;
