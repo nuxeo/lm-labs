@@ -1,8 +1,6 @@
 function registerRPCshow_fancybox() {
-	if(console) {
-		console.log('registering RPC service show_fancybox');
-	}
-	gadgets.rpc.register('show_fancybox', function(childs, current) {
+        log('registering RPC service show_fancybox');
+        gadgets.rpc.register('show_fancybox', function(childs, current) {
         if(jQuery.fancybox) {
             var items = [];
 
@@ -11,20 +9,30 @@ function registerRPCshow_fancybox() {
             });
 
             jQuery.fancybox(items, {
-	            'titleShow' : true,
-	            'titlePosition' : 'inside',
-	            'zoomSpeedIn': 500,
-	            'zoomSpeedOut': 500,
-	            'overlayShow': false,
-	            'forceImage': true,
-	            'hideOnContentClick': false
+                    'titleShow' : true,
+                    'titlePosition' : 'inside',
+                    'zoomSpeedIn': 500,
+                    'zoomSpeedOut': 500,
+                    'overlayShow': false,
+                    'forceImage': true,
+                    'hideOnContentClick': false
             }, current);
-        } else if(console) {
-        	console.error("Add FancyBox plugin");
+        } else {
+                logError("Add FancyBox plugin");
         }
-	});
-	if(console) {
-		console.log('registered.');
-	}
+        });
+        log('registered.');
 }
 jQuery(document).ready(registerRPCshow_fancybox);
+
+function log(str) {
+        if (typeof console !== "undefined") {
+                console.log(str);
+        }
+}
+
+function logError(str) {
+        if (typeof console !== "undefined") {
+                console.error(str);
+        }
+}
