@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    jQuery(".sections-edition").dialog2({
+        autoOpen : false,
+        closeOnOverlayClick : false
+    });
   prettyPrint();
 
   jQuery("#div-modifyCSSLine").dialog2({

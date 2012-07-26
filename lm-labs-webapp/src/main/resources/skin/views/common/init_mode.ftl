@@ -5,37 +5,38 @@
 <#assign siteAdministrator = mySite?? && mySite.isAdministrator(Context.principal.name) />
 	<script type="text/javascript">
 <#if siteContributor || (This.page?? && This.page != null && This.page.isContributor(Context.principal.name)) >
+var IS_MODE_EDITION = true;
+function editKeyPressed() {
+      if (IS_MODE_EDITION){
+          IS_MODE_EDITION = false;
+          jQuery.cookie('labseditmode', 'false', { path: pathCookie });
+          displayViewMode();
+          if(jQuery("#page_edit")){
+            jQuery("#page_edit").html('<i class="icon-pencil"></i>Editer');
+          }
+      }
+      else{
+          IS_MODE_EDITION = true;
+          jQuery.cookie('labseditmode', 'true', { path: pathCookie });
+          displayEditMode();
+          if(jQuery("#page_edit")){
+                jQuery("#page_edit").html('<i class="icon-eye-open"></i>Visualiser');
+              }
+      }
+}
 
-		var IS_MODE_EDITION = true;
 		var pathCookie = '${Context.modulePath}/${mySite.URL}';
 		var dragDrop = null;
 		var urlHomepage = "";
 
 		$(document).ready(function() {
 			  // handling shorcut for mode previsualisation
-			  $(document).bind('keyup', 'e', function() {
-				  $(".editblock").toggle();
-				  if (IS_MODE_EDITION){
-				  	  IS_MODE_EDITION = false;
-				  	  $.cookie('labseditmode', 'false', { path: pathCookie });
-				  	  displayViewMode();
-				  	  if($("#page_edit")){
-				  		$("#page_edit").html('<i class="icon-pencil"></i>Editer');
-				  	  }
-				  }
-				  else{
-					  IS_MODE_EDITION = true;
-					  $.cookie('labseditmode', 'true', { path: pathCookie });
-					  displayEditMode();
-				  	  if($("#page_edit")){
-					  		$("#page_edit").html('<i class="icon-eye-open"></i>Visualiser');
-					  	  }
-				  }
-			  });
+			  $(document).bind('keyup', 'e', editKeyPressed);
 			  if ($.cookie('labseditmode') != 'true'){
 				  //Passage en mode visu
 				  simulateKeyup69();
 			  } else {
+			     jQuery(".editblock").show();
 			     jQuery(".viewblock").hide();
 			  }
 
@@ -56,10 +57,12 @@
 				}
 			</#if>
 			$(".viewblock").hide();
+			$(".editblock").show();
 			jQuery(".cke_hidden").hide();
 		}
 
 		function displayViewMode(){
+			$(".editblock").hide();
 			<#if siteAdministrator>
 				$("#logoDragMsgId").hide();
 				$("#logoImgId").removeClass("logoImgId-move");

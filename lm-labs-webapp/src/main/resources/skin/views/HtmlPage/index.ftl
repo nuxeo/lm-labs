@@ -155,7 +155,7 @@ jQuery(document).ready(function() {
 			        </div>
 			     </div>
 
-	          <div id="editsection_${section_index}" >
+	          <div id="editsection_${section_index}" class="dialog2 sections-edition" style="display: none;" >
 	          	  <h1>Modifier la section</h1>
 			      <form class="form-horizontal " name="formEditsection_${section_index}" action="${This.path}/s/${section_index}/@put" method="post">
 				      <fieldset>
@@ -247,7 +247,7 @@ jQuery(document).ready(function() {
 			                    <div class="columns viewblock">
 			                       <@displayContentHtml content=content />
 			                    </div>
-					            <div class="row-ckeditor columns editblock toc-noreplace">
+					            <div class="row-ckeditor columns editblock toc-noreplace" style="display:none;" >
 					                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer;" >${content.html}</div>
 					            	<div class="col-link" >
 					            		<input type="hidden" value="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}" ></input>
