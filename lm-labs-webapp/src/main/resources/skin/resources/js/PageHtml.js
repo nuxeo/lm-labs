@@ -5,7 +5,7 @@ $(document).ready(function() {
     autoOpen : false,
 	closeOnOverlayClick : true,
 	removeOnClose : false,
-	showCloseHandle : true,
+	showCloseHandle : true
   });
 });
 
