@@ -50,4 +50,13 @@ public interface SiteDocument extends LabsAdapter {
      * @throws ClientException
      */
     DocumentModelList getChildrenPageDocuments() throws ClientException;
+    
+    /**
+     * TODO unit test.
+     * @param userName
+     * @return
+     * @throws ClientException
+     */
+    public Collection<Page> getChildrenNavigablePages(final String userName) throws ClientException;
+
 }

@@ -31,12 +31,24 @@
 						<#assign tabActivated = isActiveTab />
 					</#if>
 				</#if>
+				<#assign childSubPages = Common.siteDoc(pageDoc).getChildrenNavigablePages(Context.principal.name) />
 				<#assign title = pageDoc.title />
-				<li class="<#if isActiveTab >active</#if>">
-					<a href="${url}"><h5 class="<#if homePageId == pageDoc.id >homepage</#if>" >
-					${title}</h5></a>
+				<li class="<#if isActiveTab >active</#if><#if 0 < childSubPages?size > dropdown</#if>">
+					<a href="${url?html}"<#if 0 < childSubPages?size > class="dropdown-toggle" data-toggle="dropdown" data-target="#" </#if>>
+					<h5 class="<#if homePageId == pageDoc.id >homepage</#if>" >
+					${title}<#if 0 < childSubPages?size ><b class="caret"></b></#if></h5></a>
 					<#if isActiveTab >
-						<div class="star"></div>
+						<div class="star"></div><#-- SC -->
+					</#if>
+					<#if 0 < childSubPages?size >
+                        <ul class="dropdown-menu">
+                            <li><a href="${url?html}" >${title}</a></li>
+                            <li class="divider"></li>
+                            <#list childSubPages as childSubPage >
+                                <#assign url = Context.modulePath + "/" + Common.siteDoc(childSubPage.document).resourcePath />
+                            <li><a href="${url?html}" >${childSubPage.document.title}</a></li>
+                            </#list>
+                        </ul>
 					</#if>
 				</li>
 			</#list>

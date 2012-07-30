@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -100,6 +102,41 @@ public class SiteDocumentAdapter extends LabsAdapterImpl implements SiteDocument
     @Override
     public DocumentModelList getChildrenPageDocuments() throws ClientException {
         return LabsSiteUtils.getChildrenPageDocuments(doc, getSession());
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public Collection<Page> getChildrenNavigablePages(final String userName) throws ClientException {
+    	List<Page> pages = new ArrayList<Page>();
+    	LabsSite site = getSite();
+    	if (!site.isAdministrator(userName)) {
+    		pages.addAll(CollectionUtils.select(getChildrenPages(), new Predicate() {
+    			@Override
+    			public boolean evaluate(Object input) {
+    				Page page = (Page) input;
+    				if (!Docs.pageDocs().contains(Docs.fromString(page.getDocument().getType()))) {
+    					return false;
+    				}
+    				try {
+    					boolean result = true;
+    					if (!page.isContributor(userName)){
+    						result = page.isVisible();
+    					}
+    					return (result && !page.isDeleted());
+    				} catch (ClientException e) {
+    					return false;
+    				}
+    			}
+    		}));
+    	} else {
+    		for (DocumentModel child : getChildrenPageDocuments()) {
+    			Page adapter = Tools.getAdapter(Page.class, child, getSession());
+    			if (adapter != null && Docs.pageDocs().contains(Docs.fromString(adapter.getDocument().getType()))) {
+    				pages.add(adapter);
+    			}
+    		}
+    	}
+    	return pages;
     }
 
 }
