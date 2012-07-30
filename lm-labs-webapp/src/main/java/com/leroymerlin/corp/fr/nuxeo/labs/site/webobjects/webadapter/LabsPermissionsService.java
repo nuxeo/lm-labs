@@ -154,9 +154,9 @@ public class LabsPermissionsService extends DefaultAdapter {
     public Response hasHigherPermission(
             @QueryParam(value = "permission") String permission,
             @QueryParam(value = "id") String id) {
-        List<String> labsRightsString = LabsSiteUtils.getListRights();
         DocumentModel document = getDocument();
         try {
+        	List<String> labsRightsString = LabsSiteUtils.getListRights();
             PermissionsHelper helper = new PermissionsHelper(labsRightsString);
             return Response.ok(
                     Boolean.toString(helper.hasHigherPermission(document,

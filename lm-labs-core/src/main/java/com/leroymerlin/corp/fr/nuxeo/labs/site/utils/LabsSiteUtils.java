@@ -21,11 +21,11 @@ import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
-import org.nuxeo.ecm.webengine.WebException;
 
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsSecurityException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 
 
@@ -151,7 +151,7 @@ public final class LabsSiteUtils {
                 try{
                     deleteDuplicate(docu, session);
                 } catch (Exception e) {
-                    throw WebException.wrap("Problem for change permissions", e);
+                    throw new LabsSecurityException("Problem for change permissions", e);
                 }
                 session.save();
             }
@@ -236,15 +236,16 @@ public final class LabsSiteUtils {
 
     /**
      * @return
+     * @throws LabsSecurityException 
      */
-    public static List<String> getListRights() {
+    public static List<String> getListRights() throws LabsSecurityException {
         List<String> labsRightsString = new ArrayList<String>();
 
         for (Rights labsRight : Rights.values()) {
             labsRightsString.add(labsRight.getRight());
         }
         if (labsRightsString.isEmpty()) {
-            throw new WebException(THE_RIGHT_LIST_DONT_BE_NULL);
+            throw new LabsSecurityException(THE_RIGHT_LIST_DONT_BE_NULL);
         }
         return labsRightsString;
     }
@@ -264,19 +265,19 @@ public final class LabsSiteUtils {
      */
     public static void setPermission(DocumentModel doc, final String permission,
             final String id, Action action, boolean override, CoreSession session)
-            throws IllegalStateException, Exception {
+            throws IllegalStateException, LabsSecurityException, Exception {
         if (doc != null) {
             if (!PermissionsHelper.hasPermission(doc, permission, id)) {
                 if (!PermissionsHelper.groupOrUserExists(id)) {
                     // // TODO throw exception to notify unknow group/user
                     // log.error("Failed to get principal:" + e);
-                    throw new WebException("Unknown group or user");
+                    throw new LabsSecurityException("Unknown group or user");
                     // return;
                 }
                 boolean granted = Action.GRANT.equals(action);
                 if (granted) {
-                    List<String> labsRightsString = getListRights();
                     try {
+                    	List<String> labsRightsString = getListRights();
                         PermissionsHelper helper = new PermissionsHelper(
                                 labsRightsString);
                         if (!override
