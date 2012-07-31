@@ -10,7 +10,7 @@
         </#if>
         <#if userPreferences[prefName] == "string" >
 <div class="controls" >
-    <input type="text" class="input" name="${prefName}" value="${userPreferenceValues[prefName]}" />
+    <input type="text" class="input" name="${prefName}" value="${userPreferenceValues[prefName]?html}" />
 </div>
         <#elseif userPreferences[prefName] == "enum" >
 <div class="controls" >

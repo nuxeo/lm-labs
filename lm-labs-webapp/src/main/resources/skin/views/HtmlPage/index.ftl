@@ -518,7 +518,8 @@ jQuery(document).ready(function() {
 	<#if 0 < userPrefs?size >
 		<#assign stringified = "{" />
 	    <#list userPrefs as userPref >
-	    	<#assign stringified = stringified + "'${userPref.name}':" + "{name:'${userPref.name}',value:'${userPref.actualValue?html}',default:'${userPref.defaultValue}'}" />
+	        <#assign actualValue = userPref.actualValue?html?replace("'", "\\'") />
+	    	<#assign stringified = stringified + "'${userPref.name}':" + "{name:'${userPref.name}',value:'${actualValue}',default:'${userPref.defaultValue}'}" />
 	    	<#if userPref != userPrefs?last >
 				<#assign stringified = stringified + "," />
 	    	</#if>

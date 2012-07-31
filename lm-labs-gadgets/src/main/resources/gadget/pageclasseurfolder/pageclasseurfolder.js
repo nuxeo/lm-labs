@@ -139,6 +139,8 @@ function classeurDisplayDocumentList(entries, nxParams) {
 	displayDocumentList(entries, nxParams);
 	if (displayTitleStr === 'CLASSEURFOLDER') {
 		doAutomationRequest(NXRequestParamsSiteUrl);
+	} else if (displayTitleStr === 'CUSTOM') {
+		displayCustomTitle();
 	}
 }
 function callbackSiteUrl(response, nxParams) {
@@ -146,12 +148,33 @@ function callbackSiteUrl(response, nxParams) {
 	displayDetailsUrl(labsSiteUrl, nxParams.labsSiteModulePath);
 }
 
-function displayDetailsUrl(siteUrl, modulePath) {
+function getTitleStyle() {
 	var titleStyle = "style='padding-left: 4px; font-size: larger;";
 	if (textColor !== "") {
 		titleStyle += "color: " + textColor + ";";
 	}
 	titleStyle += "'";
+	return titleStyle;
+}
+
+function displayCustomTitle() {
+	var customTitle = prefs.getString("customTitle");
+	if (customTitle !== "") {
+		var html = "";
+		html += "<span ";
+		html += getTitleStyle();
+		html += ">";
+		html += "<strong>";
+		html += gadgets.util.escapeString(customTitle);
+		html += "</strong>";
+		html += "</span>";
+		_gel("nxBottomZone").innerHTML = html;
+		jQuery("#nxBottomZone").css('margin-bottom', '10px');
+		gadgets.window.adjustHeight();
+	}
+}
+
+function displayDetailsUrl(siteUrl, modulePath) {
 	if (displayTitleStr === 'CLASSEURFOLDER') {
 		// build URL
 		var html = "";
@@ -190,7 +213,7 @@ function displayDetailsUrl(siteUrl, modulePath) {
 //		html += "class='btn btn-mini btn-primary' ";
 //	}
 		html += "class='btn btn-mini' ";
-		html += titleStyle + " ";
+		html += getTitleStyle() + " ";
 		html += "onclick=\"containerNavigateTo('";
 		html += fullUrl;
 		html += "');\" ";
@@ -206,21 +229,6 @@ function displayDetailsUrl(siteUrl, modulePath) {
 		_gel("nxBottomZone").innerHTML = html;
 		jQuery("#nxBottomZone").css('margin-bottom', '10px');
 		gadgets.window.adjustHeight();
-	} else if (displayTitleStr === 'CUSTOM') {
-		var customTitle = prefs.getString("customTitle");
-		if (customTitle !== "") {
-			var html = "";
-			html += "<span ";
-			html += titleStyle;
-			html += ">";
-			html += "<strong>";
-			html += customTitle;
-			html += "</strong>";
-			html += "</span>";
-			_gel("nxBottomZone").innerHTML = html;
-			jQuery("#nxBottomZone").css('margin-bottom', '10px');
-			gadgets.window.adjustHeight();
-		}
 	}
 }
 
@@ -239,7 +247,7 @@ gadgets.util.registerOnLoadHandler(function() {
 });
 
 function log(str) {
-	if (console) {
+	if (typeof console !== "undefined") {
 		console.log(str);
 	}
 }
