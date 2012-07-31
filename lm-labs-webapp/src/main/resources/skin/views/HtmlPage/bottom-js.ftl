@@ -63,7 +63,14 @@ jQuery(document).ready(function() {
         jQuery('#divConfigRowGadgets-content option:selected').each(function() {
             rowWidgetsAtSubmit.push(jQuery(this).val());
         });
-        if (!(jQuery(rowWidgetsAtSubmit).not(rowWidgetsAtLoad).length == 0 && jQuery(rowWidgetsAtLoad).not(rowWidgetsAtSubmit).length == 0)) {
+        var arraysDifferent = false;
+        jQuery(rowWidgetsAtLoad).each(function(index, val) {
+            if (val !== rowWidgetsAtSubmit[index]) {
+                arraysDifferent = true;
+                return false;
+            }
+        });
+        if (arraysDifferent) {
             <#-- lists are different -->
             if (confirm('${Context.getMessage('label.HtmlPage.row.widgets.config.save.confirm')}')) {
                 jQuery('#waitingPopup').dialog2('open');
