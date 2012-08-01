@@ -24,6 +24,8 @@
             <optgroup label="Usine à Sites - Contenu">
             <#assign gadgetType = "html" gadgetName = "externalContent" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+            <#assign gadgetType = "html" gadgetName = "toc" />
+            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             </optgroup>
             <optgroup label="Usine à Sites - Navigation">
             <#-- gadget opensocial désactivé
