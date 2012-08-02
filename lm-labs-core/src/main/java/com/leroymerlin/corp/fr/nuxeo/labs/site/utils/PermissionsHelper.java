@@ -18,8 +18,10 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.NuxeoGroup;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
+import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
@@ -325,12 +327,26 @@ public class PermissionsHelper {
         Predicate predicate = new Predicate() {
             public boolean evaluate(Object o) {
                 NuxeoGroup group;
+                // TODO 5.4.3
+//                DocumentModelList groups = new DocumentModelListImpl();
+//                boolean isGroup = false;
+//                LMPermission lmPermission = (LMPermission) o;
                 try {
                     group = userManager.getGroup(((LMPermission) o).getName());
+                    // TODO 5.4.3
+//                    groups = userManager.searchGroups(lmPermission.getName());
+//                    for (DocumentModel group : groups) {
+//                    	if (((String) group.getPropertyValue(userManager.getGroupIdField())).equals(lmPermission.getName())) {
+//                    		isGroup = true;
+//                    		break;
+//                    	}
+//                    }
                 } catch (ClientException e) {
                     return false;
                 }
                 return (right.equals(((LMPermission) o).getPermission()) && group == null);
+                // TODO 5.4.3
+//                return (right.equals(lmPermission.getPermission()) && !isGroup);
             }
         };
         List<LMPermission> predList = getPermissions(doc);
