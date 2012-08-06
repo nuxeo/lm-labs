@@ -30,13 +30,9 @@
 				    <@block name="content" />
 				    
 				    <#--  Commentaires  -->
-				    <#--  Commentaires  -->
-				   	<#include "views/LabsComments/macroComments.ftl">
 					<@block name="pageCommentable">
-						<#assign pageCommentable = This.getPage()/>
-						<#if pageCommentable != null && pageCommentable.commentable>
-							<@displayAddComment ckeditor=false pageCommentable=pageCommentable />
-						</#if>
+					   	<#include "views/LabsComments/macroComments.ftl">
+						<@displayAddComment ckeditor=false pageCommentable=This.getPage() />
 					</@block>
 		        </div>
 				

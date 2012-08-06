@@ -38,12 +38,9 @@
 	<#if modify?? && modify != null>
 		<@block name="pageCommentable"/>
 	<#else>
-		<#include "views/LabsComments/macroComments.ftl">
 	  	<@block name="pageCommentable">
-			<#assign pageCommentable = This.getPage()/>
-			<#if pageCommentable != null && pageCommentable.commentable>
-				<@displayAddComment ckeditor=true pageCommentable=pageCommentable />
-			</#if>
+			<#include "views/LabsComments/macroComments.ftl">
+			<@displayAddComment ckeditor=true pageCommentable=This.getPage() />
 		</@block>
 	</#if>
 </@extends>

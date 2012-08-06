@@ -5,13 +5,9 @@ import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
 
-public interface Page extends LabsBase {
+public interface Page extends LabsBase, LabsCommentable {
 
     public String getPath() throws ClientException;
-    
-    boolean isCommentable() throws ClientException;
-    
-    void setCommentable(boolean isCommentable) throws ClientException;
     
     List<String> getNotDisplayableParameters() throws ClientException;
     

@@ -44,6 +44,13 @@
 						        <textarea class="span7" style="height:60px;" id="newsAccroche" name="newsAccroche"><#if news?? && news != null >${news.accroche}</#if></textarea>
 						      </div>
 						    </div>
+					        <div class="control-group">
+								<div class="controls">
+									<label class="checkbox" for="commentablePage">
+									<input class="checkbox" id="commentablePage" type="checkbox" name="commentablePage" <#if news?? && news != null && news.commentable >checked="true"</#if> />
+									${Context.getMessage('label.parameters.page.authorizedCommentable')}</label>
+								</div>
+					        </div>
 						    <#--Photo de la news-->
 						    <a class="btn" id="btnSetSummaryPicture" style="cursor: pointer;" onclick="javascript:openDownloadPicture();"><i class="icon-plus"></i>Associer une miniature</a>
 						    <#if news?? && news != null && news.hasSummaryPicture() >
@@ -83,6 +90,7 @@
 				  	  	jQuery("#btnModifyPropsNews").remove();
 				  	  	jQuery("#btnCloseProps").remove();
 				  	  	jQuery("#btnSetSummaryPicture").remove();
+				  	  	jQuery('#commentablePage').attr('checked', 'checked');
 				  	  </#if>
 				  });
 			  	</script>

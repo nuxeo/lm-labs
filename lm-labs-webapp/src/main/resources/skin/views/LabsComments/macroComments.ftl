@@ -1,9 +1,17 @@
 <#-- genere le contenu entier de la news -->
 <#macro displayAddComment ckeditor pageCommentable>
-	<#if pageCommentable != null && pageCommentable.commentable>
+	<#assign commentable = false />
+	<#if Document.type == "LabsNews">
+		<#-- Je sais, c'est affreux, mais on ne m'a pas laisse le choix !! -->
+		<#assign commentable = This.labsNews.commentable />
+	<#else>
+		<#if pageCommentable != null>
+			<#assign commentable = pageCommentable.commentable />
+		</#if>
+	</#if>
+	<#if commentable>
 		<hr />
 		<div id="divCommentablePage"  >
-			
 			<center><h4 id="titleCommentsPage">${Context.getMessage('label.comments.title')}</h4></center>
 			<div id="divEditCommentable"  class="fixed-container dialog2" style="display: none;">
 				<h1 id="titleComments">${Context.getMessage('label.comments.title')}</h1>

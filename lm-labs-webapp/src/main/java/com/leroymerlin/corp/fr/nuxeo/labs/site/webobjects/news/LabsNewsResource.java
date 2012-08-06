@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -114,7 +115,6 @@ public class LabsNewsResource extends PageResource {
         CoreSession session = ctx.getCoreSession();
         DocumentModel parentDoc = session.getDocument(doc.getParentRef());
         PageNews pageNews = Tools.getAdapter(PageNews.class, parentDoc, session);
-        pageNews.setCommentable(true);
         return pageNews;
     }
 
@@ -180,12 +180,14 @@ public class LabsNewsResource extends PageResource {
         String content = form.getString("newsContent");
         String accroche = form.getString("newsAccroche");
         String cropSummaryPicture = form.getString("cropSummaryPicture");
+        String commentable = form.getString("commentablePage");
 
         news.setTitle(pTitle);
         news.setStartPublication(getDateFromStr(startDate));
         news.setEndPublication(getDateFromStr(endDate));
         news.setContent(content);
         news.setAccroche(accroche);
+        news.setCommentable(BooleanUtils.toBoolean(commentable));
 
         if (form.isMultipartContent()) {
             Blob blob = form.getBlob("newsPicture");
@@ -263,8 +265,7 @@ public class LabsNewsResource extends PageResource {
     }
 
     public LabsNews getLabsNews(DocumentModel document) {
-    	labsNews = Tools.getAdapter(LabsNews.class, document, ctx.getCoreSession());
-        return labsNews;
+        return Tools.getAdapter(LabsNews.class, document, ctx.getCoreSession());
     }
 
 	@SuppressWarnings("unused")

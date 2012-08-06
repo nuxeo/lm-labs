@@ -368,7 +368,7 @@ public class PageResource extends DocumentObject {
     public Response doManagePage() {
         try {
             String pageTitle = ctx.getForm().getString("updateTitlePage");
-            if (StringUtils.isBlank(pageTitle)) {
+            if (pageTitle != null && StringUtils.isBlank(pageTitle)) {
                 return redirect(getPath()
                         + "?message_error=label.parameters.page.save.fail.invalidPageTitle");
             }
@@ -396,7 +396,9 @@ public class PageResource extends DocumentObject {
                 }
             }
             page.setCommentable(BooleanUtils.toBoolean(ctx.getForm().getString("commentablePage")));
-            page.setTitle(pageTitle);
+            if (pageTitle != null) {
+                page.setTitle(pageTitle);
+            }
             CoreSession session = getCoreSession();
             String documentTemplateName = Tools.getAdapter(LabsTemplate.class, doc, session).getDocumentTemplateName();
             if (!StringUtils.isEmpty(templateName) || (StringUtils.isEmpty(templateName) && !StringUtils.isEmpty(documentTemplateName))) {

@@ -111,12 +111,9 @@
 	    <@block name="content">
 	    </@block>
 	    <@block name="pageCommentable">
-		    <#assign pageCommentable = This.getPage()/>
-			<#if pageCommentable != null && pageCommentable.commentable>
-				<#--  Commentaires  -->
-			   	<#include "views/LabsComments/macroComments.ftl">
-				<@displayAddComment ckeditor=false pageCommentable=pageCommentable />
-			</#if>
+			<#--  Commentaires  -->
+		   	<#include "views/LabsComments/macroComments.ftl">
+			<@displayAddComment ckeditor=false pageCommentable=This.getPage() />
 		</@block>
         </div>
 
