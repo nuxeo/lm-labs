@@ -24,7 +24,7 @@ function openEditParameters(){
 		overflowy : 'auto',
 		overflowx : 'hidden',
 	    autoOpen : false,
-		closeOnOverlayClick : true,
+		closeOnOverlayClick : false,
 		removeOnClose : true,
 		showCloseHandle : true
 	  });
