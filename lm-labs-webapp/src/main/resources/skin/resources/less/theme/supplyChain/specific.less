@@ -456,13 +456,14 @@ h6 {
 	padding: 7px 1px;
 
 	.divider{
-		color:@textColor;
+		color:darken(@bgcolortabs, 15%);
 	}
 	a {
-		color:@textColor !important;
-		text-decoration: none;
+		color:darken(@bgcolortabs, 15%) !important;
+		text-decoration: underline;
 	}
 	.active a {
+		color:darken(@bgcolortabs, 15%) !important;
     	font-weight: bold;
     	font-style: normal;
   }
