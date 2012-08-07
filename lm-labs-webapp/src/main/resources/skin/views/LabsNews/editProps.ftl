@@ -47,7 +47,7 @@
 					        <div class="control-group">
 								<div class="controls">
 									<label class="checkbox" for="commentablePage">
-									<input class="checkbox" id="commentablePage" type="checkbox" name="commentablePage" <#if news?? && news != null && news.commentable >checked="true"</#if> />
+									<input class="checkbox" id="commentablePage" type="checkbox" name="commentablePage" />
 									${Context.getMessage('label.parameters.page.authorizedCommentable')}</label>
 								</div>
 					        </div>
@@ -90,7 +90,13 @@
 				  	  	jQuery("#btnModifyPropsNews").remove();
 				  	  	jQuery("#btnCloseProps").remove();
 				  	  	jQuery("#btnSetSummaryPicture").remove();
+					  	  <#if This.page.commentable >
 				  	  	jQuery('#commentablePage').attr('checked', 'checked');
+					  	  </#if>
+				  	  <#else>
+					  	  <#if news.commentable >
+				  	  	jQuery('#commentablePage').attr('checked', 'checked');
+					  	  </#if>
 				  	  </#if>
 				  });
 			  	</script>

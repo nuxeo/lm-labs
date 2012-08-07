@@ -203,4 +203,9 @@
       </div>
     </#if>
   </@block>
+	<@block name="pageCommentable">
+	   	<#include "views/LabsComments/macroComments.ftl">
+		<@displayAddComment pageCommentable=This.labsNews />
+	</@block>
+  
 </@extends>

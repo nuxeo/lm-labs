@@ -40,7 +40,7 @@
 	<#else>
 	  	<@block name="pageCommentable">
 			<#include "views/LabsComments/macroComments.ftl">
-			<@displayAddComment ckeditor=true pageCommentable=This.getPage() />
+			<@displayAddComment pageCommentable=This.page ckeditor=true />
 		</@block>
 	</#if>
 </@extends>

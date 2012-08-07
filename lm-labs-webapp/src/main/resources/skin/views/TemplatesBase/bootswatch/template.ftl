@@ -113,7 +113,7 @@
 	    <@block name="pageCommentable">
 			<#--  Commentaires  -->
 		   	<#include "views/LabsComments/macroComments.ftl">
-			<@displayAddComment ckeditor=false pageCommentable=This.getPage() />
+			<@displayAddComment pageCommentable=This.page />
 		</@block>
         </div>
 

@@ -1,13 +1,8 @@
 <#-- genere le contenu entier de la news -->
-<#macro displayAddComment ckeditor pageCommentable>
+<#macro displayAddComment pageCommentable ckeditor=false >
 	<#assign commentable = false />
-	<#if Document.type == "LabsNews">
-		<#-- Je sais, c'est affreux, mais on ne m'a pas laisse le choix !! -->
-		<#assign commentable = This.labsNews.commentable />
-	<#else>
-		<#if pageCommentable != null>
-			<#assign commentable = pageCommentable.commentable />
-		</#if>
+	<#if pageCommentable != null>
+		<#assign commentable = pageCommentable.commentable />
 	</#if>
 	<#if commentable>
 		<hr />
