@@ -762,7 +762,7 @@ div.classeur{
 	background-image: url(images/homepage.png);
 }
 
-li.active > a > h5.homepage{
+li.active > a > h5 .homepage{
 	background-image: url(images/homepageActive.png);
 }
 
@@ -940,4 +940,8 @@ li.active > a > h5.homepage{
 
 button#login{
   	.buttonBackground(@gray, darken(@gray, 20%);
+}
+
+.dropdown.open > .dropdown-menu a:hover {
+	background-color: lighten(@bgcolortabs, 10%);
 }

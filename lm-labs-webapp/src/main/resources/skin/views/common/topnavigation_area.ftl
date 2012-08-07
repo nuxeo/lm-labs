@@ -35,15 +35,13 @@
 				<#assign title = pageDoc.title />
 				<li class="<#if isActiveTab >active</#if><#if 0 < childSubPages?size > dropdown</#if>">
 					<a href="${url?html}"<#if 0 < childSubPages?size > class="dropdown-toggle" data-toggle="dropdown" data-target="#" </#if>>
-					<h5 class="<#if homePageId == pageDoc.id >homepage</#if>" >
-					${title}<#if 0 < childSubPages?size ><b class="caret"></b></#if></h5></a>
+					<h5 >
+					<span<#if homePageId == pageDoc.id > class="homepage"</#if> onclick="event.stopPropagation(); window.location.href = '${url?html}'; return false;" >${title}</span><#if 0 < childSubPages?size ><b class="caret" style="margin-left: 5px;margin-right: -5px;" ></b></#if></h5></a>
 					<#if isActiveTab >
 						<div class="star"></div><#-- SC -->
 					</#if>
 					<#if 0 < childSubPages?size >
                         <ul class="dropdown-menu">
-                            <li><a href="${url?html}" >${title}</a></li>
-                            <li class="divider"></li>
                             <#list childSubPages as childSubPage >
                                 <#assign url = Context.modulePath + "/" + Common.siteDoc(childSubPage.document).resourcePath />
                             <li><a href="${url?html}" >${childSubPage.document.title}</a></li>
