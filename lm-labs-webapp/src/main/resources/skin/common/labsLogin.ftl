@@ -1,8 +1,7 @@
 <script type="text/javascript">
     var usernameTmp = "";
     jQuery(document).ready(function() {
-	    bindFocus(jQuery("#username"), jQuery("#username").val());
-	    bindFocus(jQuery("#password"), jQuery("#password").val());
+	    bindFocusPassword(jQuery("#password"));
 	
 	    usernameTmp = $('#username').val();
 	
@@ -34,9 +33,10 @@
    }
 
 
-  function bindFocus(elem, value){
+  function bindFocusPassword(elem){
     jQuery(elem).focus(function() {
         jQuery("#FKerrorLogin").hide();
+        var value = jQuery("#password").val();
         if (this.value == value) this.value = "";
     });
   };
@@ -78,7 +78,7 @@
 <#if Context.principal.isAnonymous() == true>
     <form class="navbar-form form-horizontal pull-right" action="">
     <input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="input-small listener" size="13"/>
-    <input type="password" id="password" placeholder="${Context.getMessage('label.Password')}" class="input-small listener" size="13"/>
+    <input type="password" id="password" class="input-small listener" size="13"/>
     <button id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" onclick="valid();return false;" data-loading-text="${Context.getMessage('command.login.ongoing')}">${Context.getMessage('command.login')}</button>
     </form> 
 </#if>

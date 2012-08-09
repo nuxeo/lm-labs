@@ -132,7 +132,7 @@ function labsPermissionsAdd(username, permission){
             alert(data);
           }
           else {
-            jQuery("#divDislayArray").load('${This.path}/@labspermissions');
+            loadPermissions();
             closeAddPerm();
           }
           jQuery('#waitingPopup').dialog2('close');

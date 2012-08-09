@@ -1,15 +1,19 @@
-<div id="divDislayArray" class="container-fluid"></div>
+<div id="divDislayArray" class="container-fluid"><img src="${skinPath}/images/loading.gif" /></div>
 <div id="divAddPermissions" style="display: none;">
 	<#include "views/LabsPermissions/addPermissions.ftl" >
 </div>
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
-	jQuery("#divDislayArray")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
-	jQuery("#divDislayArray").load('${This.path}/@labspermissions');
+	loadPermissions();
 	initModalLabsPermissions();
   
 });
+
+function loadPermissions(){
+	jQuery("#divDislayArray")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
+	jQuery("#divDislayArray").load('${This.path}/@labspermissions');
+}
 
 var titleAddPermissions = '${Context.getMessage('label.security.labs.addPermissions.title')}';
 

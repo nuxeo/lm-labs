@@ -1,4 +1,4 @@
-<div id="divDislayArray" class="container"></div>
+<div id="divDislayArray" class="container"><img src="${skinPath}/images/loading.gif" /></div>
 <div id="divAddContacts" style="display: none;">
 	<#include "views/LabsContacts/addContacts.ftl" >
 </div>
@@ -6,10 +6,24 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
-	jQuery("#divDislayArray").load('${This.path}/@labscontacts');
 	initModalLabsContacts();
-  
+	loadContacts();
 });
+
+function loadContacts(){
+	jQuery("#divDislayArray")[0].innerHTML = '<img src="${skinPath}/images/loading.gif" />';
+	jQuery.ajax({
+        type: 'GET',
+        async: false,
+        url: '${This.path}/@labscontacts',
+        success: function(data, msg){
+          jQuery("#divDislayArray").html(data);
+        },
+        error: function(xhr, status, ex){
+          alert(ex);
+        }
+    });
+}
 
 function initModalLabsContacts(){
 	jQuery("#divAddContacts").dialog2({
@@ -44,9 +58,9 @@ function labsContactDelete(url, confirme){
 	            alert(data);
 	          }
 	          else {
-	            //jQuery("#divDislayArray").load('${This.path}/@labscontacts');
 	            window.location.reload();
 	          }
+	         	jQuery('#waitingPopup').dialog2('close');
 	        },
 	        error: function(xhr, status, ex){
 	          alert(ex);
