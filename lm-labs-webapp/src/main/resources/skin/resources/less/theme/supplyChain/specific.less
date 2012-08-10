@@ -293,7 +293,7 @@ a:hover {
 	margin-top: 20px;
 }
 
-.nav-tabs > li > a{
+.nav-tabs:not(.nav-stacked) > li > a{
 	padding-top: 1px;
 	border: none;
 	.border-radius(4px 4px 4px 4px);
@@ -887,7 +887,7 @@ li.active > a > h5 .homepage{
 
 }
 
-#div_externalURL > ul, .bloc.last-uploads > ul, .bloc.children-pages > ul {
+#div_externalURL > ul, .bloc.last-uploads > ul {
 	 margin-bottom: 5px;
 	 >li {
 		line-height: 25px;
@@ -908,12 +908,30 @@ li.active > a > h5 .homepage{
 	}
 }
 
+.bloc.children-pages, .bloc.top-pages > ul > li {
+	border-bottom: 1px solid @grayLight;
+}
+
+.bloc.children-pages, .bloc.top-pages > ul > li > a {
+	border: none;
+    background-image: url(images/pointeurGris.png);
+    background-repeat: no-repeat;
+    background-position: 2px 11px;
+	padding-left: 15px;
+	span {
+		margin-left: 2px;
+	}
+	ul.dropdown-menu a {
+		background: none;
+	}
+}
+
 // This is for blocs inserted in page's content (ex. HtmlPage)
 .row .supplychain-unstyled-bloc.bloc ul {
     margin-left: 0px;
 }
 
-.supplychain-unstyled-bloc > ul > li > a > i {
+.supplychain-unstyled-bloc > ul > li > a > i.bullet-icon {
 	display: none;
 }
 

@@ -177,6 +177,21 @@ div#siteMap {
   }
 }
 
+.bloc.children-pages, .bloc.top-pages {
+	padding: 0px;
+	border: none;
+	.header {
+		margin: 0;
+	}
+	> ul {
+		margin-bottom: 0;
+	}
+	ul > li > a > span:hover {
+      	border-style: dotted;
+      	border-width: 0 0 1px;
+	}
+}
+
 .labs-disabled() {
     opacity:0.3;
 }
