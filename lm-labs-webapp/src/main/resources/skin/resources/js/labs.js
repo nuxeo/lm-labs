@@ -29,6 +29,11 @@ $(document).ready(function() {
   new EllipsisText().init();
 
   initMinHeightBody();
+  
+  $.ajaxSetup ({
+	    // Disable caching of AJAX responses
+	    cache: false
+	});
 
 });
 

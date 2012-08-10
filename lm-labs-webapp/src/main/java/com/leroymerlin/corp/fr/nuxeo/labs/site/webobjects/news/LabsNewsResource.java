@@ -21,6 +21,7 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.platform.filemanager.utils.FileManagerUtils;
 import org.nuxeo.ecm.platform.query.api.PageProvider;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
@@ -192,6 +193,7 @@ public class LabsNewsResource extends PageResource {
         if (form.isMultipartContent()) {
             Blob blob = form.getBlob("newsPicture");
             if (blob != null){
+                blob.setFilename(FileManagerUtils.fetchFileName(blob.getFilename()));
                 blob.persist();
                 if(blob.getLength() > 0){
                     //return an LabsBlobHolderException if no valid

@@ -18,13 +18,10 @@
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
         </@block>
-
-        <@block name="scripts">
-          <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-          <!--[if lt IE 9]>
-            <script type="text/javascript" src="${skinPath}/js/assets/html5.js"></script>
-          <![endif]-->
-
+		
+		<script type="text/javascript" src="${skinPath}/js/modernizr.custom.js"></script>
+		
+		<@block name="scripts">
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.2.min.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
@@ -40,12 +37,9 @@
           <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script>
       	  <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
           <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.3.0.min.js"></script>
-
         </@block>
     </head>
-
     <body>
-
 		<#-- timeout -->
 	    <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
 

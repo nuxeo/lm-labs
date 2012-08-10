@@ -6,6 +6,9 @@
 	<script type="text/javascript">
 <#if siteContributor || (This.page?? && This.page != null && This.page.isContributor(Context.principal.name)) >
 var IS_MODE_EDITION = true;
+var pathCookie = '${Context.modulePath}/${mySite.URL}';
+var dragDrop = null;
+var urlHomepage = "";
 function editKeyPressed() {
       if (IS_MODE_EDITION){
           IS_MODE_EDITION = false;
@@ -24,10 +27,6 @@ function editKeyPressed() {
               }
       }
 }
-
-		var pathCookie = '${Context.modulePath}/${mySite.URL}';
-		var dragDrop = null;
-		var urlHomepage = "";
 
 		$(document).ready(function() {
 			  // handling shorcut for mode previsualisation
@@ -89,16 +88,20 @@ function editKeyPressed() {
 		}
 
 </#if>
-function refreshDisplayMode(obj){
-	jQuery(obj).find(".editblock").each(
-		function(i){
-			if(IS_MODE_EDITION){
-				jQuery(this).show();
-			}
-			else{
-				jQuery(this).hide();
-			}
+		function refreshDisplayMode(obj){
+		<#if siteContributor || (This.page?? && This.page != null && This.page.isContributor(Context.principal.name)) >
+			jQuery(obj).find(".editblock").each(
+				function(i){
+					if(IS_MODE_EDITION){
+						jQuery(this).show();
+					}
+					else{
+						jQuery(this).hide();
+					}
+				}
+			);
+		<#else>
+			return;
+		</#if>
 		}
-	);
-}
 	</script>

@@ -58,8 +58,6 @@ function addContact(){
 		    async: false,
 		    url: "${This.path}/@labscontacts/add?id=" + username,
 		    success: function(data) {
-		    	closeAddContact();
-		    	//jQuery("#divDislayArray").load('${This.path}/@labscontacts');
 		    	window.location.reload();
 		    },
 		      error: function(data) {

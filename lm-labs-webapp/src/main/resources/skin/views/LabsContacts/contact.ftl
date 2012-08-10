@@ -1,4 +1,4 @@
-<@cache name="LabsSites-footer" key="LabsSites-footer-contacts-${Common.siteDoc(Document).getSite().URL}" >
+<#-- html généré est petit sinon rafraichir le cache quand on change dans contacts-->
 <#if contactsAdmin?size &gt; 0>
 	<#assign mySite=Common.siteDoc(Document).getSite() />
 	${Context.getMessage("label.footer.contact.other")}
@@ -11,4 +11,3 @@
         </a>
 	</#if>
 </#if>
-</@cache>
