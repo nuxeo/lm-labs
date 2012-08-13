@@ -23,7 +23,7 @@ make_branch() {
     echo "============> Finding pom(s).xml       <=================================="
     poms=`find . -name pom.xml`
 
-    hg up develop
+#    hg up develop
 
     #== Passer à la version release (nouvelle branche)==
 
