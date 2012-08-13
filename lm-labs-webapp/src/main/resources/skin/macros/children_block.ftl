@@ -63,7 +63,7 @@
 					<#if showGrandChildPages >
 						<#assign childSubPages = Common.siteDoc(child).getChildrenNavigablePages(Context.principal.name) />
 					</#if>
-                	<li<#if 0 < childSubPages?size > class="dropdown"</#if> ><#if sidebarPosition == "right" && 0 < childSubPages?size ><i style="font-size: 9px;" class="icon-chevron-down" ></i></#if>
+                	<li<#if 0 < childSubPages?size > class="dropdown"</#if> >
                 	  <#assign url = Context.modulePath + "/" + Common.siteDoc(child).resourcePath />
                 	  <a href="${url?html}"
                 	    <#if 0 < childSubPages?size > class="dropdown-toggle" data-toggle="dropdown" data-target="#" </#if>
@@ -73,7 +73,7 @@
                 	  	</#if>
                 	  ><#if displayChevron ><i style="font-size: 9px;" class="icon-chevron-right bullet-icon" ></i></#if>
                 	  <span<#if 0 < childSubPages?size > onclick="event.stopPropagation(); window.location.href = '${url?html}'; return false;"</#if> >${child.title}</span>
-                	<#if sidebarPosition == "left" && 0 < childSubPages?size ><i style="font-size: 15px; float:right; width:0.4em;" class="icon-chevron-down" ></i></#if>
+                	<#if sidebarPosition == "left" && 0 < childSubPages?size ><b style="float:right;" class="caret" ></b></#if>
                 	  </a>
    					<#if 0 < childSubPages?size >
                     <ul class="dropdown-menu">
