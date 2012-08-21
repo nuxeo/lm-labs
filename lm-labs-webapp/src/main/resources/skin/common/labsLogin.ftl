@@ -76,9 +76,9 @@
 </script>
 
 <#if Context.principal.isAnonymous() == true>
-    <form class="navbar-form form-horizontal pull-right" action="">
+    <form class="navbar-form form-horizontal pull-right" action="" onsubmit="alert('toto');return false;">
     <input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="input-small listener" size="13"/>
     <input type="password" id="password" class="input-small listener" size="13"/>
-    <button id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" onclick="valid();return false;" data-loading-text="${Context.getMessage('command.login.ongoing')}">${Context.getMessage('command.login')}</button>
+    <a href="#" id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" onclick="valid();return false;" data-loading-text="${Context.getMessage('command.login.ongoing')}">${Context.getMessage('command.login')}</a>
     </form> 
 </#if>

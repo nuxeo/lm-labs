@@ -47,7 +47,7 @@ public class LabsNewsResource extends PageResource {
     private PageProvider<DocumentModel> newsPageProvider;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat(
-            "dd/MM/yyyy");
+            "dd/MM/yyyy 'à' HH:mm");
 
     @SuppressWarnings("unchecked")
     @Override
