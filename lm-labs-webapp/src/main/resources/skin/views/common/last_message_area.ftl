@@ -25,7 +25,7 @@ function parseXml(xml) {
 		var item = new Array(
 			$(this).find("pubDate").text(),
 			$(this).find("title").text(),
-			$(this).find("description").text(),
+			$(this).find("description").text().replace("[[TOC]]", ""),
 			$(this).find("link").text()
 		);
 		last_messages.push(item);
