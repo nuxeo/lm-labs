@@ -62,3 +62,6 @@ div.hiddenNews {
 	font-style: italic;
 	text-decoration: line-through;
 }
+div.newsContent{
+	margin-top: 2px;
+}
