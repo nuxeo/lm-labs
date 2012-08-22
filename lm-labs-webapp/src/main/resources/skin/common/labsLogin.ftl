@@ -7,7 +7,7 @@
 	
 	    jQuery(".listener").keypress(function(e){
 	      if (e.keyCode == 13 || e.which == 13){
-	       valid();
+	       valid(e);
 	      }
 	    });
 	
@@ -19,7 +19,7 @@
 
 
 
-  function valid(){
+  function valid(e){
     jQuery('#login').button('loading');
     var user = jQuery("#username").val();
     var pwd = jQuery("#password").val();
@@ -28,7 +28,7 @@
       jQuery("#FKerrorLogin").show();
       jQuery('#login').button('reset');
     } else {
-      doLogin(user,pwd);
+      doLogin(user,pwd, e);
     }
    }
 
@@ -52,7 +52,9 @@
     jQuery.post("${Context.loginPath}", {caller: "login", nuxeo_login : "true"});
   }
 
-  function doLogin(username, password) {
+  function doLogin(username, password, e) {
+    log('doLogin');
+    e.preventDefault();
     jQuery("#username").hide();
     jQuery("#password").hide();
     var req = jQuery.ajax({
@@ -73,10 +75,22 @@
       }
     });
   }
+
+function labsLoginFormSubmit(e) {
+    log('labsLoginFormSubmit');
+    e.preventDefault();
+    return false;
+}
+
+function log(str) {
+    if (typeof console !== "undefined") {
+        console.log(str);
+    }
+}
 </script>
 
 <#if Context.principal.isAnonymous() == true>
-    <form class="navbar-form form-horizontal pull-right" action="" onsubmit="alert('toto');return false;">
+    <form class="navbar-form form-horizontal pull-right" action="" onsubmit="return false;">
     <input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="input-small listener" size="13"/>
     <input type="password" id="password" class="input-small listener" size="13"/>
     <a href="#" id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" onclick="valid();return false;" data-loading-text="${Context.getMessage('command.login.ongoing')}">${Context.getMessage('command.login')}</a>
