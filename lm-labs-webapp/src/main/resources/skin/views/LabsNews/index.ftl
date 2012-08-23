@@ -31,7 +31,8 @@
   <@block name="scripts">
     <@superBlock/>
       <script type="text/javascript" src="${skinPath}/js/jquery/jquery.ui.datepicker-fr.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.18.datepicker.min.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.22.datepicker.slider.min.js"></script>
+      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-timepicker-addon.js"></script>
       <script type="text/javascript" src="${skinPath}/js/LabsNews.js"></script>
       <script type="text/javascript" src="${skinPath}/js/move.js"></script>
       <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>

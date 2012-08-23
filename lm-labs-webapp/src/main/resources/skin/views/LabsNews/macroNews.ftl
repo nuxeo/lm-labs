@@ -1,19 +1,23 @@
 <#-- genere le contenu entier de la news -->
 <#macro generateContentHtmlNews news>
-	<#list news.getRows() as row>
-	    <div class="row-fluid" id="row_s${news_index}_r${row_index}">
-	      <#list row.contents as content>
-	        <div class="span${content.colNumber} columns">
-	          <#if content.html == "">
-	            &nbsp;
-	          <#else>
-	            ${content.html}
-	          </#if>
-	
-	        </div>
-	      </#list>
-	    </div>
-	  </#list>
+		<#if (news.getRows()?size == 0)>
+			${news.accroche?replace("\n", "<br />")}
+		<#else>
+		  <#list news.getRows() as row>
+		    <div class="row-fluid" id="row_s${news_index}_r${row_index}">
+		      <#list row.contents as content>
+		        <div class="span${content.colNumber} columns">
+		          <#if content.html == "">
+		            &nbsp;
+		          <#else>
+		            ${content.html}
+		          </#if>
+		
+		        </div>
+		      </#list>
+		    </div>
+		  </#list>
+		</#if>
 </#macro>
 
 <#-- genere l'entete de la news -->
