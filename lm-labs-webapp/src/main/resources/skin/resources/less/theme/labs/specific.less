@@ -9,7 +9,7 @@
 }
 
 html>body {
-  background-image: url(../../../images/theme/bg.jpg);
+  background-image: url('@{skinPath}/images/theme/bg.jpg');
 }
 
 
@@ -28,39 +28,39 @@ html>body {
 }
 
 .rss-feed-list, .lastMessage {
-	.browseLastMsg .prev {
-		border: 1px solid #AAAAEE;
-		border-color: #999999;
-		margin-right: 5px;
-    	padding: 1px 4px;
-	}
-	.browseLastMsg .next {
-		border: 1px solid #AAAAEE;
-		border-color: #999999;
-		margin-right: 5px;
-    	padding: 1px 4px;
-	}
-	.browseLastMsg .prev:hover {
-		background-color:#ABD7FE;
-	}
-	.browseLastMsg .next:hover {
-		background-color:#ABD7FE;
-	}
-	.browseLastMsg .current:hover {
-		background-color:white;
-	}
-	a {
-		color: #404040;
-	    font-size: @baseFontSize;
-	    font-weight: normal;
-	    line-height: 18px;
-	}
+  .browseLastMsg .prev {
+    border: 1px solid #AAAAEE;
+    border-color: #999999;
+    margin-right: 5px;
+      padding: 1px 4px;
+  }
+  .browseLastMsg .next {
+    border: 1px solid #AAAAEE;
+    border-color: #999999;
+    margin-right: 5px;
+      padding: 1px 4px;
+  }
+  .browseLastMsg .prev:hover {
+    background-color:#ABD7FE;
+  }
+  .browseLastMsg .next:hover {
+    background-color:#ABD7FE;
+  }
+  .browseLastMsg .current:hover {
+    background-color:white;
+  }
+  a {
+    color: #404040;
+      font-size: @baseFontSize;
+      font-weight: normal;
+      line-height: 18px;
+  }
 }
 
 /*Override for GWTContainer*/
 .breadcrumb {
   a {
-  	color: @linkColor !important;
+    color: @linkColor !important;
   }
   .active a {
     color: @gray !important;
@@ -72,89 +72,89 @@ html>body {
 .navbar div > ul,
 .nav {
   a {
-  	color: @grayLight;
-  	}
+    color: @grayLight;
+    }
 }
 
 
 .container-fluid {
-	padding-left: 10px;
+  padding-left: 10px;
     padding-right: 10px;
     > .sidebar {
-  	  width: 180px;
+      width: 180px;
     }
     > .container {
-  	  position: relative;
+      position: relative;
       float: right;
       width: 760px;
     }
 }
 
 /*.container{
-	width: auto;
-	margin-left: 10px;
-	margin-right: 5px;
+  width: auto;
+  margin-left: 10px;
+  margin-right: 5px;
 }*/
 
 #div_externalURL, #latestuploads{
-	> ul {
-		margin-bottom: 2px;
-		> li {
-			word-wrap: break-word;
-		}
-	}
+  > ul {
+    margin-bottom: 2px;
+    > li {
+      word-wrap: break-word;
+    }
+  }
 }
 
 .navbar{
     margin-bottom: 0;
-	z-index: 100;
-	// Website or project name
+  z-index: 100;
+  // Website or project name
     .brand {
-	    padding: 0;
-	    padding-top : 4px
+      padding: 0;
+      padding-top : 4px
     }
     input {
-	    background-color: #444;
-	    background-color: rgba(255,255,255,.3);
-	    #font > .sans-serif(13px, normal, 1);
-	    padding: 1px 9px;
-	    color: @white;
-	    color: rgba(255,255,255,.75);
-	    border: 1px solid #111;
-	    .border-radius(4px);
-	    @shadow: inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0px rgba(255,255,255,.25);
-	    .box-shadow(@shadow);
-	    .transition(none);
+      background-color: #444;
+      background-color: rgba(255,255,255,.3);
+      #font > .sans-serif(13px, normal, 1);
+      padding: 1px 9px;
+      color: @white;
+      color: rgba(255,255,255,.75);
+      border: 1px solid #111;
+      .border-radius(4px);
+      @shadow: inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0px rgba(255,255,255,.25);
+      .box-shadow(@shadow);
+      .transition(none);
 
-	    // Placeholder text gets special styles; can't be bundled together though for some reason
-	    &:-moz-placeholder {
-	      color: @grayLighter;
-	    }
-	    &::-webkit-input-placeholder {
-	      color: @grayLighter;
-	    }
-	    // Hover states
-	    &:hover {
-	      background-color: @grayLight;
-	      background-color: rgba(255,255,255,.5);
-	      color: @white;
-	    }
-	    // Focus states (we use .focused since IE8 and down doesn't support :focus)
-	    &:focus,
-	    &.focused {
-	      outline: 0;
-	      background-color: @white;
-	      color: @grayDark;
-	      text-shadow: 0 1px 0 @white;
-	      //border: 0;
-	      padding: 1px 9px;
-	      .box-shadow(0 0 3px rgba(0,0,0,.15));
-	    }
-	 }
+      // Placeholder text gets special styles; can't be bundled together though for some reason
+      &:-moz-placeholder {
+        color: @grayLighter;
+      }
+      &::-webkit-input-placeholder {
+        color: @grayLighter;
+      }
+      // Hover states
+      &:hover {
+        background-color: @grayLight;
+        background-color: rgba(255,255,255,.5);
+        color: @white;
+      }
+      // Focus states (we use .focused since IE8 and down doesn't support :focus)
+      &:focus,
+      &.focused {
+        outline: 0;
+        background-color: @white;
+        color: @grayDark;
+        text-shadow: 0 1px 0 @white;
+        //border: 0;
+        padding: 1px 9px;
+        .box-shadow(0 0 3px rgba(0,0,0,.15));
+      }
+   }
 }
 
 .navbar-search .search-query {
-	padding: 0;
+  padding: 0;
 }
 
 .navbar-inner{
@@ -163,13 +163,13 @@ html>body {
 }
 
 .navbar-form {
-	margin-right: -15px;
+  margin-right: -15px;
 }
 
 .navbar-form input, .navbar-form .btn {
-	margin-top: 4px;
-	margin-bottom: 0;
-	padding: 1px 9px;
+  margin-top: 4px;
+  margin-bottom: 0;
+  padding: 1px 9px;
 }
 
 .navbar .nav > li > a {

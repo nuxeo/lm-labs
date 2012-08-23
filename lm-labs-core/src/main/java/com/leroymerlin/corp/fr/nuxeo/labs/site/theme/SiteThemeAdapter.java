@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.theme;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,20 +12,26 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentRef;
+import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.platform.picture.api.ImageInfo;
 import org.nuxeo.ecm.platform.picture.api.ImagingService;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteThemeAdapter implements SiteTheme {
 
+    private static final String DC_MODIFIED = "dc:modified";
+
     public static final Map<String, ThemeProperty> EMPTY_PROPERTIES = new HashMap<String, ThemeProperty>();
-    
+
     private static final Log LOG = LogFactory.getLog(SiteThemeAdapter.class);
 
     private static final String PROPERTY_NAME = "dc:title";
@@ -49,6 +56,9 @@ public class SiteThemeAdapter implements SiteTheme {
 
     private static final String PROPERTY_STYLECSS = Schemas.SITETHEME.prefix()
             + ":style";
+
+    private static final String PROPERTY_CACHEDSTYLECSS = Schemas.SITETHEME.prefix()
+            + ":cachedstyle";
 
     private static final String PROPERTIES = Schemas.SITETHEME.prefix()
             + ":properties";
@@ -173,11 +183,12 @@ public class SiteThemeAdapter implements SiteTheme {
         ThemeProperty prop = null;
         for (Map<String, Object> list : propertiesList) {
             try {
-                prop = new ThemeProperty(Tools.getString(list.get("key")),
+                prop = new ThemeProperty(
+                        Tools.getString(list.get("key")),
                         Tools.getString(list.get("value")),
                         Tools.getString(list.get("label")),
                         Tools.getString(list.get("description")),
-                        Tools.getString(list.get("type")),
+                        (LabsSiteConstants.PropertyType.fromString(Tools.getString(list.get("type")))),
                         Tools.getInt(list.get("orderNumber")));
             } catch (NullException e) {
                 LOG.error("Unable to get property: " + e.getMessage());
@@ -195,9 +206,11 @@ public class SiteThemeAdapter implements SiteTheme {
             for (Map.Entry<String, ThemeProperty> property : properties.entrySet()) {
                 listProperties.add(getPropertyMap(property));
             }
-            doc.getProperty(PROPERTIES).setValue(listProperties);
+            doc.getProperty(PROPERTIES)
+                    .setValue(listProperties);
         } else {
-            doc.getProperty(PROPERTIES).setValue(null);
+            doc.getProperty(PROPERTIES)
+                    .setValue(null);
         }
     }
 
@@ -205,11 +218,22 @@ public class SiteThemeAdapter implements SiteTheme {
             Entry<String, ThemeProperty> pProperty) {
         Map<String, Object> property = new HashMap<String, Object>();
         property.put("key", pProperty.getKey());
-        property.put("value", pProperty.getValue().getValue());
-        property.put("label", pProperty.getValue().getLabel());
-        property.put("description", pProperty.getValue().getDescription());
-        property.put("type", pProperty.getValue().getType());
-        property.put("orderNumber", pProperty.getValue().getOrderNumber());
+        property.put("value", pProperty.getValue()
+                .getValue());
+        property.put("label", pProperty.getValue()
+                .getLabel());
+        property.put("description", pProperty.getValue()
+                .getDescription());
+
+        if (pProperty.getValue()
+                .getType() != null) {
+            property.put("type", pProperty.getValue()
+                    .getType().toString());
+        } else {
+            property.put("type", null);
+        }
+        property.put("orderNumber", pProperty.getValue()
+                .getOrderNumber());
         return property;
     }
 
@@ -235,6 +259,54 @@ public class SiteThemeAdapter implements SiteTheme {
     @Override
     public void setLogoAreaHeight(int height) throws ClientException {
         doc.setPropertyValue(PROPERTY_LOGO_AREA_HEIGHT, new Long(height));
+    }
+
+    @Override
+    public String getCssValue() throws ClientException {
+        DocumentModel cache = getSibblingDocument();
+        if (cache != null) {
+            Calendar cacheModified = (Calendar) cache.getPropertyValue(DC_MODIFIED);
+            Calendar modified = (Calendar) doc.getPropertyValue(DC_MODIFIED);
+            if (modified.before(cacheModified)) {
+                return (String) cache.getPropertyValue(PROPERTY_CACHEDSTYLECSS);
+            }
+        }
+        return null;
+    }
+
+    private DocumentModel getSibblingDocument() throws ClientException {
+        CoreSession session = doc.getCoreSession();
+        String sibblingName = "cache." + doc.getName();
+        DocumentModel parent = session.getDocument(doc.getParentRef());
+        DocumentRef cacheRef = new PathRef(parent.getPathAsString() + "/"
+                + sibblingName);
+        if (session.exists(cacheRef)) {
+            return session.getDocument(cacheRef);
+        }
+        return null;
+    }
+
+    @Override
+    public void setCssValue(String css) throws ClientException {
+        DocumentModel cache = getSibblingDocument();
+        if (cache == null) {
+            cache = createSibbling();
+        }
+        cache.setPropertyValue(PROPERTY_CACHEDSTYLECSS, css);
+        CoreSession session = doc.getCoreSession();
+        session.saveDocument(cache);
+
+    }
+
+    private DocumentModel createSibbling() throws ClientException {
+        CoreSession session = doc.getCoreSession();
+        String sibblingName = "cache." + doc.getName();
+        DocumentModel parent = session.getDocument(doc.getParentRef());
+        DocumentModel cache = session.createDocumentModel(
+                parent.getPathAsString(), sibblingName,
+                LabsSiteConstants.Docs.SITETHEME.type());
+        cache = session.createDocument(cache);
+        return cache;
     }
 
 }
