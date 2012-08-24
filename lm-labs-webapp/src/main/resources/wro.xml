@@ -51,9 +51,43 @@
     <css>webengine:labs/js/assets/prettify/prettify.css</css>
     <css>/css/opensocial/light-container-gadgets.css</css>
     <css>webengine:labs/css/slickmap/slickmap.css</css>
-
-
   </group>
+
+  <group name="labs.news">
+	  <group-ref>labs.common</group-ref>
+  	  <group-ref>datepicker</group-ref>
+
+      <js>webengine:labs/js/LabsNews.js</js>
+
+	  <css>webengine:labs/css/PageNews.css</css>
+      <css>webengine:labs/css/wysiwyg_editor.css</css>
+      <css>webengine:labs/css/jcrop/jquery.Jcrop.css</css>
+
+
+	      <js>webengine:labs/js/move.js</js>
+	      <js>webengine:labs/js/manageDisplayHtmlLine.js</js>
+	      <js>webengine:labs/js/jcrop/jquery.Jcrop.min.js</js>
+
+  	  
+	</group>
+	
+	
+	<group name="labs.classeur">
+		  <group-ref>labs.common</group-ref>
+        <js>webengine:labs/js/jquery/jquery.filedrop.js</js>
+        <js>webengine:labs/js/PageClasseur.js</js>
+        <js>webengine:labs/js/jquery/jquery.tablesorter.min.js</js>
+        <css>webengine:labs/css/PageClasseur.css</css>
+        <css>webengine:labs/css/wysiwyg_editor.css</css>
+        <css>webengine:labs/css/tablesorter.css</css>
+        <css>webengine:labs/css/ckeditor.css</css>		
+    </group>
+	
+	<group name="datepicker">
+		<js>webengine:labs/js/jquery/jquery.ui.datepicker-fr.js</js>
+		<js>webengine:labs/js/jquery/jquery-ui-1.8.22.datepicker.slider.min.js</js>
+		<js>webengine:labs/js/jquery/jquery-ui-timepicker-addon.js</js>
+    </group>
 
 
   <group name="bootstrap">

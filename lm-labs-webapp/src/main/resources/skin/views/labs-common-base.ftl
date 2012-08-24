@@ -12,17 +12,20 @@
             <@block name="title">Labs</@block>
         </title>
 
-        <@block name="css">
-          <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
-          <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
-          <link rel="stylesheet" type="text/css" media="all" href="/nuxeo/wro/labs.common.css"/>
+		<link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
+        <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
+
+
+        <@block name="css">          
         </@block>
 
 
 
-    <@block name="scripts">
-      <script type="text/javascript" src="/nuxeo/wro/labs.common.js"></script>
-    </@block>
+    	<@block name="scripts">
+      	  <script type="text/javascript" src="/nuxeo/wro/labs.common.js"></script>
+        </@block>
+
+
     </head>
     <body>
     <#-- timeout -->

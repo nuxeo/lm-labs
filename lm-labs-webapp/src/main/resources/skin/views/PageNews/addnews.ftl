@@ -4,16 +4,13 @@
   <@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title}</@block>
 
   <@block name="scripts">
+    <script type="text/javascript" src="${contextPath}/wro/labs.news.js"></script>
     <@superBlock/>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.ui.datepicker-fr.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.22.datepicker.slider.min.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-timepicker-addon.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/LabsNews.js"></script>
   </@block>
 
   <@block name="css">
     <@superBlock/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
+      <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.news.css"/>
       <#include "views/common/datepicker_css.ftl">
   </@block>
   

@@ -28,24 +28,19 @@
 
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
+
   <@block name="scripts">
+    <script type="text/javascript" src="${contextPath}/wro/labs.news.js"></script>
     <@superBlock/>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.ui.datepicker-fr.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.22.datepicker.slider.min.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-timepicker-addon.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/LabsNews.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/move.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jcrop/jquery.Jcrop.min.js"></script>
   </@block>
 
   <@block name="css">
     <@superBlock/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
-      <#include "views/common/datepicker_css.ftl">
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jcrop/jquery.Jcrop.css"/>
+    <#include "views/common/datepicker_css.ftl">
+    <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.news.css"/>
   </@block>
+
+
 
   <@block name="docactionsaddpage"></@block>
   <@block name="docactionsonpage"></@block>
