@@ -8,24 +8,51 @@
     <js>webengine:labs/js/jquery/jquery.cookie.js</js>
     <js>webengine:labs/js/jquery/jquery.form-3.09.js</js>
     <js>webengine:labs/js/jquery.placeholder.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-tooltip.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-popover.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-carousel.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-dropdown.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-button.min.js</js>
+    <js>webengine:labs/js/bootstrap/bootstrap-tooltip.js</js>
+    <js>webengine:labs/js/bootstrap/bootstrap-popover.js</js>
+    <js>webengine:labs/js/bootstrap/bootstrap-carousel.js</js>
+    <js>webengine:labs/js/bootstrap/bootstrap-dropdown.js</js>
+    <js>webengine:labs/js/bootstrap/bootstrap-button.js</js>
     <js>webengine:labs/js/scroll-startstop.events.jquery.js</js>
     <js>webengine:labs/js/labs.js</js>
     <js>webengine:labs/js/timeout.js</js>
     <js>webengine:labs/js/modernizr.custom.js</js>
-    <js>webengine:labs/js/assets/less/less-1.3.0.min.js</js>
+
+
+
+	<js>webengine:labs/js/tooltip.js</js>
+    <js>webengine:labs/js/jquery/jquery.hotkeys.js</js>
+    <js>webengine:labs/js/jquery/jquery.pagination.js</js>
+    <js>webengine:labs/js/jquery.ThreeDots.min.leroymerlin.js</js>
+
 
     <css>webengine:labs/css/tooltip.css</css>
     <css>webengine:labs/css/jquery/jquery.dialog2.css</css>
+    <css>webengine:labs/css/ckeditor.css</css>
+    <css>webengine:labs/css/jquery/pagination.css</css>
   </group>
 
+  
+  <group name="labs.manage">
+	<group-ref>labs.common</group-ref>
+	<js>webengine:labs/js/assets/less/less-1.3.0.min.js</js>
+  </group>
 
-  <group name="labs.classeur">
+  <group name="labs.pagehtml">
     <group-ref>labs.common</group-ref>
+    <js>webengine:labs/js/jquery/jquery.tablesorter.min.js</js>
+    <js>webengine:labs/js/assets/prettify/prettify.js</js>
+    <js>webengine:labs/js/PageHtml.js</js>
+    <js>webengine:labs/js/move.js</js>
+    <js>webengine:labs/js/manageDisplayHtmlLine.js</js>
+  	<js>webengine:labs/js/bootstrap/bootstrap-button.min.js</js>
+
+    <css>webengine:labs/css/wysiwyg_editor.css</css>
+    <css>webengine:labs/js/assets/prettify/prettify.css</css>
+    <css>/css/opensocial/light-container-gadgets.css</css>
+    <css>webengine:labs/css/slickmap/slickmap.css</css>
+
+
   </group>
 
 

@@ -10,6 +10,10 @@
     </style>
   </@block>
 
+  <@block name="scripts">
+    <script type="text/javascript" src="/nuxeo/wro/labs.manage.js"></script>
+  </@block>
+
   <@block name="topbar">
     <@superBlock/>
     <a href="${Context.modulePath}"><img style="position: fixed; top: 0; left: 0; border: 0;z-index: 20000;" src="${skinPath}/images/beta-ribbon.png" alt="Labs-beta"></a>

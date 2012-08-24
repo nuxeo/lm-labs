@@ -22,7 +22,7 @@
 
     <@block name="scripts">
       <script type="text/javascript" src="/nuxeo/wro/labs.common.js"></script>
-        </@block>
+    </@block>
     </head>
     <body>
     <#-- timeout -->

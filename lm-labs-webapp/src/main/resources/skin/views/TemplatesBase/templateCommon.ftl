@@ -7,29 +7,21 @@
   <@block name="css">
     <@superBlock/>
         <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss" />
-
-        <#if canWrite>
-          <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
-        </#if>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/pagination.css"/>
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastNews" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastNews.title')}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastUpload" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastUpload.title')}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/all" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.all.title')}" />
   </@block>
 
   <@block name="scripts">
-    <@superBlock/>
-        <#if canWrite>
-          <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
-        </#if>
-        <script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.pagination.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
+      <#if canWrite>
+		<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>   
+      </#if>
 
+        
+        
         <#--  ckeditor_confi -->
     <script type="text/javascript">
       <#include "views/common/ckeditor_config.ftl" />
