@@ -1,6 +1,6 @@
-@import "../../bootstrap/bootstrap.less";
-@import "../tablesorter.less";
-@import "../labs-fixed.less";
+@import "bootstrap.less";
+@import "../theme/tablesorter.less";
+@import "../theme/labs-fixed.less";
 
 @brown: #4B3621;
 
@@ -25,8 +25,12 @@
 @bodyBackgroundIsColor: false;
 @bodyBackgroundIsGradient: false;
 @bodyBackgroundIsImage: true;
-@backgroundURL: "supplyChain/images/bg-brown.gif";
+@backgroundURL: "@{skinPath}/less/theme/supplyChain/images/bg-brown.gif";
 
+
+.background-image() { 
+	background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/bg-brown.gif')";
+}
 
 //---------------Specific-------------------------------
 @bgcolortabs: #BB6C1A;
@@ -63,7 +67,7 @@
 #FKbacktointralm {
   /* On fixe la taille en pixel car on a un fond  fixé en px */
   font-size: 11px;
-  background-image: url(../../../images/theme/backIntralm.png);
+  background-image: ~"url('@{skinPath}/images/theme/backIntralm.png')";
   width: 110px;
   height: 25px;
   margin-top: 5px;
@@ -81,7 +85,7 @@
 
 
 #FKfooter {
-  background: url(../../../images/theme/footer_bg.png) repeat-x scroll center
+  background: ~"url('@{skinPath}/images/theme/footer_bg.png')" repeat-x scroll center
     bottom #FFFFFF;
   background-color: white;
   color: #0087C0;
@@ -92,7 +96,7 @@
 }
 
 #FKfooter_logo_lm {
-  background-image: url(../../../images/theme/footer_logo_lm.png);
+  background-image: ~"url('@{skinPath}/images/theme/footer_logo_lm.png')";
   height: 71px;
   width: 77px;
   float: right;
@@ -100,13 +104,13 @@
 }
 
 #FKfooter_bottom {
-  background: url(../../../images/theme/footer_liseret.png) no-repeat scroll
+  background: ~"url('@{skinPath}/images/theme/footer_liseret.png')" no-repeat scroll
     0 0 transparent;
   height: 35px;
 }
 
 #FKfooter_logo_adeo {
-  background: url(../../../images/theme/footer_adeo.png) no-repeat scroll 0 0
+  background: ~"url('@{skinPath}/images/theme/footer_adeo.png')" no-repeat scroll 0 0
     transparent;
   margin-right:10px;
   width: 160px;
@@ -165,7 +169,7 @@
 }
 
 .homepage {
-	background-image: url(/nuxeo/icons/home.gif);
+	background-image: ~"url(/nuxeo/icons/home.gif)";
 	background-repeat: no-repeat;
 	background-position: left center;
 	padding: 0 0 0 20px;
@@ -363,7 +367,7 @@ a:hover {
  }
 
 .navbar-inner, .navbar-wrapper {
-  background-image: url(images/bg-grey.gif);
+  background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/bg-grey.gif')";
 }
 
 .nav-pills .active a {
@@ -443,11 +447,11 @@ h6 {
     margin-top: 17px;
     .box-shadow(0px 0px 0em #555);
     .top{
-        background-image: url(images/bg-ocre.gif);
+        background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/bg-ocre.gif')";
         text-align: right;
     }
     .bottom{
-        background-image: url(images/bg-ocre.gif);
+        background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/bg-ocre.gif')";
     }
 }
 
@@ -500,7 +504,7 @@ h6 {
 			font-size: 0;
 			display: block;
 			background: none;
-			background-image: url(images/classeurDisplay.png);
+			background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/classeurDisplay.png')";
 			width: 22px;
 			height: 23px;
 			float: left;
@@ -519,7 +523,7 @@ h6 {
 		font-size: 0;
 		display: block;
 		background: none;
-		background-image: url(images/classeurDownload.png);
+		background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/classeurDownload.png')";
 		width: 22px;
 		height: 23px;
 		float: left;
@@ -605,7 +609,7 @@ h6 {
     margin: 0;
     padding: 0;
     list-style: none;
-    background-image: url(images/li.png);
+    background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/li.png')";
     background-repeat: no-repeat;
     background-position: 0px 3px;
     text-indent: 0px;
@@ -633,7 +637,7 @@ div.body {
 }
 
 .marylinBrownRow{
-	background-image: url(images/bg-ocre.gif);
+	background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/bg-ocre.gif')";
 	background-repeat: repeat;
 	line-height: 1px;
 }
@@ -759,24 +763,24 @@ div.classeur{
 }
 
 .homepage {
-	background-image: url(images/homepage.png);
+	background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/homepage.png')";
 }
 
 li.active > a > h5 .homepage{
-	background-image: url(images/homepageActive.png);
+	background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/homepageActive.png')";
 }
 
 .topJagged {
 	margin: auto;
 	width: 980px;
-	background-image: url(images/bg-topocre.png);
+	background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/bg-topocre.png')";
 	height: 6px;
 }
 
 .bottomJagged {
 	margin: auto;
 	width: 980px;
-	background-image: url(images/bg-bottom.png);
+	background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/bg-bottom.png')";
 	height: 10px;
 
 }
@@ -825,7 +829,7 @@ li.active > a > h5 .homepage{
         margin-right: 2px;
         padding: 0px;
         font-size: 0;
-        background-image: url(images/precedent.png);
+        background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/precedent.png')";
         background-repeat: no-repeat;
         width:22px;
         height: 22px;
@@ -837,7 +841,7 @@ li.active > a > h5 .homepage{
         margin-right: 0px;
         padding: 0px ;
         font-size: 0;
-        background-image: url(images/suivant.png);
+        background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/suivant.png')";
         background-repeat: no-repeat;
         width:22px;
         height: 22px;
@@ -853,7 +857,7 @@ li.active > a > h5 .homepage{
     }
     .date {
         list-style: none;
-        background-image: url(images/horloge.png);
+        background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/horloge.png')";
         background-repeat: no-repeat;
         background-position: left 10%;
         text-indent: 22px;
@@ -882,7 +886,7 @@ li.active > a > h5 .homepage{
 }
 
 .sidebarSeparator{
-	background-image: url(images/sidebarSeparateur.png);
+	background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/sidebarSeparateur.png')";
 	background-repeat: no-repeat;
 
 }
@@ -894,7 +898,7 @@ li.active > a > h5 .homepage{
 		margin: 0;
     	padding: 0;
 	    list-style: none;
-	    background-image: url(images/pointeurGris.png);
+	    background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/pointeurGris.png')";
 	    background-repeat: no-repeat;
 	    background-position: 0px 6px;
 	    text-indent: 0px;
@@ -914,7 +918,7 @@ li.active > a > h5 .homepage{
 
 .bloc.children-pages > ul > li > a, .bloc.top-pages > ul > li > a {
 	border: none;
-    background-image: url(images/pointeurGris.png);
+    background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/pointeurGris.png')";
     background-repeat: no-repeat;
     background-position: 2px 11px;
 	padding-left: 15px;
@@ -943,7 +947,7 @@ li.active > a > h5 .homepage{
 .labsNewsDate{
 	height: 20px;
 	margin-bottom: 0px;
-	background-image: url(images/horloge.png);
+	background-image: ~"url('@{skinPath}/less/theme/supplyChain/images/horloge.png')";
 	background-repeat: no-repeat;
 	background-position: left middle;
 	line-height: 15px;
