@@ -82,6 +82,24 @@
         <css>webengine:labs/css/tablesorter.css</css>
         <css>webengine:labs/css/ckeditor.css</css>		
     </group>
+
+	<group name="labs.liste">
+		  <group-ref>labs.common</group-ref>
+     	  <group-ref>datepicker</group-ref>
+          <group-ref>tablesorter</group-ref>
+
+			<js>webengine:labs/js/Collection.js</js>
+			<js>webengine:labs/js/PageListHeaders.js</js>
+			<js>webengine:labs/js/PageList.js</js>
+
+
+		<css>webengine:labs/css/PageList.css</css>
+
+	</group>
+		<group name="tablesorter">
+			<js>webengine:labs/js/jquery/jquery.tablesorter.min.js</js>
+			<css>webengine:labs/css/tablesorter.css</css>
+	    </group>
 	
 	<group name="datepicker">
 		<js>webengine:labs/js/jquery/jquery.ui.datepicker-fr.js</js>

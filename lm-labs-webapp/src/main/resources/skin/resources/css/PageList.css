@@ -36,7 +36,7 @@ label{
 	top: 3px;
 	width: 15px;
 	right: 45px;
-	background-image: url(../images/arrow-up.png);
+	background-image: url(/nuxeo/site/skin/labs/images/arrow-up.png);
 	background-repeat: no-repeat;
 }
 .lineHeaderMoveDown{
@@ -46,7 +46,7 @@ label{
 	top: 2px;
 	width: 15px;
 	right: 25px;
-	background-image: url(../images/arrow-down.png);
+	background-image: url(/nuxeo/site/skin/labs/images/arrow-down.png);
 	background-repeat: no-repeat;
 }
 
@@ -57,7 +57,7 @@ label{
 	top: 3px;
 	width: 15px;
 	right: 5px;
-	background-image: url(../images/x.gif);
+	background-image: url(/nuxeo/site/skin/labs/images/x.gif);
 	background-repeat: no-repeat;
 }
 
@@ -84,7 +84,7 @@ label{
 	top: 26px;
 	width: 15px;
 	right: 14px;
-	background-image: url(../images/x.gif);
+	background-image: url(/nuxeo/site/skin/labs/images/x.gif);
 	background-repeat: no-repeat;
 }
 .div_edit_one_option{
