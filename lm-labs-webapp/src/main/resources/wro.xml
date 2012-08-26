@@ -96,6 +96,34 @@
 		<css>webengine:labs/css/PageList.css</css>
 
 	</group>
+	
+	<group name="labs.forum">
+		<group-ref>labs.common</group-ref>
+		<css>webengine:labs/css/PageForum.css</css>
+	</group>
+	
+	
+	<group name="labs.sitemap">
+		<group-ref>labs.common</group-ref>
+		<js>webengine:labs/js/jquery/jquery-ui-1.8.14.min.js</js>
+	    <js>webengine:labs/js/jquery/jquery.treeview.js</js>
+	    <js>webengine:labs/js/jquery/jquery.treeview.edit.js</js>
+	    <js>webengine:labs/js/jquery/jquery.treeview.async.js</js>
+	    <js>webengine:labs/js/jquery/jquery.treeview.sortable.js</js>
+	    <css>webengine:labs/css/jquery/jquery.treeview.css</css>
+	</group>	
+	
+	<group name="labs.assets">
+		<group-ref>labs.common</group-ref>
+		<group-ref>treeview</group-ref>		   
+	</group>
+	<group name="treeview">
+		<css>webengine:labs/css/jquery/jquery.treeview.css</css>      	
+      	<js>webengine:labs/js/jquery/jquery.treeview.js</js>
+      	<js>webengine:labs/js/jquery/jquery.treeview.edit.js</js>
+      	<js>webengine:labs/js/jquery/jquery.treeview.async.js</js>
+</group>
+	 	
 		<group name="tablesorter">
 			<js>webengine:labs/js/jquery/jquery.tablesorter.min.js</js>
 			<css>webengine:labs/css/tablesorter.css</css>

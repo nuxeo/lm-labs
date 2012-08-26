@@ -9,11 +9,13 @@
 
 <@block name="css">
     <@superBlock/>
-	<link rel="stylesheet/less" href="${Context.modulePath}/${mySite.URL}/generated.less" />
+    <link rel="stylesheet" type="text/css" href="${contextPath}/wro/labs.common.css" />
+	<link rel="stylesheet" type="text/css" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss" />
 </@block>
 
 <@block name="scripts">
 	<@superBlock/>
+	<script type="text/javascript" src="${contextPath}/wro/labs.common.js"></script>
 	<script type="text/javascript" src="${skinPath}/js/jstree/jquery.jstree.js"></script>
 	<script type="text/javascript" >
 <#include "common/jstree-icons-labels-js.ftl" >

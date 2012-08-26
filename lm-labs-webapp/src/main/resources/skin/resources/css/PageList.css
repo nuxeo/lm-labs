@@ -1,4 +1,4 @@
-label{
+.control-group > label{
 	font-weight: bold;	
 }
 
