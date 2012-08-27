@@ -16,23 +16,6 @@
 		<link rel="stylesheet" type="text/css" href="${contextPath}/wro/labs.assets.css" />
 
 
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.2.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form-3.09.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-
-
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
     </head>
     <body id="body">
 	<#-- timeout -->

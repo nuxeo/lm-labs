@@ -1,5 +1,18 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
 
+
+<@block name="scripts">
+
+      <script type="text/javascript" src="${contextPath}/wro/labs.common.js"></script>
+    <@superBlock/>
+  </@block>
+
+  <@block name="css">
+      <@superBlock/>
+      <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.common.css"/>
+  </@block>
+
+
 <#include "macros/PageClasseur_file_links.ftl" >
 <#include "views/common/paging.ftl" />
 <#assign nbrElemPerPage = 20 />
