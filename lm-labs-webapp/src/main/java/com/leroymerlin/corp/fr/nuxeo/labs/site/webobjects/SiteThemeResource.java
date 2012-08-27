@@ -450,6 +450,7 @@ public class SiteThemeResource extends PageResource {
                     .entity(css)
                     .type("text/css")
                     .expires(new DateTime().plusMonths(NUMBER_OF_MONTH_BEFORE_EXPIRE).toDate())
+                    .lastModified(lastModified.getTime())
                     .build();
         } catch (Exception e) {
             throw WebException.wrap(e);
