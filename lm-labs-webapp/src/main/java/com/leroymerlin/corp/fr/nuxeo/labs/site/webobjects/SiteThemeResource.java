@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -56,6 +58,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 @WebObject(type = "SiteTheme")
 @Produces("text/html; charset=UTF-8")
 public class SiteThemeResource extends PageResource {
+
+    private static final int NUMBER_OF_MONTH_BEFORE_EXPIRE = 6;
 
     private static final String THE_THEMES_SHOULD_NOT_BE_EMPTY = "The themes should not be empty !";
 
@@ -391,12 +395,21 @@ public class SiteThemeResource extends PageResource {
     }
 
     @GET
-    @Path("rendercss")
-    public Object doRender(
+    @Path("rendercss-{date}")
+    public Object doRender(@PathParam("date") String dateStr,
             @QueryParam("withoutaddedstyle") Boolean withoutAddedStyle) {
         try {
+
+
             withoutAddedStyle  = withoutAddedStyle == null ? false : withoutAddedStyle;
 
+
+            Calendar lastModified = (Calendar) theme.getDocument().getPropertyValue("dc:modified");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            String lastModifiedStr = sdf.format(lastModified.getTime());
+            if(!lastModifiedStr.equals(dateStr)) {
+                return redirect(getPath() + "/rendercss-" + lastModifiedStr);
+            }
 
             String css = theme.getCssValue();
 
@@ -436,6 +449,7 @@ public class SiteThemeResource extends PageResource {
             return Response.ok()
                     .entity(css)
                     .type("text/css")
+                    .expires(new DateTime().plusMonths(NUMBER_OF_MONTH_BEFORE_EXPIRE).toDate())
                     .build();
         } catch (Exception e) {
             throw WebException.wrap(e);

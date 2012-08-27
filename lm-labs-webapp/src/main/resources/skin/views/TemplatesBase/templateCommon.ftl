@@ -6,7 +6,7 @@
 
   <@block name="css">
     <@superBlock/>
-        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss" />
+        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document.dublincore.modified?string("yyyyMMddHHmmss")}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastNews" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastNews.title')}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastUpload" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastUpload.title')}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/all" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.all.title')}" />
@@ -14,14 +14,14 @@
 
   <@block name="scripts">
       <#if canWrite>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
         <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
         <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>   
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
       </#if>
 
-        
-        
+
+
         <#--  ckeditor_confi -->
     <script type="text/javascript">
       <#include "views/common/ckeditor_config.ftl" />
