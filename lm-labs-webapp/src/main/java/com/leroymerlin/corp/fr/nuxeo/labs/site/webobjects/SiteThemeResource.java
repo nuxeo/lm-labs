@@ -2,6 +2,9 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -29,7 +32,13 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
+import org.nuxeo.platform.wro.WebengineUriLocator;
+import org.nuxeo.platform.wro.processor.LessCssProcessor;
 import org.nuxeo.runtime.api.Framework;
+
+import ro.isdc.wro.model.resource.Resource;
+import ro.isdc.wro.model.resource.ResourceType;
+import ro.isdc.wro.model.resource.locator.factory.SimpleUriLocatorFactory;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
@@ -48,7 +57,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 public class SiteThemeResource extends PageResource {
 
     private static final String THE_THEMES_SHOULD_NOT_BE_EMPTY = "The themes should not be empty !";
-
 
     private static final Log LOG = LogFactory.getLog(SiteThemeResource.class);
 
@@ -89,11 +97,13 @@ public class SiteThemeResource extends PageResource {
         LabsThemeManager themeService = getThemeService();
         List<String> entriesTheme = new ArrayList<String>();
         if (themeService != null) {
-            entriesTheme = themeService.getThemeList(getModule().getRoot().getAbsolutePath());
+            entriesTheme = themeService.getThemeList(getModule().getRoot()
+                    .getAbsolutePath());
         }
         if (entriesTheme.isEmpty()) {
             LOG.error(THE_THEMES_SHOULD_NOT_BE_EMPTY);
-            LOG.error("Verify the package " + LabsSiteWebAppUtils.DIRECTORY_THEME);
+            LOG.error("Verify the package "
+                    + LabsSiteWebAppUtils.DIRECTORY_THEME);
         }
         return entriesTheme;
     }
@@ -108,28 +118,40 @@ public class SiteThemeResource extends PageResource {
     public Response doDeleteBanner() {
         try {
             site.setBanner(null);
-            ctx.getCoreSession().save();
+            ctx.getCoreSession()
+                    .save();
             return Response.ok(
                     "?message_success=label.labssites.banner.deleted",
-                    MediaType.TEXT_PLAIN).status(Status.CREATED).build();
+                    MediaType.TEXT_PLAIN)
+                    .status(Status.CREATED)
+                    .build();
         } catch (ClientException e) {
             LOG.error(e);
             return Response.ok(
                     "?message_warning=label.labssites.banner.notDeleted",
-                    MediaType.TEXT_PLAIN).status(Status.CREATED).build();
+                    MediaType.TEXT_PLAIN)
+                    .status(Status.CREATED)
+                    .build();
         }
     }
-    
+
     @GET
     @Path("banner")
     public Response getImgBanner() throws ClientException {
         CoreSession session = ctx.getCoreSession();
-        Blob blob = Tools.getAdapter(SiteDocument.class, doc, 
-                session).getSite().getThemeManager().getTheme(session).getBanner();
+        Blob blob = Tools.getAdapter(SiteDocument.class, doc, session)
+                .getSite()
+                .getThemeManager()
+                .getTheme(session)
+                .getBanner();
         if (blob != null) {
-            return Response.ok().entity(blob).type(blob.getMimeType()).build();
+            return Response.ok()
+                    .entity(blob)
+                    .type(blob.getMimeType())
+                    .build();
         }
-        return Response.noContent().build();
+        return Response.noContent()
+                .build();
     }
 
     @POST
@@ -138,9 +160,11 @@ public class SiteThemeResource extends PageResource {
         FormData form = ctx.getForm();
         try {
             CoreSession session = ctx.getCoreSession();
-            site.getTemplate().setTemplateName(form.getString("template"));
+            site.getTemplate()
+                    .setTemplateName(form.getString("template"));
             String themeName = form.getString("theme");
-            site.getThemeManager().setTheme(themeName, session);
+            site.getThemeManager()
+                    .setTheme(themeName, session);
             session.saveDocument(site.getDocument());
             session.save();
             return redirect(getPrevious().getPath() + "/@theme/" + themeName
@@ -163,14 +187,18 @@ public class SiteThemeResource extends PageResource {
                 CoreSession session = ctx.getCoreSession();
                 session.saveDocument(theme.getDocument());
                 session.save();
-                return Response.ok().status(Status.OK).build();
+                return Response.ok()
+                        .status(Status.OK)
+                        .build();
             }
         } catch (Exception e) {
-            return Response.notModified().build();
+            return Response.notModified()
+                    .build();
         }
-        return Response.notModified().build();
+        return Response.notModified()
+                .build();
     }
-    
+
     @GET
     @Path(value = "resetCurrentTheme")
     public Response doResetCurrentTheme() {
@@ -178,13 +206,16 @@ public class SiteThemeResource extends PageResource {
             theme.setProperties(SiteThemeAdapter.EMPTY_PROPERTIES);
             CoreSession session = ctx.getCoreSession();
             session.saveDocument(theme.getDocument());
-//            session.save();
-            return Response.ok().status(Status.OK).build();
+            // session.save();
+            return Response.ok()
+                    .status(Status.OK)
+                    .build();
         } catch (Exception e) {
-            return Response.notModified().build();
+            return Response.notModified()
+                    .build();
         }
     }
-    
+
     @GET
     @Path(value = "editParameters")
     public Template getEditParameters() {
@@ -211,7 +242,8 @@ public class SiteThemeResource extends PageResource {
                         && !StringUtils.isEmpty(banner.getFilename())) {
                     theme.setBanner(banner);
                 }
-                if (StringUtils.isNotBlank(logoAreaHeight) && StringUtils.isNumeric(logoAreaHeight)) {
+                if (StringUtils.isNotBlank(logoAreaHeight)
+                        && StringUtils.isNumeric(logoAreaHeight)) {
                     theme.setLogoAreaHeight(Integer.parseInt(logoAreaHeight));
                 }
                 if (StringUtils.isNotBlank(posx) && StringUtils.isNumeric(posx)) {
@@ -314,7 +346,14 @@ public class SiteThemeResource extends PageResource {
         if (blob == null) {
             return null;
         }
-        return Response.ok().entity(blob).type(blob.getMimeType()).build();
+        return Response.ok()
+                .entity(blob)
+                .type(blob.getMimeType())
+                .build();
+    }
+
+    public SiteTheme getTheme() {
+        return theme;
     }
 
     public List<ThemeProperty> getThemeProperties() {
@@ -322,12 +361,13 @@ public class SiteThemeResource extends PageResource {
         try {
             ThemePropertiesManage tpm = new ThemePropertiesManage(
                     theme.getProperties());
-            String path = getModule().getRoot().getAbsolutePath()
-                    + LabsSiteWebAppUtils.DIRECTORY_THEME + "/"
-                    + theme.getName() + "/properties";
+            String path = getModule().getRoot()
+                    .getAbsolutePath() + LabsSiteWebAppUtils.DIRECTORY_THEME
+                    + "/" + theme.getName() + "/properties";
             File f = new File(path);
             if (!f.exists()) {
-                path = getModule().getRoot().getAbsolutePath()
+                path = getModule().getRoot()
+                        .getAbsolutePath()
                         + LabsSiteWebAppUtils.DIRECTORY_THEME + "/"
                         + "/properties";
                 f = new File(path);
@@ -336,7 +376,8 @@ public class SiteThemeResource extends PageResource {
                 if (f.exists()) {
                     tpm.loadProperties(new FileInputStream(f));
                     theme.setProperties(tpm.getProperties());
-                    theme.setLastRead(Calendar.getInstance().getTimeInMillis());
+                    theme.setLastRead(Calendar.getInstance()
+                            .getTimeInMillis());
                     getCoreSession().saveDocument(theme.getDocument());
                     getCoreSession().save();
                 }
@@ -346,6 +387,39 @@ public class SiteThemeResource extends PageResource {
             throw WebException.wrap(e);
         }
         return properties;
+    }
+
+    @GET
+    @Path("rendercss")
+    public Object doRender() {
+        Template view = getView("render");
+        String data = view.render();
+
+        //We use the Nuxeo Less Processor that can treat @imports directive
+        //in less files
+        LessCssProcessor processor = new LessCssProcessor();
+        processor.setUriLocatorFactory(new SimpleUriLocatorFactory() {
+            {
+                addUriLocator(new WebengineUriLocator());
+            }
+        });
+
+        //Use a resource only to get base path for less imports (see LessCssProcessor)
+        Resource bootstrap = Resource.create("webengine:labs/less/bootstrap/bootstrap.less", ResourceType.JS);
+        StringWriter result = new StringWriter();
+        try {
+
+            processor.process(bootstrap, new StringReader(data), result);
+
+            return Response.ok()
+                    .entity(result.toString())
+                    .type("text/css")
+                    .build();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw WebException.wrap(e);
+        }
+
     }
 
 }
