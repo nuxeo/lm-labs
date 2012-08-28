@@ -48,9 +48,11 @@ function loadContents(page_index, jq){
     // Iterate through a selection of the content and build an HTML string
     for(var i=page_index*items_per_page;i<max_elem;i++) {
     	var desc = last_messages[i][2];
+    	<#--
     	if(desc=='') {
     		desc = '${Context.getMessage("label.last_message.no_desc")}';
     	}
+    	-->
 
     	newcontent += '<a href="'+last_messages[i][3]+'"><div class="item">';
         newcontent += '<div class="date">' + dateAsString(last_messages[i][0]) + '</div>';
