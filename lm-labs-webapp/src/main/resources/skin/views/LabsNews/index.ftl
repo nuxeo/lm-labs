@@ -36,6 +36,11 @@
       <script type="text/javascript" src="${skinPath}/js/move.js"></script>
       <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
       <script type="text/javascript" src="${skinPath}/js/jcrop/jquery.Jcrop.min.js"></script>
+      <script type="text/javascript" >
+      jQuery(document).ready(function() {
+        jQuery('.news-navigation a[rel=popover]').popover({offset: 10, html: true});
+      });
+      </script>
   </@block>
 
   <@block name="css">

@@ -1,14 +1,14 @@
-<script type="text/javascript">
-	jQuery(document).ready(function() {
-		jQuery(function () {
-			jQuery("a[rel=popover]").popover({offset: 10, html:true${popoverPlacement}});
-		});
-	});
-</script>
 <#assign hiddenSubDocTypes = ["LabsNews", "LMForumTopic"] />
 <#import "libs/LabsUtils.ftl" as LabsUtils />
 
 <#macro children_block parentDoc title="" spanClass="span5" showGrandChildPages=false sidebarPosition="left" uniqueId="" displayChevron=false >
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery(function () {
+			jQuery(".bloc.children-pages a[rel=popover]").popover({offset: 10, html:true , placement: '<#if sidebarPosition == "left" >right<#elseif sidebarPosition == "right" >left<#else>bottom</#if>'});
+		});
+	});
+</script>
 	<#assign mySite=Common.siteDoc(Document).getSite() />
     <#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
 	<#if parentDoc.id != Document.id || (parentDoc.id == Document.id <#--&& parentDoc.type != 'PageNews'-->)  >
@@ -32,7 +32,7 @@
     	</#if>
     	-->
     	<#if 0 < childrenNbr >
-        <div<#if 0 < uniqueId > id="bloc${parentDoc.id}_${uniqueId}"</#if> class="bloc ${spanClass} column" <#if spanClass?contains('children-pages') >style="padding: 0 0 0 0;"</#if> >
+        <div<#if 0 < uniqueId?length > id="bloc${parentDoc.id}_${uniqueId}"</#if> class="bloc children-pages ${spanClass} column" <#if spanClass?contains('children-pages') >style="padding: 0 0 0 0;"</#if> >
           <#if 0 < title?length >
           <div class="header">
             <#if parentDoc.id == Document.id >
