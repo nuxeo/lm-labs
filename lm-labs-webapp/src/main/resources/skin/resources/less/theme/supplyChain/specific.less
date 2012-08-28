@@ -146,17 +146,6 @@
 }
 
 /*Override for GWTContainer*/
-.breadcrumb {
-  a {
-  	color: @linkColor !important;
-  }
-  .active a {
-    color: @gray !important;
-    font-style:italic;
-  }
-}
-
-/*Override for GWTContainer*/
 .navbar div > ul,
 .nav {
   a {
@@ -169,10 +158,6 @@
 	background-repeat: no-repeat;
 	background-position: left center;
 	padding: 0 0 0 20px;
-}
-
-.breadcrumb span.divider:after {
-	content: "/";
 }
 
 .container-fluid {
@@ -470,6 +455,10 @@ h6 {
     	font-weight: bold;
     	font-style: normal;
   }
+}
+
+.breadcrumb span.divider:after {
+    content: "/";
 }
 
 .btn-group .btn:first-child {
