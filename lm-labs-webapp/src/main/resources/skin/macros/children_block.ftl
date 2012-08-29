@@ -67,8 +67,9 @@
                 	  <#assign url = Context.modulePath + "/" + Common.siteDoc(child).resourcePath />
                 	  <a href="${url?html}"
                 	    <#if 0 < childSubPages?size > class="dropdown-toggle" data-toggle="dropdown" data-target="#" </#if>
-                		<#if (child.dublincore.description?length > 0) >
-                	  		rel="popover" data-content="${child.dublincore.description?html}"
+                	    <#assign childDescr = child.dublincore.description?replace("[[TOC]]", "") />
+                		<#if (childDescr?length > 0) >
+                	  		rel="popover" data-content="${childDescr?length} - ${childDescr?html}"
                 	  		data-original-title="${Context.getMessage('label.description')}"
                 	  	</#if>
                 	  ><#if displayChevron ><i style="font-size: 9px;" class="icon-chevron-right bullet-icon" ></i></#if>
