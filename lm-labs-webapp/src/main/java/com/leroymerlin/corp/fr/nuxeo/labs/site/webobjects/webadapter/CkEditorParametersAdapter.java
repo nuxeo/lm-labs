@@ -7,33 +7,38 @@ import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 
 public abstract class CkEditorParametersAdapter extends DefaultAdapter {
 	
-	public CkEditorParametersAdapter() {
+    public static final String PARAM_VALUE_CKEDITOR_CALLBACK = "CKEDITOR.tools.callFunction";
+    public static final String PARAM_NAME_CALLBACK = "callFunction";
+    public static final String PARAM_NAME_CALLED_REFERENCE = "calledRef";
+    public static final String PARAM_NAME_CKEDITOR_CALLBACK = "CKEditorFuncNum";
+
+    public CkEditorParametersAdapter() {
         WebContext ctx = WebEngine.getActiveContext();
         //callerRef
-        String parameter = ctx.getRequest().getParameter("CKEditorFuncNum");
+        String parameter = ctx.getRequest().getParameter(PARAM_NAME_CKEDITOR_CALLBACK);
         if (StringUtils.isBlank(parameter)) {
-            parameter = ctx.getRequest().getParameter("calledRef");
+            parameter = ctx.getRequest().getParameter(PARAM_NAME_CALLED_REFERENCE);
         }
         if (StringUtils.isNotBlank(parameter)) {
-            ctx.getRequest().getSession().setAttribute("calledRef",parameter);
+            ctx.getRequest().getSession().setAttribute(PARAM_NAME_CALLED_REFERENCE,parameter);
         }
 
         //jscallback
-        parameter = ctx.getRequest().getParameter("callFunction");
+        parameter = ctx.getRequest().getParameter(PARAM_NAME_CALLBACK);
         if (StringUtils.isBlank(parameter)) {
-            parameter = "CKEDITOR.tools.callFunction";
+            parameter = PARAM_VALUE_CKEDITOR_CALLBACK;
         }
-        ctx.getRequest().getSession().setAttribute("callFunction",parameter);
+        ctx.getRequest().getSession().setAttribute(PARAM_NAME_CALLBACK,parameter);
 	}
 
     public String getCalledRef() {
         return (String) ctx.getRequest().getSession().getAttribute(
-                "calledRef");
+                PARAM_NAME_CALLED_REFERENCE);
     }
 
     public String getCallFunction() {
         return (String) ctx.getRequest().getSession().getAttribute(
-                "callFunction");
+                PARAM_NAME_CALLBACK);
     }
 
 }
