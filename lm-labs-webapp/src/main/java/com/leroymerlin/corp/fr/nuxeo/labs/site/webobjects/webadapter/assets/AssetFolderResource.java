@@ -106,8 +106,7 @@ public class AssetFolderResource extends DocumentObject {
 
     private DocumentModel addFile(Blob blob) throws Exception {
         return Framework.getService(FileManager.class).createDocumentFromBlob(
-                ctx.getCoreSession(), blob, doc.getPathAsString(), true,
-                StringEscapeUtils.escapeHtml(blob.getFilename()));
+                ctx.getCoreSession(), blob, doc.getPathAsString(), true,blob.getFilename());
 
     }
 
