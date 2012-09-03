@@ -341,7 +341,7 @@ jQuery(document).ready(function() {
 			    </div>
 			</#if>
 		    <#-- Add Section -->
-		    <div id="addsection">
+		    <div id="addsection" style="display:none;" >
 		    	<h1>Ajouter une section</h1>
 		    	<form class="form-horizontal" id="addsectionfrm" action="${This.path}" method="post" submit="javascript:jQuery('#waitingPopup').dialog2('open');this.submit();return true;">
 		      		<input type="hidden" name="action" value="addsection"/>
@@ -388,7 +388,7 @@ jQuery(document).ready(function() {
 	        	</form>
 	    	</div>
 
-	    	<div id="div-modifyCSSLine">
+	    	<div id="div-modifyCSSLine" style="display:none;" >
 		    	<h1>Modifier la ligne</h1>
 		    	<form class="form-horizontal" action="${This.path}" id="form-modifyCSSLine" method="post">
 		      		<input type="hidden" name="section" value=""/>
@@ -407,7 +407,7 @@ jQuery(document).ready(function() {
 	           		</fieldset>
 	        	</form>
 	    	</div>
-	    	<div id="divConfigRowGadgets" class="dialog2" >
+	    	<div id="divConfigRowGadgets" class="dialog2" style="display:none;" >
 	    	  <h1>${Context.getMessage('label.HtmlPage.row.widgets.config.title')}</h1>
               <input type="hidden" name="section" value="" class="span1" />
               <input type="hidden" name="row" value="" class="span1"/>
@@ -424,7 +424,7 @@ jQuery(document).ready(function() {
                 </div>
               </form>
 	    	</div>
-            <div id="divConfigGadget" class="dialog2" >
+            <div id="divConfigGadget" class="dialog2" style="display:none;" >
               <h1>${Context.getMessage('label.HtmlPage.widget.config.title')}</h1>
               <input type="hidden" name="section" value="" class="span1" />
               <input type="hidden" name="row" value="" class="span1"/>
@@ -444,7 +444,7 @@ jQuery(document).ready(function() {
                 </div>
               </form>
             </div>
-            <div id="divColumnUrl" class="dialog2" >
+            <div id="divColumnUrl" class="dialog2" style="display:none;" >
             	<h1>${Context.getMessage('label.HtmlPage.column.url.title')}</h1>
             	<input type="text" value="" class="input-xxlarge input-focused" />
                 <div class="actions">

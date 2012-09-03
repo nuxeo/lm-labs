@@ -3,7 +3,7 @@
 	<div class="columns viewblock page-description">${Document.dublincore.description}</div>
 </#if>
 
-	<div class="row-ckeditor editblock toc-noreplace" id="pageDescription">
+	<div class="row-ckeditor editblock toc-noreplace" id="pageDescription" style="display: none;" >
 		<div id="description" class="ckeditorBorder" style="cursor: pointer">${Document.dublincore.description}</div>
 		<script type="text/javascript">
 function reloadPageData(response, ckeObj, ckeip_html) {

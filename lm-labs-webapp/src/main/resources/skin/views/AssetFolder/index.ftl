@@ -97,9 +97,10 @@
 
    <script>
    var currentPath = "${This.path}";
+  
    $(document).ready(function() {
      $('#treenav').treeview({
-       url: "${Context.modulePath}/${mySite.URL}/@assets/json",
+       url: "${Context.modulePath}/${mySite.URL}/@assets/json?callFunction=${This.callFunction}&calledRef=${This.calledRef}",
        persist: "cookie",
        control: "#navtreecontrol",
        collapsed: true,
