@@ -2,35 +2,148 @@
 <groups xmlns="http://www.isdc.ro/wro">
 
   <group name="labs.common">
-    <js>webengine:labs/js/jquery/jquery-1.7.2.min.js</js>
-    <js>webengine:labs/js/jquery/jquery.controls.js</js>
-    <js>webengine:labs/js/jquery/jquery.dialog2.js</js>
-    <js>webengine:labs/js/jquery/jquery.cookie.js</js>
-    <js>webengine:labs/js/jquery/jquery.form-3.09.js</js>
-    <js>webengine:labs/js/jquery.placeholder.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-tooltip.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-popover.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-carousel.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-dropdown.min.js</js>
-    <js>webengine:labs/js/bootstrap/bootstrap-button.min.js</js>
-    <js>webengine:labs/js/scroll-startstop.events.jquery.js</js>
-    <js>webengine:labs/js/labs.js</js>
-    <js>webengine:labs/js/timeout.js</js>
-    <js>webengine:labs/js/modernizr.custom.js</js>
-    <js>webengine:labs/js/assets/less/less-1.3.0.min.js</js>
+    <js>/site/skin/labs/js/jquery/jquery-1.7.2.min.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.controls.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.dialog2.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.cookie.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.form-3.09.js</js>
+    <js>/site/skin/labs/js/jquery.placeholder.min.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-tooltip.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-popover.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-carousel.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-dropdown.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-button.js</js>
+    <js>/site/skin/labs/js/scroll-startstop.events.jquery.js</js>
+    <js>/site/skin/labs/js/labs.js</js>
+    <js>/site/skin/labs/js/timeout.js</js>
+    <js>/site/skin/labs/js/modernizr.custom.js</js>
 
-    <css>webengine:labs/css/tooltip.css</css>
-    <css>webengine:labs/css/jquery/jquery.dialog2.css</css>
+
+
+    <js>/site/skin/labs/js/tooltip.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.hotkeys.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.pagination.js</js>
+    <js>/site/skin/labs/js/jquery.ThreeDots.min.leroymerlin.js</js>
+
+
+    <css>/site/skin/labs/css/tooltip.css</css>
+    <css>/site/skin/labs/css/jquery/jquery.dialog2.css</css>
+    <css>/site/skin/labs/css/ckeditor.css</css>
+    <css>/site/skin/labs/css/jquery/pagination.css</css>
+  </group>
+
+
+  <group name="labs.manage">
+    <group-ref>labs.common</group-ref>
+    <js>/site/skin/labs/js/assets/less/less-1.3.0.min.js</js>
+  </group>
+
+  <group name="labs.pagehtml">
+    <group-ref>labs.common</group-ref>
+    <js>/site/skin/labs/js/jquery/jquery.tablesorter.min.js</js>
+    <js>/site/skin/labs/js/assets/prettify/prettify.js</js>
+    <js>/site/skin/labs/js/PageHtml.js</js>
+    <js>/site/skin/labs/js/move.js</js>
+    <js>/site/skin/labs/js/manageDisplayHtmlLine.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-button.min.js</js>
+
+    <css>/site/skin/labs/css/wysiwyg_editor.css</css>
+    <css>/site/skin/labs/js/assets/prettify/prettify.css</css>
+    <css>/css/opensocial/light-container-gadgets.css</css>
+    <css>/site/skin/labs/css/slickmap/slickmap.css</css>
+  </group>
+
+  <group name="labs.news">
+    <group-ref>labs.common</group-ref>
+    <group-ref>datepicker</group-ref>
+
+    <js>/site/skin/labs/js/LabsNews.js</js>
+
+    <css>/site/skin/labs/css/PageNews.css</css>
+    <css>/site/skin/labs/css/wysiwyg_editor.css</css>
+    <css>/site/skin/labs/css/jcrop/jquery.Jcrop.css</css>
+
+
+    <js>/site/skin/labs/js/move.js</js>
+    <js>/site/skin/labs/js/manageDisplayHtmlLine.js</js>
+    <js>/site/skin/labs/js/jcrop/jquery.Jcrop.min.js</js>
+
+
   </group>
 
 
   <group name="labs.classeur">
     <group-ref>labs.common</group-ref>
+    <js>/site/skin/labs/js/jquery/jquery.filedrop.js</js>
+    <js>/site/skin/labs/js/PageClasseur.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.tablesorter.min.js</js>
+    <css>/site/skin/labs/css/PageClasseur.css</css>
+    <css>/site/skin/labs/css/wysiwyg_editor.css</css>
+    <css>/site/skin/labs/css/tablesorter.css</css>
+    <css>/site/skin/labs/css/ckeditor.css</css>
+  </group>
+
+  <group name="labs.liste">
+    <group-ref>labs.common</group-ref>
+    <group-ref>datepicker</group-ref>
+    <group-ref>tablesorter</group-ref>
+
+    <js>/site/skin/labs/js/Collection.js</js>
+    <js>/site/skin/labs/js/PageListHeaders.js</js>
+    <js>/site/skin/labs/js/PageList.js</js>
+
+
+    <css>/site/skin/labs/css/PageList.css</css>
+
+  </group>
+
+  <group name="labs.forum">
+    <group-ref>labs.common</group-ref>
+    <css>/site/skin/labs/css/PageForum.css</css>
+  </group>
+
+
+  <group name="labs.sitemap">
+    <group-ref>labs.common</group-ref>
+    <js>/site/skin/labs/js/jquery/jquery-ui-1.8.14.min.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.treeview.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.treeview.edit.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.treeview.async.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.treeview.sortable.js</js>
+    <css>/site/skin/labs/css/jquery/jquery.treeview.css</css>
+  </group>
+
+  <group name="test">
+	<css>/site/skin/labs/css/jquery/jquery.treeview.css</css>
+  </group>
+
+  <group name="labs.assets">
+    <group-ref>labs.common</group-ref>
+    <group-ref>treeview</group-ref>
+  </group>
+
+  <group name="treeview">
+    <css>/site/skin/labs/css/jquery/jquery.treeview.css</css>
+    <js>/site/skin/labs/js/jquery/jquery.treeview.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.treeview.edit.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.treeview.async.js</js>
+  </group>
+
+  <group name="tablesorter">
+    <js>/site/skin/labs/js/jquery/jquery.tablesorter.min.js</js>
+    <css>/site/skin/labs/css/tablesorter.css</css>
+  </group>
+
+  <group name="datepicker">
+    <js>/site/skin/labs/js/jquery/jquery.ui.datepicker-fr.js</js>
+    <js>/site/skin/labs/js/jquery/jquery-ui-1.8.22.datepicker.slider.min.js
+    </js>
+    <js>/site/skin/labs/js/jquery/jquery-ui-timepicker-addon.js</js>
   </group>
 
 
   <group name="bootstrap">
-    <css>webengine:labs/less/bootstrap/bootstrap.less</css>
+    <css>/site/skin/labs/less/bootstrap/bootstrap.less</css>
   </group>
 </groups>
 

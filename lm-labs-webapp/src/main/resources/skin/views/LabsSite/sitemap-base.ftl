@@ -4,18 +4,14 @@
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="scripts">
-    <@superBlock/>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.14.min.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.sortable.js"></script>
+    <script type="text/javascript" src="${contextPath}/wro/labs.sitemap.js"></script>
+    
   </@block>
 
   <@block name="css">
     <@superBlock/>
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
+    <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.sitemap.css"/>
+	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery-ui-1.8.14.css"/>
   </@block>
 
   <@block name="docactions" />

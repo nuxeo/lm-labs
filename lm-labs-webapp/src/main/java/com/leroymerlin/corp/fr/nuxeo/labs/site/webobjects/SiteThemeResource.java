@@ -2,9 +2,16 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.io.File;
 import java.io.FileInputStream;
+<<<<<<< local
+=======
 import java.io.IOException;
+>>>>>>> other
 import java.io.StringReader;
 import java.io.StringWriter;
+<<<<<<< local
+import java.text.SimpleDateFormat;
+=======
+>>>>>>> other
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -18,6 +25,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -25,6 +33,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -49,12 +58,15 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.ThemePropertiesManage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "SiteTheme")
 @Produces("text/html; charset=UTF-8")
 public class SiteThemeResource extends PageResource {
+
+    private static final int NUMBER_OF_MONTH_BEFORE_EXPIRE = 6;
 
     private static final String THE_THEMES_SHOULD_NOT_BE_EMPTY = "The themes should not be empty !";
 
@@ -288,7 +300,8 @@ public class SiteThemeResource extends PageResource {
             prop.setLabel(form.getString("label" + baseFiledName + i));
             prop.setDescription(form.getString("description" + baseFiledName
                     + i));
-            prop.setType(form.getString("type" + baseFiledName + i));
+            prop.setType(LabsSiteConstants.PropertyType.fromString(form.getString("type"
+                    + baseFiledName + i)));
             value = form.getString("value" + baseFiledName + i);
             if (StringUtils.isNotBlank(value)) {
                 prop.setValue(value);
@@ -385,8 +398,103 @@ public class SiteThemeResource extends PageResource {
             properties = CommonHelper.getThemeProperties(tpm);
         } catch (Exception e) {
             throw WebException.wrap(e);
+        }        return properties;
+    }
+
+    @GET
+    @Path("rendercss-{date}")
+    public Object doRender(@PathParam("date") String dateStr,
+            @QueryParam("withoutaddedstyle") Boolean withoutAddedStyle) {
+        try {
+
+
+            withoutAddedStyle  = withoutAddedStyle == null ? false : withoutAddedStyle;
+
+
+            Calendar lastModified = (Calendar) theme.getDocument().getPropertyValue("dc:modified");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            String lastModifiedStr = sdf.format(lastModified.getTime());
+            if(!lastModifiedStr.equals(dateStr)) {
+                return redirect(getPath() + "/rendercss-" + lastModifiedStr);
+            }
+
+            String css = theme.getCssValue();
+
+            if (css == null) {
+
+                String styleProperties = generateLessWithProperties(theme.getProperties());
+
+                Template view = getView("render").arg("withoutaddedstyle",
+                        withoutAddedStyle)
+                        .arg("styleProperties", styleProperties);
+
+                String data = view.render();
+
+                // We use the Nuxeo Less Processor that can treat @imports
+                // directive
+                // in less files
+                LessCssProcessor processor = new LessCssProcessor();
+                processor.setUriLocatorFactory(new SimpleUriLocatorFactory() {
+                    {
+                        addUriLocator(new WebengineUriLocator());
+                    }
+                });
+
+                // Use a resource only to get base path for less imports (see
+                // LessCssProcessor)
+                Resource bootstrap = Resource.create(
+                        "webengine:labs/less/bootstrap/bootstrap.less",
+                        ResourceType.JS);
+                StringWriter result = new StringWriter();
+
+                processor.process(bootstrap, new StringReader(data), result);
+                css = result.toString();
+
+                theme.setCssValue(css);
+            }
+
+            return Response.ok()
+                    .entity(css)
+                    .type("text/css")
+                    .expires(new DateTime().plusMonths(NUMBER_OF_MONTH_BEFORE_EXPIRE).toDate())
+                    .lastModified(lastModified.getTime())
+                    .build();
+        } catch (Exception e) {
+            throw WebException.wrap(e);
         }
-        return properties;
+
+    }
+
+    private String generateLessWithProperties(
+            Map<String, ThemeProperty> properties) {
+        StringBuilder less = new StringBuilder();
+
+        for (ThemeProperty prop : properties.values()) {
+
+            if (prop.isSet()) {
+                switch (prop.getType()) {
+                case IMAGE:
+
+                    // This is bit weird but it renders like that
+                    // @backgroundImage: ../pathToImage;
+                    // @backgroundImageRelative: false;
+                    // This seems to be the only way to parameter background
+                    // image with LESS
+
+                    String pathImg = this.getContext()
+                            .getBaseURL()
+                            .substring("http://".length()) + prop.getValue();
+                    less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
+                    less.append(prop.getKey() + "Relative: false;\n");
+                    break;
+
+                default:
+                    less.append(prop.getKey() + ":" + prop.getValue() + ";\n");
+                }
+
+            }
+        }
+        return less.toString();
     }
 
     @GET

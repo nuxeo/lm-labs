@@ -11,15 +11,15 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 public interface SiteTheme {
 
     String getName() throws ClientException;
-    
+
     void setName(String name) throws ClientException;
 
     int getLogoPosX() throws ClientException;
-    
+
     void setLogoPosX(int pos) throws ClientException;
 
     int getLogoPosY() throws ClientException;
-    
+
     void setLogoPosY(int pos) throws ClientException;
 
     int getLogoResizeRatio() throws ClientException;
@@ -33,24 +33,28 @@ public interface SiteTheme {
     int getLogoWidth() throws ClientException;
 
     Blob getBanner() throws ClientException;
-    
+
     void setBanner(Blob blob) throws ClientException;
 
     Blob getLogo() throws ClientException;
-    
+
     void setLogo(Blob blob) throws ClientException;
 
     DocumentModel getDocument();
 
     String getStyle() throws ClientException;
-    
+
     void setStyle(String style) throws ClientException;
 
     Map<String, ThemeProperty> getProperties() throws ClientException;
-    
+
     void setProperties(Map<String, ThemeProperty> properties) throws ClientException;
 
     long getLastRead() throws ClientException;
-    
+
     void setLastRead(long lastRead) throws ClientException;
+
+    String getCssValue() throws ClientException;
+
+    void setCssValue(String css) throws ClientException;
 }
