@@ -41,7 +41,7 @@
 		    <img src="/nuxeo/nxpicsfile/default/${doc.id}/Thumbnail:content/any_value" class="imgVignette jstree-draggable" id="${doc.id}"/>
 			<img src="${skinPath}/images/asset/bin.png" onclick="deletePicture('${doc.id}');" style="cursor: pointer;float:right" id="${doc.id}"/>
 			<div style="clear:both" id="${doc.id}"></div>
-		    <div class="ellipsisText" rel="adminAsset" ellipsisTextOptions="{max_rows:2, alt_text_e:true, alt_text_t:true}" style="width:125px;margin-top:10px" id="${doc.id}">${doc.name}</div>
+		    <div class="ellipsisText" rel="adminAsset" ellipsisTextOptions="{max_rows:2, alt_text_e:true, alt_text_t:true}" style="width:125px;margin-top:10px" id="${doc.id}">${doc.title?html}</div>
 		  </div>
 		  <#assign hasPicture="1" />
 		  </#if>

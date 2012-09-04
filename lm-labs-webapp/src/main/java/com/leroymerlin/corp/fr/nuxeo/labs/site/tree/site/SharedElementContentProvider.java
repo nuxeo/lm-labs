@@ -7,6 +7,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.webengine.ui.tree.document.DocumentContentProvider;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -62,6 +63,9 @@ public class SharedElementContentProvider extends DocumentContentProvider {
             return true;
         }
         if(LabsSiteConstants.Docs.TREE.docName().equals(doc.getName())){
+            return true;
+        }
+        if(Tools.getAdapter(BlobHolder.class, doc, session) != null){
             return true;
         }
         boolean accept = Tools.getAdapter(Page.class, doc, session) != null;
