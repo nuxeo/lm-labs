@@ -399,6 +399,12 @@ public class PageResource extends DocumentObject {
             if (pageTitle != null) {
                 page.setTitle(pageTitle);
             }
+            boolean hiddenParam = BooleanUtils.toBoolean(ctx.getForm().getString("hiddenInLabsNavigation"));
+            if (hiddenParam && !page.isHiddenInNavigation()) {
+                page.hideInNavigation();
+            } else if (!hiddenParam && page.isHiddenInNavigation()) {
+                page.showInNavigation();
+            }
             CoreSession session = getCoreSession();
             String documentTemplateName = Tools.getAdapter(LabsTemplate.class, doc, session).getDocumentTemplateName();
             if (!StringUtils.isEmpty(templateName) || (StringUtils.isEmpty(templateName) && !StringUtils.isEmpty(documentTemplateName))) {
@@ -599,5 +605,41 @@ public class PageResource extends DocumentObject {
     
     public long getNow(){
         return Calendar.getInstance().getTimeInMillis();
+    }
+    
+    @PUT @Path("@hideInNavigation")
+    public Response doHideInNavigation() {
+        Page page = doc.getAdapter(Page.class);
+        boolean hidden = false;
+        try {
+            page.hideInNavigation();
+            getCoreSession().saveDocument(doc);
+            hidden = page.isHiddenInNavigation();
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        if (hidden) {
+            return Response.noContent().build();
+        } else {
+            return Response.status(Status.NOT_MODIFIED).build();
+        }
+    }
+    
+    @PUT @Path("@showInNavigation")
+    public Response doShowInNavigation() {
+        Page page = doc.getAdapter(Page.class);
+        boolean hidden = true;
+        try {
+            page.showInNavigation();
+            getCoreSession().saveDocument(doc);
+            hidden = page.isHiddenInNavigation();
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        if (hidden) {
+            return Response.status(Status.NOT_MODIFIED).build();
+        } else {
+            return Response.noContent().build();
+        }
     }
 }
