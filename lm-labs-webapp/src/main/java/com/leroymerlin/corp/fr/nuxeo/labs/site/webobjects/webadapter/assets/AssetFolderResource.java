@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 
 import net.sf.json.JSONObject;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.Blob;
