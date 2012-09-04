@@ -109,7 +109,7 @@ public final class CommonHelper {
                     try {
                         boolean result = true;
                         if (!page.isContributor(userName)){
-                            result = page.isVisible();
+                            result = page.isVisible() && !page.isHiddenInNavigation();
                         }
                         return (result && !page.isDeleted());
                     } catch (ClientException e) {

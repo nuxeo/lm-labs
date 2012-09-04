@@ -120,7 +120,7 @@ public class SiteDocumentAdapter extends LabsAdapterImpl implements SiteDocument
     				try {
     					boolean result = true;
     					if (!page.isContributor(userName)){
-    						result = page.isVisible();
+    						result = page.isVisible() && !page.isHiddenInNavigation();
     					}
     					return (result && !page.isDeleted());
     				} catch (ClientException e) {

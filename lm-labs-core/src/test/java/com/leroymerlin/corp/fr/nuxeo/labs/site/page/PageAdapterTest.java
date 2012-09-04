@@ -193,6 +193,16 @@ public class PageAdapterTest {
         assertTrue(page.getElementsPerPage() == 5);
     }
     
+    @Test
+    public void iCanHideAndShowInNavigation() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = Tools.getAdapter(Page.class, doc, session);
+        assertFalse(page.isHiddenInNavigation());
+        page.hideInNavigation();
+        assertTrue(page.isHiddenInNavigation());
+        page.showInNavigation();
+        assertFalse(page.isHiddenInNavigation());
+    }
     /* A GARDER
     @Test
     public void iCanSetCollapseType() throws Exception {

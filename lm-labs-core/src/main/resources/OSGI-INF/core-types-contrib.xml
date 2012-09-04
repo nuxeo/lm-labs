@@ -30,6 +30,9 @@
     <facet name="LabsHidden" >
     </facet>
     
+    <facet name="HiddenInLabsNavigation" >
+    </facet>
+    
     <facet name="LabsPage" >
       <schema name="page" />
     </facet>

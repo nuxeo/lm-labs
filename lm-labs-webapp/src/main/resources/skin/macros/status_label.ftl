@@ -6,5 +6,8 @@
 		<#elseif pageAdapter.deleted >
 			&nbsp;<span class="label label-warning ${editblockClass}">${Context.getMessage('label.status.deleted')}</span>
 		</#if>
+		<#if pageAdapter.hiddenInNavigation >
+			&nbsp;<span class="label label-inverse ${editblockClass}">${Context.getMessage('label.status.hiddenInNavigation')}</span>
+		</#if>
 	</#if>
 </#macro>

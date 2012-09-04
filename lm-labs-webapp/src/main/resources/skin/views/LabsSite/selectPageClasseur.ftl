@@ -1,6 +1,13 @@
 <#assign modeSelectParam = Context.request.getParameter('modeSelect') />
 <#assign params = "PageClasseur,/default-domain/sites/" + Common.siteDoc(Document).site.document.name >
-<#assign docs = Common.getPageProviderDocs(Session, "list_Pages", params, 0) />
+<#assign mySite = Common.siteDoc(Document).site />
+<#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
+<#assign myProviderName = "list_Pages" />
+<#if isContributor >
+	<#assign myProviderName = myProviderName + "_contributor" />
+</#if>
+
+<#assign docs = Common.getPageProviderDocs(Session, myProviderName, params, 0) />
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span6">

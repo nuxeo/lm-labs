@@ -129,6 +129,15 @@
     <coreQueryPageProvider name="list_Pages">
       <pattern quoteParameters="true" escapeParameters="true">
         SELECT * FROM Document WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:primaryType = ? AND ecm:mixinType &lt;&gt; 'HiddenInLabsNavigation'
+        AND ecm:path STARTSWITH ?
+        ORDER BY dc:title ASC
+      </pattern>
+    </coreQueryPageProvider>
+
+    <coreQueryPageProvider name="list_Pages_contributor">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM Document WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
         AND ecm:primaryType = ?
         AND ecm:path STARTSWITH ?
         ORDER BY dc:title ASC

@@ -33,10 +33,15 @@ public class SiteContentProvider extends AbstractContentProvider {
             try {
                 boolean isAdmin = Tools.getAdapter(SiteDocument.class, docModel, session).getSite().isAdministrator(
                         session.getPrincipal().getName());
+                boolean isContributor = Tools.getAdapter(SiteDocument.class, docModel, session).getSite().isContributor(
+                        session.getPrincipal().getName());
                 LabsPublisher publisher = Tools.getAdapter(LabsPublisher.class, docModel, session);
+                Page page = Tools.getAdapter(Page.class, docModel, session);
                 boolean filter = isAdmin
-                        || (publisher != null && publisher.isVisible());
-                return Tools.getAdapter(Page.class, docModel, session) != null
+                        || isContributor
+                        // Visiteur
+                        || (!isAdmin && !isContributor && page != null && !page.isHiddenInNavigation() && publisher != null && publisher.isVisible());
+                return page != null
                         && filter
                         && !LabsSiteConstants.State.DELETE.getState().equals(
                                 docModel.getCurrentLifeCycleState());
