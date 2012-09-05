@@ -1,6 +1,6 @@
 <#-- genere le contenu entier de la news -->
-<#macro displayAddComment pageCommentable ckeditor=false >
-	<#assign commentable = false />
+<#macro displayLabsTags page >
+	<#assign display = false />
 	<#if pageCommentable != null>
 		<#assign commentable = pageCommentable.commentable />
 	</#if>
@@ -100,4 +100,63 @@
 			}
 		</script>
 	</#if>
+</#macro>
+
+			<div id="divEditTags" style="display: none;">
+				<h1 id="titleComments">${Context.getMessage('label.labstags.title.add')}</h1>
+				<form id="form-labstags" method="post" class="form form-horizontal" action="${This.path}/addtag">
+					<fieldset>
+						<div class="control-group">
+							<div class="controls">
+								<input type="text" class="input-xlarge" placeholder="Saisissez un ou plusieurs mots-clés séparés par des points-virgules ';'" />
+							</div>
+						</div>
+					</fieldset>
+					<div  class="actions">
+						<button class="btn btn-primary required-fields" form-id="form-commentablePage" title="${Context.getMessage('label.comments.save')}">${Context.getMessage('label.comments.save')}</button>
+					</div>
+				</form>
+			</div>
+
+
+<#if (This.page?? && This.page != null) >
+	<#assign listTags=This.page.getLabsTags()>
+	<hr />
+	${Context.getMessage('label.labstags.title.add')}
+	<div id="divTagsPage">
+		<a href="#"
+		${Context.getMessage('label.labstags.title')}&nbsp:&nbsp
+		<#if listTags?size != 0>
+			<#list listTags as tag>
+				<@displayTagsPage tag=tag />
+			</#list>
+		</#if>
+	</div>
+</#if>
+
+<#macro displayTagsPage tag>
+  <li style="font-size: 8px;">
+      ${tag}
+      <#if This.page.isContributor(Context.principal.name)>
+        <a href="#" style="btn btn-mini btn-danger" onClick="deleteTag();">
+            <i class="icon-remove" style="padding-right:0px;"></i>
+        </a>
+        <script type="text/javascript">
+          jQuery('#deletetag_${idea.document.id}_${section}_${index}').click(function() {
+            var url = '${This.path}/tag/' + encodeURIComponent('${tag.tagName?js_string}');
+            jQuery.ajax({
+              type: 'DELETE',
+              url: url,
+              success: function() {
+                document.location.href='${This.path}';
+              },
+              error:function() {
+                alert("Error when removing tag");
+              }
+            });
+            return false;
+          });
+        </script>
+      </#if>
+  </li>
 </#macro>

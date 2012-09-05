@@ -85,6 +85,7 @@ public final class LabsSiteConstants {
     
     public enum Schemas {
         PAGE("page", "pg"),
+        LABSTAGS("labstags", "ltg"),
         PAGENEWS("page_news", "pgn"),
         LABSNEWS("labsnews", "ln"),
         PAGELIST("page_list", "pgl"),
