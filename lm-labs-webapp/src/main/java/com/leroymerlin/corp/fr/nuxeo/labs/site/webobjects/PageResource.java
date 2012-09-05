@@ -247,7 +247,13 @@ public class PageResource extends DocumentObject {
                         String pathImg = StringUtils.substringAfter(this.getContext().getBaseURL(), "://") + prop.getValue();
                         less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
                     } else {
-                        less.append(prop.getKey() + ": \"" + this.getContext().getServerURL() + prop.getValue() + "\";\n");
+                        String url = "";
+                        if (this.getContext().getServerURL().toString().contains("://")) {
+                            url = StringUtils.substringAfter(this.getContext().getServerURL().toString(), "://");
+                        } else {
+                            url = this.getContext().getServerURL().toString();
+                        }
+                        less.append(prop.getKey() + ": \"" + url + prop.getValue() + "\";\n");
                     }
                     less.append(prop.getKey() + "Relative: false;\n");
                 }
