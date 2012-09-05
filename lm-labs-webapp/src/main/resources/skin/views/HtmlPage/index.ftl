@@ -43,13 +43,30 @@ var openSocialGadgetOptions = {
 -->
 	width: '100%'
 };
+
+//function returnEval(textEval){
+//	return textEval;
+//}
+
+
 jQuery(document).ready(function() {
 	jQuery('div.opensocialGadgets').each(function(index, value) {
 		var userPrefs = {};
+		//var toto = 'ert';
 		var userPrefsStr = jQuery(this).data('gadget-user-preferences');
 		if (userPrefsStr.length > 0) {
-			userPrefs = eval("(" + jQuery(this).data('gadget-user-preferences') + ")");
-		}
+-			userPrefs = eval("(" + jQuery(this).data('gadget-user-preferences') + ")");
+-		}
+		//if (userPrefsStr.length > 0) {
+			//alert(jQuery(this).data('gadget-user-preferences'));
+			//eval('(' + jQuery(this).data('gadget-user-preferences') + ');');
+			//var evaluated = '(' + jQuery(this).data('gadget-user-preferences') + ')';
+			//alert(jQuery(this).data('gadget-user-preferences'));
+			//userPrefs = eval('(' + userPrefsStr + ')');
+		//}
+			//eval('var to' + 'to="azerty";');
+			//alert(toto);
+			eval( "var userPrefs = " +  didi_tttt + ";");
 		jQuery(this).openSocialGadget({
 			baseURL: openSocialOptions.baseURL,
 			language: openSocialOptions.language,
@@ -303,9 +320,12 @@ jQuery(document).ready(function() {
 	                      <#if isOsGadgetCol >
 	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 	                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
+	                        <#--script type="text/javascript">
+	                        var didi_tttt = '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})';
+	                        </script-->
 	                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
 	                        	data-gadget-specurl="${widgets[0].specUrl}"
-								data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
+	                        	data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
 								data-gadget-title="${widgets[0].name}"
 	                        >
 	                        </div>

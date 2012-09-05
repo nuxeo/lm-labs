@@ -654,4 +654,16 @@ public class PageResource extends DocumentObject {
             return Response.noContent().build();
         }
     }
+    
+    public List<String> getLabsTags()throws ClientException {
+        Page page = getPage();
+        List<String> tags = null;
+        if (page != null){
+            tags = page.getLabsTags();
+        }
+        if (tags == null){
+            tags = new ArrayList<String>();
+        }
+        return tags;
+    }
 }

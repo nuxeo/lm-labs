@@ -15,7 +15,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public abstract class AbstractPage extends AbstractLabsBase implements Page {
@@ -24,6 +23,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     private static final String PG_COMMENTABLE = Schemas.PAGE.prefix() + ":commentable";
     private static final String PG_DISPLAYABLE_PARAMETERS = Schemas.PAGE.prefix() + ":displayableParameters";
     private static final String PG_ELEMENTS_PER_PAGE = Schemas.PAGE.prefix() + ":elementsPerPage";
+    private static final String TAGS = Schemas.LABSTAGS.prefix() + ":tags";
     
     public static final String PG_COLLAPSETYPE = Schemas.PAGE.prefix() + ":collapseType";
 
@@ -113,21 +113,35 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     public void setElementsPerPage(int elementsPerPage) throws ClientException {
         doc.setPropertyValue(PG_ELEMENTS_PER_PAGE, elementsPerPage);
     }
-
+    
     @Override
     public void hideInNavigation() throws ClientException {
-        doc.addFacet(FacetNames.HIDDENINLABSNAVIGATION);
+    	doc.addFacet(FacetNames.HIDDENINLABSNAVIGATION);
     }
-
+    
     @Override
     public void showInNavigation() throws ClientException {
         doc.removeFacet(FacetNames.HIDDENINLABSNAVIGATION);
-        
     }
 
     @Override
     public boolean isHiddenInNavigation() throws ClientException {
         return doc.getFacets().contains(FacetNames.HIDDENINLABSNAVIGATION);
+    }
+
+    @Override
+    public List<String> getLabsTags() throws ClientException {
+        @SuppressWarnings("unchecked")
+        List<String> tags = (List<String>) doc.getPropertyValue(TAGS);
+        if (tags == null){
+            tags = new ArrayList<String>();
+        }
+        return tags;
+    }
+
+    @Override
+    public void setLabsTags(List<String> tags) throws ClientException {
+        doc.getProperty(TAGS).setValue(tags);
     }
 
     /* A GARDER
