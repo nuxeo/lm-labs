@@ -41,6 +41,7 @@ public class LabsRssAdapter extends DefaultAdapter {
     @Produces("application/rss+xml")
     public StreamingOutput getFeed() {
         LabsSite site = (LabsSite) getContext().getProperty("site");
+        site.setSession(getContext().getCoreSession());
         String rssTitle = ctx.getMessage("label.rss.last_message.title");
         String rssDesc = ctx.getMessage("label.rss.last_message.desc");
         try {
@@ -117,6 +118,7 @@ public class LabsRssAdapter extends DefaultAdapter {
     @Produces("application/rss+xml")
     public StreamingOutput getAll() {
         LabsSite site = (LabsSite) getContext().getProperty("site");
+        site.setSession(getContext().getCoreSession());
         String rssTitle = ctx.getMessage("label.rss.all.title");
         String rssDesc = ctx.getMessage("label.rss.all.desc");
         try {
