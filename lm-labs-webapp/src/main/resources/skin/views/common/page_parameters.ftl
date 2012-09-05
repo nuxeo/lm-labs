@@ -1,5 +1,5 @@
-<#assign canHidePage = (mySite.homePageRef != This.page.document.id) />
 <#if This.page??>
+<#assign canHidePage = (mySite.homePageRef != This.page.document.id) />
 <#include "views/common/template_description_js.ftl">
 	<style>
 		#form_editParameters .input {
