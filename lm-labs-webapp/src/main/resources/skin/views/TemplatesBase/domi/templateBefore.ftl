@@ -7,8 +7,8 @@
 		<div id="masthead">
 			<#--  Logo  -->
 			<#include "views/common/logo.ftl" />
-			<#--  breadcrumbs  -->
-			<#include "views/common/breadcrumbs.ftl" >
+			<#--  horizontal Navigation  -->
+			<#include "views/common/topnavigation_area.ftl" />
 			<#--  Banner  -->
 			<#include "views/common/banner.ftl" />
 		</div>
@@ -19,8 +19,7 @@
 				<#--  central content -->
 		        <div class="central span10">
 
-				    <#--  horizontal Navigation  >
-			      	<#include "views/common/topnavigation_area.ftl" /-->
+				    
 			      	
 					
 			
