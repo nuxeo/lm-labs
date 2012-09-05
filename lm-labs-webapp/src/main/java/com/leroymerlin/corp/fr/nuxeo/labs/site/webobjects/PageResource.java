@@ -242,9 +242,15 @@ public class PageResource extends DocumentObject {
             if (StringUtils.isNotBlank(prop.getValue())){
                 if(LabsSiteConstants.PropertyType.IMAGE.getType().equals(prop.getType())){
                     // TODO needs improvement
-                    String pathImg = StringUtils.substring(this.getContext().getBaseURL(), 7) + prop.getValue();
-                    less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
-                    less.append(prop.getKey() + "Relative: false;\n");
+                    String urlStart = StringUtils.substring(this.getContext().getBaseURL(), 0, 7);
+                    if (urlStart.contains("://")) {
+                        String pathImg = StringUtils.substringAfter(this.getContext().getBaseURL(), "://") + prop.getValue();
+                        less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
+                        less.append(prop.getKey() + "Relative: false;\n");
+                    } else {
+                        less.append(prop.getKey() + ": \"" + prop.getValue() + "\";\n");
+                        less.append(prop.getKey() + "Relative: true;\n");
+                    }
                 }
                 else{
                     less.append(prop.getKey() + ":" + prop.getValue() + ";\n");
