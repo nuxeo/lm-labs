@@ -9,19 +9,15 @@
 			<#include "views/common/logo.ftl" />
 			<#--  horizontal Navigation  -->
 			<#include "views/common/topnavigation_area.ftl" />
-			<#--  Banner  -->
-			<#include "views/common/banner.ftl" />
 		</div>
+		
+		<#include "views/common/banner.ftl" />
 		
 		<#--  content -->
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<#--  central content -->
 		        <div class="central span10">
-
-				    
-			      	
-					
 			
 					<#--  action-message -->
 					<#include "views/common/action_message.ftl" >
