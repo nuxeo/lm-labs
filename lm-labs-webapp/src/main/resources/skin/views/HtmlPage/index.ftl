@@ -44,17 +44,19 @@ var openSocialGadgetOptions = {
 	width: '100%'
 };
 
-function returnEval(textEval){
-	return textEval;
-}
+//function returnEval(textEval){
+//	return textEval;
+//}
 
-var didi_tttt
 
 jQuery(document).ready(function() {
 	jQuery('div.opensocialGadgets').each(function(index, value) {
 		var userPrefs = {};
-		var toto = 'ert';
+		//var toto = 'ert';
 		var userPrefsStr = jQuery(this).data('gadget-user-preferences');
+		if (userPrefsStr.length > 0) {
+-			userPrefs = eval("(" + jQuery(this).data('gadget-user-preferences') + ")");
+-		}
 		//if (userPrefsStr.length > 0) {
 			//alert(jQuery(this).data('gadget-user-preferences'));
 			//eval('(' + jQuery(this).data('gadget-user-preferences') + ');');
@@ -220,7 +222,7 @@ jQuery(document).ready(function() {
 		                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
 									data-gadget-title="${widgets[0].name}"
 		                        	data-gadget-specurl="${widgets[0].specUrl}"
-									data-gadget-user-preferences="${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string}"
+									data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
 		                        >
 		                        </div>
 		                        </div>
@@ -318,15 +320,13 @@ jQuery(document).ready(function() {
 	                      <#if isOsGadgetCol >
 	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 	                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
-	                        <script type="text/javascript">
+	                        <#--script type="text/javascript">
 	                        var didi_tttt = '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})';
-	                        </script>
+	                        </script-->
 	                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
 	                        	data-gadget-specurl="${widgets[0].specUrl}"
+	                        	data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
 								data-gadget-title="${widgets[0].name}"
-								data-section-index="${section_index}"
-								data-row-index="${row_index}"
-								data-content-index="${content_index}"
 	                        >
 	                        </div>
 	                        </div>

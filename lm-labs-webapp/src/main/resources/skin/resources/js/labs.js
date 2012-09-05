@@ -195,11 +195,11 @@ function dateAsString(date) {
     return dateObj.toDateString();
 }
 
-var code_evaled;
-function eval_global(codetoeval) {
-    if (window.execScript)
-        window.execScript('code_evaled = ' + '(' + codetoeval + ')',''); // execScript doesn’t return anything
-    else
-        code_evaled = eval(codetoeval);
-    return code_evaled;
-}
+//var code_evaled;
+//function eval_global(codetoeval) {
+//    if (window.execScript)
+//        window.execScript('code_evaled = ' + '(' + codetoeval + ')',''); // execScript doesn’t return anything
+//    else
+//        code_evaled = eval(codetoeval);
+//    return code_evaled;
+//}
