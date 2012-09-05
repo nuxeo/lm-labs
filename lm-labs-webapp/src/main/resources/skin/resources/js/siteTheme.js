@@ -99,6 +99,7 @@ function hidePropertyImage(propertyName){
 	var picObj = jQuery('#actionMedia' + propertyName + ' img.actionMediaImage');
 	jQuery(picObj).hide();
 	jQuery(picObj).attr('src', '');
+	jQuery('#valueProperty' + propertyName).val('');
 	jQuery('#waitingPopup').dialog2('close');
 }
 
