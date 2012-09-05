@@ -66,7 +66,7 @@ jQuery(document).ready(function() {
 		//}
 			//eval('var to' + 'to="azerty";');
 			//alert(toto);
-			eval( "var userPrefs = " +  didi_tttt + ";");
+			//eval( "var userPrefs = " +  didi_tttt + ";");
 		jQuery(this).openSocialGadget({
 			baseURL: openSocialOptions.baseURL,
 			language: openSocialOptions.language,
