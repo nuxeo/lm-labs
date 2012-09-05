@@ -246,11 +246,10 @@ public class PageResource extends DocumentObject {
                     if (urlStart.contains("://")) {
                         String pathImg = StringUtils.substringAfter(this.getContext().getBaseURL(), "://") + prop.getValue();
                         less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
-                        less.append(prop.getKey() + "Relative: false;\n");
                     } else {
-                        less.append(prop.getKey() + ": \"" + prop.getValue() + "\";\n");
-                        less.append(prop.getKey() + "Relative: true;\n");
+                        less.append(prop.getKey() + ": \"" + this.getContext().getServerURL() + prop.getValue() + "\";\n");
                     }
+                    less.append(prop.getKey() + "Relative: false;\n");
                 }
                 else{
                     less.append(prop.getKey() + ":" + prop.getValue() + ";\n");
