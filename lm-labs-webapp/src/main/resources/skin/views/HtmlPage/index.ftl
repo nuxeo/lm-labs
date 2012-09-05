@@ -55,8 +55,8 @@ jQuery(document).ready(function() {
 		//var toto = 'ert';
 		var userPrefsStr = jQuery(this).data('gadget-user-preferences');
 		if (userPrefsStr.length > 0) {
--			userPrefs = eval("(" + jQuery(this).data('gadget-user-preferences') + ")");
--		}
+			userPrefs = eval("(" + jQuery(this).data('gadget-user-preferences') + ")");
+		}
 		//if (userPrefsStr.length > 0) {
 			//alert(jQuery(this).data('gadget-user-preferences'));
 			//eval('(' + jQuery(this).data('gadget-user-preferences') + ');');
