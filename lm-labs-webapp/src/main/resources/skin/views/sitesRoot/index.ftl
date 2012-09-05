@@ -148,7 +148,7 @@ function deleteDefinitelySite(url){
 	        <tbody>
 	          <#list undeletedLabsSites as sit>
 	            <tr>
-	              <td>${sit.title}</td>
+	              <td>${sit.title}<#if !sit.visible>&nbsp;<i class="icon-eye-close"></i></#if></td>
 	              <#if (sit.administratorsSite?size > 0)>
 	              	<td>
 	              		<#list sit.administratorsSite as siteAdministrator>
