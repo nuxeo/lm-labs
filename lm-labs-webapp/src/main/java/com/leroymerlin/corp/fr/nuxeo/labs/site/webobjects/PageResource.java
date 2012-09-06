@@ -241,8 +241,20 @@ public class PageResource extends DocumentObject {
         for (ThemeProperty prop: properties.values()){
             if (StringUtils.isNotBlank(prop.getValue())){
                 if(LabsSiteConstants.PropertyType.IMAGE.getType().equals(prop.getType())){
-                    String pathImg = this.getContext().getBaseURL().substring(7) + prop.getValue();
-                    less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
+                    // TODO needs improvement
+                    String urlStart = StringUtils.substring(this.getContext().getBaseURL(), 0, 7);
+                    if (urlStart.contains("://")) {
+                        String pathImg = StringUtils.substringAfter(this.getContext().getBaseURL(), "://") + prop.getValue();
+                        less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
+                    } else {
+                        String url = "";
+                        if (this.getContext().getServerURL().toString().contains("://")) {
+                            url = StringUtils.substringAfter(this.getContext().getServerURL().toString(), "://");
+                        } else {
+                            url = this.getContext().getServerURL().toString();
+                        }
+                        less.append(prop.getKey() + ": \"" + url + prop.getValue() + "\";\n");
+                    }
                     less.append(prop.getKey() + "Relative: false;\n");
                 }
                 else{
@@ -398,6 +410,12 @@ public class PageResource extends DocumentObject {
             page.setCommentable(BooleanUtils.toBoolean(ctx.getForm().getString("commentablePage")));
             if (pageTitle != null) {
                 page.setTitle(pageTitle);
+            }
+            boolean hiddenParam = BooleanUtils.toBoolean(ctx.getForm().getString("hiddenInLabsNavigation"));
+            if (hiddenParam && !page.isHiddenInNavigation()) {
+                page.hideInNavigation();
+            } else if (!hiddenParam && page.isHiddenInNavigation()) {
+                page.showInNavigation();
             }
             CoreSession session = getCoreSession();
             String documentTemplateName = Tools.getAdapter(LabsTemplate.class, doc, session).getDocumentTemplateName();
@@ -599,5 +617,53 @@ public class PageResource extends DocumentObject {
     
     public long getNow(){
         return Calendar.getInstance().getTimeInMillis();
+    }
+    
+    @PUT @Path("@hideInNavigation")
+    public Response doHideInNavigation() {
+        Page page = doc.getAdapter(Page.class);
+        boolean hidden = false;
+        try {
+            page.hideInNavigation();
+            getCoreSession().saveDocument(doc);
+            hidden = page.isHiddenInNavigation();
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        if (hidden) {
+            return Response.noContent().build();
+        } else {
+            return Response.status(Status.NOT_MODIFIED).build();
+        }
+    }
+    
+    @PUT @Path("@showInNavigation")
+    public Response doShowInNavigation() {
+        Page page = doc.getAdapter(Page.class);
+        boolean hidden = true;
+        try {
+            page.showInNavigation();
+            getCoreSession().saveDocument(doc);
+            hidden = page.isHiddenInNavigation();
+        } catch (ClientException e) {
+            throw WebException.wrap(e);
+        }
+        if (hidden) {
+            return Response.status(Status.NOT_MODIFIED).build();
+        } else {
+            return Response.noContent().build();
+        }
+    }
+    
+    public List<String> getLabsTags()throws ClientException {
+        Page page = getPage();
+        List<String> tags = null;
+        if (page != null){
+            tags = page.getLabsTags();
+        }
+        if (tags == null){
+            tags = new ArrayList<String>();
+        }
+        return tags;
     }
 }

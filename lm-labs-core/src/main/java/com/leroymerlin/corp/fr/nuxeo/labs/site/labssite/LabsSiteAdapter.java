@@ -333,9 +333,13 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         query.append(" AND ecm:currentLifeCycleState <> 'deleted'");
         query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(
                 " <> 'HiddenInNavigation'");
+        CoreSession session = getSession();
+        if (!isContributor(session.getPrincipal().getName())) {
+            query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(
+                    " <> '" + FacetNames.HIDDENINLABSNAVIGATION + "'");
+        }
         query.append(" ORDER BY dc:modified DESC");
 
-        CoreSession session = getSession();
 		return session.query(query.toString(), new DocUnderVisiblePageFilter(session), NB_LAST_UPDATED_DOCS);
     }
 

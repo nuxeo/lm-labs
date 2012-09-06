@@ -5,8 +5,8 @@
   	
   	<xs:element name="accroche" type="xs:string"></xs:element>
   	<xs:element name="content" type="xs:string"></xs:element>
-  	<xs:element name="startPublication" type="xs:date"></xs:element>
-  	<xs:element name="endPublication" type="xs:date"></xs:element>
+  	<xs:element name="startPublication" type="xs:dateTime"></xs:element>
+  	<xs:element name="endPublication" type="xs:dateTime"></xs:element>
   	
   	<xs:element name="template" type="xs:string"></xs:element>
 </xs:schema>

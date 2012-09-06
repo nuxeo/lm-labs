@@ -5,7 +5,7 @@
   <div class="thumbnail" style="background-color:white;" >
   <a onclick="sendToCallFunction('${This.path}/${doc.name}/@blob');return false;">
     <img src="${This.path}/${doc.name}/@blob" width="120"/>
-    <p style="font-size: smaller;margin: 3px;" >${doc.name}</p>
+    <p style="font-size: smaller;margin: 3px;" >${doc.title?html}</p>
   </a>
   </div>
   </li>

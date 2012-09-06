@@ -32,9 +32,9 @@
 						    <div class="control-group">
 						      <label class="control-label" for="newsPeriod">${Context.getMessage('label.labsNews.edit.period')}</label>
 						      <div class="controls">
-						        <input id="newsStartPublication" required-error-text="La date de début est obligatoire pour la période !" class="date-pick input-small required" name="newsStartPublication"  <#if news?? && news != null && news.startPublication!=null> value="${news.startPublication.time?string('dd/MM/yyyy')}" </#if> />
+						        <input type="text" id="newsStartPublication" required-error-text="La date de début est obligatoire pour la période !" class="date-pick required" name="newsStartPublication"  <#if news?? && news != null && news.startPublication!=null> value="${news.startPublication.time?string("dd/MM/yyyy 'à' HH:mm")}" </#if> />
 						        &nbsp;${Context.getMessage('label.labsNews.edit.au')}&nbsp;
-						        <input id="newsEndPublication" class="date-pick input-small" name="newsEndPublication"  <#if news?? && news != null && news.endPublication!=null> value="${news.endPublication.time?string('dd/MM/yyyy')}" </#if> />
+						        <input type="text" id="newsEndPublication" class="date-pick" name="newsEndPublication"  <#if news?? && news != null && news.endPublication!=null> value="${news.endPublication.time?string("dd/MM/yyyy 'à' HH:mm")}" </#if> />
 						      </div>
 						    </div>
 						    <#--Accroche de la news-->

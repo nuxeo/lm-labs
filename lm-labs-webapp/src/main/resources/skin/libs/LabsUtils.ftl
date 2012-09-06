@@ -25,7 +25,7 @@
     <#assign isChildVisible = false />
     <#if doc.type != 'LabsNews' >
         <#assign childSitePage = Common.sitePage(doc) />
-        <#if childSitePage?? && childSitePage.visible >
+        <#if childSitePage?? && childSitePage.visible && !childSitePage.hiddenInNavigation >
             <#assign isChildVisible = true />
         </#if>
     <#else>

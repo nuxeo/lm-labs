@@ -27,24 +27,104 @@ function manageDisplayEdit(){
 
 function initEditDateNews(){
 	$(function() {
-		var dates = $( "#newsStartPublication, #newsEndPublication" )
-			.datepicker({
+		var jQueryNewsStart = $( "#newsStartPublication" );
+		var jQueryNewsEnd = $( "#newsEndPublication" );
+		var dates;
+		var dateSelectedStartPublication = false;
+		var dateNewsStartPublication = null;
+		dates = jQueryNewsStart.datetimepicker({
 				dateFormat: "dd/mm/yy",
+				timeFormat: 'hh:mm',
+				separator: ' à ',
+				timeText: "Horaire",
+				hourText: "Heure",
+				minuteText: "Minute",
 				changeMonth: true,
 				numberOfMonths: 2,
+				hourGrid: 4,
+				minuteGrid: 10,
 				firstDay: 1,
+				beforeShow: function( input ) {
+					dateSelectedStartPublication = false;
+					dateNewsStartPublication = $(input).val();
+			    },
 				onSelect: function( selectedDate ) {
-					var option = this.id == "newsStartPublication" ? "minDate" : "maxDate",
-						instance = $( this ).data( "datepicker" ),
-						date = $.datepicker.parseDate(
+					dateSelectedStartPublication = true;
+					dateNewsStartPublication = selectedDate;
+					var option = this.id == "newsStartPublication" ? "minDate" : "maxDate";
+					var	instance = $( this ).data( "datepicker" );
+					var	date = $.datepicker.parseDate(
 							instance.settings.dateFormat ||
 							$.datepicker._defaults.dateFormat,
 							selectedDate, instance.settings );
 					dates.not( this ).datepicker( "option", option, date );
 				},
-			});		
-		});
-} 
+				onClose: function( selectedDate, inst ) {
+					if (!dateSelectedStartPublication && (typeof(dateNewsStartPublication)=='undefined' || dateNewsStartPublication == '')){
+						$( this ).datepicker( "setDate" , null );
+					}
+				},
+			});	
+		 
+
+	var dateSelectedEndPublication = false;
+	var dateNewsEndPublication = null;
+	dates.add( jQueryNewsEnd.datetimepicker({
+			dateFormat: "dd/mm/yy",
+			timeFormat: 'hh:mm',
+			separator: ' à ',
+			timeText: "Horaire",
+			hourText: "Heure",
+			minuteText: "Minute",
+			changeMonth: true,
+			numberOfMonths: 2,
+			hourGrid: 4,
+			minuteGrid: 10,
+			firstDay: 1,
+			hour: 23,
+			minute: 59,
+			beforeShow: function( input ) {
+				dateSelectedEndPublication = false;
+				dateNewsEndPublication = $(input).val();
+		    },
+		    onSelect: function( selectedDate ) {
+		    	if(!isEqualsDateWithoutTime(selectedDate ,dateNewsEndPublication)){
+		    		var dDateSelected = jQueryNewsEnd.datetimepicker("getDate");
+					dDateSelected.setHours(23);
+					dDateSelected.setMinutes(59);
+					jQueryNewsEnd.datetimepicker("setDate", dDateSelected);
+		    	}
+		    	dateSelectedEndPublication = true;
+		    	dateNewsEndPublication = selectedDate;
+		    	var option = this.id == "newsStartPublication" ? "minDate" : "maxDate";
+				var	instance = $( this ).data( "datepicker" );
+				var	date = $.datepicker.parseDate(
+						instance.settings.dateFormat ||
+						$.datepicker._defaults.dateFormat,
+						selectedDate, instance.settings );
+
+				var dDatetmp = jQueryNewsStart.datetimepicker("getDate");
+				dates.not( this ).datepicker( "option", option, date );
+				jQueryNewsStart.datetimepicker("setDate", dDatetmp);
+			},
+			onClose: function( selectedDate, inst ) {
+				if (!dateSelectedEndPublication && (typeof(dateNewsEndPublication)=='undefined' || dateNewsEndPublication == '')){
+					$( this ).datepicker( "setDate" , null );
+				}
+			},
+		})
+	);
+	
+	
+});
+}
+
+function isEqualsDateWithoutTime(date1, date2){
+	if (!date1 || !date2 || date1 == '' || date2 == ''){
+		return false;
+	}
+	return date1.substring(0, 10) == date2.substring(0, 10);
+}
 
 function displayEdit(){
 	$("#editNews")[0].style.display= "block";

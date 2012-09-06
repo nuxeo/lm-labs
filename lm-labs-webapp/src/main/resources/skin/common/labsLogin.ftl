@@ -7,11 +7,15 @@
 	
 	    jQuery(".listener").keypress(function(e){
 	      if (e.keyCode == 13 || e.which == 13){
-	       valid();
+	       valid(e);
 	      }
 	    });
 	
-	    jQuery("#login").click(valid);
+	    jQuery("#login").click(function(e){
+	    		valid(e);
+	    	}
+	    );
+	    
 	    jQuery("#logoutLnk").click(doLogout);
 	    
 	    $('input[placeholder], textarea[placeholder]').placeholder();
@@ -19,7 +23,7 @@
 
 
 
-  function valid(){
+  function valid(e){
     jQuery('#login').button('loading');
     var user = jQuery("#username").val();
     var pwd = jQuery("#password").val();
@@ -28,7 +32,7 @@
       jQuery("#FKerrorLogin").show();
       jQuery('#login').button('reset');
     } else {
-      doLogin(user,pwd);
+      doLogin(user,pwd, e);
     }
    }
 
@@ -52,7 +56,8 @@
     jQuery.post("${Context.loginPath}", {caller: "login", nuxeo_login : "true"});
   }
 
-  function doLogin(username, password) {
+  function doLogin(username, password, e) {
+    e.preventDefault();
     jQuery("#username").hide();
     jQuery("#password").hide();
     var req = jQuery.ajax({
@@ -73,12 +78,18 @@
       }
     });
   }
+
+/*function labsLoginFormSubmit(e) {
+    e.preventDefault();
+    return false;
+}*/
+
 </script>
 
 <#if Context.principal.isAnonymous() == true>
-    <form class="navbar-form form-horizontal pull-right" action="">
+    <form class="navbar-form form-horizontal pull-right" action="" onsubmit="return false;">
     <input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="input-small listener" size="13"/>
     <input type="password" id="password" class="input-small listener" size="13"/>
-    <button id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" onclick="valid();return false;" data-loading-text="${Context.getMessage('command.login.ongoing')}">${Context.getMessage('command.login')}</button>
+    <a href="#" id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" data-loading-text="${Context.getMessage('command.login.ongoing')}">${Context.getMessage('command.login')}</a>
     </form> 
 </#if>

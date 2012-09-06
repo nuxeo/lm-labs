@@ -12,7 +12,7 @@
 				<h1 id="titleComments">${Context.getMessage('label.comments.title')}</h1>
 				<form id="form-commentablePage" method="post" class="form form-horizontal" action="${This.path}/@labscomments">
 					<fieldset>
-						<!--         Comment      -->
+						<#--       Comment      -->
 						<div class="control-group">
 							<div class="controls" style="margin-bottom: 0px;margin-left: 0px;">
 								<#if ckeditor?? && ckeditor>

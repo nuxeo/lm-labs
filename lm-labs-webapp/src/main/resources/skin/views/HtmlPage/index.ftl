@@ -43,13 +43,30 @@ var openSocialGadgetOptions = {
 -->
 	width: '100%'
 };
+
+//function returnEval(textEval){
+//	return textEval;
+//}
+
+
 jQuery(document).ready(function() {
 	jQuery('div.opensocialGadgets').each(function(index, value) {
 		var userPrefs = {};
+		//var toto = 'ert';
 		var userPrefsStr = jQuery(this).data('gadget-user-preferences');
 		if (userPrefsStr.length > 0) {
 			userPrefs = eval("(" + jQuery(this).data('gadget-user-preferences') + ")");
 		}
+		//if (userPrefsStr.length > 0) {
+			//alert(jQuery(this).data('gadget-user-preferences'));
+			//eval('(' + jQuery(this).data('gadget-user-preferences') + ');');
+			//var evaluated = '(' + jQuery(this).data('gadget-user-preferences') + ')';
+			//alert(jQuery(this).data('gadget-user-preferences'));
+			//userPrefs = eval('(' + userPrefsStr + ')');
+		//}
+			//eval('var to' + 'to="azerty";');
+			//alert(toto);
+			//eval( "var userPrefs = " +  didi_tttt + ";");
 		jQuery(this).openSocialGadget({
 			baseURL: openSocialOptions.baseURL,
 			language: openSocialOptions.language,
@@ -303,9 +320,12 @@ jQuery(document).ready(function() {
 	                      <#if isOsGadgetCol >
 	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 	                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
+	                        <#--script type="text/javascript">
+	                        var didi_tttt = '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})';
+	                        </script-->
 	                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
 	                        	data-gadget-specurl="${widgets[0].specUrl}"
-								data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
+	                        	data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
 								data-gadget-title="${widgets[0].name}"
 	                        >
 	                        </div>
@@ -341,7 +361,7 @@ jQuery(document).ready(function() {
 			    </div>
 			</#if>
 		    <#-- Add Section -->
-		    <div id="addsection">
+		    <div id="addsection" style="display:none;" >
 		    	<h1>Ajouter une section</h1>
 		    	<form class="form-horizontal" id="addsectionfrm" action="${This.path}" method="post" submit="javascript:jQuery('#waitingPopup').dialog2('open');this.submit();return true;">
 		      		<input type="hidden" name="action" value="addsection"/>
@@ -388,7 +408,7 @@ jQuery(document).ready(function() {
 	        	</form>
 	    	</div>
 
-	    	<div id="div-modifyCSSLine">
+	    	<div id="div-modifyCSSLine" style="display:none;" >
 		    	<h1>Modifier la ligne</h1>
 		    	<form class="form-horizontal" action="${This.path}" id="form-modifyCSSLine" method="post">
 		      		<input type="hidden" name="section" value=""/>
@@ -407,7 +427,7 @@ jQuery(document).ready(function() {
 	           		</fieldset>
 	        	</form>
 	    	</div>
-	    	<div id="divConfigRowGadgets" class="dialog2" >
+	    	<div id="divConfigRowGadgets" class="dialog2" style="display:none;" >
 	    	  <h1>${Context.getMessage('label.HtmlPage.row.widgets.config.title')}</h1>
               <input type="hidden" name="section" value="" class="span1" />
               <input type="hidden" name="row" value="" class="span1"/>
@@ -424,7 +444,7 @@ jQuery(document).ready(function() {
                 </div>
               </form>
 	    	</div>
-            <div id="divConfigGadget" class="dialog2" >
+            <div id="divConfigGadget" class="dialog2" style="display:none;" >
               <h1>${Context.getMessage('label.HtmlPage.widget.config.title')}</h1>
               <input type="hidden" name="section" value="" class="span1" />
               <input type="hidden" name="row" value="" class="span1"/>
@@ -444,7 +464,7 @@ jQuery(document).ready(function() {
                 </div>
               </form>
             </div>
-            <div id="divColumnUrl" class="dialog2" >
+            <div id="divColumnUrl" class="dialog2" style="display:none;" >
             	<h1>${Context.getMessage('label.HtmlPage.column.url.title')}</h1>
             	<input type="text" value="" class="input-xxlarge input-focused" />
                 <div class="actions">

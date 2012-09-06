@@ -1,4 +1,5 @@
 <#if This.page??>
+<#assign canHidePage = (mySite.homePageRef != This.page.document.id) />
 <#include "views/common/template_description_js.ftl">
 	<style>
 		#form_editParameters .input {
@@ -106,6 +107,16 @@
                 <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
               </div>
             </div>
+            <#if canHidePage >
+            <div class="control-group">
+				<div class="controls">
+					<label class="checkbox" for="hiddenInLabsNavigation">
+					<input class="checkbox" type="checkbox" id="hiddenInLabsNavigation" name="hiddenInLabsNavigation"
+						<#if This.page.isHiddenInNavigation() >checked="true"</#if> />
+					${Context.getMessage('label.parameters.page.hideInLabsNavigation')}</label>
+				</div>
+			</div>
+            </#if>
 		</form>
 		<hr />
 		${Context.getMessage('label.parameters.page.usedModel')} <strong>${Context.getMessage('label.doctype.'+This.document.type)}</strong>

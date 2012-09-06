@@ -80,10 +80,12 @@ public final class LabsSiteConstants {
         public static final String LABSTEMPLATE = "LabsTemplate";
         public static final String LABSTHEME = "LabsTheme";
         public static final String LABSHIDDEN = "LabsHidden";
+        public static final String HIDDENINLABSNAVIGATION = "HiddenInLabsNavigation";
     }
     
     public enum Schemas {
         PAGE("page", "pg"),
+        LABSTAGS("labstags", "ltg"),
         PAGENEWS("page_news", "pgn"),
         LABSNEWS("labsnews", "ln"),
         PAGELIST("page_list", "pgl"),

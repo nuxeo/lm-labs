@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.nuxeo.ecm.core.api.ClientException;
 
-public interface Page extends LabsBase, LabsCommentable {
+public interface Page extends LabsBase, LabsCommentable, LabsTags {
 
     public String getPath() throws ClientException;
     
@@ -28,4 +28,10 @@ public interface Page extends LabsBase, LabsCommentable {
 	
 	public String getCollapseType() throws ClientException;
 	*/
+	
+	void hideInNavigation() throws ClientException;
+	
+	void showInNavigation() throws ClientException;
+	
+	boolean isHiddenInNavigation() throws ClientException;
 }

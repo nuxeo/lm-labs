@@ -193,6 +193,16 @@ public class PageAdapterTest {
         assertTrue(page.getElementsPerPage() == 5);
     }
     
+    @Test
+    public void iCanHideAndShowInNavigation() throws Exception {
+        DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
+        Page page = Tools.getAdapter(Page.class, doc, session);
+        assertFalse(page.isHiddenInNavigation());
+        page.hideInNavigation();
+        assertTrue(page.isHiddenInNavigation());
+        page.showInNavigation();
+        assertFalse(page.isHiddenInNavigation());
+    }
     /* A GARDER
     @Test
     public void iCanSetCollapseType() throws Exception {
@@ -209,5 +219,37 @@ public class PageAdapterTest {
         assertEquals(CollapseTypes.COLLAPSE_ALL.type(), page.getCollapseType());
     }
      */
+
+    @Test
+    public void iCanGetDefaultEmptyListTags() throws Exception {
+        DocumentModel pageClasseur = session.getDocument(new PathRef(
+                "/page_classeur"));
+        Page page = Tools.getAdapter(Page.class, pageClasseur, session);
+        assertNotNull(page);
+        assertNotNull(page.getLabsTags());
+        assertThat(page.getLabsTags().size(), is(0));
+    }
+
+    @Test
+    public void iCanGetAndSetTags() throws Exception {
+        DocumentModel pageClasseur = session.getDocument(new PathRef(
+                "/page_classeur"));
+        Page page = Tools.getAdapter(Page.class, pageClasseur, session);
+        assertNotNull(page);
+        List<String> tags = new ArrayList<String>();
+        tags.add("tag1");
+        tags.add("tag2");
+        tags.add("tag3");
+        page.setLabsTags(tags);
+        pageClasseur = session.saveDocument(pageClasseur);
+        session.save();
+        pageClasseur = session.getDocument(pageClasseur.getRef());
+        page = Tools.getAdapter(Page.class, pageClasseur, session);
+        assertNotNull(page.getLabsTags());
+        assertThat(page.getLabsTags().size(), is(3));
+        assertThat(page.getLabsTags().get(0), is("tag1"));
+        assertThat(page.getLabsTags().get(1), is("tag2"));
+        assertThat(page.getLabsTags().get(2), is("tag3"));
+    }
 
 }

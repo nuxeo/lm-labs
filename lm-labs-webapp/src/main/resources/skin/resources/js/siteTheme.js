@@ -77,7 +77,10 @@ function linkThemeTemplate(){
 
 function setCallFunction(calledRef, value){
 	jQuery("#valueProperty" + calledRef).val(value);
-	jQuery("#spanTextAsset" + calledRef).html("(loading ...)");
+	var picObj = jQuery('#actionMedia' + calledRef + ' img.actionMediaImage');
+	jQuery(picObj).attr('src', value);
+	jQuery(picObj).show();
+	jQuery('#actionMedia' + calledRef + ' span > img').show();
 }
 
 function hideBanner(){
@@ -92,7 +95,12 @@ function hideLogo(){
 }
 
 function hidePropertyImage(propertyName){
-	jQuery("#actionMedia" + propertyName).hide();
+	jQuery("#actionMedia" + propertyName + ' > span > img').hide();
+	var picObj = jQuery('#actionMedia' + propertyName + ' img.actionMediaImage');
+	jQuery(picObj).hide();
+	jQuery(picObj).attr('src', '');
+	jQuery('#valueProperty' + propertyName).val('');
+	jQuery('#waitingPopup').dialog2('close');
 }
 
 function deleteElement(url, callFunction, msgConfirm){

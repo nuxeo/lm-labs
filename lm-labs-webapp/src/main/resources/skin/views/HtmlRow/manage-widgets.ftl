@@ -76,6 +76,8 @@
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             <#assign gadgetType = "opensocial" gadgetName = "hi42" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+            <#assign gadgetType = "opensocial" gadgetName = "dispoappli" />
+            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             </optgroup>
             <optgroup label="Divers">
             <#assign gadgetType = "opensocial" gadgetName = "calculette" />

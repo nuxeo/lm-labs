@@ -10,6 +10,7 @@
     point="schema">
     <schema name="columns_layout" src="schemas/columns_layout.xsd"/>
     <schema name="page" prefix="pg" src="schemas/page.xsd" />
+    <schema name="labstags" prefix="ltg" src="schemas/labstags.xsd" />
     <schema name="page_news" prefix="pgn" src="schemas/page_news.xsd" />
     <schema name="labsnews" prefix="ln" src="schemas/labsnews.xsd" />
     <schema name="page_list" prefix="pgl" src="schemas/page_list.xsd" />
@@ -28,6 +29,9 @@
     point="doctype">
     
     <facet name="LabsHidden" >
+    </facet>
+    
+    <facet name="HiddenInLabsNavigation" >
     </facet>
     
     <facet name="LabsPage" >
@@ -81,6 +85,7 @@
     <doctype name="Page" extends="OrderedFolder">
       <schema name="page" />
       <facet name="Commentable" />
+      <schema name="labstags" />
     </doctype>
 
     <doctype name="ExternalURL" extends="Document">

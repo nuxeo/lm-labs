@@ -25,24 +25,24 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter.CkEditorPar
 
 @WebAdapter(name = "assets", type = "assetsAdapter", targetType = "LabsSite")
 public class AssetsAdapter extends CkEditorParametersAdapter {
-
+    
     public AssetsAdapter() {
         WebContext ctx = WebEngine.getActiveContext();
         //callerRef
-        String parameter = ctx.getRequest().getParameter("CKEditorFuncNum");
+        String parameter = ctx.getRequest().getParameter(PARAM_NAME_CKEDITOR_CALLBACK);
         if (StringUtils.isBlank(parameter)) {
-            parameter = ctx.getRequest().getParameter("calledRef");
+            parameter = ctx.getRequest().getParameter(PARAM_NAME_CALLED_REFERENCE);
         }
         if (StringUtils.isNotBlank(parameter)) {
-            ctx.getRequest().getSession().setAttribute("calledRef",parameter);
+            ctx.getRequest().getSession().setAttribute(PARAM_NAME_CALLED_REFERENCE, parameter);
         }
 
         //jscallback
-        parameter = ctx.getRequest().getParameter("callFunction");
+        parameter = ctx.getRequest().getParameter(PARAM_NAME_CALLBACK);
         if (StringUtils.isBlank(parameter)) {
-            parameter = "CKEDITOR.tools.callFunction";
+            parameter = PARAM_VALUE_CKEDITOR_CALLBACK;
         }
-        ctx.getRequest().getSession().setAttribute("callFunction",parameter);
+        ctx.getRequest().getSession().setAttribute(PARAM_NAME_CALLBACK, parameter);
     }
 
     @GET

@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response;
 
 import net.sf.json.JSONObject;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.Blob;
@@ -106,8 +105,7 @@ public class AssetFolderResource extends DocumentObject {
 
     private DocumentModel addFile(Blob blob) throws Exception {
         return Framework.getService(FileManager.class).createDocumentFromBlob(
-                ctx.getCoreSession(), blob, doc.getPathAsString(), true,
-                StringEscapeUtils.escapeHtml(blob.getFilename()));
+                ctx.getCoreSession(), blob, doc.getPathAsString(), true,blob.getFilename());
 
     }
 
