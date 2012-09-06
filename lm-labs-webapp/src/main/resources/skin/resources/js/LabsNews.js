@@ -102,7 +102,10 @@ function initEditDateNews(){
 						instance.settings.dateFormat ||
 						$.datepicker._defaults.dateFormat,
 						selectedDate, instance.settings );
+
+				var dDatetmp = jQueryNewsStart.datetimepicker("getDate");
 				dates.not( this ).datepicker( "option", option, date );
+				jQueryNewsStart.datetimepicker("setDate", dDatetmp);
 			},
 			onClose: function( selectedDate, inst ) {
 				if (!dateSelectedEndPublication && (typeof(dateNewsEndPublication)=='undefined' || dateNewsEndPublication == '')){
