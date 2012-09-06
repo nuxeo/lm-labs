@@ -1,4 +1,4 @@
-<@extends src="/views/TemplatesBase/homeRightSimple/templateBefore.ftl">
+<@extends src="/views/TemplatesBase/domi/templateBefore.ftl">
 	
 	<@block name="lastActivities" />
 	<@block name="lastUploads" />

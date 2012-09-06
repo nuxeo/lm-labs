@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -25,11 +26,13 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.WebException;
+import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.page.CollapseTypes;
@@ -314,6 +317,22 @@ public final class CommonHelper {
     		list.add(type.type());
     	}
     	return list;
+    }
+    
+    public String getExternalOpensocilaGadgetSpecUrl(String gadgetName) {
+        String specUrl = "";
+        try {
+            LabsGadgetManager service = Framework.getService(LabsGadgetManager.class);
+            Map<String, GadgetDeclaration> externalGadgets = service.getExternalGadgets();
+            if (externalGadgets.containsKey(gadgetName)) {
+                specUrl = externalGadgets.get(gadgetName).getGadgetDefinition().toString();
+            }
+        } catch (MalformedURLException e) {
+            LOG.error("Unable to get gadget URL for gadget " + gadgetName + ":" + e.getMessage());
+        } catch (Exception e) {
+            LOG.error("Unable to read external gadget directory!", e);
+        }
+        return specUrl;
     }
     /**
      * @throws Exception
