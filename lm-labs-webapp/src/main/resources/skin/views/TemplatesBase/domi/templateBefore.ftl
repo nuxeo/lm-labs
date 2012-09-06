@@ -7,6 +7,7 @@
 		<div id="masthead">
 			<#--  Logo  -->
 			<#include "views/common/logo.ftl" />
+			<div class="linkDOMI"><a href="#" target="_blank">Qui sommes-nous ?</a></div>
 			<#--  horizontal Navigation  -->
 			<#include "views/common/topnavigation_area.ftl" />
 		</div>
