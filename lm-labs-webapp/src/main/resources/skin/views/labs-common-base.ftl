@@ -1,6 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="fr">
+<!DOCTYPE html <#--PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"-->>
+<html lang="fr" class="no-js" >
 <#assign bsMinified = ".min" />
 <#assign popoverPlacement = "" />
     <head>
@@ -18,8 +18,10 @@
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
           <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
         </@block>
-		
+		<!--[if IE]>
 		<script type="text/javascript" src="${skinPath}/js/modernizr.custom.js"></script>
+		<![endif]-->
+		
 		
 		<@block name="scripts">
           <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.2.min.js"></script>
