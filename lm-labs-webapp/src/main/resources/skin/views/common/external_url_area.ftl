@@ -47,7 +47,7 @@
   	  </div>
   	</fieldset>
     <div class="actions">
-      <button class="btn btn-primary required-fields" form-id="form-externalURL">Envoyer</button>
+      <button class="btn btn-primary required-fields" form-id="form-externalURL">${Context.getMessage('command.externalURL.edit.submit')}</button>
     </div>
   </form>
 </div>
