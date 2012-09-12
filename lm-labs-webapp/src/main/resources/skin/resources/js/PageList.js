@@ -2,7 +2,8 @@ jQuery(document).ready(function() {
 	initModal();
 
 	$(".pageListDisplayUrl").on("click", function(event){
-		event.stopPropagation();
+		//event.stopPropagation();
+		stopEventPropagation(event);
 	});
 });
 

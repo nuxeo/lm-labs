@@ -73,7 +73,7 @@
                 	  		data-original-title="${Context.getMessage('label.description')}"
                 	  	</#if>
                 	  ><#if displayChevron ><i style="font-size: 9px;" class="icon-chevron-right bullet-icon" ></i></#if>
-                	  <span<#if 0 < childSubPages?size > onclick="event.stopPropagation(); window.location.href = '${url?html}'; return false;"</#if> >${child.title}</span>
+                	  <span<#if 0 < childSubPages?size > onclick="stopEventPropagation(event); window.location.href = '${url?html}'; return false;"</#if> >${child.title}</span>
                 	<#if sidebarPosition != "unknown" && 0 < childSubPages?size ><b style="float:right;" class="caret" ></b></#if>
                 	  </a>
    					<#if 0 < childSubPages?size >

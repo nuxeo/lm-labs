@@ -36,7 +36,7 @@
 				<li class="<#if isActiveTab >active</#if><#if 0 < childSubPages?size > dropdown</#if>">
 					<a href="${url?html}"<#if 0 < childSubPages?size > class="dropdown-toggle" data-toggle="dropdown" data-target="#" </#if>>
 					<h5 >
-					<span<#if homePageId == pageDoc.id > class="homepage"</#if> onclick="event.stopPropagation(); window.location.href = '${url?html}'; return false;" >${title}</span><#if 0 < childSubPages?size ><b class="caret" style="margin-left: 5px;margin-right: -5px;" ></b></#if></h5></a>
+					<span<#if homePageId == pageDoc.id > class="homepage"</#if> onclick="stopEventPropagation(event); window.location.href = '${url?html}'; return false;" >${title}</span><#if 0 < childSubPages?size ><b class="caret" style="margin-left: 5px;margin-right: -5px;" ></b></#if></h5></a>
 					<#if isActiveTab >
 						<div class="star"></div><#-- SC -->
 					</#if>
