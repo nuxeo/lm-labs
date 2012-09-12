@@ -21,7 +21,7 @@
 	</@block>
 	
 	<@block name="content">	
-		<div id="content" class="container-fluid">
+		<div id="divPageList" class="container-fluid">
 		
 			<#include "views/common/page_header.ftl">
 			<div id="divPageList" class="">

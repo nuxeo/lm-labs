@@ -20,7 +20,7 @@
 
   <@block name="content">
   	<#include "views/LabsNews/macroNews.ftl">
-      <div id="content" class="container-fluid">
+      <div id="divPageNews" class="container-fluid">
 
     	<#include "views/common/page_header.ftl">
 

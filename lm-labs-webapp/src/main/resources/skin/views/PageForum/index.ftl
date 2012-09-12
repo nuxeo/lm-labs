@@ -15,7 +15,7 @@
 
   <#assign allTopics = This.getLabsForum().getTopics(Session)/>
   <@block name="content">
-  	<div id="content" class="container-fluid">
+  	<div id="divPageForum" class="container-fluid">
   		<#include "views/common/page_header.ftl">
 	 	<div style="width: 100%; text-align: right; margin-bottom: 5px;">
 	  		<a style="margin-right: 5px;" class="btn" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>

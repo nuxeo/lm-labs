@@ -21,7 +21,7 @@ jQuery(document).ready(function() {
 		<div id="masthead">
 			<#--  Logo  -->
 			<#include "views/common/logo.ftl" />
-			<div class="linkDOMI"><a href="#" target="_blank">Qui sommes-nous ?</a></div>
+			<div class="linkDOMI"><a href="${Context.modulePath}/${mySite.URL}/Page-html/Presentation-de-la-DOMI" target="_blank">Qui sommes-nous ?</a></div>
 			<#--  horizontal Navigation  -->
 			<#include "views/common/topnavigation_area.ftl" />
 		</div>
@@ -32,7 +32,7 @@ jQuery(document).ready(function() {
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<#--  central content -->
-		        <div class="central span10">
+		        <div class="central span 9" style="width: 750px;margin-right: 12px;">
 			
 					<#--  action-message -->
 					<#include "views/common/action_message.ftl" >
@@ -48,7 +48,7 @@ jQuery(document).ready(function() {
 		        </div>
 				
 				<#--  sidebar -->
-				<div class="sidebar span2"> 
+				<div class="sidebar span3" style="width: 214px;"> 
 					<#include "views/TemplatesBase/domi/sidebar_area.ftl" />
 				</div>
 			
@@ -68,5 +68,18 @@ jQuery(document).ready(function() {
     -->
     <script type="text/javascript" src="${skinPath}/js/register_rpc_navigateto.js"></script>
     <script type="text/javascript" src="${contextPath}/js/?scripts=opensocial/cookies.js|opensocial/util.js|opensocial/gadgets.js|opensocial/cookiebaseduserprefstore.js|opensocial/jquery.opensocial.gadget.js"></script>
+    <script type="text/javascript" src="${skinPath}/less/theme/Domi/js/scriptDOMI.js"></script>
   </@block>
+  
+  <@block name="FKfooter">
+    	<div id="FKfooter">
+	        <#include "views/common/footer.ftl">
+	        <#include "views/common/labsPiwik.ftl">
+	        <#include "views/common/loading.ftl">
+
+	        	<#include "/views/common/audioReader.ftl" />
+
+    	</div><#-- /FKfooter -->
+    	<div>&nbsp;</div>
+	</@block>
 </@extends>
