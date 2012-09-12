@@ -27,23 +27,10 @@ function setOpensocialOptions(baseUrl, lang) {
 function initOpensocialGadgets() {
 	jQuery('div.opensocialGadgets').each(function(index, value) {
 		var userPrefs = {};
-		//var toto = 'ert';
 		var userPrefsStr = jQuery(this).data('gadget-user-preferences');
-		alert(userPrefsStr);
 		if (userPrefsStr.length > 0) {
 			userPrefs = $.toJSON("(" + jQuery(this).data('gadget-user-preferences') + ")");
-			//userPrefs = eval("(" + jQuery(this).data('gadget-user-preferences') + ")");
 		}
-		//if (userPrefsStr.length > 0) {
-			//alert(jQuery(this).data('gadget-user-preferences'));
-			//eval('(' + jQuery(this).data('gadget-user-preferences') + ');');
-			//var evaluated = '(' + jQuery(this).data('gadget-user-preferences') + ')';
-			//alert(jQuery(this).data('gadget-user-preferences'));
-			//userPrefs = eval('(' + userPrefsStr + ')');
-		//}
-			//eval('var to' + 'to="azerty";');
-			//alert(toto);
-			//eval( "var userPrefs = " +  didi_tttt + ";");
 		jQuery(this).openSocialGadget({
 			baseURL: openSocialOptions.baseURL,
 			language: openSocialOptions.language,
