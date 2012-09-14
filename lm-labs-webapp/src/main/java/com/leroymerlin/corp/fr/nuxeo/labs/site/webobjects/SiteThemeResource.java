@@ -2,16 +2,10 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.io.File;
 import java.io.FileInputStream;
-<<<<<<< local
-=======
 import java.io.IOException;
->>>>>>> other
 import java.io.StringReader;
 import java.io.StringWriter;
-<<<<<<< local
 import java.text.SimpleDateFormat;
-=======
->>>>>>> other
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
