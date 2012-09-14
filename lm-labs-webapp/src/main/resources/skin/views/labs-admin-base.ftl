@@ -5,7 +5,7 @@
   <@block name="css">
     <@superBlock/>
         <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
-        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document.dublincore.modified?string("yyyyMMddHHmmss")}" />?withoutaddedstyle=1" />
+        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document.dublincore.modified?string("yyyyMMddHHmmss")}?withoutaddedstyle=1" />
   </@block>
 
   <@block name="scripts">
