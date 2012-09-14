@@ -27,9 +27,19 @@ function setOpensocialOptions(baseUrl, lang) {
 function initOpensocialGadgets() {
 	jQuery('div.opensocialGadgets').each(function(index, value) {
 		var userPrefs = {};
+		//eval("var userPrefs = userPrefs + index");
+//		if (jQuery(this).attr("id"))
 		var userPrefsStr = jQuery(this).data('gadget-user-preferences');
 		if (userPrefsStr.length > 0) {
-			userPrefs = $.toJSON("(" + jQuery(this).data('gadget-user-preferences') + ")");
+//			alert(userPrefsStr);
+//			var encoded = jQuery.toJSON(userPrefsStr);
+//			userPrefs = jQuery.parseJSON(encoded);
+//			alert(encoded);
+//			userPrefs = $.evalJSON( encoded );
+			//alert(userPrefs);
+			userPrefs = eval("(" + jQuery(this).data('gadget-user-preferences') + ")");
+			//alert(userPrefs);
+//			userPrefsStr
 		}
 		jQuery(this).openSocialGadget({
 			baseURL: openSocialOptions.baseURL,
