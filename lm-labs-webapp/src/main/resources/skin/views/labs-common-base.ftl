@@ -15,24 +15,16 @@
 		<link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
         <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
 
-
         <@block name="css">          
+		    <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.common.css"/>
         </@block>
-
-
-
 
     	<@block name="scripts">
 		<!--[if IE]>
 		<script type="text/javascript" src="${skinPath}/js/modernizr.custom.js"></script>
 		<![endif]-->
-
-      	  <script type="text/javascript" src="/nuxeo/wro/labs.common.js"></script>
-
-		
-		
+			<script type="text/javascript" src="/nuxeo/wro/labs.common.js"></script>
         </@block>
-
 
     </head>
     <body>
