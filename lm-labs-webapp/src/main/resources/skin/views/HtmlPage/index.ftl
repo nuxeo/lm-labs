@@ -483,7 +483,7 @@ jQuery(document).ready(function() {
 		<#assign stringified = "{" />
 	    <#list userPrefs as userPref >
 	        <#assign actualValue = userPref.actualValue?html?replace("'", "\\'") />
-	    	<#assign stringified = stringified + "${userPref.name}:" + "{name:'${userPref.name}',value:'${actualValue}',default:'${userPref.defaultValue}'}" />
+	    	<#assign stringified = stringified + "'${userPref.name}':" + "{name:'${userPref.name}',value:'${actualValue}',default:'${userPref.defaultValue}'}" />
 	    	<#if userPref != userPrefs?last >
 				<#assign stringified = stringified + "," />
 	    	</#if>
