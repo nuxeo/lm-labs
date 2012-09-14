@@ -10,19 +10,19 @@ import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
 public final class LabsSiteConstants {
-    
+
     public final class Comments{
         public static final String COMMENT_AUTHOR = "comment:author";
-        public static final String COMMENT_TEXT = "comment:text"; 
+        public static final String COMMENT_TEXT = "comment:text";
         public static final String COMMENT_CREATION_DATE = "comment:creationDate";
-        
+
     }
 
     public enum CommentsState{
-    	PENDING( "", "moderation_pending"),
-    	PUBLISHED("moderation_publish", "moderation_published"),
-    	REJECT("moderation_reject", "moderation_rejected");
-    	
+        PENDING( "", "moderation_pending"),
+        PUBLISHED("moderation_publish", "moderation_published"),
+        REJECT("moderation_reject", "moderation_rejected");
+
         private String transition;
         private String state;
 
@@ -55,17 +55,17 @@ public final class LabsSiteConstants {
             return state;
         }
     }
-    
+
     public final class Forum{
         public static final String FORUM_CREATOR = "dc:creator";
     }
-    
+
     public final class NotifNames {
         public static final String NEWS_PUBLISHED = "News published";
         public static final String PAGE_MODIFIED = "Page modified";
         public static final String PAGE_REMOVED = "Page removed";
     }
-    
+
     public final class EventNames {
         public static final String NEWS_PUBLISHED_UNDER_PAGENEWS = "newsPublishedUnderPageNews";
         @Deprecated
@@ -82,7 +82,7 @@ public final class LabsSiteConstants {
         public static final String LABSHIDDEN = "LabsHidden";
         public static final String HIDDENINLABSNAVIGATION = "HiddenInLabsNavigation";
     }
-    
+
     public enum Schemas {
         PAGE("page", "pg"),
         LABSTAGS("labstags", "ltg"),
@@ -190,7 +190,7 @@ public final class LabsSiteConstants {
             return EnumSet.of(SITE, PAGE, PAGEBLOCS, PAGENEWS, PAGECLASSEUR, PAGELIST, HTMLPAGE, PAGEFORUM, DASHBOARD);
         }
     }
-    
+
     public enum State {
         DRAFT("draft", "draft"),
         PUBLISH("publish", "published"),
@@ -230,14 +230,14 @@ public final class LabsSiteConstants {
         }
 
     }
-    
+
     /*
      * Define in the file 'lifecycle-contrib.xml'
      */
     public static String LIFE_CYCLE_LABS = "labs";
-    
+
     public static List<String> OREDERED_PERMISSONS;
-    
+
     public static PermissionsHelper  PERMISSIONS_HELPER;
 
     static{
@@ -263,33 +263,33 @@ public final class LabsSiteConstants {
             return right;
         }
     }
-    
+
     public enum PropertyType {
 
         COLOR("color"), FONT("font"), SIZE("size"), STRING("string"), IMAGE("image");
 
         private String type;
-        
+
         private static final Map<String, PropertyType> stringToEnum = new HashMap<String, PropertyType>();
         static { // Initialize map from constant name to enum constant
             for (PropertyType op : values())
-                stringToEnum.put(op.getType(), op);
+                stringToEnum.put(op.toString(), op);
         }
 
         // Returns Operation for string, or null if string is invalid
         public static PropertyType fromString(String symbol) {
-            return stringToEnum.get(symbol);
+            return stringToEnum.get(symbol.toLowerCase());
         }
 
         PropertyType(String type) {
             this.type = type;
         }
 
-        public String getType() {
+        public String toString() {
             return type;
         }
     }
-    
+
     public enum Directories {
         COLUMNS_LAYOUT("columns_layout", "columns_layout", "code", "", "order"),
         PAGE_TEMPLATES("labs_page_templates", "vocabulary", "id", "label", "ordering"),
@@ -324,15 +324,15 @@ public final class LabsSiteConstants {
         public String schema() {
             return schema;
         }
-        
+
         public String idField() {
             return idField;
         }
-        
+
         public String labelField() {
             return labelField;
         }
-        
+
         public String orderingField() {
             return orderingField;
         }

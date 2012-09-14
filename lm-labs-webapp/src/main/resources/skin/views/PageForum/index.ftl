@@ -6,10 +6,11 @@
 
   <@block name="css">
     <@superBlock/>
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageForum.css"/>
+    <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.forum.css"/>
   </@block>
 
   <@block name="scripts">
+    <script type="text/javascript" src="${contextPath}/wro/labs.forum.js"></script>
     <@superBlock/>
   </@block>
 

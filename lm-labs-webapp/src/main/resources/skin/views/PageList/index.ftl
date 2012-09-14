@@ -5,19 +5,13 @@
 	
 	<@block name="css">
 	  <@superBlock/>
-	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageList.css"/>
-	  	<link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
+	  	<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.liste.css"/>
 		<#include "views/common/datepicker_css.ftl">
 	</@block>
 	
 	<@block name="scripts">
+	  <script type="text/javascript" src="${contextPath}/wro/labs.liste.js"></script>
 	  <@superBlock/>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.ui.datepicker-fr.js"></script>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery-ui-1.8.22.datepicker.slider.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/Collection.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/PageListHeaders.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/PageList.js"></script>
 	</@block>
 	
 	<@block name="content">	

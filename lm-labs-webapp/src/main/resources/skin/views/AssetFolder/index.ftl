@@ -5,34 +5,20 @@
 <#assign popoverPlacement = "" />
 <#assign mySite=Common.siteDoc(Document).getSite() />
     <head>
-    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      	<title>Interface des médias</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Interface des médias</title>
 
         <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
         <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
 
-        <link rel="stylesheet/less" href="${Context.modulePath}/${mySite.URL}/generated.less" />
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
 
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.2.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form-3.09.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.3.0.min.js"></script>
+        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document.dublincore.modified?string("yyyyMMddHHmmss")}" />
+    <link rel="stylesheet" type="text/css" href="${contextPath}/wro/labs.assets.css" />
 
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
-      	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
+
     </head>
     <body id="body">
-	<#-- timeout -->
+  <#-- timeout -->
     <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
 
   <div id="FKtopContent" style="padding: 10px 10px;" >
@@ -88,8 +74,8 @@
             </form>
           </div>
 
-		 <#include "macros/add_file_dialog.ftl" />
-		 <@addFileDialog action="${This.path}" onSubmit="this.action=currentPath"/>
+     <#include "macros/add_file_dialog.ftl" />
+     <@addFileDialog action="${This.path}" onSubmit="this.action=currentPath"/>
         </div> <#-- row -->
       </div> <#-- content -->
     </div> <#-- row-fluid -->
@@ -110,7 +96,7 @@
   });
 
     function sendToCallFunction(href) {
-    	window.opener.${This.getCallFunction()}('${This.getCalledRef()}', href);
+      window.opener.${This.getCallFunction()}('${This.getCalledRef()}', href);
         window.close();
     }
     </script>

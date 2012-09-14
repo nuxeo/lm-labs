@@ -7,23 +7,14 @@
 
   <@block name="css">
     <@superBlock/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/js/assets/prettify/prettify.css"/>
+        <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.pagehtml.css"/>
+        <!-- Doesnt compile in wro... :-() -->
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" />
-        <link rel="stylesheet" href="${contextPath}/css/opensocial/light-container-gadgets.css" />
-        <link rel="stylesheet" type="text/css" media="screen,print" href="${skinPath}/css/slickmap/slickmap.css" />
   </@block>
 
   <@block name="scripts">
+      <script type="text/javascript" src="/nuxeo/wro/labs.pagehtml.js"></script>
     <@superBlock/>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/move.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
-      	<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button.min.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/labs-opensocial-init.js"></script>
         <script type="text/javascript" >
 
 jQuery(document).ready(function() {

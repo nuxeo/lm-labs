@@ -60,8 +60,8 @@ public class Site extends NotifiablePageResource {
                     + '/'
                     + URIUtils.quoteURIPathComponent(
                             (new org.nuxeo.common.utils.Path(
-                                    Tools.getAdapter(SiteDocument.class, 
-                                            site.getIndexDocument(), 
+                                    Tools.getAdapter(SiteDocument.class,
+                                            site.getIndexDocument(),
                                             ctx.getCoreSession()).getResourcePath()).
                                             removeFirstSegments(1)).toString(),
                             false));
@@ -164,6 +164,18 @@ public class Site extends NotifiablePageResource {
                     + e.getMessage());
         } catch (ClientException e) {
             throw WebException.wrap(e);
+        }
+    }
+
+
+    @Path("@currenttheme")
+    public Object doGetCurrentTheme() {
+        try {
+            CoreSession session = ctx.getCoreSession();
+            SiteTheme theme  = site.getThemeManager().getTheme(session);
+            return newObject(Docs.SITETHEME.type(), site, theme);
+        } catch (ClientException e) {
+            throw new WebResourceNotFoundException("Theme not found", e);
         }
     }
 

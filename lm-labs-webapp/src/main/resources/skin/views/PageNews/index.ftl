@@ -6,15 +6,15 @@
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="scripts">
+
+      <script type="text/javascript" src="${contextPath}/wro/labs.news.js"></script>
     <@superBlock/>
-      <script type="text/javascript" src="${skinPath}/js/PageNews.js"></script>
   </@block>
 
   <@block name="css">
-    <@superBlock/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
+      <@superBlock/>
       <#include "views/common/datepicker_css.ftl">
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
+      <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.news.css"/>
       <link href="${topnewsUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.topnews.PageNews.title', Document.title?html)}" />
   </@block>
 

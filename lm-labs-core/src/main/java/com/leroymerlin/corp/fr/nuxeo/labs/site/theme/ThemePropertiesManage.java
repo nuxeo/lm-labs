@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.theme;
 
@@ -21,7 +21,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 /**
  * @author fvandaele
- * 
+ *
  */
 public class ThemePropertiesManage {
 
@@ -39,7 +39,7 @@ public class ThemePropertiesManage {
 
     /**
      * If no file, return true
-     * 
+     *
      * @param pathFile
      * @param time
      * @return
@@ -137,9 +137,9 @@ public class ThemePropertiesManage {
             prop.setDescription(fields[2]);
         }
         if (fields.length > 3) {
-            prop.setType(fields[3]);
+            prop.setType(LabsSiteConstants.PropertyType.fromString(fields[3]));
         } else {
-            prop.setType(LabsSiteConstants.PropertyType.STRING.getType());
+            prop.setType(LabsSiteConstants.PropertyType.STRING);
         }
         prop.setOrderNumber(orderNumber);
         return prop;
