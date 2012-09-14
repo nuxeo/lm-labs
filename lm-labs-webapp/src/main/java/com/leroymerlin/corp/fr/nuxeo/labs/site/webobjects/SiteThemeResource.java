@@ -474,11 +474,21 @@ public class SiteThemeResource extends PageResource {
                     // @backgroundImageRelative: false;
                     // This seems to be the only way to parameter background
                     // image with LESS
-
-                    String pathImg = this.getContext()
-                            .getBaseURL()
-                            .substring("http://".length()) + prop.getValue();
-                    less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
+                    String urlStart = StringUtils.substring(this.getContext().getBaseURL(), 0, 7);
+                    if (urlStart.contains("://")) {
+                        String pathImg = this.getContext()
+                                .getBaseURL()
+                                .substring("http://".length()) + prop.getValue();
+                        less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
+                    } else {
+                        String url = "";
+                        if (this.getContext().getServerURL().toString().contains("://")) {
+                            url = StringUtils.substringAfter(this.getContext().getServerURL().toString(), "://");
+                        } else {
+                            url = this.getContext().getServerURL().toString();
+                        }
+                        less.append(prop.getKey() + ": \"" + url + prop.getValue() + "\";\n");
+                    }
                     less.append(prop.getKey() + "Relative: false;\n");
                     break;
 
