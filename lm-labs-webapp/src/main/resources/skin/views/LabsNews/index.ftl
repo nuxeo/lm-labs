@@ -32,10 +32,11 @@
   <@block name="scripts">
     <script type="text/javascript" src="${contextPath}/wro/labs.news.js"></script>
     <@superBlock/>
+    <script type="text/javascript" >
       jQuery(document).ready(function() {
         jQuery('.news-navigation a[rel=popover]').popover({offset: 10, html: true});
       });
-      </script>
+    </script>
   </@block>
 
   <@block name="css">
