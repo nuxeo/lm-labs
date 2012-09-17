@@ -99,6 +99,10 @@
     <css>/site/skin/labs/css/PageForum.css</css>
   </group>
 
+  <group name="labs.topic">
+    <group-ref>labs.common</group-ref>
+  </group>
+
   <group name="labs.sitemap">
     <group-ref>labs.common</group-ref>
     <js>/site/skin/labs/js/jquery/jquery-ui-1.8.14.min.js</js>
@@ -116,6 +120,11 @@
   <group name="labs.assets">
     <group-ref>labs.common</group-ref>
     <group-ref>treeview</group-ref>
+  </group>
+
+  <group name="labs.search">
+    <group-ref>labs.common</group-ref>
+    <group-ref>tablesorter</group-ref>
   </group>
 
   <group name="treeview">

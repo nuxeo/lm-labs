@@ -4,12 +4,12 @@
 
     <@block name="scripts">
       <@superBlock/>
-      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+		<script type="text/javascript" src="${contextPath}/wro/labs.search.js"></script>
     </@block>
 
     <@block name="css">
       <@superBlock/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
+		<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.search.css"/>
     </@block>
 
     <@block name="content">

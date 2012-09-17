@@ -6,10 +6,11 @@
 
   <@block name="css">
     <@superBlock/>
-     <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
+	<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.topic.css"/>
   </@block>
 
  <@block name="scripts">
+      <script type="text/javascript" src="${contextPath}/wro/labs.topic.js"></script>
  <@superBlock/>
    	 <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
 	 <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
