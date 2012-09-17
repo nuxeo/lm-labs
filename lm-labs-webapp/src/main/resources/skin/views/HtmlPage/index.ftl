@@ -13,7 +13,7 @@
   </@block>
 
   <@block name="scripts">
-      <script type="text/javascript" src="/nuxeo/wro/labs.pagehtml.js"></script>
+      <script type="text/javascript" src="${contextPath}/wro/labs.pagehtml.js"></script>
     <@superBlock/>
         <script type="text/javascript" >
 
