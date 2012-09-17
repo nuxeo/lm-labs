@@ -50,6 +50,7 @@
   </group>
 
   <group name="labs.pagenews">
+    <group-ref>labs.common</group-ref>
     <js>/site/skin/labs/js/PageNews.js</js>
     
     <css>/site/skin/labs/css/PageNews.css</css>
