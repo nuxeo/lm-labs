@@ -52,7 +52,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.ThemePropertiesManage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.PropertyType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
@@ -292,10 +292,8 @@ public class SiteThemeResource extends PageResource {
             prop = new ThemeProperty();
             prop.setKey(form.getString("key" + baseFiledName + i));
             prop.setLabel(form.getString("label" + baseFiledName + i));
-            prop.setDescription(form.getString("description" + baseFiledName
-                    + i));
-            prop.setType(LabsSiteConstants.PropertyType.fromString(form.getString("type"
-                    + baseFiledName + i)));
+            prop.setDescription(form.getString("description" + baseFiledName + i));
+            prop.setType(PropertyType.fromString(form.getString("type" + baseFiledName + i)));
             value = form.getString("value" + baseFiledName + i);
             if (StringUtils.isNotBlank(value)) {
                 prop.setValue(value);
@@ -392,7 +390,8 @@ public class SiteThemeResource extends PageResource {
             properties = CommonHelper.getThemeProperties(tpm);
         } catch (Exception e) {
             throw WebException.wrap(e);
-        }        return properties;
+        }
+        return properties;
     }
 
     @GET
@@ -400,11 +399,7 @@ public class SiteThemeResource extends PageResource {
     public Object doRender(@PathParam("date") String dateStr,
             @QueryParam("withoutaddedstyle") Boolean withoutAddedStyle) {
         try {
-
-
             withoutAddedStyle  = withoutAddedStyle == null ? false : withoutAddedStyle;
-
-
             Calendar lastModified = (Calendar) theme.getDocument().getPropertyValue("dc:modified");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
             String lastModifiedStr = sdf.format(lastModified.getTime());

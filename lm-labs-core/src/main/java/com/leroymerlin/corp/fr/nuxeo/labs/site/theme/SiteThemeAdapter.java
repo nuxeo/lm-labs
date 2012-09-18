@@ -23,6 +23,7 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.PropertyType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
@@ -183,12 +184,18 @@ public class SiteThemeAdapter implements SiteTheme {
         ThemeProperty prop = null;
         for (Map<String, Object> list : propertiesList) {
             try {
+                String typeStr = Tools.getString(list.get("type"));
+                PropertyType type = PropertyType.fromString(typeStr);
+                if (type == null) {
+                    LOG.warn("Unable to get property: " + typeStr);
+                    continue;
+                }
                 prop = new ThemeProperty(
                         Tools.getString(list.get("key")),
                         Tools.getString(list.get("value")),
                         Tools.getString(list.get("label")),
                         Tools.getString(list.get("description")),
-                        (LabsSiteConstants.PropertyType.fromString(Tools.getString(list.get("type")))),
+                        type,
                         Tools.getInt(list.get("orderNumber")));
             } catch (NullException e) {
                 LOG.error("Unable to get property: " + e.getMessage());

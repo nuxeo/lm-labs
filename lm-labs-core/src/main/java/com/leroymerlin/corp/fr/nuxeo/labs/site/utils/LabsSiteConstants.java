@@ -266,7 +266,7 @@ public final class LabsSiteConstants {
 
     public enum PropertyType {
 
-        COLOR("color"), FONT("font"), SIZE("size"), STRING("string"), IMAGE("image");
+        COLOR("color"), FONT("font"), SIZE("size"), STRING("string"), IMAGE("image"), BOOL("boolean"), VOID("void");
 
         private String type;
 

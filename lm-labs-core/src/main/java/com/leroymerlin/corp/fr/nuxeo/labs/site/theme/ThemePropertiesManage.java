@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.ThemePropertiesException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.PropertyType;
 
 /**
  * @author fvandaele
@@ -137,9 +137,9 @@ public class ThemePropertiesManage {
             prop.setDescription(fields[2]);
         }
         if (fields.length > 3) {
-            prop.setType(LabsSiteConstants.PropertyType.fromString(fields[3]));
+            prop.setType(PropertyType.fromString(fields[3]));
         } else {
-            prop.setType(LabsSiteConstants.PropertyType.STRING);
+            prop.setType(PropertyType.STRING);
         }
         prop.setOrderNumber(orderNumber);
         return prop;

@@ -23,7 +23,7 @@ public class ThemeProperty {
 
     private String description;
 
-    private PropertyType type;
+    private PropertyType type = PropertyType.VOID;
 
     private int orderNumber;
 
@@ -106,7 +106,14 @@ public class ThemeProperty {
         return type;
     }
 
+    public String getTypeString() {
+        return type.toString();
+    }
+
     public void setType(LabsSiteConstants.PropertyType type) {
+        if (type == null) {
+            throw new IllegalArgumentException("property type for '" + key + "/" + label + "/" + description + "' cannot be null");
+        }
         this.type = type;
     }
 
