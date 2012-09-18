@@ -33,6 +33,13 @@
     <js>/site/skin/labs/js/assets/less/less-1.3.0.min.js</js>
   </group>
 
+  <group name="labs.sitesroot">
+    <group-ref>bootstrap</group-ref>
+    <group-ref>labs.common</group-ref>
+    <group-ref>tablesorter</group-ref>
+    <js>/site/skin/labs/js/sitesRoot.js</js>
+  </group>
+
   <group name="labs.pagehtml">
     <group-ref>labs.common</group-ref>
     <js>/site/skin/labs/js/jquery/jquery.tablesorter.min.js</js>
