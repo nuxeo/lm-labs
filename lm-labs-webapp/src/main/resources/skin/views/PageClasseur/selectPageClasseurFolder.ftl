@@ -19,7 +19,9 @@
 	<i class="icon-ok" style="padding-right:0px;" ></i>Valider la sélection
 </btn>
 <#else>
+<div class="alert alert-info no-fade">
 Pas de répertoire dans cette Page Classeur
+</div>
 </#if>
 
 <script type="text/javascript">

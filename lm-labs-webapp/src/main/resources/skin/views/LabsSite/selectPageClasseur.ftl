@@ -25,8 +25,13 @@
 </div>
 <script type="text/javascript">
 function updateFoldersDiv() {
-	var url = escape(jQuery('#pageClasseurChooser option:selected').val());
-	jQuery('.selectFolderDiv').load(url + '/@views/selectPageClasseurFolder<#if modeSelectParam != null>?modeSelect=true</#if>');
+	var url = jQuery('#pageClasseurChooser option:selected').val();
+	jQuery('.selectFolderDiv').load(url + '/@views/selectPageClasseurFolder<#if modeSelectParam != null>?modeSelect=true</#if>', function(response, status, xhr) {
+		if (status == "error") {
+			var msg = 'Un problème est survenu, impossible de récupérer les répertoires: ';
+			jQuery(this).html('<div class="alert alert-error no-fade"><strong>' + msg + '</strong>' + xhr.status + " " + xhr.statusText + '</div>');
+		}
+	});
 }
 jQuery(document).ready(function() {
 	updateFoldersDiv();
