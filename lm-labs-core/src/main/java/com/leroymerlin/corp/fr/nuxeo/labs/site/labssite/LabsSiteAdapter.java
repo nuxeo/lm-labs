@@ -374,8 +374,8 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     	queryParamsList.add(doc.getPathAsString().replace("'", "\\'") + "/" + LabsSiteConstants.Docs.TREE.docName());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = sdf.format(Calendar.getInstance().getTime());
-        queryParamsList.add(dateStr);
-        queryParamsList.add(dateStr);
+        queryParamsList.add(dateStr + " 23:59:59");
+        queryParamsList.add(dateStr + " 00:00:00");
         String queryParams = StringUtils.join(queryParamsList, ',');
         OperationContext ctx = new OperationContext(session);
         final String providerName = "published_news";
