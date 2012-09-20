@@ -32,10 +32,10 @@
 		        	<#--  Content  -->
 				    <@block name="content" />
 				    
-				    <#--  Tags  
+				    <#--  Tags --> 
 					<@block name="pageTags">
 					   	<#include "views/common/labsTags.ftl">
-					</@block>-->
+					</@block>
 				    
 				    <#--  Commentaires  -->
 					<@block name="pageCommentable">

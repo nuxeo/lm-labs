@@ -14,6 +14,7 @@
 
     <@block name="content">
 
+		<@block name="pageTags"/>
 
     <script type="text/javascript">
       jQuery(document).ready(function() {

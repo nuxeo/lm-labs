@@ -34,6 +34,11 @@
 		        	<#--  Content  -->
 				    <@block name="content" />
 				    
+				    <#--  Tags --> 
+					<@block name="pageTags">
+					   	<#include "views/common/labsTags.ftl">
+					</@block>
+				    
 				    <#--  Commentaires  -->
 					<@block name="pageCommentable">
 					   	<#include "views/LabsComments/macroComments.ftl">

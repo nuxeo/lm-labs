@@ -38,6 +38,11 @@
 					<#include "views/common/action_message.ftl" >
 					<div class="row">
 			    		<@block name="content" />
+				    
+					    <#--  Tags --> 
+						<@block name="pageTags">
+						   	<#include "views/common/labsTags.ftl">
+						</@block>
 			    		<#--  Commentaires  -->
 						<@block name="pageCommentable">
 						   	<#include "views/LabsComments/macroComments.ftl">
