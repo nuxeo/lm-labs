@@ -25,11 +25,11 @@
 </div>
 <script type="text/javascript">
 function updateFoldersDiv() {
-	var url = jQuery('#pageClasseurChooser option:selected').val();
+	var url = jQuery('#pageClasseurChooser option:selected').val().replace(' ', '%20');
 	jQuery('.selectFolderDiv').load(url + '/@views/selectPageClasseurFolder<#if modeSelectParam != null>?modeSelect=true</#if>', function(response, status, xhr) {
 		if (status == "error") {
 			var msg = 'Un problème est survenu, impossible de récupérer les répertoires: ';
-			jQuery(this).html('<div class="alert alert-error no-fade"><strong>' + msg + '</strong>' + xhr.status + " " + xhr.statusText + '</div>');
+			jQuery(this).html('<div class="alert alert-error no-fade"><strong>' + msg + '</strong>' + xhr.status + ' ' + xhr.statusText + ' (' + url + ')' + '</div>');
 		}
 	});
 }
