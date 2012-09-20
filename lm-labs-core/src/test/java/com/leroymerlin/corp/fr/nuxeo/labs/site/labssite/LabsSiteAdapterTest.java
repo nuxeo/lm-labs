@@ -38,13 +38,13 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;

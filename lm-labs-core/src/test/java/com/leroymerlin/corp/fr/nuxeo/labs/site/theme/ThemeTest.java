@@ -24,9 +24,9 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;

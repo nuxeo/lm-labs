@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 

@@ -18,11 +18,11 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.LabstTest;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
