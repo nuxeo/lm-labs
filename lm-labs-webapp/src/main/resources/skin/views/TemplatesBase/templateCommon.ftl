@@ -11,6 +11,7 @@
         -->
         <#if canWrite>
         	<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
+        	<link rel="stylesheet" type="text/css" href="${skinPath}/css/select2/select2.css"/>
         </#if>
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/pagination.css"/>
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastNews" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastNews.title')}" />
@@ -25,6 +26,7 @@
 	        <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
 	        <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
 	        <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
+	        <script type="text/javascript" src="${skinPath}/js/select2.js"></script>
         </#if>
         <script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
