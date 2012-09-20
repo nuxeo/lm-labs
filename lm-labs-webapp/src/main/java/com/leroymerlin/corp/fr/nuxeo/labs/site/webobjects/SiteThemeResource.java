@@ -393,6 +393,13 @@ public class SiteThemeResource extends PageResource {
         }
         return properties;
     }
+    
+    @GET @Path("removeCache") public Object doRemoveCache() throws ClientException {
+        if (site.isAdministrator(getCoreSession().getPrincipal().getName())) {
+            theme.setCssValue(null);
+        }
+        return redirect(getPrevious().getPath());
+    }
 
     @GET
     @Path("rendercss-{date}")
