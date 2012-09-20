@@ -5,17 +5,16 @@
 
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
-  <@block name="scripts">
-
-      <script type="text/javascript" src="${contextPath}/wro/labs.pagenews.js"></script>
-    <@superBlock/>
-  </@block>
-
   <@block name="css">
+      <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.pagenews.css"/><#-- MUST BE BEFORE superBlock -->
       <@superBlock/>
       <#include "views/common/datepicker_css.ftl">
-      <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.pagenews.css"/>
       <link href="${topnewsUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.topnews.PageNews.title', Document.title?html)}" />
+  </@block>
+
+  <@block name="scripts">
+      <script type="text/javascript" src="${contextPath}/wro/labs.pagenews.js"></script>
+    <@superBlock/>
   </@block>
 
   <@block name="content">

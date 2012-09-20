@@ -6,8 +6,8 @@
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
+        <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.pagehtml.css"/><#-- MUST BE BEFORE superBlock -->
     <@superBlock/>
-        <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.pagehtml.css"/>
         <!-- Doesnt compile in wro... :-() -->
         <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css" />
   </@block>

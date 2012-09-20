@@ -5,8 +5,8 @@
   <@block name="title">${ mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
-    <@superBlock/>
 	<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.topic.css"/>
+    <@superBlock/>
   </@block>
 
  <@block name="scripts">

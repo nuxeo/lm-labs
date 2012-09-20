@@ -7,8 +7,8 @@
   <@block name="title">${ mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
+        <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.classeur.css"/><#-- MUST BE BEFORE superBlock -->
     <@superBlock/>
-        <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.classeur.css"/>
   </@block>
 
   <@block name="scripts">

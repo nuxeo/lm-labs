@@ -30,7 +30,7 @@
 
 
   <@block name="scripts">
-    <script type="text/javascript" src="${contextPath}/wro/labs.news.js"></script>
+    <script type="text/javascript" src="${contextPath}/wro/labs.news.js"></script><#-- MUST BE BEFORE superBlock -->
     <@superBlock/>
     <script type="text/javascript" >
       jQuery(document).ready(function() {

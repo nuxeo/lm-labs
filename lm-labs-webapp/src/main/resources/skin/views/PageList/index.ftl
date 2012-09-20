@@ -4,8 +4,8 @@
 	<@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title}</@block>
 	
 	<@block name="css">
+	  	<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.liste.css"/><#-- MUST BE BEFORE superBlock -->
 	  <@superBlock/>
-	  	<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.liste.css"/>
 		<#include "views/common/datepicker_css.ftl">
 	</@block>
 	
