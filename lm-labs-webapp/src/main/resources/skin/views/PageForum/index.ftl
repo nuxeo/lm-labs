@@ -5,11 +5,12 @@
   <@block name="title">${ mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
+    <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.forum.css"/><#-- MUST BE BEFORE superBlock -->
     <@superBlock/>
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageForum.css"/>
   </@block>
 
   <@block name="scripts">
+    <script type="text/javascript" src="${contextPath}/wro/labs.forum.js"></script>
     <@superBlock/>
   </@block>
 

@@ -12,7 +12,8 @@
   <xs:element name="logo_resize_ratio" type="xs:integer" default="100" /> <!-- percentage -->
   <xs:element name="style" type="xs:string" />
   <xs:element name="oldStyle" type="xs:string" />
-  
+  <xs:element name="cachedstyle" type="xs:string"/>
+
   <xs:element nillable="false" name="properties">
     <xs:complexType>
       <xs:sequence>
@@ -32,6 +33,6 @@
     </xs:complexType>
   </xs:element>
   <xs:element name="lastRead" type="xs:long" default="0" />
-  
+
 </xs:schema>
 

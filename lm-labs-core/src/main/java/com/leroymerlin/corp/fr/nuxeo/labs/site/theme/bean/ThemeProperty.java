@@ -1,28 +1,32 @@
 /**
- * 
+ *
  */
 package com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import static com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.PropertyType;
 /**
  * @author fvandaele
  *
  */
 public class ThemeProperty {
-    
+
     public static final int ORDER_NUMBER_DEFAULT_VALUE = -1;
 
     private String key;
-    
+
     private String value;
-    
+
     private String label;
-    
+
     private String description;
-    
-    private String type;
-    
+
+    private PropertyType type = PropertyType.VOID;
+
     private int orderNumber;
-    
+
     public ThemeProperty() {
         this.key = "";
         this.value = "";
@@ -31,7 +35,7 @@ public class ThemeProperty {
         this.orderNumber = ORDER_NUMBER_DEFAULT_VALUE;
     }
 
-    public ThemeProperty(String key, String value, String label, String description, String type, int orderNumber) {
+    public ThemeProperty(String key, String value, String label, String description, PropertyType type, int orderNumber) {
         super();
         this.key = key;
         this.value = value;
@@ -98,11 +102,18 @@ public class ThemeProperty {
         return true;
     }
 
-    public String getType() {
+    public PropertyType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public String getTypeString() {
+        return type.toString();
+    }
+
+    public void setType(LabsSiteConstants.PropertyType type) {
+        if (type == null) {
+            throw new IllegalArgumentException("property type for '" + key + "/" + label + "/" + description + "' cannot be null");
+        }
         this.type = type;
     }
 
@@ -112,5 +123,9 @@ public class ThemeProperty {
 
     public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public boolean isSet() {
+        return StringUtils.isNotBlank(getValue());
     }
 }

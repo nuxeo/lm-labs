@@ -1,7 +1,12 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.theme;
 
+import static com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.PropertyType.COLOR;
+import static com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.PropertyType.FONT;
+import static com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.PropertyType.SIZE;
+import static com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.PropertyType.STRING;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -29,7 +34,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
@@ -256,11 +260,11 @@ public class ThemeTest {
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         ThemeProperty prop = new ThemeProperty("bgcolor", "bgcolor-value",
                 "bgcolor-label", "bgcolor-description",
-                LabsSiteConstants.PropertyType.COLOR.getType(), 3);
+                COLOR, 3);
         properties.put("bgcolor", prop);
         prop = new ThemeProperty("background-url", "background-url-value",
                 "background-url-label", "background-url-description",
-                LabsSiteConstants.PropertyType.FONT.getType(), 6);
+                FONT, 6);
         properties.put("background-url", prop);
 
         theme.setProperties(properties);
@@ -288,7 +292,7 @@ public class ThemeTest {
             assertThat(get0.get("description").toString(),
                     is("bgcolor-description"));
             assertThat(get0.get("type").toString(),
-                    is(LabsSiteConstants.PropertyType.COLOR.getType()));
+                    is(COLOR.toString()));
             assertThat(Integer.parseInt(get0.get("orderNumber").toString()),
                     is(3));
         } else if (get0.get("key").equals("background-url")) {
@@ -297,7 +301,7 @@ public class ThemeTest {
             assertThat(get0.get("description").toString(),
                     is("background-url-description"));
             assertThat(get0.get("type").toString(),
-                    is(LabsSiteConstants.PropertyType.FONT.getType()));
+                    is(FONT.toString()));
             assertThat(Integer.parseInt(get0.get("orderNumber").toString()),
                     is(6));
         } else {
@@ -310,7 +314,7 @@ public class ThemeTest {
             assertThat(get1.get("description").toString(),
                     is("bgcolor-description"));
             assertThat(get1.get("type").toString(),
-                    is(LabsSiteConstants.PropertyType.COLOR.getType()));
+                    is(COLOR.toString()));
             assertThat(Integer.parseInt(get1.get("orderNumber").toString()),
                     is(3));
         } else if (get1.get("key").equals("background-url")) {
@@ -319,7 +323,7 @@ public class ThemeTest {
             assertThat(get1.get("description").toString(),
                     is("background-url-description"));
             assertThat(get1.get("type").toString(),
-                    is(LabsSiteConstants.PropertyType.FONT.getType()));
+                    is(FONT.toString()));
             assertThat(Integer.parseInt(get1.get("orderNumber").toString()),
                     is(6));
         } else {
@@ -336,11 +340,11 @@ public class ThemeTest {
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         ThemeProperty prop = new ThemeProperty("bgcolor", "bgcolor-value",
                 "bgcolor-label", "bgcolor-description",
-                LabsSiteConstants.PropertyType.COLOR.getType(), 2);
+                COLOR, 2);
         properties.put("bgcolor", prop);
         prop = new ThemeProperty("background-url", "background-url-value",
                 "background-url-label", "background-url-description",
-                LabsSiteConstants.PropertyType.FONT.getType(), 4);
+                FONT, 4);
         properties.put("background-url", prop);
 
         theme.setProperties(properties);
@@ -358,7 +362,7 @@ public class ThemeTest {
         assertThat(properties.get("bgcolor").getDescription(),
                 is("bgcolor-description"));
         assertThat(properties.get("bgcolor").getType(),
-                is(LabsSiteConstants.PropertyType.COLOR.getType()));
+                is(COLOR));
         assertThat(properties.get("bgcolor").getOrderNumber(), is(2));
         assertThat(properties.get("background-url").getValue(),
                 is("background-url-value"));
@@ -367,7 +371,7 @@ public class ThemeTest {
         assertThat(properties.get("background-url").getDescription(),
                 is("background-url-description"));
         assertThat(properties.get("background-url").getType(),
-                is(LabsSiteConstants.PropertyType.FONT.getType()));
+                is(FONT));
         assertThat(properties.get("background-url").getOrderNumber(), is(4));
     }
 
@@ -514,19 +518,19 @@ public class ThemeTest {
         assertThat(properties.get("@basefont").getLabel(), is("Police du site"));
         assertThat(properties.get("@basefont").getDescription(),
                 is("Séparé par ',' et délimité par '\"'"));
-        assertThat(properties.get("@basefont").getType(), is("font"));
+        assertThat(properties.get("@basefont").getType(), is(FONT));
         assertThat(properties.get("@baseFontColorTitleH1").getType(),
-                is("color"));
+                is(COLOR));
         assertThat(properties.get("@baseFontColorTitleH2").getType(),
-                is("color"));
+                is(COLOR));
         assertThat(properties.get("@baseFontColorTitleH5").getType(),
-                is("color"));
+                is(COLOR));
         assertThat(properties.get("@baseFontColorTitleH6").getType(),
-                is("color"));
-        assertThat(properties.get("@basefontTitleH1").getType(), is("size"));
-        assertThat(properties.get("@basefontTitleH2").getType(), is("size"));
-        assertThat(properties.get("@basefontTitleH5").getType(), is("size"));
-        assertThat(properties.get("@basefontTitleH6").getType(), is("size"));
+                is(COLOR));
+        assertThat(properties.get("@basefontTitleH1").getType(), is(SIZE));
+        assertThat(properties.get("@basefontTitleH2").getType(), is(SIZE));
+        assertThat(properties.get("@basefontTitleH5").getType(), is(SIZE));
+        assertThat(properties.get("@basefontTitleH6").getType(), is(SIZE));
     }
 
     @Test
@@ -537,16 +541,16 @@ public class ThemeTest {
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         properties.put("@baseFontColorTitleH1", new ThemeProperty(
                 "@baseFontColorTitleH1", "title", null, null,
-                LabsSiteConstants.PropertyType.COLOR.getType(), 4));
+                COLOR, 4));
         properties.put("@baseFontColorTitleH2", new ThemeProperty(
                 "@baseFontColorTitleH2", "title", null, null,
-                LabsSiteConstants.PropertyType.COLOR.getType(), 5));
+                COLOR, 5));
         properties.put("@baseFontColorTitleH5", new ThemeProperty(
                 "@baseFontColorTitleH5", "title", null, null,
-                LabsSiteConstants.PropertyType.COLOR.getType(), 6));
+                COLOR, 6));
         properties.put("@baseFontColorTitleH6", new ThemeProperty(
                 "@baseFontColorTitleH6", "title", null, null,
-                LabsSiteConstants.PropertyType.COLOR.getType(), 7));
+                COLOR, 7));
         theme.setProperties(properties);
 
         String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
@@ -591,7 +595,7 @@ public class ThemeTest {
         Map<String, ThemeProperty> properties = new HashMap<String, ThemeProperty>();
         properties.put("@baseFontColorTitleyy", new ThemeProperty(
                 "@baseFontColorTitleyy", null, null, null,
-                LabsSiteConstants.PropertyType.FONT.getType(), 1));
+                FONT, 1));
         theme.setProperties(properties);
 
         String pathProperties = FileUtils.getResourcePathFromContext("themeProperties/properties");
@@ -635,9 +639,27 @@ public class ThemeTest {
         theme = tm.getTheme(session);
         properties = theme.getProperties();
 
-        assertThat(properties.get("bgcolor").getType(),
-                is(LabsSiteConstants.PropertyType.STRING.getType()));
-        assertThat(properties.get("background-url").getType(),
-                is(LabsSiteConstants.PropertyType.STRING.getType()));
+        assertThat(properties.get("bgcolor").getType(),is(STRING));
+        assertThat(properties.get("background-url").getType(),is(STRING));
+    }
+
+    @Test
+    public void getCssValueActsAsACache() throws Exception {
+        SiteThemeManager tm = site.getThemeManager();
+        SiteTheme theme = tm.getTheme(session);
+
+        assertThat(theme.getCssValue(), is(nullValue()));
+
+        theme.setCssValue(".toto{width:2px};");
+        assertThat(theme.getCssValue(),is(".toto{width:2px};"));
+
+        //Changing theme properties should reset css value
+        theme.setLogoAreaHeight(50);
+        session.saveDocument(theme.getDocument());
+        session.save();
+
+
+        assertThat(theme.getCssValue(), is(nullValue()));
+
     }
 }
