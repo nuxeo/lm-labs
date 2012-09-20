@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.test;
 
 import java.io.Serializable;
 import java.util.HashMap;
