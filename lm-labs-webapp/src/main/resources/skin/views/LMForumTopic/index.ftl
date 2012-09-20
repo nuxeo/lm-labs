@@ -5,11 +5,12 @@
   <@block name="title">${ mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
+	<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.topic.css"/>
     <@superBlock/>
-     <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
   </@block>
 
  <@block name="scripts">
+      <script type="text/javascript" src="${contextPath}/wro/labs.topic.js"></script>
  <@superBlock/>
    	 <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
 	 <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>

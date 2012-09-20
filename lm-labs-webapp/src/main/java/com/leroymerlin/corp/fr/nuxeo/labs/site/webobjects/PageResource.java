@@ -71,7 +71,7 @@ public class PageResource extends DocumentObject {
     public static final String DC_DESCRIPTION = "dc:description";
 
     public static final String DC_TITLE = "dc:title";
-    
+
     private static final String PROPNAME_COLLAPSETYPE = Schemas.PAGE.prefix() + ":collapseType";
 
     private static final String ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT = " isn't authorized to display this element!";
@@ -88,14 +88,14 @@ public class PageResource extends DocumentObject {
             "info", "success", "warning" };
 
     private LabsBase labsBaseAdapter;
-    
+
     public AuthorFullName afn;
 
     protected enum PageCreationLocation {
         TOP("top"),
         SAME("same"),
         UNDER("under");
-        
+
         private String location;
 
         private static final Map<String, PageCreationLocation> stringToEnum = new HashMap<String, PageCreationLocation>();
@@ -118,7 +118,7 @@ public class PageResource extends DocumentObject {
         }
 
     }
-    
+
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
@@ -194,17 +194,17 @@ public class PageResource extends DocumentObject {
 
     public Page getPage() throws ClientException {
         if (labsBaseAdapter instanceof LabsSiteAdapter) {
-            return Tools.getAdapter(Page.class, 
+            return Tools.getAdapter(Page.class,
                     ((LabsSiteAdapter) labsBaseAdapter).getIndexDocument(), ctx.getCoreSession());
         } else {
             return (Page) labsBaseAdapter;
         }
     }
-    
+
     public String getProperty(String prop, String defaultValue){
         return Framework.getProperty(prop, defaultValue);
     }
-    
+
     public int getPropertyMaxSizeFileRead(){
         int result = 6;
         String property = getProperty("labs.max.size.file.read", "" + result);
@@ -214,70 +214,6 @@ public class PageResource extends DocumentObject {
             WebException.wrap(e);
         }
         return result * 1048576;
-    }
-
-    @GET
-    @Path(value = "generated.less")
-    public Object getGeneratedLess() {
-        String themeName = "";
-        String style = "";
-        String styleProperties = "";
-        try {
-            CoreSession session = ctx.getCoreSession();
-            LabsSite site = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
-            SiteTheme theme = site.getThemeManager().getTheme(session);
-            themeName = theme.getName();
-            style = theme.getStyle();
-            styleProperties = generateLessWithProperties(theme.getProperties());
-        } catch (ClientException e) {
-            throw WebException.wrap(e);
-        }
-        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg(
-                "addedStyle", style).arg("styleProperties", styleProperties);
-    }
-    
-    private String generateLessWithProperties(Map<String, ThemeProperty> properties){
-        StringBuilder less = new StringBuilder();
-        for (ThemeProperty prop: properties.values()){
-            if (StringUtils.isNotBlank(prop.getValue())){
-                if(LabsSiteConstants.PropertyType.IMAGE.getType().equals(prop.getType())){
-                    // TODO needs improvement
-                    String urlStart = StringUtils.substring(this.getContext().getBaseURL(), 0, 7);
-                    if (urlStart.contains("://")) {
-                        String pathImg = StringUtils.substringAfter(this.getContext().getBaseURL(), "://") + prop.getValue();
-                        less.append(prop.getKey() + ": \"" + pathImg + "\";\n");
-                    } else {
-                        String url = "";
-                        if (this.getContext().getServerURL().toString().contains("://")) {
-                            url = StringUtils.substringAfter(this.getContext().getServerURL().toString(), "://");
-                        } else {
-                            url = this.getContext().getServerURL().toString();
-                        }
-                        less.append(prop.getKey() + ": \"" + url + prop.getValue() + "\";\n");
-                    }
-                    less.append(prop.getKey() + "Relative: false;\n");
-                }
-                else{
-                    less.append(prop.getKey() + ":" + prop.getValue() + ";\n");
-                }
-            }
-        }
-        return less.toString();
-    }
-
-    @GET
-    @Path(value = "generatedAdmin.less")
-    public Object getGeneratedAdminLess() {
-        String themeName = "";
-        try {
-            CoreSession session = ctx.getCoreSession();
-            LabsSite site = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
-            themeName = site.getThemeManager().getTheme(session).getName();
-        } catch (ClientException e) {
-            throw WebException.wrap(e);
-        }
-        return getTemplate(GENERATED_LESS_TEMPLATE).arg("themeName", themeName).arg(
-                "addedStyle", null);
     }
 
     @Override
@@ -366,11 +302,11 @@ public class PageResource extends DocumentObject {
         return redirect(getPath() + viewUrl
                 + "?message_success=label.admin.page.copied");
     }
-    
+
     public String getDC_TITLE(){
         return DC_TITLE;
     }
-    
+
     public String getDC_DESCRIPTION(){
         return DC_DESCRIPTION;
     }
@@ -393,7 +329,7 @@ public class PageResource extends DocumentObject {
             }
             String templateName = ctx.getForm().getString("template");
             if (!BooleanUtils.toBoolean(ctx.getForm().getString("display-" + PROPNAME_COLLAPSETYPE))) {
-            	fieldsNotDisplayable.add(PROPNAME_COLLAPSETYPE);
+                fieldsNotDisplayable.add(PROPNAME_COLLAPSETYPE);
             }
             Page page = Tools.getAdapter(Page.class, doc, ctx.getCoreSession());
             /* A GARDER
@@ -448,7 +384,7 @@ public class PageResource extends DocumentObject {
     }
 
     public boolean isSingleNamePage(String name, DocumentRef parentRef) {
-        
+
         return true;
     }
 
@@ -486,7 +422,7 @@ public class PageResource extends DocumentObject {
 
     /**
      * Returns a Map containing all "flash" messages
-     * 
+     *
      * @return
      */
     public Map<String, String> getMessages() {
@@ -584,7 +520,7 @@ public class PageResource extends DocumentObject {
         }
         session.saveDocument(newDoc);
 
-		final DocumentModel myForumDoc = newDoc;
+        final DocumentModel myForumDoc = newDoc;
         if (myForumDoc.getType().equals(LabsSiteConstants.Docs.PAGEFORUM.type())) {
             UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
                 @SuppressWarnings("deprecation")
@@ -592,17 +528,17 @@ public class PageResource extends DocumentObject {
                 public void run() throws ClientException {
                     SecurityData data = SecurityDataHelper.buildSecurityData(myForumDoc);
                     data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
-                    
+
                     SecurityDataHelper.updateSecurityOnDocument(myForumDoc, data);
                     session.save();
                 }
-                
+
             };
             runner.runUnrestricted();
         }
         return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
     }
-    
+
     /**
      * don't forget to complete the afn in your doGet
      * @param pAuthor
@@ -614,7 +550,7 @@ public class PageResource extends DocumentObject {
         }
         return "";
     }
-    
+
     public long getNow(){
         return Calendar.getInstance().getTimeInMillis();
     }

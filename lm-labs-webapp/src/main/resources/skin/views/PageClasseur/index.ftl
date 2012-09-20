@@ -7,22 +7,13 @@
   <@block name="title">${ mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
+        <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.classeur.css"/><#-- MUST BE BEFORE superBlock -->
     <@superBlock/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageClasseur.css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/> <#-- ??? -->
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tablesorter.css"/>
-        <link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
   </@block>
 
   <@block name="scripts">
+    <script type="text/javascript" src="${contextPath}/wro/labs.classeur.js"></script>
     <@superBlock/>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/PageClasseur.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
-	   	<script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-		<script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
   </@block>
 
   <@block name="content">

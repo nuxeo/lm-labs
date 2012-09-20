@@ -1,8 +1,10 @@
-@import "tablesorter.less";
-@import "customBackgroundImage.less";
+@import "../theme/tablesorter.less";
+@import "../theme/customBackgroundImage.less";
 /*-------------------------------------------
 ------------------VARIABLES LESS-------------
 */
+
+
 
 @labsBlockBackgroundColor: @white;
 @labsBlockHeaderBackgroundColor: @labsBlockBackgroundColor;
@@ -25,7 +27,7 @@
 @labsCommentsFooterColor: #797a7b;
 
 // Sprite icons path
-@iconWhiteSpritePath:     "../../img/glyphicons-halflings-white.png";
+@iconWhiteSpritePath:     ~"${skinPath}/img/glyphicons-halflings-white.png";
 
 
 //--------------customBackgroundImage-------------------
@@ -44,10 +46,10 @@
 }
 
 #FKtopContent{
-	background-color: @labsContentBackgroundColor;
+  background-color: @labsContentBackgroundColor;
     margin: auto;
-	margin-bottom: 8px;
-	.box-shadow(1px 1px 12px #555);
+  margin-bottom: 8px;
+  .box-shadow(1px 1px 12px #555);
     .top{
         height: 30px;
         padding-top: 5px;
@@ -74,7 +76,7 @@
 #FKbacktointralm {
   // On fixe la taille en pixel car on a un fond  fixé en px
   font-size: 11px;
-  background-image: url(../../images/theme/backIntralm.png);
+  background-image: ~"url('@{skinPath}/images/theme/backIntralm.png')";
   width: 110px;
   height: 25px;
   margin-top: 5px;
@@ -86,7 +88,7 @@
 }
 
 #FKfooter {
-  background: url(../../images/theme/footer_bg.png) repeat-x scroll center
+  background: ~"url('@{skinPath}/images/theme/footer_bg.png')" repeat-x scroll center
     bottom #FFFFFF;
   background-color: white;
   color: @textColor;
@@ -96,7 +98,7 @@
 }
 
 #FKfooter_logo_lm {
-  background-image: url(../../images/theme/footer_logo_lm.png);
+  background-image: ~"url('@{skinPath}/images/theme/footer_logo_lm.png')";
   height: 71px;
   width: 77px;
   float: right;
@@ -104,13 +106,13 @@
 }
 
 #FKfooter_bottom {
-  background: url(../../images/theme/footer_liseret.png) no-repeat scroll
+  background: ~"url('@{skinPath}/images/theme/footer_liseret.png')" no-repeat scroll
     0 0 transparent;
   height: 35px;
 }
 
 #FKfooter_logo_adeo {
-  background: url(../../images/theme/footer_adeo.png) no-repeat scroll 0 0
+  background: ~"url('@{skinPath}/images/theme/footer_adeo.png')" no-repeat scroll 0 0
     transparent;
   margin-right:10px;
   width: 160px;
@@ -134,9 +136,9 @@ div#siteMap {
 }
 
 #ulExtURL{
-	li {
-		line-height: 25px;
-	}
+  li {
+    line-height: 25px;
+  }
 }
 
 .bloc-header() {
@@ -178,18 +180,18 @@ div#siteMap {
 }
 
 .bloc.children-pages, .bloc.top-pages {
-	padding: 0px;
-	border: none;
-	.header {
-		margin: 0;
-	}
-	> ul {
-		margin-bottom: 0;
-	}
-	ul > li > a > span:hover {
-      	border-style: dotted;
-      	border-width: 0 0 1px;
-	}
+  padding: 0px;
+  border: none;
+  .header {
+    margin: 0;
+  }
+  > ul {
+    margin-bottom: 0;
+  }
+  ul > li > a > span:hover {
+        border-style: dotted;
+        border-width: 0 0 1px;
+  }
 }
 
 .labs-disabled() {
@@ -198,75 +200,75 @@ div#siteMap {
 
 //Comments
 .labscomments {
-	&.text{
-    	width:510px;
-    	height:75px;
+  &.text{
+      width:510px;
+      height:75px;
     }
 
-	&.comment{
+  &.comment{
       display: block;
-	  padding: 5px;
-	  border: @labsCommentsBorder;
-	  padding: 5px 5px 0;
+    padding: 5px;
+    border: @labsCommentsBorder;
+    padding: 5px 5px 0;
     }
 
     &.comment > span{
-	  display: block;
-	  margin-bottom: 10px;
-	  color: @labsCommentsCommentColor;
-	}
+    display: block;
+    margin-bottom: 10px;
+    color: @labsCommentsCommentColor;
+  }
 
-	&.display{
-		background-image: url(../../../images/comments.png);
-		background-repeat: no-repeat;
-		background-position:center;
-		cursor: pointer;
-		width: 15px;
+  &.display{
+    background-image: ~"url('@{skinPath}/images/comments.png')";
+    background-repeat: no-repeat;
+    background-position:center;
+    cursor: pointer;
+    width: 15px;
 
-			&.noComments{
-				.labs-disabled;
-			}
-	}
+      &.noComments{
+        .labs-disabled;
+      }
+  }
 
-	&.noComments{
-		.labs-disabled;
-	}
+  &.noComments{
+    .labs-disabled;
+  }
 
-	&.delete{
-	  height: 100%;
-	  position: relative;
-	  top: 0px;
-	  float: right;
-	  margin-bottom: 2px;
-	}
+  &.delete{
+    height: 100%;
+    position: relative;
+    top: 0px;
+    float: right;
+    margin-bottom: 2px;
+  }
 
 
-	&.by {
-	  font-size: 11px;
-  	  display: inline-block;
-  	  width: 100%;
-	}
+  &.by {
+    font-size: 11px;
+      display: inline-block;
+      width: 100%;
+  }
 
-	&.by > span {
-	  color: @labsCommentsAuthor;
-	  font-weight: bold;
-	}
+  &.by > span {
+    color: @labsCommentsAuthor;
+    font-weight: bold;
+  }
 
-	&.footer {
-	  display: inline;
-	  font-size: 10px;
-  	  color: @labsCommentsFooterColor;
- 	  margin-top: 3px;
- 	  margin-bottom:0;
-	}
+  &.footer {
+    display: inline;
+    font-size: 10px;
+      color: @labsCommentsFooterColor;
+     margin-top: 3px;
+     margin-bottom:0;
+  }
 
-	&.footer > span {
+  &.footer > span {
 
-	}
-	div.hidden {
-		font-style: italic;
-		text-decoration: line-through;
-	}
+  }
+  div.hidden {
+    font-style: italic;
+    text-decoration: line-through;
+  }
 }
 
 li.labscomments {
@@ -323,11 +325,11 @@ li.labscomments {
 }
 
 .lastMessage {
-	height:196px;
+  height:196px;
     .itemList {
         height:155px;
     }
-	.rss-feed-list-style;
+  .rss-feed-list-style;
 }
 
 //--------------------------------------------------------
@@ -352,25 +354,25 @@ li.labscomments {
 }
 
 .dropdown-menu{
-	z-index: 100;
+  z-index: 100;
 }
 
 .navbar{
-	z-index: 95;
+  z-index: 95;
 }
 
 .homepage {
-	background-image: url(/nuxeo/icons/home.gif);
-	background-repeat: no-repeat;
-	background-position: left center;
-	padding: 0 0 0 20px;
-	//TODO
-	//background-image: url("less/@{iconWhiteSpritePath}");
-	//background-position: 0      -24px;
+  background-image: url(/nuxeo/icons/home.gif);
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding: 0 0 0 20px;
+  //TODO
+  //background-image: url("less/@{iconWhiteSpritePath}");
+  //background-position: 0      -24px;
 }
 
 .breadcrumb span.divider:after {
-	content: "/";
+  content: "/";
 }
 
 .treeview ul {
@@ -380,7 +382,7 @@ li.labscomments {
 #jstree {
    background-color: transparent;
    a {
-    	color: @textColor;
+      color: @textColor;
     }
 }
 
@@ -396,7 +398,7 @@ li.labscomments {
 }
 
 .jcrop img{
-	max-width: none
+  max-width: none
 }
 
 .jsTreeControlsContent {
@@ -405,53 +407,53 @@ li.labscomments {
 }
 
 .ckeipHoverBackgroundColor{
-	background-color: @labsCkeipHoverBackgroundColor;
+  background-color: @labsCkeipHoverBackgroundColor;
 }
 
 #modifyThemeParameters{
-	float: right;
+  float: right;
 }
 
 #logoImgId {
-	position:absolute;
+  position:absolute;
 }
 
 .logoDragMsg {
-	font-size: 12px;
-	position:absolute;
-	z-index:90;
+  font-size: 12px;
+  position:absolute;
+  z-index:90;
 }
 
 .logoDragMsg span {
-	background:#DFDFDF;
-	font-weight:bold;
+  background:#DFDFDF;
+  font-weight:bold;
 }
 
 .logoImgId-move {
-	border: 2px dashed #989898;
-	padding: 0px;
-	cursor:pointer;
-	z-index:90;
+  border: 2px dashed #989898;
+  padding: 0px;
+  cursor:pointer;
+  z-index:90;
 }
 
 .logoImgId-notmove {
-	border: 0;
-	padding: 2px;
-	cursor: pointer;
-	z-index:2;
+  border: 0;
+  padding: 2px;
+  cursor: pointer;
+  z-index:2;
 }
 
 .labssite-logo-move {
-	position:absolute;
-	z-index:90;
+  position:absolute;
+  z-index:90;
 }
 
 section.labsnews {
-	border: 1px solid @grayLight;
-	.border-radius(8px);
-	margin-bottom: 8px;
-	padding: 4px;
-	width: @labsNewsSummaryWidth;
+  border: 1px solid @grayLight;
+  .border-radius(8px);
+  margin-bottom: 8px;
+  padding: 4px;
+  width: @labsNewsSummaryWidth;
 }
 
 .ui-datepicker
@@ -465,33 +467,33 @@ section.labsnews {
 }
 
 .btn {
-	position: relative;
+  position: relative;
     z-index: 3;
 }
 
 .ckeditorBorder{
-	border: 1px dashed @textColor;
-	padding-left: 2px;
-	.border-radius(2px);
+  border: 1px dashed @textColor;
+  padding-left: 2px;
+  .border-radius(2px);
 }
 
 .row-ckeditor{
-	position: relative;
-	.col-link {
-		display:none;
-		position: absolute;
-		top: 0px;
-		right: 0px;
-	}
-	.col-link:hover {
-		cursor: default;
-	}
+  position: relative;
+  .col-link {
+    display:none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+  .col-link:hover {
+    cursor: default;
+  }
 }
 
 .row-ckeditor:hover {
-	.col-link {
-		display: block;
-	}
+  .col-link {
+    display: block;
+  }
 }
 
 input,
@@ -512,8 +514,8 @@ table.classeurFiles {
 }
 
 .btn-group .dropdown-toggle {
-	padding-left: 6px;
-	padding-right: 6px;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 //--------------------------------------------------------
@@ -521,38 +523,38 @@ table.classeurFiles {
 //--------------------------------------------------------
 
 .nav_up{
-	padding:7px;
-	background-color:white;
-	border:1px solid #CCC;
-	position:fixed;
-	background:transparent url(../../images/theme/arrow_up.png) no-repeat top left;
-	background-position:50% 50%;
-	width:4px;
-	height:15px;
-	bottom:40px;
-	opacity:0.7;
-	right:2px;
-	white-space:nowrap;
-	cursor: pointer;
-	.border-radius(3px);
-	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+  padding:7px;
+  background-color:white;
+  border:1px solid #CCC;
+  position:fixed;
+  background:transparent ~"url('@{skinPath}/images/theme/arrow_up.png')" no-repeat top left;
+  background-position:50% 50%;
+  width:4px;
+  height:15px;
+  bottom:40px;
+  opacity:0.7;
+  right:2px;
+  white-space:nowrap;
+  cursor: pointer;
+  .border-radius(3px);
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
 }
 .nav_down{
-	padding:7px;
-	background-color:white;
-	border:1px solid #CCC;
-	position:fixed;
-	background:transparent url(../../images/theme/arrow_down.png) no-repeat top left;
-	background-position:50% 50%;
-	width:4px;
-	height:15px;
-	bottom:5px;
-	opacity:0.7;
-	right:2px;
-	white-space:nowrap;
-	cursor: pointer;
-	.border-radius(3px);
-	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+  padding:7px;
+  background-color:white;
+  border:1px solid #CCC;
+  position:fixed;
+  background:transparent ~"url('@{skinPath}/images/theme/arrow_down.png')" no-repeat top left;
+  background-position:50% 50%;
+  width:4px;
+  height:15px;
+  bottom:5px;
+  opacity:0.7;
+  right:2px;
+  white-space:nowrap;
+  cursor: pointer;
+  .border-radius(3px);
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70);
 }
 
 .navbar-inner {
@@ -561,13 +563,13 @@ table.classeurFiles {
 }
 
 input &.search-query{
-	height: 15px;
-	margin-bottom: 2px;
+  height: 15px;
+  margin-bottom: 2px;
 }
 
 .divLogoIntraLM{
-	margin-left: 15px;
-	margin-top: 2px;
+  margin-left: 15px;
+  margin-top: 2px;
 }
 
 .labs-pagination-background-color(@labsColor) when (@labsColor = transparent) {
@@ -585,39 +587,39 @@ input &.search-query{
 }
 
 .pagination {
-	height: auto;
-	margin: 5px 0;
-	a{
-		line-height: 25px;
-		padding: 0 8px;
-		color: darken(@linkColor, 5%);
-		padding-top: 2px;
-	}
-	>ul>li.active>a {
-		padding: 0 9px;
-		margin-right: 7px;
-		font-weight: bold;
-		font-size: @baseFontSize + 2;
-		.labs-pagination-background-color(@labsContentBackgroundColor);
-		.labs-pagination-box-shadow(@labsContentBackgroundColor);
-		padding-bottom: 2px;
-	}
-	li:last-child a {
-		border-left-width: 1px;
-	}
+  height: auto;
+  margin: 5px 0;
+  a{
+    line-height: 25px;
+    padding: 0 8px;
+    color: darken(@linkColor, 5%);
+    padding-top: 2px;
+  }
+  >ul>li.active>a {
+    padding: 0 9px;
+    margin-right: 7px;
+    font-weight: bold;
+    font-size: @baseFontSize + 2;
+    .labs-pagination-background-color(@labsContentBackgroundColor);
+    .labs-pagination-box-shadow(@labsContentBackgroundColor);
+    padding-bottom: 2px;
+  }
+  li:last-child a {
+    border-left-width: 1px;
+  }
 }
 
 .openCloseBt-color (@color) when (lightness(@color) >= 91%) {
-	color: lightgrey;
+  color: lightgrey;
 }
 
 .openCloseBt-color (@color) when (lightness(@color) < 91%) {
-	color: @color;
+  color: @color;
 }
 
 i.openCloseBt {
-	.openCloseBt-color(lighten(@baseFontColorTitleH1, 35%));
-	cursor: pointer;
+  .openCloseBt-color(lighten(@baseFontColorTitleH1, 35%));
+  cursor: pointer;
 }
 
 #divEditTags{

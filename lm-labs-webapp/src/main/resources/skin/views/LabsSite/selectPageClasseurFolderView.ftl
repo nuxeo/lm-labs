@@ -5,16 +5,20 @@
 
   <@block name="css">
     <@superBlock/>
-    <link rel="stylesheet/less" href="${Context.modulePath}/${mySite.URL}/generated.less" />
+    <link rel="stylesheet" type="text/css" href="${contextPath}/wro/labs.common.css" />
+    <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document.dublincore.modified?string("yyyyMMddHHmmss")}" />
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.treeview.css"/>
   </@block>
 
   <@block name="scripts">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/wro/labs.common.css" />
+  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
+     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
+     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
+     <script type="text/javascript" src="${contextPath}/opensocial/gadgets/js/lmselectvalue.js?c=0&debug=1"></script>
     <@superBlock/>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.js"></script>
-   	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.edit.js"></script>
-   	<script type="text/javascript" src="${skinPath}/js/jquery/jquery.treeview.async.js"></script>
-   	<script type="text/javascript" src="${contextPath}/opensocial/gadgets/js/lmselectvalue.js?c=0&debug=1"></script>
+
+
   </@block>
 
   <@block name="topbar" />

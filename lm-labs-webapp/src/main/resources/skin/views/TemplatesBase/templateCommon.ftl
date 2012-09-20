@@ -4,34 +4,25 @@
 </#if>
 <@extends src="/views/labs-common-base.ftl">
 
-	<@block name="css">
-		<@superBlock/>
-        <link rel="stylesheet/less" href="${This.path}/generated.less" />
-               <#--
-        -->
-        <#if canWrite>
-        	<link rel="stylesheet" type="text/css" href="${skinPath}/css/ckeditor.css"/>
-        	<link rel="stylesheet" type="text/css" href="${skinPath}/css/select2/select2.css"/>
-        </#if>
-        <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/pagination.css"/>
+  <@block name="css">
+    <@superBlock/>
+        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document.dublincore.modified?string("yyyyMMddHHmmss")}" />
+        <link rel="stylesheet" type="text/css" href="${skinPath}/css/select2/select2.css"/>
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastNews" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastNews.title')}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastUpload" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastUpload.title')}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/all" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.all.title')}" />
-	</@block>
+  </@block>
 
-	<@block name="scripts">
-		<@superBlock/>
-        <#if canWrite>
-	        <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
-	        <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
-	        <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
-	        <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
-	        <script type="text/javascript" src="${skinPath}/js/select2.js"></script>
-        </#if>
-        <script type="text/javascript" src="${skinPath}/js/tooltip.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery/jquery.pagination.js"></script>
-        <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
+  <@block name="scripts">
+      <#if canWrite>
+    <script type="text/javascript" src="${skinPath}/js/ckeditor/init.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeip.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/select2.js"></script>
+      </#if>
+
+
 
         <#--  ckeditor_confi -->
 		<script type="text/javascript">
@@ -54,7 +45,7 @@
 	        <#include "views/common/labsPiwik.ftl">
 	        <#include "views/common/loading.ftl">
 
-	        	<#include "/views/common/audioReader.ftl" />
+            <#include "/views/common/audioReader.ftl" />
 
     	</div><#-- /FKfooter -->
     	<div>&nbsp;</div>
