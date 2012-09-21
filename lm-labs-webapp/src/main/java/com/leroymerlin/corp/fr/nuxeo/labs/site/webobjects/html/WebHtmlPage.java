@@ -1,7 +1,5 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +16,10 @@ import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.opensocial.container.shared.webcontent.UserPref;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.GadgetUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.CacheablePageResource;
 
@@ -53,18 +50,7 @@ public class WebHtmlPage extends CacheablePageResource {
     }
     
     public String getUserPrefsFormatJS(List<UserPref> list) {
-        Map<String, UserPref> mapPrefs = new HashMap<String, UserPref>();
-        Gson gson = new Gson();
-        Type mapType = new TypeToken<Map<String, UserPref>>() {}.getType();
-        String actualValue = null;
-        for (UserPref pref: list){
-            mapPrefs.put(pref.getName(), pref);
-            //actualValue = pref.getActualValue();
-            
-            //pref.setActualValue(StringUtil.jQuote(actualValue));
-            //pref.setActualValue("");
-        }
-        return gson.toJson(mapPrefs, mapType).replaceAll("\\\\\"", "\"");
+        return GadgetUtils.encode(list);
     }
 
     private Response doAddSection(FormData form) {

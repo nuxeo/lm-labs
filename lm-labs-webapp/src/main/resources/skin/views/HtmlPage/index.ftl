@@ -49,6 +49,9 @@ jQuery(document).ready(function() {
   </#if>
 
   <div id="divPageHTML">
+  <script type="text/javascript" >
+		var userPrefsTab = new Array();
+   </script>
   <#assign sections = page.sections />
   <#list sections as section>
   	<div id="div_section_${section_index}">
@@ -162,15 +165,13 @@ jQuery(document).ready(function() {
 		                      <#if isOsGadgetCol >
 		                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="columns viewblock" >
 		                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
-		                        <#--<script type="text/javascript">
-		                        	alert('rt2');
-		                        	var userPrefs${nbrOsGadgets} = eval("( ${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string} )");
-		                        	<#--var headersMapBase = '(${bean.headersMapJS?js_string})';
-		                        </script>-->
+		                        <script type="text/javascript">
+		                        	userPrefsTab[${nbrOsGadgets}] = eval ( '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
+		                        </script>
+		                        
 		                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
 									data-gadget-title="${widgets[0].name}"
 		                        	data-gadget-specurl="${widgets[0].specUrl}"
-									data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
 		                        >
 		                        </div>
 		                        </div>
@@ -268,16 +269,12 @@ jQuery(document).ready(function() {
 	                      <#if isOsGadgetCol >
 	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 	                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
-		                        <#--<script  type="text/javascript">
-		                        alert('rt');
-		                        	var userPrefs${widgets[0].doc.id} = eval("( ${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string} )");
-		                        	var headersMapBase = '(${bean.headersMapJS?js_string})';
-		                        	   
-		                        </script>-->
+		                        <script type="text/javascript">
+		                        	userPrefsTab[${nbrOsGadgets}] = eval ( '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
+		                        </script>
 	                        
 	                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
 	                        	data-gadget-specurl="${widgets[0].specUrl}"
-	                        	data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
 								data-gadget-title="${widgets[0].name}"
 	                        >
 	                        </div>
@@ -486,18 +483,3 @@ jQuery(document).ready(function() {
   </@block>
 </@extends>
 
-<#function stringifyOpenSocialGadgetUserPreferences userPrefs >
-	<#assign stringified = "" />
-	<#if 0 < userPrefs?size >
-		<#assign stringified = "{" />
-	    <#list userPrefs as userPref >
-	        <#assign actualValue = userPref.actualValue?html?replace("'", "\\'") />
-	    	<#assign stringified = stringified + "${userPref.name}:" + "{name:'${userPref.name}',value:'${actualValue}',default:'${userPref.defaultValue}'}" />
-	    	<#if userPref != userPrefs?last >
-				<#assign stringified = stringified + "," />
-	    	</#if>
-	    </#list>
-		<#assign stringified = stringified + "}" />
-	</#if>
-    <#return stringified >
-</#function>
