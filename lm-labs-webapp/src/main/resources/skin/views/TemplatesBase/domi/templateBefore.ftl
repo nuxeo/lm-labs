@@ -21,7 +21,7 @@ jQuery(document).ready(function() {
 		<div id="masthead">
 			<#--  Logo  -->
 			<#include "views/common/logo.ftl" />
-			<div class="linkDOMI"><a href="${Context.modulePath}/${mySite.URL}/Page-html/Presentation-de-la-DOMI" target="_blank">Qui sommes-nous ?</a></div>
+			<div class="linkDOMI"><a href="${Context.modulePath}/${mySite.URL}/Page-html/Presentation-de-la-DOMI">Qui sommes-nous ?</a></div>
 			<#--  horizontal Navigation  -->
 			<#include "views/common/topnavigation_area.ftl" />
 		</div>
@@ -39,6 +39,11 @@ jQuery(document).ready(function() {
 					
 		        	<#--  Content  -->
 				    <@block name="content" />
+				    
+				    <#--  Tags --> 
+					<@block name="pageTags">
+					   	<#include "views/common/labsTags.ftl">
+					</@block>
 				    
 				    <#--  Commentaires  -->
 					<@block name="pageCommentable">
@@ -69,11 +74,12 @@ jQuery(document).ready(function() {
     <script type="text/javascript" src="${skinPath}/js/register_rpc_navigateto.js"></script>
     <script type="text/javascript" src="${contextPath}/js/?scripts=opensocial/cookies.js|opensocial/util.js|opensocial/gadgets.js|opensocial/cookiebaseduserprefstore.js|opensocial/jquery.opensocial.gadget.js"></script>
     <script type="text/javascript" src="${skinPath}/less/theme/Domi/js/scriptDOMI.js"></script>
+    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.json-2.3.min.js"></script>
   </@block>
   
   <@block name="FKfooter">
     	<div id="FKfooter">
-	        <#include "views/common/footer.ftl">
+	        <#include "views/TemplatesBase/domi/footer.ftl">
 	        <#include "views/common/labsPiwik.ftl">
 	        <#include "views/common/loading.ftl">
 

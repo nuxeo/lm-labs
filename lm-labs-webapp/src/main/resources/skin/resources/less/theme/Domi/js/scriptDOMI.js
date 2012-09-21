@@ -1,10 +1,23 @@
 $(document).ready(function() {
-    $(".nav-tabs li").each(function() {
+    $(".nav-tabs li h5").each(function() {
         if($.trim($(this).text()) == $.trim($(".page-title h1").text())) {
-            $(".page-title h1").css("color", $(this).css("border-bottom-color"));
-            $(".page-description p").css("border-top-color", $(this).css("border-bottom-color"));
+            $couleur = $(this).parent().parent().css("border-bottom-color")
+            $(".page-title h1").css("color", $couleur);
+            $(".page-description").css("border-top-color", $couleur);
+            $(".page-header h1").css("background", $couleur);
+            $(".as-page-title-description h1").css("color", $couleur);
         }
-        //console.log( $(".page-description p").text());
+    });
+    
+    $(".labsNewsStartPublicationDDMM").each(function(index){
+        var tabDate = $(this).text().split(" ");
+        console.log($(this).parents(".labsnews").eq(0).html());
+        $(this).parents(".labsnews").before("<div class=\"dateNews\"><span class=\"chiffreDate\">" + tabDate[0] + "</span><span class=\"moisDate\">" + tabDate[1] + "</span></div>")
+    });
+    
+    $(".page-header h1").each(function(index){
+        if(jQuery(this).text() == "")
+            jQuery(this).hide();
     });
     
     $(".nav-tabs li.dropdown a h5 b.caret").each(function() {
@@ -26,5 +39,7 @@ $(document).ready(function() {
     $(".nav-tabs li.dropdown").each(function() {
     	$(this).removeClass("dropdown");
     });
+    
+    $(".sidebar").height($(".central").height())
     
 });
