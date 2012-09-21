@@ -12,60 +12,46 @@
             <@block name="title">Labs</@block>
         </title>
 
-        <@block name="css">
-          <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
-          <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
-          <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/tooltip.css"/>
-          <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
+		<link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
+        <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
+
+        <@block name="css">          
+		    <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.common.css"/>
         </@block>
+
+    	<@block name="scripts">
 		<!--[if IE]>
 		<script type="text/javascript" src="${skinPath}/js/modernizr.custom.js"></script>
 		<![endif]-->
-		
-		
-		<@block name="scripts">
-          <script type="text/javascript" src="${skinPath}/js/jquery/jquery-1.7.2.min.js"></script>
-      	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
-      	  <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
-	      <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-carousel${bsMinified}.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/jquery/jquery.cookie.js"></script>
-	      <script type="text/javascript" src="${skinPath}/js/jquery/jquery.form-3.09.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-dropdown${bsMinified}.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button${bsMinified}.js"></script>
-      	  <script type="text/javascript" src="${skinPath}/js/scroll-startstop.events.jquery.js"></script>
-	      <script type="text/javascript" src="${skinPath}/js/labs.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/jquery.placeholder.min.js"></script>
-      	  <script type="text/javascript" src="${skinPath}/js/timeout.js"></script>
-          <script type="text/javascript" src="${skinPath}/js/assets/less/less-1.3.0.min.js"></script>
+			<script type="text/javascript" src="/nuxeo/wro/labs.common.js"></script>
         </@block>
+
     </head>
     <body>
-		<#-- timeout -->
-	    <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
+    <#-- timeout -->
+      <input type="hidden" id="serverTimeoutId" value="${serverTimeout}" />
 
-		<@block name="topbar">
-			<#include "views/common/topbar.ftl" />
-		</@block>
+    <@block name="topbar">
+      <#include "views/common/topbar.ftl" />
+    </@block>
 
-		<div id="FKtopContent" style="position: relative;">
-			<@block name="FKtopContent" />
-		</div><!-- /FKtopContent -->
+    <div id="FKtopContent" style="position: relative;">
+      <@block name="FKtopContent" />
+    </div><!-- /FKtopContent -->
 
-		<div style="display:none;" class="nav_up" id="nav_up"></div>
-		<div style="display:none;" class="nav_down" id="nav_down"></div>
+    <div style="display:none;" class="nav_up" id="nav_up"></div>
+    <div style="display:none;" class="nav_down" id="nav_down"></div>
 
-		<@block name="FKfooter" />
+    <@block name="FKfooter" />
 
-		<@block name="bottom-page-js" >
-			<#include "views/common/topbar_js.ftl" />
-			<#if (mySite?? && mySite.isContributor(Context.principal.name) ) >
-	        	<script type="text/javascript" src="${skinPath}/js/page_parameters.js"></script>
-	        </#if>
-	        <#if mySite?? && mySite.isContributor(Context.principal.name) && This.page?? && !(mySite.getHomePageRef() == This.page.document.id) >
-	        	<script type="text/javascript" src="${skinPath}/js/setHomePage.js"></script>
-	        </#if>
-		</@block>
+    <@block name="bottom-page-js" >
+      <#include "views/common/topbar_js.ftl" />
+      <#if (mySite?? && mySite.isContributor(Context.principal.name) ) >
+            <script type="text/javascript" src="${skinPath}/js/page_parameters.js"></script>
+          </#if>
+          <#if mySite?? && mySite.isContributor(Context.principal.name) && This.page?? && !(mySite.getHomePageRef() == This.page.document.id) >
+            <script type="text/javascript" src="${skinPath}/js/setHomePage.js"></script>
+          </#if>
+    </@block>
     </body>
 </html>

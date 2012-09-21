@@ -72,10 +72,7 @@
 			      		        <#assign propLabel = property.label />
 			      		    </#if>
                             <#assign property = property />
-                            <#assign typeProperty = "string" />
-                            <#if (property.type != null)>
-                              <#assign typeProperty = property.type />
-                            </#if>
+                            <#assign typeProperty = property.typeString />
                             <label class="control-label" for="property${cptProperties}">
                             <#if typeProperty == "void" >
                             <strong>${propLabel}</strong>
@@ -97,7 +94,7 @@
 			                <input type="hidden" name="keyProperty${cptProperties}" value="${property.key}"/>
 			                <input type="hidden" name="labelProperty${cptProperties}" value="<#if (property.label != null)>${property.label?html}</#if>"/>
 			                <input type="hidden" name="descriptionProperty${cptProperties}" value="<#if (property.description != null)>${property.description?html}</#if>"/>
-			                <input type="hidden" name="typeProperty${cptProperties}" value="<#if (property.type != null)>${property.type}</#if>"/>
+			                <input type="hidden" name="typeProperty${cptProperties}" value="${property.typeString}"/>
 			                <#assign cptProperties = cptProperties + 1 />
 			            </#if>
 	                </#list>

@@ -109,7 +109,7 @@
             </li>
             </#if>
             <li>
-    			<div class="divLogoIntraLM"><img src="${skinPath}/images/LogoLMInTRALABS_Arrondie_s1.jpg" style="height:26px;" /></div>
+    			<div class="divLogoIntraLM"><img src="${skinPath}/images/LogoLMInTRALABS_Arrondie_s1.jpg" width="29" height="26" /></div>
             </li>
           </ul>
           </div>

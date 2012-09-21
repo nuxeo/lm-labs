@@ -127,10 +127,10 @@
       <classifier>jdk15</classifier>
     </dependency>
 
-     <dependency>
-       <groupId>rome</groupId>
-       <artifactId>rome</artifactId>
-     </dependency>
+    <dependency>
+      <groupId>rome</groupId>
+      <artifactId>rome</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>com.leroymerlin.labs</groupId>
@@ -147,7 +147,7 @@
       <artifactId>nuxeo-webengine-wro</artifactId>
     </dependency>
 
-<!-- Tests -->
+    <!-- Tests -->
     <dependency>
       <groupId>org.nuxeo.ecm.platform</groupId>
       <artifactId>nuxeo-platform-imaging-core</artifactId>

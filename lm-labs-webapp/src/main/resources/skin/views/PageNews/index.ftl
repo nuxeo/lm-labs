@@ -5,17 +5,16 @@
 
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
-  <@block name="scripts">
-    <@superBlock/>
-      <script type="text/javascript" src="${skinPath}/js/PageNews.js"></script>
+  <@block name="css">
+      <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.pagenews.css"/><#-- MUST BE BEFORE superBlock -->
+      <@superBlock/>
+      <#include "views/common/datepicker_css.ftl">
+      <link href="${topnewsUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.topnews.PageNews.title', Document.title?html)}" />
   </@block>
 
-  <@block name="css">
+  <@block name="scripts">
+      <script type="text/javascript" src="${contextPath}/wro/labs.pagenews.js"></script>
     <@superBlock/>
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/PageNews.css"/>
-      <#include "views/common/datepicker_css.ftl">
-      <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/wysiwyg_editor.css"/>
-      <link href="${topnewsUrl}" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.topnews.PageNews.title', Document.title?html)}" />
   </@block>
 
   <@block name="content">
