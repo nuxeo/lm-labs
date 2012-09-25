@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="span4 footer1">
+        <div class="span4">
             <article>
                 <h3>Rechercher une personne au sein de la DOMI :</h3>
                 <form>
@@ -13,7 +13,7 @@
                 <a href="http://intralm2.fr.corp.leroymerlin.com/labssites/domi-qualit%C3%A9/Mes%20Documents/Excel/2011-09-21-synthese-barometre-satisfaction-domi-pps.1337615688173/@blob/">Cliquez ici pour le consulter</a>
             </article>
         </div>
-        <div class="span4 footer2">
+        <div class="span4">
             <article>
                 <h3>Pour tout problème informatique :</h3>
                 <p>Contactez le support :</p>
