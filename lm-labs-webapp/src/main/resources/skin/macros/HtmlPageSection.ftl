@@ -26,16 +26,12 @@
 		                      <#if isOsGadgetCol >
 			                        <div id="${idsPrefix}gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 			                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
-				                        <#--<script  type="text/javascript">
-				                        alert('rt');
-				                        	var userPrefs${widgets[0].doc.id} = eval("( ${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string} )");
-				                        	var headersMapBase = '(${bean.headersMapJS?js_string})';
-				                        	   
-				                        </script>-->
+			                        <script type="text/javascript">
+			                        	userPrefsTab['${widgets[0].doc.id}'] = eval ( '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
+			                        </script>
 			                        
 			                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
 			                        	data-gadget-specurl="${widgets[0].specUrl}"
-			                        	data-gadget-user-preferences="${stringifyOpenSocialGadgetUserPreferences(widgets[0].userPrefs)}"
 										data-gadget-title="${widgets[0].name}"
 			                        >
 			                        </div>

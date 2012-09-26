@@ -63,9 +63,6 @@ jQuery(document).ready(function() {
   	<#include "views/HtmlPage/sectionsView_${sectionsViewMode}.ftl" />
   </#if>
   <div id="divPageHTML" class="<#if sectionsViewMode == "tabbed" || sectionsViewMode == "carousel" >editblock</#if>" >
-  <script type="text/javascript" >
-		var userPrefsTab = new Array();
-   </script>
   <#if !Context.principal.anonymous || (Context.principal.anonymous && sectionsViewMode != "carousel" && sectionsViewMode != "tabbed") >
   <#list sections as section>
   	<div id="div_section_${section_index}" >
@@ -180,7 +177,7 @@ jQuery(document).ready(function() {
 		                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="columns viewblock" >
 		                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
 		                        <script type="text/javascript">
-		                        	userPrefsTab[${nbrOsGadgets}] = eval ( '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
+		                        	userPrefsTab['${widgets[0].doc.id}'] = eval ( '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
 		                        </script>
 		                        
 		                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
@@ -277,7 +274,7 @@ jQuery(document).ready(function() {
 	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 	                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
 		                        <script type="text/javascript">
-		                        	userPrefsTab[${nbrOsGadgets}] = eval ( '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
+		                        	userPrefsTab['${widgets[0].doc.id}'] = eval ( '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
 		                        </script>
 	                        
 	                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"

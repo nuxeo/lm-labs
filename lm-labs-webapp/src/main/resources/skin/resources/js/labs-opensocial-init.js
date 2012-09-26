@@ -1,3 +1,5 @@
+var userPrefsTab = new Array();
+
 var openSocialOptions = openSocialOptions || {
 /*
 //    baseURL: '${Context.baseURL}${contextPath}' + '/',
@@ -31,8 +33,9 @@ function initOpensocialGadgets() {
 function initOpensocialGadgets(parentObj) {
 	jQuery(parentObj).find('div.opensocialGadgets').each(function(index, value) {
 		var userPrefs = {};
-		if (userPrefsTab[index+1]) {
-			userPrefs = userPrefsTab[index+1];
+		if (userPrefsTab[jQuery(value).attr('id')]) {
+			userPrefs = userPrefsTab[jQuery(value).attr('id')];
+			console.log('initOpensocialGadgets: user prefs found for ' + jQuery(value).attr('id'));
 		}
 		jQuery(this).openSocialGadget({
 			baseURL: openSocialOptions.baseURL,
