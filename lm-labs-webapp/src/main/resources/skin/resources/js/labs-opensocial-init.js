@@ -35,7 +35,6 @@ function initOpensocialGadgets(parentObj) {
 		var userPrefs = {};
 		if (userPrefsTab[jQuery(value).attr('id')]) {
 			userPrefs = userPrefsTab[jQuery(value).attr('id')];
-			console.log('initOpensocialGadgets: user prefs found for ' + jQuery(value).attr('id'));
 		}
 		jQuery(this).openSocialGadget({
 			baseURL: openSocialOptions.baseURL,
