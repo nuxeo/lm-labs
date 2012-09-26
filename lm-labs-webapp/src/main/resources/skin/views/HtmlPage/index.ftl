@@ -196,7 +196,7 @@ jQuery(document).ready(function() {
 					            </div>
 		                        <#else>
 		                        <div class="columns" >
-			                    	<@displayContentHtmlWidget widget=widgets[0] widgetMode="edit" />
+			                    	<@displayContentHtmlWidget widget=widgets[0] widgetMode="edit" sectionIdx=section_index rowIdx=row_index columnIdx=content_index />
 		                        </div>
 		                        </#if>
 		                      <#else>
@@ -271,7 +271,7 @@ jQuery(document).ready(function() {
 	                        </div>
 	                      <#elseif isWidgetCol >
 	                        <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
-	                    	<@displayContentHtmlWidget widget=widgets[0] />
+	                    	<@displayContentHtmlWidget widget=widgets[0] widgetMode="view" sectionIdx=section_index rowIdx=row_index columnIdx=content_index content=content />
 	                        </div>
 	                      <#else>
 	    	                <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns">
