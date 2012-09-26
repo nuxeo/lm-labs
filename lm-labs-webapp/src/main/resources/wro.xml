@@ -11,6 +11,7 @@
     <js>/site/skin/labs/js/bootstrap/bootstrap-tooltip.js</js>
     <js>/site/skin/labs/js/bootstrap/bootstrap-popover.js</js>
     <js>/site/skin/labs/js/bootstrap/bootstrap-carousel.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-transition.js</js>
     <js>/site/skin/labs/js/bootstrap/bootstrap-dropdown.js</js>
     <js>/site/skin/labs/js/bootstrap/bootstrap-button.js</js>
     <js>/site/skin/labs/js/scroll-startstop.events.jquery.js</js>
@@ -44,10 +45,12 @@
     <group-ref>labs.common</group-ref>
     <js>/site/skin/labs/js/jquery/jquery.tablesorter.min.js</js>
     <js>/site/skin/labs/js/assets/prettify/prettify.js</js>
+    <js>/site/skin/labs/js/widgetHtmlSiteNews.js</js>
     <js>/site/skin/labs/js/PageHtml.js</js>
     <js>/site/skin/labs/js/move.js</js>
     <js>/site/skin/labs/js/manageDisplayHtmlLine.js</js>
     <js>/site/skin/labs/js/bootstrap/bootstrap-button.min.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-tab.min.js</js>
     <js>/site/skin/labs/js/labs-opensocial-init.js</js>
 
     <css>/site/skin/labs/css/wysiwyg_editor.css</css>

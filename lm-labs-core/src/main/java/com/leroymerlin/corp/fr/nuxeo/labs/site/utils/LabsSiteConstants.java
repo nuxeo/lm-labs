@@ -81,6 +81,7 @@ public final class LabsSiteConstants {
         public static final String LABSTHEME = "LabsTheme";
         public static final String LABSHIDDEN = "LabsHidden";
         public static final String HIDDENINLABSNAVIGATION = "HiddenInLabsNavigation";
+        public static final String LABSPAGECUSTOMVIEW = "LabsPageCustomView";
     }
 
     public enum Schemas {
@@ -95,6 +96,7 @@ public final class LabsSiteConstants {
         EXTERNALURL("external_url", "exturl"),
         LABSTEMPLATE("labstemplate", "labstemplate"),
         LABSSITE("labssite", "labssite"),
+        LABSCONTENTVIEW("labscontentview", "labscontentview"),
         SITETHEME("sitetheme", "sitetheme");
 
         private String name;
@@ -295,6 +297,7 @@ public final class LabsSiteConstants {
         PAGE_TEMPLATES("labs_page_templates", "vocabulary", "id", "label", "ordering"),
         THEMES("labs_themes", "vocabulary", "id", "label", "ordering"),
         FONT_SIZES("labs_fontsizes", "vocabulary", "id", "label", "ordering"),
+        PAGE_CONTENTVIEWS("labs_HtmlPage_contentviews", "vocabulary", "id", "label", "ordering"),
         FONT_FAMILIES("labs_fontfamilies", "vocabulary", "id", "label", "label");
 
         private String dirName;
@@ -302,6 +305,16 @@ public final class LabsSiteConstants {
         private String idField;
         private String labelField;
         private String orderingField;
+        
+        private static final Map<String, Directories> stringToEnum = new HashMap<String, Directories>();
+        static {
+            for (Directories op : values())
+                stringToEnum.put(op.dirName(), op);
+        }
+
+        public static Directories fromString(String symbol) {
+            return stringToEnum.get(symbol);
+        }
 
         private Directories(String name, String prefix, String idField, String labelField, String orderingField) {
             this.dirName = name;

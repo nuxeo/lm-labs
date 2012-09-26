@@ -54,6 +54,7 @@
 
 <script type="text/javascript">
 
+<#if mySite.isContributor(Context.principal.name) >
 function deleteExternalURL(url, path) {
 	if (confirm("${Context.getMessage('label.externalURL.delete.confirm')}")) {
 	    jQuery('#waitingPopup').dialog2('open');
@@ -133,12 +134,6 @@ function ajaxMoveExtURL(url){
 	});
 }
 
-function initFieldsExternalURL() {
-  jQuery("#form-externalURL").clearForm();
-  jQuery('input[name="exturl:url"]').val('http://');
-  jQuery("#form-externalURL div.control-group.error").removeClass("error");
-}
-
 function modifyExternalURL(name, url, order, id){
   jQuery("#div_persistExternalURL").dialog2('open');
   initFieldsExternalURL();
@@ -146,6 +141,13 @@ function modifyExternalURL(name, url, order, id){
   jQuery('input[name="exturl:url"]').val(url);
   //jQuery('#extURLOrder').val(order);
   jQuery('#form-externalURL').attr("action", jQuery('#form-externalURL').attr("action") + "/" + id + "/@put");
+}
+</#if>
+
+function initFieldsExternalURL() {
+  jQuery("#form-externalURL").clearForm();
+  jQuery('input[name="exturl:url"]').val('http://');
+  jQuery("#form-externalURL div.control-group.error").removeClass("error");
 }
 
 jQuery(document).ready(function(){
@@ -164,10 +166,12 @@ jQuery(document).ready(function(){
 		removeOnClose : false,
 		showCloseHandle : true
 	});
+<#if mySite.isContributor(Context.principal.name) >
 	jQuery("#addExternalURL").click(function() {
 		jQuery("#div_persistExternalURL").dialog2('open');
 		initFieldsExternalURL();
 		return false;
 	});
+</#if>
 });
 </script>

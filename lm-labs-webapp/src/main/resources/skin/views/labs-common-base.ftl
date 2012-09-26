@@ -23,7 +23,7 @@
 		<!--[if IE]>
 		<script type="text/javascript" src="${skinPath}/js/modernizr.custom.js"></script>
 		<![endif]-->
-			<script type="text/javascript" src="/nuxeo/wro/labs.common.js"></script>
+			<script type="text/javascript" src="${contextPath}/wro/labs.common.js"></script>
         </@block>
 
     </head>

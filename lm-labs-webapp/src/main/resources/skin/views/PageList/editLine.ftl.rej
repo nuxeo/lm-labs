@@ -1,0 +1,8 @@
+--- editLine.ftl
++++ editLine.ftl
+@@ -1,4 +1,4 @@
+-		
++
+ 		<fieldset>
+ 			<input type="hidden" name="lastPage" id="lastPage" value="" />
+ 			<input type="hidden" name="currentPage" id="currentPage" value="" />

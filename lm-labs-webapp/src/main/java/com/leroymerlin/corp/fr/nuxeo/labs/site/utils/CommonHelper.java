@@ -1,11 +1,16 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -24,11 +29,15 @@ import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
+import org.nuxeo.ecm.directory.DirectoryException;
+import org.nuxeo.ecm.directory.Session;
+import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsCustomView;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
@@ -44,8 +53,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Directories;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public final class CommonHelper {
 
@@ -334,6 +341,18 @@ public final class CommonHelper {
         }
         return specUrl;
     }
+    
+    public List<String> getPageContentViews(String docType) {
+        List<String> list = new ArrayList<String>();
+        Directories dirEnum = Directories.fromString("labs_" + docType + "_contentviews");
+        if (dirEnum == null) {
+            list.add(LabsCustomView.PAGE_DEFAULT_VIEW);
+        } else {
+            list.addAll(getDirMap(dirEnum).values());
+        }
+        return list;
+    }
+    
     /**
      * @throws Exception
      */
@@ -348,5 +367,32 @@ public final class CommonHelper {
     private static CoreSession getCoreSession() {
         return WebEngine.getActiveContext()
                 .getCoreSession();
+    }
+
+    private static Map<String, String> getDirMap(Directories directory) {
+        Map<String, String> map = new HashMap<String, String>();
+        Session session = null;
+        try {
+            DirectoryService directoryService = Framework.getService(DirectoryService.class);
+            session = directoryService.open(directory.dirName());
+            Map<String, String> orderBy = new LinkedHashMap<String, String>();
+            Map<String, Serializable> filter = Collections.emptyMap();
+            Set<String> fulltext = Collections.emptySet();
+            orderBy.put(directory.orderingField(), "asc");
+            for (DocumentModel entry : session.query(filter, fulltext, orderBy)) {
+                map.put((String) entry.getPropertyValue(directory.labelField()), (String) entry.getPropertyValue(directory.idField()));
+            }
+        } catch (Exception e) {
+            LOG.error(e, e);
+        } finally {
+            if (session != null) {
+                try {
+                    session.close();
+                } catch (DirectoryException e) {
+                    LOG.error("Unable to close session: " + e.getMessage());
+                }
+            }
+        }
+        return map;
     }
 }

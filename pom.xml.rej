@@ -1,0 +1,61 @@
+--- pom.xml
++++ pom.xml
+@@ -660,4 +660,5 @@
+ 	 <dependency>
+ 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
+ 	    <artifactId>nuxeo-opensocial-spaces</artifactId>
++	    <version>${nuxeo.version}</version>
+ <!-- use this one to be able to debug in eclipse
+@@ -663,3 +664,3 @@
+ <!-- use this one to be able to debug in eclipse
+-	    <version>${nuxeo.version}</version>
++	    <version>5.4.3-SNAPSHOT</version>
+ -->
+@@ -665,7 +666,6 @@
+ -->
+-	    <version>5.4.3-SNAPSHOT</version>
+ 	  </dependency>
+ 	
+ 	<dependency>
+ 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
+ 	    <artifactId>nuxeo-opensocial-features</artifactId>
+@@ -667,6 +667,7 @@
+ 	  </dependency>
+ 	
+ 	<dependency>
+ 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
+ 	    <artifactId>nuxeo-opensocial-features</artifactId>
++	    <version>${nuxeo.version}</version>
+ <!-- use this one to be able to debug in eclipse
+@@ -672,3 +673,3 @@
+ <!-- use this one to be able to debug in eclipse
+-	    <version>${nuxeo.version}</version>
++	    <version>5.4.3-SNAPSHOT</version>
+ -->
+@@ -674,7 +675,6 @@
+ -->
+-	    <version>5.4.3-SNAPSHOT</version>
+ 	  </dependency>
+ 	
+ 	<dependency>
+ 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
+ 	    <artifactId>nuxeo-opensocial-container</artifactId>
+@@ -676,6 +676,7 @@
+ 	  </dependency>
+ 	
+ 	<dependency>
+ 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
+ 	    <artifactId>nuxeo-opensocial-container</artifactId>
++	    <version>${nuxeo.version}</version>
+ <!-- use this one to be able to debug in eclipse
+@@ -681,3 +682,3 @@
+ <!-- use this one to be able to debug in eclipse
+-	    <version>${nuxeo.version}</version>
++	    <version>5.4.3-SNAPSHOT</version>
+ -->
+@@ -683,5 +684,4 @@
+ -->
+-	    <version>5.4.3-SNAPSHOT</version>
+ 	  </dependency>
+ 
+ 

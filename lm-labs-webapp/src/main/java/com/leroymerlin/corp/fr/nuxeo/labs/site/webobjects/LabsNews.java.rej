@@ -1,0 +1,42 @@
+--- LabsNews.java
++++ LabsNews.java
+@@ -26,11 +24,11 @@
+ 
+ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+ 
+ @WebObject(type = "LabsNews")
+ @Produces("text/html; charset=UTF-8")
+-public class LabsNews extends DefaultObject {
++public class LabsNews extends DocumentObject {
+ 
+     private static final Log log = LogFactory.getLog(LabsNews.class);
+     
+     private static final String DATE_FORMAT_STRING = "dd/MM/yyyy";
+ 
+@@ -32,10 +30,8 @@
+ 
+     private static final Log log = LogFactory.getLog(LabsNews.class);
+     
+     private static final String DATE_FORMAT_STRING = "dd/MM/yyyy";
+ 
+-    private static final String EDIT_VIEW = "views/PageNews/editNews.ftl";
+-    
+-    private DocumentModel doc;
++//    private DocumentModel doc;
+ 
+     @Override
+@@ -56,9 +52,9 @@
+         return this.getPrevious().getPath();
+     }
+     
+-    @GET
+-    public Object editNews(){
+-        Template template = getTemplate(EDIT_VIEW);
+-        return template;
+-    }
++//    @GET
++//    public Object editNews(){
++//        Template template = getTemplate(EDIT_VIEW);
++//        return template;
++//    }
+ 

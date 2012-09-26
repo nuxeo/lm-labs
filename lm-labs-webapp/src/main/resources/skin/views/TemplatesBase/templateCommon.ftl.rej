@@ -1,0 +1,18 @@
+--- templateCommon.ftl
++++ templateCommon.ftl
+@@ -6,4 +6,7 @@
+ 
+ 	<@block name="css">
+ 		<@superBlock/>
++<#assign useCSS = false />
++<#assign myTheme = Common.siteDoc(Document).site.themeManager.getTheme(Session) />
++<#if !useCSS || 0 < myTheme.properties?size >
+         <link rel="stylesheet/less" href="${This.path}/generated.less" />
+@@ -9,4 +12,7 @@
+         <link rel="stylesheet/less" href="${This.path}/generated.less" />
++<#else>
++        <link rel="stylesheet" type="text/css" href="${skinPath}/less/theme/${myTheme.name}.css"/>
++</#if>
+                <#--
+         -->
+         <#if canWrite>

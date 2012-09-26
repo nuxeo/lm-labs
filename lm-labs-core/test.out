@@ -1,0 +1,772 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Building LM Labs :: Core Types And Adapter
+[INFO]    task-segment: [clean, test]
+[INFO] ------------------------------------------------------------------------
+[INFO] [clean:clean {execution: default-clean}]
+[INFO] Deleting /home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target
+[INFO] [buildnumber:create {execution: default}]
+[INFO] Storing buildNumber: 20120201-160813 at timestamp: 1328108893485
+[INFO] snapshot org.nuxeo.ecm.opensocial:nuxeo-opensocial-spaces:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.opensocial:nuxeo-opensocial-parent:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.platform:nuxeo-features-parent:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.platform:nuxeo-services-parent:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.core:nuxeo-core-parent:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.runtime:nuxeo-runtime-parent:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo:nuxeo-ecm:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.runtime:nuxeo-launcher-commons:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.core:nuxeo-core:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.opensocial:nuxeo-opensocial-server:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.runtime:nuxeo-runtime-osgi:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.platform:nuxeo-platform-oauth:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.platform:nuxeo-platform-web-common:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.platform:nuxeo-platform-login:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.common:nuxeo-common:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] snapshot org.nuxeo.ecm.opensocial:nuxeo-opensocial-gadgets-core:5.4.3-SNAPSHOT: checking for updates from public-snapshot
+[INFO] [incremental-build:incremental-build {execution: default}]
+[INFO] Verifying module descriptor ...
+[INFO] Pom descriptor modification detected.
+[INFO] Deleting /home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target
+[INFO] [nuxeo:eclipse-version {execution: eclipsize-version}]
+[INFO] eclipseVersion:1.9.0.-SNAPSHOT
+[INFO] [resources:resources {execution: default-resources}]
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 41 resources
+[INFO] [compiler:compile {execution: default-compile}]
+[INFO] Compiling 109 source files to /home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes
+[INFO] [resources:testResources {execution: default-testResources}]
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 14 resources
+[INFO] [compiler:testCompile {execution: default-testCompile}]
+[INFO] Compiling 30 source files to /home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/test-classes
+[INFO] [surefire:test {execution: default-test}]
+[INFO] Surefire report directory: /home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running com.leroymerlin.corp.fr.nuxeo.labs.site.event.PageSubscriptionForSiteSubscribersTest
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'com.leroymerlin.labs.core.test' has URL file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/test-classes/
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'com.leroymerlin.labs.core' has URL file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-api/5.4.2-HF06/nuxeo-core-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.common' has URL file:/home/vdutat/.m2/repository/org/nuxeo/common/nuxeo-common/5.4.2-HF06/nuxeo-common-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.runtime' has URL file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime/5.4.2-HF06/nuxeo-runtime-5.4.2-HF06.jar
+ INFO [main] (OSGIRuntimeTestActivator.java:43) - Starting Runtime Activator
+ INFO [main] (AbstractRuntimeService.java:115) - Starting Nuxeo Runtime service OSGi NXRuntime; version: 1.4.0
+ INFO [main] (OSGiRuntimeService.java:279) - Configuration: host application: null
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime/5.4.2-HF06/nuxeo-runtime-5.4.2-HF06.jar!/OSGI-INF/DeploymentService.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.runtime.services.deployment.DeploymentService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.runtime.services.deployment.DeploymentService
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime/5.4.2-HF06/nuxeo-runtime-5.4.2-HF06.jar!/OSGI-INF/LoginComponent.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.runtime.LoginComponent
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.runtime.api.login.LoginService
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime/5.4.2-HF06/nuxeo-runtime-5.4.2-HF06.jar!/OSGI-INF/ServiceManagement.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.runtime.api.ServiceManagement
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.runtime.api.ServiceManager
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime/5.4.2-HF06/nuxeo-runtime-5.4.2-HF06.jar!/OSGI-INF/EventService.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.runtime.EventService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.runtime.services.event.EventService
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime/5.4.2-HF06/nuxeo-runtime-5.4.2-HF06.jar!/OSGI-INF/ResourceService.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.runtime.services.resource.ResourceService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.runtime.services.resource.ResourceService
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime/5.4.2-HF06/nuxeo-runtime-5.4.2-HF06.jar!/OSGI-INF/DefaultJBossBindings.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.runtime.api.DefaultJBossBindings
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime/5.4.2-HF06/nuxeo-runtime-5.4.2-HF06.jar!/OSGI-INF/ContributionPersistence.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.runtime.model.persistence
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.runtime.model.persistence.ContributionPersistenceManager
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.schema' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-schema/5.4.2-HF06/nuxeo-core-schema-5.4.2-HF06.jar
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.core.schema
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.schema.TypeService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.schema.SchemaManager
+ INFO [main] (SchemaManagerImpl.java:321) - Register document type: Document
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.runtime.test' has URL file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime-test/5.4.2-HF06/nuxeo-runtime-test-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'com.google.inject' has URL file:/home/vdutat/.m2/repository/com/google/code/guice/guice/2.0/guice-2.0.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.runtime.remoting' has URL file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime-remoting/5.4.2-HF06/nuxeo-runtime-remoting-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'log4j' has URL file:/home/vdutat/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.osgi' has URL file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime-osgi/5.4.2-HF06/nuxeo-runtime-osgi-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'osgi.core' has URL file:/home/vdutat/.m2/repository/org/osgi/osgi-core/4.1/osgi-core-4.1.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.apache.commons.io' has URL file:/home/vdutat/.m2/repository/commons-io/commons-io/1.4/commons-io-1.4.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.runtime.jetty' has URL file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime-jetty-adapter/5.4.2-HF06/nuxeo-runtime-jetty-adapter-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.apache.commons.codec' has URL file:/home/vdutat/.m2/repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.apache.james.apache-mime4j' has URL file:/home/vdutat/.m2/repository/org/apache/james/apache-mime4j/0.6/apache-mime4j-0.6.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.mortbay.jetty.servlet-api-2.5' has URL file:/home/vdutat/.m2/repository/org/mortbay/jetty/servlet-api-2.5/6.1.14/servlet-api-2.5-6.1.14.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.w3c.css.sac' has URL file:/home/vdutat/.m2/repository/org/w3c/sac/1.3/sac-1.3.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.test' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-test/5.4.2-HF06/nuxeo-platform-test-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.dublincore' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-dublincore/5.4.2-HF06/nuxeo-platform-dublincore-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.query' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-query/5.4.2-HF06/nuxeo-core-query-5.4.2-HF06.jar
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.core.query
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.core.api
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.api.DocumentAdapterService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.api.adapter.DocumentAdapterService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.api.repository.RepositoryManager
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.api.repository.RepositoryManager
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.api.blobholder.BlobHolderAdapterComponent
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.api.blobholder.BlobHolderAdapterService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.api.blohodlers.adapters
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface org.nuxeo.ecm.core.api.blobholder.BlobHolder
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.api.pathsegment.PathSegmentService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.api.pathsegment.PathSegmentService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.core.LocalConfigurationService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.api.localconfiguration.LocalConfigurationService
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'joda-time' has URL file:/home/vdutat/.m2/repository/joda-time/joda-time/1.6/joda-time-1.6.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.event' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-event/5.4.2-HF06/nuxeo-core-event-5.4.2-HF06.jar
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.core.event
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.event.EventServiceComponent
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.event.EventService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.event.EventProducer
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.event.EventServiceAdmin
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.core
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.CoreService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.CoreService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.repository.RepositoryService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.api.CoreSession
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.CoreExtensions
+ INFO [main] (TypeService.java:225) - Registered schema: core-types from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/core-types.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: base from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/base.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: relation from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/relation.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: common from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/common.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: dublincore from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/dublincore.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: uid from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/uid.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: file from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/file.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: files from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/files.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: note from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/note.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: domain from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/domain.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: relatedtext from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/relatedtext.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: publishing from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/publishing.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: webcontainer from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core/5.4.2-HF06/nuxeo-core-5.4.2-HF06.jar!/schema/webcontainer.xsd
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: Folderish
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: Orderable
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: Versionable
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: Downloadable
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: Publishable
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: PublishSpace
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: MasterPublishSpace
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: Commentable
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: WebView
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: SuperSpace
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: HiddenInNavigation
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: HasRelatedText
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Folder
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: OrderedFolder
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Root
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Relation
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Domain
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: WorkspaceRoot
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Workspace
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: TemplateRoot
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: SectionRoot
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Section
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: File
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Note
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.lifecycle.LifeCycleService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.LifecycleCoreExtensions
+ INFO [main] (LifeCycleServiceImpl.java:184) - Registering lifecycle: default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: File-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Note-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Calendar-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Folder-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: OrderedFolder-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Workspace-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Domain-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Root-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Section-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: WorkspaceRoot-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: SectionRoot-default
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: TemplateRoot-default
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.event.lifecycle.listener
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.security.SecurityService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.security.SecurityService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.api.security.PermissionProvider
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.security.SecurityPolicyService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.security.defaultPermissions
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.security.defaultPolicies
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.trash.TrashService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.trash.TrashService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.versioning.VersioningService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.versioning.VersioningService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.versioning.VersioningDocumentAdapter
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface org.nuxeo.ecm.core.api.facet.VersioningDocument
+ INFO [main] (NXCoreActivator.java:33) - ---------------- Starting Nuxeo Core ------------------
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.runtime.management' has URL file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime-management/5.4.2-HF06/nuxeo-runtime-management-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.mvel2' has URL file:/home/vdutat/.m2/repository/org/mvel/mvel2/2.0.16/mvel2-2.0.16.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.content.template' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-content-template-manager/5.4.2-HF06/nuxeo-platform-content-template-manager-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.usermanager.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-usermanager-api/5.4.2-HF06/nuxeo-platform-usermanager-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.query.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-query-api/5.4.2-HF06/nuxeo-platform-query-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.search.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-search-api/5.4.2-HF06/nuxeo-platform-search-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.directory.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-directory-api/5.4.2-HF06/nuxeo-platform-directory-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.usermanager' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-usermanager-core/5.4.2-HF06/nuxeo-platform-usermanager-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.directory.sql' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-directory-sql/5.4.2-HF06/nuxeo-platform-directory-sql-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.directory' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-directory-core/5.4.2-HF06/nuxeo-platform-directory-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.storage.sql' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-storage-sql/5.4.2-HF06/nuxeo-core-storage-sql-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.convert.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-convert-api/5.4.2-HF06/nuxeo-core-convert-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.mortbay.jetty.server' has URL file:/home/vdutat/.m2/repository/org/mortbay/jetty/jetty/6.1.14/jetty-6.1.14.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.mortbay.jetty.util' has URL file:/home/vdutat/.m2/repository/org/mortbay/jetty/jetty-util/6.1.14/jetty-util-6.1.14.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.directory.types.contrib' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-directory-types-contrib/5.4.2-HF06/nuxeo-platform-directory-types-contrib-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.directory.ldap' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-directory-ldap/5.4.2-HF06/nuxeo-platform-directory-ldap-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.management' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-management/5.4.2-HF06/nuxeo-core-management-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.login' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-login/5.4.2-HF06/nuxeo-platform-login-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-api/5.4.2-HF06/nuxeo-platform-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.runtime.scripting' has URL file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime-scripting/5.4.2-HF06/nuxeo-runtime-scripting-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.test' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-test/5.4.2-HF06/nuxeo-core-test-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.convert' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-convert/5.4.2-HF06/nuxeo-core-convert-5.4.2-HF06.jar
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.core.convert
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.convert.service.ConversionServiceImpl
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.convert.api.ConversionService
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.core.storage.sql
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.storage.sql.listener
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.storage.sql.jdbc.QueryMakerService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.storage.sql.jdbc.QueryMakerService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.storage.sql.jdbc.querymaker.contrib
+ INFO [main] (QueryMakerServiceImpl.java:61) - Registering QueryMaker 'NXQL': org.nuxeo.ecm.core.storage.sql.jdbc.NXQLQueryMaker
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.storage.sql.reload
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.storage.sql.test' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-storage-sql-test/5.4.2-HF06/nuxeo-core-storage-sql-test-5.4.2-HF06.jar
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.core.storage.sql.test
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.api
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.api.PlatformService
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.content.template
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.content.template.service.ContentTemplateService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.platform.content.template.service.ContentTemplateService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.content.template.service.ContentTemplateService.defaultContrib
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.content.template.listener
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.dublincore
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:DublinCoreStorageService
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.directory
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.directory.DirectoryServiceImpl
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.directory.api.DirectoryService
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.directory.sql
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.directory.sql.SQLDirectoryFactory
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.directory.types.contrib
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.directory.types
+ INFO [main] (TypeService.java:225) - Registered schema: user from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-directory-types-contrib/5.4.2-HF06/nuxeo-platform-directory-types-contrib-5.4.2-HF06.jar!/directoryschema/user.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: group from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-directory-types-contrib/5.4.2-HF06/nuxeo-platform-directory-types-contrib-5.4.2-HF06.jar!/directoryschema/group.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: vocabulary from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-directory-types-contrib/5.4.2-HF06/nuxeo-platform-directory-types-contrib-5.4.2-HF06.jar!/directoryschema/vocabulary.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: xvocabulary from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-directory-types-contrib/5.4.2-HF06/nuxeo-platform-directory-types-contrib-5.4.2-HF06.jar!/directoryschema/xvocabulary.xsd
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.usermanager.api
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.usermanager.pageproviders
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.usermanager
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.usermanager.UserService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.platform.usermanager.UserManager
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.runtime.api.login.Authenticator
+ INFO [main] (UserService.java:115) - UserService activated
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.computedgroups.ComputedGroupsServiceImpl
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.platform.computedgroups.ComputedGroupsService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.computedgroups.UserManager.companyComputerContrib
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.usermanager.UserManagerImpl
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-test/5.4.2-HF06/nuxeo-platform-test-5.4.2-HF06.jar!/test-usermanagerimpl/directory-config.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.directory.sql.storage
+ INFO [main] (SQLDirectoryFactory.java:97) - Registered directory: userDirectory
+ INFO [main] (SQLDirectoryFactory.java:97) - Registered directory: groupDirectory
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.runtime.jtajca' has URL file:/home/vdutat/.m2/repository/org/nuxeo/runtime/nuxeo-runtime-jtajca/5.4.2-HF06/nuxeo-runtime-jtajca-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'slf4j.log4j12' has URL file:/home/vdutat/.m2/repository/org/slf4j/slf4j-log4j12/1.6.0/slf4j-log4j12-1.6.0.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'slf4j.api' has URL file:/home/vdutat/.m2/repository/org/slf4j/slf4j-api/1.6.0/slf4j-api-1.6.0.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.storage.sql.ra' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-storage-sql-ra/5.4.2-HF06/nuxeo-core-storage-sql-ra-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.storage.sql.extensions' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-storage-sql-extensions/5.4.2-HF06/nuxeo-core-storage-sql-extensions-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.apache.geronimo.components.geronimo-connector' has URL file:/home/vdutat/.m2/repository/org/apache/geronimo/components/geronimo-connector/2.1.3-NX1/geronimo-connector-2.1.3-NX1.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.apache.geronimo.components.geronimo-transaction' has URL file:/home/vdutat/.m2/repository/org/apache/geronimo/components/geronimo-transaction/2.1.3/geronimo-transaction-2.1.3.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.apache.geronimo.specs.geronimo-jta_1.1_spec' has URL file:/home/vdutat/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.apache.geronimo.specs.geronimo-j2ee-connector_1.5_spec' has URL file:/home/vdutat/.m2/repository/org/apache/geronimo/specs/geronimo-j2ee-connector_1.5_spec/2.0.0/geronimo-j2ee-connector_1.5_spec-2.0.0.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.h2' has URL file:/home/vdutat/.m2/repository/com/h2database/h2/1.1.114-nx/h2-1.1.114-nx.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'derby' has URL file:/home/vdutat/.m2/repository/org/apache/derby/derby/10.5.3.0_1/derby-10.5.3.0_1.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.notification.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-notification-api/5.4.2-HF06/nuxeo-platform-notification-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.webengine.core' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/webengine/nuxeo-webengine-core/5.4.2-HF06/nuxeo-webengine-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'javax.ws.rs.jsr311-api' has URL file:/home/vdutat/.m2/repository/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.webengine.jaxrs' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/webengine/nuxeo-webengine-jaxrs/5.4.2-HF06/nuxeo-webengine-jaxrs-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.rendering' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-rendering/5.4.2-HF06/nuxeo-platform-rendering-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.web.common' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-web-common/5.4.2-HF06/nuxeo-platform-web-common-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.url.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-url-api/5.4.2-HF06/nuxeo-platform-url-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.types.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-types-api/5.4.2-HF06/nuxeo-platform-types-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.forms.layout.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-forms-layout-api/5.4.2-HF06/nuxeo-platform-forms-layout-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.apache.geronimo.specs.geronimo-stax-api_1.0_spec' has URL file:/home/vdutat/.m2/repository/org/apache/geronimo/specs/geronimo-stax-api_1.0_spec/1.0.1/geronimo-stax-api_1.0_spec-1.0.1.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.versioning.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-versioning-api/5.4.2-HF06/nuxeo-platform-versioning-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.webapp.base' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-webapp-base/5.4.2-HF06/nuxeo-platform-webapp-base-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.ui.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-ui-api/5.4.2-HF06/nuxeo-platform-ui-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.ui' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-ui-web/5.4.2-HF06/nuxeo-platform-ui-web-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.io' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-io/5.4.2-HF06/nuxeo-core-io-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.mimetype.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-mimetype-api/5.4.2-HF06/nuxeo-platform-mimetype-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform/5.4.2-HF06/nuxeo-platform-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.actions' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-actions-core/5.4.2-HF06/nuxeo-platform-actions-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.filemanager.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-filemanager-api/5.4.2-HF06/nuxeo-platform-filemanager-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.restlet' has URL file:/home/vdutat/.m2/repository/org/restlet/org.restlet/1.0.7/org.restlet-1.0.7.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.restlet.ext.fileupload' has URL file:/home/vdutat/.m2/repository/org/restlet/org.restlet.ext.fileupload/1.0.7/org.restlet.ext.fileupload-1.0.7.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'com.noelios.restlet' has URL file:/home/vdutat/.m2/repository/com/noelios/restlet/com.noelios.restlet/1.0.7/com.noelios.restlet-1.0.7.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'com.noelios.restlet.ext.servlet' has URL file:/home/vdutat/.m2/repository/com/noelios/restlet/com.noelios.restlet.ext.servlet/1.0.7/com.noelios.restlet.ext.servlet-1.0.7.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.el' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-el/5.4.2-HF06/nuxeo-platform-el-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.contentview.jsf' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-contentview-jsf/5.4.2-HF06/nuxeo-platform-contentview-jsf-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.placeful.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-placeful-api/5.4.2-HF06/nuxeo-platform-placeful-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.theme.fragments' has URL file:/home/vdutat/.m2/repository/org/nuxeo/theme/nuxeo-theme-fragments/5.4.2-HF06/nuxeo-theme-fragments-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.theme.core' has URL file:/home/vdutat/.m2/repository/org/nuxeo/theme/nuxeo-theme-core/5.4.2-HF06/nuxeo-theme-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.rating.api' has URL file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/nuxeo-platform-rating-api/3.3.0/nuxeo-platform-rating-api-3.3.0.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.tag.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-tag-api/5.4.2-HF06/nuxeo-platform-tag-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'com.leroymerlin.corp.fr.nuxeo.view.service' has URL file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-view-service/3.3.0/lm-view-service-3.3.0.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.audit' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-audit-core/5.4.2-HF06/nuxeo-platform-audit-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.core.persistence' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/core/nuxeo-core-persistence/5.4.2-HF06/nuxeo-core-persistence-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.audit.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-audit-api/5.4.2-HF06/nuxeo-platform-audit-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'com.leroymerlin.corp.fr.nuxeo.portal.user' has URL file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-portal-user/3.3.0/lm-portal-user-3.3.0.jar
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-portal-user/3.3.0/lm-portal-user-3.3.0.jar!/directory-config/default-sql-directories.xml
+ INFO [main] (ComponentManagerImpl.java:242) - Registration delayed for component: service:com.leroymerlin.corp.fr.nuxeo.directory.sql.storage. Waiting for: [service:com.adeo.nuxeo.user.types]
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.directory.ldap
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.directory.ldap.LDAPDirectoryFactory
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.directory.ldap.LDAPDirectoryFactory
+ INFO [main] (LDAPDirectoryFactory.java:70) - component activated
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.directory.ldap.management
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-portal-user/3.3.0/lm-portal-user-3.3.0.jar!/OSGI-INF/userlm-types-contrib.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.adeo.nuxeo.user.types
+ INFO [main] (XSDLoader.java:166) - Schema http://www.nuxeo.org/ecm/schemas/user is already registered
+ INFO [main] (TypeService.java:227) - Reregistered schema: user
+ INFO [main] (TypeService.java:225) - Registered schema: magasin from jar:file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-portal-user/3.3.0/lm-portal-user-3.3.0.jar!/schemas/magasin.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: region from jar:file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-portal-user/3.3.0/lm-portal-user-3.3.0.jar!/schemas/region.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: userprofile from jar:file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-portal-user/3.3.0/lm-portal-user-3.3.0.jar!/schemas/userprofile.xsd
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: UserProfile
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.directory.sql.storage
+ INFO [main] (SQLDirectoryFactory.java:97) - Registered directory: magasinDirectory
+ INFO [main] (SQLDirectoryFactory.java:97) - Registered directory: regionDirectory
+ INFO [main] (SQLDirectoryFactory.java:95) - Re-registered directory: userDirectory
+ INFO [main] (SQLDirectoryFactory.java:95) - Re-registered directory: groupDirectory
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-portal-user/3.3.0/lm-portal-user-3.3.0.jar!/OSGI-INF/usermanager-contrib.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.portal.usermanager.config
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-portal-user/3.3.0/lm-portal-user-3.3.0.jar!/OSGI-INF/authentication-contrib.xml
+ INFO [main] (ComponentManagerImpl.java:242) - Registration delayed for component: service:com.leroymerlin.corp.fr.nuxeo.authentication.contrib. Waiting for: [service:org.nuxeo.ecm.platform.ui.web.auth.defaultConfig, service:org.nuxeo.ecm.platform.ui.web.auth.WebEngineConfig]
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/lm-portal-user/3.3.0/lm-portal-user-3.3.0.jar!/OSGI-INF/userprofile-service.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.portal.profile.UserProfileService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: com.leroymerlin.corp.fr.nuxeo.portal.profile.UserProfileManager
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.portal.user.UserProfile
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.rating.core' has URL file:/home/vdutat/.m2/repository/com/leroymerlin/corp/fr/nuxeo/portal/nuxeo-platform-rating-core/3.3.0/nuxeo-platform-rating-core-3.3.0.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.tag' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-tag-core/5.4.2-HF06/nuxeo-platform-tag-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.ws' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-ws/5.4.2-HF06/nuxeo-platform-ws-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.placeful.core' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-placeful-core/5.4.2-HF06/nuxeo-platform-placeful-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.notification.core' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-notification-core/5.4.2-HF06/nuxeo-platform-notification-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.picture.api' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-imaging-api/5.4.2-HF06/nuxeo-platform-imaging-api-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.mimetype.core' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-mimetype-core/5.4.2-HF06/nuxeo-platform-mimetype-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.url.core' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-url-core/5.4.2-HF06/nuxeo-platform-url-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.types.core' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-types-core/5.4.2-HF06/nuxeo-platform-types-core-5.4.2-HF06.jar
+ INFO [main] (NXRuntimeTestCase.java:581) - Bundle 'org.nuxeo.ecm.platform.picture.core' has URL file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-imaging-core/5.4.2-HF06/nuxeo-platform-imaging-core-5.4.2-HF06.jar
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.picture.core
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.picture.ImagingComponent
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.platform.picture.api.ImagingService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.picture.ImagingComponent.default.config
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.picture.coreTypes
+ INFO [main] (TypeService.java:225) - Registered schema: picture from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-imaging-core/5.4.2-HF06/nuxeo-platform-imaging-core-5.4.2-HF06.jar!/schema/picture.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: image_metadata from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-imaging-core/5.4.2-HF06/nuxeo-platform-imaging-core-5.4.2-HF06.jar!/schema/image_metadata.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: iptc from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-imaging-core/5.4.2-HF06/nuxeo-platform-imaging-core-5.4.2-HF06.jar!/schema/iptc.xsd
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: MultiviewPicture
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Picture
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.picture.LifeCycleManagerExtensions
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Picture-default
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.picture.web.coreTypes
+ INFO [main] (TypeService.java:225) - Registered schema: picturebook from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-imaging-core/5.4.2-HF06/nuxeo-platform-imaging-core-5.4.2-HF06.jar!/schema/picturebook.xsd
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: PictureBook
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.pictureweb.LifeCycleManagerExtensions
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: PictureBook-default
+ INFO [main] (ComponentManagerImpl.java:242) - Registration delayed for component: service:org.nuxeo.ecm.platform.picture.core.libraryselector.LibrarySelectorService. Waiting for: [service:org.nuxeo.ecm.platform.picture.commandline.imagemagick]
+ INFO [main] (ComponentManagerImpl.java:242) - Registration delayed for component: service:org.nuxeo.ecm.platform.picture.commandline.imagemagick. Waiting for: [service:org.nuxeo.ecm.platform.commandline.executor.service.defaultContrib]
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.picture.filemanager.contrib
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: com.leroymerlin.labs.core
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.core.types
+ INFO [main] (TypeService.java:225) - Registered schema: columns_layout from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/columns_layout.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: page from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/page.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: page_news from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/page_news.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: labsnews from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/labsnews.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: page_list from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/page_list.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: page_list_line from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/page_list_line.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: page_blocs from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/page_blocs.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: external_url from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/external_url.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: page_html from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/page_html.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: labssite from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/labssite.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: sitetheme from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/sitetheme.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: labstemplate from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/labstemplate.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: mailnotif from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/mailnotif.xsd
+ INFO [main] (TypeService.java:225) - Registered schema: piwik from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/classes/schemas/piwik.xsd
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: LabsHidden
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: LabsPage
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: LabsTemplate
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: MailNotification
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: SitesRoot
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Site
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: SiteTheme
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Tree
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Page
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: ExternalURL
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: PageBlocs
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: PageNews
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: LabsNews
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: PageList
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: PageListLine
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: PageClasseur
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Assets
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: HtmlPage
+ INFO [main] (ComponentManagerImpl.java:242) - Registration delayed for component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.lifecycles. Waiting for: [service:org.nuxeo.ecm.spaces.core.types]
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.ContentTemplateService.contrib
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.listener
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.Adapters
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.Page
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface com.leroymerlin.corp.fr.nuxeo.piwik.Piwik
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.NotificationContrib
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.PageNotificationService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageNotificationService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.schedule.publishedNews
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.PathSegmentService
+ INFO [main] (PathSegmentComponent.java:78) - Registered path segment service: com.leroymerlin.corp.fr.nuxeo.labs.pathsegment.PathSegmentServicePage
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.blobholders
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.directories
+ INFO [main] (SQLDirectoryFactory.java:97) - Registered directory: columns_layout
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerImpl
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.notification.api
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.types.core
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.types.TypeService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.platform.types.TypeManager
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.types.local.configuration
+ INFO [main] (TypeService.java:225) - Registered schema: ui_types_configuration from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-types-core/5.4.2-HF06/nuxeo-platform-types-core-5.4.2-HF06.jar!/schemas/ui_types_configuration.xsd
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: UITypesLocalConfiguration
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface org.nuxeo.ecm.platform.types.localconfiguration.UITypesConfiguration
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.content.view.local.configuration
+ INFO [main] (TypeService.java:225) - Registered schema: content_view_configuration from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-types-core/5.4.2-HF06/nuxeo-platform-types-core-5.4.2-HF06.jar!/schemas/content_view_configuration.xsd
+ INFO [main] (SchemaManagerImpl.java:466) - Registered facet: ContentViewLocalConfiguration
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface org.nuxeo.ecm.platform.types.localconfiguration.ContentViewConfiguration
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.types.api
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.types.contrib
+ INFO [main] (DocumentAdapterService.java:60) - Registered document adapter factory null: interface org.nuxeo.ecm.platform.types.adapter.TypeInfo
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.notification.core
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.ec.notification.service.NotificationService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.platform.notification.api.NotificationManager
+ INFO [main] (NotificationService.java:121) - Registering notification extension
+ INFO [main] (NotificationService.java:121) - Registering notification extension
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.notification.service.NotificationContrib
+ INFO [main] (NotificationService.java:121) - Registering notification extension
+ INFO [main] (NotificationService.java:121) - Registering notification extension
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.ec.placeful
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.rendering
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.platform.rendering.RenderingService
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.notification.listener
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.core.persistence
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.persistence.PersistenceComponent
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.persistence.PersistenceProviderFactory
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.core.persistence.HibernateConfigurator
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from jar:file:/home/vdutat/.m2/repository/org/nuxeo/ecm/platform/nuxeo-platform-placeful-core/5.4.2-HF06/nuxeo-platform-placeful-core-5.4.2-HF06.jar!/OSGI-INF/nxplacefulservice-framework.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.ec.placeful.PlacefulService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.platform.ec.placeful.interfaces.PlacefulService
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/test-classes/OSGI-INF/hibernate-contrib.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.labs.test.persistence.config
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/test-classes/OSGI-INF/core-types-contribTest.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.spaces.core.types
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: Space
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.lifecycles
+ INFO [main] (LifeCycleServiceImpl.java:184) - Registering lifecycle: labs
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Site-labs
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Page-labs
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: PageBlocs-labs
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: PageNews-labs
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: PageClasseur-labs
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: PageList-labs
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: HtmlPage-labs
+ INFO [main] (LifeCycleServiceImpl.java:192) - Registering lifecycle types mapping: Space-labs
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/test-classes/OSGI-INF/core-types-contrib2Test.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.core.types.test
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: HiddenFolder
+ INFO [main] (SchemaManagerImpl.java:371) - Registered document type: NotificationActivities
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/test-classes/OSGI-INF/document-types-contrib.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.document.types
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: Domain
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: SitesRoot
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: Site
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: Tree
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: Assets
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: Page
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: HtmlPage
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: PageBlocs
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: PageNews
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: PageClasseur
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: PageList
+ INFO [main] (TypeRegistry.java:60) - Registered platform document type: LabsNews
+ INFO [main] (NXRuntimeTestCase.java:337) - Deploying contribution from file:/home/vdutat/Workspaces/mercurial/lm-labs/lm-labs-core/target/test-classes/OSGI-INF/notification-override.xml
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.test.notification.override
+ INFO [main] (NotificationService.java:121) - Registering notification extension
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.url.core
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.url.service.DocumentViewCodecService
+ INFO [main] (ComponentManagerImpl.java:477) - Registering service: org.nuxeo.ecm.platform.url.api.DocumentViewCodecManager
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.platform.url.service.DocumentViewCodecService.contrib
+ INFO [main] (BundleRegistry.java:168) - Registering resolved bundle: org.nuxeo.ecm.platform.placeful.api
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.runtime.started
+ERROR [main] (OSGiRuntimeService.java:527) - Nuxeo EP Started
+======================================================================
+= Nuxeo EP Started
+======================================================================
+= Component Loading Status: Pending: 8 / Unstarted: 0 / Total: 90
+  * service:org.nuxeo.ecm.platform.picture.filemanager.contrib requires [service:org.nuxeo.ecm.platform.filemanager.service.FileManagerService]
+  * service:org.nuxeo.ecm.directory.ldap.management requires [service:org.nuxeo.ecm.core.management.CoreManagementComponent]
+  * service:com.leroymerlin.corp.fr.nuxeo.labs.schedule.publishedNews requires [service:org.nuxeo.ecm.platform.scheduler.core.service.SchedulerRegistryService]
+  * service:com.leroymerlin.corp.fr.nuxeo.authentication.contrib requires [service:org.nuxeo.ecm.platform.ui.web.auth.WebEngineConfig]
+  * service:com.leroymerlin.corp.fr.nuxeo.labs.site.core.types requires [service:org.nuxeo.ecm.core.search.service.SearchServiceImpl]
+  * service:org.nuxeo.ecm.platform.picture.core.libraryselector.LibrarySelectorService requires [service:org.nuxeo.ecm.platform.picture.commandline.imagemagick]
+  * service:org.nuxeo.ecm.platform.usermanager.pageproviders requires [service:org.nuxeo.ecm.platform.query.api.PageProviderService]
+  * service:org.nuxeo.ecm.platform.picture.commandline.imagemagick requires [service:org.nuxeo.ecm.platform.commandline.executor.service.defaultContrib]
+======================================================================
+ INFO [main] (RepositorySettings.java:161) - Deploying a VCS repo implementation
+DatabaseHelper: Database used for VCS tests: org.nuxeo.ecm.core.storage.sql.DatabaseH2
+ INFO [main] (DatabaseHelper.java:96) - Database used for VCS tests: org.nuxeo.ecm.core.storage.sql.DatabaseH2
+ INFO [main] (ComponentManagerImpl.java:209) - Registering component: service:org.nuxeo.ecm.core.storage.sql.test.repo.repository.test
+ INFO [main] (RepositoryManager.java:125) - Registering repository: test
+ INFO [main] (DefaultBinaryManager.java:104) - Repository 'test' using binary store: /tmp/NXOSGITestFramework52277613774641422241353975cb80-12546448.1//data/binaries
+ INFO [Nuxeo Async Events 1-2] (Version.java:15) - Hibernate Annotations 3.4.0.GA
+ INFO [Nuxeo Async Events 1-2] (Environment.java:560) - Hibernate 3.3.2.GA
+ INFO [Nuxeo Async Events 1-2] (Environment.java:593) - hibernate.properties not found
+ INFO [Nuxeo Async Events 1-2] (Environment.java:771) - Bytecode provider name : javassist
+ INFO [Nuxeo Async Events 1-2] (Environment.java:652) - using JDK 1.4 java.sql.Timestamp handling
+ INFO [Nuxeo Async Events 1-2] (Version.java:14) - Hibernate Commons Annotations 3.1.0.GA
+ INFO [Nuxeo Async Events 1-2] (Version.java:16) - Hibernate EntityManager 3.4.0.GA
+ WARN [Nuxeo Async Events 1-2] (Ejb3Configuration.java:996) - Overriding hibernate.transaction.factory_class is dangerous, this might break the EJB3 specification implementation
+ INFO [Nuxeo Async Events 1-2] (AnnotationBinder.java:419) - Binding entity from annotated class: org.nuxeo.ecm.platform.ec.notification.UserSubscription
+ INFO [Nuxeo Async Events 1-2] (EntityBinder.java:422) - Bind entity org.nuxeo.ecm.platform.ec.notification.UserSubscription on table UserSubscription
+ INFO [Nuxeo Async Events 1-2] (Version.java:17) - Hibernate Validator 3.1.0.GA
+ INFO [Nuxeo Async Events 1-2] (HibernateSearchEventListenerRegister.java:53) - Unable to find org.hibernate.search.event.FullTextIndexEventListener on the classpath. Hibernate Search is not enabled.
+ INFO [Nuxeo Async Events 1-2] (DriverManagerConnectionProvider.java:64) - Using Hibernate built-in connection pool (not for production use!)
+ INFO [Nuxeo Async Events 1-2] (DriverManagerConnectionProvider.java:65) - Hibernate connection pool size: 1
+ INFO [Nuxeo Async Events 1-2] (DriverManagerConnectionProvider.java:68) - autocommit mode: true
+ INFO [Nuxeo Async Events 1-2] (DriverManagerConnectionProvider.java:103) - using driver: org.hsqldb.jdbcDriver at URL: jdbc:hsqldb:mem:.;sql.enforce_strict_size=true
+ INFO [Nuxeo Async Events 1-2] (DriverManagerConnectionProvider.java:109) - connection properties: {auto_commit=true, autocommit=true, release_mode=auto}
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:114) - RDBMS: HSQL Database Engine, version: 1.8.0
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:115) - JDBC driver: HSQL Database Engine Driver, version: 1.8.0
+ INFO [Nuxeo Async Events 1-2] (Dialect.java:175) - Using dialect: org.hibernate.dialect.HSQLDialect
+ INFO [Nuxeo Async Events 1-2] (TransactionFactoryFactory.java:62) - Transaction strategy: org.hibernate.transaction.JDBCTransactionFactory
+ INFO [Nuxeo Async Events 1-2] (TransactionManagerLookupFactory.java:80) - No TransactionManagerLookup configured (in JTA environment, use of read-write or transactional second-level cache is not recommended)
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:161) - Automatic flush during beforeCompletion(): disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:165) - Automatic session close at end of transaction: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:172) - JDBC batch size: 15
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:175) - JDBC batch updates for versioned data: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:180) - Scrollable result sets: enabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:188) - JDBC3 getGeneratedKeys(): disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:196) - Connection release mode: auto
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:223) - Default batch fetch size: 1
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:227) - Generate SQL with comments: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:231) - Order SQL updates by primary key: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:235) - Order SQL inserts for batching: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:397) - Query translator: org.hibernate.hql.ast.ASTQueryTranslatorFactory
+ INFO [Nuxeo Async Events 1-2] (ASTQueryTranslatorFactory.java:47) - Using ASTQueryTranslatorFactory
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:243) - Query language substitutions: {}
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:248) - JPA-QL strict compliance: enabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:253) - Second-level cache: enabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:257) - Query cache: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:382) - Cache region factory : org.hibernate.cache.impl.NoCachingRegionFactory
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:267) - Optimize cache for minimal puts: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:276) - Structured second-level cache entries: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:305) - Statistics: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:309) - Deleted entity synthetic identifier rollback: disabled
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:324) - Default entity-mode: pojo
+ INFO [Nuxeo Async Events 1-2] (SettingsFactory.java:328) - Named query checking : enabled
+ INFO [Nuxeo Async Events 1-2] (SessionFactoryImpl.java:193) - building session factory
+ INFO [Nuxeo Async Events 1-2] (SessionFactoryObjectFactory.java:105) - Not binding factory to JNDI, no JNDI name configured
+ INFO [Nuxeo Async Events 1-2] (SchemaUpdate.java:155) - Running hbm2ddl schema update
+ INFO [Nuxeo Async Events 1-2] (SchemaUpdate.java:167) - fetching database metadata
+ INFO [Nuxeo Async Events 1-2] (SchemaUpdate.java:179) - updating schema
+ INFO [Nuxeo Async Events 1-2] (DatabaseMetadata.java:119) - table not found: UserSubscription
+ INFO [Nuxeo Async Events 1-2] (DatabaseMetadata.java:119) - table not found: UserSubscription
+ INFO [Nuxeo Async Events 1-2] (SchemaUpdate.java:217) - schema update complete
+ INFO [main] (AbstractRuntimeService.java:132) - Stopping Nuxeo Runtime service OSGi NXRuntime; version: 1.4.0
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.portal.profile.UserProfileService
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.portal.user.UserProfile
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.directory.sql.storage
+ INFO [main] (SQLDirectoryFactory.java:162) - Unregistered directory: magasinDirectory
+ INFO [main] (SQLDirectoryFactory.java:162) - Unregistered directory: regionDirectory
+ INFO [main] (SQLDirectoryFactory.java:162) - Unregistered directory: userDirectory
+ INFO [main] (SQLDirectoryFactory.java:162) - Unregistered directory: groupDirectory
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.runtime.api.ServiceManagement
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.runtime.LoginComponent
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.portal.usermanager.config
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.runtime.services.deployment.DeploymentService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.storage.sql.test.repo.repository.test
+ INFO [main] (RepositoryManager.java:155) - Unregistering repository: test
+ INFO [main] (RepositoryManager.java:161) - Unregistering repository: test
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.runtime.api.DefaultJBossBindings
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.test.notification.override
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.runtime.model.persistence
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.document.types
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.ec.placeful.PlacefulService
+ INFO [main] (SessionFactoryImpl.java:853) - closing
+ INFO [main] (DriverManagerConnectionProvider.java:170) - cleaning up connection pool: jdbc:hsqldb:mem:.;sql.enforce_strict_size=true
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.labs.test.persistence.config
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.spaces.core.types
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: Space
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.runtime.EventService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.directory.sql.storage
+ INFO [main] (SQLDirectoryFactory.java:162) - Unregistered directory: userDirectory
+ INFO [main] (SQLDirectoryFactory.java:162) - Unregistered directory: groupDirectory
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.runtime.services.resource.ResourceService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.adeo.nuxeo.user.types
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: user
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: magasin
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: region
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: userprofile
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: UserProfile
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.core.types.test
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: HiddenFolder
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.picture.LifeCycleManagerExtensions
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.content.template.service.ContentTemplateService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.rendering
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.notification.listener
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:DublinCoreStorageService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.api.blohodlers.adapters
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface org.nuxeo.ecm.core.api.blobholder.BlobHolder
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.content.view.local.configuration
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: content_view_configuration
+ INFO [main] (SchemaManagerImpl.java:480) - Unregistered facet: ContentViewLocalConfiguration
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface org.nuxeo.ecm.platform.types.localconfiguration.ContentViewConfiguration
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManagerImpl
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.security.SecurityService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.directory.sql.SQLDirectoryFactory
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.directories
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.picture.ImagingComponent
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.schedule.publishedNews
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.api.PlatformService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.types.local.configuration
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: ui_types_configuration
+ INFO [main] (SchemaManagerImpl.java:480) - Unregistered facet: UITypesLocalConfiguration
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface org.nuxeo.ecm.platform.types.localconfiguration.UITypesConfiguration
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: picturebook
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: PictureBook
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: columns_layout
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: page
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: page_news
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: labsnews
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: page_list
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: page_list_line
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: page_blocs
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: external_url
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: page_html
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: labssite
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: sitetheme
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: labstemplate
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: mailnotif
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: piwik
+ INFO [main] (SchemaManagerImpl.java:480) - Unregistered facet: LabsHidden
+ INFO [main] (SchemaManagerImpl.java:480) - Unregistered facet: LabsPage
+ INFO [main] (SchemaManagerImpl.java:480) - Unregistered facet: LabsTemplate
+ INFO [main] (SchemaManagerImpl.java:480) - Unregistered facet: MailNotification
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: SitesRoot
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: Site
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: SiteTheme
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: Tree
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: Page
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: ExternalURL
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: PageBlocs
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: PageNews
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: LabsNews
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: PageList
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: PageListLine
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: PageClasseur
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: Assets
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: HtmlPage
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: NotificationActivities
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: picture
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: image_metadata
+ INFO [main] (SchemaManagerImpl.java:245) - Unregister schema: iptc
+ INFO [main] (SchemaManagerImpl.java:480) - Unregistered facet: MultiviewPicture
+ INFO [main] (SchemaManagerImpl.java:418) - Unregister document type: Picture
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.schema.TypeService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.picture.ImagingComponent.default.config
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.event.EventServiceComponent
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.picture.filemanager.contrib
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.blobholders
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.Adapters
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseur
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageList
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.PageBlocs
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.Page
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface com.leroymerlin.corp.fr.nuxeo.piwik.Piwik
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.versioning.VersioningDocumentAdapter
+ INFO [main] (DocumentAdapterService.java:66) - Unregistered document adapter factory: null: interface org.nuxeo.ecm.core.api.facet.VersioningDocument
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.storage.sql.jdbc.QueryMakerService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.api.DocumentAdapterService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.directory.ldap.LDAPDirectoryFactory
+ INFO [main] (LDAPDirectoryFactory.java:77) - component deactivated
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.security.defaultPermissions
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.usermanager.UserManagerImpl
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.listener
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.LifecycleCoreExtensions
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.api.blobholder.BlobHolderAdapterComponent
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.persistence.PersistenceComponent
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.computedgroups.ComputedGroupsServiceImpl
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.ec.placeful
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.storage.sql.listener
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.usermanager.pageproviders
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.NotificationContrib
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.runtime.started
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.PageNotificationService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.directory.ldap.management
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.api.pathsegment.PathSegmentService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.content.template.listener
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.lifecycles
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.notification.service.NotificationContrib
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.ContentTemplateService.contrib
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.content.template.service.ContentTemplateService.defaultContrib
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.CoreService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.core.LocalConfigurationService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.versioning.VersioningService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.convert.service.ConversionServiceImpl
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.storage.sql.reload
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.PathSegmentService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.usermanager.UserService
+ INFO [main] (UserService.java:120) - UserService deactivated
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.computedgroups.UserManager.companyComputerContrib
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.types.TypeService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.trash.TrashService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.CoreExtensions
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.picture.coreTypes
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:com.leroymerlin.corp.fr.nuxeo.labs.site.core.types
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.security.defaultPolicies
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.api.repository.RepositoryManager
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.directory.DirectoryServiceImpl
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.url.service.DocumentViewCodecService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.repository.RepositoryService
+ INFO [main] (RepositoryManager.java:170) - Shutting down repository manager
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.storage.sql.jdbc.querymaker.contrib
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.pictureweb.LifeCycleManagerExtensions
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.event.lifecycle.listener
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.core.lifecycle.LifeCycleService
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.url.service.DocumentViewCodecService.contrib
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.picture.web.coreTypes
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.directory.types
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.types.contrib
+ INFO [main] (ComponentManagerImpl.java:288) - Unregistering component: service:org.nuxeo.ecm.platform.ec.notification.service.NotificationService
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.17 sec
+
+Results :
+
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 29 seconds
+[INFO] Finished at: Wed Feb 01 16:08:40 CET 2012
+[INFO] Final Memory: 120M/422M
+[INFO] ------------------------------------------------------------------------
