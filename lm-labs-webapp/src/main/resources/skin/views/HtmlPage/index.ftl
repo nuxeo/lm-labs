@@ -184,7 +184,7 @@ jQuery(document).ready(function() {
 		                      <#elseif isWidgetCol >
 		                        <#if widgets[0].name == "externalContent" >
 			                    <div class="columns viewblock">
-			                    	<@displayContentHtmlWidget widget=widgets[0] />
+			                    	<@displayContentHtmlWidget widget=widgets[0] widgetMode="view" sectionIdx=section_index rowIdx=row_index columnIdx=content_index content=content />
 			                    </div>
 					            <div class="columns editblock bloc" style="text-align: center;">
 		                        	<@editblockHiddenInputs widget=widgets[0] sectionIdx=section_index rowIdx=row_index contentIdx=content_index />

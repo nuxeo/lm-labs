@@ -1,4 +1,4 @@
-<#macro displayContentHtmlWidget widget widgetMode="view" sectionIdx=0 rowIdx=0 columnIdx=0 >
+<#macro displayContentHtmlWidget widget widgetMode="view" sectionIdx=0 rowIdx=0 columnIdx=0 content="" >
 	<#assign section_index = sectionIdx /> <#-- this is NOT useless code -->
 	<#assign row_index = rowIdx /> <#-- this is NOT useless code -->
 	<#assign content_index = columnIdx /> <#-- this is NOT useless code -->

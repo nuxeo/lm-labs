@@ -1,4 +1,4 @@
-<#assign id = "externalContent" + "_" + section_index + "_r_" + row_index + "_c_" + content_index />
+<#assign id = "${widgetMode}_externalContent" + "_" + section_index + "_r_" + row_index + "_c_" + content_index />
 <#assign thisColumnUrl = This.path + "/s/" + section_index + "/r/" + row_index + "/c/" + content_index />
 <#assign url = content.html />
 
