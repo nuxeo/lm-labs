@@ -31,7 +31,7 @@
         <script type="text/javascript" >
 jQuery(document).ready(function() {
 	setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
-	initOpensocialGadgets();
+	initOpensocialGadgets(jQuery('#divPageHTML'));
 	<#if sectionsViewMode == "tabbed" >
 	jQuery('div.tab-pane.active').each(function(index, value) {
 		initOpensocialGadgets(value);
