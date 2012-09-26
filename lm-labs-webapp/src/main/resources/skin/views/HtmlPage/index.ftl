@@ -3,6 +3,7 @@
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
   <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor", "externalContent", "toc"] />
+  <#assign sectionsViewMode = This.contentView />
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
@@ -19,16 +20,25 @@
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.hotkeys.js"></script>
         <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/assets/prettify/prettify.js"></script>
+        <script type="text/javascript" src="${skinPath}/js/widgetHtmlSiteNews.js"></script>
         <script type="text/javascript" src="${skinPath}/js/PageHtml.js"></script>
         <script type="text/javascript" src="${skinPath}/js/move.js"></script>
         <script type="text/javascript" src="${skinPath}/js/manageDisplayHtmlLine.js"></script>
       	<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-button.min.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tab.min.js"></script>
+		<script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-transition.min.js"></script>
         <script type="text/javascript" src="${skinPath}/js/labs-opensocial-init.js"></script>
         <script type="text/javascript" >
-
 jQuery(document).ready(function() {
 	setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
 	initOpensocialGadgets();
+	<#if sectionsViewMode == "tabbed" >
+	jQuery('div.tab-pane.active').each(function(index, value) {
+		initOpensocialGadgets(value);
+		
+	});
+	<#elseif sectionsViewMode == "carousel" >
+	</#if>
 });
         </script>
 
@@ -47,14 +57,18 @@ jQuery(document).ready(function() {
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
   </#if>
-
-  <div id="divPageHTML">
+<#include "macros/HtmlPage.ftl" />
+  <#assign sections = page.sections />
+  <#if sectionsViewMode == "tabbed" || sectionsViewMode == "carousel" >
+  	<#include "views/HtmlPage/sectionsView_${sectionsViewMode}.ftl" />
+  </#if>
+  <div id="divPageHTML" class="<#if sectionsViewMode == "tabbed" || sectionsViewMode == "carousel" >editblock</#if>" >
   <script type="text/javascript" >
 		var userPrefsTab = new Array();
    </script>
-  <#assign sections = page.sections />
+  <#if !Context.principal.anonymous || (Context.principal.anonymous && sectionsViewMode != "carousel" && sectionsViewMode != "tabbed") >
   <#list sections as section>
-  	<div id="div_section_${section_index}">
+  	<div id="div_section_${section_index}" >
 	    <section id="section_${section_index}">
 	        <div class="page-header"<#if section.title?length == 0 && section.description?length == 0 > style="padding-bottom: 0px;"</#if> >
 	            <a name="section_${section_index}"></a>
@@ -186,11 +200,8 @@ jQuery(document).ready(function() {
 		                      <#elseif isWidgetCol >
 		                        <#if widgets[0].name == "externalContent" >
 			                    <div class="columns viewblock">
-			                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
-			                            <#include "widgets/${widgets[0].name}.ftl" />
-			                        <#else>
-			                        	Widget pas disponible.
-			                        </#if>
+			                    
+			                    	<@displayContentHtmlWidget widget=widgets[0] />
 			                    </div>
 					            <div class="columns editblock bloc" style="text-align: center;">
 		                        	<@editblockHiddenInputs widget=widgets[0] sectionIdx=section_index rowIdx=row_index contentIdx=content_index />
@@ -202,11 +213,7 @@ jQuery(document).ready(function() {
 					            </div>
 		                        <#else>
 		                        <div class="columns" >
-			                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
-			                            <#include "widgets/${widgets[0].name}.ftl" />
-			                        <#else>
-			                        	Widget pas disponible.
-			                        </#if>
+			                    	<@displayContentHtmlWidget widget=widgets[0] widgetMode="edit" />
 		                        </div>
 		                        </#if>
 		                      <#else>
@@ -281,11 +288,7 @@ jQuery(document).ready(function() {
 	                        </div>
 	                      <#elseif isWidgetCol >
 	                        <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
-	                        <#if availableHtmlWidgets?seq_contains(widgets[0].name) >
-	                            <#include "widgets/${widgets[0].name}.ftl" />
-	                        <#else>
-	                        	Widget pas disponible.
-	                        </#if>
+	                    	<@displayContentHtmlWidget widget=widgets[0] />
 	                        </div>
 	                      <#else>
 	    	                <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns">
@@ -300,6 +303,7 @@ jQuery(document).ready(function() {
 	    </section>
 	</div>
   </#list>
+  </#if>
  </div>
 
 		<#if isContributor >
@@ -445,14 +449,6 @@ jQuery(document).ready(function() {
     &nbsp;
     <#else>
         ${content.html}
-    </#if>
-</#macro>
-
-<#macro displayContentHtmlWidget widget >
-    <#if availableHtmlWidgets?seq_contains(widget.name) >
-        <#include "widgets/${widget.name}.ftl" />
-    <#else>
-    	Widget pas disponible.
     </#if>
 </#macro>
 

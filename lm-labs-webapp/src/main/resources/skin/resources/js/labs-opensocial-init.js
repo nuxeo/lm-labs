@@ -25,7 +25,11 @@ function setOpensocialOptions(baseUrl, lang) {
 }
 
 function initOpensocialGadgets() {
-	jQuery('div.opensocialGadgets').each(function(index, value) {
+	initOpensocialGadgets(jQuery('body'));
+}
+
+function initOpensocialGadgets(parentObj) {
+	jQuery(parentObj).find('div.opensocialGadgets').each(function(index, value) {
 		var userPrefs = {};
 		if (userPrefsTab[index+1]) {
 			userPrefs = userPrefsTab[index+1];
