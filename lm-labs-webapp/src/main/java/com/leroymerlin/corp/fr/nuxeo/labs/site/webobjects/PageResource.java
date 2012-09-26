@@ -43,6 +43,7 @@ import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsPageCustomView;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
@@ -417,6 +418,9 @@ public class PageResource extends DocumentObject {
             } else if (!hiddenParam && page.isHiddenInNavigation()) {
                 page.showInNavigation();
             }
+            String contentView = ctx.getForm().getString("contentView");
+            LabsPageCustomView customView = doc.getAdapter(LabsPageCustomView.class);
+            customView.setCustomView(contentView);
             CoreSession session = getCoreSession();
             String documentTemplateName = Tools.getAdapter(LabsTemplate.class, doc, session).getDocumentTemplateName();
             if (!StringUtils.isEmpty(templateName) || (StringUtils.isEmpty(templateName) && !StringUtils.isEmpty(documentTemplateName))) {
@@ -665,5 +669,10 @@ public class PageResource extends DocumentObject {
             tags = new ArrayList<String>();
         }
         return tags;
+    }
+    
+    public String getContentView() throws ClientException {
+        LabsPageCustomView customView = doc.getAdapter(LabsPageCustomView.class);
+        return customView.getContentView();
     }
 }

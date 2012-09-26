@@ -16,7 +16,7 @@
 <script type="text/javascript">
 var ${divId}_last_messages = new Array();
 
-$("#${divId} .itemList").ready(function() {
+$(".rss-feed-list.bloc > .itemList").ready(function() {
   $.ajax({
     type: "GET",
     url: "${Context.modulePath}/${mySite.URL}/@labsrss/${feed}",
@@ -47,8 +47,6 @@ function ${divId}_parseXml(xml) {
     -->
 }
 
-<#include "common/SupplyChainNewsDisplay-js.ftl" />
-
 function ${divId}_loadContents(page_index, jq){
     // Get number of elements per pagination page from form
     var items_per_page = ${nbrItems};
@@ -67,8 +65,8 @@ function ${divId}_loadContents(page_index, jq){
     // Replace old content with new content
     $('#${divId} .itemList').html(newcontent);
     for(var i=page_index*items_per_page;i<max_elem;i++) {
-        doEllipsisTextId("${divId}-lastMessageTitleEllipsisText" + i);
-        doEllipsisTextId("${divId}-lastMessageDescEllipsisText" + i);
+        doEllipsisTextId("${divId}-rss-${feed}TitleEllipsisText" + i);
+        doEllipsisTextId("${divId}-rss-${feed}DescEllipsisText" + i);
     }
 
     // resize DIV
