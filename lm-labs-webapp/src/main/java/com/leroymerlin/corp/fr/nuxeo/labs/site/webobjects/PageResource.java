@@ -119,7 +119,7 @@ public class PageResource extends DocumentObject {
         }
 
     }
-
+    
     @Override
     public void initialize(Object... args) {
         super.initialize(args);
@@ -195,17 +195,17 @@ public class PageResource extends DocumentObject {
 
     public Page getPage() throws ClientException {
         if (labsBaseAdapter instanceof LabsSiteAdapter) {
-            return Tools.getAdapter(Page.class,
+            return Tools.getAdapter(Page.class, 
                     ((LabsSiteAdapter) labsBaseAdapter).getIndexDocument(), ctx.getCoreSession());
         } else {
             return (Page) labsBaseAdapter;
         }
     }
-
+    
     public String getProperty(String prop, String defaultValue){
         return Framework.getProperty(prop, defaultValue);
     }
-
+    
     public int getPropertyMaxSizeFileRead(){
         int result = 6;
         String property = getProperty("labs.max.size.file.read", "" + result);
@@ -216,6 +216,7 @@ public class PageResource extends DocumentObject {
         }
         return result * 1048576;
     }
+
 
     @Override
     public <A> A getAdapter(Class<A> adapter) {
@@ -388,7 +389,7 @@ public class PageResource extends DocumentObject {
     }
 
     public boolean isSingleNamePage(String name, DocumentRef parentRef) {
-
+        
         return true;
     }
 
@@ -593,18 +594,6 @@ public class PageResource extends DocumentObject {
         } else {
             return Response.noContent().build();
         }
-    }
-    
-    public List<String> getLabsTags()throws ClientException {
-        Page page = getPage();
-        List<String> tags = null;
-        if (page != null){
-            tags = page.getLabsTags();
-        }
-        if (tags == null){
-            tags = new ArrayList<String>();
-        }
-        return tags;
     }
     
     public String getContentView() throws ClientException {

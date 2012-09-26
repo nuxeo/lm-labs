@@ -11,6 +11,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang3.StringUtils;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.rest.DocumentObject;
@@ -36,6 +37,9 @@ public class LabsTagsService extends DefaultAdapter {
             FormData form = ctx.getForm();
             String labstags = form.getString("labsTags");
             String[] split = labstags.split(",");
+            if (split.length ==1 && StringUtils.isEmpty(split[0])){
+                split = new String[0];
+            }
             List<String> list = new ArrayList<String>(Arrays.asList(split));
             DocumentModel document = getDocument();
             CoreSession session = ctx.getCoreSession();

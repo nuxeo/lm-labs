@@ -11,7 +11,14 @@
 				var labsTagsURL = "${This.path}/@labstags";
 				
 				jQuery(document).ready(function(){
-					$("#idTags").select2({tags:labstags});
+					$("#idTags").select2({ 	
+						placeholder: "Mots-clés",
+						tags: labstags,
+						formatNoMatches: function(trem){
+								return '';
+							}
+						}
+					);
 					$("#idTags").on("change", function(event) {
 						jQuery.ajax({
 							type: "POST",
@@ -31,8 +38,15 @@
 				});
 			</script>
 		</div>
+		<div id="divDisplayTags" class="container-fluid<#if canWrite> viewblock</#if> ${listTags?size < 1}">
+			<i class="icon-tags">&nbsp;:&nbsp;<#list listTags as tag>${tag}<#if (listTags?last != tag)>, </#if></#list></i>
+		</div>
+	<#else>
+		<#if (listTags?size > 0)>
+			<div id="divDisplayTags" class="container-fluid">
+				<i class="icon-tags">&nbsp;:&nbsp;<#list listTags as tag>${tag}<#if (listTags?last != tag)>, </#if></#list></i>
+			</div>
+		</#if>
 	</#if>
-	<div id="divDisplayTags" class="container-fluid<#if canWrite> viewblock</#if>">
-		<i class="icon-tags">&nbsp;:&nbsp;<#list listTags as tag>${tag}<#if (listTags?last != tag)>, </#if></#list></i>
-	</div>
+	
 </#if>
