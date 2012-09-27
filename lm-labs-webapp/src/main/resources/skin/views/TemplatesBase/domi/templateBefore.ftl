@@ -5,14 +5,14 @@
 		<link rel="stylesheet" href="${contextPath}/css/opensocial/light-container-gadgets.css" />
 	</@block>
 	<@block name="scripts">
-		<@superBlock/>
         <script type="text/javascript" src="${skinPath}/js/labs-opensocial-init.js"></script>
         <script type="text/javascript" >
 jQuery(document).ready(function() {
 	setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
-	initOpensocialGadgets();
+	initOpensocialGadgets(jQuery('.sidebar'));
 });
         </script>
+		<@superBlock/>
 	</@block>
 	<@block name="FKtopContent">
 		<@superBlock/>
