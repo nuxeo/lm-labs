@@ -53,8 +53,11 @@ jQuery(document).ready(function() {
 		        </div>
 				
 				<#--  sidebar -->
-				<div class="sidebar span3" style="width: 214px;"> 
-					<#include "views/TemplatesBase/domi/sidebar_area.ftl" />
+				<div class="sidebar span3" style="width: 214px;">
+					<div>
+						<#include "views/TemplatesBase/domi/sidebar_area.ftl" />
+						gras tototo
+					</div>
 				</div>
 			
 			    <div style="clear:both;"></div>
