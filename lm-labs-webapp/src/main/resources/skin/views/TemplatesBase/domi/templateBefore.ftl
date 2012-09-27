@@ -21,7 +21,7 @@ jQuery(document).ready(function() {
 		<div id="masthead">
 			<#--  Logo  -->
 			<#include "views/common/logo.ftl" />
-			<div class="linkDOMI"><a href="${Context.modulePath}/${mySite.URL}/Page-html/Presentation-de-la-DOMI">Qui sommes-nous ?</a></div>
+			<div class="linkDOMI"><a href="${Context.modulePath}/${mySite.URL}/Accueil/Presentation-de-la-DOMI">Qui sommes-nous ?</a></div>
 			<#--  horizontal Navigation  -->
 			<#include "views/common/topnavigation_area.ftl" />
 		</div>
