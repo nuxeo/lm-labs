@@ -395,8 +395,11 @@ public class SiteThemeResource extends PageResource {
     }
     
     @GET @Path("removeCache") public Object doRemoveCache() throws ClientException {
-        if (site.isAdministrator(getCoreSession().getPrincipal().getName())) {
+        CoreSession session = getCoreSession();
+        if (site.isAdministrator(session.getPrincipal().getName())) {
             theme.setCssValue(null);
+            session.saveDocument(theme.getDocument());
+            session.save();
         }
         return redirect(getPrevious().getPath());
     }
