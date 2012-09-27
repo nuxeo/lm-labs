@@ -35,6 +35,12 @@ function initOpensocialGadgets(parentObj) {
 		var userPrefs = {};
 		if (userPrefsTab[jQuery(value).attr('id')]) {
 			userPrefs = userPrefsTab[jQuery(value).attr('id')];
+		} else {
+			var thisUserPrefs = jQuery(this).data('gadget-user-preferences');
+			if (thisUserPrefs != undefined) {
+				//userPrefs = $.toJSON("(" + thisUserPrefs + ")");
+				userPrefs = eval("(" + thisUserPrefs + ")");
+			}
 		}
 		jQuery(this).openSocialGadget({
 			baseURL: openSocialOptions.baseURL,
