@@ -1,9 +1,0 @@
---- MANIFEST.MF
-+++ MANIFEST.MF
-@@ -6,4 +6,5 @@
- Bundle-Vendor: Leroy Merlin
- Require-Bundle: org.nuxeo.ecm.core.api
- Nuxeo-Component: OSGI-INF/core-types-contrib.xml,
-- OSGI-INF/lifecycle-contrib.xml
-+ OSGI-INF/lifecycle-contrib.xml,
-+ OSGI-INF/content-template-contrib.xml
