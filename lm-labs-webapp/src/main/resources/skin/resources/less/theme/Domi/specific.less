@@ -35,13 +35,12 @@
 }
 /** styles DOMI **/
 
-*, p, h1, h2, h3, h4, h5, h6, div, section, ul, li {
-    font-size: 11px;
-    font-family: "Trebuchet MS", Arial, Helvetica, _sans;
-    color: #000;
-    font-weight: normal;
-    background: none;
-    line-height: auto;
+h1, h2, h3{
+	font-weight: normal;
+}
+i{
+	font-size: @baseFontSize;
+	color: @textColor;
 }
 ul, li {
     list-style-type: none;
@@ -49,7 +48,8 @@ ul, li {
 body {
     background: #FFF url(/nuxeo/site/skin/labs/less/theme/Domi/images/bg-trame-body.jpg) repeat-x left bottom;
     background-attachment:fixed;
-    font-family: "Trebuchet MS", Arial, Helvetica, _sans;
+    font-weight: normal;
+    line-height: auto;
 }
 a {
     color: #3b9279;
@@ -68,6 +68,15 @@ a:hover {
     font-weight: normal;
     font-style: normal;
 
+}
+
+.nav-tabs {
+	h5 {
+		font-weight: normal;
+		span {
+			font-size: 14px;
+		}
+	}
 }
 .navbar-wrapper {
     background: #565656; /* Old browsers */
@@ -140,7 +149,6 @@ a:hover {
 #articleAssistance, #articleApplications, #articleMateriel, #articleBoiteAidees {
     display: inline-block;
     vertical-align: top;
-    font-size: 11px;
     color: #FFF;
     width: 169px;
     height: 310px;
@@ -164,7 +172,6 @@ aside h2 {
 }
 #articleAssistance li a, #articleApplications li a, #articleMateriel li a, #articleBoiteAidees li a {
     color: #FFF;
-    font-size: 11px;
     line-height: 14px;
 }
 #articleAssistance li:before, #articleApplications li:before, #articleMateriel li:before, #articleBoiteAidees li:before {
@@ -287,6 +294,7 @@ aside h2 {
 .nav-tabs li a h5, .nav-tabs li a h5 span {
     color: #FFF;
     font-size: 14px;
+    font-weight: normal;
 }
 .nav-tabs > .active > a, .nav-tabs > .active > a:hover {
     color: inherit;
@@ -328,11 +336,9 @@ span.homepage {
     margin-bottom: 10px;
     padding-top: 10px;
     border-top: 1px solid #3B9279;
-    font-size: 11px;
 }
 .page-description p {
     line-height: 14px;
-    font-size: 11px;
 }
 
 .sidebar {
@@ -349,12 +355,10 @@ span.homepage {
 	    background: -ms-linear-gradient(top,  #3b9279 0%,#205042 100%); /* IE10+ */
 	    background: linear-gradient(to bottom,  #3b9279 0%,#205042 100%); /* W3C */
 	    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3b9279', endColorstr='#205042',GradientType=0 );
-	    /*padding: 0;*/
 	    .border-radius(20px);
 	    border: 1px solid #BABABA;
 	    .box-shadow(0px 0px 10px #BBB);
-	    /*margin-right: -10px;*/
-	    min-height: 385px;
+	    min-height: 491px;
 	}
 }
 
@@ -398,7 +402,6 @@ span.ellipsis_text {
     width: auto;
     height: 183px;
     background: url(/nuxeo/site/skin/labs/less/theme/Domi/images/bg-trame-footer.jpg) repeat-x;
-    font-size: 11px;
     color: white;
 }
 #FKfooter_bottom {
@@ -411,7 +414,6 @@ span.ellipsis_text {
     margin-top: 2px;
 }
 .navbar-form input, .navbar-form select {
-    font-size: 11px;
     height: 16px;
 }
 #login.btn.listener, #FKfooter form input[type=submit] {
@@ -492,14 +494,10 @@ ol {counter-reset: compteur;} /* on initialise et nomme un compteur */
     #gradient > .vertical(white, #E1E1E1); 
     margin: 0 -12px 12px -11px;
     padding: 10px;
-    font-size: 11px;
 }
 .as-page-title-description-colonne {margin-bottom: 10px}
 section.labsnews .labsNewsDate {
     display: none;
-}
-section.labsnews div.ellipsisText, section.labsnews span.ellipsis_text {
-    font-size: 11px;
 }
 .as-page-title-description-colonne .span4 {
     margin: 0;

@@ -56,7 +56,6 @@ jQuery(document).ready(function() {
 				<div class="sidebar span3" style="width: 214px;">
 					<div>
 						<#include "views/TemplatesBase/domi/sidebar_area.ftl" />
-						gras tototo
 					</div>
 				</div>
 			

@@ -3,7 +3,7 @@
 <#assign displayMode = "small" />
 <#assign numberOfLine = "all" />
 <#assign textColor = "white" />
-<#assign backColor = "black" />
+<#assign backColor = "#205042" />
 <#if 0 < specUrl?length >
 <div id="sidebar-gadget-${gadgetName}" class="opensocialGadgets gadget-${gadgetName} bloc" style="display: block;"
 	data-gadget-title="${gadgetName}"
