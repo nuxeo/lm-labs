@@ -3,13 +3,7 @@
   <#assign canCreateSite = Common.canCreateSite(Context.principal.name)>
 
   <@block name="scripts">
-    <@superBlock/>
-    <script type="text/javascript" src="${skinPath}/js/sitesRoot.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.controls.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.dialog2.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tooltip${bsMinified}.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-popover${bsMinified}.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="${contextPath}/wro/labs.sitesroot.js"></script>
     <script type="text/javascript">
 jQuery(document).ready(function() {
   jQuery("table[class*='table-striped']").tablesorter({
