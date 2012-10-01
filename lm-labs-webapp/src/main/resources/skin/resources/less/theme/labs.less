@@ -14,6 +14,9 @@
 @labsCkeipHoverBackgroundColor: #eeeeee;
 
 @labsNewsSummaryWidth: auto;
+@labsNewsSummaryColorTitle: @textColor;
+
+@baseFontColorTabs: @textColor;
 
 @navbarHeight:            30px;
 @zindexDropdown:          1; // pour que les dropdowns soient cachées quand la popup 'waitingPopup' est affichée
@@ -454,6 +457,16 @@ section.labsnews {
   margin-bottom: 8px;
   padding: 4px;
   width: @labsNewsSummaryWidth;
+  h2.titleHeaderNews{
+		color: @labsNewsSummaryColorTitle;
+	}
+  a.hrefTitleHeaderNews, a.hrefTitleHeaderNews:hover{
+  	text-decoration: none;
+  }
+}
+
+.topnavpages span{
+	color: @baseFontColorTabs;
 }
 
 .ui-datepicker

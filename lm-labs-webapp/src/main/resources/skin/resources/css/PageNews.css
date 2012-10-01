@@ -1,67 +1,20 @@
-.pageNews {
-	border: 1px solid #BBB;
-}
-
-.news {
-	border: 1px solid #AAA;
-}
-
-.titleNews{
-	padding: 0 10px;
-	font-family: arial,sans-serif;
-	font-size: 25px;
-	font-weight: bold;
-	text-decoration: underline;
-}
-
-label{
-	padding: 4px 0 0 10px; 
-}
-
-#newsTitle{
-	width: 720px;
-}
-
-#newsContent{
-	width: 100%;
-}
-
-.labelArea{
-	padding: 125px 0 0 10px; 
-}
-
-.publicationNews{
-	padding: 0 10px;
-	margin-bottom:20px;
-	font-family: Verdana, arial,sans-serif;
-	font-size: 11px;
-}
-
-.contentNews{
-	padding: 0 20px;
-	font-family: arial,sans-serif;
-	font-size: 11px;
-}
-
-.addNews{
-	padding-right: 10px;
-	font-family: arial,sans-serif;
-	text-align: right;
-	border-top: 1px solid #AAA;
-	cursor:pointer;
-	margin-top: 22px;
-}
-
-.newsOK{
-	padding-right: 10px;
-	padding-bottom: 10px;
-	text-align: right;
-}
-
 div.hiddenNews {
 	font-style: italic;
 	text-decoration: line-through;
 }
 div.newsContent{
 	margin-top: 2px;
+}
+div.dateNews{
+	line-height: 5px;
+	min-height: 20px;
+}
+div.labsNewsStartPublicationDDMM{
+	display: none;
+}
+img.summaryPictureNews{
+	margin-top: 5px;
+}
+h2.titleHeaderNews{
+	line-height: 24px;
 }

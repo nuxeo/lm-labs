@@ -22,31 +22,40 @@
 
 <#-- genere l'entete de la news -->
 <#macro generateHeaderNews news path withHref withBy>
-	<h2 style="line-height: 24px;">
+	<div class="headerNews">
 		<#if withHref>
-    		<a href="${path}">${news.title}</a>
-    	<#else>
-    		${news.title}
-    	</#if>
-    	<#if withBy>
-    		<small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small>
-    	</#if>
-    </h2>
-   	<h3 style="line-height: 5px;min-height: 20px;">
-   		<p class="labsNewsDate">
-   			<small>${Context.getMessage('label.labsNews.display.publish')} 
-   					<#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if>
-   			</small>
-   		</p>
-   	</h3>
-   	<#if news.startPublication != null >
-		<div class="labsNewsStartPublicationDDMM" style="display: none;">${news.startPublication.time?string("dd MMM")}</div>
-	</#if>
+			<a href="${path}" class="hrefTitleHeaderNews">
+				<h2 class="titleHeaderNews">
+					${news.title}
+					<#if withBy>
+						<small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small>
+					</#if>
+				</h2>
+			</a>
+		<#else>
+			<h2 class="titleHeaderNews">
+				${news.title}
+				<#if withBy>
+					<small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small>
+				</#if>
+			</h2>
+		</#if>
+	   	<h3 class="dateNews">
+	   		<p class="labsNewsDate">
+	   			<small>${Context.getMessage('label.labsNews.display.publish')} 
+	   					<#if news.startPublication != null >${news.startPublication.time?string('dd MMMMM yyyy')}</#if>
+	   			</small>
+	   		</p>
+	   	</h3>
+	   	<#if news.startPublication != null >
+			<div class="labsNewsStartPublicationDDMM">${news.startPublication.time?string("dd MMM")}</div>
+		</#if>
+	</div>
 </#macro>
 
 <#-- genere l'image du résumé de la news -->
 <#macro generateSummaryPictureNews path>
-	<img src="${path}/summaryPictureTruncated" style="margin-top: 5px;"/>
+	<img src="${path}/summaryPictureTruncated" class="summaryPictureNews"/>
 </#macro>
 
 <#-- genere le contenu tronqué dans le résumé de la news -->
