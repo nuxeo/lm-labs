@@ -11,7 +11,6 @@ $(document).ready(function() {
     
     $(".labsNewsStartPublicationDDMM").each(function(index){
         var tabDate = $(this).text().split(" ");
-        console.log($(this).parents(".labsnews").eq(0).html());
         $(this).parents(".labsnews").before("<div class=\"dateNews\"><span class=\"chiffreDate\">" + tabDate[0] + "</span><span class=\"moisDate\">" + tabDate[1] + "</span></div>")
     });
     
