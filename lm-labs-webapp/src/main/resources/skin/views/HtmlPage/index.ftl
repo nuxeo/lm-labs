@@ -216,6 +216,7 @@ jQuery(document).ready(function() {
 					                    e_url: '${This.path}/s/${section_index}/r/${row_index}/c/${content_index}',
 					                    ckeditor_config: ckeditorconfig,
 					                    emptyedit_message: "<div style='font-weight: bold;font-size: 18px;padding: 5px;text-decoration: underline;cursor: pointer'>${Context.getMessage('label.ckeditor.double_click_to_edit_content')}</div>",
+					                    save_button_state: true,
 					                    view_style: "span${content.colNumber} columns cke_hidden "
 					                    }, reloadPageForTocIfNeeded);
 					                </script>

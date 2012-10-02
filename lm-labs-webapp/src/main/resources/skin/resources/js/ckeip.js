@@ -16,6 +16,7 @@ $.fn.ckeip = function (options, callback) {
         e_width: '50',
         emptyedit_message: 'Double click to edit content',
         view_style: '',
+        save_button_state: false,
         display_ckeipTex: true
     };
     var settings = $.extend({}, defaults, options);
@@ -34,7 +35,11 @@ $.fn.ckeip = function (options, callback) {
         	$(this).parent().before("<div id='ckeipText_" + u_id + "' class='" + settings.view_style + "viewblock' style='display:none;' >" + eip_html + "</div>");
     	}
 
-        $(this).before("<div id='ckeip_" + u_id + "' style='display:none;'><textarea id ='ckeip_e_" + u_id + "' cols='" + settings.e_width + "' rows='" + settings.e_height + "'  >" + eip_html + "</textarea>  <br /><a class='btn btn-primary' href='#' id='save_ckeip_" + u_id + "'>Enregistrer</a> <a href='#' class='btn'  id='cancel_ckeip_" + u_id + "'>Annuler</a></div>");
+        var save_button_state_html = "";
+        if (settings.save_button_state) {
+        	save_button_state_html = " data-toggle='button' data-loading-text='En cours ...' data-complete-text='Enregistré' data-failed-text='Echoué' ";
+        }
+        $(this).before("<div id='ckeip_" + u_id + "' style='display:none;'><textarea id ='ckeip_e_" + u_id + "' cols='" + settings.e_width + "' rows='" + settings.e_height + "'  >" + eip_html + "</textarea>  <br /><a class='btn btn-primary' href='#' id='save_ckeip_" + u_id + "' " + save_button_state_html + ">Enregistrer</a> <a href='#' class='btn'  id='cancel_ckeip_" + u_id + "'>Annuler</a></div>");
 
         $('#ckeip_e_' + u_id + '').ckeditor(settings.ckeditor_config);
 
@@ -42,6 +47,9 @@ $.fn.ckeip = function (options, callback) {
 
             $(this).hide();
             $('#ckeip_' + u_id + '').show();
+            if (settings.save_button_state) {
+            	jQuery('#save_ckeip_' + u_id).button('reset');
+            }
 
         });
 
@@ -75,6 +83,9 @@ $.fn.ckeip = function (options, callback) {
         });
 
         $("#save_ckeip_" + u_id + "").click(function () {
+        	if (settings.save_button_state) {
+        		jQuery('#save_ckeip_' + u_id).button('loading');
+        	}
             var ckeip_html = $('#ckeip_e_' + u_id + '').val();
             if (settings.display_ckeipTex){
             	$('#ckeipText_' + u_id + '').html(ckeip_html);
@@ -83,6 +94,9 @@ $.fn.ckeip = function (options, callback) {
                 content: ckeip_html,
                 data: settings.data
             }, function (response) {
+            	if (settings.save_button_state) {
+            		jQuery('#save_ckeip_' + u_id).button('complete');
+            	}
                 if (typeof callback == "function") callback(response, jQuery(original_html), ckeip_html);
 
 	            if(ckeip_html=='') {
@@ -96,6 +110,9 @@ $.fn.ckeip = function (options, callback) {
 
             })
             .error(function(msg) { 
+            	if (settings.save_button_state) {
+            		jQuery('#save_ckeip_' + u_id).button('failed');
+            	}
             	alert(msg.responseText);
             	$('#ckeip_e_' + u_id + '').val($(original_html).html());
 	            	            
