@@ -29,6 +29,9 @@
 @basefontTitleH6;label.labssites.appearance.theme.property.h.fontsize;;size
 @baseFontColorTitleH6;label.labssites.appearance.theme.property.h.color;;color
 
+@voidLabsNews;label.labssites.appearance.theme.property.news;help.labssites.appearance.theme.property.news;void
+@labsNewsSummaryColorTitle;label.labssites.appearance.theme.property.h.color;help.labssites.appearance.theme.property.labsNewsSummaryColorTitle;color
+
 @voidTabs;Navigation;Pour chaque onglets de navigation;void
 @bgcolortabs;Couleur de navigation;Couleur de base;color
 @baseFontColorTabs;Couleur texte nav.;Couleur des textes;color

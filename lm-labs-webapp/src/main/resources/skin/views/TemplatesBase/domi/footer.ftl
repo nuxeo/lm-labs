@@ -3,8 +3,8 @@
         <div class="span4">
             <article>
                 <h3>Rechercher une personne au sein de la DOMI :</h3>
-                <form>
-                    <input type="text" placeholder="Nom, prénom, LDAP">
+                <form method="get" action="http://intralm2.fr.corp.leroymerlin.com/contact/search" target="_blank">
+                    <input type="text" id="query" name="query" placeholder="Nom, prénom, LDAP">
                     <input type="submit" value="OK">
                 </form>
             </article>

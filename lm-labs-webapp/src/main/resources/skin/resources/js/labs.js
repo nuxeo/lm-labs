@@ -159,6 +159,16 @@ function popupCenter(page,largeur,hauteur,options) {
   window.open(page,"","top="+top+",left="+left+",width="+largeur+",height="+hauteur+","+options);
 }
 
+function refreshCustomViewsContent(docType, response, ckeObj, ckeip_html) {
+	if (docType === 'HtmlPage') {
+		var contentId = jQuery(ckeObj).attr('id'); // s_2_r_0_c_2
+		if (contentId != 'undefined') {
+			var viewClassName = contentId + '_view'; // s_2_r_0_c_2_view
+			jQuery('.' + viewClassName).html(ckeip_html);
+		}
+	}
+}
+
 function scrollToRowAfterCkeip(response, ckeObj, ckeip_html) {
     var rowId = jQuery(ckeObj).closest('div.row-fluid').attr('id');
     if (typeof rowId == 'undefined') {

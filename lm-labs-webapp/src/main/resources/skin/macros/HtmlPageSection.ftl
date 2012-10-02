@@ -41,7 +41,7 @@
 		                        <@displayContentHtmlWidget widget=widgets[0] widgetMode="view" sectionIdx=section_index rowIdx=row_index columnIdx=content_index content=content />
 		                        </div>
 		                      <#else>
-		    	                <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns">
+		    	                <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns s_${section_index}_r_${row_index}_c_${content_index}_view">
 		                           <@displayContentHtml content=content />
 		    	                </div>
 		                      </#if>

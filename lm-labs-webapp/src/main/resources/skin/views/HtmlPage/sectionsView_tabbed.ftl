@@ -4,7 +4,9 @@
 <#if 1 < sections?size >
 	<ul class="nav nav-tabs viewblock">
 	<#list sections as section>
-	<li<#if section_index == 0> class="active" </#if>><a href="#${idsPrefix}div_section_${section_index}" data-toggle="tab"><#if section.title?length == 0 >...<#else>${section.title}</#if></a></li>
+	<li<#if section_index == 0> class="active" </#if> style="max-width: 200px;" ><a href="#${idsPrefix}div_section_${section_index}" data-toggle="tab">
+	<#if section.title?length == 0 >...<#else><div class="ellipsisText" ellipsisTextOptions="{ max_rows:1, alt_text_e:false, alt_text_t:true, whole_word:false }">${section.title}</div></#if>
+	</a></li>
 	</#list>
 </ul>
 </#if>
