@@ -10,6 +10,7 @@
    <directory name="labs_themes" layout="vocabulary" sortField="id" />
    <directory name="labs_fontsizes" layout="vocabulary" sortField="id" />
    <directory name="labs_fontfamilies" layout="vocabulary" sortField="id" />
+   <directory name="labs_HtmlPage_contentviews" layout="vocabulary" sortField="id" />
 
  </extension>
 
