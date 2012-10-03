@@ -16,6 +16,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.platform.picture.api.ImageInfo;
 import org.nuxeo.ecm.platform.picture.api.ImagingService;
 import org.nuxeo.runtime.api.Framework;
@@ -307,12 +308,22 @@ public class SiteThemeAdapter implements SiteTheme {
 
     private DocumentModel createSibbling() throws ClientException {
         CoreSession session = doc.getCoreSession();
-        String sibblingName = "cache." + doc.getName();
-        DocumentModel parent = session.getDocument(doc.getParentRef());
-        DocumentModel cache = session.createDocumentModel(
-                parent.getPathAsString(), sibblingName,
-                LabsSiteConstants.Docs.SITETHEME.type());
-        cache = session.createDocument(cache);
+        final String sibblingName = "cache." + doc.getName();
+        final DocumentModel parent = session.getDocument(doc.getParentRef());
+        
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
+            @Override
+            public void run() throws ClientException {
+            	DocumentModel cache = session.createDocumentModel(
+                        parent.getPathAsString(), sibblingName,
+                        LabsSiteConstants.Docs.SITETHEME.type());
+                cache = session.createDocument(cache);
+                session.save();
+            }
+
+        };
+        runner.runUnrestricted();
+        DocumentModel cache = session.getChild(parent.getRef(), sibblingName);
         return cache;
     }
 
