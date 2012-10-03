@@ -4,6 +4,11 @@
   <#assign mySite=Common.siteDoc(Document).getSite() />
   <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor", "externalContent", "toc"] />
   <#assign sectionsViewMode = This.contentView />
+  <#if sectionsViewMode?contains('_') >
+    <#assign basicSectionsViewMode = sectionsViewMode?split('_')[0] />
+  <#else>
+    <#assign basicSectionsViewMode = sectionsViewMode />
+  </#if>
   <@block name="title">${mySite.title}-${This.document.title}</@block>
 
   <@block name="css">
@@ -20,11 +25,11 @@
 jQuery(document).ready(function() {
 	setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
 	initOpensocialGadgets(jQuery('#divPageHTML'));
-	<#if sectionsViewMode == "tabbed" >
+	<#if basicSctionsViewMode == "tabbed" >
 	jQuery('div.tab-pane.active').each(function(index, value) {
 		initOpensocialGadgets(value);
 	});
-	<#elseif sectionsViewMode == "carousel" >
+	<#elseif basicSectionsViewMode == "carousel" >
 	</#if>
 });
         </script>
@@ -46,11 +51,13 @@ jQuery(document).ready(function() {
   </#if>
 <#include "macros/HtmlPage.ftl" />
   <#assign sections = page.sections />
-  <#if sectionsViewMode == "tabbed" || sectionsViewMode == "carousel" >
-  	<#include "views/HtmlPage/sectionsView_${sectionsViewMode}.ftl" />
+  <#if basicSectionsViewMode == "tabbed" || basicSectionsViewMode == "carousel" >
+  	<#include "views/HtmlPage/sectionsView_${basicSectionsViewMode}.ftl" />
+  <#elseif basicSectionsViewMode == "pills" >
+  	<#include "views/HtmlPage/sectionsView_tabbed.ftl" />
   </#if>
-  <div id="divPageHTML" class="<#if sectionsViewMode == "tabbed" || sectionsViewMode == "carousel" >editblock</#if>" >
-  <#if !Context.principal.anonymous || (Context.principal.anonymous && sectionsViewMode != "carousel" && sectionsViewMode != "tabbed") >
+  <div id="divPageHTML" class="<#if basicSectionsViewMode == "tabbed" || basicSectionsViewMode == "pills" || basicSectionsViewMode == "carousel" >editblock</#if>" >
+  <#if !Context.principal.anonymous || (Context.principal.anonymous && basicSectionsViewMode != "pills" && basicSectionsViewMode != "carousel" && basicSectionsViewMode != "tabbed") >
   <#list sections as section>
   	<div id="div_section_${section_index}" >
 	    <section id="section_${section_index}">

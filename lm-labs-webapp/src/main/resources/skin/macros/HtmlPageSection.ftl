@@ -8,7 +8,7 @@
 		        <#elseif section.title?length == 0 && section.description?length == 0 > style="padding-bottom: 0px;"</#if>
 		        >
 		            <#if viewMode != "tabbed" || (viewMode == "tabbed" && sections?size <= 1) ><h1 style="display:inline;">${section.title}</h1></#if><h2 style="display:inline;"> <small>${section.description}</small></h2>
-					<#if page.isDisplayable("pg:collapseType") && viewMode != "tabbed" >
+					<#if page.isDisplayable("pg:collapseType") && viewMode != "carousel" && viewMode != "tabbed" >
 					    <div style="font-size: 32px; float: right; margin-top: 7px;" >
 					    	<i class="icon-minus-sign openCloseBt" title="${Context.getMessage('label.HtmlPage.collapse')}" onclick="slideSection(this, '');" ></i>
 					    </div>

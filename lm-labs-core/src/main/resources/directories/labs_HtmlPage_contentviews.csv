@@ -1,3 +1,5 @@
 id, label, obsolete, ordering
 "default","default","0","10"
 "tabbed","tabbed","0","20"
+"tabbed_left","tabbed_left","0","30"
+"tabbed_right","tabbed_right","0","40"
