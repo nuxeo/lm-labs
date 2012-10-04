@@ -40,7 +40,7 @@ public abstract class AbstractLabsBase extends LabsAdapterImpl implements LabsBa
     	CoreSession coreSession = super.getSession();
 		if (coreSession == null){
 			LOG.error(THE_CORE_SESSION_SETTED + "(" + doc.getRef() + "/" + doc.getType() + "/" + this.getClass().getName() + ")");
-			doc.getCoreSession();
+			coreSession = doc.getCoreSession();
 		}
 		return coreSession;
 	}

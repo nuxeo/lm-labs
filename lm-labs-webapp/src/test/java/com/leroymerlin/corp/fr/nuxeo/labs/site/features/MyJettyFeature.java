@@ -1,14 +1,11 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.features;
 
-import javax.naming.InitialContext;
-import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.nuxeo.common.jndi.NamingContextFactory;
 import org.nuxeo.ecm.platform.test.PlatformFeature;
 import org.nuxeo.ecm.webengine.test.WebEngineFeature;
-import org.nuxeo.runtime.api.DataSourceHelper;
+import org.nuxeo.runtime.jtajca.NuxeoContainer;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
@@ -53,23 +50,25 @@ public class MyJettyFeature extends SimpleFeature {
     private static DataSource dataSource = null;
 
     @Override
-    public void initialize(FeaturesRunner runner) {
+    public void initialize(FeaturesRunner runner) throws NamingException {
 
         if (dataSource == null) {
-            NamingContextFactory.setAsInitial();
+//            NamingContextFactory.setAsInitial();
+            NuxeoContainer.installNaming();
 
             dataSource = PlatformFeature.createDataSource("jdbc:hsqldb:mem:directories");
-            try {
-                InitialContext initialCtx = new InitialContext();
-                String dsName = DataSourceHelper.getDataSourceJNDIName("nxsqldirectory");
-                try {
-                    initialCtx.lookup(dsName);
-                } catch (NameNotFoundException e) {
-                    initialCtx.bind(dsName, dataSource);
-                }
-            } catch (NamingException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                InitialContext initialCtx = new InitialContext();
+//                String dsName = DataSourceHelper.getDataSourceJNDIName("nxsqldirectory");
+//                try {
+//                    initialCtx.lookup(dsName);
+//                } catch (NameNotFoundException e) {
+//                    initialCtx.bind(dsName, dataSource);
+//                }
+//            } catch (NamingException e) {
+//                e.printStackTrace();
+//            }
+            NuxeoContainer.addDeepBinding("java:comp/env/jdbc/nxsqldirectory", dataSource);
         }
     }
 }
