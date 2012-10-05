@@ -248,8 +248,8 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     }
 
     @Override
-    public HtmlRow addRow(String cssClass) throws ClientException {
-        return getSection().addRow(cssClass);
+    public HtmlRow addRow(String cssClass, List<String> userClass) throws ClientException {
+        return getSection().addRow(cssClass, userClass);
     }
 
     @Override

@@ -139,9 +139,8 @@ public class HtmlSectionImpl implements HtmlSection {
     }
 
     @Override
-    public HtmlRow addRow(String cssClass) throws ClientException {
-
-            HtmlRow row = new HtmlRow(this,cssClass);
+    public HtmlRow addRow(String cssClass, List<String> userClass) throws ClientException {
+            HtmlRow row = new HtmlRow(this,cssClass, userClass);
             getRows().add(row);
             update();
             parent.onChange(this);

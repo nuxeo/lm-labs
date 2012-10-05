@@ -32,6 +32,7 @@
   <xs:complexType name="html_row">
     <xs:sequence>
         <xs:element name="cssclass" type="xs:string"/>
+        <xs:element name="userclass" type="tns:stringList" />
       <xs:element name="contents" type="tns:html_contents"/>
     </xs:sequence>
   </xs:complexType>

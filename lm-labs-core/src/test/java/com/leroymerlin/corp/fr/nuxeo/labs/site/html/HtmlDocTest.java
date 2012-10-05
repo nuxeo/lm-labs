@@ -8,6 +8,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -190,7 +191,7 @@ public class HtmlDocTest {
         HtmlRow row = section.addRow();
         assertThat(row.getCssClass(),is(nullValue()));
 
-        row = section.addRow("acssclass");
+        row = section.addRow("acssclass", null);
         assertThat(row.getCssClass(),is("acssclass"));
 
         session.saveDocument(page.getDocument());
@@ -200,6 +201,30 @@ public class HtmlDocTest {
         section = page.getSections().get(0);
         assertThat(section.row(0).getCssClass(),is(nullValue()));
         assertThat(section.row(1).getCssClass(),is("acssclass"));
+    }
+
+    @Test
+    public void rowHaveUserClasses() throws Exception {
+        HtmlPage page = createApageWithSections();
+        HtmlSection section = page.getSections().get(0);
+        
+
+        List<String> userClass = new ArrayList<String>();
+        userClass.add("class1");
+        userClass.add("class2");
+        HtmlRow row = section.addRow("acssclass", userClass);
+        assertThat(row.getUserClass(),is(notNullValue()));
+        assertThat(row.getUserClass().size(),is(2));
+        
+        session.saveDocument(page.getDocument());
+        session.save();
+
+        page = retrieveTestPage();
+        section = page.getSections().get(0);
+        assertThat(section.row(0).getUserClass(),is(notNullValue()));
+        assertThat(row.getUserClass().size(),is(2));
+        assertThat(row.getUserClass().get(0),is("class1"));
+        assertThat(row.getUserClass().get(1),is("class2"));
     }
 
     @Test

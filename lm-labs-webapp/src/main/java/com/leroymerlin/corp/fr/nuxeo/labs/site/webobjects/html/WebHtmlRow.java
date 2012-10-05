@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -58,8 +60,15 @@ public class WebHtmlRow extends MovableElementResource {
     public Object modifyCSS() {
         FormData form = ctx.getForm();
         String cssName = form.getString("cssName");
+        String userClassStr = form.getString("userClass");
+        String[] split = userClassStr.split(",");
+        if (split.length ==1 && StringUtils.isEmpty(split[0])){
+            split = new String[0];
+        }
+        List<String> userClass = new ArrayList<String>(Arrays.asList(split));
         try {
             row.setCssClass(cssName);
+            row.setUserClass(userClass);
             saveDocument();
         } catch (ClientException e) {
             throw WebException.wrap(

@@ -22,16 +22,16 @@
       <script type="text/javascript" src="${contextPath}/wro/labs.pagehtml.js"></script>
     <@superBlock/>
         <script type="text/javascript" >
-jQuery(document).ready(function() {
-	setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
-	initOpensocialGadgets(jQuery('#divPageHTML'));
-	<#if basicSctionsViewMode == "tabbed" >
-	jQuery('div.tab-pane.active').each(function(index, value) {
-		initOpensocialGadgets(value);
-	});
-	<#elseif basicSectionsViewMode == "carousel" >
-	</#if>
-});
+			jQuery(document).ready(function() {
+				setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
+				initOpensocialGadgets(jQuery('#divPageHTML'));
+				<#if basicSctionsViewMode == "tabbed" >
+				jQuery('div.tab-pane.active').each(function(index, value) {
+					initOpensocialGadgets(value);
+				});
+				<#elseif basicSectionsViewMode == "carousel" >
+				</#if>
+			});
         </script>
 
   </@block>
@@ -42,14 +42,15 @@ jQuery(document).ready(function() {
   -->
   <@tableOfContents>
    	<div class="container-fluid" style="padding-left: 10px; padding-right: 10px;" >
-
-   	<#include "views/common/page_header.ftl">
-
+	<#include "views/common/page_header.ftl">
   <#assign isContributor = This.page?? && This.page.isContributor(Context.principal.name) />
   <#if isContributor >
     <#assign layouts = This.columnLayoutsSelect />
   </#if>
 <#include "macros/HtmlPage.ftl" />
+		<script type="text/javascript" >
+			var userClassInputTab = new Array() ;
+        </script>
   <#assign sections = page.sections />
   <#if basicSectionsViewMode == "tabbed" || basicSectionsViewMode == "carousel" >
   	<#include "views/HtmlPage/sectionsView_${basicSectionsViewMode}.ftl" />
@@ -158,9 +159,12 @@ jQuery(document).ready(function() {
 			<div class="section-collapsable" id="div_section_${section_index}_rows">
 			<#assign rows = section.getRows() />
 	        <#list rows as row>
+	        	<script type="text/javascript">
+                	userClassInputTab[${row_index}] = [<@generateInputCssClass row=row />];
+                </script>
 	        	<#if isContributor >
 	        		<div id="div_row_${row_index}">
-			          <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
+			          <div class="row-fluid<@generateCssClass row=row />" id="row_s${section_index}_r${row_index}">
 			              <#list row.contents as content>
 				              <div class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if>">
 		                      <#assign isWidgetCol = false />
@@ -244,7 +248,7 @@ jQuery(document).ready(function() {
 								    <input type="hidden" class="section-index-value" value="${section_index}" />
 		                            <input type="hidden" class="row-index-value" value="${row_index}" />
 		                            <input type="hidden" class="content-index-value" value="${content_index}" />
-									<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}');" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
+									<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}', userClassInputTab[${row_index}]);" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
 									<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
 									<a href="#" class="open-dialog" rel="divConfigRowGadgets" ><i class="icon-gift"></i>${Context.getMessage('command.HtmlPage.row.widgets.config.button')}</a>
 									<a href="#" onClick="javascript:moveUp('${This.path}/s/${section_index}/r/${row_index}', '${This.path}#section_${section_index - 1}', 'div_row_${row_index}', '#div_section_${section_index}_rows>div');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
@@ -258,7 +262,7 @@ jQuery(document).ready(function() {
 			          <hr class="editblock"/>
 			    	</div>
 		        <#else>
-		           <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="row_s${section_index}_r${row_index}">
+		           <div class="row-fluid<@generateCssClass row=row />" id="row_s${section_index}_r${row_index}">
 		              <#list row.contents as content>
 	                      <#assign isWidgetCol = false />
 	                      <#assign isOsGadgetCol = false />
@@ -357,7 +361,22 @@ jQuery(document).ready(function() {
 		    	<form class="form-horizontal" action="${This.path}" id="form-modifyCSSLine" method="post">
 		      		<input type="hidden" name="section" value=""/>
 		      		<input type="hidden" name="row" value=""/>
+		      		<input type="hidden" name="userClass" id="userClass" value=""/>
 		      		<fieldset>
+			            <div class="control-group">
+			              <label class="control-label" for="userClassSelect">Styles utilisateur</label>
+			              <div class="controls">
+			                <select multiple id="userClassSelect" name="userClassSelect" style="width: 100%;">
+			                	<#assign mapUserClass = This.getAvailableUserClass()>
+			                	<#assign keys = mapUserClass?keys>
+			                	<#if (keys?size > 0)>
+			                		<#list keys as key>
+			                			<option value="${mapUserClass[key]}">${key?js_string}<option>
+			                		</#list>
+			                	</#if>
+			                </select>
+			              </div>
+			            </div>
 			            <div class="control-group">
 			              <label class="control-label" for="cssName">Classe CSS</label>
 			              <div class="controls">

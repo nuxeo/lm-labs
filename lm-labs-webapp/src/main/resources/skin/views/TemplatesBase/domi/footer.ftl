@@ -33,9 +33,9 @@
                 <h3>Les horaires de l'assistance :</h3>
                 <p>Du lundi au vendredi : 5h00 à 22h00<br />
                     Samedi : 7h00 à 22h00<br />
-                    Dimanche : 9h00 à  2h00
+                    Dimanche : 9h00 à  19h00
                 </p>
-                <p>Nous vous accueillons également sur site de 8h00 à 19h00</p>
+                <p>Nous vous accueillons également sur le site de LEZENNES du lundi au vendredi de 8h00 à 19h00</p>
             </article>
         </div>
     </div>

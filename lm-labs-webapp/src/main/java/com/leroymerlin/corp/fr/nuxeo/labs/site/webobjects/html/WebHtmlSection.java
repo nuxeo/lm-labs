@@ -1,17 +1,21 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.html;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.MovableElement;
@@ -51,7 +55,16 @@ public class WebHtmlSection extends MovableElementResource {
         FormData form = ctx.getForm();
         try {
             String cssClass = form.getString("cssClass");
-            HtmlRow row = section.addRow(cssClass);
+            String userClassStr = form.getString("userClass");
+            List<String> userClass = null;
+            if(StringUtils.isNotEmpty(userClassStr)){
+                String[] split = userClassStr.split(",");
+                if (split.length ==1 && StringUtils.isEmpty(split[0])){
+                    split = new String[0];
+                }
+                userClass = new ArrayList<String>(Arrays.asList(split));
+            }
+            HtmlRow row = section.addRow(cssClass, userClass);
             String rowTemplate = form.getString("rowTemplate");
             row.initTemplate(rowTemplate);
 

@@ -8,3 +8,18 @@
     	Widget pas disponible.
     </#if>
 </#macro>
+
+<#macro generateCssClass row >
+	<#if row??>
+		<#assign listUserClass=row.userClass>
+<#if row.cssClass??> ${row.cssClass}</#if><#if (listUserClass?size > 0)><#list listUserClass as userClass> ${userClass}</#list></#if>
+	</#if>
+</#macro>
+
+<#macro generateInputCssClass row >
+	<#assign listUserClass=row.userClass>
+<#if (listUserClass?size > 0)><#list listUserClass as userClass>"${userClass}"<#if (listUserClass?last != userClass)>,</#if></#list></#if></#macro>
+
+<#macro generateAvailableUserClass mapUserClass >
+	<#assign keys = mapUserClass?keys>
+<#if (keys?size > 0)><#list keys as key>{id:'${mapUserClass[key]}',text:'${key?js_string}'}<#if (keys?last != key)>,</#if></#list></#if></#macro>

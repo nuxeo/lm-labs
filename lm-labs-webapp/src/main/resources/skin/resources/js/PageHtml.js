@@ -26,12 +26,24 @@ $(document).ready(function() {
 			});
 		});
 	});
+	
+	
 });
 
-function openModifiyCSSLine(url, cssName){
+function openModifiyCSSLine(url, cssName, userClassInput){
 	jQuery("#div-modifyCSSLine").dialog2('open');
 	jQuery('#form-modifyCSSLine').attr('action', url + '/@modifyCSS');
 	jQuery("#cssName").val(cssName);
+	$("#userClassSelect").val(userClassInput).select2({
+		placeholder: "Ajouter du style",
+		formatNoMatches: function(trem){
+				return '';
+			}
+		}
+	);
+	$("#userClassSelect").on("change", function(event) {
+		$("#userClass").val($("#userClassSelect").select2("val"));
+	});
 }
 
 function displayCssClass(section){

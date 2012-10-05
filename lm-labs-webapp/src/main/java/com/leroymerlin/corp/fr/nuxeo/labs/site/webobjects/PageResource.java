@@ -50,8 +50,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteTheme;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.bean.ThemeProperty;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
@@ -81,7 +79,7 @@ public class PageResource extends DocumentObject {
 
     private static final String BROWSE_TREE_VIEW = "views/common/browse_tree.ftl";
 
-    private static final String GENERATED_LESS_TEMPLATE = "resources/less/generatedLess.ftl";
+    //private static final String GENERATED_LESS_TEMPLATE = "resources/less/generatedLess.ftl";
 
     private static final Log LOG = LogFactory.getLog(PageResource.class);
 

@@ -34,31 +34,43 @@ public class HtmlRow extends LabsSessionImpl {
     private static final String DIRECTORY_NAME_COLUMNS_LAYOUT = Directories.COLUMNS_LAYOUT.dirName();
 
     private static final String CSS_PROPERTY_NAME = "cssclass";
+    private static final String USER_PROPERTY_CLASS = "userclass";
     private static final String NO_CONTENT = "";
     private final HtmlSection parentSection;
     private Map<String, Serializable> rowMap = new HashMap<String, Serializable>();
     private List<HtmlContent> contents;
     private String cssClass;
+    private List<String> userClass;
 
     public HtmlRow(HtmlSection parentSection) {
         this.parentSection = parentSection;
     }
 
-    public HtmlRow(HtmlSection htmlSection, Map<String, Serializable> rowMap) {
+    @SuppressWarnings("unchecked")
+	public HtmlRow(HtmlSection htmlSection, Map<String, Serializable> rowMap) {
         this.parentSection = htmlSection;
         this.rowMap = rowMap;
         this.cssClass = (String) (rowMap.containsKey(CSS_PROPERTY_NAME) ? rowMap.get(CSS_PROPERTY_NAME) : null);
+        this.userClass = (List<String>) (rowMap.containsKey(USER_PROPERTY_CLASS) ? rowMap.get(USER_PROPERTY_CLASS) : null);
     }
 
     public HtmlRow(HtmlSectionImpl htmlSection, String cssClass) {
         this.parentSection = htmlSection;
         this.cssClass = cssClass;
+        this.userClass = new ArrayList<String>(0);
+    }
+
+    public HtmlRow(HtmlSectionImpl htmlSection, String cssClass, List<String> userClass) {
+        this.parentSection = htmlSection;
+        this.cssClass = cssClass;
+        this.userClass = userClass;
     }
 
     public Map<String, Serializable> toMap() {
         Map<String, Serializable> result = new HashMap<String, Serializable>();
         result.put("contents", (Serializable) contentsToListOfMap());
         result.put(CSS_PROPERTY_NAME, cssClass);
+        result.put(USER_PROPERTY_CLASS, (Serializable) userClass);
         return result;
     }
 
@@ -135,6 +147,22 @@ public class HtmlRow extends LabsSessionImpl {
 
     public void setCssClass(String cssClass)  throws ClientException{
         this.cssClass = cssClass;
+        this.update();
+    }
+
+    @SuppressWarnings("unchecked")
+	public List<String> getUserClass() {
+    	if (this.userClass == null){
+    		this.userClass = new ArrayList<String>();
+    		if(rowMap.containsKey(USER_PROPERTY_CLASS)) {
+                this.userClass = (List<String>)rowMap.get(USER_PROPERTY_CLASS);
+    		}
+    	}
+        return this.userClass;
+    }
+
+    public void setUserClass(List<String> userClass)  throws ClientException{
+        this.userClass = userClass;
         this.update();
     }
 

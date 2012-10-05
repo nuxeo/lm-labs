@@ -19,7 +19,9 @@ import org.nuxeo.opensocial.container.shared.webcontent.UserPref;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.DirectoriesUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.GadgetUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Directories;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.CacheablePageResource;
 
@@ -103,7 +105,11 @@ public class WebHtmlPage extends CacheablePageResource {
     }
     
     public Map<String, String> getColumnLayoutsSelect() throws ClientException {
-    	return HtmlRow.getColumnLayoutsSelect();
+        return HtmlRow.getColumnLayoutsSelect();
+    }
+    
+    public Map<String, String> getAvailableUserClass() throws ClientException {
+        return DirectoriesUtils.getDirMap(Directories.USER_STYLE);
     }
 
 }

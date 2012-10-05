@@ -1,0 +1,5 @@
+id, label, obsolete, ordering
+"userStyleWithShadowOnLine","Bordure sur la ligne","0","100"
+"userStyleWithGradientOnLine","Dégradé sur la ligne","0","200"
+"userStyleWithShadowOnCol","Bordure sur les colonnes","0","300"
+"userStyleWithGradientOnCol","Dégradé sur les colonnes","0","400"

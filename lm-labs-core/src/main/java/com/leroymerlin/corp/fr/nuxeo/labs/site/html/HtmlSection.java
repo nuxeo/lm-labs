@@ -30,7 +30,7 @@ public interface HtmlSection extends ChangeListener, MovableElement {
 
     public void remove(HtmlRow row) throws ClientException;
 
-    public HtmlRow addRow(String cssClass) throws ClientException;
+    public HtmlRow addRow(String cssClass, List<String> userClass) throws ClientException;
     
     public Map<String, Serializable> toMap();
 
