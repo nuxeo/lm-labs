@@ -55,7 +55,7 @@ function ${divId}_loadContents(page_index, jq){
 
     // Iterate through a selection of the content and build an HTML string
     for(var i=page_index*items_per_page;i<max_elem;i++) {
-    	var ahref = getEntryAhref(${divId}_last_messages[i][1], ${divId}_last_messages[i][2], dateAsString(${divId}_last_messages[i][0]), ${divId}_last_messages[i][3], '${divId}', i);
+    	var ahref = getEntryAhref(${divId}_last_messages[i][1], ${divId}_last_messages[i][2], dateAsString(${divId}_last_messages[i][0]), ${divId}_last_messages[i][3], '${divId}', i, 'rss-lastNews');
         newcontent += ahref;
         if (i < max_elem - 1){
             newcontent += '<hr style="margin:0;">';
@@ -64,6 +64,7 @@ function ${divId}_loadContents(page_index, jq){
 
     // Replace old content with new content
     $('#${divId} .itemList').html(newcontent);
+
     for(var i=page_index*items_per_page;i<max_elem;i++) {
         doEllipsisTextId("${divId}-rss-${feed}TitleEllipsisText" + i);
         doEllipsisTextId("${divId}-rss-${feed}DescEllipsisText" + i);
