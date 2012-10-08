@@ -4,10 +4,10 @@
 	<#if canWrite>
 		<div id="divEditTags" class="container-fluid editblock">
 			${Context.getMessage('label.labstags.title')}&nbsp;:&nbsp;
-			<input type="hidden" id="idTags" style="width:85%" value="<#list listTags as tag>${tag?html}<#if (listTags?last != tag)>,</#if></#list>"/>
+			<input type="hidden" id="idTags" style="width:85%" value="<#list listTags as tag>${tag?html}<#if (listTags?size > tag_index +1)>,</#if></#list>"/>
 			
 			<script type="text/javascript">
-				var labstags = [<#list listTags as tag>"${tag?js_string}"<#if (listTags?last != tag)>,</#if></#list>];
+				var labstags = [<#list listTags as tag>"${tag?js_string}"<#if (listTags?size > tag_index +1)>,</#if></#list>];
 				var labsTagsURL = "${This.path}/@labstags";
 				
 				jQuery(document).ready(function(){
