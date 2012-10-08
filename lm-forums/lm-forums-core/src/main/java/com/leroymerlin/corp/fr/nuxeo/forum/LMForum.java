@@ -15,4 +15,8 @@ public interface LMForum extends Page {
 	public LMTopic getTopic(CoreSession session, String topicPath) throws ClientException;
 	
 	public List<LMTopic> getTopics(CoreSession session) throws ClientException;
+	
+	public boolean isAllContributors() throws ClientException;
+	
+	public void manageAllContributors(final boolean isAllContributors) throws ClientException;
 }

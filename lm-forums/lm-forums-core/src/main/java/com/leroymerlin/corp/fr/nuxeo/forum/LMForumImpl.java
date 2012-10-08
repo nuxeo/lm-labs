@@ -20,6 +20,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
 
 public class LMForumImpl extends AbstractPage implements LMForum {
+	
+	public static final String TOPIC_NOT_ALL_CONTRIBUTOR = "allContributor";
 
 	public LMForumImpl(DocumentModel doc) {
 		super(doc);
@@ -75,4 +77,37 @@ public class LMForumImpl extends AbstractPage implements LMForum {
 		
 		return allTopicsAdapter;
 	}
+	
+    @Override
+    public boolean isAllContributors() throws ClientException {
+        return isDisplayable(TOPIC_NOT_ALL_CONTRIBUTOR);
+    }
+
+    @Override
+    public void manageAllContributors(final boolean isAllContributors) throws ClientException {
+        if (isAllContributors != isAllContributors()){
+            final DocumentRef ref = doc.getRef();
+            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(getSession()){
+
+                @SuppressWarnings("deprecation")
+                @Override
+                public void run() throws ClientException {
+                    DocumentModel docu = session.getDocument(ref);
+                    SecurityData data = SecurityDataHelper.buildSecurityData(docu);
+                    if (isAllContributors){
+                        data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
+                        data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.REMOVE_CHILDREN, true);
+                    }
+                    else{
+                        data.removeModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
+                        data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.REMOVE_CHILDREN, true);
+                    }
+                    SecurityDataHelper.updateSecurityOnDocument(docu, data);
+                    session.save();
+                }
+
+            };
+            runner.runUnrestricted();
+        }
+    }
 }

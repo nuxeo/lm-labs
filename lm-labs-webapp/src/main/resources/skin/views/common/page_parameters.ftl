@@ -118,18 +118,27 @@
 			</div>
             </#if>
             <#if Document.type == "HtmlPage" >
-            <div class="control-group">
-              <label class="control-label" for="contentView">${Context.getMessage('label.parameters.HtmlPage.contentView')}</label>
-              <div class="controls">
-                <select name="contentView" id="contentView" class="span4" >
-                    <#assign contentViews = Common.getPageContentViews(Document.type) />
-                    <#assign documentContentView = This.contentView />
-                    <#list contentViews as contentView>
-                        <option value="${contentView}" <#if documentContentView == contentView >selected</#if>>${Context.getMessage('label.page.contentview.' + contentView)}</option>
-                    </#list>
-                </select>
-              </div>
-            </div>
+	            <div class="control-group">
+	              <label class="control-label" for="contentView">${Context.getMessage('label.parameters.HtmlPage.contentView')}</label>
+	              <div class="controls">
+	                <select name="contentView" id="contentView" class="span4" >
+	                    <#assign contentViews = Common.getPageContentViews(Document.type) />
+	                    <#assign documentContentView = This.contentView />
+	                    <#list contentViews as contentView>
+	                        <option value="${contentView}" <#if documentContentView == contentView >selected</#if>>${Context.getMessage('label.page.contentview.' + contentView)}</option>
+	                    </#list>
+	                </select>
+	              </div>
+	            </div>
+            </#if>
+            <#if Document.type == "PageForum" >
+            	<div class="control-group">
+					<div class="controls">
+						<label class="checkbox" for="${This.TOPIC_NOT_ALL_CONTRIBUTOR}">
+						<input class="checkbox" id="${This.TOPIC_NOT_ALL_CONTRIBUTOR}" type="checkbox" name="${This.TOPIC_NOT_ALL_CONTRIBUTOR}" value="${This.TOPIC_NOT_ALL_CONTRIBUTOR}" <#if This.page.isDisplayable(This.TOPIC_NOT_ALL_CONTRIBUTOR) >checked="true"</#if> />
+						${Context.getMessage('label.parameters.topic.allContributor')}</label>
+					</div>
+	            </div>
             </#if>
 		</form>
 		<hr />

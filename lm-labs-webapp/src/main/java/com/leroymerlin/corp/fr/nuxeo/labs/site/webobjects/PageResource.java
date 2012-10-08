@@ -42,6 +42,8 @@ import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.corp.fr.nuxeo.forum.LMForum;
+import com.leroymerlin.corp.fr.nuxeo.forum.LMForumImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsPageCustomView;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -311,6 +313,10 @@ public class PageResource extends DocumentObject {
         return DC_DESCRIPTION;
     }
 
+    public String getTOPIC_NOT_ALL_CONTRIBUTOR(){
+        return LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR;
+    }
+
     @POST
     @Path("@managePage")
     public Response doManagePage() {
@@ -326,6 +332,16 @@ public class PageResource extends DocumentObject {
             }
             if(!DC_DESCRIPTION.equals(ctx.getForm().getString(DC_DESCRIPTION))){
                 fieldsNotDisplayable.add(DC_DESCRIPTION);
+            }
+            LMForum forum = Tools.getAdapter(LMForum.class, doc, getCoreSession());
+            if (forum != null){
+                if(!LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR.equals(ctx.getForm().getString(LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR))){
+                    fieldsNotDisplayable.add(LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR);
+                    forum.manageAllContributors(false);
+                }
+                else{
+                    forum.manageAllContributors(true);
+                }
             }
             String templateName = ctx.getForm().getString("template");
             if (!BooleanUtils.toBoolean(ctx.getForm().getString("display-" + PROPNAME_COLLAPSETYPE))) {

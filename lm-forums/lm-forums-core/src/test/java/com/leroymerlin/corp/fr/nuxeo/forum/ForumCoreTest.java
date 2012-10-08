@@ -4,6 +4,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -137,5 +140,35 @@ public class ForumCoreTest {
 				
 		LabsPublisher publisher = doc.getAdapter(LabsPublisher.class);
 		assertThat(publisher, is( notNullValue()));
+	}
+	
+	@Test
+	public void canIsAllContibutorsDefault() throws Exception {
+		DocumentModel doc = session.getDocument(new PathRef("/myForum"));
+		LMForum forum = doc.getAdapter(LMForum.class);
+		assertThat(forum.isAllContributors(),is(true));
+	}
+	
+	@Test
+	public void canSetAndIsAllContibutors() throws Exception {
+		DocumentModel doc = session.getDocument(new PathRef("/myForum"));
+		LMForum forum = doc.getAdapter(LMForum.class);
+		List<String> fieldsNotDisplayable = new ArrayList<String>();
+		fieldsNotDisplayable.add(LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR);
+		forum.setNotDisplayableParameters(fieldsNotDisplayable);
+		forum.manageAllContributors(false);
+		session.saveDocument(forum.getDocument());
+		session.save();
+		doc = session.getDocument(new PathRef("/myForum"));
+		forum = doc.getAdapter(LMForum.class);
+		assertThat(forum.isAllContributors(),is(false));
+		
+		forum.setNotDisplayableParameters(new ArrayList<String>());
+		forum.manageAllContributors(true);
+		session.saveDocument(forum.getDocument());
+		session.save();
+		doc = session.getDocument(new PathRef("/myForum"));
+		forum = doc.getAdapter(LMForum.class);
+		assertThat(forum.isAllContributors(),is(true));
 	}
 }

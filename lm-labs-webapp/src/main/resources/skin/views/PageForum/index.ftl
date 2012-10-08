@@ -18,10 +18,12 @@
   <@block name="content">
   	<div id="divPageForum" class="container-fluid">
   		<#include "views/common/page_header.ftl">
-	 	<div style="width: 100%; text-align: right; margin-bottom: 5px;">
-	  		<a style="margin-right: 5px;" class="btn" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>
-		</div>
-		<#if 0 < allTopics?size>
+  		<#if (Context.principal.isAnonymous() == false && Session.hasPermission(Document.ref, 'AddChildren'))>
+		 	<div style="width: 100%; text-align: right; margin-bottom: 5px;">
+		  		<a style="margin-right: 5px;" class="btn" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>
+			</div>
+		</#if>
+		<#if (0 < allTopics?size)>
   			<div style="margin-bottom: 5px;">
 			  <center><h4 id="titleCommentsPage">Liste des topics :</h4></center>
 			  <table class="table table-striped forumTopics bs table-bordered labstable" >
@@ -82,9 +84,11 @@
 					</#if>
 				</#list>
 			  </table>
-			  <div style="width: 100%; text-align: right; margin-bottom: 5px;">
-			  	<a style="margin-right: 5px;" class="btn" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>
-			  </div>
+			  <#if (Context.principal.isAnonymous() == false && Session.hasPermission(Document.ref, 'AddChildren'))>
+				  <div style="width: 100%; text-align: right; margin-bottom: 5px;">
+				  	<a style="margin-right: 5px;" class="btn" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>
+				  </div>
+			  </#if>
 		  </div>
 	  	</#if>
 	</div>
