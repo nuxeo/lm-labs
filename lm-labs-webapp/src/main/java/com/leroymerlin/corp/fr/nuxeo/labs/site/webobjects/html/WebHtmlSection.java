@@ -11,7 +11,6 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.MovableElement;
