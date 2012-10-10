@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -240,7 +241,10 @@ public class PageNotificationServiceImpl extends DefaultComponent implements Pag
     private DocumentEventContext getContext(DocumentModel doc, CoreSession session) throws ClientException, PropertyException {
         DocumentEventContext ctx = new DocumentEventContext(session, session.getPrincipal(), doc);
         ctx.setProperty("PageId", doc.getId());
-        String baseUrl = Framework.getProperty("labs.baseUrl", "nuxeo.loopback.url" + "/site/labssites");
+        String baseUrl = Framework.getProperty("labs.baseUrl");
+        if(StringUtils.isEmpty(baseUrl)){
+        	baseUrl = Framework.getProperty("nuxeo.loopback.url")+ "/site/labssites";
+        }
         ctx.setProperty("labsBaseUrl", baseUrl);
         LabsSite site = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
 		ctx.setProperty("siteUrl", (Serializable) site.getURL());

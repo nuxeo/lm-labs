@@ -22,6 +22,12 @@
       <event name="newsPublishedUnderPageNews"/>
     </notification>
 
+    <notification name="Page added comment" channel="email" enabled="true" availableIn="SitesRoot"
+      autoSubscribed="false" template="pageAddedComment" subjectTemplate="subjectPageAddedComment"
+      label="label.noLabel">
+      <event name="pageAddedComment"/>
+    </notification>
+
   </extension>
 
   <extension target="org.nuxeo.ecm.platform.ec.notification.service.NotificationService"
@@ -37,6 +43,10 @@
     <template name="pageRemoved_en" src="templates/pageRemoved_en.ftl" />
     <template name="subjectPageModified_fr" src="templates/subjectPageModified_fr.ftl" />
     <template name="subjectPageModified_en" src="templates/subjectPageModified_en.ftl" />
+    <template name="pageAddedComment_fr" src="templates/pageAddedComment_fr.ftl" />
+    <template name="pageAddedComment_en" src="templates/pageAddedComment_en.ftl" />
+    <template name="subjectPageAddedComment_fr" src="templates/subjectPageAddedComment_fr.ftl" />
+    <template name="subjectPageAddedComment_en" src="templates/subjectPageAddedComment_en.ftl" />
     
     <!-- extention of existing Nuxeo template -->
     <template name="subscriptionsUpdated_fr" src="templates/subscriptionsUpdated_fr.ftl" />

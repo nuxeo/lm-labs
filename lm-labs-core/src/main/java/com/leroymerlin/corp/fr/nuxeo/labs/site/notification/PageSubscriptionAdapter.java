@@ -24,7 +24,8 @@ public class PageSubscriptionAdapter implements PageSubscription {
     public List<String> getNotificationNames() {
         return new ArrayList<String>(
                 Arrays.asList(
-                        NotifNames.PAGE_MODIFIED
+                        NotifNames.PAGE_MODIFIED,
+                        NotifNames.PAGE_ADDED_COMMENT
                         // TODO
 //                        ,NotifNames.PAGE_REMOVED
                         ));

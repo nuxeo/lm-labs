@@ -64,6 +64,7 @@ public final class LabsSiteConstants {
         public static final String NEWS_PUBLISHED = "News published";
         public static final String PAGE_MODIFIED = "Page modified";
         public static final String PAGE_REMOVED = "Page removed";
+        public static final String PAGE_ADDED_COMMENT = "Page added comment";
     }
 
     public final class EventNames {
@@ -73,6 +74,7 @@ public final class LabsSiteConstants {
         public static final String PAGE_MODIFIED = "pageModified";
         public static final String CHECK_PAGES_TO_NOTIFY = "checkPagesToNotify";
         public static final String PAGE_REMOVED = "pageRemoved";
+        public static final String PAGE_ADDED_COMMENT = "pageAddedComment";
     }
 
     public final class FacetNames {
