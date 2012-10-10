@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.directory.DirectoryException;
 import org.nuxeo.ecm.directory.Session;
@@ -20,6 +21,7 @@ import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsSessionImpl;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Directories;
 
 public class HtmlRow extends LabsSessionImpl {
@@ -120,7 +122,11 @@ public class HtmlRow extends LabsSessionImpl {
         return parentSection.insertBefore(this);
     }
 
-    public void remove() throws ClientException {
+	public void remove(CoreSession session) throws Exception {
+    	LabsGadgetManager service = Framework.getService(LabsGadgetManager.class);
+        for (HtmlContent content:this.getContents()){
+            service.removeAllGadgetsOfHtmlContent(content, session);
+        }
         parentSection.remove(this);
 
     }

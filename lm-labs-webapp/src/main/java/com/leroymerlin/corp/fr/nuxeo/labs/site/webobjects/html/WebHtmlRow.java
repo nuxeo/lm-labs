@@ -81,8 +81,7 @@ public class WebHtmlRow extends MovableElementResource {
     @Override
     public Response doDelete() {
         try {
-            row.remove();
-
+            row.remove(getCoreSession());
             saveDocument();
         } catch (Exception e) {
             throw WebException.wrap(

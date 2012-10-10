@@ -81,7 +81,7 @@ public class HtmlDocDSLTest {
 		assertThat(page.section(0).row(1).content(0).getHtml(), is("Row 1 bis"));
 		assertThat(page.section(0).row(2).content(0).getHtml(), is("Row 2"));
 
-		section.row(1).remove();
+		section.row(1).remove(session);
 
 		assertThat(page.section(0).row(0).content(0).getHtml(), is("Row 1"));
 		assertThat(page.section(0).row(1).content(0).getHtml(), is("Row 2"));
