@@ -37,7 +37,7 @@
 						</div>
 					</div>
 					<#if isNotRejected || Session.hasPermission(Document.ref, 'Everything')>
-	      				<p class="labscomments footer" >${Context.getMessage('label.comment.date')} ${comment.comment.creationDate}</p>
+	      				<p class="labscomments footer" >${Context.getMessage('label.comment.date')} ${comment.comment.creationDate.time?string("EEEE dd MMMM yyyy HH:mm")}</p>
 	      			</#if>
     			</div>
     		</li>

@@ -73,11 +73,11 @@
           <a name="section_${folder_index}" ></a>
           <h2>
           	<span id="spanFolderTitle${folder.document.id}">
-          		${folder.document.dublincore.title?html}
+          		${folder.document['dc:title']?html}
           	</span>
           </h2>
           <div id="divFolderDescription${folder.document.id}" class="divFolderDescription">
-	          	${folder.document.dublincore.description}
+	          	${folder.document['dc:description']}
 	      </div>
         </div>
         <#if canWrite>
@@ -161,7 +161,7 @@
           			<#list folders as folder>
 	              		<label class="radio">
                 			<input type="radio" id="moveElementsSelectedFolder" name="moveElementsSelectedFolder" value="${folder.document.id}" <#if folders?first.document.id == folder.document.id>checked</#if>>
-                			${folder.document.dublincore.title?html}<br>
+                			${folder.document['dc:title']?html}<br>
               			</label>	
             		</#list>
 	            </div>
@@ -280,9 +280,9 @@
 	    </td>
     </#if>
     <#if child.facets?seq_contains("Folderish") == false >
-      <#assign modifDate = child.dublincore.modified?datetime />
+      <#assign modifDate = child['dc:modified']?datetime />
       <#assign modifDateStr = modifDate?string("EEEE dd MMMM yyyy HH:mm") />
-      <#assign filename = child.dublincore.title />
+      <#assign filename = child['dc:title'] />
       <#assign words = filename?word_list />
       <#assign isModifiedFilename = false />
       <#assign max_len_word = 50 />
@@ -297,15 +297,15 @@
       <#assign max_lenght = This.getPropertyMaxSizeFileRead() />
       <td>
       	<#if (isModifiedFilename)>
-      		<span title="${blob.filename} - ${child.name} - ${child.dublincore.description?html}">${filename?substring(0, max_len_word)}...</span>
+      		<span title="${blob.filename} - ${child.name} - ${child['dc:description']?html}">${filename?substring(0, max_len_word)}...</span>
       	<#else>
-      		<span title="${blob.filename} - ${child.dublincore.description?html}">${filename?html}</span><span class="sortValue">${filename?html}</span>
+      		<span title="${blob.filename} - ${child['dc:description']?html}">${filename?html}</span><span class="sortValue">${filename?html}</span>
       	</#if>
       </td>
       <td>${bytesFormat(blobLenght, "K", "fr_FR")}<span class="sortValue">${blobLenght?string.computer}</span></td>
       <#-- <td>${child.versionLabel}</span></td> -->
       <td><span title="${modifDateStr}" >${Context.getMessage('label.PageClasseur.table.dateInWordsFormat',[dateInWords(modifDate)])}</span><span class="sortValue">${modifDate?string("yyyyMMddHHmmss")}</span></td>
-      <td><span title="${child.dublincore.creator}" >${userFullName(child.dublincore.creator)}</span></td>
+      <td><span title="${child['dc:creator']}" >${userFullName(child['dc:creator'])}</span></td>
       <td class="actions" >
         <@fileDownloadLink url="${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@blob/" tooltip="${Context.getMessage('command.PageClasseur.download')}" />
         <#if (max_lenght > blobLenght) && This.hasConvertersForHtml(blob.mimeType)>
@@ -315,7 +315,7 @@
       	<div  class="<#if !child.facets?seq_contains("LabsHidden")>editblock</#if> btn-group" style=" float:right;" >
         <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i> <span class="caret"></span></a>
         <ul class="dropdown-menu" style="left: auto;right: 0px;min-width: 0px;" >
-      		<li><a href="#" onclick="openRenameTitleElement('${child.dublincore.title?js_string?html}', '${child.dublincore.description?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@put');return false;"><i class="icon-edit"></i>${Context.getMessage('command.PageClasseur.renameFile')}</a></li>
+      		<li><a href="#" onclick="openRenameTitleElement('${child['dc:title']?js_string?html}', '${child['dc:description']?js_string?html}', '${This.path}/${folder.document.name}/${Common.quoteURIPathComponent(child.name)}/@put');return false;"><i class="icon-edit"></i>${Context.getMessage('command.PageClasseur.renameFile')}</a></li>
             <li><a href="#" onclick="$('#docdelete_${child.id}').submit()"><i class="icon-remove"></i>${ Context.getMessage('command.PageClasseur.deleteFile')}</a></li>
         </ul>
         </div>

@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -24,6 +27,7 @@ import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.platform.test.PlatformFeature;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
+import org.nuxeo.runtime.jtajca.NuxeoContainer;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
@@ -31,7 +35,7 @@ import com.google.inject.Inject;
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
-import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
+import com.adeo.nuxeo.user.test.FakeUserFeature;
 
 /**
  * @author <a href="mailto:vincent.dutat@ext.leroymerlin.fr">Vincent Dutat</a>
@@ -39,7 +43,7 @@ import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
  */
 @RunWith(FeaturesRunner.class)
 @Features( { PlatformFeature.class,
-        LMTestDirectoryFeature.class
+	FakeUserFeature.class
 //        LMProdDirectoryFeature.class
         })
 public class TestPermissionsHelper {
@@ -228,4 +232,10 @@ public class TestPermissionsHelper {
         assertTrue(!helper.hasHigherOrEqualPermission(docu, SecurityConstants.READ_WRITE, "toto"));
     }
 
+//    @AfterClass public static void uninstall() throws NamingException {
+//    	if (NuxeoContainer.isInstalled()) {
+//    		NuxeoContainer.uninstall();
+//    	}
+//    	System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+//    }
 }

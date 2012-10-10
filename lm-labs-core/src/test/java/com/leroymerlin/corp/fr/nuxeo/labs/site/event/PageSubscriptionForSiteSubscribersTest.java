@@ -17,8 +17,8 @@ import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
+import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
@@ -31,13 +31,14 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
-@Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
+@Features({ FakeUserFeature.class, SiteFeatures.class })
 @Deploy({"org.nuxeo.ecm.platform.notification.api", 
     "org.nuxeo.ecm.platform.types.core",
     "org.nuxeo.ecm.platform.types.api",
     "org.nuxeo.ecm.platform.notification.core",
     "org.nuxeo.ecm.core.persistence",
     "org.nuxeo.ecm.platform.placeful.core:OSGI-INF/nxplacefulservice-framework.xml",
+    "org.nuxeo.ecm.platform.placeful.core:OSGI-INF/nxplaceful-persistence-config.xml",
     "com.leroymerlin.labs.core.test:OSGI-INF/hibernate-contrib.xml",
     "com.leroymerlin.labs.core.test:OSGI-INF/core-types-contribTest.xml",
     "com.leroymerlin.labs.core.test:OSGI-INF/core-types-contrib2Test.xml",

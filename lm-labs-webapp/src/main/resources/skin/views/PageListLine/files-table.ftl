@@ -14,7 +14,7 @@
           <#assign blobLength = 0 >
           <#assign blob = This.getBlobHolder(file).blob >
           <#assign blobLength = blob.length >
-          <td>${file.dublincore.title}</td>
+          <td>${file['dc:title']}</td>
           <td>${bytesFormat(blobLength, "K", "fr_FR")}<span class="sortValue">${blobLength?string.computer}</span></td>
           <td>
             <input type="hidden" value="${file.name}" />

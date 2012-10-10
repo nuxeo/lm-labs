@@ -21,6 +21,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
+import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
@@ -33,6 +34,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
 @Features({ SiteFeatures.class, LabsCommentFeature.class })
+@Deploy({"com.leroymerlin.labs.core.test:OSGI-INF/core-types-contribTest.xml"})
 @RepositoryConfig(init = PageClasseurRepositoryInit.class)
 public class PageAdapterTest {
 
