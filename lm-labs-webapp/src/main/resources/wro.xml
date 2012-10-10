@@ -7,6 +7,7 @@
     <js>/site/skin/labs/js/jquery/jquery.dialog2.js</js>
     <js>/site/skin/labs/js/jquery/jquery.cookie.js</js>
     <js>/site/skin/labs/js/jquery/jquery.form-3.09.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.highlight-3.yui.js</js>
     <js>/site/skin/labs/js/jquery.placeholder.min.js</js>
     <js>/site/skin/labs/js/bootstrap/bootstrap-tooltip.js</js>
     <js>/site/skin/labs/js/bootstrap/bootstrap-popover.js</js>

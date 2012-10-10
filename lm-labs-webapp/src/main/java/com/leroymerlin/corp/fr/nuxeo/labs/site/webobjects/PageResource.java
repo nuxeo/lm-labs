@@ -470,8 +470,9 @@ public class PageResource extends DocumentObject {
     public Object search() {
         final HttpServletRequest request = ctx.getRequest();
         String query = request.getParameter("query");
+        String fullText = null;
         if (query == null) {
-            String fullText = request.getParameter("fullText");
+            fullText = request.getParameter("fullText");
             if (fullText == null) {
                 throw new IllegalParameterException("Expecting a query or a fullText parameter");
             }
@@ -494,7 +495,7 @@ public class PageResource extends DocumentObject {
         }
         try {
             DocumentModelList docs = ctx.getCoreSession().query(query);
-            return getView("search").arg("query", query).arg("result", docs);
+            return getView("search").arg("query", query).arg("result", docs).arg("fullText", fullText);
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }

@@ -27,6 +27,7 @@
         <#--  ckeditor_confi -->
 		<script type="text/javascript">
 			<#include "views/common/ckeditor_config.ftl" />
+			<#include "views/common/highlight.ftl" />
 		</script>
 		<#if !Context.principal.anonymous >
 		<#include "views/common/subscribe_js.ftl" />

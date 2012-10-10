@@ -1,5 +1,5 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
-
+<#setting url_escaping_charset="UTF-8">
   <@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title}</@block>
 
     <@block name="scripts">
@@ -61,6 +61,10 @@
           </tr>
         </thead>
         <tbody>
+          <#assign fullTextHighlightURL = Context.request.getParameter('fullText') />
+          <#if (fullTextHighlightURL != null && fullTextHighlightURL != "") >
+          	<#assign fullTextHighlightURL = "?fullText=" + fullTextHighlightURL?url />
+          </#if>
           <#list result as doc>
             <#assign sd = Common.siteDoc(doc) />
             <tr>
@@ -68,7 +72,11 @@
 
                 <td>
                 	<#if (doc.dublincore.title?length > 0)>
-                		<a href="${Context.modulePath}/${sd.getResourcePath()}" target="_blank">${doc.dublincore.title}</a>
+                		<#if (Context.modulePath + "/" + sd.getParentPage().getPath() == Context.modulePath + "/" + sd.getResourcePath())>
+							    <a href="${Context.modulePath}/${sd.getParentPage().getPath()}${fullTextHighlightURL}">${sd.getParentPage().title}</a>            		
+                		<#else>
+                			${doc.dublincore.title}
+                		</#if>
                 	<#else>
               			(${Context.getMessage('label.search.result.noTitle')})
               		</#if>
@@ -85,7 +93,7 @@
               <td class="colFilesize">${formattedFilesize}<span class="sortValue">${filesize?string.computer}</span></td>
 
               <td>
-              	<a href="${Context.modulePath}/${sd.getParentPage().getPath()}">${sd.getParentPage().title}</a>
+              	<a href="${Context.modulePath}/${sd.getParentPage().getPath()}${fullTextHighlightURL}">${sd.getParentPage().title}</a>
               </td>
                 <td>
                   <#if !hasFile>
