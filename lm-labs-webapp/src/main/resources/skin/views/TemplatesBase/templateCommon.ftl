@@ -6,7 +6,7 @@
 
   <@block name="css">
     <@superBlock/>
-        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document.dublincore.modified?string("yyyyMMddHHmmss")}" />
+        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document['dc:modified']?string("yyyyMMddHHmmss")}" />
         <link rel="stylesheet" type="text/css" href="${skinPath}/css/select2/select2.css"/>
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastNews" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastNews.title')}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastUpload" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastUpload.title')}" />

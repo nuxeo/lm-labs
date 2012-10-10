@@ -11,7 +11,7 @@
         <link rel="icon" type="image/x-icon" href="/nuxeo/img/logo.jpeg" />
         <link rel="shortcut icon"  type="image/x-icon" href="/nuxeo/img/logo.jpeg"/>
 
-        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document.dublincore.modified?string("yyyyMMddHHmmss")}" />
+        <link rel="stylesheet" href="${Context.modulePath}/${mySite.URL}/@currenttheme/rendercss-${mySite.themeManager.getTheme(Session).document['dc:modified']?string("yyyyMMddHHmmss")}" />
     	<link rel="stylesheet" type="text/css" href="${contextPath}/wro/labs.assets.css" />
 
       	<script type="text/javascript" src="/nuxeo/wro/labs.assets.js"></script>

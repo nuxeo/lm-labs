@@ -150,7 +150,7 @@ function deleteDefinitelySite(url){
 	              		</#list>
 	              	</td>
 	              <#else>
-	              	<td>${userFullName(sit.document.dublincore.creator)}</td>
+	              	<td>${userFullName(sit.document['dc:creator'])}</td>
 	              </#if>
 	              <td><a class="btn" href="${This.path}/${sit.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
 	              <#if hasAtLeastOneAdminSite>
@@ -199,7 +199,7 @@ function deleteDefinitelySite(url){
 	              		</#list>
 	              	</td>
 	              <#else>
-	              	<td>${userFullName(labsSite.document.dublincore.creator)}</td>
+	              	<td>${userFullName(labsSite.document['dc:creator'])}</td>
 	              </#if>
 	              <#if hasAtLeastOneAdminSite>
 	              <#if labsSite.isAdministrator(Context.principal.name) >
@@ -251,7 +251,7 @@ function deleteDefinitelySite(url){
 			              		</#list>
 			              	</td>
 			              <#else>
-			              	<td>${userFullName(deletedSite.document.dublincore.creator)}</td>
+			              	<td>${userFullName(deletedSite.document['dc:creator'])}</td>
 			              </#if>
 			              <td>
 			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>

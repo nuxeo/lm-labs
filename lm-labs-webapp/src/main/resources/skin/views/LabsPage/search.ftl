@@ -67,13 +67,13 @@
               <td class="colIcon"><img title="${doc.type}" alt="&gt;&gt;" <#if doc.schemas?seq_contains("common") >src="/nuxeo/${doc.common.icon}"</#if> /></td>
 
                 <td>
-                	<#if (doc.dublincore.title?length > 0)>
-                		<a href="${Context.modulePath}/${sd.getResourcePath()}" target="_blank">${doc.dublincore.title}</a>
+                	<#if (doc['dc:title']?length > 0)>
+                		<a href="${Context.modulePath}/${sd.getResourcePath()}" target="_blank">${doc['dc:title']}</a>
                 	<#else>
               			(${Context.getMessage('label.search.result.noTitle')})
               		</#if>
                 </td>
-                <td>${userFullName(doc.dublincore.lastContributor)}</td>
+                <td>${userFullName(doc['dc:lastContributor'])}</td>
                 <#assign formattedFilesize = "(" + Context.getMessage('label.search.result.noFile') + ")" />
                 <#assign filesize = 0 />
                 <#assign hasFile = false />
