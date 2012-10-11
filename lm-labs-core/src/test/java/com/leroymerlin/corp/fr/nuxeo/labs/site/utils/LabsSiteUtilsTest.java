@@ -30,6 +30,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
+import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;

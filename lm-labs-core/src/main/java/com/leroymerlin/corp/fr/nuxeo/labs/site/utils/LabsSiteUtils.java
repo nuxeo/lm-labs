@@ -1,7 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +24,12 @@ import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.LMPermission;
+import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsSecurityException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 
 
 public final class LabsSiteUtils {

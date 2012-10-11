@@ -36,14 +36,14 @@ import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.LMPermission;
+import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils.Action;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 
 /**
  * @author fvandaele

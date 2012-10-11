@@ -19,6 +19,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
+import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
@@ -27,7 +28,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.NotifNames;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)

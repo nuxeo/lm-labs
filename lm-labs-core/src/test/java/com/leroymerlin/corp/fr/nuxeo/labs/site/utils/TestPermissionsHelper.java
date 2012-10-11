@@ -11,13 +11,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.naming.NamingException;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -27,15 +24,15 @@ import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.platform.test.PlatformFeature;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
-import org.nuxeo.runtime.jtajca.NuxeoContainer;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
+import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
 import com.leroymerlin.common.core.security.LMPermission;
+import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.common.core.security.SecurityData;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
-import com.adeo.nuxeo.user.test.FakeUserFeature;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 
 /**
  * @author <a href="mailto:vincent.dutat@ext.leroymerlin.fr">Vincent Dutat</a>
