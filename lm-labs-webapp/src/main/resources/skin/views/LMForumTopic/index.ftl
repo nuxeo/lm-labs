@@ -36,12 +36,14 @@
     		
 		</#if>
   	</@block>
+  	<@block name="pageTags"></@block>
 	<#if modify?? && modify != null>
 		<@block name="pageCommentable"/>
 	<#else>
 	  	<@block name="pageCommentable">
 			<#include "views/LabsComments/macroComments.ftl">
 			<@displayAddComment pageCommentable=This.page ckeditor=true />
+			<#include "views/common/labsTags.ftl">
 		</@block>
 	</#if>
 </@extends>
