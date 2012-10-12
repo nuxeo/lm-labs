@@ -57,8 +57,8 @@
 					  		</td>
 					  		<td>
 					  			<#if 0 <  topic.comments?size>
-						  			${This.getFullName(topic.comments?last.comment.author)} (${topic.comments?last.comment.creationDate}) :<br/>
-									${topic.comments?last.comment.text}
+						  			${This.getFullName(topic.comments?last['comment:author'])} (${topic.comments?last['comment:creationDate']?datetime?string("EEEE dd MMMM yyyy HH:mm")}) :<br/>
+									${topic.comments?last['comment:text']}
 								</#if>
 					  		</td>
 					  		<#if canWrite || Context.principal.name == topic.document.author >
