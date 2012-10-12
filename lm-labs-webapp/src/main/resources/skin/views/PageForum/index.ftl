@@ -25,11 +25,11 @@
 		</#if>
 		<#if (0 < allTopics?size)>
   			<div style="margin-bottom: 5px;">
-			  <center><h4 id="titleCommentsPage">Liste des topics :</h4></center>
+			  <center><h4 id="titleTopicsPage">Liste des topics :</h4></center>
 			  <table class="table table-striped forumTopics bs table-bordered labstable" >
 			  	<thead>
 	          		<tr>
-	            		<th width="25%">Sujet</th>
+	            		<th width="25%">Topic</th>
 			            <th width="20%"><center>Auteur</center></th>
 			            <th width="10%">Réponses</th>
 			            <th width="37%">Dernier message</th>
