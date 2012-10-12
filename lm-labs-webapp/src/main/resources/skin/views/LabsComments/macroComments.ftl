@@ -97,7 +97,10 @@
 					data : '',
 					success : function(msg) {
 						jQuery("#divListCommentsPage")[0].innerHTML = msg;
-						jQuery("#" + titleId)[0].innerHTML = $("#" + titleId)[0].innerHTML;
+						var titleObj = jQuery("#" + titleId);
+						if (titleObj != undefined && jQuery(titleObj)[0] != undefined) {
+    						jQuery(titleObj)[0].innerHTML = $('#divTitleCommentsPage')[0].innerHTML;
+						}
 						changeImgError();
 					},
 					error : function(msg) {
