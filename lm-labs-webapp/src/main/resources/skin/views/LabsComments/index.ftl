@@ -1,6 +1,10 @@
 <div class="fixed-container">
 	<ul style="list-style: none;margin-left: 0px;">
 		<#assign comments = comments?reverse/>
+		<#assign action = "comments" />
+		<#if isTopic >
+	    	<#assign action = "topics" />
+		</#if>
 		<#list comments as comment>
 			<li class="labscomments">
 
@@ -28,6 +32,10 @@
 								<#if isNotRejected>
 									${comment.comment.text}
 								<#else>
+									<#assign label = "label.comment.desactived" />
+									<#if isTopic >
+										<#assign label = "label.topic.reply.desactived" />
+									</#if>
 									${Context.getMessage('label.comment.desactived')}
 									<#if Session.hasPermission(Document.ref, 'Everything')>
 										<div class="hidden">${comment.comment.text}</div>
@@ -37,13 +45,17 @@
 						</div>
 					</div>
 					<#if isNotRejected || Session.hasPermission(Document.ref, 'Everything')>
-	      				<p class="labscomments footer" >${Context.getMessage('label.comment.date')} ${comment.comment.creationDate}</p>
+						<#assign label = "label.comment.date" />
+						<#if isTopic >
+							<#assign label = "label.topic.reply.date" />
+						</#if>
+	      				<p class="labscomments footer" >${Context.getMessage(label)} ${comment.comment.creationDate}</p>
 	      			</#if>
     			</div>
     		</li>
 		</#list>
 	</ul>
 	<div id="${divTitleComments}" style="display: none">
-		${Context.getMessage('label.comments')} <span class="badge badge-info" style="vertical-align: top;" >${comments?size}</span>
+		${Context.getMessage('label.' + action)} <span class="badge badge-info" style="vertical-align: top;" >${comments?size}</span>
 	</div>
 </div>

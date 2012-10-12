@@ -47,9 +47,10 @@ public class LabsCommentsService extends CommentService {
     @GET
     public Object doGet() {
         List<DocumentModel> comments = new ArrayList<DocumentModel>();
+        DocumentModel document;
         try{
             DocumentObject dobj = (DocumentObject) getTarget();
-            DocumentModel document = dobj.getDocument();
+            document = dobj.getDocument();
             comments = getCommentManager().getComments(document);
             afn = new AuthorFullName(new HashMap<String, String>(), LabsSiteConstants.Comments.COMMENT_AUTHOR);
             afn.loadFullName(comments);
@@ -64,6 +65,7 @@ public class LabsCommentsService extends CommentService {
         else{
             view.arg("deleteComment", "deleteComment").arg("divTitleComments", "divTitleComments");
         }
+        view.arg("isTopic", (LabsSiteConstants.Docs.LABSTOPIC.type().equals(document.getType())));
         return view;
     }
     
