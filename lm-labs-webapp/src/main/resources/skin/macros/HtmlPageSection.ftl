@@ -17,7 +17,7 @@
 				<div id="${idsPrefix}div_section_${section_index}_rows">
 				<#assign rows = section.rows />
 		        <#list rows as row>
-			           <div class="row-fluid<#if row.cssClass??> ${row.cssClass}</#if>" id="${idsPrefix}row_s${section_index}_r${row_index}">
+			           <div class="row-fluid<@generateCssClass row=row />" id="${idsPrefix}row_s${section_index}_r${row_index}">
 			              <#list row.contents as content>
 		                      <#assign isWidgetCol = false />
 		                      <#assign isOsGadgetCol = false />
