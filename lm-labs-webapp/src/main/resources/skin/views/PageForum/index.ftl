@@ -43,7 +43,7 @@
 					  		<td>
 					  			<a href="${This.path}/${topic.document.name}">
 						  			<strong>${topic.title}</strong><br/>
-								  	${topic.description}
+								  	<div class="ellipsisText" ellipsisTextOptions="{ max_rows:5, alt_text_e:false, alt_text_t:true, whole_word:false }">${topic.description}</div>
 								</a>
 					  		</td>
 					  		<td>
@@ -58,7 +58,7 @@
 					  		<td>
 					  			<#if 0 <  topic.comments?size>
 						  			${This.getFullName(topic.comments?last.comment.author)} (${topic.comments?last.comment.creationDate}) :<br/>
-									${topic.comments?last.comment.text}
+									<div class="ellipsisText" ellipsisTextOptions="{ max_rows:4, alt_text_e:false, alt_text_t:true, whole_word:false }">${topic.comments?last['comment:text']}</div>
 								</#if>
 					  		</td>
 					  		<#if canWrite || Context.principal.name == topic.document.author >
