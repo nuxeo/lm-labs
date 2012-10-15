@@ -29,10 +29,10 @@
 			  <table class="table table-striped forumTopics bs table-bordered labstable" >
 			  	<thead>
 	          		<tr>
-	            		<th width="25%">Topic</th>
-			            <th width="20%"><center>Auteur</center></th>
+	            		<th width="29%">Topic</th>
+			            <th width="17%"><center>Auteur</center></th>
 			            <th width="10%">Réponses</th>
-			            <th width="37%">Dernier message</th>
+			            <th width="36%">Dernier message</th>
 			            <th width="8%"></th>
 	          		</tr>
 		        </thead>
@@ -43,7 +43,8 @@
 					  		<td>
 					  			<a href="${This.path}/${topic.document.name}">
 						  			<strong>${topic.title}</strong><br/>
-								  	<div class="ellipsisText" ellipsisTextOptions="{ max_rows:5, alt_text_e:false, alt_text_t:true, whole_word:false }">${topic.description}</div>
+		        					<small>${Context.getMessage('label.topic.date')} ${topic.document['dublincore:created']?datetime?string("EEEE dd MMMM yyyy HH:mm")}</small>
+								  	<div class="ellipsisText" ellipsisTextOptions="{ max_rows:4, alt_text_e:false, alt_text_t:true, whole_word:false }">${topic.description}</div>
 								</a>
 					  		</td>
 					  		<td>
