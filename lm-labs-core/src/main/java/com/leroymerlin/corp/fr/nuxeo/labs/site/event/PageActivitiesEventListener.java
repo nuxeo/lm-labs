@@ -37,6 +37,7 @@ public class PageActivitiesEventListener implements EventListener {
                     Docs.PAGELIST.type(),
                     Docs.PAGECLASSEUR.type(),
                     Docs.HTMLPAGE.type(),
+                    Docs.PAGEFORUM.type(),
                     Docs.LABSNEWS.type()
                     ));
     static final List<String> markParentDocs = new ArrayList<String>(
