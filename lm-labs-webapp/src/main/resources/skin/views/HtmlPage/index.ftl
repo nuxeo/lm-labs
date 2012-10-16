@@ -57,8 +57,8 @@
   <#elseif basicSectionsViewMode == "pills" >
   	<#include "views/HtmlPage/sectionsView_tabbed.ftl" />
   </#if>
-  <div id="divPageHTML" class="<#if basicSectionsViewMode == "tabbed" || basicSectionsViewMode == "pills" || basicSectionsViewMode == "carousel" >editblock</#if>" >
-  <#if !Context.principal.anonymous || (Context.principal.anonymous && basicSectionsViewMode != "pills" && basicSectionsViewMode != "carousel" && basicSectionsViewMode != "tabbed") >
+  <div id="divPageHTML" class="<#if basicSectionsViewMode != "default" >editblock</#if>" >
+  <#if isContributor || (!isContributor && !This.page.isAdministrator(Context.principal.name) && basicSectionsViewMode == "default") >
   <#list sections as section>
   	<div id="div_section_${section_index}" >
 	    <section id="section_${section_index}">

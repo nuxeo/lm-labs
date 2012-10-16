@@ -31,6 +31,7 @@
 	  	<#else>
 			<div class="page-header">
 		        <h1>${topic.title} </h1>
+		        <h5>${Context.getMessage('label.topic.date')} ${Document['dublincore:created']?datetime?string("EEEE dd MMMM yyyy HH:mm")}</h5>
     		</div>
     		<div class="page-description">${topic.description}</div>
     		
