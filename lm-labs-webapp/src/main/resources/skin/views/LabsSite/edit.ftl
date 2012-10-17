@@ -17,10 +17,10 @@
           <h3>Propriétés</h3>
         </div>
         <div class="row">
-          <div class="span3 columns">
+          <div class="span2 columns">
 &nbsp;
           </div>
-          <div class="span16 columns">
+          <div class="span8 columns">
 <script>
 jQuery(document).ready(function() {
 	jQuery('#siteTemplate').click(function() {
@@ -102,7 +102,7 @@ jQuery(document).ready(function() {
 			    </div>
                 
               </fieldset>
-              <div class="form-actions" style="margin-left: 60px;">
+              <div class="form-actions" >
                 <button class="btn btn-primary">${Context.getMessage('label.labssites.edit.valid')}</button>
               </div>
             </form>
@@ -112,13 +112,27 @@ jQuery(document).ready(function() {
 
       <section>
         <div class="page-header">
+          <h3>Import / Export</h3>
+        </div>
+        <div class="row">
+          <div class="span2 columns">
+&nbsp;
+          </div>
+          <div class="span8 columns">
+            <a class="btn btn-link" href="/nuxeo/restAPI/default/${mySite.document.id}/exportTree" >Exporter le site</a>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="page-header">
           <h3>Catégories</h3>
         </div>
         <div class="row">
-          <div class="span4 columns">
+          <div class="span2 columns">
 &nbsp;
           </div>
-          <div class="span12 columns">
+          <div class="span8 columns">
 
           </div>
         </div>

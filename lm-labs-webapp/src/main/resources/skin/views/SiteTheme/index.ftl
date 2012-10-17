@@ -33,7 +33,7 @@
           </h3>
         </div>
         <div class="row">
-          <div class="span3 columns">
+          <div class="span2 columns">
 			&nbsp;
           </div>
           <div class="span8 columns">
@@ -76,7 +76,7 @@
                   </div>
                 </div>
                </fieldset>
-              <div class="form-actions" style="margin-left: 40px;">
+              <div class="form-actions" >
                 <button class="btn btn-primary">${Context.getMessage('label.labssites.appearance.save')}</button>
               </div>
             </form>

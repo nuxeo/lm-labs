@@ -36,7 +36,6 @@
   </group>
 
   <group name="labs.sitesroot">
-    <group-ref>bootstrap</group-ref>
     <group-ref>labs.manage</group-ref>
     <group-ref>tablesorter</group-ref>
     <js>/site/skin/labs/js/sitesRoot.js</js>

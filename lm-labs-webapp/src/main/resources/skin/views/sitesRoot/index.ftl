@@ -2,6 +2,16 @@
 <@extends src="/views/labs-manage-base.ftl">
   <#assign canCreateSite = Common.canCreateSite(Context.principal.name)>
 
+	<@block name="css">
+		<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.sitesroot.css" />
+		<link rel="stylesheet/less" media="all" href="${Context.modulePath}/@views/variables.less" />
+		<style type="text/css">
+		  label {
+		  font-weight: bold;
+		  }
+		</style>
+    </@block>
+
   <@block name="scripts">
     <script type="text/javascript" src="${contextPath}/wro/labs.sitesroot.js"></script>
     <script type="text/javascript">

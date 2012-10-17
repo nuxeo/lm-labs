@@ -2,14 +2,14 @@
 <#setting url_escaping_charset="UTF-8">
   <@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title}</@block>
 
-    <@block name="scripts">
-      <@superBlock/>
-		<script type="text/javascript" src="${contextPath}/wro/labs.search.js"></script>
-    </@block>
-
     <@block name="css">
       <@superBlock/>
 		<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.search.css"/>
+    </@block>
+
+    <@block name="scripts">
+      <@superBlock/>
+		<script type="text/javascript" src="${contextPath}/wro/labs.search.js"></script>
     </@block>
 
     <@block name="content">
@@ -67,29 +67,38 @@
           </#if>
           <#list result as doc>
             <#assign sd = Common.siteDoc(doc) />
+            <#assign formattedFilesize = "(" + Context.getMessage('label.search.result.noFile') + ")" />
+            <#assign filesize = 0 />
+            <#assign hasFile = false />
+            <#if sd.blobHolder?? && sd.blobHolder.blob != null >
+              <#assign hasFile = true />
+              <#assign filesize = sd.blobHolder.blob.length />
+              <#assign formattedFilesize = bytesFormat(filesize, "K", "fr_FR") />
+            </#if>
             <tr>
               <td class="colIcon"><img title="${doc.type}" alt="&gt;&gt;" <#if doc.schemas?seq_contains("common") >src="/nuxeo/${doc.common.icon}"</#if> /></td>
 
                 <td>
-                	<#if (doc['dc:title']?length > 0)>
-                		<#if (Context.modulePath + "/" + sd.getParentPage().getPath() == Context.modulePath + "/" + sd.getResourcePath())>
-							    <a href="${Context.modulePath}/${sd.getParentPage().getPath()}${fullTextHighlightURL}">${sd.getParentPage().title}</a>            		
-                		<#else>
-                			${doc['dc:title']}
-                		</#if>
-                	<#else>
-              			(${Context.getMessage('label.search.result.noTitle')})
-              		</#if>
+            	
+            		<#assign url = Context.modulePath + "/" + sd.resourcePath + fullTextHighlightURL />
+            		<#assign nofollow = false />
+            		<#if !hasFile>
+						<#if (Context.modulePath + "/" + sd.getParentPage().getPath() == Context.modulePath + "/" + sd.getResourcePath())>
+	                		<#assign url = Context.modulePath + "/" + sd.parentPage.path + fullTextHighlightURL />
+						</#if>
+            		<#elseif doc.type != "LabsNews">
+                		<#assign url = Context.modulePath + "/" + sd.resourcePath + "/@blob/preview" />
+                		<#assign nofollow = true />
+            		</#if>
+					<a<#if nofollow> rel="nofollow"</#if> href="${url}"<#if nofollow> target="_blank"</#if>>
+						<#if (doc['dc:title']?length > 0)>
+							${doc['dc:title']}
+		            	<#else>
+		          			(${Context.getMessage('label.search.result.noTitle')})
+		          		</#if>
+					</a>            		
                 </td>
                 <td>${userFullName(doc['dc:lastContributor'])}</td>
-                <#assign formattedFilesize = "(" + Context.getMessage('label.search.result.noFile') + ")" />
-                <#assign filesize = 0 />
-                <#assign hasFile = false />
-                <#if sd.blobHolder?? && sd.blobHolder.blob != null >
-                  <#assign hasFile = true />
-                  <#assign filesize = sd.blobHolder.blob.length />
-                  <#assign formattedFilesize = bytesFormat(filesize, "K", "fr_FR") />
-                </#if>
               <td class="colFilesize">${formattedFilesize}<span class="sortValue">${filesize?string.computer}</span></td>
 
               <td>

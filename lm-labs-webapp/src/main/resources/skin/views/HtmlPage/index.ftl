@@ -24,12 +24,16 @@
         <script type="text/javascript" >
 			jQuery(document).ready(function() {
 				setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
-				initOpensocialGadgets(jQuery('#divPageHTML'));
-				<#if basicSctionsViewMode == "tabbed" || basicSctionsViewMode == "pills" >
+				<#if basicSectionsViewMode == "tabbed" || basicSectionsViewMode == "pills" >
 				jQuery('div.tab-pane.active').each(function(index, value) {
 					initOpensocialGadgets(value);
 				});
 				<#elseif basicSectionsViewMode == "carousel" >
+				jQuery(this).find('div.item.active').each(function(index, value) {
+					initOpensocialGadgets(value);
+				});
+				<#else> <#-- basicSectionsViewMode == "default" -->
+				initOpensocialGadgets(jQuery('#divPageHTML'));
 				</#if>
 			});
         </script>
@@ -131,7 +135,7 @@
 			            <div class="control-group">
 			              <label class="control-label" for="title">Titre</label>
 			              <div class="controls">
-			                <input class="input-large" id="sectionTitle" name="title" size="30" type="text" value="${section.title}"/>
+			                <input class="input-large" id="sectionTitle" name="title" size="30" type="text" value="${section.title?html}"/>
 			              </div>
 			            </div>
 

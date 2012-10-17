@@ -258,12 +258,12 @@ li.labscomments {
 }
 
 .rss-feed-list-style() {
-    .item {
+    .itemList-item {
         cursor:pointer;
         border-radius:10px;
         margin-top:10px;
     }
-    .item:hover {
+    .itemList-item:hover {
         text-decoration:underline;
     }
     .browseLastMsg {
@@ -628,10 +628,15 @@ table.forumTopics tr td:first-child a small {
 		}
 	}
 }
+/* HtmlPage: sections view carousel */
+#carousel_divSections {
+	line-height: @baseLineHeight;
+}
 
 .highlight { background-color: yellow }
 
 .userStyleWithShadowOnLine{
+	width: @labsWidthHtmlElement;
 	.border-radius(@labsBorderRadiusHtmlElement);
 	.box-shadow(@labsBoxShadowHtmlElement);
 	padding: @labsPaddingHtmlElement;
@@ -641,9 +646,10 @@ table.forumTopics tr td:first-child a small {
 	.border-radius(@labsBorderRadiusHtmlElement);
 	.box-shadow(@labsBoxShadowHtmlElement);
 	padding: @labsPaddingHtmlElement;
-	margin: @labsMarginHtmlElement;
+	margin: @labsMarginHtmlElementCol;
 }
 .userStyleWithGradientOnLine{
+	width: @labsWidthHtmlElement;
 	.border-radius(@labsBorderRadiusHtmlElement);
 	padding: @labsPaddingHtmlElement;
 	margin: @labsMarginHtmlElement;
@@ -652,6 +658,6 @@ table.forumTopics tr td:first-child a small {
 .userStyleWithGradientOnCol > [class*="span"]{
 	.border-radius(@labsBorderRadiusHtmlElement);
 	padding: @labsPaddingHtmlElement;
-	margin: @labsMarginHtmlElement;
+	margin: @labsMarginHtmlElementCol;
 	#gradient > .vertical(@labsGradientPrimaryColorHtmlElement, @labsGradientSecondColorHtmlElement);
 }
