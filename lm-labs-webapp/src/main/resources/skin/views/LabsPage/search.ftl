@@ -2,14 +2,14 @@
 <#setting url_escaping_charset="UTF-8">
   <@block name="title">${Common.siteDoc(Document).getSite().title}-${This.document.title}</@block>
 
-    <@block name="scripts">
-      <@superBlock/>
-		<script type="text/javascript" src="${contextPath}/wro/labs.search.js"></script>
-    </@block>
-
     <@block name="css">
       <@superBlock/>
 		<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.search.css"/>
+    </@block>
+
+    <@block name="scripts">
+      <@superBlock/>
+		<script type="text/javascript" src="${contextPath}/wro/labs.search.js"></script>
     </@block>
 
     <@block name="content">
@@ -71,12 +71,12 @@
               <td class="colIcon"><img title="${doc.type}" alt="&gt;&gt;" <#if doc.schemas?seq_contains("common") >src="/nuxeo/${doc.common.icon}"</#if> /></td>
 
                 <td>
-                	<#if (doc.dublincore.title?length > 0)>
-                		<#if (Context.modulePath + "/" + sd.getParentPage().getPath() == Context.modulePath + "/" + sd.getResourcePath())>
-							    <a href="${Context.modulePath}/${sd.getParentPage().getPath()}${fullTextHighlightURL}">${sd.getParentPage().title}</a>            		
-                		<#else>
-                			${doc.dublincore.title}
-                		</#if>
+                	<#if (doc['dc:title']?length > 0)>
+						<#if (Context.modulePath + "/" + sd.getParentPage().getPath() != Context.modulePath + "/" + sd.getResourcePath())>
+							<a href="${Context.modulePath}/${sd.getResourcePath()}${fullTextHighlightURL}">${doc['dc:title']}</a>            		
+						<#else>
+							${doc['dc:title']}
+						</#if>
                 	<#else>
               			(${Context.getMessage('label.search.result.noTitle')})
               		</#if>
