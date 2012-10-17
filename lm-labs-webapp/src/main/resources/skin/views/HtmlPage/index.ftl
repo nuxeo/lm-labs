@@ -135,7 +135,7 @@
 			            <div class="control-group">
 			              <label class="control-label" for="title">Titre</label>
 			              <div class="controls">
-			                <input class="input-large" id="sectionTitle" name="title" size="30" type="text" value="${section.title}"/>
+			                <input class="input-large" id="sectionTitle" name="title" size="30" type="text" value="${section.title?html}"/>
 			              </div>
 			            </div>
 
