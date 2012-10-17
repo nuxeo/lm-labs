@@ -24,12 +24,16 @@
         <script type="text/javascript" >
 			jQuery(document).ready(function() {
 				setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
-				initOpensocialGadgets(jQuery('#divPageHTML'));
 				<#if basicSectionsViewMode == "tabbed" || basicSectionsViewMode == "pills" >
 				jQuery('div.tab-pane.active').each(function(index, value) {
 					initOpensocialGadgets(value);
 				});
 				<#elseif basicSectionsViewMode == "carousel" >
+				jQuery(this).find('div.item.active').each(function(index, value) {
+					initOpensocialGadgets(value);
+				});
+				<#else> <#-- basicSectionsViewMode == "default" -->
+				initOpensocialGadgets(jQuery('#divPageHTML'));
 				</#if>
 			});
         </script>

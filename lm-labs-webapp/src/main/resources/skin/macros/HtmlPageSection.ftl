@@ -5,6 +5,7 @@
 		    <section id="${idsPrefix}section_${section_index}">
 		        <div class="page-header"
 		        <#if viewMode == "tabbed" && 1 < sections?size > style="margin-top: 0px; padding-bottom: 0px; border-bottom: 0px;"
+		        <#elseif viewMode == "carousel" > style="margin-left: 38px; margin-right: 38px;"
 		        <#elseif section.title?length == 0 && section.description?length == 0 > style="padding-bottom: 0px;"</#if>
 		        >
 		            <#if viewMode != "tabbed" || (viewMode == "tabbed" && sections?size <= 1) ><h1 style="display:inline;">${section.title}</h1></#if><h2 style="display:inline;"> <small>${section.description}</small></h2>

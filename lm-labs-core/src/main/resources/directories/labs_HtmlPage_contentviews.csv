@@ -3,3 +3,4 @@ id, label, obsolete, ordering
 "tabbed","tabbed","0","20"
 "tabbed_left","tabbed_left","0","30"
 "tabbed_right","tabbed_right","0","40"
+"carousel","carousel","0","50"

@@ -14,21 +14,32 @@ $(document).ready(function() {
   
 	jQuery('#tabbed_divSections').find('a[data-toggle="tab"]').on('shown', function (e) {
         var pattern=/#.+/gi //use regex to get anchor(==selector)
-        var contentID = e.target.toString().match(pattern)[0];        
-		initOpensocialGadgets(jQuery(contentID));
-		
-		// resize widget 'Dernieres actualites du site'
-		jQuery(contentID).find('.rss-feed-list.bloc .itemList').ready(function() {
-			jQuery('.rss-feed-list.bloc').each(function(index, obj) {
-				jQuery(obj).parent().animate({
-			        height:jQuery(obj).height() + 20
-				});
+        var contentID = e.target.toString().match(pattern)[0];   
+        initWidgets(jQuery(contentID));
+	});
+	jQuery('#carousel_divSections').bind('slid', function() {
+		var carouselActiveItem = jQuery(this).find('div.item.active');
+		initOpensocialGadgets(carouselActiveItem);
+		initHtmlWidgets(carouselActiveItem);
+	});
+	
+});
+
+function initHtmlWidgets(parentObj) {
+	// resize widget 'Dernieres actualites du site'
+	jQuery(parentObj).find('.rss-feed-list.bloc .itemList').ready(function() {
+		jQuery('.rss-feed-list.bloc').each(function(index, obj) {
+			jQuery(obj).parent().animate({
+				height:jQuery(obj).height() + 20
 			});
 		});
 	});
-	
-	
-});
+}
+
+function initWidgets(parentObj) {
+	initOpensocialGadgets(jQuery(parentObj));
+	initHtmlWidgets(parentObj);
+}
 
 function openModifiyCSSLine(url, cssName, userClassInput){
 	jQuery("#div-modifyCSSLine").dialog2('open');

@@ -8,6 +8,6 @@
 </#list>
 	</div>
 <!-- Carousel nav -->
-	<a class="carousel-control left" href="#${idsPrefix}divSections" data-slide="prev" style="left: 0px; top: 0;" >&lsaquo;</a>
-	<a class="carousel-control right" href="#${idsPrefix}divSections" data-slide="next" style="right: 0px; top: 0;">&rsaquo;</a>
+	<a class="carousel-control left" href="#${idsPrefix}divSections" data-slide="prev" style="left: -11px; top: 30px;" >&lsaquo;</a>
+	<a class="carousel-control right" href="#${idsPrefix}divSections" data-slide="next" style="right: -11px; top: 30px;">&rsaquo;</a>
 </div>
