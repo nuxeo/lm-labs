@@ -3,7 +3,8 @@
 <html lang="fr">
 <#assign bsMinified = ".min" />
 <#assign popoverPlacement = "" />
-<#assign mySite=Common.siteDoc(Document).getSite() />
+<#assign mySite = Context.getProperty("site") />
+<#include "views/AssetFolder/macro.ftl"/>
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Interface des médias</title>
@@ -24,60 +25,98 @@
   <div id="FKtopContent" style="padding: 10px 10px;" >
   <div class="container" >
     <div class="row-fluid">
-
-      <div class="span3">
-        <div class="bloc" style="margin-right: 5px;" >
-          <div class="header">
-            Arborescence
-          </div>
-
-
-
-
-           <div class="treeroot"></div>
-           <ul id="treenav" class="treeview">
-
-           </ul>
-
-        </div> <!-- bloc -->
-      </div>
-
-
-      <div class="content span9">
-        <div class="row">
-          <div id="fileContent" class="columns well" style="min-height:300px;">
-            <#include "views/AssetFolder/content.ftl"/>
-          </div>
-
-        </div> <#-- row -->
-        <div class="row">
-          <div class="actions">
-            <a href="#" rel="addFileDialog" class="open-dialog btn btn-small btn-primary"><i class="icon-file"></i>Ajouter un fichier</a>
-            <a href="#" rel="addFolderDialog" class="open-dialog btn btn-small"><i class="icon-folder-close"></i>Ajouter un répertoire</a>
-          </div>
-
-          <div id="addFolderDialog" style="display:none;">
-            <h1>Ajouter un répertoire</h1>
-            <form class="form-horizontal" id="addFolderForm" action="${This.path}" onSubmit="this.action=currentPath" method="post">
-              <input type="hidden" name="doctype" value="Folder"/>
-              <fieldset>
-                <div class="control-group">
-                    <label class="control-label" for="title">Nom du répertoire</label>
-                      <div class="controls">
-                        <input name="dublincore:title" class="required input"/>
-                      </div>
-                    </div>
-              </fieldset>
-              <div class="actions">
-                <button type="submit" class="btn btn-primary required-fields" form-id="addFolderForm">Ajouter</button>
-              </div>
-            </form>
-          </div>
-
-     <#include "macros/add_file_dialog.ftl" />
-     <@addFileDialog action="${This.path}" onSubmit="this.action=currentPath"/>
-        </div> <#-- row -->
-      </div> <#-- content -->
+    	<ul class="nav nav-tabs">
+    		<li id="navSiteAssets" class="active"><a href="#" onclick="javascript:displaySiteAssets();">Site</a></li>
+    		<li id="navCommonsAssets"><a href="#" onclick="javascript:displayCommonsAssets();">Commun</a></li>
+    	</ul>
+		
+		<div id="siteAssets">
+		      <div class="span3">
+		        <div class="bloc" style="margin-right: 5px;" >
+		          <div class="header">
+		            Arborescence
+		          </div>
+		
+		
+		
+		
+		           <div class="treeroot"></div>
+		           <ul id="treenav" class="treeview">
+		
+		           </ul>
+		
+		        </div> <!-- bloc -->
+		      </div>
+		
+		
+		      <div class="content span9">
+		        <div class="row">
+		          <div id="fileContent" class="columns well" style="min-height:300px;">
+		            <@labsContentAssets ref=Document.ref  />
+		          </div>
+		
+		        </div> <#-- row -->
+		        <div class="row">
+		          <div class="actions">
+		            <a href="#" rel="addFileDialog" class="open-dialog btn btn-small btn-primary"><i class="icon-file"></i>Ajouter un fichier</a>
+		            <a href="#" rel="addFolderDialog" class="open-dialog btn btn-small"><i class="icon-folder-close"></i>Ajouter un répertoire</a>
+		          </div>
+		
+		          <div id="addFolderDialog" style="display:none;">
+		            <h1>Ajouter un répertoire</h1>
+		            <form class="form-horizontal" id="addFolderForm" action="${This.path}" onSubmit="addFolderAsset();return false;" method="post">
+		              <input type="hidden" name="doctype" value="Folder"/>
+		              <fieldset>
+		                <div class="control-group">
+		                    <label class="control-label" for="title">Nom du répertoire</label>
+		                      <div class="controls">
+		                        <input name="dublincore:title" class="required input"/>
+		                      </div>
+		                    </div>
+		              </fieldset>
+		              <div class="actions">
+		                <button type="submit" class="btn btn-primary required-fields" form-id="addFolderForm">Ajouter</button>
+		              </div>
+		            </form>
+		          </div>
+		
+		     <#include "macros/add_file_dialog.ftl" />
+		     <@addFileDialog action="${This.path}" onSubmit="addFileAsset();return false;" no_redirect="<input type='hidden' name='no_redirect' value='true' />"/>
+		        </div> <#-- row -->
+		      </div> <#-- content -->
+		</div><#-- siteAssets -->
+		
+		
+		<div id="commonsAssets">
+		      <div class="span3">
+		        <div class="bloc" style="margin-right: 5px;" >
+		          <div class="header">
+		            Arborescence
+		          </div>
+		
+		
+		
+		
+		           <div class="treeroot"></div>
+		           <ul id="treenavCommon" class="treeview">
+		
+		           </ul>
+		
+		        </div> <!-- bloc -->
+		      </div>
+		
+		
+		      <div class="content span9">
+		        <div class="row">
+		          <div id="fileContentCommon" class="columns well" style="min-height:300px;">
+		            <@labsContentAssets ref=Common.getRefSiteRootAssetsDoc() isCommon="true" />
+		          </div>
+		        </div> <#-- row -->
+		      </div> <#-- content -->
+		</div><#-- commonsAssets -->
+		
+		
+		
     </div> <#-- row-fluid -->
   </div> <#-- container -->
 
@@ -93,11 +132,90 @@
        cookieId: "${mySite.document.id}-assets-navtree"
       }
     );
+    
+	$('#treenavCommon').treeview({
+       url: "${Context.modulePath}/${mySite.URL}/@assets/json?callFunction=${This.callFunction}&calledRef=${This.calledRef}&isCommon=true",
+       persist: "cookie",
+       control: "#navtreeCommoncontrol",
+       collapsed: true,
+       cookieId: "${mySite.document.id}-assets-navtree-common"
+      }
+	);
+	
+	if (location.search.indexOf("isCommon=true") > -1){
+		displayCommonsAssets();
+	}
+	else{
+		displaySiteAssets();
+	}
+	
+	
   });
 
     function sendToCallFunction(href) {
       window.opener.${This.getCallFunction()}('${This.getCalledRef()}', href);
         window.close();
+    }
+    
+    function loadContentAsset(url, isCommon){
+    	if (isCommon){
+    		$("#fileContentCommon").load(url);
+    	}
+    	else{
+    		$("#fileContent").load(url);
+    	}
+    }
+    
+    function displaySiteAssets(){
+    	$("#commonsAssets").hide();
+    	$("#navCommonsAssets").removeClass("active");
+    	$("#siteAssets").show();
+    	$("#navSiteAssets").addClass("active");
+    }
+    
+    function displayCommonsAssets(){
+    	$("#siteAssets").hide();
+    	$("#navSiteAssets").removeClass("active");
+    	$("#commonsAssets").show();
+    	$("#navCommonsAssets").addClass("active");
+    }
+    
+    function addFolderAsset(){
+    	jQuery('#waitingPopup').dialog2('open');
+    	var action = $("#pathToAction").val();
+    	jQuery.ajax({
+			type: "POST",
+			url: action,
+			data: $("#addFolderForm").serialize(),
+			success: function(msg){
+				loadContentAsset(action, false);
+				jQuery('#waitingPopup').dialog2('close');
+			},
+			error: function(msg){
+				alert( msg.responseText );
+				jQuery('#waitingPopup').dialog2('close');
+			}
+		});
+		jQuery('#addFolderDialog').dialog2('close');
+    }
+    
+    function addFileAsset(){
+    	jQuery('#waitingPopup').dialog2('open');
+    	var action = $("#pathToAction").val();
+    	jQuery.ajax({
+			type: "POST",
+			url: action,
+			data: $("#addFileForm").serialize(),
+			success: function(msg){
+				loadContentAsset(action, false);
+				jQuery('#waitingPopup').dialog2('close');
+			},
+			error: function(msg){
+				alert( msg.responseText );
+				jQuery('#waitingPopup').dialog2('close');
+			}
+		});
+		jQuery('#addFileDialog').dialog2('close');
     }
     </script>
   </div><#-- FKtopContent -->

@@ -19,6 +19,7 @@
 
 package com.leroymerlin.corp.fr.nuxeo.labs.site.tree.assets;
 
+import org.apache.commons.lang.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.webengine.WebEngine;
@@ -27,33 +28,54 @@ import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractJSONSerializer;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter.CkEditorParametersAdapter;
 
 public class AssetsTreeSerializer extends AbstractJSONSerializer {
+    
+    boolean isCommon;
+    
+    public AssetsTreeSerializer(){
+        this(false);
+    }
+    
+    public AssetsTreeSerializer(boolean isCommon){
+        this.isCommon = isCommon;
+    }
+    
     @Override
     public String getUrl(TreeItem item) {
         WebContext ctx = WebEngine.getActiveContext();
-        String endUrl = "";
-        String calledRefParameter = ctx.getRequest().getParameter(CkEditorParametersAdapter.PARAM_NAME_CALLED_REFERENCE);
-        String callbackFunctionParameter = ctx.getRequest().getParameter(CkEditorParametersAdapter.PARAM_NAME_CALLBACK);
-        if (calledRefParameter != null && callbackFunctionParameter != null) {
-            endUrl = "?" + CkEditorParametersAdapter.PARAM_NAME_CALLBACK + "=" + callbackFunctionParameter + "&" + CkEditorParametersAdapter.PARAM_NAME_CALLED_REFERENCE + "=" + calledRefParameter;
-        }
+        StringBuilder result = new StringBuilder("javascript:loadContentAsset('");
+        StringBuilder sb = new StringBuilder("#");
         try {
-            StringBuilder sb = new StringBuilder(getBasePath(ctx));
-            sb.append(URIUtils.quoteURIPathComponent(item.getPath()
-                    .toString(), false)).append(endUrl);
-            return sb.toString();
+            sb = new StringBuilder(getBasePath(ctx));
+            String path = item.getPath().toString();
+            if (!StringUtils.isEmpty(path) && path.length() > 1){
+                sb.append(URIUtils.quoteURIPathComponent(path, false));
+            }
+            sb.append("/@views/content");
+            if (this.isCommon){
+                sb.append("?isCommon=true");
+            }
+            result.append(sb.toString()).append("', ");
+            if (this.isCommon){
+                result.append("true");
+            }
+            else{
+                result.append("false");
+            }
+            result.append(");");
         } catch (ClientException e) {
-            return "#";
+            sb = new StringBuilder("#");
         }
+        return result.toString();
     }
-
+    
     @Override
     protected String getBasePath(WebContext ctx) throws ClientException {
         StringBuilder sb = new StringBuilder(ctx.getModulePath());
         LabsSite site = (LabsSite) ctx.getProperty("site");
-        sb.append("/" + URIUtils.quoteURIPathComponent(site.getURL(), true) + "/@assets");
+        sb.append("/" + URIUtils.quoteURIPathComponent(site.getURL(), true));
+        sb.append("/@assets");
         return sb.toString();
     }
 

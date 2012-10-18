@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter.assets;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -11,6 +12,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.Blob;
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
@@ -20,6 +22,7 @@ import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
+import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.runtime.api.Framework;
 
@@ -49,6 +52,13 @@ public class AssetFolderResource extends DocumentObject {
             throw WebException.wrap(e);
         }
     }
+    
+    @GET
+    @Path("/@views/content")
+    public Template doGetRootContent() throws ClientException {
+        String isCommon = ctx.getRequest().getParameter("isCommon");
+        return this.getView("content").arg("isCommon", isCommon);
+    }
 
     public String getCalledRef() {
         return (String) ctx.getRequest().getSession().getAttribute(
@@ -64,9 +74,9 @@ public class AssetFolderResource extends DocumentObject {
     public Response doPost() {
         FormData form = ctx.getForm();
         CoreSession session = getCoreSession();
+        String noRedirect = form.getString("no_redirect");
         if (form.isMultipartContent()) {
             String desc = form.getString("description");
-            String noRedirect = form.getString("no_redirect");
             Blob blob = form.getFirstBlob();
             try {
                 blob.persist();
@@ -99,7 +109,13 @@ public class AssetFolderResource extends DocumentObject {
             } catch (Exception e) {
                 throw WebException.wrap(e);
             }
-            return redirect(getPath() + '/' + pathSegment);
+            if (noRedirect != null) {
+                JSONObject json = new JSONObject();
+                json.element("text", "OK");
+                return Response.ok(json, MediaType.APPLICATION_JSON).build();
+            } else {
+                return redirect(getPath() + '/' + pathSegment);
+            }
         }
     }
 

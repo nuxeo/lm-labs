@@ -31,14 +31,21 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.AbstractDocumentTree;
  * Implementation of customized tree.
  */
 public class AssetsDocumentTree extends AbstractDocumentTree {
+    
+    private boolean isCommon;
 
     public AssetsDocumentTree(WebContext ctx, DocumentModel rootDoc) {
+        this(ctx, rootDoc, false);
+    }
+
+    public AssetsDocumentTree(WebContext ctx, DocumentModel rootDoc, boolean isCommon) {
         super(ctx, rootDoc);
+        this.isCommon = isCommon;
     }
 
     @Override
     protected JSonTreeSerializer getSerializer(WebContext ctx) {
-        return new AssetsTreeSerializer();
+        return new AssetsTreeSerializer(isCommon);
     }
 
     @Override

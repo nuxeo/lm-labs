@@ -145,6 +145,7 @@ public final class LabsSiteConstants {
         SITETHEMESROOT("Folder", "themes"),
         SITETHEME("SiteTheme",StringUtils.EMPTY),
         PAGEFORUM("PageForum", StringUtils.EMPTY),
+        COMMONSASSETS("Assets", "commons-assets"),
         WELCOME(HTMLPAGE.type(), "Accueil"); // TODO
 
         private String docType;

@@ -25,6 +25,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
@@ -226,6 +227,15 @@ public final class CommonHelper {
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    public static PathRef getRefSiteRootAssetsDoc() throws ClientException{
+        SiteManager siteManager= getSiteManager();
+        if (siteManager != null){
+            DocumentModel siteRoot = siteManager.getSiteRoot(getCoreSession());
+            return new PathRef(siteRoot.getPathAsString() + "/" + Docs.COMMONSASSETS.docName());
+        }
+        return null;
     }
 
     public static boolean isNotRejectedComment(DocumentModel document){

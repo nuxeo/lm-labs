@@ -105,6 +105,11 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
                         "/" + Docs.DEFAULT_DOMAIN.docName() + "/", Docs.SITESROOT.docName(), Docs.SITESROOT.type());
                 sitesRoot.setPropertyValue("dc:title", "Default root of sites");
                 sitesRoot = session.createDocument(sitesRoot);
+                DocumentModel commonsAssets = session.createDocumentModel(
+                		"/" + Docs.DEFAULT_DOMAIN.docName() + "/" + Docs.SITESROOT.docName() + "/", LabsSiteConstants.Docs.COMMONSASSETS.docName(),
+                        LabsSiteConstants.Docs.COMMONSASSETS.type());
+                commonsAssets.setPropertyValue("dc:title", "Commons assets of sites");
+                commonsAssets = session.createDocument(commonsAssets);
             }
         };
 

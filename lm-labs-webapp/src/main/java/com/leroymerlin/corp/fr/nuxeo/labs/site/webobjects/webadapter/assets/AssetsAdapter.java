@@ -21,28 +21,36 @@ import org.nuxeo.ecm.webengine.model.WebContext;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.assets.AssetsDocumentTree;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.webadapter.CkEditorParametersAdapter;
 
 @WebAdapter(name = "assets", type = "assetsAdapter", targetType = "LabsSite")
 public class AssetsAdapter extends CkEditorParametersAdapter {
-    
+
     public AssetsAdapter() {
         WebContext ctx = WebEngine.getActiveContext();
-        //callerRef
-        String parameter = ctx.getRequest().getParameter(PARAM_NAME_CKEDITOR_CALLBACK);
+        // callerRef
+        String parameter = ctx.getRequest()
+                .getParameter(PARAM_NAME_CKEDITOR_CALLBACK);
         if (StringUtils.isBlank(parameter)) {
-            parameter = ctx.getRequest().getParameter(PARAM_NAME_CALLED_REFERENCE);
+            parameter = ctx.getRequest()
+                    .getParameter(PARAM_NAME_CALLED_REFERENCE);
         }
         if (StringUtils.isNotBlank(parameter)) {
-            ctx.getRequest().getSession().setAttribute(PARAM_NAME_CALLED_REFERENCE, parameter);
+            ctx.getRequest()
+                    .getSession()
+                    .setAttribute(PARAM_NAME_CALLED_REFERENCE, parameter);
         }
 
-        //jscallback
-        parameter = ctx.getRequest().getParameter(PARAM_NAME_CALLBACK);
+        // jscallback
+        parameter = ctx.getRequest()
+                .getParameter(PARAM_NAME_CALLBACK);
         if (StringUtils.isBlank(parameter)) {
             parameter = PARAM_VALUE_CKEDITOR_CALLBACK;
         }
-        ctx.getRequest().getSession().setAttribute(PARAM_NAME_CALLBACK, parameter);
+        ctx.getRequest()
+                .getSession()
+                .setAttribute(PARAM_NAME_CALLBACK, parameter);
     }
 
     @GET
@@ -66,7 +74,14 @@ public class AssetsAdapter extends CkEditorParametersAdapter {
     @Path("{path}")
     public Object doTraverse(@PathParam("path") String path)
             throws ClientException {
-        AssetFolderResource res = getAssetResource(getSite());
+        String isCommon = ctx.getRequest().getParameter("isCommon");
+        AssetFolderResource res = null;
+        if ("true".equals(isCommon)) {
+            res = (AssetFolderResource) ctx.newObject("AssetFolder",
+                    getSiteRootAssetsDoc());
+        } else {
+            res = getAssetResource(getSite());
+        }
         return res.traverse(path);
     }
 
@@ -78,17 +93,22 @@ public class AssetsAdapter extends CkEditorParametersAdapter {
 
     @Path("paramId")
     public Object doTraverseWithParamId() throws ClientException {
-        return doTraverseAsset(ctx.getForm().getString("id"));
+        return doTraverseAsset(ctx.getForm()
+                .getString("id"));
     }
 
     private Object doTraverseAsset(final String id) throws ClientException {
         AssetFolderResource res = getAssetResource(getSite());
-        String path = getContext().getCoreSession().getDocument(new IdRef(id)).getPath().toString();
+        String path = getContext().getCoreSession()
+                .getDocument(new IdRef(id))
+                .getPath()
+                .toString();
 
         if (path.endsWith("assets")) {
             path = "";
         } else {
-            path = path.substring(path.indexOf("assets/") + "assets/".length(), path.length());
+            path = path.substring(path.indexOf("assets/") + "assets/".length(),
+                    path.length());
         }
 
         return res.traverse(path);
@@ -96,13 +116,16 @@ public class AssetsAdapter extends CkEditorParametersAdapter {
 
     @GET
     @Path("json")
-    public Response doGetJson(@QueryParam("root") String root)
-            throws ClientException {
-        LabsSite site = (LabsSite) ctx.getProperty("site");
-
+    public Response doGetJson(@QueryParam("root") String root,
+            @QueryParam("isCommon") String isCommon) throws ClientException {
+        LabsSite site = getSite();
         if (site != null) {
-            DocumentModel assetsDoc = site.getAssetsDoc();
-            AssetsDocumentTree tree = new AssetsDocumentTree(ctx, assetsDoc);
+            AssetsDocumentTree tree;
+            if (!StringUtils.isEmpty(isCommon) && isCommon.equals("true")) {
+                tree = new AssetsDocumentTree(ctx, getSiteRootAssetsDoc(), true);
+            } else {
+                tree = new AssetsDocumentTree(ctx, site.getAssetsDoc(), false);
+            }
             String result = "";
             if (root == null || "source".equals(root)) {
                 tree.enter(ctx, "");
@@ -110,16 +133,30 @@ public class AssetsAdapter extends CkEditorParametersAdapter {
             } else {
                 result = tree.enter(ctx, root);
             }
-            return Response.ok().entity(result).build();
+            return Response.ok()
+                    .entity(result)
+                    .build();
         }
         return null;
+    }
+
+    private DocumentModel getSiteRootAssetsDoc() throws ClientException {
+        return ctx.getCoreSession()
+                .getDocument(CommonHelper.getRefSiteRootAssetsDoc());
     }
 
     @GET
     @Path("/@views/content")
     public Template doGetRootContent() throws ClientException {
-        AssetFolderResource folder = getAssetResource(getSite());
-        return folder.getView("content");
+        AssetFolderResource folder = null;
+        String isCommon = ctx.getRequest().getParameter("isCommon");
+        if ("true".equals(isCommon)){
+            folder = (AssetFolderResource) ctx.newObject("AssetFolder",getSiteRootAssetsDoc());
+        }
+        else{
+            folder = getAssetResource(getSite());
+        }
+        return folder.getView("content_root").arg("isCommon", isCommon);
     }
 
     private LabsSite getSite() {
