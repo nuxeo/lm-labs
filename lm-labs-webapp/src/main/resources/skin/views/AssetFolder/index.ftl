@@ -109,7 +109,7 @@
 		      <div class="content span9">
 		        <div class="row">
 		          <div id="fileContentCommon" class="columns well" style="min-height:300px;">
-		            <@labsContentAssets ref=Common.getRefSiteRootAssetsDoc() isCommon="true" />
+		            <@labsContentAssets ref=Common.getRefSiteRootAssetsDoc() path=Context.modulePath + "/" + mySite.URL + "/@assets" isCommon="true" />
 		          </div>
 		        </div> <#-- row -->
 		      </div> <#-- content -->
@@ -183,12 +183,13 @@
     function addFolderAsset(){
     	jQuery('#waitingPopup').dialog2('open');
     	var action = $("#pathToAction").val();
+    	alert(action);
     	jQuery.ajax({
 			type: "POST",
 			url: action,
 			data: $("#addFolderForm").serialize(),
 			success: function(msg){
-				loadContentAsset(action, false);
+				loadContentAsset(action + '/@views/content', false);
 				jQuery('#waitingPopup').dialog2('close');
 			},
 			error: function(msg){
@@ -200,21 +201,8 @@
     }
     
     function addFileAsset(){
-    	jQuery('#waitingPopup').dialog2('open');
-    	var action = $("#pathToAction").val();
-    	jQuery.ajax({
-			type: "POST",
-			url: action,
-			data: $("#addFileForm").serialize(),
-			success: function(msg){
-				loadContentAsset(action, false);
-				jQuery('#waitingPopup').dialog2('close');
-			},
-			error: function(msg){
-				alert( msg.responseText );
-				jQuery('#waitingPopup').dialog2('close');
-			}
-		});
+    	$("#addFileForm").attr("action", $("#pathToAction").val());
+		$("#addFileForm").submit();
 		jQuery('#addFileDialog').dialog2('close');
     }
     </script>

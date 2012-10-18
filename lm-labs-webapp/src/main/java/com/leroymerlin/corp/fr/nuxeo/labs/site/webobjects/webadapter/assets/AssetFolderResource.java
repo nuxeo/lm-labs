@@ -88,13 +88,7 @@ public class AssetFolderResource extends DocumentObject {
                     }
                     session.save();
                 }
-                if (noRedirect != null) {
-                    JSONObject json = new JSONObject();
-                    json.element("text", "OK");
-                    return Response.ok(json, MediaType.APPLICATION_JSON).build();
-                } else {
-                    return redirect(getPath());
-                }
+            return redirect(getPath());
             } catch (Exception e) {
                 throw WebException.wrap(e);
             }
