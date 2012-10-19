@@ -54,13 +54,17 @@ public class DirectoriesUtils {
 
 
     public static DocumentModelList getDirDocumentModelList(Directories directory) {
+        Map<String, Serializable> filter = Collections.emptyMap();
+        return getDirDocumentModelList(directory, filter);
+    }
+    
+    public static DocumentModelList getDirDocumentModelList(Directories directory, Map<String, Serializable> filter) {
         DocumentModelList list = new DocumentModelListImpl();
         Session session = null;
         try {
             DirectoryService directoryService = Framework.getService(DirectoryService.class);
             session = directoryService.open(directory.dirName());
             Map<String, String> orderBy = new LinkedHashMap<String, String>();
-            Map<String, Serializable> filter = Collections.emptyMap();
             Set<String> fulltext = Collections.emptySet();
             orderBy.put(directory.orderingField(), "asc");
             list = session.query(filter, fulltext, orderBy);
