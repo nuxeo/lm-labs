@@ -2,7 +2,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,13 +53,17 @@ public class DirectoriesUtils {
 
 
     public static DocumentModelList getDirDocumentModelList(Directories directory) {
+        Map<String, Serializable> filter = Collections.emptyMap();
+        return getDirDocumentModelList(directory, filter);
+    }
+    
+    public static DocumentModelList getDirDocumentModelList(Directories directory, Map<String, Serializable> filter) {
         DocumentModelList list = new DocumentModelListImpl();
         Session session = null;
         try {
             DirectoryService directoryService = Framework.getService(DirectoryService.class);
             session = directoryService.open(directory.dirName());
             Map<String, String> orderBy = new LinkedHashMap<String, String>();
-            Map<String, Serializable> filter = Collections.emptyMap();
             Set<String> fulltext = Collections.emptySet();
             orderBy.put(directory.orderingField(), "asc");
             list = session.query(filter, fulltext, orderBy);
@@ -79,7 +82,7 @@ public class DirectoriesUtils {
     }
 
     public static Map<String, String> getDirMap(Directories directory) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new LinkedHashMap<String, String>();
         Session session = null;
         try {
             DirectoryService directoryService = Framework.getService(DirectoryService.class);

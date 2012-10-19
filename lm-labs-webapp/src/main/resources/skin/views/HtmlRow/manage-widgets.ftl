@@ -21,68 +21,21 @@
                 <#assign widgetTitle = "Aucun" />
             </#if>
             <option value="html/editor"<#if content.type == "html"> selected</#if> >${widgetTitle}</option>
-            <optgroup label="Usine à Sites - Contenu">
-            <#assign gadgetType = "html" gadgetName = "externalContent" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "html" gadgetName = "toc" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            </optgroup>
-            <optgroup label="Usine à Sites - Navigation">
+            
+			<#list Common.getPageWidgetGroups(Document.type) as widgetGroup>
+			            <optgroup label="${widgetGroup}">
+				<#assign widgetDocs = Common.getPageWidgets(Document.type, widgetGroup) />
+				<#if (widgetDocs?size > 0) >
+					<#list widgetDocs as widgetDoc >
+			            <#assign gadgetType = widgetDoc['labshtmlpagewidgets:type'] gadgetName = widgetDoc['labshtmlpagewidgets:wname'] />
+			            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+					</#list>
+				</#if>
+			</#list>
             <#-- gadget opensocial désactivé
             <#assign gadgetType = "opensocial" gadgetName = "lastuploads" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
             -->
-            <#assign gadgetType = "html" gadgetName = "lastuploads" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "html" gadgetName = "children" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "opensocial" gadgetName = "pageclasseurfolder" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "html" gadgetName = "myPages" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "html" gadgetName = "pagesSameAuthor" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "html" gadgetName = "myDraftPages" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "html" gadgetName = "draftPagesSameAuthor" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            </optgroup>
-            <optgroup label="Usine à Sites - Actualités">
-            <#assign gadgetType = "html" gadgetName = "siteRssFeed-lastNews" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "html" gadgetName = "myPublishedNews" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "html" gadgetName = "publishedNewsSameAuthor" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            </optgroup>
-            <optgroup label="Actualités">
-            <#assign gadgetType = "opensocial" gadgetName = "rss" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "opensocial" gadgetName = "lmactu" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            </optgroup>
-            <optgroup label="Média">
-            <#assign gadgetType = "opensocial" gadgetName = "picturebook" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "opensocial" gadgetName = "video" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "opensocial" gadgetName = "flash" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            </optgroup>
-            <optgroup label="Intranet">
-            <#assign gadgetType = "opensocial" gadgetName = "IDENOV" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "opensocial" gadgetName = "Contact" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "opensocial" gadgetName = "hi42" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            <#assign gadgetType = "opensocial" gadgetName = "dispoappli" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            </optgroup>
-            <optgroup label="Divers">
-            <#assign gadgetType = "opensocial" gadgetName = "calculette" />
-            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
-            </optgroup>
             <#-- TODO
             <#assign gadgetType = "opensocial" gadgetName = "bookmarks" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
