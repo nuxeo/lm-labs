@@ -353,7 +353,9 @@ public final class CommonHelper {
         if (dirEnum == null) {
             list.add(LabsCustomView.PAGE_DEFAULT_VIEW);
         } else {
-            list.addAll(DirectoriesUtils.getDirMap(dirEnum).values());
+            Map<String, Serializable> filter = new HashMap<String, Serializable>();
+            filter.put("obsolete", "0");
+            list.addAll(DirectoriesUtils.getDirMap(dirEnum, filter).values());
         }
         return list;
     }

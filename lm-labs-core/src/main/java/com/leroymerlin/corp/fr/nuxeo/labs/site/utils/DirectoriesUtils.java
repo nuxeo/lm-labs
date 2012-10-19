@@ -82,13 +82,17 @@ public class DirectoriesUtils {
     }
 
     public static Map<String, String> getDirMap(Directories directory) {
+        Map<String, Serializable> filter = Collections.emptyMap();
+        return getDirMap(directory, filter);
+    }
+
+    public static Map<String, String> getDirMap(Directories directory, Map<String, Serializable> filter) {
         Map<String, String> map = new LinkedHashMap<String, String>();
         Session session = null;
         try {
             DirectoryService directoryService = Framework.getService(DirectoryService.class);
             session = directoryService.open(directory.dirName());
             Map<String, String> orderBy = new LinkedHashMap<String, String>();
-            Map<String, Serializable> filter = Collections.emptyMap();
             Set<String> fulltext = Collections.emptySet();
             orderBy.put(directory.orderingField(), "asc");
             for (DocumentModel entry : session.query(filter, fulltext, orderBy)) {
