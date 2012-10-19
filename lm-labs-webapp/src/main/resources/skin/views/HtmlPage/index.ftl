@@ -164,7 +164,7 @@
 			<#assign rows = section.getRows() />
 	        <#list rows as row>
 	        	<script type="text/javascript">
-                	userClassInputTab[${row_index}] = [<@generateInputCssClass row=row />];
+                	userClassInputTab['row_s${section_index}_r${row_index}'] = [<@generateInputCssClass row=row />];
                 </script>
 	        	<#if isContributor >
 	        		<div id="div_row_${row_index}">
@@ -252,7 +252,7 @@
 								    <input type="hidden" class="section-index-value" value="${section_index}" />
 		                            <input type="hidden" class="row-index-value" value="${row_index}" />
 		                            <input type="hidden" class="content-index-value" value="${content_index}" />
-									<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}', userClassInputTab[${row_index}]);" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
+									<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}', userClassInputTab['row_s${section_index}_r${row_index}']);" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
 									<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
 									<a href="#" class="open-dialog" rel="divConfigRowGadgets" ><i class="icon-gift"></i>${Context.getMessage('command.HtmlPage.row.widgets.config.button')}</a>
 									<a href="#" onClick="javascript:moveUp('${This.path}/s/${section_index}/r/${row_index}', '${This.path}#section_${section_index - 1}', 'div_row_${row_index}', '#div_section_${section_index}_rows>div');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
