@@ -1,10 +1,10 @@
 <div>
 <#if page.isDisplayable(This.DC_DESCRIPTION)>
-	<div class="columns viewblock page-description">${Document.dublincore.description}</div>
+	<div class="columns viewblock page-description">${Document['dc:description']}</div>
 </#if>
 
 	<div class="row-ckeditor editblock toc-noreplace" id="pageDescription" style="display: none;" >
-		<div id="description" class="ckeditorBorder" style="cursor: pointer">${Document.dublincore.description}</div>
+		<div id="description" class="ckeditorBorder" style="cursor: pointer">${Document['dc:description']}</div>
 		<script type="text/javascript">
 function reloadPageData(response, ckeObj, ckeip_html) {
     reloadPageForTocIfNeeded(response, ckeObj, ckeip_html);
