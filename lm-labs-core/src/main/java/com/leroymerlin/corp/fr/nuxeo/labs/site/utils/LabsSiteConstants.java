@@ -301,6 +301,8 @@ public final class LabsSiteConstants {
         THEMES("labs_themes", "vocabulary", "id", "label", "ordering"),
         FONT_SIZES("labs_fontsizes", "vocabulary", "id", "label", "ordering"),
         PAGE_CONTENTVIEWS("labs_HtmlPage_contentviews", "vocabulary", "id", "label", "ordering"),
+        PAGE_WIDGETS("labs_HtmlPage_widgets", "labshtmlpagewidgets", "code", "", "ordering"),
+        PAGE_WIDGETGROUPS("labs_HtmlPage_widgetGroups", "vocabulary", "id", "label", "ordering"),
         FONT_FAMILIES("labs_fontfamilies", "vocabulary", "id", "label", "label"),
         USER_STYLE("labs_userStyle", "vocabulary", "id", "label", "ordering");
 
