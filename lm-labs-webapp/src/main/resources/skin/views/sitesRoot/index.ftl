@@ -115,6 +115,10 @@ function deleteDefinitelySite(url){
         </div>
       </li>
     </#if>
+	<#if Context.principal.name == "Administrator" >
+    	<li class="divider"></li>
+		<li><a href="${Context.baseURL}/nuxeo/nxadmin/default/default-domain@view_admin" target="_blank" ><i class="icon-pushpin"></i>${Context.getMessage('command.LabsSite.goToBackOffice')}</a></li>
+	</#if>
   </@block>
 
 
