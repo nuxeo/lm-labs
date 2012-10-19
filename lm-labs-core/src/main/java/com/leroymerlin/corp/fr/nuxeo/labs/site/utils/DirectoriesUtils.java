@@ -2,7 +2,6 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -83,7 +82,7 @@ public class DirectoriesUtils {
     }
 
     public static Map<String, String> getDirMap(Directories directory) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new LinkedHashMap<String, String>();
         Session session = null;
         try {
             DirectoryService directoryService = Framework.getService(DirectoryService.class);

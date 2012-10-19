@@ -7,10 +7,8 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -30,9 +28,6 @@ import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
-import org.nuxeo.ecm.directory.DirectoryException;
-import org.nuxeo.ecm.directory.Session;
-import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
@@ -358,8 +353,33 @@ public final class CommonHelper {
         if (dirEnum == null) {
             list.add(LabsCustomView.PAGE_DEFAULT_VIEW);
         } else {
-            list.addAll(getDirMap(dirEnum).values());
+            list.addAll(DirectoriesUtils.getDirMap(dirEnum).values());
         }
+        return list;
+    }
+    
+    public List<String> getPageWidgetGroups(String docType) {
+        List<String> list = new ArrayList<String>();
+        Directories dirEnum = Directories.fromString("labs_" + docType + "_widgetGroups");
+        list.addAll(DirectoriesUtils.getDirMap(dirEnum).values());
+        return list;
+    }
+    
+    public DocumentModelList getPageWidgets(String docType, String group) {
+        DocumentModelList list = new DocumentModelListImpl();
+        Directories dirEnum = Directories.fromString("labs_" + docType + "_widgets");
+        Map<String, Serializable> filter = new HashMap<String, Serializable>();
+        filter.put("group", group);
+        filter.put("obsolete", "0");
+        list.addAll(DirectoriesUtils.getDirDocumentModelList(dirEnum, filter));
+        return list;
+    }
+    
+    public DocumentModelList getPageWidgets(String docType) {
+        DocumentModelList list = new DocumentModelListImpl();
+        Directories dirEnum = Directories.fromString("labs_" + docType + "_widgets");
+        Map<String, Serializable> filter = Collections.emptyMap();
+        list.addAll(DirectoriesUtils.getDirDocumentModelList(dirEnum, filter));
         return list;
     }
     
@@ -377,32 +397,5 @@ public final class CommonHelper {
     private static CoreSession getCoreSession() {
         return WebEngine.getActiveContext()
                 .getCoreSession();
-    }
-
-    private static Map<String, String> getDirMap(Directories directory) {
-        Map<String, String> map = new HashMap<String, String>();
-        Session session = null;
-        try {
-            DirectoryService directoryService = Framework.getService(DirectoryService.class);
-            session = directoryService.open(directory.dirName());
-            Map<String, String> orderBy = new LinkedHashMap<String, String>();
-            Map<String, Serializable> filter = Collections.emptyMap();
-            Set<String> fulltext = Collections.emptySet();
-            orderBy.put(directory.orderingField(), "asc");
-            for (DocumentModel entry : session.query(filter, fulltext, orderBy)) {
-                map.put((String) entry.getPropertyValue(directory.labelField()), (String) entry.getPropertyValue(directory.idField()));
-            }
-        } catch (Exception e) {
-            LOG.error(e, e);
-        } finally {
-            if (session != null) {
-                try {
-                    session.close();
-                } catch (DirectoryException e) {
-                    LOG.error("Unable to close session: " + e.getMessage());
-                }
-            }
-        }
-        return map;
     }
 }

@@ -65,6 +65,26 @@
       <createTablePolicy>on_missing_columns</createTablePolicy>
     </directory>
 
+    <directory name="labs_HtmlPage_widgetGroups">
+      <schema>vocabulary</schema>
+      <dataSource>java:/nxsqldirectory</dataSource>
+      <table>dir_labs_HtmlPage_widgetGroups</table>
+      <idField>id</idField>
+      <autoincrementIdField>false</autoincrementIdField>
+      <dataFile>directories/labs_HtmlPage_widgetGroups.csv</dataFile>
+      <createTablePolicy>on_missing_columns</createTablePolicy>
+    </directory>
+
+    <directory name="labs_HtmlPage_widgets">
+      <schema>labshtmlpagewidgets</schema>
+      <dataSource>java:/nxsqldirectory</dataSource>
+      <table>dir_labs_HtmlPage_widgets</table>
+      <idField>code</idField>
+      <autoincrementIdField>false</autoincrementIdField>
+      <dataFile>directories/labs_HtmlPage_widgets.csv</dataFile>
+      <createTablePolicy>always</createTablePolicy>
+    </directory>
+
     <directory name="labs_userStyle">
       <schema>vocabulary</schema>
       <dataSource>java:/nxsqldirectory</dataSource>

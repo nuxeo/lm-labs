@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/labshtmlpagewidgets"
+  xmlns:nxs="http://labs.fr.corp.leroymerlin.com/schemas/labs/labshtmlpagewidgets">
+  <xs:element name="code" type="xs:string"></xs:element>
+  <xs:element name="wname" type="xs:string"></xs:element>
+  <xs:element name="type" type="xs:string"></xs:element>
+  <xs:element name="group" type="xs:string"></xs:element>
+  <xs:element name="obsolete" type="xs:integer"></xs:element>
+  <xs:element name="ordering" type="xs:integer"></xs:element>
+</xs:schema>
