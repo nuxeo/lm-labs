@@ -124,6 +124,15 @@
 				    }
 				});
 			}
+			
+			function pasteObj(obj, container){
+				if (jQuery(obj).attr('rel') != 'PageNews'){
+					alert("${Context.getMessage('label.admin.copy.impossible')}");
+				}
+				else{
+					container.paste(obj);
+				}
+			}
 </#if>
 
 			function customMenu(node) {
@@ -273,7 +282,7 @@
 								"icon"				: "/nuxeo/icons/action_paste_all.gif",
 								"separator_after"	: false,
 								"label"				: "${Context.getMessage('command.admin.paste')}",
-								"action"			: function (obj) { this.paste(obj); }
+								"action"			: function (obj) { pasteObj(obj, this); }
 							}
 						}
 					}
@@ -505,11 +514,15 @@
 				data.rslt.o.each(function (i) {
 					if (data.rslt.cr === -1) {
 					} else {
+						if(jQuery(this).attr('rel') == 'LabsNews' && jQuery(data.rslt.np).attr("rel") != 'PageNews'){
+							data.inst.refresh(data.inst._get_parent(data.rslt.oc));
+							alert("${Context.getMessage('label.admin.copy.impossible')}");
+							return false;
+						}	
 						var operation = data.rslt.cy ? "copy" : "move";
 						var finded = false;
 						var after;
 						var currentId = jQuery(this).attr("id");
-
 						data.inst._get_children(data.rslt.np).each(function (index, element){
 							if (finded){
 								after = element;
