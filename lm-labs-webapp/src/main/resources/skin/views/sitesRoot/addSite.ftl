@@ -75,7 +75,7 @@
         	</#if>
         	>
           </input>
-          <span onclick="clickParentInput(this);" rel="popover" data-content="${templateName.document.dublincore.description?html}" data-original-title="${Context.getMessage('label.description')}">${templateName.document.dublincore.title}</span>
+          <span onclick="clickParentInput(this);" rel="popover" data-content="${templateName.document['dc:description']?html}" data-original-title="${Context.getMessage('label.description')}">${templateName.document['dc:title']}</span>
         </span>
         </#list>
       </div>

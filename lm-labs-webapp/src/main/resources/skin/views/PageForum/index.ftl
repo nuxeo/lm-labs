@@ -58,7 +58,7 @@
 					  		</td>
 					  		<td>
 					  			<#if 0 <  topic.comments?size>
-						  			${This.getFullName(topic.comments?last.comment.author)} (${topic.comments?last.comment.creationDate}) :<br/>
+						  			${This.getFullName(topic.comments?last['comment:author'])} (${topic.comments?last['comment:creationDate']?datetime?string("EEEE dd MMMM yyyy HH:mm")}) :<br/>
 									<div class="ellipsisText" ellipsisTextOptions="{ max_rows:4, alt_text_e:false, alt_text_t:true, whole_word:false }">${topic.comments?last['comment:text']}</div>
 								</#if>
 					  		</td>

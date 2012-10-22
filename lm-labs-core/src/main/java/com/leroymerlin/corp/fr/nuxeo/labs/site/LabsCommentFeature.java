@@ -12,6 +12,7 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
     "com.leroymerlin.labs.core:OSGI-INF/test-relation-config-bundle.xml",
     "org.nuxeo.ecm.platform.comment.api",
     "org.nuxeo.ecm.platform.comment.core",
+    "org.nuxeo.ecm.platform.comment:OSGI-INF/comment-schemas-contrib.xml",
     "org.nuxeo.ecm.platform.comment:OSGI-INF/comment-listener-contrib.xml",
     "org.nuxeo.ecm.platform.comment:OSGI-INF/CommentService.xml"})
 @Features(PlatformFeature.class)
