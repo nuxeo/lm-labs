@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.freemarker;
 
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -104,7 +105,9 @@ public class TableOfContentsGenerator {
             StringBuilder sb = new StringBuilder();
             sb.append("<ul class=\"").append(ulClass).append("\">");
             for (Element elem : anchorElements) {
-                sb.append("<li><a href=\"#").append(elem.select("a[name]").attr("name")).append("\">").append(elem.select(titleSelector).html()).append("</a></li>");
+                if(!StringUtils.isEmpty(elem.select(titleSelector).html())){
+                    sb.append("<li><a href=\"#").append(elem.select("a[name]").attr("name")).append("\">").append(elem.select(titleSelector).html()).append("</a></li>");
+                }
             }
             sb.append("</ul>");
             return sb.toString();
