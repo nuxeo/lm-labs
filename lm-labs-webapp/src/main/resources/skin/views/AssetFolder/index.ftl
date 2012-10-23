@@ -183,7 +183,7 @@
     function addFolderAsset(){
     	jQuery('#waitingPopup').dialog2('open');
     	var action = $("#pathToAction").val();
-    	alert(action);
+    	//alert(action);
     	jQuery.ajax({
 			type: "POST",
 			url: action,
