@@ -7,6 +7,7 @@
     <artifactId>lm-labs-parent</artifactId>
     <groupId>com.leroymerlin.labs</groupId>
     <version>2.15-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
 
   <artifactId>lm-labs-core</artifactId>
@@ -68,10 +69,13 @@
       <artifactId>lm-view-service</artifactId>
     </dependency>
 
+<!--
     <dependency>
       <groupId>com.adeo.nuxeo</groupId>
       <artifactId>adeo-nuxeo-user</artifactId>
+      <scope>test</scope>
     </dependency>
+ -->
 
     <dependency>
       <groupId>org.nuxeo.ecm.automation</groupId>
@@ -185,11 +189,6 @@
 
     <dependency>
       <groupId>org.nuxeo.ecm.platform</groupId>
-      <artifactId>nuxeo-platform-directory-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.nuxeo.ecm.platform</groupId>
       <artifactId>nuxeo-platform-directory-sql</artifactId>
       <scope>test</scope>
     </dependency>
@@ -226,11 +225,6 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
     </dependency>
 
     <dependency>
@@ -306,11 +300,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>javax.transaction</groupId>
-      <artifactId>jta</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>cglib</groupId>
       <artifactId>cglib</artifactId>
     </dependency>
@@ -332,8 +321,7 @@
 
     <dependency>
       <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
-      <artifactId>lm-nuxeo-common-core
-      </artifactId>
+      <artifactId>lm-nuxeo-common-core</artifactId>
     </dependency>
 
     <dependency>

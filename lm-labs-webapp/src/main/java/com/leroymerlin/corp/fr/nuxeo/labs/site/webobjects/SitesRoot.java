@@ -63,7 +63,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.CacheBlock;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.util.Collections;
 
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
