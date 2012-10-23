@@ -124,15 +124,6 @@
 				    }
 				});
 			}
-			
-			function pasteObj(obj, container){
-				if (jQuery(obj).attr('rel') != 'PageNews'){
-					alert("${Context.getMessage('label.admin.copy.impossible')}");
-				}
-				else{
-					container.paste(obj);
-				}
-			}
 </#if>
 
 			function customMenu(node) {
@@ -282,7 +273,7 @@
 								"icon"				: "/nuxeo/icons/action_paste_all.gif",
 								"separator_after"	: false,
 								"label"				: "${Context.getMessage('command.admin.paste')}",
-								"action"			: function (obj) { pasteObj(obj, this); }
+								"action"			: function (obj) { this.paste(obj); }
 							}
 						}
 					}
@@ -346,6 +337,9 @@
 							if (jQuery(node).attr('rel') != 'LabsNews') {
 								delete items.home;
 							}
+							/*else{
+								delete items.markasdeleted;
+							}*/
 							delete items.draft;
 							delete items.publish;
 							delete items.undelete;
@@ -516,9 +510,14 @@
 					} else {
 						if(jQuery(this).attr('rel') == 'LabsNews' && jQuery(data.rslt.np).attr("rel") != 'PageNews'){
 							data.inst.refresh(data.inst._get_parent(data.rslt.oc));
-							alert("${Context.getMessage('label.admin.copy.impossible')}");
+							alert("${Context.getMessage('label.admin.copy.labsnews.impossible')}");
 							return false;
 						}	
+						if(jQuery(this).attr('rel') == 'LMForumTopic' && jQuery(data.rslt.np).attr("rel") != 'PageForum'){
+							data.inst.refresh(data.inst._get_parent(data.rslt.oc));
+							alert("${Context.getMessage('label.admin.copy.topic.impossible')}");
+							return false;
+						}
 						var operation = data.rslt.cy ? "copy" : "move";
 						var finded = false;
 						var after;
