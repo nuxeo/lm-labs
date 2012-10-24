@@ -39,11 +39,4 @@ $(document).ready(function() {
     	$(this).removeClass("dropdown");
     });
     
-    /*$(".sidebar").height($(".central").height())
-    alert("sidebar : " + $(".sidebar").height());
-    alert("central : " + $(".central").height());*/
-    if ($(".sidebar").height() < $(".central").height()){
-    	$(".sidebar").height($(".central").height());
-    }
-    
 });
