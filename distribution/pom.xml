@@ -50,7 +50,7 @@
       <id>with-nuxeo</id>
       <properties>
         <!-- Version used for lm nuxeo packaging -->
-        <nuxeo.lm.version>5.6.0</nuxeo.lm.version>
+        <nuxeo.lm.version>5.6.0-HF03-SNAPSHOT</nuxeo.lm.version>
       </properties>
     </profile>
     <profile>

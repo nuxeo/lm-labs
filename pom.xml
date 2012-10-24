@@ -51,7 +51,7 @@
 
   <distributionManagement>
     <snapshotRepository>
-      <id>snapshots</id>
+      <id>lm-snapshots</id>
       <url>http://forge.fr.corp.leroymerlin.com/nexus/content/repositories/snapshots/
                     </url>
     </snapshotRepository>
@@ -111,6 +111,13 @@
             <encoding>UTF-8</encoding>
           </configuration>
         </plugin>
+
+        <plugin>                           
+          <groupId>org.nuxeo.build</groupId>         
+          <artifactId>nuxeo-distribution-tools</artifactId>
+          <version>1.11.5</version>
+          <extensions>true</extensions>
+        </plugin> 
 
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
         <plugin>
@@ -258,6 +265,12 @@
       <dependency>
         <groupId>com.leroymerlin.labs</groupId>
         <artifactId>lm-labs-gadgets</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.leroymerlin.labs</groupId>
+        <artifactId>lm-labs-distribution</artifactId>
+        <type>pom</type>
         <version>${project.version}</version>
       </dependency>
 
