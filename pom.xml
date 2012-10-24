@@ -15,6 +15,7 @@
     <module>lm-forums</module>
     <module>lm-labs-gadgets</module>
     <module>lm-labs-webapp</module>
+    <module>lm-labs-themes</module>
     <module>lm-labs-web</module>
   </modules>
 
@@ -252,6 +253,11 @@
       <dependency>
         <groupId>com.leroymerlin.labs</groupId>
         <artifactId>lm-labs-web</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.leroymerlin.labs</groupId>
+        <artifactId>lm-labs-themes</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

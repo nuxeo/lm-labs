@@ -180,9 +180,13 @@
       <artifactId>lm-labs-gadgets</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.leroymerlin.labs</groupId>
+      <artifactId>lm-labs-themes</artifactId>
+    </dependency>
+    <!--dependency>
       <groupId>com.adeo.nuxeo</groupId>
       <artifactId>adeo-nuxeo-user</artifactId>
-    </dependency>
+    </dependency-->
     <dependency>
       <groupId>org.nuxeo.ecm.webengine</groupId>
       <artifactId>nuxeo-webengine-wro</artifactId>
