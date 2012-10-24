@@ -9,3 +9,4 @@ Nuxeo-Component: OSGI-INF/pageproviders-contrib.xml,
  OSGI-INF/operations-contrib.xml,
  OSGI-INF/cache-service.xml,
  OSGI-INF/labsthememanager-service.xml
+Bundle-Activator: com.leroymerlin.corp.fr.nuxeo.labs.LabsWebAppActivator
