@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-Vendor: Nuxeo
+Bundle-ActivationPolicy: lazy
+Fragment-Host: com.leroymerlin.labs.webapp
+Bundle-ClassPath: .
+Bundle-Version: 2.15.0.qualifier
+Bundle-Name: lm-labs-webapp-forum
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: lm-labs-webapp-forum
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+
