@@ -18,6 +18,7 @@
     <module>lm-labs-webapp-forum</module>
     <module>lm-labs-themes</module>
     <module>lm-labs-web</module>
+    <module>nuxeo-labs-theme</module>
   </modules>
 
   <profiles>
