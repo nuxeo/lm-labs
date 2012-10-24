@@ -9,8 +9,8 @@
   </target>
 
   <target name="expand">
-    <!-- Include your artifacts in the graph adding your groupId to groupPrefixes -->
-    <mkdir dir="${outdir}"/>
+      <!-- Include your artifacts in the graph adding your groupId to groupPrefixes -->
+      <mkdir dir="${outdir}"/>
     <artifact:nuxeo-expand includeTestScope="true"
                            groupPrefixes="com.leroymerlin" />
     <!-- For Nuxeo IDE being able to use that distribution as a SDK -->
@@ -39,9 +39,9 @@
     <copy todir="${maven.project.build.directory}/marketplace/bundles">
       <artifact:set>
         <includes>
-          <artifact groupId="com.leroymerlin.labs*" />
-          <artifact groupId="com.leroymerlin.corp.fr.nuxeo.portal*" />
-          <artifact groupId="org.nuxeo.ecm.webengine"  artifactId="nuxeo-webengine-wro"/>
+          <artifact groupId="com.leroymerlin.labs*" classifier="sources" />
+          <artifact groupId="com.leroymerlin.corp.fr.nuxeo.portal*"  classifier="sources"/>
+          <artifact groupId="org.nuxeo.ecm.webengine"  artifactId="nuxeo-webengine-wro"  classifier="sources"/>
         </includes>
         <excludes>
           <artifact artifactId="lm-portal-user" />
@@ -56,11 +56,11 @@
           <artifact groupId="org.jsoup" />
 
       <!-- In order to make wro4j works -->
-          <artifact groupId="ro.isdc.wro4j" />
-          <artifact groupId="commons-io" artifactId="commons-io" version="2.1"/>
-          <artifact groupId="commons-pool" />
-          <artifact groupId="org.apache.commons" artifactId="commons-lang3" />
-          <artifact groupId="org.mozilla" artifactId="rhino"/>
+          <artifact groupId="ro.isdc.wro4j"  classifier="sources"/>
+          <artifact groupId="commons-io" artifactId="commons-io" version="2.1"  classifier="sources"/>
+          <artifact groupId="commons-pool" classifier="sources"/>
+          <artifact groupId="org.apache.commons" artifactId="commons-lang3" classifier="sources"/>
+          <artifact groupId="org.mozilla" artifactId="rhino" classifier="sources"/>
         </includes>
       </artifact:set>
 
