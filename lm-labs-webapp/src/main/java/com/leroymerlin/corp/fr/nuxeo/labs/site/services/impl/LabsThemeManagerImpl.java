@@ -36,9 +36,7 @@ public class LabsThemeManagerImpl extends DefaultComponent implements LabsThemeM
                 folderList.add(lastname);
             }
         }
-        return (List<String>) CollectionUtils.intersection(getDirThemes(),
-                folderList);
-
+        return folderList;
     }
 
     @SuppressWarnings("unchecked")
