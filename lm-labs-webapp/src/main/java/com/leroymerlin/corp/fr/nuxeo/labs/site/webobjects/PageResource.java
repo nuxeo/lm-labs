@@ -59,7 +59,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "LabsPage")

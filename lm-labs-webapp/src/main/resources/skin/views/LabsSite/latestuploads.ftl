@@ -52,7 +52,7 @@
           <tr>
             <td><img title="${upload.type}" alt="&gt;" src="/nuxeo/${upload.common.icon}" /></td>
             <td>${upload.title}</td>
-            <#assign modifDate = upload.dublincore.modified?datetime >
+            <#assign modifDate = upload['dc:modified']?datetime >
             <td>${modifDate?string("EEEE dd MMMM yyyy HH:mm")}</td>
             <#assign sd = Common.siteDoc(upload) />
             <td><a href="${Context.modulePath}/${sd.getParentPagePath()}">${sd.getParentPage().title}</a></td>
