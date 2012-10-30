@@ -45,7 +45,7 @@
       <div class="page-header">
         <h1>${Context.getMessage('label.search.title')}</h1>
         <#if result?size &gt; 0>
-          <small>${Context.getMessage('label.search.displayResults', result?size, result?size)} <span>${query?split('"')[1]}</small>
+          <small>${Context.getMessage('label.search.displayResults', result?size, result?size)} <span>${fullText?html}</small>
         </#if>
       </div>
     <#if result?size &gt; 0>
@@ -127,7 +127,7 @@
         </tbody>
       </table>
     <#else>
-      <div class="resultsSearchSubtitle">Pas de résultats pour <span>${query?split('"')[1]}</span></div>
+      <div class="resultsSearchSubtitle">Pas de résultats pour <span>${fullText?html}</span></div>
     </#if>
 
 

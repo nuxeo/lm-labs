@@ -124,6 +124,26 @@
 				    }
 				});
 			}
+			
+			function deleteNews(obj, container){
+				if (confirm("${Context.getMessage('label.admin.labsnews.deleteConfirm')}")) {
+					jQuery('#waitingPopup').dialog2('open');
+					jQuery.ajax({
+						type: "DELETE",
+					    async: false,
+						url: '${Context.modulePath}/' + container._get_node(obj[0]).data("url"),
+						data: '',
+						success: function(msg){
+							refreshTreeview();
+							jQuery('#waitingPopup').dialog2('close');
+						},
+						error: function(msg){
+							alert( msg.responseText );
+							jQuery('#waitingPopup').dialog2('close');
+						}
+					});
+				}
+			}
 </#if>
 
 			function customMenu(node) {
@@ -233,6 +253,15 @@
 							labsPublish("undelete", this._get_node(nodes[0]).data("url"), this._get_node(nodes[0]));
 						}
 					},
+					"removeNews" : {
+						"separator_before"	: false,
+						"icon"				: "/nuxeo/icons/action_delete.gif",
+						"separator_after"	: false,
+						"label"				: "${Context.getMessage('command.admin.delete')}",
+						"action"			: function (obj) {
+							deleteNews(obj, this);
+						}
+					},
 					<#--
 					"remove" : {
 						"separator_before"	: false,
@@ -297,6 +326,7 @@
 					delete items.markasdeleted;
 					delete items.undelete;
 					delete items.home;
+					delete items.removeNews;
 					<#if adminTreeviewType=="Pages">
 						delete items.create;
 					</#if>
@@ -307,6 +337,7 @@
 					delete items.markasdeleted;
 					delete items.undelete;
 					delete items.home;
+					delete items.removeNews;
 					<#if adminTreeviewType=="Assets">
 						delete items.goto;
 					</#if>
@@ -320,6 +351,7 @@
 						delete items.undelete;
 						delete items.goto;
 						delete items.home;
+						delete items.removeNews;
 					<#else>
 						if(jQuery(node).data('lifecyclestate') == 'undefined') {
 							if (jQuery(node).attr('rel') != 'LabsNews') {
@@ -328,14 +360,22 @@
 								delete items.draft;
 								delete items.undelete;
 								delete items.home;
+								delete items.removeNews;
 							} else {
 								delete items.draft;
 								delete items.publish;
 								delete items.undelete;
+								delete items.markasdeleted;
+								delete items.ccp.submenu.cut;
 							}
 						} else if(jQuery(node).data('lifecyclestate') == 'project') {
 							if (jQuery(node).attr('rel') != 'LabsNews') {
 								delete items.home;
+								delete items.removeNews;
+							}
+							else{
+								delete items.markasdeleted;
+								delete items.ccp.submenu.cut;
 							}
 							delete items.draft;
 							delete items.publish;
@@ -345,12 +385,15 @@
 							delete items.draft;
 							delete items.markasdeleted;
 							delete items.home;
+							delete items.removeNews;
 						} else if(jQuery(node).data('lifecyclestate') == 'published') {
 							delete items.publish;
 							delete items.undelete;
+							delete items.removeNews;
 						} else if(jQuery(node).data('lifecyclestate') == 'draft') {
 							delete items.draft;
 							delete items.undelete;
+							delete items.removeNews;
 						} else {
 							delete items.undelete;
 						}
@@ -360,6 +403,7 @@
 							delete items.draft;
 							delete items.markasdeleted;
 							delete items.remove;
+							delete items.removeNews;
 						}
 					</#if>
 				}
@@ -505,11 +549,20 @@
 				data.rslt.o.each(function (i) {
 					if (data.rslt.cr === -1) {
 					} else {
+						if(jQuery(this).attr('rel') == 'LabsNews' && jQuery(data.rslt.np).attr("rel") != 'PageNews'){
+							data.inst.refresh(data.inst._get_parent(data.rslt.oc));
+							alert("${Context.getMessage('label.admin.copy.labsnews.impossible')}");
+							return false;
+						}	
+						if(jQuery(this).attr('rel') == 'LMForumTopic' && jQuery(data.rslt.np).attr("rel") != 'PageForum'){
+							data.inst.refresh(data.inst._get_parent(data.rslt.oc));
+							alert("${Context.getMessage('label.admin.copy.topic.impossible')}");
+							return false;
+						}
 						var operation = data.rslt.cy ? "copy" : "move";
 						var finded = false;
 						var after;
 						var currentId = jQuery(this).attr("id");
-
 						data.inst._get_children(data.rslt.np).each(function (index, element){
 							if (finded){
 								after = element;
