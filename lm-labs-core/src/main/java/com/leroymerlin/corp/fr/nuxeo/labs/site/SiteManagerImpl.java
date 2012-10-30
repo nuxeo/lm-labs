@@ -28,6 +28,8 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
 
     private static final PathRef SITES_ROOT_REF = new PathRef(
             "/" + Docs.DEFAULT_DOMAIN.docName() + "/" + Docs.SITESROOT.docName());
+    private static final PathRef COMMON_ASSETS_REF = new PathRef(
+            "/" + Docs.DEFAULT_DOMAIN.docName() + "/" + Docs.SITESROOT.docName() + "/" + LabsSiteConstants.Docs.COMMONSASSETS.docName());
 
     @Override
     public LabsSite createSite(CoreSession session, String title, String url)
@@ -82,7 +84,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
                     "label.labssites.edit.error.url.exist");
         }
     }
-
+    
     public DocumentModel getSiteRoot(CoreSession session)
             throws ClientException {
         DocumentRef sitesRootRef = SITES_ROOT_REF;
@@ -91,7 +93,38 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         } else {
             return session.getDocument(sitesRootRef);
         }
+        
+    }
 
+    public DocumentModel getCommonAssets(CoreSession session) throws ClientException {
+        DocumentRef ref = COMMON_ASSETS_REF;
+        if (!session.exists(ref)) {
+            return createCommonAssetsUnrestricted(session);
+        } else {
+            return session.getDocument(ref);
+        }
+
+    }
+    
+    private void createCommonAssetsDoc(CoreSession session) throws ClientException {
+        if (!session.exists(COMMON_ASSETS_REF)) {
+            DocumentModel commonsAssets = session.createDocumentModel(
+                    "/" + Docs.DEFAULT_DOMAIN.docName() + "/" + Docs.SITESROOT.docName() + "/", LabsSiteConstants.Docs.COMMONSASSETS.docName(),
+                    LabsSiteConstants.Docs.COMMONSASSETS.type());
+            commonsAssets.setPropertyValue("dc:title", "Common assets of sites");
+            commonsAssets = session.createDocument(commonsAssets);
+        }
+    }
+    
+    private DocumentModel createCommonAssetsUnrestricted(CoreSession session) throws ClientException {
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session) {
+            @Override
+            public void run() throws ClientException {
+                createCommonAssetsDoc(session);
+            }
+        };
+        runner.runUnrestricted();
+        return session.getDocument(COMMON_ASSETS_REF);
     }
 
     private DocumentModel createSitesRoot(CoreSession session)
@@ -105,14 +138,9 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
                         "/" + Docs.DEFAULT_DOMAIN.docName() + "/", Docs.SITESROOT.docName(), Docs.SITESROOT.type());
                 sitesRoot.setPropertyValue("dc:title", "Default root of sites");
                 sitesRoot = session.createDocument(sitesRoot);
-                DocumentModel commonsAssets = session.createDocumentModel(
-                		"/" + Docs.DEFAULT_DOMAIN.docName() + "/" + Docs.SITESROOT.docName() + "/", LabsSiteConstants.Docs.COMMONSASSETS.docName(),
-                        LabsSiteConstants.Docs.COMMONSASSETS.type());
-                commonsAssets.setPropertyValue("dc:title", "Commons assets of sites");
-                commonsAssets = session.createDocument(commonsAssets);
+                createCommonAssetsDoc(session);
             }
         };
-
         runner.runUnrestricted();
         return session.getDocument(SITES_ROOT_REF);
     }

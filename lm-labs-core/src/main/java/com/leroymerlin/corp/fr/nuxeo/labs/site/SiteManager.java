@@ -26,4 +26,6 @@ public interface SiteManager {
     void updateSite(CoreSession session, LabsSite site) throws ClientException, SiteManagerException;
 
     DocumentModel getSiteRoot(CoreSession session) throws ClientException;
+
+    DocumentModel getCommonAssets(CoreSession session) throws ClientException;
 }
