@@ -20,7 +20,7 @@
   		<#include "views/common/page_header.ftl">
   		<#if (Context.principal.isAnonymous() == false && Session.hasPermission(Document.ref, 'AddChildren'))>
 		 	<div style="width: 100%; text-align: right; margin-bottom: 5px;">
-		  		<a style="margin-right: 5px;" class="btn" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>
+		  		<a style="margin-right: 5px;" class="btn addtopic" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>
 			</div>
 		</#if>
 		<#if (0 < allTopics?size)>
@@ -87,7 +87,7 @@
 			  </table>
 			  <#if (Context.principal.isAnonymous() == false && Session.hasPermission(Document.ref, 'AddChildren'))>
 				  <div style="width: 100%; text-align: right; margin-bottom: 5px;">
-				  	<a style="margin-right: 5px;" class="btn" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>
+				  	<a style="margin-right: 5px;" class="btn addtopic" href="${This.path}/@views/addtopic?props=open"><i class="icon-plus"></i>Ajouter un topic</a>
 				  </div>
 			  </#if>
 		  </div>
