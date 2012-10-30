@@ -366,7 +366,6 @@
 								delete items.publish;
 								delete items.undelete;
 								delete items.markasdeleted;
-								delete items.ccp.submenu.cut;
 								<#-- Delete this row for reactivate removeNews -->
 								delete items.removeNews;
 							}
@@ -377,7 +376,6 @@
 							}
 							else{
 								delete items.markasdeleted;
-								delete items.ccp.submenu.cut;
 								<#-- Delete this row for reactivate removeNews -->
 								delete items.removeNews;
 							}
