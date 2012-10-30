@@ -81,7 +81,7 @@
 		          </div>
 		
 		     <#include "macros/add_file_dialog.ftl" />
-		     <@addFileDialog action="${This.path}" onSubmit="addFileAsset();return false;" no_redirect="<input type='hidden' name='no_redirect' value='true' />"/>
+		     <@addFileDialog action="${This.path}" onSubmit="addFileAsset();return false;"/>
 		        </div> <#-- row -->
 		      </div> <#-- content -->
 		</div><#-- siteAssets -->
