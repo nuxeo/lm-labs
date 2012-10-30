@@ -490,7 +490,7 @@ public class PageResource extends DocumentObject {
             } else {
                 path = doc.getPath().removeLastSegments(1).toString();
             }
-            query = "SELECT * FROM Document WHERE (ecm:fulltext = \"" + fullText
+            query = "SELECT * FROM Document WHERE (ecm:fulltext = \"" + fullText.replaceAll("\"", "\\\\\"")
                     + "\") AND (ecm:isCheckedInVersion = 0) AND (ecm:path STARTSWITH \"" + path + "\")" + orderClause;
         }
         try {

@@ -39,6 +39,4 @@ $(document).ready(function() {
     	$(this).removeClass("dropdown");
     });
     
-    $(".sidebar").height($(".central").height())
-    
 });
