@@ -6,6 +6,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 
 /**

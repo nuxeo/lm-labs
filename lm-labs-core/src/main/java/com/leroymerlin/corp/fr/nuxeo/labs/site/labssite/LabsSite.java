@@ -13,7 +13,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
@@ -130,16 +130,6 @@ public interface LabsSite  extends LabsBase {
     void setPiwikId(String piwikId) throws ClientException;
     
     boolean isPiwikEnabled() throws ClientException;
-
-    void setSiteTemplate(boolean value) throws ClientException;
-    
-    boolean isSiteTemplate() throws ClientException;
-
-    Blob getSiteTemplatePreview() throws ClientException;
-    
-    boolean hasSiteTemplatePreview() throws ClientException;
-    
-    void setSiteTemplatePreview(Blob blob) throws ClientException;
 
     void applyTemplateSite(final DocumentModel templateSite) throws ClientException, IllegalArgumentException;
     

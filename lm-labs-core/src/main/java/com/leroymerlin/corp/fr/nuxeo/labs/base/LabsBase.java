@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site;
+package com.leroymerlin.corp.fr.nuxeo.labs.base;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -6,7 +6,7 @@ import org.nuxeo.ecm.core.api.model.PropertyException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 
-public interface LabsBase extends LabsAdapter {
+public interface LabsBase extends LabsAdapter,  LabsElementTemplate {
 
     public void setTitle(String title) throws PropertyException, ClientException, IllegalArgumentException;
 

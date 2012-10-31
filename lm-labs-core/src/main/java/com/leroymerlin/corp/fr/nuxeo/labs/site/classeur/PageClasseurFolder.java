@@ -3,7 +3,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.classeur;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SubDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.SubDocument;
 
 public interface PageClasseurFolder extends SubDocument {
     DocumentModel getDocument();

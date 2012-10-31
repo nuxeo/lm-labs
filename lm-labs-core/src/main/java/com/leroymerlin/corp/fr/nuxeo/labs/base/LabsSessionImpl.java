@@ -1,6 +1,7 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site;
+package com.leroymerlin.corp.fr.nuxeo.labs.base;
 
 import org.nuxeo.ecm.core.api.CoreSession;
+
 
 public class LabsSessionImpl implements LabsSession {
 	

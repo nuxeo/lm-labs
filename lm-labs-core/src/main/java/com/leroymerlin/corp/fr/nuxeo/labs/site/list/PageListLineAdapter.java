@@ -13,7 +13,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractSubDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractSubDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.Entry;

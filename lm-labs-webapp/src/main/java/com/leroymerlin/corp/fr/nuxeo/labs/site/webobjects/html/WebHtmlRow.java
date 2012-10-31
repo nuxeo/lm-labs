@@ -35,7 +35,7 @@ public class WebHtmlRow extends MovableElementResource {
 
     private static final Log LOG = LogFactory.getLog(WebHtmlRow.class);
 
-    private static final String FAILED_TO_DELETE_SECTION = "Failed to delete section ";
+    private static final String FAILED_TO_DELETE_ROW = "Failed to delete row ";
     private HtmlRow row;
 
     @Override
@@ -85,7 +85,7 @@ public class WebHtmlRow extends MovableElementResource {
             saveDocument();
         } catch (Exception e) {
             throw WebException.wrap(
-                    FAILED_TO_DELETE_SECTION + doc.getPathAsString(), e);
+                    FAILED_TO_DELETE_ROW + doc.getPathAsString(), e);
         }
         return redirect(prev.getPrevious().getPath());
     }

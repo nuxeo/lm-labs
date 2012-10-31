@@ -5,7 +5,7 @@ import java.util.Calendar;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsAdapter;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsAdapter;
 
 
 public interface MailNotification extends LabsAdapter {

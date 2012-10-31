@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site;
+package com.leroymerlin.corp.fr.nuxeo.labs.base;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
@@ -20,10 +21,10 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 public abstract class AbstractPage extends AbstractLabsBase implements Page {
 
 	private static final String THIS_PAGE_IS_NOT_IN_A_LABS_SITE = "This page is not in a LabsSite";
-    private static final String PG_COMMENTABLE = Schemas.PAGE.prefix() + ":commentable";
-    private static final String PG_DISPLAYABLE_PARAMETERS = Schemas.PAGE.prefix() + ":displayableParameters";
-    private static final String PG_ELEMENTS_PER_PAGE = Schemas.PAGE.prefix() + ":elementsPerPage";
-    private static final String TAGS = Schemas.LABSTAGS.prefix() + ":tags";
+    private static final String PROPERTY_PG_COMMENTABLE = Schemas.PAGE.prefix() + ":commentable";
+    private static final String PROPERTY_PG_DISPLAYABLE_PARAMETERS = Schemas.PAGE.prefix() + ":displayableParameters";
+    private static final String PROPERTY_PG_ELEMENTS_PER_PAGE = Schemas.PAGE.prefix() + ":elementsPerPage";
+    private static final String PROPERTY_TAGS = Schemas.LABSTAGS.prefix() + ":tags";
     
     public static final String PG_COLLAPSETYPE = Schemas.PAGE.prefix() + ":collapseType";
 
@@ -33,12 +34,12 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
 
     @Override
     public void setCommentable(boolean isCommentable) throws ClientException {
-        doc.setPropertyValue(PG_COMMENTABLE, isCommentable);
+        doc.setPropertyValue(PROPERTY_PG_COMMENTABLE, isCommentable);
     }
 
     @Override
     public boolean isCommentable() throws ClientException {
-        Serializable propertyValue = doc.getPropertyValue(PG_COMMENTABLE);
+        Serializable propertyValue = doc.getPropertyValue(PROPERTY_PG_COMMENTABLE);
         if (propertyValue instanceof Boolean) {
             return ((Boolean) propertyValue).booleanValue();
         }
@@ -73,7 +74,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     @Override
     public List<String> getNotDisplayableParameters() throws ClientException {
         @SuppressWarnings("unchecked")
-        List<String> propertyValue = (List<String>) doc.getPropertyValue(PG_DISPLAYABLE_PARAMETERS);
+        List<String> propertyValue = (List<String>) doc.getPropertyValue(PROPERTY_PG_DISPLAYABLE_PARAMETERS);
         if (propertyValue == null){
             propertyValue = new ArrayList<String>();
         }
@@ -82,7 +83,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
 
     @Override
     public void setNotDisplayableParameters(List<String> properties) throws ClientException {
-        doc.getProperty(PG_DISPLAYABLE_PARAMETERS).setValue(properties);
+        doc.getProperty(PROPERTY_PG_DISPLAYABLE_PARAMETERS).setValue(properties);
     }
 
     @Override
@@ -103,7 +104,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     @Override
     public int getElementsPerPage() throws ClientException{
     	try {
-			return Tools.getInt(doc.getProperty(PG_ELEMENTS_PER_PAGE));
+			return Tools.getInt(doc.getProperty(PROPERTY_PG_ELEMENTS_PER_PAGE));
 		} catch (NullException e) {
 			return 0;
 		}
@@ -111,7 +112,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
 
     @Override
     public void setElementsPerPage(int elementsPerPage) throws ClientException {
-        doc.setPropertyValue(PG_ELEMENTS_PER_PAGE, elementsPerPage);
+        doc.setPropertyValue(PROPERTY_PG_ELEMENTS_PER_PAGE, elementsPerPage);
     }
     
     @Override
@@ -132,7 +133,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     @Override
     public List<String> getLabsTags() throws ClientException {
         @SuppressWarnings("unchecked")
-        List<String> tags = (List<String>) doc.getPropertyValue(TAGS);
+        List<String> tags = (List<String>) doc.getPropertyValue(PROPERTY_TAGS);
         if (tags == null){
             tags = new ArrayList<String>();
         }
@@ -141,7 +142,7 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
 
     @Override
     public void setLabsTags(List<String> tags) throws ClientException {
-        doc.getProperty(TAGS).setValue(tags);
+        doc.getProperty(PROPERTY_TAGS).setValue(tags);
     }
 
     /* A GARDER

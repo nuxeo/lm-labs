@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.common.utils.URIUtils;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -44,10 +45,10 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.forum.LMForum;
 import com.leroymerlin.corp.fr.nuxeo.forum.LMForumImpl;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBase;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsPageCustomView;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.customview.LabsPageCustomView;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
@@ -142,14 +143,14 @@ public class PageResource extends DocumentObject {
             String principalName = ctx.getPrincipal().getName();
             LabsSite site = CommonHelper.siteDoc(doc).getSite();
             if (site.isAdministrator(principalName)
-                    || (site.isContributor(principalName) && !site.isSiteTemplate())) {
+                    || (site.isContributor(principalName) && !site.isElementTemplate())) {
                 return;
             }
             //TODO use facet instead
             if (!Docs.LABSNEWS.type().equals(document.getType()) &&
                     !Docs.LABSTOPIC.type().equals(document.getType())) {
                 boolean authorized = labsBaseAdapter.isAuthorizedToDisplay();
-                authorized = authorized && !labsBaseAdapter.isDeleted() && !site.isSiteTemplate();
+                authorized = authorized && !labsBaseAdapter.isDeleted() && !site.isElementTemplate();
                 if (!authorized) {
                     throw new WebResourceNotFoundException(userName
                             + ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT);
@@ -321,21 +322,22 @@ public class PageResource extends DocumentObject {
     @Path("@managePage")
     public Response doManagePage() {
         try {
-            String pageTitle = ctx.getForm().getString("updateTitlePage");
+            FormData form = ctx.getForm();
+            String pageTitle = form.getString("updateTitlePage");
             if (pageTitle != null && StringUtils.isBlank(pageTitle)) {
                 return redirect(getPath()
                         + "?message_error=label.parameters.page.save.fail.invalidPageTitle");
             }
             List<String> fieldsNotDisplayable = new ArrayList<String>();
-            if(!DC_TITLE.equals(ctx.getForm().getString(DC_TITLE))){
+            if(!DC_TITLE.equals(form.getString(DC_TITLE))){
                 fieldsNotDisplayable.add(DC_TITLE);
             }
-            if(!DC_DESCRIPTION.equals(ctx.getForm().getString(DC_DESCRIPTION))){
+            if(!DC_DESCRIPTION.equals(form.getString(DC_DESCRIPTION))){
                 fieldsNotDisplayable.add(DC_DESCRIPTION);
             }
             LMForum forum = Tools.getAdapter(LMForum.class, doc, getCoreSession());
             if (forum != null){
-                if(!LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR.equals(ctx.getForm().getString(LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR))){
+                if(!LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR.equals(form.getString(LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR))){
                     fieldsNotDisplayable.add(LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR);
                     forum.manageAllContributors(false);
                 }
@@ -343,8 +345,8 @@ public class PageResource extends DocumentObject {
                     forum.manageAllContributors(true);
                 }
             }
-            String templateName = ctx.getForm().getString("template");
-            if (!BooleanUtils.toBoolean(ctx.getForm().getString("display-" + PROPNAME_COLLAPSETYPE))) {
+            String templateName = form.getString("template");
+            if (!BooleanUtils.toBoolean(form.getString("display-" + PROPNAME_COLLAPSETYPE))) {
                 fieldsNotDisplayable.add(PROPNAME_COLLAPSETYPE);
             }
             Page page = Tools.getAdapter(Page.class, doc, ctx.getCoreSession());
@@ -352,24 +354,25 @@ public class PageResource extends DocumentObject {
             page.setCollapseType(ctx.getForm().getString(PROPNAME_COLLAPSETYPE));
              */
             page.setNotDisplayableParameters(fieldsNotDisplayable);
-            String elementsPerPage_str = ctx.getForm().getString(ELEMENTS_PER_PAGE);
+            String elementsPerPage_str = form.getString(ELEMENTS_PER_PAGE);
             if (!StringUtils.isEmpty(elementsPerPage_str) && StringUtils.isNumeric(elementsPerPage_str)){
                 int elementsPerPage = new Integer(elementsPerPage_str).intValue();
                 if (elementsPerPage > -1){
                     page.setElementsPerPage(elementsPerPage);
                 }
             }
-            page.setCommentable(BooleanUtils.toBoolean(ctx.getForm().getString("commentablePage")));
+            page.setCommentable(BooleanUtils.toBoolean(form.getString("commentablePage")));
             if (pageTitle != null) {
                 page.setTitle(pageTitle);
             }
-            boolean hiddenParam = BooleanUtils.toBoolean(ctx.getForm().getString("hiddenInLabsNavigation"));
+            boolean hiddenParam = BooleanUtils.toBoolean(form.getString("hiddenInLabsNavigation"));
             if (hiddenParam && !page.isHiddenInNavigation()) {
                 page.hideInNavigation();
             } else if (!hiddenParam && page.isHiddenInNavigation()) {
                 page.showInNavigation();
             }
-            String contentView = ctx.getForm().getString("contentView");
+            
+            String contentView = form.getString("contentView");
             LabsPageCustomView customView = doc.getAdapter(LabsPageCustomView.class);
             customView.setCustomView(contentView);
             CoreSession session = getCoreSession();
@@ -377,14 +380,34 @@ public class PageResource extends DocumentObject {
             if (!StringUtils.isEmpty(templateName) || (StringUtils.isEmpty(templateName) && !StringUtils.isEmpty(documentTemplateName))) {
                 Tools.getAdapter(LabsTemplate.class, doc, session).setTemplateName(templateName);
             }
+            if (CommonHelper.siteDoc(doc).getSite().isAdministrator(ctx.getPrincipal().getName())){
+                String elementTemplateStr = form.getString("let:elementTemplate");
+                boolean isElementTemplate = BooleanUtils.toBoolean(elementTemplateStr);
+                if (page.isElementTemplate() != isElementTemplate) {
+                    page.setElementTemplate(isElementTemplate);
+                }
+                if (isElementTemplate) {
+                    if (form.isMultipartContent()) {
+                        Blob preview = form.getBlob("let:preview");
+                        if (preview != null
+                                && !StringUtils.isEmpty(preview.getFilename())) {
+                            page.setElementPreview(preview);
+                        }
+                    }
+                }
+            }
             session.saveDocument(doc);
             session.save();
-            if("on".equalsIgnoreCase(ctx.getForm().getString("publishPage"))){
+            if("on".equalsIgnoreCase(form.getString("publishPage"))){
                 LabsSiteWebAppUtils.publish(doc, session);
             }
             else{
                 LabsSiteWebAppUtils.draft(doc);
             }
+            
+            
+            
+            
         } catch (NoPublishException e) {
             return redirect(getPath()
                     + "?message_error=label.parameters.page.publish.fail");

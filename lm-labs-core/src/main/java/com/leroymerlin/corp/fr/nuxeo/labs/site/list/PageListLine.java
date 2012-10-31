@@ -5,7 +5,7 @@ import java.util.List;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SubDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.SubDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.bean.EntriesLine;
 
 

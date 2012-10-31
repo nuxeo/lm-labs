@@ -1,12 +1,24 @@
 <?xml version="1.0"?>
-<component name="com.leroymerlin.corp.fr.nuxeo.labs.blobholders">
+<component name="com.leroymerlin.corp.fr.nuxeo.labs.base.blobholders">
 
   <extension target="org.nuxeo.ecm.core.api.blobholder.BlobHolderAdapterComponent"
     point="BlobHolderFactory">
     <blobHolderFactory name="Site" docType="Site" 
-    	class="com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBlobHolderFactory" />
+    	class="com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBlobHolderFactory" />
     <blobHolderFactory name="LabsNews" docType="LabsNews" 
-    	class="com.leroymerlin.corp.fr.nuxeo.labs.site.LabsBlobHolderFactory" />
+    	class="com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBlobHolderFactory" />
+    <blobHolderFactory name="Page" docType="HtmlPage" 
+    	class="com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBlobHolderFactory" />
+    <blobHolderFactory name="Page" docType="PageBlocs" 
+    	class="com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBlobHolderFactory" />
+    <blobHolderFactory name="Page" docType="PageNews" 
+    	class="com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBlobHolderFactory" />
+    <blobHolderFactory name="Page" docType="PageClasseur" 
+    	class="com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBlobHolderFactory" />
+    <blobHolderFactory name="Page" docType="PageList" 
+    	class="com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBlobHolderFactory" />
+    <blobHolderFactory name="Page" docType="PageForum" 
+    	class="com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBlobHolderFactory" />
   </extension>
 
 </component>
