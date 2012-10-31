@@ -84,6 +84,7 @@ public final class LabsSiteConstants {
         public static final String LABSHIDDEN = "LabsHidden";
         public static final String HIDDENINLABSNAVIGATION = "HiddenInLabsNavigation";
         public static final String LABSPAGECUSTOMVIEW = "LabsPageCustomView";
+        public static final String LABS_ELEMENT_TEMPLATE = "LabsElementTemplate";
     }
 
     public enum Schemas {
@@ -99,6 +100,7 @@ public final class LabsSiteConstants {
         LABSTEMPLATE("labstemplate", "labstemplate"),
         LABSSITE("labssite", "labssite"),
         LABSCONTENTVIEW("labscontentview", "labscontentview"),
+        LABS_ELEMENT_TEMPLATE("labs_element_template", "let"),
         SITETHEME("sitetheme", "sitetheme");
 
         private String name;

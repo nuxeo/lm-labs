@@ -68,7 +68,7 @@
         <#list Common.getTemplateSites() as templateName >
         <span class="radioSiteTemplate">
           <input class="radio" type="radio" name="siteTemplateId" value="${templateName.document.id}" 
-        	<#if templateName.hasSiteTemplatePreview()>
+        	<#if templateName.hasElementPreview()>
         	onclick="onSelectRadio(this, '${Context.modulePath}/@templatePreview/${templateName.URL}');"
         	<#else>
         	onclick="cleanPreview();"

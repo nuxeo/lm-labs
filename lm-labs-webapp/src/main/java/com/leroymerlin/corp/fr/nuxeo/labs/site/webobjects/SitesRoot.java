@@ -145,7 +145,7 @@ public class SitesRoot extends ModuleRoot {
             throws ClientException {
         List<LabsSite> result = new ArrayList<LabsSite>();
         for (LabsSite labsSite : labsSites) {
-            if (!labsSite.isDeleted() && labsSite.isSiteTemplate()) {
+            if (!labsSite.isDeleted() && labsSite.isElementTemplate()) {
                 result.add(labsSite);
             }
         }
@@ -157,7 +157,7 @@ public class SitesRoot extends ModuleRoot {
             throws ClientException {
         List<LabsSite> result = new ArrayList<LabsSite>();
         for (LabsSite labsSite : pOrigin) {
-            if (!labsSite.isDeleted() && !labsSite.isSiteTemplate()) {
+            if (!labsSite.isDeleted() && !labsSite.isElementTemplate()) {
                 result.add(labsSite);
             }
         }
@@ -300,13 +300,13 @@ public class SitesRoot extends ModuleRoot {
             labSite.setDescription(pDescription);
             String siteTemplateStr = form.getString("labssite:siteTemplate");
             boolean isSiteTemplate = BooleanUtils.toBoolean(siteTemplateStr);
-            labSite.setSiteTemplate(isSiteTemplate);
+            labSite.setElementTemplate(isSiteTemplate);
             if (isSiteTemplate) {
                 if (form.isMultipartContent()) {
                     Blob preview = form.getBlob("labssite:siteTemplatePreview");
                     if (preview != null
                             && !StringUtils.isEmpty(preview.getFilename())) {
-                        labSite.setSiteTemplatePreview(preview);
+                        labSite.setElementPreview(preview);
                     }
                 }
             }

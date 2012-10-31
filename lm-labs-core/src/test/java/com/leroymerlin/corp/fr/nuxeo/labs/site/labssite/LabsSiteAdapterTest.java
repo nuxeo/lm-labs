@@ -455,37 +455,38 @@ public class LabsSiteAdapterTest {
     }
 
     @Test
-    public void iCanGetDefaultSiteTemplate() throws Exception {
+    public void iCanGetDefaultElementTemplate() throws Exception {
         LabsSite site = createLabsSite("NameSite1");
-        assertFalse(site.isSiteTemplate());
+        assertFalse(site.isElementTemplate());
     }
 
     @Test
     public void iCanSetSiteAsTemplate() throws Exception {
         LabsSite site = createLabsSite("NameSite1");
-        site.setSiteTemplate(true);
+        site.setElementTemplate(true);
         session.saveDocument(site.getDocument());
-        assertTrue(site.isSiteTemplate());
-        site.setSiteTemplate(false);
+        assertTrue(site.isElementTemplate());
+        site.setElementTemplate(false);
         session.saveDocument(site.getDocument());
-        assertFalse(site.isSiteTemplate());
+        assertFalse(site.isElementTemplate());
     }
 
     @Test
-    public void iCanSetSiteTemplatePreview() throws Exception {
+    public void iCanSetElementPreview() throws Exception {
         LabsSite site = createLabsSite("NameSite1");
-        Blob preview = site.getSiteTemplatePreview();
+        Blob preview = site.getElementPreview();
         assertNull(preview);
 
         Blob blob = getTestBlob();
-        site.setSiteTemplatePreview(blob);
-        preview = site.getSiteTemplatePreview();
+        site.setElementTemplate(true);
+        site.setElementPreview(blob);
+        preview = site.getElementPreview();
         assertNotNull(preview);
         assertEquals(preview.getFilename(), blob.getFilename());
         assertEquals(preview.getLength(), blob.getLength());
 
-        site.setSiteTemplatePreview(null);
-        preview = site.getSiteTemplatePreview();
+        site.setElementPreview(null);
+        preview = site.getElementPreview();
         assertNull(preview);
     }
 
@@ -618,7 +619,7 @@ public class LabsSiteAdapterTest {
 
     private LabsSite createTemplateSite(final String siteName) throws ClientException, SiteManagerException {
         LabsSite site = sm.createSite(session, siteName, siteName);
-        site.setSiteTemplate(true);
+        site.setElementTemplate(true);
         session.saveDocument(site.getDocument());
         DocumentModel assetsDoc = site.getAssetsDoc();
         DocumentModel folder1 = session.createDocumentModel(
