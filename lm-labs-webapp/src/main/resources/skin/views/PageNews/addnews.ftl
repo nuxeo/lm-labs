@@ -24,5 +24,6 @@
 			<#include "views/LabsNews/editProps.ftl" />
       </div>
   </@block>
+  <@block name="pageTags"></@block>
   <@block name="pageCommentable"></@block>
 </@extends>
