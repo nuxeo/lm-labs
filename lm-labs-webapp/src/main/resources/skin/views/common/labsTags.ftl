@@ -1,5 +1,10 @@
-<#if (This.page?? && This.page != null) >
-	<#assign listTags=This.page.getLabsTags()>
+<#assign thisPage = This.page />
+<#if (Document.type == "LabsNews") >
+	<#assign thisPage = This.getLabsNews() />
+</#if>
+
+<#if (thisPage && thisPage != null) >
+	<#assign listTags=thisPage.getLabsTags()>
 	<#assign canWrite = Session.hasPermission(Document.ref, 'Write') />
 	<#if canWrite>
 		<div id="divEditTags" class="container-fluid editblock">
