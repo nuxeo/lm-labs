@@ -40,9 +40,9 @@
   </@block>
 
   <@block name="css">
+    <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.news.css"/>
     <@superBlock/>
     <#include "views/common/datepicker_css.ftl">
-    <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.news.css"/>
   </@block>
 
 

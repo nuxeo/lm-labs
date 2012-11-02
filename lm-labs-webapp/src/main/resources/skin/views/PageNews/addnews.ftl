@@ -9,8 +9,8 @@
   </@block>
 
   <@block name="css">
+    <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.news.css"/>
     <@superBlock/>
-      <link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.news.css"/>
       <#include "views/common/datepicker_css.ftl">
   </@block>
   
