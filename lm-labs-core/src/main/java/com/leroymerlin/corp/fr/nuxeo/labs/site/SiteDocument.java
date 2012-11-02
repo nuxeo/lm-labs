@@ -28,8 +28,9 @@ public interface SiteDocument extends LabsAdapter {
      * Return the parent site for this document
      * @return
      * @throws ClientException
+     * @throws IllegalArgumentException If document not located in a site
      */
-    LabsSite getSite() throws ClientException;
+    LabsSite getSite() throws ClientException, IllegalArgumentException;
 
 
     String getParentPagePath() throws ClientException;

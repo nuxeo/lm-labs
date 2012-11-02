@@ -6,7 +6,6 @@ import java.util.List;
 import org.nuxeo.runtime.test.runner.web.WebPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.RenderedWebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.TimeoutException;
 
@@ -267,16 +266,17 @@ public class WelcomePage extends WebPage {
         }
     }
 
+    // FIXME
     public boolean hasOKBanner(Dimension pDim) {
-        try {
-            WebElement element = findElement(By.id("bannerImgId"), WAITING_TIME);
-            if (element != null) {
-                RenderedWebElement rend = (RenderedWebElement) element;
-                return pDim.equals(rend.getSize());
-            }
-        } catch (Exception e) {
-            return false;
-        }
+//        try {
+//            WebElement element = findElement(By.id("bannerImgId"), WAITING_TIME);
+//            if (element != null) {
+//                RenderedWebElement rend = (RenderedWebElement) element;
+//                return pDim.equals(rend.getSize());
+//            }
+//        } catch (Exception e) {
+//            return false;
+//        }
         return false;
     }
 
