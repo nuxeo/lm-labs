@@ -19,7 +19,7 @@
 	
 	<h1>${Context.getMessage('label.parameters.page.title')}</h1>
 	<div id="divEditParametersPageForm">
-		<form class="form-horizontal" id="form_editParameters" action="${This.path}/@managePage" method="post">
+		<form class="form-horizontal" id="form_editParameters" action="${This.path}/@managePage" method="post" enctype="multipart/form-data">
 			<div class="control-group">
 				<label class="control-label" for="updateTitlePage">${Context.getMessage('label.parameters.page.updateTitlePage')}</label>
 				<div class="controls">
@@ -140,6 +140,31 @@
 					</div>
 	            </div>
             </#if>
+            <#if mySite?? && mySite.isAdministrator(Context.principal.name)>
+	            <#--  To define as template   -->
+	            <#assign page = This.page />
+	            <div class="control-group">
+					<div class="controls">
+				    	<label class="checkbox" for="pageTemplate">
+				        <input class="checkbox" id="pageTemplate" type="checkbox" name="let:elementTemplate" <#if page.elementTemplate>checked="true"</#if> />
+				        &nbsp;${Context.getMessage('label.parameters.page.template')}</label>
+				    </div>
+				</div>
+				<div class="control-group" id="pageTemplatePreviewDiv" <#if !page.elementTemplate>style="display:none;"</#if>>
+					<#if page.hasElementPreview() >
+				    	<div id="divElementPreview" style="float: right; margin-right: 25px;" >
+					        <img style="width:400px;cursor:pointer;"
+					          title="${Context.getMessage('label.element.template.preview.delete')}" 
+					          onclick="if (confirm('${Context.getMessage('label.element.template.preview.delete.confirm')?js_string}')){jQuery('#waitingPopup').dialog2('open'); jQuery.ajax({url:'${This.path}/@blob', type:'DELETE', success:function() {jQuery('#divElementPreview').hide();jQuery('#waitingPopup').dialog2('close');}, error:function(data){jQuery('#waitingPopup').dialog2('close');}});}"
+					          src="${This.path}/@blob"/>
+				      	</div>
+				    </#if>
+				    <label class="control-label" for="siteTemplatePreview">${Context.getMessage('label.parameters.page.preview')}</label>
+				    <div class="controls">
+				        <input name="let:preview" type="file" size="25" id="pagePreview" />
+				    </div>
+				</div>
+			</#if>
 		</form>
 		<hr />
 		${Context.getMessage('label.parameters.page.usedModel')} <strong>${Context.getMessage('label.doctype.'+This.document.type)}</strong>
@@ -182,6 +207,13 @@ jQuery(document).ready(function() {
     jQuery("#page-parameters-close").click(function() {
         closeParametersPage();
     });
+    jQuery('#pageTemplate').click(function() {
+		if (jQuery(this).is(':checked')) {
+			jQuery('#pageTemplatePreviewDiv').show();
+		} else {
+			jQuery('#pageTemplatePreviewDiv').hide();
+		}
+	});
 </#if>
 });
 </script>

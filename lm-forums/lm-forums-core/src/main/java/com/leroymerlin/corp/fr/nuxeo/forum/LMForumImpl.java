@@ -12,8 +12,8 @@ import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
 import com.leroymerlin.common.core.security.SecurityData;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractLabsBase;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.common.core.security.SecurityDataHelper;

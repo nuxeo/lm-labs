@@ -1,11 +1,13 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site;
+package com.leroymerlin.corp.fr.nuxeo.labs.base;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -24,11 +26,14 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
-public abstract class AbstractLabsBase extends LabsAdapterImpl implements LabsBase{
+public abstract class AbstractLabsBase extends LabsAdapterImpl implements LabsBase, LabsElementTemplate{
 
 	private static final String THE_CORE_SESSION_SETTED = "The coreSession setted in this adpater is null. The coreSession comes from document : ";
 	public static final String DC_TITLE = "dc:title";
 	public static final String DC_DESCRIPTION = "dc:description";
+
+    private static final String PROPERTY_ELEMENT_TEMPLATE_PREVIEW = Schemas.LABS_ELEMENT_TEMPLATE.prefix() + ":preview";
+    
     private static final Log LOG = LogFactory.getLog(AbstractLabsBase.class);
 
     public AbstractLabsBase(DocumentModel document) {
@@ -40,7 +45,7 @@ public abstract class AbstractLabsBase extends LabsAdapterImpl implements LabsBa
     	CoreSession coreSession = super.getSession();
 		if (coreSession == null){
 			LOG.error(THE_CORE_SESSION_SETTED + "(" + doc.getRef() + "/" + doc.getType() + "/" + this.getClass().getName() + ")");
-			coreSession = doc.getCoreSession();
+			doc.getCoreSession();
 		}
 		return coreSession;
 	}
@@ -149,6 +154,42 @@ public abstract class AbstractLabsBase extends LabsAdapterImpl implements LabsBa
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    @Override
+    public boolean isElementTemplate() throws ClientException{
+        return doc.hasSchema(Schemas.LABS_ELEMENT_TEMPLATE.getName());
+    }
+    
+    @Override
+    public void setElementTemplate(boolean isPageTemplate) throws ClientException{
+    	if (isPageTemplate && !doc.hasSchema(Schemas.LABS_ELEMENT_TEMPLATE.getName())){
+            doc.addFacet(FacetNames.LABS_ELEMENT_TEMPLATE);
+        }
+    	if (!isPageTemplate && doc.hasSchema(Schemas.LABS_ELEMENT_TEMPLATE.getName())){
+    		doc.removeFacet(FacetNames.LABS_ELEMENT_TEMPLATE);
+    	}
+    }
+
+    @Override
+    public void setElementPreview(Blob blob) throws ClientException{
+    	if (doc.hasSchema(Schemas.LABS_ELEMENT_TEMPLATE.getName())){
+    		doc.setPropertyValue(PROPERTY_ELEMENT_TEMPLATE_PREVIEW,
+                (Serializable) blob);
+    	}
+    }
+
+    @Override
+    public Blob getElementPreview() throws ClientException{
+    	if (doc.hasSchema(Schemas.LABS_ELEMENT_TEMPLATE.getName())){
+    		return (Blob) doc.getPropertyValue(PROPERTY_ELEMENT_TEMPLATE_PREVIEW);
+    	}
+    	return null;
+    }
+    
+    @Override
+    public boolean hasElementPreview() throws ClientException{
+        return getElementPreview() != null;
     }
 
 }

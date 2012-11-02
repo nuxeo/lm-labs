@@ -16,7 +16,7 @@ import org.nuxeo.ecm.core.api.model.impl.primitives.BooleanProperty;
 import org.nuxeo.ecm.core.api.model.impl.primitives.LongProperty;
 import org.nuxeo.ecm.core.api.model.impl.primitives.StringProperty;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsSession;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsSession;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 
 /**

@@ -125,8 +125,8 @@ public class Site extends NotifiablePageResource {
                 modified = true;
             }
             boolean isSiteTemplate = BooleanUtils.toBoolean(siteTemplateStr);
-            if (site.isSiteTemplate() != isSiteTemplate) {
-                site.setSiteTemplate(isSiteTemplate);
+            if (site.isElementTemplate() != isSiteTemplate) {
+                site.setElementTemplate(isSiteTemplate);
                 modified = true;
             }
             if (isSiteTemplate) {
@@ -134,11 +134,11 @@ public class Site extends NotifiablePageResource {
                     Blob preview = form.getBlob("labssite:siteTemplatePreview");
                     if (preview != null
                             && !StringUtils.isEmpty(preview.getFilename())) {
-                        site.setSiteTemplatePreview(preview);
+                        site.setElementPreview(preview);
                         modified = true;
                     }
                 }
-            } else {
+            }/* else {
                 Blob siteTemplatePreview = null;
                 try {
                     siteTemplatePreview = site.getSiteTemplatePreview();
@@ -146,10 +146,10 @@ public class Site extends NotifiablePageResource {
                     throw WebException.wrap(e);
                 }
                 if (siteTemplatePreview != null) {
-                    site.setSiteTemplatePreview(null);
+                    site.setElementPreview(null);
                     modified = true;
                 }
-            }
+            }*/
             String msgLabel = "label.labssites.edit.noop";
             if (modified) {
                 CoreSession session = ctx.getCoreSession();

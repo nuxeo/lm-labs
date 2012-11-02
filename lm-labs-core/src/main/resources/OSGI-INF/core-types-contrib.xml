@@ -11,6 +11,7 @@
     <schema name="columns_layout" src="schemas/columns_layout.xsd"/>
     <schema name="page" prefix="pg" src="schemas/page.xsd" />
     <schema name="labstags" prefix="ltg" src="schemas/labstags.xsd" />
+    <schema name="labs_element_template" prefix="let" src="schemas/labs_element_template.xsd" />
     <schema name="page_news" prefix="pgn" src="schemas/page_news.xsd" />
     <schema name="labsnews" prefix="ln" src="schemas/labsnews.xsd" />
     <schema name="page_list" prefix="pgl" src="schemas/page_list.xsd" />
@@ -42,6 +43,10 @@
     
     <facet name="LabsTemplate" >
       <schema name="labstemplate" />
+    </facet>
+    
+    <facet name="LabsElementTemplate" >
+      <schema name="labs_element_template" />
     </facet>
     
     <facet name="LabsPageCustomView" >

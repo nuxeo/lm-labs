@@ -5,7 +5,7 @@ import java.util.Calendar;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.runtime.api.Framework;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsAdapterImpl;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsAdapterImpl;
 
 // TODO unit tests
 public class MailNotificationAdapter extends LabsAdapterImpl implements MailNotification {

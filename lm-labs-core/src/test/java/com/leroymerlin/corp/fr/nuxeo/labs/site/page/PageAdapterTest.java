@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,10 +16,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.nuxeo.common.utils.FileUtils;
+import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
+import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 import org.nuxeo.runtime.test.runner.Deploy;
@@ -26,7 +30,7 @@ import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsCommentFeature;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsCommentFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
@@ -252,6 +256,60 @@ public class PageAdapterTest {
         assertThat(page.getLabsTags().get(0), is("tag1"));
         assertThat(page.getLabsTags().get(1), is("tag2"));
         assertThat(page.getLabsTags().get(2), is("tag3"));
+    }
+
+    @Test
+    public void iCanGetDefaultIsELementTemplate() throws Exception {
+        DocumentModel pageClasseur = session.getDocument(new PathRef(
+                "/page_classeur"));
+        Page page = Tools.getAdapter(Page.class, pageClasseur, session);
+        assertNotNull(page);
+        assertThat(page.isElementTemplate(), is(false));
+    }
+
+    @Test
+    public void iCanSetIsELementTemplate() throws Exception {
+        DocumentModel pageClasseur = session.getDocument(new PathRef(
+                "/page_classeur"));
+        Page page = Tools.getAdapter(Page.class, pageClasseur, session);
+        assertNotNull(page);
+        assertThat(page.isElementTemplate(), is(false));
+        page.setElementTemplate(true);
+        pageClasseur = session.saveDocument(page.getDocument());
+        session.save();
+        
+        pageClasseur = session.getDocument(pageClasseur.getRef());
+        page = Tools.getAdapter(Page.class, pageClasseur, session);
+        assertNotNull(page);
+        assertThat(page.isElementTemplate(), is(true));
+    }
+
+    @Test
+    public void iCanSetAndGetELementPreview() throws Exception {
+        DocumentModel pageClasseur = session.getDocument(new PathRef(
+                "/page_classeur"));
+        Page page = Tools.getAdapter(Page.class, pageClasseur, session);
+
+        page.setElementTemplate(true);
+        page.setElementPreview(getTestBlob());
+        pageClasseur = session.saveDocument(page.getDocument());
+        session.save();
+        
+        pageClasseur = session.getDocument(pageClasseur.getRef());
+        page = Tools.getAdapter(Page.class, pageClasseur, session);
+        assertNotNull(page);
+        assertThat(page.isElementTemplate(), is(true));
+        assertNotNull(page.getElementPreview());
+    }
+
+    private Blob getTestBlob() {
+        String filename = "vision.jpg";
+        File testFile = new File(
+                FileUtils.getResourcePathFromContext("testFiles/" + filename));
+        Blob blob = new FileBlob(testFile);
+        blob.setMimeType("image/jpeg");
+        blob.setFilename(filename);
+        return blob;
     }
 
 }

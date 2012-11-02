@@ -20,7 +20,7 @@ import org.nuxeo.ecm.directory.Session;
 import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.runtime.api.Framework;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsSessionImpl;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsSessionImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Directories;
 

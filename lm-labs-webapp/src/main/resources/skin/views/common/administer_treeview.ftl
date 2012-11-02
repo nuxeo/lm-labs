@@ -366,7 +366,8 @@
 								delete items.publish;
 								delete items.undelete;
 								delete items.markasdeleted;
-								delete items.ccp.submenu.cut;
+								<#-- Delete this row for reactivate removeNews -->
+								delete items.removeNews;
 							}
 						} else if(jQuery(node).data('lifecyclestate') == 'project') {
 							if (jQuery(node).attr('rel') != 'LabsNews') {
@@ -375,7 +376,8 @@
 							}
 							else{
 								delete items.markasdeleted;
-								delete items.ccp.submenu.cut;
+								<#-- Delete this row for reactivate removeNews -->
+								delete items.removeNews;
 							}
 							delete items.draft;
 							delete items.publish;

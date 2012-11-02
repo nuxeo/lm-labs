@@ -36,8 +36,8 @@ import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.LMPermission;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.filter.DocUnderVisiblePageFilter;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.HomePageException;
@@ -79,9 +79,6 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 
     private static final String PROPERTY_HOME_PAGE_REF = Schemas.LABSSITE.prefix()
             + ":homePageRef";
-
-    private static final String PROPERTY_SITE_TEMPLATE_PREVIEW = Schemas.LABSSITE.prefix()
-            + ":siteTemplatePreview";
 
     private static final String PROPERTY_CONTACTS = Schemas.LABSSITE.prefix()
             + ":contacts";
@@ -587,32 +584,6 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     }
 
     @Override
-    public void setSiteTemplate(boolean value) throws ClientException {
-        doc.setPropertyValue(PROPERTY_SITE_TEMPLATE, new Boolean(value));
-    }
-
-    @Override
-    public boolean isSiteTemplate() throws ClientException {
-        return (Boolean) doc.getPropertyValue(PROPERTY_SITE_TEMPLATE);
-    }
-
-    @Override
-    public Blob getSiteTemplatePreview() throws ClientException {
-        return (Blob) doc.getPropertyValue(PROPERTY_SITE_TEMPLATE_PREVIEW);
-    }
-
-    @Override
-    public void setSiteTemplatePreview(Blob blob) throws ClientException {
-        doc.setPropertyValue(PROPERTY_SITE_TEMPLATE_PREVIEW,
-                (Serializable) blob);
-    }
-
-    @Override
-    public boolean hasSiteTemplatePreview() throws ClientException {
-        return (getSiteTemplatePreview() != null);
-    }
-
-    @Override
     public void applyTemplateSite(final DocumentModel templateSite)
             throws ClientException, IllegalArgumentException {
         final String templateThemeName = (String) templateSite.getPropertyValue(Schemas.LABSSITE.prefix()
@@ -621,7 +592,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             @Override
             public void run() throws ClientException {
                 LabsSite labsSiteTemplate = Tools.getAdapter(LabsSite.class, templateSite, session);
-                if (labsSiteTemplate.isSiteTemplate()) {
+                if (labsSiteTemplate.isElementTemplate()) {
                     Path indexLastSegments = labsSiteTemplate.getIndexDocument().getPath().removeFirstSegments(
                             templateSite.getPath().segmentCount());
                     session.removeDocuments(session.getChildrenRefs(

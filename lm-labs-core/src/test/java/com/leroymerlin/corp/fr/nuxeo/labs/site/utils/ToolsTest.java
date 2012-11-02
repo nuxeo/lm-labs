@@ -16,7 +16,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsSession;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsSession;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;

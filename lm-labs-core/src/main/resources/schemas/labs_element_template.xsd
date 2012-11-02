@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/labs/labs_element_template"
+  xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/labs/labs_element_template">
+
+  <xs:include schemaLocation="core-types.xsd" />
+  <xs:element name="preview" type="tns:content"/>
+
+</xs:schema>
+

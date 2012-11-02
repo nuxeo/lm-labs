@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site;
+package com.leroymerlin.corp.fr.nuxeo.labs.site.customview;
 
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;

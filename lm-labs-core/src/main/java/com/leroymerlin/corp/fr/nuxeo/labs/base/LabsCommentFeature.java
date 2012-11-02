@@ -1,4 +1,4 @@
-package com.leroymerlin.corp.fr.nuxeo.labs.site;
+package com.leroymerlin.corp.fr.nuxeo.labs.base;
 
 import org.nuxeo.ecm.platform.test.PlatformFeature;
 import org.nuxeo.runtime.test.runner.Deploy;
@@ -12,7 +12,6 @@ import org.nuxeo.runtime.test.runner.SimpleFeature;
     "com.leroymerlin.labs.core:OSGI-INF/test-relation-config-bundle.xml",
     "org.nuxeo.ecm.platform.comment.api",
     "org.nuxeo.ecm.platform.comment.core",
-    "org.nuxeo.ecm.platform.comment:OSGI-INF/comment-schemas-contrib.xml",
     "org.nuxeo.ecm.platform.comment:OSGI-INF/comment-listener-contrib.xml",
     "org.nuxeo.ecm.platform.comment:OSGI-INF/CommentService.xml"})
 @Features(PlatformFeature.class)

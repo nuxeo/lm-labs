@@ -8,7 +8,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.platform.comment.api.CommentableDocument;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.AbstractPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractPage;
 
 public class LMTopicImpl extends AbstractPage implements LMTopic {
 	
