@@ -20,11 +20,11 @@ import org.nuxeo.ecm.directory.Session;
 import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.runtime.api.Framework;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsSessionImpl;
+import com.leroymerlin.common.core.adapter.SessionAdapterImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Directories;
 
-public class HtmlRow extends LabsSessionImpl {
+public class HtmlRow extends SessionAdapterImpl {
 
     private static final Log LOG = LogFactory.getLog(HtmlRow.class);
     private static final String SCHEMA_NAME_DIRECTORY_COLUMNS_LAYOUT = Directories.COLUMNS_LAYOUT.schema();

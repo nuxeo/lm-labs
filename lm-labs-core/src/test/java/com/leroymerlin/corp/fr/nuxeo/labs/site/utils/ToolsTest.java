@@ -16,7 +16,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsSession;
+import com.leroymerlin.common.core.adapter.SessionAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
@@ -103,7 +103,7 @@ public class ToolsTest {
                 + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
 
         LabsSite site  = Tools.getAdapter(LabsSite.class, site1, session);
-        assertTrue(Tools.hasInterface(site.getClass(), LabsSession.class));
+        assertTrue(Tools.hasInterface(site.getClass(), SessionAdapter.class));
     }
 	
     @Test
@@ -115,7 +115,7 @@ public class ToolsTest {
                 + Docs.SITESROOT.docName() + "/" + SiteFeatures.SITE_NAME));
 
         LabsPublisher publish  = site1.getAdapter(LabsPublisher.class);
-        assertFalse(Tools.hasInterface(publish.getClass(), LabsSession.class));
+        assertFalse(Tools.hasInterface(publish.getClass(), SessionAdapter.class));
     }
 
 }

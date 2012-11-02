@@ -7,13 +7,13 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
+import com.leroymerlin.common.core.adapter.SessionAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsCommentable;
-import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsSession;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 
 
-public interface LabsNews  extends HtmlSection, LabsSession, LabsCommentable {
+public interface LabsNews  extends HtmlSection, SessionAdapter, LabsCommentable {
 
     Calendar getStartPublication() throws ClientException;
 

@@ -5,9 +5,10 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
+import com.leroymerlin.common.core.adapter.SessionAdapterImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 
-public class LabsAdapterImpl extends LabsSessionImpl implements LabsAdapter {
+public class LabsAdapterImpl extends SessionAdapterImpl implements LabsAdapter {
 	
 	private static final Log LOG = LogFactory.getLog(LabsAdapterImpl.class);
 	
