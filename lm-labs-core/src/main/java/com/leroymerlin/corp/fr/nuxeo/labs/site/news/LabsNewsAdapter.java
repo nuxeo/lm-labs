@@ -292,6 +292,8 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
         try {
             return getBlobHolder().getBlob(LabsNewsBlobHolder.SUMMARY_TRUNCATED_PICTURE) != null;
         } catch (ClientException e) {
+        	return false;
+        } catch (Exception e) {
             return false;
         }
     }
