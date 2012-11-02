@@ -6,22 +6,22 @@
     <internalGadget name="lastuploads" disabled="true">
       <mountPoint>/lastuploads</mountPoint>
       <entryPoint>lastuploads.xml</entryPoint>
-      <category>Labs</category>
+      <category>gadget.category.Labs</category>
       <icon>last_uploads.png</icon>
     </internalGadget>
 
     <internalGadget name="navigation" disabled="true">
       <mountPoint>/navigation</mountPoint>
       <entryPoint>navigation.xml</entryPoint>
-      <category>Labs</category>
+      <category>gadget.category.Labs</category>
       <icon>navigation.png</icon>
     </internalGadget>
 
     <internalGadget name="pageclasseurfolder" disabled="false">
       <mountPoint>/pageclasseurfolder</mountPoint>
       <entryPoint>pageclasseurfolder.xml</entryPoint>
-      <category>Labs</category>
-      <icon>navigation.png</icon>
+      <category>gadget.category.Labs</category>
+      <icon>pageclasseurfolder.jpg</icon>
     </internalGadget>
 
   </extension>

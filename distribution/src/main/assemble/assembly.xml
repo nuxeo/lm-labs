@@ -18,7 +18,7 @@
 
   <target name="expand-nuxeo" if="with.nuxeo">
     <unzip dest="${outdir}">
-      <artifact:resolveFile key="org.nuxeo.ecm.distribution:nuxeo-lm-distribution:${nuxeo.lm.version}:zip" classifier="nuxeo-dm" />
+      <artifact:resolveFile key="org.nuxeo.ecm.distribution:nuxeo-lm-distribution:${nuxeo.lm.version}:zip" classifier="nuxeo-cap" />
       <patternset>
         <exclude name="**/lucene-*" />
       </patternset>

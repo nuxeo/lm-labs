@@ -79,16 +79,16 @@ jQuery(document).ready(function() {
             <#assign doc = page.document />
           <tr>
             <td>
-              <a href="${Root.getLink(doc)}" rel="popover" data-content="&lt;strong&gt;${Context.getMessage('label.labspath')?html}: &lt;/strong&gt;&lt;br&gt;${Root.getTruncatedLink(doc)}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.doctype')}: &lt;/strong&gt;&lt;br&gt;${doc.type}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.description')}: &lt;/strong&gt;&lt;br&gt;${doc.dublincore.description?html}&lt;br&gt;"
-              data-original-title="${Context.getMessage('label.properties')}">${doc.dublincore.title}</a>
+              <a href="${Root.getLink(doc)}" rel="popover" data-content="&lt;strong&gt;${Context.getMessage('label.labspath')?html}: &lt;/strong&gt;&lt;br&gt;${Root.getTruncatedLink(doc)}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.doctype')}: &lt;/strong&gt;&lt;br&gt;${doc.type}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.description')}: &lt;/strong&gt;&lt;br&gt;${doc['dc:description']?html}&lt;br&gt;"
+              data-original-title="${Context.getMessage('label.properties')}">${doc['dc:title']}</a>
             </td>
-            <td>${userFullName(doc.dublincore.creator)}</td>
+            <td>${userFullName(doc['dc:creator'])}</td>
             <td>
-              ${doc.dublincore.created?string.medium}
-              <span class="sortValue">${doc.dublincore.created?string("yyyyMMddHHmmss")}</span>
+              ${doc['dc:created']?string.medium}
+              <span class="sortValue">${doc['dc:created']?string("yyyyMMddHHmmss")}</span>
             </td>
-            <#assign modified = doc.dublincore.modified/>
-            <td>${userFullName(doc.dublincore.lastContributor)}</td>
+            <#assign modified = doc['dc:modified'] />
+            <td>${userFullName(doc['dc:lastContributor'])}</td>
             <td>
               ${modified?string.medium}
               <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
