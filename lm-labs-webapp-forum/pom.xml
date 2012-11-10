@@ -4,11 +4,10 @@
   <parent>
     <groupId>com.leroymerlin.labs</groupId>
     <artifactId>lm-labs-parent</artifactId>
-    <version>2.15-SNAPSHOT</version>
+    <version>2.16-SNAPSHOT</version>
   </parent>
-  <groupId>org</groupId>
+  <groupId>com.leroymerlin.labs</groupId>
   <artifactId>lm-forums-webapp</artifactId>
-  <version>2.15-SNAPSHOT</version>
   <name>LM Labs :: Front application forum fragment</name>
   <description/>
   <dependencies>
