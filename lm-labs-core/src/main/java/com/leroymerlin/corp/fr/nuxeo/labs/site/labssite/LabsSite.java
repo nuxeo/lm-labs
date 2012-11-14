@@ -69,6 +69,15 @@ public interface LabsSite  extends LabsBase {
     List<Page> getAllPages() throws ClientException;
     
     /**
+     * Returns all the page of the site. Pages are
+     * document that are renderable with a web
+     * view
+     * @return
+     * @throws ClientException
+     */
+    List<Page> getAllPagesTemplate() throws ClientException;
+    
+    /**
      * @param docType
      * @param llifecycleState can be <code>null</code>.
      * @return

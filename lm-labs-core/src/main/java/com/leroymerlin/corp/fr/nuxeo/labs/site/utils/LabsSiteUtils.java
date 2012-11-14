@@ -24,6 +24,7 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsSecurityException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
@@ -37,6 +38,8 @@ public final class LabsSiteUtils {
     public static String beforeConversion = "àÀâÂäÄáÁéÉèÈêÊëËìÌîÎïÏòÒôÔöÖùÙûÛüÜçÇ’ñ /\\.,;?!'\"$&%()[]{}@^§*:<>+=°#";
     public static String afterConversion = "aAaAaAaAeEeEeEeEiIiIiIoOoOoOuUuUuUcC'n------------------------------";
     public static int maxSizeCharacterName = 64;
+
+    public static final String COPYOF_PREFIX = "Copie de ";
 
     private static final String THE_RIGHT_LIST_DONT_BE_NULL = "The right'list dont be null !";
     
@@ -372,5 +375,53 @@ public final class LabsSiteUtils {
         
         return sb.toString();
     }
-
+    
+    // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.5.0-HF01
+    /**
+     * it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.5.0-HF01
+     * @param src
+     * @param dest
+     * @param name
+     * @param session
+     * @param withElementTemplate
+     * @return
+     * @throws ClientException
+     */
+    public static DocumentModel copyHierarchyPage(DocumentRef src, DocumentRef dest, String name, String title, CoreSession session, boolean withElementTemplate) throws ClientException{
+    	DocumentModel copyPage = copyPage(src, dest, name, title, session, withElementTemplate);
+    	for (DocumentModel document: session.getChildren(src)){
+    		copyHierarchyPage(document.getRef(), copyPage.getRef(), document.getName(), document.getTitle(), session, withElementTemplate);
+    	}
+    	return copyPage;
+    }
+    
+    // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.5.0-HF01
+    /**
+     * it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.5.0-HF01
+     * @param src
+     * @param dest
+     * @param name
+     * @param session
+     * @param withElementTemplate
+     * @return
+     * @throws ClientException
+     */
+    public static DocumentModel copyPage(DocumentRef src, DocumentRef dest, String name, String title, CoreSession session, boolean withElementTemplate) throws ClientException{
+    	DocumentModel docDest = session.getDocument(dest);
+    	DocumentModel docSrc = session.getDocument(src);
+    	DocumentModel copy = session.createDocumentModel(docDest.getPathAsString(), LabsSiteUtils.doLabsSlugify(name), docSrc.getType());
+    	copy = session.createDocument(copy);
+    	for (String facetName: docSrc.getFacets()){
+    		if (withElementTemplate || !LabsSiteConstants.FacetNames.LABS_ELEMENT_TEMPLATE.equals(facetName)){
+    			copy.addFacet(facetName);
+    		}
+    	}
+    	for (String schemaName: docSrc.getSchemas()){
+    		copy.setProperties(schemaName, docSrc.getProperties(schemaName));
+    	}
+    	copy.setPropertyValue(AbstractLabsBase.DC_TITLE, title);
+    	copy = session.saveDocument(copy);
+        session.save();
+    	return copy;
+    }
 }

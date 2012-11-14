@@ -39,7 +39,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.customview.LabsCustomView;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.page.CollapseTypes;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.FontFamily;
@@ -159,8 +158,7 @@ public final class CommonHelper {
                 State.PUBLISH.getState()).append("'").append(" AND ").append(
                 NXQL.ECM_PATH).append(" STARTSWITH '").append(
                 sm.getSiteRoot(session).getPathAsString().replace("'", "\\'")).append("'").append(
-                " AND ").append(LabsSiteAdapter.PROPERTY_SITE_TEMPLATE).append(
-                " = 1");
+                " AND ").append(NXQL.ECM_MIXINTYPE).append("='").append(LabsSiteConstants.FacetNames.LABS_ELEMENT_TEMPLATE).append("'");
         DocumentModelList list = session.query(query.toString());
         for (DocumentModel site : list) {
             adaptersList.add(Tools.getAdapter(LabsSite.class, site, session));

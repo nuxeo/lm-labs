@@ -147,6 +147,23 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         return pages;
     }
 
+    @Override
+    public List<Page> getAllPagesTemplate() throws ClientException {
+        CoreSession session = getSession();
+		DocumentModelList docs = session.query(
+                "SELECT * FROM Page, Space where ecm:currentLifeCycleState <> 'deleted' AND ecm:path STARTSWITH '"
+                        + getTree().getPathAsString().replace("'", "\\'") + "' AND ecm:mixinType = '" + LabsSiteConstants.FacetNames.LABS_ELEMENT_TEMPLATE + "'");
+
+        List<Page> pages = new ArrayList<Page>();
+        for (DocumentModel doc : docs) {
+            Page page = Tools.getAdapter(Page.class, doc, session);
+            if (page != null) {
+                pages.add(page);
+            }
+        }
+        return pages;
+    }
+
     // TODO unit tests
     @Override
     public Collection<DocumentModel> getPages(Docs docType, State lifecycleState)
@@ -597,17 +614,15 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                             templateSite.getPath().segmentCount());
                     session.removeDocuments(session.getChildrenRefs(
                             doc.getRef(), null).toArray(new DocumentRef[] {}));
-                    session.copy(
-                            session.getChildrenRefs(templateSite.getRef(), null),
-                            doc.getRef());
+                    for (DocumentModel document : session.getChildren(templateSite.getRef(), null)){
+                    	// TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! LabsSiteUtils.copyHierarchyPage
+                    	LabsSiteUtils.copyHierarchyPage(document.getRef(), doc.getRef(), document.getName(), document.getTitle(), session, true);
+                    }
+                    setThemeName(templateThemeName);
+                    getTemplate().setTemplateName(labsSiteTemplate.getTemplate().getTemplateName());
                     Path indexPath = doc.getPath().append(indexLastSegments);
                     setHomePageRef(session.getDocument(
                             new PathRef(indexPath.toString())).getId());
-                    setThemeName(templateThemeName);
-                    getTemplate().setTemplateName(labsSiteTemplate.getTemplate().getTemplateName());
-                    // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.4.2-HF15
-                    copyFacetSchemas(doc, templateSite, session);
-
                 } else {
                     throw new IllegalArgumentException(
                             templateSite.getPathAsString()
@@ -630,6 +645,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
                 String endPath = StringUtils.substringAfter(facetedDoc.getPathAsString(), templateSite.getPathAsString());
                 DocumentModel document = session.getDocument(new PathRef(site.getPathAsString() + endPath));
                 document.addFacet(FacetNames.LABSTEMPLATE);
+                //TODO ajouter les nouvelles factes que l'on peut avoir dans une page
                 document.setProperties(Schemas.LABSTEMPLATE.getName(), facetedDoc.getProperties(Schemas.LABSTEMPLATE.getName()));
                 session.saveDocument(document);
             }
