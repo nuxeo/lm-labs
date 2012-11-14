@@ -262,7 +262,6 @@
 							deleteNews(obj, this);
 						}
 					},
-					<#--
 					"remove" : {
 						"separator_before"	: false,
 						"icon"				: "/nuxeo/icons/action_delete.gif",
@@ -276,7 +275,6 @@
 							}
 						}
 					},
-					-->
 					"ccp" : {
 						"separator_before"	: true,
 						"icon"				: false,
@@ -309,6 +307,9 @@
 				};
 
 				<#if !Session.hasPermission(Document.ref, 'Everything')>
+					delete items.remove;
+				</#if>
+				<#if adminTreeviewType=="Pages">
 					delete items.remove;
 				</#if>
 				<#if !(mySite?? && mySite.isAdministrator(Context.principal.name)) >
