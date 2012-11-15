@@ -389,8 +389,10 @@ public final class LabsSiteUtils {
      */
     public static DocumentModel copyHierarchyPage(DocumentRef src, DocumentRef dest, String name, String title, CoreSession session, boolean withElementTemplate) throws ClientException{
     	DocumentModel copyPage = copyPage(src, dest, name, title, session, withElementTemplate);
-    	for (DocumentModel document: session.getChildren(src)){
-    		copyHierarchyPage(document.getRef(), copyPage.getRef(), document.getName(), document.getTitle(), session, withElementTemplate);
+    	if (!src.toString().equals(dest.toString())){
+	    	for (DocumentModel document: session.getChildren(src)){
+	    		copyHierarchyPage(document.getRef(), copyPage.getRef(), document.getName(), document.getTitle(), session, withElementTemplate);
+	    	}
     	}
     	return copyPage;
     }
