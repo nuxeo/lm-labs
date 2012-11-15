@@ -157,6 +157,9 @@ function addDoc(event) {
 					</#if>
 				jQuery("#name").val("");
 			}
+			else if(msg == 'srcSameDest'){
+				alert("${Context.getMessage('label.page.creation.assistant.nocopy.srcsamedest')?js_string}");
+			}
 			else{
 				document.location.href = msg;
 			}

@@ -632,6 +632,9 @@ public class PageResource extends DocumentObject {
             }
             if("assistant".equalsIgnoreCase(form.getString("assistant"))){
                 final String idRefPage = form.getString("idPageTemplate");
+                if (parent.getRef().toString().equals(idRefPage)){
+                    return Response.ok("srcSameDest").build();
+                }
                 if (!StringUtils.isEmpty(idRefPage)){
                     DocumentModel copy = LabsSiteUtils.copyHierarchyPage(new IdRef(idRefPage), parent.getRef(), name, name, session, false);
                     return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(copy), false) + "?message_success=label.parameters.page.save.success").build();
