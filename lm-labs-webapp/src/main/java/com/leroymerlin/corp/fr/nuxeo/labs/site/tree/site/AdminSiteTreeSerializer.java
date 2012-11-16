@@ -58,18 +58,30 @@ public class AdminSiteTreeSerializer extends AbstractJSONSerializer {
         attrs.put("rel", doc.getType());
         json.element("attr", (Object) attrs);
         JSONObject metadata = new JSONObject();
+        CoreSession session = WebEngine.getActiveContext().getCoreSession();
         try {
             metadata.put("lifecyclestate", doc.getCurrentLifeCycleState());
         } catch (ClientException e) {
             LOG.error("Unable to get current life cycle of document "
                     + doc.getPathAsString() + ": " + e.getCause());
         }
+        Page page = Tools.getAdapter(Page.class, doc, session);
+        if (page != null){
+            try {
+                metadata.put("isPageTemplate", page.isElementTemplate());
+            } catch (ClientException e) {
+                LOG.error("Unable to get template page of document "
+                        + doc.getPathAsString() + ": " + e.getCause());
+            }
+        }
+        else{
+            metadata.put("isPageTemplate", false);
+        }
         try {
-            CoreSession session = WebEngine.getActiveContext().getCoreSession();
             SiteDocument siteAdapter = Tools.getAdapter(SiteDocument.class, doc, session);
             if (siteAdapter != null) {
                 LabsSite site = siteAdapter.getSite();
-                if (Tools.getAdapter(Page.class, doc, session) == null) {
+                if (page == null) {
                     metadata.put("url", URIUtils.quoteURIPathComponent(siteAdapter.getSite().getURL(), true));
                 } else {
                     metadata.put("url", siteAdapter.getResourcePath());
