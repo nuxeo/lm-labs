@@ -182,6 +182,7 @@ public class LabsNewsResource extends PageResource {
         String accroche = form.getString("newsAccroche");
         String cropSummaryPicture = form.getString("cropSummaryPicture");
         String commentable = form.getString("commentablePage");
+        String isTop = form.getString("isTop");
 
         news.setTitle(pTitle);
         news.setStartPublication(getDateFromStr(startDate));
@@ -189,6 +190,7 @@ public class LabsNewsResource extends PageResource {
         news.setContent(content);
         news.setAccroche(accroche);
         news.setCommentable(BooleanUtils.toBoolean(commentable));
+        news.setTop(BooleanUtils.toBoolean(isTop));
 
         if (form.isMultipartContent()) {
             Blob blob = form.getBlob("newsPicture");

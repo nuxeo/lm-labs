@@ -42,7 +42,7 @@
 
         <#list allNews as news>
           <#assign path=This.path + "/" + news.documentModel.name />
-          <section class="labsnews <@generateClassNewsVisibility news=news result="editblock"/>">
+          <section class="labsnews <#if news.isTop()>istop</#if> <@generateClassNewsVisibility news=news result="editblock"/>">
           		<div class="news-title">
 	          		<div class="for-summary">
 	          		<@generateSummaryNews news=news path=path withHref=true/>
