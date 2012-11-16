@@ -13,7 +13,8 @@
 		    <#if mySite?? && Session.hasPermission(mySite.document.ref, "Everything")>
 		    	<li <#if item=="trash">class="active"</#if>><a href="${basePath}/@views/edit_trash"><i class="icon-trash"></i>${Context.getMessage('label.labssite.admin.tabs.trash')}</a></li>
 		    </#if>
-            <li <#if item=="admin_rssfeeds">class="active"</#if>><a href="${basePath}/@views/admin_rssfeeds"><i class="icon-rss"></i>Flux RSS</a></li>
+		    <li <#if item=="admin_elementPageTemplate">class="active"</#if>><a href="${basePath}/@views/admin_pagetemplate"><i class="icon-book"></i>${Context.getMessage('label.labssite.admin.tabs.pagetemplate')}</a></li>
+            <li <#if item=="admin_rssfeeds">class="active"</#if>><a href="${basePath}/@views/admin_rssfeeds"><i class="icon-rss"></i>${Context.getMessage('label.labssite.admin.tabs.streamrss')}</a></li>
 <#-- TODO
 <#list This.getLinks("SITE_ADMINISTRATION_TABS") as link>
   <li><a href="${link.getCode(This)}">${Context.getMessage('label.labssite.admin.tabs.' + link.id)}</a></li>

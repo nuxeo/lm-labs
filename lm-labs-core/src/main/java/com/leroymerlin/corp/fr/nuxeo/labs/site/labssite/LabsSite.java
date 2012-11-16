@@ -69,9 +69,7 @@ public interface LabsSite  extends LabsBase {
     List<Page> getAllPages() throws ClientException;
     
     /**
-     * Returns all the page of the site. Pages are
-     * document that are renderable with a web
-     * view
+     * Returns the templatified pages
      * @return
      * @throws ClientException
      */

@@ -432,6 +432,47 @@ public class PageResource extends DocumentObject {
     public Template addContentView() {
         return getTemplate("views/LabsPage/manage.ftl").arg("categories", getCategoriesOfSiteElementTemplate());
     }
+
+    @PUT
+    @Path("@noTemplate")
+    public Response noTemplate() {
+        CoreSession session = getCoreSession();
+        Page page = Tools.getAdapter(Page.class, doc, session);
+        if (page == null){
+            return Response.ok("nok").build();
+        }
+        try {
+            page.setElementTemplate(false);
+            session.saveDocument(page.getDocument());
+            session.save();
+        } catch (ClientException e) {
+            return Response.ok("nok").build();
+        }
+        return Response.ok("ok").build();
+    }
+
+    @PUT
+    @Path("@bulkNoTemplate")
+    public Response bulkNoTemplate(@QueryParam("id") List<String> ids) {
+        try {
+            boolean noTemplate = false;
+            DocumentModel document = null;
+            CoreSession session = getCoreSession();
+            for (String id : ids) {
+                document = session.getDocument(new IdRef(id));
+                Tools.getAdapter(Page.class, document, session).setElementTemplate(false);
+                session.saveDocument(document);
+                noTemplate = true;
+            }
+            if (noTemplate) {
+                ctx.getCoreSession().save();
+            }
+        } catch (ClientException e) {
+            return Response.serverError().status(Status.NOT_MODIFIED).entity(
+                    e.getMessage()).build();
+        }
+        return Response.status(Status.NO_CONTENT).build();
+    }
     
     private List<DocumentModel> getCategoriesOfSiteElementTemplate(){
         String property = getProperty("labs.site.element.template.url", "modeles-pages");
