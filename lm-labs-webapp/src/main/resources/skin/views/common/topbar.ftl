@@ -9,7 +9,7 @@
 <#include "views/common/init_mode.ftl" />
 </#if>
     <div class="navbar-wrapper" style="z-index: 5;">
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
       <div class="navbar-inner">
         <div class="container-fluid">
             <#if mySite??>
