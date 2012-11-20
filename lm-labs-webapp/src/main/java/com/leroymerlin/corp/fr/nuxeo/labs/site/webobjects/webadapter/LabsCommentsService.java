@@ -85,7 +85,7 @@ public class LabsCommentsService extends CommentService {
                 DocumentModel docComment = commentsList.get(commentsList.size() - 1);
                 comments.add(docComment);
                 afn.loadFullName(comments);
-                return Response.ok(docComment.getPropertyValue("comment:text")).build();
+                return Response.ok(docComment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT)).build();
             }
         } catch (Exception e) {
             throw WebException.wrap(e);
@@ -104,7 +104,7 @@ public class LabsCommentsService extends CommentService {
             List<DocumentModel> commentsList = getCommentManager().getComments(document);
             if (commentsList.size() > 0){
                 DocumentModel docComment = commentsList.get(commentsList.size() - 1);
-                docComment.setPropertyValue("comment:text", ctx.getForm().getString("text"));
+                docComment.setPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT, ctx.getForm().getString("text"));
                 session.saveDocument(docComment);
                 session.save();
             }

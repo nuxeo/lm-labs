@@ -36,6 +36,7 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
     static public final String ACCROCHE = "ln:accroche";
     static final String CONTENT = "ln:content";
     static final String NEWS_TEMPLATE = "ln:template";
+    static final String IS_TOP = "ln:isTop";
 
     private String lastContributorFullName = null;
     private HtmlSection section;
@@ -375,5 +376,19 @@ public class LabsNewsAdapter extends AbstractPage implements LabsNews,
 		} catch (ClientException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public boolean isTop() throws ClientException {
+		Serializable propertyValue = doc.getPropertyValue(IS_TOP);
+        if (propertyValue instanceof Boolean) {
+            return ((Boolean) propertyValue).booleanValue();
+        }
+        return false;
+	}
+
+	@Override
+	public void setTop(boolean isTop) throws ClientException {
+		doc.setPropertyValue(IS_TOP, isTop);
 	}
 }
