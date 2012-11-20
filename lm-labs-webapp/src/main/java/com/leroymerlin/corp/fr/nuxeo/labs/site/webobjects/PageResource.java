@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -48,8 +50,10 @@ import com.leroymerlin.corp.fr.nuxeo.forum.LMForumImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.customview.LabsPageCustomView;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
@@ -66,6 +70,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 @WebObject(type = "LabsPage")
 public class PageResource extends DocumentObject {
 
+    private static final String DEFAULT_NO_PREVIEW = "noPreview";
+
     public static final String ELEMENTS_PER_PAGE = "elementsPerPage";
 
     private static final String FAILED_TO_UPDATE_PAGE_DESCRIPTION = "Failed to update page description\n";
@@ -77,8 +83,6 @@ public class PageResource extends DocumentObject {
     private static final String PROPNAME_COLLAPSETYPE = Schemas.PAGE.prefix() + ":collapseType";
 
     private static final String ISN_T_AUTHORIZED_TO_DISPLAY_THIS_ELEMENT = " isn't authorized to display this element!";
-
-    public static final String COPYOF_PREFIX = "Copie de ";
 
     private static final String BROWSE_TREE_VIEW = "views/common/browse_tree.ftl";
 
@@ -207,6 +211,14 @@ public class PageResource extends DocumentObject {
         return Framework.getProperty(prop, defaultValue);
     }
     
+    private SiteManager getSiteManager() {
+        try {
+            return Framework.getService(SiteManager.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public int getPropertyMaxSizeFileRead(){
         int result = 6;
         String property = getProperty("labs.max.size.file.read", "" + result);
@@ -295,7 +307,7 @@ public class PageResource extends DocumentObject {
             DocumentModel copy = session.copy(doc.getRef(),
                     destination.getRef(), null);
             Page page = Tools.getAdapter(Page.class, copy, session);
-            page.setTitle(COPYOF_PREFIX + page.getTitle());
+            page.setTitle(LabsSiteUtils.COPYOF_PREFIX + page.getTitle());
             session.saveDocument(page.getDocument());
             session.save();
         } catch (Exception e) {
@@ -404,10 +416,6 @@ public class PageResource extends DocumentObject {
             else{
                 LabsSiteWebAppUtils.draft(doc);
             }
-            
-            
-            
-            
         } catch (NoPublishException e) {
             return redirect(getPath()
                     + "?message_error=label.parameters.page.publish.fail");
@@ -422,21 +430,134 @@ public class PageResource extends DocumentObject {
     @GET
     @Path("@addContentView")
     public Template addContentView() {
-        return getTemplate("views/LabsPage/manage.ftl");
+        return getTemplate("views/LabsPage/manage.ftl").arg("categories", getCategoriesOfSiteElementTemplate());
+    }
+
+    @PUT
+    @Path("@noTemplate")
+    public Response noTemplate() {
+        CoreSession session = getCoreSession();
+        Page page = Tools.getAdapter(Page.class, doc, session);
+        if (page == null){
+            return Response.ok("nok").build();
+        }
+        try {
+            page.setElementTemplate(false);
+            session.saveDocument(page.getDocument());
+            session.save();
+        } catch (ClientException e) {
+            return Response.ok("nok").build();
+        }
+        return Response.ok("ok").build();
+    }
+
+    @PUT
+    @Path("@bulkNoTemplate")
+    public Response bulkNoTemplate(@QueryParam("id") List<String> ids) {
+        try {
+            boolean noTemplate = false;
+            DocumentModel document = null;
+            CoreSession session = getCoreSession();
+            for (String id : ids) {
+                document = session.getDocument(new IdRef(id));
+                Tools.getAdapter(Page.class, document, session).setElementTemplate(false);
+                session.saveDocument(document);
+                noTemplate = true;
+            }
+            if (noTemplate) {
+                ctx.getCoreSession().save();
+            }
+        } catch (ClientException e) {
+            return Response.serverError().status(Status.NOT_MODIFIED).entity(
+                    e.getMessage()).build();
+        }
+        return Response.status(Status.NO_CONTENT).build();
+    }
+    
+    private List<DocumentModel> getCategoriesOfSiteElementTemplate(){
+        String property = getProperty("labs.site.element.template.url", "modeles-pages");
+        SiteManager siteManager = getSiteManager();
+        List<DocumentModel> result = new ArrayList<DocumentModel>();
+        if (siteManager != null){
+            try {
+                LabsSite site = siteManager.getSite(ctx.getCoreSession(), property);
+                if (site != null){
+                    String homePageRef = site.getHomePageRef();
+                    List<Page> topPages = CommonHelper.getTopNavigationPages(site.getTree(), ctx.getPrincipal().getName());
+                    for (Page page: topPages){
+                        if (!homePageRef.equals(page.getDocument().getRef().toString())){
+                            result.add(page.getDocument());
+                        }
+                    }
+                }
+            } catch (ClientException e) {
+                WebException.wrap(e);
+            } catch (SiteManagerException e) {
+                WebException.wrap(e);
+            }
+        }
+        return result;
+    }
+    
+    @GET
+    @Path("@getPagesTemplate")
+    public Template getPagesTemplate(@QueryParam("id") String id) {
+        Collection<Page> pagesTemplate = new ArrayList<Page>();
+        if (!StringUtils.isEmpty(id)) {
+            try {
+                DocumentModel pageTemplate = ctx.getCoreSession()
+                        .getDocument(new IdRef(id));
+                if (pageTemplate != null) {
+                    pagesTemplate.addAll(CommonHelper.siteDoc(pageTemplate).getChildrenNavigablePages(ctx.getPrincipal().getName()));
+                }
+            } catch (ClientException e) {
+                WebException.wrap(e);
+            }
+        }
+        
+        return getTemplate("views/LabsPage/pageTemplate.ftl").arg("pages", pagesTemplate);
+    }
+    
+    public String getPathBlobPreview(DocumentModel page){
+        SiteDocument siteDoc = Tools.getAdapter(SiteDocument.class, page, getCoreSession());
+        if (siteDoc != null){
+            try {
+                return ctx.getModulePath() + "/" +  siteDoc.getResourcePath();
+            } catch (ClientException e) {
+                WebException.wrap(e);
+            }
+        }
+        return DEFAULT_NO_PREVIEW;
+    }
+    
+    
+    @GET
+    @Path("@getPagesTemplateOfSite")
+    public Template getPagesTemplateOfSite() {
+        Collection<Page> pagesTemplate = new ArrayList<Page>();
+        try {
+            LabsSite site = CommonHelper.siteDoc(doc).getSite();
+            if (site != null) {
+            pagesTemplate.addAll(site.getAllPagesTemplate());
+            }
+        } catch (ClientException e) {
+            WebException.wrap(e);
+        }
+        return getTemplate("views/LabsPage/pageTemplate.ftl").arg("pages", pagesTemplate);
     }
 
     public boolean isSingleNamePage(String name, DocumentRef parentRef) {
-        
         return true;
     }
 
     @POST
     @Path("@addContent")
     public Response doAddContent() throws ClientException  {
-        String name = ctx.getForm().getString("dc:title");
-        String location = ctx.getForm().getString("location");
-        boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString("overwritePage"));
-        return addContent(name, PageCreationLocation.fromString(location), overwrite);
+        FormData form = ctx.getForm();
+        String name = form.getString("dc:title");
+        String location = form.getString("location");
+        boolean overwrite = BooleanUtils.toBoolean(form.getString("overwritePage"));
+        return addContent(name, PageCreationLocation.fromString(location), overwrite, form);
     }
 
     @PUT
@@ -524,12 +645,12 @@ public class PageResource extends DocumentObject {
         }
     }
 
-    protected Response addContent(String name, PageCreationLocation location, boolean overwrite) throws ClientException {
+    protected Response addContent(String name, PageCreationLocation location, boolean overwrite, FormData form) throws ClientException {
         if (location == null) {
             location = PageCreationLocation.TOP;
         }
         DocumentModel parent = doc;
-        final CoreSession session = getCoreSession();
+        CoreSession session = getCoreSession();
         try {
             LabsSite labsSite = Tools.getAdapter(SiteDocument.class, doc, session).getSite();
             if (overwrite && !labsSite.isAdministrator(ctx.getPrincipal().getName())) {
@@ -550,36 +671,50 @@ public class PageResource extends DocumentObject {
                     return Response.ok("existedPageName").build();
                 }
             }
+            if("assistant".equalsIgnoreCase(form.getString("assistant"))){
+                final String idRefPage = form.getString("idPageTemplate");
+                if (parent.getRef().toString().equals(idRefPage)){
+                    return Response.ok("srcSameDest").build();
+                }
+                if (!StringUtils.isEmpty(idRefPage)){
+                    DocumentModel copy = LabsSiteUtils.copyHierarchyPage(new IdRef(idRefPage), parent.getRef(), name, name, session, false);
+                    return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(copy), false) + "?message_success=label.parameters.page.save.success").build();
+                }
+            }
+            else{
+                DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
+                newDoc.setPropertyValue("dc:title", name);
+                if (Docs.HTMLPAGE.type().equals(newDoc.getType())) {
+                    List<String> fieldsNotDisplayable = new ArrayList<String>();
+                    fieldsNotDisplayable.add(PROPNAME_COLLAPSETYPE);
+                    Page page = Tools.getAdapter(Page.class, newDoc, ctx.getCoreSession());
+                    page.setNotDisplayableParameters(fieldsNotDisplayable);
+                    session.saveDocument(newDoc);
+                    
+                    final DocumentModel myForumDoc = newDoc;
+                    if (myForumDoc.getType().equals(LabsSiteConstants.Docs.PAGEFORUM.type())) {
+                        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
+                            @SuppressWarnings("deprecation")
+                            @Override
+                            public void run() throws ClientException {
+                                SecurityData data = SecurityDataHelper.buildSecurityData(myForumDoc);
+                                data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
+                                
+                                SecurityDataHelper.updateSecurityOnDocument(myForumDoc, data);
+                                session.save();
+                            }
+                            
+                        };
+                        runner.runUnrestricted();
+                    }
+                }
+                return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
+            }
         } catch (ClientException e) {
             throw WebException.wrap(e);
         }
-        DocumentModel newDoc = DocumentHelper.createDocument(ctx, parent, name);
-        newDoc.setPropertyValue("dc:title", name);
-        if (Docs.HTMLPAGE.type().equals(newDoc.getType())) {
-            List<String> fieldsNotDisplayable = new ArrayList<String>();
-            fieldsNotDisplayable.add(PROPNAME_COLLAPSETYPE);
-            Page page = Tools.getAdapter(Page.class, newDoc, ctx.getCoreSession());
-            page.setNotDisplayableParameters(fieldsNotDisplayable);
-        }
-        session.saveDocument(newDoc);
-
-        final DocumentModel myForumDoc = newDoc;
-        if (myForumDoc.getType().equals(LabsSiteConstants.Docs.PAGEFORUM.type())) {
-            UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
-                @SuppressWarnings("deprecation")
-                @Override
-                public void run() throws ClientException {
-                    SecurityData data = SecurityDataHelper.buildSecurityData(myForumDoc);
-                    data.addModifiablePrivilege(SecurityConstants.MEMBERS, SecurityConstants.ADD_CHILDREN, true);
-
-                    SecurityDataHelper.updateSecurityOnDocument(myForumDoc, data);
-                    session.save();
-                }
-
-            };
-            runner.runUnrestricted();
-        }
-        return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
+        //TODO
+        return Response.ok("TODO").build();
     }
 
     /**

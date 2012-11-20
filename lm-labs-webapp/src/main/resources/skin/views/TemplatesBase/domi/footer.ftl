@@ -39,4 +39,16 @@
             </article>
         </div>
     </div>
+    <div class="row">
+        <div class="span12">
+        	<div class="contact" ></div>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery(".contact").load('${Context.modulePath}/${Common.siteDoc(Document).getSite().URL}/@labscontacts/contactAdmin', function() {
+		  refreshDisplayMode(jQuery(".contact"));
+		});
+	});
+</script> 
+        </div>
+    </div>
 </div>

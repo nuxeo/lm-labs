@@ -174,8 +174,6 @@ public class NewsAdapterTest {
         assertThat(news,is(notNullValue()));
         
         assertNull(news.getEndPublication());
-
-
         
     }
 
@@ -512,5 +510,33 @@ public class NewsAdapterTest {
         news = Tools.getAdapter(LabsNews.class, doc, session);
         
         testCreatedRowsForMove(news);
+    }
+
+    @Test
+    public void iCanDefaultIsTop() throws Exception {
+      //Use the session as a factory
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+
+        doc.setPropertyValue("dc:creator", "creator");
+
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
+        assertThat(news,is(notNullValue()));
+        assertThat(news.isTop(),is(false));
+    }
+
+    @Test
+    public void iCanSetIsTop() throws Exception {
+      //Use the session as a factory
+        DocumentModel doc = session.createDocumentModel("/", "myNews",NEWS_TYPE);
+
+        LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
+        news.setTop(true);
+        doc = session.createDocument(doc);
+        session.save();
+        
+        doc = session.getDocument(doc.getRef());
+        news = Tools.getAdapter(LabsNews.class, doc, session);
+        assertThat(news,is(notNullValue()));
+        assertThat(news.isTop(),is(true));
     }
 }

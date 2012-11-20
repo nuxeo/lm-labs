@@ -6,6 +6,9 @@
 		<#elseif pageAdapter.deleted >
 			&nbsp;<span class="label label-warning ${editblockClass}">${Context.getMessage('label.status.deleted')}</span>
 		</#if>
+		<#if pageAdapter.isElementTemplate() >
+			&nbsp;<span class="label label-info ${editblockClass}">${Context.getMessage('label.status.page.template')}</span>
+		</#if>
 		<#if pageAdapter.hiddenInNavigation >
 			&nbsp;<span class="label label-inverse ${editblockClass}">${Context.getMessage('label.status.hiddenInNavigation')}</span>
 		</#if>

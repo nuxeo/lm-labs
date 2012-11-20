@@ -87,7 +87,7 @@ public class Site extends NotifiablePageResource {
         String name = ctx.getForm().getString("name");
         boolean overwrite = BooleanUtils.toBoolean(ctx.getForm().getString(
                 "overwritePage"));
-        return addContent(name, PageCreationLocation.TOP, overwrite);
+        return addContent(name, PageCreationLocation.TOP, overwrite, ctx.getForm());
     }
 
     @Override

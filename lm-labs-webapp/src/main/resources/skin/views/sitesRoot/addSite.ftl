@@ -125,5 +125,8 @@ jQuery(document).ready(function() {
 		alert('span clicked.');
 		jQuery(this).closest('input[type=radio]').click();
 	});
+	jQuery('#labsSiteURL').keypress(function(e) {
+	    if ((e.which >= 32 && e.which <= 44) || e.which === 47 || (e.which >= 58 && e.which <= 64)) {return false;}
+	});
 });
 </script>

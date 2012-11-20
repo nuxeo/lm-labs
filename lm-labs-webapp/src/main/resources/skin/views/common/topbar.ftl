@@ -39,7 +39,21 @@
 	                	<#assign hasDocActions = true />
 	                	<@block name="docactionsaddpage">
 	                		<!--   add page     -->
-	                		<li><a class="open-dialog" rel="add_content_dialog" href="${This.path}/@addContentView"><i class="icon-plus"></i>${Context.getMessage('command.docactions.addcontent')}</a></li>
+	                		<li><a  onclick="javascript:openAddContentView('${This.path}/@addContentView');" href="#"><i class="icon-plus"></i>${Context.getMessage('command.docactions.addcontent')}</a></li>
+	                		<div id="divAddContentView" style="display: none;">
+							</div>
+							<script type="text/javascript">
+		                		jQuery(document).ready(function() {
+									jQuery("#divAddContentView").dialog2({
+										width : '700px',
+										height : '385px',
+										autoOpen : false,
+										closeOnOverlayClick : false,
+										removeOnClose : false,
+										showCloseHandle : false,
+									});
+								});
+							</script>
 	                	</@block>
 	                	<!--   Mode page     -->
 	                	<li><a id="page_edit" href="#" ><i class="icon-eye-open"></i>Visualiser</a></li>

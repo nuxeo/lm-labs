@@ -16,6 +16,9 @@
 					<#assign isFist = (comment.id == comments?first.id)/>
 					<#if (isNotRejected && isFist && Context.principal.name == comment.comment.author) || (Session.hasPermission(Document.ref, 'Everything') && isNotRejected)>
 						<p class="labscomments delete">
+							<#if (action = "topics" && isFist && Context.principal.name == comment.comment.author && isNotRejected)>
+								<button class="btn btn-mini" onClick="javascript:getComment();"><i class="icon-edit" style="padding-right:0px;"></i></button>
+							</#if>
 							<button class="btn btn-mini btn-danger" onClick="javascript:if(confirm('${Context.getMessage('label.comments.deleted.confirm')?js_string}')){${deleteComment}('${This.path}/@labscomments', '${comment.id}', <#if isFist>true<#else>false</#if>);}{return false;}"><i class="icon-remove" style="padding-right:0px;"></i></button>
 						</p>
 					</#if>

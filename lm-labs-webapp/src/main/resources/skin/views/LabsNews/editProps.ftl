@@ -44,11 +44,20 @@
 						        <textarea class="span7" style="height:60px;" id="newsAccroche" name="newsAccroche"><#if news?? && news != null >${news.accroche}</#if></textarea>
 						      </div>
 						    </div>
+						    <#--Commentaires sur la news-->
 					        <div class="control-group">
 								<div class="controls">
 									<label class="checkbox" for="commentablePage">
 									<input class="checkbox" id="commentablePage" type="checkbox" name="commentablePage" />
 									${Context.getMessage('label.parameters.page.authorizedCommentable')}</label>
+								</div>
+					        </div>
+						    <#--isTop-->
+					        <div class="control-group">
+								<div class="controls">
+									<label class="checkbox" for="isTop">
+									<input class="checkbox" id="isTop" type="checkbox" name="isTop" />
+									${Context.getMessage('label.labsNews.isTop')}</label>
 								</div>
 					        </div>
 						    <#--Photo de la news-->
@@ -97,6 +106,9 @@
 				  	  <#else>
 					  	  <#if news.commentable >
 				  	  	jQuery('#commentablePage').attr('checked', 'checked');
+					  	  </#if>
+					  	  <#if news.isTop() >
+				  	  	jQuery('#isTop').attr('checked', 'checked');
 					  	  </#if>
 				  	  </#if>
 				  });

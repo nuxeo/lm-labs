@@ -5,20 +5,26 @@ function changeIconOfHomePage() {
 	jQuery(insObj).css('background-position', '0 0');
 }
 
-function getLabelHtml(state) {
+function getLabelHtml(state, isPageTemplate) {
 	var labelHtml = '';
 	if (state == 'draft') {
-		labelHtml = '<ins>&nbsp;<span class="label label-success">${Context.getMessage('label.status.draft')}</span></ins>';
+		labelHtml = '<ins>&nbsp;<span class="label label-success">${Context.getMessage('label.status.draft')}</span>';
 	} else if (state == 'deleted') {
-		labelHtml = '<ins>&nbsp;<span class="label label-warning">${Context.getMessage('label.status.deleted')}</span></ins>';
+		labelHtml = '<ins>&nbsp;<span class="label label-warning">${Context.getMessage('label.status.deleted')}</span>';
+	}
+	if (isPageTemplate == true) {
+		labelHtml = labelHtml + '&nbsp;<span class="label label-info">${Context.getMessage('label.status.page.template')}</span>';
+	}
+	if (labelHtml.length > 0){
+		labelHtml = labelHtml + '</ins>';
 	}
 	return labelHtml;
 }
 
-function appenStatusLabel(ahref, state) {
-	var label = getLabelHtml(state);
+function appenStatusLabel(ahref, state, isPageTemplate) {
+	var label = getLabelHtml(state, isPageTemplate);
 	if (label.length > 0 && !jQuery(ahref).html().match(label + '$')) {
-		jQuery(ahref).append(getLabelHtml(state));
+		jQuery(ahref).append(getLabelHtml(state, isPageTemplate));
 	}
 }
 
@@ -37,7 +43,8 @@ function addNodesStatusLabels(data) {
 		-->
 			appenStatusLabel(
 				jQuery(subnode).children('a:first'),
-				data.inst._get_node(subnode).data("lifecyclestate")
+				data.inst._get_node(subnode).data("lifecyclestate"),
+				data.inst._get_node(subnode).data("isPageTemplate")
 			);
 		});
 	});
@@ -56,7 +63,8 @@ function addStatusLabels(data) {
 	-->
 		appenStatusLabel(
 			href,
-			data.inst._get_node(jQuery(href).parent()).data("lifecyclestate")
+			data.inst._get_node(jQuery(href).parent()).data("lifecyclestate"),
+			data.inst._get_node(jQuery(href).parent()).data("isPageTemplate")
 		);
 	});
 }

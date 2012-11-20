@@ -60,4 +60,8 @@ public interface LabsNews  extends HtmlSection, SessionAdapter, LabsCommentable 
     void setCropCoords(String cropCoords) throws ClientException;
 
     void checkPicture(Blob blob) throws LabsBlobHolderException, ClientException;
+    
+    boolean isTop() throws ClientException;
+    
+    void setTop(boolean isTop) throws ClientException;
 }

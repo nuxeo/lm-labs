@@ -109,6 +109,35 @@
 					}
 				});
 			}
+			
+			function getComment() {
+				var titleId = 'titleCommentsPage';
+				if ('topic' === '${action}') {
+					titleId = 'titleTopicsPage';
+				}
+				jQuery.ajax({
+					type : "GET",
+					url : '${This.path}/@labscomments/@getLastComment',
+					data : '',
+					success : function(msg) {
+						if (msg == 'nok'){
+							alert('problème');
+						}
+						else{
+							var titleObj = jQuery("#" + titleId);
+							if (titleObj != undefined && jQuery(titleObj)[0] != undefined) {
+	    						jQuery(titleObj)[0].innerHTML = $('#divTitleCommentsPage')[0].innerHTML;
+							}
+							jQuery("#divEditCommentable").dialog2('open');
+							CKEDITOR.instances['text'].setData(msg);
+							jQuery("#form-commentablePage").attr("action", jQuery("#form-commentablePage").attr("action") + '/@setLastComment');
+						}
+					},
+					error : function(msg) {
+						alert('ERROR' + msg.responseText);
+					}
+				});
+			}
 		</script>
 	</#if>
 </#macro>

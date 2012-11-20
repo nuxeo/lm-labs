@@ -167,13 +167,8 @@ public class PageUtilsService extends DefaultAdapter {
             }
         }
         try {
-            DocumentModel copy = session.copy(source.getRef(),
-                    destination.getRef(), null);
-            Page page = Tools.getAdapter(Page.class, copy, session);
-            String newTitle = COPYOF_PREFIX + page.getTitle();
-            page.setTitle(newTitle);
-            session.saveDocument(page.getDocument());
-            session.save();
+            String newTitle = COPYOF_PREFIX + source.getTitle();
+            LabsSiteUtils.copyHierarchyPage(source.getRef(), destination.getRef(), newTitle, newTitle, session, false);
             if (BooleanUtils.toBoolean(redirect)) {
                 return redirect(getPath() + viewUrl
                         + "?message_success=label.admin.page.copied");

@@ -18,7 +18,9 @@ public class LabsBlobHolderFactory implements BlobHolderFactory {
         		|| LabsSiteConstants.Docs.PAGECLASSEUR.type().equals(doc.getType())
         		|| LabsSiteConstants.Docs.PAGELIST.type().equals(doc.getType())
         		|| LabsSiteConstants.Docs.PAGEFORUM.type().equals(doc.getType())) {
-            return new LabsElementTemplateBlobHolder(doc, "let:preview");
+        	if (doc.hasFacet(LabsSiteConstants.FacetNames.LABS_ELEMENT_TEMPLATE)){
+        		return new LabsElementTemplateBlobHolder(doc, "let:preview");
+        	}
         }
         if(LabsSiteConstants.Docs.LABSNEWS.type().equals(doc.getType())) {
             return new LabsNewsBlobHolder(doc, "");

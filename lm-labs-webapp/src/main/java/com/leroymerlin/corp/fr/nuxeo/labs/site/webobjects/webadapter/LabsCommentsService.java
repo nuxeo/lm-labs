@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
@@ -67,6 +69,49 @@ public class LabsCommentsService extends CommentService {
         }
         view.arg("isTopic", (LabsSiteConstants.Docs.LABSTOPIC.type().equals(document.getType())));
         return view;
+    }
+    
+    @GET
+    @Path("@getLastComment")
+    public Response doGetLastComment() {
+        List<DocumentModel> comments = new ArrayList<DocumentModel>();
+        DocumentModel document;
+        try{
+            DocumentObject dobj = (DocumentObject) getTarget();
+            document = dobj.getDocument();
+            afn = new AuthorFullName(new HashMap<String, String>(), LabsSiteConstants.Comments.COMMENT_AUTHOR);
+            List<DocumentModel> commentsList = getCommentManager().getComments(document);
+            if (commentsList.size() > 0){
+                DocumentModel docComment = commentsList.get(commentsList.size() - 1);
+                comments.add(docComment);
+                afn.loadFullName(comments);
+                return Response.ok(docComment.getPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT)).build();
+            }
+        } catch (Exception e) {
+            throw WebException.wrap(e);
+        }
+        return Response.ok("nok").build();
+    }
+    
+    @POST
+    @Path("@setLastComment")
+    public Response doSetLastComment() {
+        DocumentModel document;
+        try{
+            DocumentObject dobj = (DocumentObject) getTarget();
+            CoreSession session = dobj.getCoreSession();
+            document = dobj.getDocument();
+            List<DocumentModel> commentsList = getCommentManager().getComments(document);
+            if (commentsList.size() > 0){
+                DocumentModel docComment = commentsList.get(commentsList.size() - 1);
+                docComment.setPropertyValue(LabsSiteConstants.Comments.COMMENT_TEXT, ctx.getForm().getString("text"));
+                session.saveDocument(docComment);
+                session.save();
+            }
+        } catch (Exception e) {
+            throw WebException.wrap(e);
+        }
+        return redirect(getTarget().getPath());
     }
     
     @DELETE
