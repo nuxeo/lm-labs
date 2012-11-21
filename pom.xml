@@ -309,6 +309,11 @@
       </dependency>
       <dependency>
         <groupId>org.nuxeo.ecm.platform</groupId>
+        <artifactId>nuxeo-platform-webapp-types</artifactId>
+        <version>${nuxeo.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.nuxeo.ecm.platform</groupId>
         <artifactId>nuxeo-platform-usermanager-api</artifactId>
         <version>${nuxeo.version}</version>
       </dependency>

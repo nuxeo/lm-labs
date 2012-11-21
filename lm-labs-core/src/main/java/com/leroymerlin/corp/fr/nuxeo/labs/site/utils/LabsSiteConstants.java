@@ -17,6 +17,16 @@ public final class LabsSiteConstants {
         public static final String COMMENT_CREATION_DATE = "comment:creationDate";
 
     }
+    
+    public final class AdvancedSearch{
+        public static final String LIST_TAGS = "search:coverage";
+        public static final String CREATED_MIN = "search:created_min";
+        public static final String CREATED_MAX = "search:created_max";
+        public static final String MODIFIED_MAX = "search:modified_max";
+        public static final String MODIFIED_MIN = "search:modified_min";
+        public static final String LIST_CURRENT_LIFE_CYCLE_STATES = "search:currentLifeCycleStates";
+
+    }
 
     public enum CommentsState{
         PENDING( "", "moderation_pending"),
@@ -148,6 +158,7 @@ public final class LabsSiteConstants {
         SITETHEME("SiteTheme",StringUtils.EMPTY),
         PAGEFORUM("PageForum", StringUtils.EMPTY),
         COMMONSASSETS("Assets", "commons-assets"),
+        PAGENAV("PageNav", StringUtils.EMPTY),
         WELCOME(HTMLPAGE.type(), "Accueil"); // TODO
 
         private String docType;
@@ -186,15 +197,15 @@ public final class LabsSiteConstants {
         }
 
         public static EnumSet<Docs> pageDocs() {
-            return EnumSet.of(HTMLPAGE, PAGE, DASHBOARD, PAGEBLOCS, PAGECLASSEUR, PAGELIST, PAGENEWS, PAGEFORUM, WELCOME);
+            return EnumSet.of(HTMLPAGE, PAGE, DASHBOARD, PAGEBLOCS, PAGECLASSEUR, PAGELIST, PAGENEWS, PAGEFORUM, WELCOME, PAGENAV);
         }
 
         public static EnumSet<Docs> notifiableDocs() {
-            return EnumSet.of(HTMLPAGE, DASHBOARD, PAGECLASSEUR, PAGELIST, PAGENEWS, PAGEFORUM, SITE);
+            return EnumSet.of(HTMLPAGE, DASHBOARD, PAGECLASSEUR, PAGELIST, PAGENEWS, PAGEFORUM, SITE, PAGENAV);
         }
 
         public static EnumSet<Docs> labsLifeCycleDocs() {
-            return EnumSet.of(SITE, PAGE, PAGEBLOCS, PAGENEWS, PAGECLASSEUR, PAGELIST, HTMLPAGE, PAGEFORUM, DASHBOARD);
+            return EnumSet.of(SITE, PAGE, PAGEBLOCS, PAGENEWS, PAGECLASSEUR, PAGELIST, HTMLPAGE, PAGEFORUM, DASHBOARD, PAGENAV);
         }
     }
 
@@ -234,6 +245,41 @@ public final class LabsSiteConstants {
          */
         public String getState() {
             return state;
+        }
+
+    }
+
+    public enum Sidebar {
+        LOGO("logo"),
+        NOTIFICATION("notification"),
+        SITEMAP("siteMap"),
+        TOPPAGE("topPage"),
+        SUBPAGE("subPage"),
+        LAST_ACTIVITIES("lastActivities"),
+        EXTERNAL_URL("externalUrl"),
+        LAST_UPLOAD("lastUpload");
+
+        private String name;
+
+        private static final List<String> stringToEnum = new ArrayList<String>();
+        static { // Initialize map from constant name to enum constant
+            for (Sidebar op : values())
+                stringToEnum.add(op.getName());
+        }
+
+        // Returns Operation for string, or null if string is invalid
+        public static String fromString(String symbol) {
+            return stringToEnum.get(stringToEnum.indexOf(symbol));
+        }
+        private Sidebar(String name) {
+            this.name = name;
+        }
+
+        /**
+         * @return state name
+         */
+        public String getName() {
+            return name;
         }
 
     }

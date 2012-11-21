@@ -89,6 +89,7 @@
         <type>PageList</type>
         <type>HtmlPage</type>
         <type>PageForum</type>
+        <type>PageNav</type>
         <!--type>Space</type-->
       </subtypes>
     </doctype>
@@ -98,6 +99,20 @@
       <facet name="Commentable" />
       <schema name="labstags" />
     </doctype>
+    
+    <doctype name="PageNav" extends="Page">
+      <schema name="advanced_search" />
+      <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
+      <subtypes>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageList</type>
+        <type>HtmlPage</type>
+        <type>PageNav</type>
+        <!--type>Space</type-->
+      </subtypes>
+    </doctype>
+    
 
     <doctype name="ExternalURL" extends="Document">
       <schema name="dublincore" />
@@ -113,6 +128,7 @@
         <type>PageClasseur</type>
         <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageNav</type>
         <!--type>Space</type-->
       </subtypes>
     </doctype>
@@ -126,6 +142,7 @@
         <type>PageClasseur</type>
         <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageNav</type>
         <!--type>Space</type-->
       </subtypes>
     </doctype>
@@ -148,6 +165,7 @@
         <type>PageClasseur</type>
         <type>PageList</type>
         <type>HtmlPage</type>
+        <type>PageNav</type>
         <!--type>Space</type-->
     </subtypes>
   </doctype>
@@ -175,10 +193,11 @@
 	        <type>PageClasseur</type>
 	        <type>PageList</type>
 	        <type>HtmlPage</type>
+	        <type>PageNav</type>
 	        <!--type>Space</type-->
 	    </subtypes>
     </doctype>
-
+  
   <doctype name="Assets" extends="Folder">
       <!-- obsolete. See document-types-contrib.xml to define subtypes. -->
       <subtypes>
@@ -199,6 +218,7 @@
         <type>PageList</type>
         <type>HtmlPage</type>
         <type>PageForum</type>
+        <type>PageNav</type>
         <!--type>Space</type-->
       </subtypes>
     </doctype>
@@ -221,6 +241,7 @@
     <indexableDocType indexAllSchemas="true" name="ExternalURL" />
     <indexableDocType indexAllSchemas="true" name="PageListEntry" />
     <indexableDocType indexAllSchemas="true" name="HtmlPage" />
+    <indexableDocType indexAllSchemas="true" name="PageNav" />
   </extension>
 
 </component>

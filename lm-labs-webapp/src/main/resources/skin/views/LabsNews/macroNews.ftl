@@ -24,14 +24,14 @@
 <#macro generateHeaderNews news path withHref withBy>
 	<div class="headerNews">
 		<#if withHref>
-			<a href="${path}" class="hrefTitleHeaderNews">
+			<div onclick="javascript:window.location.href='${path}'" class="hrefTitleHeaderNews">
 				<h2 class="titleHeaderNews">
 					${news.title}
 					<#if withBy>
 						<small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small>
 					</#if>
 				</h2>
-			</a>
+			</div>
 		<#else>
 			<h2 class="titleHeaderNews">
 				${news.title}
