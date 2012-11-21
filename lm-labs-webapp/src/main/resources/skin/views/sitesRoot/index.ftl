@@ -125,13 +125,13 @@ function deleteDefinitelySite(url){
 
   <@block name="content">
   <section>
+	<#assign undeletedLabsSites = This.undeletedLabsSites />
     <div class="page-header">
-      <h1>${Context.getMessage('label.labssite.list.sites.title')}</h1>
+      <h1>${Context.getMessage('label.labssite.list.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${undeletedLabsSites?size}</span></h1>
     </div>
 
 	<#assign hasOneMoreDeletedSite = false />
 	<#assign deletedLabsSites = This.deletedLabsSites />
-	<#assign undeletedLabsSites = This.undeletedLabsSites />
 	<#assign templateLabsSites = This.templateLabsSites />
     <#if (deletedLabsSites?size > 0 || undeletedLabsSites?size > 0 || templateLabsSites?size > 0) >
     	<#if (undeletedLabsSites?size > 0) >
@@ -182,7 +182,7 @@ function deleteDefinitelySite(url){
     	<#if (Context.principal.isAnonymous() == false && templateLabsSites?size > 0) >
     	<section>
 			<div class="page-header">
-				<h4>${Context.getMessage('label.labssite.list.template.sites.title')}</h4>
+				<h4>${Context.getMessage('label.labssite.list.template.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${templateLabsSites?size}</span></h4>
 			</div>
 	    	<#assign hasAtLeastOneAdminSite = false />
 	    	<#list templateLabsSites as labsSite>
@@ -233,7 +233,7 @@ function deleteDefinitelySite(url){
 	    <#if (deletedLabsSites?size > 0) >
 	    	<section>
 				<div class="page-header">
-					<h4>${Context.getMessage('label.labssite.list.deleted.sites.title')}</h4>
+					<h4>${Context.getMessage('label.labssite.list.deleted.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${deletedLabsSites?size}</span></h4>
 				</div>
 			      <#assign hasAtLeastOneAdminSite = false />
 			      <#list deletedLabsSites as deletedSite>
