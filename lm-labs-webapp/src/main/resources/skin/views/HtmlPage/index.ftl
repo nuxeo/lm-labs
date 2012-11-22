@@ -479,6 +479,7 @@
   </@block>
 
   <@block name="bottom-page-js" >
+  	<script type="text/javascript" src="${contextPath}/wro/labs.pagehtml.bottom.js"></script>
     <@superBlock />
     <#if 0 < nbrOsGadgets >
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.pack.js"></script>
@@ -488,10 +489,7 @@
     <script type="text/javascript" src="${skinPath}/js/register_rpc_navigateto.js"></script>
     <script type="text/javascript" src="${contextPath}/js/?scripts=opensocial/cookies.js|opensocial/util.js|opensocial/gadgets.js|opensocial/cookiebaseduserprefstore.js|opensocial/jquery.opensocial.gadget.js"></script>
     </#if>
-    <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-collapse.min.js"></script>
     <#include "views/HtmlPage/bottom-js.ftl" />
-    <script type="text/javascript" src="${skinPath}/js/widgetExternalContent.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.json-2.3.min.js"></script>
   </@block>
 </@extends>
 

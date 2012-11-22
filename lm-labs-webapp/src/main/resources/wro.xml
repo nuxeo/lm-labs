@@ -59,6 +59,13 @@
     <css>/site/skin/labs/css/slickmap/slickmap.css</css>
   </group>
 
+  <group name="labs.pagehtml.bottom">
+    
+    <js>/site/skin/labs/js/bootstrap/bootstrap-collapse.js</js>
+    <js>/site/skin/labs/js/widgetExternalContent.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.json-2.3.min.js</js>
+  </group>
+
   <group name="labs.pagenav">
     <group-ref>labs.common</group-ref>
     <js>/site/skin/labs/js/PageNav.js</js>
