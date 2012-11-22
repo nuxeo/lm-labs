@@ -36,6 +36,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.core.storage.sql.coremodel.SQLBlob;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
@@ -194,6 +195,26 @@ public class SitesRoot extends ModuleRoot {
         } catch (SiteManagerException e) {
             throw new NotAuthorizedException(e.getMessage(), e);
         }
+    }
+    
+    @SuppressWarnings("deprecation")
+    @GET
+    @Path("@clearAllSiteThemeCache")
+    public Object doClearAllSiteThemeCache() {
+        CoreSession session = ctx.getCoreSession();
+        if (session.getPrincipal().getName() != SecurityConstants.ADMINISTRATOR)
+        try {
+            for (LabsSite site : getSiteManager().getAllSites(session)) {
+                site.getThemeManager().getTheme(session).setCssValue(null);
+                session.saveDocument(site.getDocument());
+                log.info("Clear theme cache in site : " + site.getTitle());
+            }
+            session.save();
+        } catch (ClientException e) {
+            log.error("No clear theme cache in all sites !");
+            throw WebException.wrap(e);
+        }
+        return redirect(getPath());
     }
 
     @GET

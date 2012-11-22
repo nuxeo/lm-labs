@@ -12,4 +12,5 @@ public interface PageNav extends Page {
 	
 	void setTags(List<String> tags) throws ClientException;
 
+	List<Page> getTaggetPages() throws ClientException;
 }

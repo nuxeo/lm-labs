@@ -59,6 +59,13 @@
     <css>/site/skin/labs/css/slickmap/slickmap.css</css>
   </group>
 
+  <group name="labs.pagenav">
+    <group-ref>labs.common</group-ref>
+    <js>/site/skin/labs/js/PageNav.js</js>
+    
+    <css>/site/skin/labs/css/PageNav.css</css>
+  </group>
+
   <group name="labs.pagenews">
     <group-ref>labs.common</group-ref>
     <js>/site/skin/labs/js/PageNews.js</js>
