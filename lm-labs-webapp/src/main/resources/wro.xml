@@ -49,8 +49,8 @@
     <js>/site/skin/labs/js/PageHtml.js</js>
     <js>/site/skin/labs/js/move.js</js>
     <js>/site/skin/labs/js/manageDisplayHtmlLine.js</js>
-    <js>/site/skin/labs/js/bootstrap/bootstrap-button.min.js</js>
-    <js>/site/skin/labs/js/bootstrap/bootstrap-tab.min.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-button.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-tab.js</js>
     <js>/site/skin/labs/js/labs-opensocial-init.js</js>
 
     <css>/site/skin/labs/css/wysiwyg_editor.css</css>
