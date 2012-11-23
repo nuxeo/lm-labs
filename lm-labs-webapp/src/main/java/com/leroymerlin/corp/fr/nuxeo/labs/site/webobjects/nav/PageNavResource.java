@@ -21,6 +21,7 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.ResourceType;
+import org.nuxeo.ecm.webengine.model.TemplateNotFoundException;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
@@ -112,5 +113,14 @@ public class PageNavResource extends NotifiablePageResource{
         }
 
         return Response.status(Status.NOT_MODIFIED).build();
+    }
+    
+    public boolean pageAsPreview(Page page){
+        try {
+            getView("views/" + page.getDocument().getType() + "/previewNav");
+        } catch (TemplateNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 }
