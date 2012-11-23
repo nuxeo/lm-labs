@@ -34,11 +34,17 @@
         </#if>
         
         <#list taggedPages as page>
-        	<div style="width: 80%;border: 1px solid black;">
-        		${page.title?html}
-        		<br>
-        		${page.description}
-        	</div>
+        	<#if This.pageAsPreview(page) >
+        		<div style="width: 80%;border: 1px solid black;">
+	        		sa marche !
+	        	</div>
+        	<#else>
+	        	<div style="width: 80%;border: 1px solid black;">
+	        		<h2>${page.title?html}</h2>
+	        		<br>
+	        		${page.description}
+	        	</div>
+	        </#if>
         </#list>
         
         
