@@ -14,7 +14,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.NuxeoGroup;
 import org.nuxeo.ecm.directory.SizeLimitExceededException;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
@@ -167,14 +166,9 @@ public class GroupsUsersSuggestHelper {
     private static List<GroupUserSuggest> searchGroups(UserManager userManager, String pattern) throws ClientException, SizeLimitExceededException {
         final String logPrefix = "<searchGroups> ";
         List<GroupUserSuggest> suggests = new ArrayList<GroupUserSuggest>();
-        for (NuxeoGroup group : userManager.searchGroups(pattern)) {
-            suggests.add(new GroupUserSuggest((String) group.getName(), ""));
-        }
-        // TODO 5.4.3
-//        for (DocumentModel group : userManager.searchGroups(pattern)) {
-//            suggests.add(new GroupUserSuggest((String) group.getPropertyValue(userManager.getGroupIdField()), ""));
-//        }
-
+		for (DocumentModel group : userManager.searchGroups(pattern)) {
+			suggests.add(new GroupUserSuggest((String) group.getPropertyValue(userManager.getGroupIdField()), ""));
+		}
         if (log.isDebugEnabled()) {
             log.debug(logPrefix + " returns " + suggests.size() + " entries: " + suggests);
         }

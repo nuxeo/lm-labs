@@ -14,6 +14,12 @@ import com.leroymerlin.common.core.security.SecurityDataConverter;
 
 
 //TODO move to lm-nuxeo-common and delete from lm-portal-common
+/**
+ * @author vdutat
+ * @deprecated use {@link com.leroymerlin.common.core.security.SecurityDataHelper} instead
+ *
+ */
+@Deprecated
 public class SecurityDataHelper {
 
     // Static class

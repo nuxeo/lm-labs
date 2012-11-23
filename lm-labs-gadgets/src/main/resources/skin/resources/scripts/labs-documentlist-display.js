@@ -31,6 +31,7 @@ function mkColHeader(colDef) {
         }
         else if (colDef.field == "titleWithLink"
         	|| colDef.field == "titleWithLabsLink"
+        	|| colDef.field == "titleWithLabsDownloadLink"
         	|| colDef.field == "titleWithLabsPageLink") {
             html = "<th> " + colDef.label + " </th>";
         }

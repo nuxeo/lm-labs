@@ -9,6 +9,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 
+import com.leroymerlin.common.core.security.PermissionsHelper;
+
 public final class LabsSiteConstants {
 
     public final class Comments{

@@ -12,13 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.InitialContext;
-import javax.naming.NameNotFoundException;
 import javax.sql.DataSource;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.nuxeo.common.jndi.NamingContextFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -28,6 +26,7 @@ import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.ecm.directory.Session;
 import org.nuxeo.ecm.directory.api.DirectoryService;
 import org.nuxeo.ecm.platform.test.PlatformFeature;
+import org.nuxeo.runtime.jtajca.NuxeoContainer;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
@@ -58,16 +57,22 @@ public class HtmlDocTest {
     DirectoryService directoryService;
     
     public HtmlDocTest() throws Exception {
-        NamingContextFactory.setAsInitial();
+//        NamingContextFactory.setAsInitial();
+        NuxeoContainer.installNaming();
 
         DataSource dataSource = PlatformFeature.createDataSource("jdbc:hsqldb:mem:directories");
-        InitialContext initialCtx = new InitialContext();
-
-        try {
-            initialCtx.lookup("java:comp/env/jdbc/nxsqldirectory");
-        } catch (NameNotFoundException e) {
-            initialCtx.bind("java:comp/env/jdbc/nxsqldirectory", dataSource);
-        }
+//        InitialContext initialCtx = new InitialContext();
+//        try {
+//            initialCtx.lookup("java:comp/env/jdbc/nxsqldirectory");
+//        } catch (NameNotFoundException e) {
+//            initialCtx.bind("java:comp/env/jdbc/nxsqldirectory", dataSource);
+//        }
+        NuxeoContainer.addDeepBinding("java:comp/env/jdbc/nxsqldirectory", dataSource);
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        NuxeoContainer.uninstall();
     }
 
     @Test

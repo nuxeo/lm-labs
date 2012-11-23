@@ -98,7 +98,7 @@
 		          		</#if>
 					</a>            		
                 </td>
-                <td>${userFullName(doc.dublincore.lastContributor)}</td>
+                <td>${userFullName(doc['dc:lastContributor'])}</td>
               <td class="colFilesize">${formattedFilesize}<span class="sortValue">${filesize?string.computer}</span></td>
 
               <td>
