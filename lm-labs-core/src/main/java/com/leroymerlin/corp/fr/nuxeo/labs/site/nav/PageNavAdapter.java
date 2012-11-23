@@ -93,19 +93,21 @@ public class PageNavAdapter extends AbstractPage implements PageNav {
 	@Override
 	public List<Page> getTaggetPages() throws ClientException {
 		List<Page> pages = new ArrayList<Page>();
-		CoreSession session = getSession();
-		SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, doc, session);
-		if (siteDocument != null){
-			String query = String.format("SELECT * FROM %s WHERE ecm:path STARTSWITH '%s' AND " + 
-					Schemas.LABSTAGS.prefix() + ":tags IN (%s)",
-					LabsSiteConstants.Docs.PAGE.type(), siteDocument.getSite().getTree().getPathAsString(),
-					createQueryTags());
-			DocumentModelList listDoc = session.query(query);
-			Page page = null;
-			for (DocumentModel docu : listDoc){
-				page = Tools.getAdapter(Page.class, docu, session);
-				if (page != null){
-					pages.add(page);
+		if (getTags().size() > 0){
+			CoreSession session = getSession();
+			SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, doc, session);
+			if (siteDocument != null){
+				String query = String.format("SELECT * FROM %s WHERE ecm:path STARTSWITH '%s' AND " + 
+						Schemas.LABSTAGS.prefix() + ":tags IN (%s)",
+						LabsSiteConstants.Docs.PAGE.type(), siteDocument.getSite().getTree().getPathAsString(),
+						createQueryTags());
+				DocumentModelList listDoc = session.query(query);
+				Page page = null;
+				for (DocumentModel docu : listDoc){
+					page = Tools.getAdapter(Page.class, docu, session);
+					if (page != null){
+						pages.add(page);
+					}
 				}
 			}
 		}
