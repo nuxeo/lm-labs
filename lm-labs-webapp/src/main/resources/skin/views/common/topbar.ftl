@@ -45,7 +45,7 @@
 							<script type="text/javascript">
 		                		jQuery(document).ready(function() {
 									jQuery("#divAddContentView").dialog2({
-										width : '700px',
+										width : '900px',
 										height : '385px',
 										autoOpen : false,
 										closeOnOverlayClick : false,

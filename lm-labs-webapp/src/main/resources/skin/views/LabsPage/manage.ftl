@@ -95,7 +95,7 @@
   <div class="row-fluid" id="divAssistantContent">
   	<div class="span4">
   		<h3 style="text-align: center;">Catégories</h3>
-		<ul class="dropdown-menu assistant" role="menu" aria-labelledby="dropdownMenu">
+		<ul class="dropdown-menu assistant" role="menu" aria-labelledby="dropdownMenu" style="width: 100%">
   			<#list categories as child >
 			  <li><a tabindex="-1" onClick="javascript:loadPagesTemplate('${This.path}/@getPagesTemplate?id=${child.id}', '${skinPath}', this);" href="#"><i class="icon-arrow-right"></i>${child.title}</a></li>
   			</#list>
