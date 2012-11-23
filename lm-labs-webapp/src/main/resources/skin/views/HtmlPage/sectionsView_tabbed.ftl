@@ -13,7 +13,7 @@
 	<#assign tabWidth = "200px" />
 </#if>
 <div id="${idsPrefix}divSections" class="viewblock tabbable ${tabsPosition}" >
-<#if 1 < sections?size >
+<#if 0 < sections?size >
 	<ul class="nav ${tabsType} viewblock">
 	<#list sections as section>
 	<li<#if section_index == 0> class="active" </#if> style="max-width: ${tabWidth};" ><a href="#${idsPrefix}div_section_${section_index}" data-toggle="tab">
