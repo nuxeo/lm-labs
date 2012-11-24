@@ -59,3 +59,15 @@
 	<#assign parentIds = parentIds + "]" />
 	<#return parentIds >
 </#function>
+
+<#function getTopNavigationPageDoc doc >
+	<#assign parents = Session.getParentDocuments(doc.ref) />
+	<#assign topNavPageDoc = doc />
+	<#list parents?reverse as parent>
+		<#if parent.type == "Tree" >
+			<#break>
+		</#if>
+		<#assign topNavPageDoc = parent />
+	</#list>
+	<#return topNavPageDoc >
+</#function>

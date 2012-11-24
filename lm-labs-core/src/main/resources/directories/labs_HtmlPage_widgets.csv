@@ -3,6 +3,7 @@ code, wname, type, group, obsolete, ordering
 "html-toc","toc","html","Usine à Sites - Contenu","0","20"
 "html-lastuploads","lastuploads","html","Usine à Sites - Navigation","0","30"
 "html-children","children","html","Usine à Sites - Navigation","0","40"
+"html-subTopChildren","subTopChildren","html","Usine à Sites - Navigation","0","45"
 "opensocial-pageclasseurfolder","pageclasseurfolder","opensocial","Usine à Sites - Navigation","0","50"
 "html-myPages","myPages","html","Usine à Sites - Navigation","0","60"
 "html-pagesSameAuthor","pagesSameAuthor","html","Usine à Sites - Navigation","0","70"
