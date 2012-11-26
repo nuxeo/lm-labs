@@ -2,7 +2,7 @@
   <#assign maxSpanSize = 12 />
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
-  <#assign availableHtmlWidgets = ["children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor", "externalContent", "toc"] />
+  <#assign availableHtmlWidgets = ["subTopChildren", "children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor", "externalContent", "toc"] />
   <#assign sectionsViewMode = This.contentView />
   <#if sectionsViewMode?contains('_') >
     <#assign basicSectionsViewMode = sectionsViewMode?split('_')[0] />
