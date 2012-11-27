@@ -6,7 +6,7 @@
 					<div class="controls">
 						<#assign txtDisabled = ""  />
 						<#if (line != null)>
-							<#if (Context.principal.name == line.docLine.dublincore.creator || Session.hasPermission(Document.ref, 'Everything') || header.alterable)>
+							<#if (Context.principal.name == line.docLine['dc:creator'] || Session.hasPermission(Document.ref, 'Everything') || header.alterable)>
 								<#assign txtDisabled = ""  />
 							<#else>
 								<#assign txtDisabled = "disabled" />

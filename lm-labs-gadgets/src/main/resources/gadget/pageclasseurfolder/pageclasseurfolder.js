@@ -144,7 +144,7 @@ function classeurDisplayDocumentList(entries, nxParams) {
 	}
 }
 function callbackSiteUrl(response, nxParams) {
-	var labsSiteUrl = response.data['string'];
+	var labsSiteUrl = response.data['value'];
 	displayDetailsUrl(labsSiteUrl, nxParams.labsSiteModulePath);
 }
 

@@ -16,8 +16,8 @@ import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
+import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.features.LabsWebAppFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
@@ -27,7 +27,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.LabstTest;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 @RunWith(FeaturesRunner.class)
-@Features( { LMTestDirectoryFeature.class, LabsWebAppFeature.class })
+@Features( { FakeUserFeature.class, LabsWebAppFeature.class })
 @Deploy({ "org.nuxeo.ecm.automation.core", "org.nuxeo.ecm.automation.features"
 })
 @RepositoryConfig(cleanup = Granularity.METHOD, init = DefaultRepositoryInit.class)

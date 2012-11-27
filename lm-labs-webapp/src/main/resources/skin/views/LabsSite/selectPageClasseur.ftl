@@ -14,7 +14,7 @@
 			<label>1. Choisissez une Page Classeur :</label>
 			<select id="pageClasseurChooser" >
 		<#list docs as doc >
-				<option value="${Root.getLink(doc)?html}" <#if docs?first.id == doc.id >selected='selected'</#if> >${doc.dublincore.title?html}</option>
+				<option value="${Root.getLink(doc)?html}" <#if docs?first.id == doc.id >selected='selected'</#if> >${doc['dc:title']?html}</option>
 		</#list>
 			</select>
 		</div>
