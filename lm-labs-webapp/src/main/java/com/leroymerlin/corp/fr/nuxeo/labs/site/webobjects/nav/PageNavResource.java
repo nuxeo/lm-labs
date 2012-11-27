@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.nav;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,11 +18,11 @@ import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.ResourceType;
-import org.nuxeo.ecm.webengine.model.TemplateNotFoundException;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.model.WebObject;
 
@@ -116,11 +117,12 @@ public class PageNavResource extends NotifiablePageResource{
     }
     
     public boolean pageAsPreview(Page page){
-        try {
-            getView("views/" + page.getDocument().getType() + "/previewNav");
-        } catch (TemplateNotFoundException e) {
-            return false;
+        String pathView = WebEngine.getActiveContext().getModule().getRoot().getAbsolutePath() + "/skin/views/" 
+            + page.getDocument().getType() + "/previewNav.ftl";
+        File file = new File(pathView);
+        if (file.exists()){
+            return true;
         }
-        return true;
+        return false;
     }
 }

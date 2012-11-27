@@ -22,7 +22,6 @@
 
 
   <@block name="content">
-  	<#-- include "views/PageNav/macro.ftl"-->
     <div id="divPageNav" class="container-fluid">
       	<#include "views/common/page_header.ftl">
       	<#if isAuthorized>
@@ -35,15 +34,13 @@
         
         <#list taggedPages as page>
         	<#if This.pageAsPreview(page) >
-        		<div style="width: 80%;border: 1px solid black;">
-	        		sa marche !
-	        	</div>
+        		<section class="labsnews">
+	        		<#include "views/" + page.document.type +"/previewNav.ftl" />
+	        	</section>
         	<#else>
-	        	<div style="width: 80%;border: 1px solid black;">
-	        		<h2>${page.title?html}</h2>
-	        		<br>
-	        		${page.description}
-	        	</div>
+	        	<section class="labsnews">
+	        		<#include "views/LabsPage/previewNav.ftl" />
+	        	</section>
 	        </#if>
         </#list>
         
