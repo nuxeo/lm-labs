@@ -32,7 +32,15 @@
 		  	<#include "views/PageNav/editProps.ftl" />
         </#if>
         
-        <#list taggedPages as page>
+        <#include "views/common/paging.ftl" />
+		<#assign pp = This.taggetPageProvider />
+		<#assign paramaterCurrentPage = Context.request.getParameter('page') />
+		<#assign currentPage = 0 />
+		<#if paramaterCurrentPage?? && paramaterCurrentPage != null>
+			<#assign currentPage = paramaterCurrentPage?number?long />
+		</#if>
+        
+        <#list This.getTaggedPage(pp.setCurrentPage(currentPage)) as page>
         	<#if This.pageAsPreview(page) >
         		<section class="labsnews">
 	        		<#include "views/" + page.document.type +"/previewNav.ftl" />
@@ -43,7 +51,11 @@
 	        	</section>
 	        </#if>
         </#list>
-        
+        <div style="text-align : center;">
+					<@paging pageProvider=pp url=This.path+"?page=" />
+					<@resultsStatus pageProvider=pp />
+				</div>
+        <hr />
         
     </div>
 
