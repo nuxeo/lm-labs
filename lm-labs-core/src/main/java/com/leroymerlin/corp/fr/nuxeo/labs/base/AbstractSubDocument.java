@@ -45,7 +45,7 @@ public abstract class AbstractSubDocument extends LabsAdapterImpl implements Sub
         DocumentModel fileDoc = Framework.getService(FileManager.class)
                 .createDocumentFromBlob(session, blob,
                         doc.getPathAsString(), true,
-                        Slugify.slugify(filename));
+                        Slugify.slugify(filename, false));
         if(!StringUtils.isEmpty(title)){
             fileDoc.setPropertyValue("dc:title", title);
         }
