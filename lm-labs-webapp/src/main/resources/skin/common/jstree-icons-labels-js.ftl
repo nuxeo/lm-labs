@@ -8,15 +8,15 @@ function changeIconOfHomePage() {
 function getLabelHtml(state, isPageTemplate) {
 	var labelHtml = '';
 	if (state == 'draft') {
-		labelHtml = '<ins>&nbsp;<span class="label label-success">${Context.getMessage('label.status.draft')}</span>';
+		labelHtml = '<span class="label label-success">${Context.getMessage('label.status.draft')}</span>';
 	} else if (state == 'deleted') {
-		labelHtml = '<ins>&nbsp;<span class="label label-warning">${Context.getMessage('label.status.deleted')}</span>';
+		labelHtml = '<span class="label label-warning">${Context.getMessage('label.status.deleted')}</span>';
 	}
 	if (isPageTemplate == true) {
 		labelHtml = labelHtml + '&nbsp;<span class="label label-info">${Context.getMessage('label.status.page.template')}</span>';
 	}
 	if (labelHtml.length > 0){
-		labelHtml = labelHtml + '</ins>';
+		labelHtml = '&nbsp;<ins>' + labelHtml + '</ins>';
 	}
 	return labelHtml;
 }

@@ -202,17 +202,18 @@ public class SitesRoot extends ModuleRoot {
     @Path("@clearAllSiteThemeCache")
     public Object doClearAllSiteThemeCache() {
         CoreSession session = ctx.getCoreSession();
-        if (session.getPrincipal().getName() != SecurityConstants.ADMINISTRATOR)
-        try {
-            for (LabsSite site : getSiteManager().getAllSites(session)) {
-                site.getThemeManager().getTheme(session).setCssValue(null);
-                session.saveDocument(site.getDocument());
-                log.info("Clear theme cache in site : " + site.getTitle());
+        if (SecurityConstants.ADMINISTRATOR.equals(session.getPrincipal().getName())){
+            try {
+                for (LabsSite site : getSiteManager().getAllSites(session)) {
+                    site.getThemeManager().getTheme(session).setCssValue(null);
+                    session.saveDocument(site.getDocument());
+                    log.info("Clear theme cache in site : " + site.getTitle());
+                }
+                session.save();
+            } catch (ClientException e) {
+                log.error("No clear theme cache in all sites !");
+                throw WebException.wrap(e);
             }
-            session.save();
-        } catch (ClientException e) {
-            log.error("No clear theme cache in all sites !");
-            throw WebException.wrap(e);
         }
         return redirect(getPath());
     }

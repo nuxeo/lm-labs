@@ -78,7 +78,7 @@
             </div>
 -->
 			</#if>
-			<#if Document.type == "PageList" || Document.type == "PageNews" >
+			<#if Document.type == "PageList" || Document.type == "PageNews" || Document.type == "PageNav" >
 	            <div class="control-group">
 					<div class="control-label" for="elementsPerPage">${Context.getMessage('label.parameters.page.elementsPerPage')}</div>
 					<div class="controls">

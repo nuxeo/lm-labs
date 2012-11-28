@@ -31,6 +31,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoDraftException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
@@ -172,6 +173,23 @@ public final class LabsSiteWebAppUtils {
             session.save();
         } catch (ClientException e) {
             LOG.error("updateNbCommentsListLine : " , e);
+        }
+    }
+    
+    /**
+     * update isTop to default value : false
+     * @param session
+     */
+    public static void updateIsTopOnLabsnews(CoreSession session){
+        try {
+            DocumentModelList children = session.query("SELECT * FROM LabsNews");
+            for (DocumentModel labsnews: children){
+                labsnews.getAdapter(LabsNews.class).setTop(false);
+                session.saveDocument(labsnews);
+            }
+            session.save();
+        } catch (ClientException e) {
+            LOG.error("updateIsTopOnLabsnews : " , e);
         }
     }
 }

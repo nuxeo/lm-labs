@@ -1,10 +1,14 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.nav;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.GET;
@@ -14,16 +18,20 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.SortInfo;
+import org.nuxeo.ecm.platform.query.api.PageProvider;
+import org.nuxeo.ecm.platform.query.api.PageProviderService;
+import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
+import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
-import org.nuxeo.ecm.webengine.model.Resource;
-import org.nuxeo.ecm.webengine.model.ResourceType;
-import org.nuxeo.ecm.webengine.model.TemplateNotFoundException;
-import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.model.WebObject;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
@@ -36,10 +44,64 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource
 @Produces("text/html; charset=UTF-8")
 public class PageNavResource extends NotifiablePageResource{
 
+    private static final Log log = LogFactory.getLog(PageNavResource.class);
+
+    private PageProvider<DocumentModel> taggedPageProvider;
+
     @Override
-    public Resource initialize(WebContext ctx, ResourceType type,
-            Object... args) {
-        return super.initialize(ctx, type, args);
+    public void initialize(Object... args) {
+        super.initialize(args);
+        initTaggedPageProvider();
+    }
+
+    public PageProvider<DocumentModel> getTaggetPageProvider() {
+        return taggedPageProvider;
+    }
+
+    public List<Page> getTaggedPage(List<DocumentModel> docs) throws ClientException{
+        List<Page> result = new ArrayList<Page>();
+        if (docs != null){
+            Page adapter = null;
+            for (DocumentModel document : docs){
+                adapter = Tools.getAdapter(Page.class, document, ctx.getCoreSession());
+                if (adapter != null){
+                    result.add(adapter);
+                }
+            }
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initTaggedPageProvider() {
+        List<SortInfo> sortInfos = null;
+        Map<String, Serializable> props = new HashMap<String, Serializable>();
+        props.put(CoreQueryDocumentPageProvider.CORE_SESSION_PROPERTY,
+                (Serializable) getCoreSession());
+        String coreQueryPageProviderName = "";
+        Object[] paramQuery = null;
+
+        coreQueryPageProviderName = "list_taggedpage_nxql";
+        DocumentModel document = getDocument();
+        CoreSession session = ctx.getCoreSession();
+        PageNav pageNav = Tools.getAdapter(PageNav.class, document, session);
+        SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, doc, session);
+        try {
+            paramQuery = new Object[] { siteDocument.getSite().getTree().getPathAsString(), pageNav.getTags() };
+        } catch (ClientException e) {
+            log.error(e, e);
+        }
+
+        try {
+            PageProviderService ppService = Framework.getService(PageProviderService.class);
+            this.taggedPageProvider = (PageProvider<DocumentModel>) ppService.getPageProvider(
+                    coreQueryPageProviderName, sortInfos, new Long(getPage().getElementsPerPage()),
+                    null, props, paramQuery);
+        } catch (ClientException e) {
+            log.error(e, e);
+        } catch (Exception e) {
+            log.error(e, e);
+        }
     }
     
     @Override
@@ -116,11 +178,12 @@ public class PageNavResource extends NotifiablePageResource{
     }
     
     public boolean pageAsPreview(Page page){
-        try {
-            getView("views/" + page.getDocument().getType() + "/previewNav");
-        } catch (TemplateNotFoundException e) {
-            return false;
+        String pathView = WebEngine.getActiveContext().getModule().getRoot().getAbsolutePath() + "/skin/views/" 
+            + page.getDocument().getType() + "/previewNav.ftl";
+        File file = new File(pathView);
+        if (file.exists()){
+            return true;
         }
-        return true;
+        return false;
     }
 }
