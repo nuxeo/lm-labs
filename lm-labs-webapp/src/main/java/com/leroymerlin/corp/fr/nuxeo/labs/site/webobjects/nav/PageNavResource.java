@@ -81,13 +81,18 @@ public class PageNavResource extends NotifiablePageResource{
         String coreQueryPageProviderName = "";
         Object[] paramQuery = null;
 
-        coreQueryPageProviderName = "list_taggedpage_nxql";
         DocumentModel document = getDocument();
         CoreSession session = ctx.getCoreSession();
         PageNav pageNav = Tools.getAdapter(PageNav.class, document, session);
         SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, doc, session);
+        coreQueryPageProviderName = "list_taggedpage_nxql";
         try {
-            paramQuery = new Object[] { siteDocument.getSite().getTree().getPathAsString(), pageNav.getTags() };
+            if (!StringUtils.isEmpty(pageNav.getUserQuery())){
+                coreQueryPageProviderName = "empty_pattern_nxql";
+            }
+            else{
+                paramQuery = new Object[] { siteDocument.getSite().getTree().getPathAsString(), pageNav.getTags() };
+            }
         } catch (ClientException e) {
             log.error(e, e);
         }
@@ -97,6 +102,9 @@ public class PageNavResource extends NotifiablePageResource{
             this.taggedPageProvider = (PageProvider<DocumentModel>) ppService.getPageProvider(
                     coreQueryPageProviderName, sortInfos, new Long(getPage().getElementsPerPage()),
                     null, props, paramQuery);
+            if ("empty_pattern_nxql".equals(coreQueryPageProviderName)){
+                this.taggedPageProvider.getDefinition().setPattern(pageNav.getUserQuery());
+            }
         } catch (ClientException e) {
             log.error(e, e);
         } catch (Exception e) {
@@ -156,6 +164,7 @@ public class PageNavResource extends NotifiablePageResource{
         try {
             FormData form = ctx.getForm();
             String listTags = form.getString("listTags");
+            String userQuery = form.getString("userQuery");
             String[] split = listTags.split(",");
             if (split.length ==1 && StringUtils.isEmpty(split[0])){
                 split = new String[0];
@@ -166,6 +175,7 @@ public class PageNavResource extends NotifiablePageResource{
             PageNav pageNav = Tools.getAdapter(PageNav.class, document, session);
             if (pageNav != null) {
                 pageNav.setTags(list);
+                pageNav.setUserQuery(userQuery);
                 session.saveDocument(document);
                 session.save();
                 return Response.ok().build();

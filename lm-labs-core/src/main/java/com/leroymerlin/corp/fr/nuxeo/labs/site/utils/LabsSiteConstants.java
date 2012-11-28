@@ -24,6 +24,7 @@ public final class LabsSiteConstants {
         public static final String CREATED_MAX = "search:created_max";
         public static final String MODIFIED_MAX = "search:modified_max";
         public static final String MODIFIED_MIN = "search:modified_min";
+        public static final String USER_QUERY = "search:source";
         public static final String LIST_CURRENT_LIFE_CYCLE_STATES = "search:currentLifeCycleStates";
 
     }

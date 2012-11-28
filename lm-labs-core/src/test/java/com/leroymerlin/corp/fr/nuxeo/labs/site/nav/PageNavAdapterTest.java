@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -147,6 +148,26 @@ public class PageNavAdapterTest extends LabstTest {
             throws ClientException {
 		final LabsSite site = Tools.getAdapter(LabsSite.class, createSite(siteName), session);
         return site;
+    }
+    
+    @Test
+    public void iCanGetDefaultUserQuery() throws Exception {
+    	DocumentModel docu = session.getDocument(new PathRef(PageNavRepositoryInit.PAGENAV_CONTAINER_PATH + PageNavRepositoryInit.PAGENAV_NAME));
+        PageNav adapter = Tools.getAdapter(PageNav.class, docu, session);
+        assertThat(StringUtils.isEmpty(adapter.getUserQuery()), is(true));
+    }
+
+    @Test
+    public void iCanGetAndSetUserQuery() throws Exception {
+    	DocumentModel docu = session.getDocument(new PathRef(PageNavRepositoryInit.PAGENAV_CONTAINER_PATH + PageNavRepositoryInit.PAGENAV_NAME));
+        PageNav adapter = Tools.getAdapter(PageNav.class, docu, session);
+        adapter.setUserQuery("select * from Page");
+        docu = session.saveDocument(docu);
+        session.save();
+        docu = session.getDocument(docu.getRef());
+        adapter = Tools.getAdapter(PageNav.class, docu, session);
+        assertNotNull(adapter.getUserQuery());
+        assertThat(adapter.getUserQuery(), is("select * from Page"));
     }
     
 }

@@ -8,9 +8,9 @@
 						    <legend>${Context.getMessage('label.pagenav.props.legend')}</legend>
 						    <#--Critère de tags-->
 						    <div class="control-group">
-						      <label class="control-label" for="dc:title">${Context.getMessage('label.pagenav.tags')}</label>
+						      <label class="control-label" for="listIdTags">${Context.getMessage('label.pagenav.tags')}</label>
 						      <div class="controls">
-						      	<input type="hidden" id="listIdTags" style="width:85%" value="<#list listTags as tag>${tag?html}<#if (listTags?size > tag_index +1)>,</#if></#list>"/>
+						      	<input type="hidden" id="listIdTags" name="listTags" style="width:85%" value="<#list listTags as tag>${tag?html}<#if (listTags?size > tag_index +1)>,</#if></#list>"/>
 						      </div>
 						    </div>
 							<#--Filtre sur les dates de la page
@@ -22,6 +22,20 @@
 						        <input type="text" id="newsEndPublication" class="date-pick" name="newsEndPublication"  <#if news?? && news != null && news.endPublication!=null> value="${news.endPublication.time?string("dd/MM/yyyy 'à' HH:mm")}" </#if> />
 						      </div>
 						    </div>-->
+						    
+						    <#--User Query-->
+						    <#if !mySite?? >
+						    	<#assign mySite=Common.siteDoc(Document).getSite() />
+						   	</#if>
+						    <#if (mySite?? && mySite.isAdministrator(Context.principal.name) )>
+						    	<a class="btn" id="btnSetSummaryPicture" style="cursor: pointer;" onclick="javascript:openDownloadPicture();"><i class="icon-plus"></i>Associer une miniature</a>
+							    <div class="control-group">
+							      <label class="control-label" for="userQuery">${Context.getMessage('label.pagenav.query')}</label>
+							      <div class="controls">
+							      	<textarea name="userQuery" id="userQuery" class="span10" style="height:100px;">${pageNav.userQuery}</textarea>
+							      </div>
+							    </div>
+							</#if>
 
 						    <div class="actions" style="margin-left: 200px;">
 						      <button class="btn btn-primary required-fields" form-id="form-editPageNav"><i class='icon-ok'></i>${Context.getMessage('label.labsNews.edit.save')}</button>
@@ -75,7 +89,8 @@
 			  	jQuery.ajax({
 					type: "POST",
 					url: '${This.path}',
-					data: "listTags=" + $("#listIdTags").select2("val"),
+					/*data: "listTags=" + $("#listIdTags").select2("val"),*/
+					data: $("#form-editPageNav").serialize(),
 					success: function(msg){
 						document.location.href = '${This.path}';
 					},
