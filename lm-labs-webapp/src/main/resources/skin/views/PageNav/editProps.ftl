@@ -24,18 +24,15 @@
 						    </div>-->
 						    
 						    <#--User Query-->
-						    <#if !mySite?? >
-						    	<#assign mySite=Common.siteDoc(Document).getSite() />
-						   	</#if>
-						    <#if (mySite?? && mySite.isAdministrator(Context.principal.name) )>
-						    	<a class="btn" id="btnSetSummaryPicture" style="cursor: pointer;" onclick="javascript:openDownloadPicture();"><i class="icon-plus"></i>Associer une miniature</a>
-							    <div class="control-group">
+						    
+						    	<a  id="btnOpenUserQuery" style="cursor: pointer;<#if Context.principal.name != "Administrator">display: none;</#if>" onclick="javascript:openUserQuery();">Mode expert</a>
+							    <div class="control-group" id="divUserQuery" style="display:none;">
 							      <label class="control-label" for="userQuery">${Context.getMessage('label.pagenav.query')}</label>
 							      <div class="controls">
 							      	<textarea name="userQuery" id="userQuery" class="span10" style="height:100px;">${pageNav.userQuery}</textarea>
 							      </div>
 							    </div>
-							</#if>
+							
 
 						    <div class="actions" style="margin-left: 200px;">
 						      <button class="btn btn-primary required-fields" form-id="form-editPageNav"><i class='icon-ok'></i>${Context.getMessage('label.labsNews.edit.save')}</button>
@@ -99,5 +96,9 @@
 						document.location.href = '${This.path}';
 					}
 				});
+			  }
+			  
+			  function openUserQuery(){
+			  	jQuery("#divUserQuery").show();
 			  }
 			</script>
