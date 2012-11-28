@@ -1,5 +1,8 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.base;
 
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
+
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -11,7 +14,6 @@ import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.platform.filemanager.api.FileManager;
 import org.nuxeo.runtime.api.Framework;
 
-import com.leroymerlin.common.core.utils.Slugify;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.ClasseurException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 
@@ -45,7 +47,8 @@ public abstract class AbstractSubDocument extends LabsAdapterImpl implements Sub
         DocumentModel fileDoc = Framework.getService(FileManager.class)
                 .createDocumentFromBlob(session, blob,
                         doc.getPathAsString(), true,
-                        Slugify.slugify(filename));
+                        // TODO use lm-nuxeo-common-core Slugify.slugify()
+                        slugify(filename, false));
         if(!StringUtils.isEmpty(title)){
             fileDoc.setPropertyValue("dc:title", title);
         }
@@ -87,6 +90,40 @@ public abstract class AbstractSubDocument extends LabsAdapterImpl implements Sub
                 break;
             }
         }
+    }
+
+    /**
+     * @deprecated Use lm-nuxeo-common-core's Slugify.slugify() when ported to Nuxeo 5.6
+     * @param input
+     * @param toLower
+     * @return
+     */
+    @Deprecated
+    protected String slugify(String input, boolean toLower) {
+        if (input == null || input.length() == 0) return "";
+        String toReturn = normalize(input);
+        toReturn = toReturn.replace(" ", "-");
+        toReturn = toReturn.replace("?", "");
+        toReturn = toReturn.replace("&", "");
+        toReturn = toReturn.replace(";", "");
+        toReturn = toReturn.replace(":", "");
+        toReturn = toReturn.replace("$", "");
+        toReturn = toReturn.replace("&", "");
+        toReturn = toReturn.replace("+", "");
+        toReturn = toReturn.replace("=", "");
+        toReturn = toReturn.replace("?", "");
+        toReturn = toReturn.replace("[", "");
+        toReturn = toReturn.replace("]", "");
+        toReturn = toReturn.replace("@", "_at_");
+        if (toLower) {
+            toReturn = toReturn.toLowerCase();
+        }
+        return toReturn;
+    }
+
+    private String normalize(String input) {
+        if (input == null || input.length() == 0) return "";
+        return Normalizer.normalize(input, Form.NFD).replaceAll("[^\\p{ASCII}]","");
     }
 
 }
