@@ -113,7 +113,7 @@
 				                <select name="rowNumber">
 			                      <option value="1" selected>Ajouté 1 fois</option>
 			                      <option value="2">Ajouté 2 fois</option>
-			                      <option value="2">Ajouté 3 fois</option>
+			                      <option value="3">Ajouté 3 fois</option>
 			                      <option value="4">Ajouté 4 fois</option>
 			                      <option value="5">Ajouté 5 fois</option>
 			                      <option value="6">Ajouté 6 fois</option>
