@@ -2,10 +2,12 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.LabsWebAppActivator;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.LabsCustomView;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
@@ -383,6 +386,40 @@ public final class CommonHelper {
         Map<String, Serializable> filter = Collections.emptyMap();
         list.addAll(DirectoriesUtils.getDirDocumentModelList(dirEnum, filter));
         return list;
+    }
+    
+    public List<String> getDeclaredHtmlWidgets() {
+        @SuppressWarnings("unchecked")
+		Enumeration<URL> entries = LabsWebAppActivator.getDefault().getBundle().findEntries(
+                LabsSiteWebAppUtils.DIRECTORY_WIDGETS, null, false);
+
+        List<String> folderList = new ArrayList<String>();
+        while (entries.hasMoreElements()) {
+            URL url = entries.nextElement();
+            String[] nodes = url.getPath().split("/");
+            if (nodes.length > 1) {
+            	String lastname = nodes[nodes.length - 1];
+                lastname = lastname.substring(0, lastname.indexOf(".ftl"));
+                folderList.add(lastname);
+            }
+        }
+        return folderList;
+    }
+    
+    public List<String> getUncategorizedWidgets(String docType) {
+    	List<String> declaredWidgets = getDeclaredHtmlWidgets();
+    	for (String group : getPageWidgetGroups(docType)) {
+    		for (DocumentModel widget : getPageWidgets(docType, group)) {
+    			try {
+					declaredWidgets.remove(widget.getPropertyValue("labshtmlpagewidgets:wname"));
+				} catch (PropertyException e) {
+					LOG.error(e, e);
+				} catch (ClientException e) {
+					LOG.error(e, e);
+				}
+    		}
+    	}
+    	return declaredWidgets;
     }
     
     /**
