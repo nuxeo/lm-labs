@@ -39,22 +39,24 @@
 		<#if paramaterCurrentPage?? && paramaterCurrentPage != null>
 			<#assign currentPage = paramaterCurrentPage?number?long />
 		</#if>
-        
-        <#list This.getTaggedPage(pp.setCurrentPage(currentPage)) as page>
-        	<#if This.pageAsPreview(page) >
-        		<section class="labsnews">
-	        		<#include "views/" + page.document.type +"/previewNav.ftl" />
-	        	</section>
-        	<#else>
-	        	<section class="labsnews">
-	        		<#include "views/LabsPage/previewNav.ftl" />
-	        	</section>
-	        </#if>
-        </#list>
-        <div style="text-align : center;">
-					<@paging pageProvider=pp url=This.path+"?page=" />
-					<@resultsStatus pageProvider=pp />
-				</div>
+		
+        <#if pp != null>
+	        <#list This.getTaggedPage(pp.setCurrentPage(currentPage)) as page>
+	        	<#if This.pageAsPreview(page) >
+	        		<section class="labsnews">
+		        		<#include "views/" + page.document.type +"/previewNav.ftl" />
+		        	</section>
+	        	<#else>
+		        	<section class="labsnews">
+		        		<#include "views/LabsPage/previewNav.ftl" />
+		        	</section>
+		        </#if>
+	        </#list>
+	        <div style="text-align : center;">
+				<@paging pageProvider=pp url=This.path+"?page=" />
+				<@resultsStatus pageProvider=pp />
+			</div>
+		</#if>
         <hr />
         
     </div>
