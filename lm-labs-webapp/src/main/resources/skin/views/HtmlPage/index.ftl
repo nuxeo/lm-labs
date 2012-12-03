@@ -122,13 +122,13 @@
 			                      <option value="9">Insérer 9 fois</option>
 			                      <option value="10">Insérer 10 fois</option>
 				                </select>
-				                <div id="displayCssClass_${section_index}" style="display: none;float: right;">
-				                	Classe CSS : <input class="input-medium" name="cssClass" />
+				                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
+				                <div id="displayCssClass_${section_index}" style="display: none;">
+				                	<br />Classe CSS : <input class="input-medium" name="cssClass" />
 				                </div>
-				                <div id="herfDisplayCssClass_${section_index}" style="float: right;cursor: pointer;" onClick="javascript:displayCssClass('${section_index}');">
+				                <div id="herfDisplayCssClass_${section_index}" style="cursor: pointer;" onClick="javascript:displayCssClass('${section_index}');">
 				                	<br>Ajouter un style à la ligne
 				                </div>
-				                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
 				                <p class="help-block">
 				                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
 				                    parenthèses représentent des pourcentages de taille de colonne.
@@ -265,7 +265,7 @@
 								    <input type="hidden" class="section-index-value" value="${section_index}" />
 		                            <input type="hidden" class="row-index-value" value="${row_index}" />
 		                            <input type="hidden" class="content-index-value" value="${content_index}" />
-									<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}', userClassInputTab[${nbrUserClassInput}]);" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
+									<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}', userClassInputTab[${nbrUserClassInput}]);" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier le style</a>
 									<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
 									<a href="#" class="open-dialog" rel="divConfigRowGadgets" ><i class="icon-gift"></i>${Context.getMessage('command.HtmlPage.row.widgets.config.button')}</a>
 									<a href="#" onClick="javascript:moveUp('${This.path}/s/${section_index}/r/${row_index}', '${This.path}#section_${section_index - 1}', 'div_row_${row_index}', '#div_section_${section_index}_rows>div');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
