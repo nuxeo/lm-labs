@@ -110,6 +110,18 @@
 			                      <option value="${layoutCode}">${Context.getMessage(layouts[layoutCode])}</option>
 			                    </#list>
 				                </select>
+				                <select name="rowNumber">
+			                      <option value="1" selected>Ajouté 1 fois</option>
+			                      <option value="2">Ajouté 2 fois</option>
+			                      <option value="3">Ajouté 3 fois</option>
+			                      <option value="4">Ajouté 4 fois</option>
+			                      <option value="5">Ajouté 5 fois</option>
+			                      <option value="6">Ajouté 6 fois</option>
+			                      <option value="7">Ajouté 7 fois</option>
+			                      <option value="8">Ajouté 8 fois</option>
+			                      <option value="9">Ajouté 9 fois</option>
+			                      <option value="10">Ajouté 10 fois</option>
+				                </select>
 				                <div id="displayCssClass_${section_index}" style="display: none;float: right;">
 				                	Classe CSS : <input class="input-medium" name="cssClass" />
 				                </div>

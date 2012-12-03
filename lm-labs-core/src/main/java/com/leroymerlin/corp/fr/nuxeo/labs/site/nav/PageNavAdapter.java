@@ -127,4 +127,14 @@ public class PageNavAdapter extends AbstractPage implements PageNav {
 		}
 		return str.toString();
 	}
+
+	@Override
+	public String getUserQuery() throws ClientException {
+		return (String) doc.getPropertyValue(LabsSiteConstants.AdvancedSearch.USER_QUERY);
+	}
+
+	@Override
+	public void setUserQuery(String userQuery) throws ClientException {
+		doc.setPropertyValue(LabsSiteConstants.AdvancedSearch.USER_QUERY, userQuery);
+	}
 }
