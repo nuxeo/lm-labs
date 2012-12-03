@@ -708,6 +708,9 @@ public class PageResource extends DocumentObject {
                         runner.runUnrestricted();
                     }
                 }
+                else{
+                    session.saveDocument(newDoc); 
+                }
                 return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
             }
         } catch (ClientException e) {

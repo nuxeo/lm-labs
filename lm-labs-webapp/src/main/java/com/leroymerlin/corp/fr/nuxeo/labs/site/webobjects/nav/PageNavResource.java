@@ -87,23 +87,22 @@ public class PageNavResource extends NotifiablePageResource{
         SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, doc, session);
         coreQueryPageProviderName = "list_taggedpage_nxql";
         try {
+            PageProviderService ppService = Framework.getService(PageProviderService.class);
             if (!StringUtils.isEmpty(pageNav.getUserQuery())){
                 coreQueryPageProviderName = "empty_pattern_nxql";
+                this.taggedPageProvider = (PageProvider<DocumentModel>) ppService.getPageProvider(
+                        coreQueryPageProviderName, sortInfos, new Long(getPage().getElementsPerPage()),
+                        null, props, paramQuery);
+                this.taggedPageProvider.getDefinition().setPattern(pageNav.getUserQuery());
             }
             else{
-                paramQuery = new Object[] { siteDocument.getSite().getTree().getPathAsString(), pageNav.getTags() };
-            }
-        } catch (ClientException e) {
-            log.error(e, e);
-        }
-
-        try {
-            PageProviderService ppService = Framework.getService(PageProviderService.class);
-            this.taggedPageProvider = (PageProvider<DocumentModel>) ppService.getPageProvider(
-                    coreQueryPageProviderName, sortInfos, new Long(getPage().getElementsPerPage()),
-                    null, props, paramQuery);
-            if ("empty_pattern_nxql".equals(coreQueryPageProviderName)){
-                this.taggedPageProvider.getDefinition().setPattern(pageNav.getUserQuery());
+                List<String> tags = pageNav.getTags();
+                if (!tags.isEmpty()){
+                    paramQuery = new Object[] { siteDocument.getSite().getTree().getPathAsString(), tags };
+                    this.taggedPageProvider = (PageProvider<DocumentModel>) ppService.getPageProvider(
+                            coreQueryPageProviderName, sortInfos, new Long(getPage().getElementsPerPage()),
+                            null, props, paramQuery);
+                }
             }
         } catch (ClientException e) {
             log.error(e, e);
