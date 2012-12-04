@@ -656,7 +656,7 @@
 	<dependency>
 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
 	    <artifactId>nuxeo-opensocial-features</artifactId>
-	   <!-- use this one to be able to debug in eclipse
+<!-- use this one to be able to debug in eclipse
 	    <version>${nuxeo.version}</version>
 -->
 	    <version>5.4.3-I20111027_0115</version>
@@ -665,7 +665,7 @@
 	<dependency>
 	    <groupId>org.nuxeo.ecm.opensocial</groupId>
 	    <artifactId>nuxeo-opensocial-container</artifactId>
-	   <!-- use this one to be able to debug in eclipse
+<!-- use this one to be able to debug in eclipse
 	    <version>${nuxeo.version}</version>
 -->
 	    <version>5.4.3-I20111027_0115</version>
