@@ -177,6 +177,7 @@
 		            </div>
 		            <form class="form-horizontal" id="addrow" action="${This.path}/s/0" method="post" >
 		              <input type="hidden" name="action" value="addrow"/>
+		              <input type="hidden" name="rowNumber" value="1"/>
 		              <fieldset>
 		                <legend>Ajouter une ligne</legend>
 		                <div class="control-group">
