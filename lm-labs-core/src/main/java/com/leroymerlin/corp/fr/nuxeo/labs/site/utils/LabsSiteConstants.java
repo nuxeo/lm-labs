@@ -112,6 +112,7 @@ public final class LabsSiteConstants {
         LABSSITE("labssite", "labssite"),
         LABSCONTENTVIEW("labscontentview", "labscontentview"),
         LABS_ELEMENT_TEMPLATE("labs_element_template", "let"),
+        LABS_CATEGORY("schemacategory", "schemacategory"),
         SITETHEME("sitetheme", "sitetheme");
 
         private String name;
@@ -353,7 +354,8 @@ public final class LabsSiteConstants {
         PAGE_WIDGETS("labs_HtmlPage_widgets", "labshtmlpagewidgets", "code", "", "ordering"),
         PAGE_WIDGETGROUPS("labs_HtmlPage_widgetGroups", "vocabulary", "id", "label", "ordering"),
         FONT_FAMILIES("labs_fontfamilies", "vocabulary", "id", "label", "label"),
-        USER_STYLE("labs_userStyle", "vocabulary", "id", "label", "ordering");
+        USER_STYLE("labs_userStyle", "vocabulary", "id", "label", "ordering"),
+        CATEGORY("labs_category", "vocabulary", "id", "label", "ordering");
 
         private String dirName;
         private String schema;

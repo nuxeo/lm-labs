@@ -83,6 +83,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     private static final String PROPERTY_CONTACTS = Schemas.LABSSITE.prefix()
             + ":contacts";
 
+    private static final String PROPERTY_CATEGORY = Schemas.LABSSITE.prefix()
+            + ":category";
+
     private static final String PROPERTY_URL = "webcontainer:url";
 
     private static final Log LOG = LogFactory.getLog(LabsSiteAdapter.class);
@@ -695,4 +698,21 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 			return new DocumentModelListImpl();
 		}
     }
+
+	@Override
+	public void setCategory(String category) throws ClientException {
+		if (category == null) {
+            return;
+        }
+        doc.setPropertyValue(PROPERTY_CATEGORY, category);
+	}
+
+	@Override
+	public String getCategory() throws ClientException {
+		return (String) doc.getPropertyValue(PROPERTY_CATEGORY);
+	}
+	
+	
+	
+	
 }

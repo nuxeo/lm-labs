@@ -16,8 +16,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class PageNavAdapter extends AbstractPage implements PageNav {
 
@@ -89,9 +89,18 @@ public class PageNavAdapter extends AbstractPage implements PageNav {
 	public void setTags(List<String> tags) throws ClientException {
 		doc.getProperty(LabsSiteConstants.AdvancedSearch.LIST_TAGS).setValue(tags);
 	}
+	
+	public String getQueryTaggedPage() throws ClientException {
+		SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, doc, getSession());
+		String query = String.format("SELECT * FROM %s WHERE ecm:path STARTSWITH '%s' AND ecm:fulltext." + 
+				Schemas.LABSTAGS.prefix() + ":tags = '%s'",
+				LabsSiteConstants.Docs.PAGE.type(), siteDocument.getSite().getTree().getPathAsString(),
+				createQueryTags2());
+		return query;
+	}
 
 	@Override
-	public List<Page> getTaggetPages() throws ClientException {
+	public List<Page> getTaggedPages() throws ClientException {
 		List<Page> pages = new ArrayList<Page>();
 		if (getTags().size() > 0){
 			CoreSession session = getSession();
@@ -112,6 +121,20 @@ public class PageNavAdapter extends AbstractPage implements PageNav {
 			}
 		}
 		return pages;
+	}
+	
+	private String createQueryTags2() throws ClientException{
+		StringBuffer str = new StringBuffer("");
+		Iterator<String> it = getTags().iterator();
+		if (it.hasNext()){
+			do{
+				str.append("\"").append(it.next()).append("\"");
+				if (it.hasNext()){
+					str.append(" ");
+				}
+			}while(it.hasNext());
+		}
+		return str.toString();
 	}
 	
 	private String createQueryTags() throws ClientException{

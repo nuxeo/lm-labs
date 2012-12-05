@@ -313,6 +313,7 @@ public class SitesRoot extends ModuleRoot {
         String pDescription = form.getString("dc:description");
         String pURL = form.getString("webc:url");
         String pTitle = form.getString("dc:title");
+        String category = form.getString("labssite:category");
         String templateId = form.getString("siteTemplateId");
         CoreSession session = ctx.getCoreSession();
         try {
@@ -320,6 +321,7 @@ public class SitesRoot extends ModuleRoot {
             LabsSite labSite = sm.createSite(session, pTitle, pURL);
             labSite.setPiwikId(StringUtils.trim(piwikId));
             labSite.setDescription(pDescription);
+            labSite.setCategory(category);
             String siteTemplateStr = form.getString("labssite:siteTemplate");
             boolean isSiteTemplate = BooleanUtils.toBoolean(siteTemplateStr);
             labSite.setElementTemplate(isSiteTemplate);

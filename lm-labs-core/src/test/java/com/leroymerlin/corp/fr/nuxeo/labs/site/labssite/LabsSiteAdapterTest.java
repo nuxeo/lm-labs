@@ -649,4 +649,22 @@ public class LabsSiteAdapterTest {
         
         return site;
     }
+
+    @Test
+    public void iCanGetDefaultCategory() throws Exception {
+        DocumentModel doc = createSite("NameSite1");
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
+        assertThat(labssite.getCategory(), is("Aucune"));
+    }
+
+    @Test
+    public void iCanSetAndGetCategory() throws Exception {
+        DocumentModel doc = createSite("NameSite1");
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
+
+        labssite.setCategory("category 1");
+        doc = session.saveDocument(labssite.getDocument());
+        labssite = Tools.getAdapter(LabsSite.class, doc, session);
+        assertThat(labssite.getCategory(), is("category 1"));
+    }
 }

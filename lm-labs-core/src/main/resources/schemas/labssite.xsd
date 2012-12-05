@@ -8,6 +8,7 @@
   <xs:element name="homePageRef" type="xs:string"></xs:element>
   <xs:element name="siteTemplate" type="xs:boolean" default="false" />
   <xs:element name="siteTemplatePreview" type="tns:content"/>
+  <xs:element name="category" type="xs:string" default="Aucune"></xs:element>
 
    <xs:element name="contacts" type="tns:contacts"></xs:element>
 

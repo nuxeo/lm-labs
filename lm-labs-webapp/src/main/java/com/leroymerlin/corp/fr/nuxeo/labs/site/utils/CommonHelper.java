@@ -37,6 +37,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.customview.LabsCustomView;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.page.CollapseTypes;
@@ -269,6 +270,41 @@ public final class CommonHelper {
             }
         }
         return list;
+    }
+    
+    public static List<DocumentModel> getCategories() {
+        List<DocumentModel> result = new ArrayList<DocumentModel>();
+        int parent = 0;
+        try {
+            for (DocumentModel cat: getAllLabsCategory()){
+                parent = ((Long)cat.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "parent")).intValue();
+                if (parent == 0){
+                    result.add(cat);
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Can't get parents of categories !", e);
+        }
+        return result;
+    }
+    
+    public static List<DocumentModel> getChildrenCategories(DocumentModel currentCategory) throws PropertyException, NullException, ClientException{
+        List<DocumentModel> result = new ArrayList<DocumentModel>();
+        int idCurrentCategory = ((Long)currentCategory.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "id")).intValue();
+        if (idCurrentCategory != 0){
+            int parent;
+            for (DocumentModel cat: getAllLabsCategory()){
+                parent = ((Long)cat.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "parent")).intValue();
+                if (parent == idCurrentCategory){
+                    result.add(cat);
+                }
+            }
+        }
+        return result;
+    }
+
+    public static DocumentModelList getAllLabsCategory() {
+        return DirectoriesUtils.getDirDocumentModelList(Directories.CATEGORY);
     }
 
     public static List<ThemeProperty> getThemeProperties(

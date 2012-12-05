@@ -102,6 +102,7 @@ public class Site extends NotifiablePageResource {
         String description = form.getString("dc:description");
         String piwikId = form.getString("piwik:piwikId");
         String siteTemplateStr = form.getString("labssite:siteTemplate");
+        String category = form.getString("labssite:category");
         boolean modified = false;
         try {
             if (!StringUtils.isEmpty(title)) {
@@ -110,6 +111,10 @@ public class Site extends NotifiablePageResource {
             }
             if (!StringUtils.isEmpty(description)) {
                 site.setDescription(description);
+                modified = true;
+            }
+            if (!StringUtils.isEmpty(category)) {
+                site.setCategory(category);
                 modified = true;
             }
             String oldUrl = site.getURL();
