@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
@@ -85,7 +87,7 @@ public class PageNavAdapterTest extends LabstTest {
     }
 
     @Test
-    public void iCanGetTaggetPages() throws Exception {
+    public void iCanGetTaggedPages() throws Exception {
     	LabsSite site = createLabsSite("NameSite1");
     	List<String> tags = null;
     	
@@ -131,8 +133,67 @@ public class PageNavAdapterTest extends LabstTest {
         session.save();
         docu = session.getDocument(docu.getRef());
         adapter = Tools.getAdapter(PageNav.class, docu, session);
-        assertNotNull(adapter.getTaggetPages());
-        assertThat(adapter.getTaggetPages().size(), is(2));
+        assertNotNull(adapter.getTaggedPages());
+        assertThat(adapter.getTaggedPages().size(), is(2));
+    }
+    
+
+
+    @Ignore
+    @Test
+    public void iCanGetQueryTaggedPages() throws Exception {
+    	LabsSite site = createLabsSite("NameSite1");
+    	List<String> tags = null;
+    	
+    	//Create PageNews with tag1
+    	DocumentModel doc = session.createDocumentModel(Docs.PAGENEWS.type());
+    	doc.setPathInfo(site.getTree().getPathAsString(), "news");
+    	doc = session.createDocument(doc);
+    	tags = new ArrayList<String>();
+    	tags.add("tag2");
+    	Tools.getAdapter(Page.class, doc, session).setLabsTags(tags);
+    	session.saveDocument(doc);
+    	
+    	//Create PageNews2 with tag4
+    	doc = session.createDocumentModel(Docs.PAGENEWS.type());
+    	doc.setPathInfo(site.getTree().getPathAsString(), "news2");
+    	doc = session.createDocument(doc);
+    	tags = new ArrayList<String>();
+    	tags.add("tag4");
+    	Tools.getAdapter(Page.class, doc, session).setLabsTags(tags);
+    	session.saveDocument(doc);
+    	
+    	//Create PageClasseur with tag2 et tag3
+    	doc = session.createDocumentModel(Docs.PAGECLASSEUR.type());
+    	doc.setPathInfo(site.getTree().getPathAsString(), "classeur");
+    	doc = session.createDocument(doc);
+    	tags = new ArrayList<String>();
+    	tags.add("tag2");
+    	tags.add("tag3");
+    	Tools.getAdapter(Page.class, doc, session).setLabsTags(tags);
+    	session.saveDocument(doc);
+    	
+    	//create pageNav
+    	DocumentModel docu = session.createDocumentModel(Docs.PAGENAV.type());
+    	docu.setPathInfo(site.getTree().getPathAsString(), "nav");
+    	docu = session.createDocument(docu);
+        PageNav adapter = Tools.getAdapter(PageNav.class, docu, session);
+        tags = new ArrayList<String>();
+        tags.add("tag1");
+        tags.add("tag2");
+        tags.add("tag3");
+        adapter.setTags(tags);
+        docu = session.saveDocument(docu);
+        session.save();
+        docu = session.getDocument(docu.getRef());
+        adapter = Tools.getAdapter(PageNav.class, docu, session);
+        String query = adapter.getQueryTaggedPage();
+		assertNotNull(query);
+        
+        DocumentModelList listDoc = session.query(query);
+        assertThat(listDoc.size(), is(2));
+        
+        //assertThat(adapter.getTaggedPages().size(), is(2));
     }
     
     private DocumentModel createSite(final String siteName)

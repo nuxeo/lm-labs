@@ -12,9 +12,11 @@ public interface PageNav extends Page {
 	
 	void setTags(List<String> tags) throws ClientException;
 
-	List<Page> getTaggetPages() throws ClientException;
+	List<Page> getTaggedPages() throws ClientException;
 
 	String getUserQuery() throws ClientException;
 
 	void setUserQuery(String userQuery) throws ClientException;
+	
+	String getQueryTaggedPage() throws ClientException;
 }

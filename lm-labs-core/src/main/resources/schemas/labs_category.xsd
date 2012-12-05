@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://labs.fr.corp.leroymerlin.com/schemas/portal/labs_category"
+  xmlns:tns="http://labs.fr.corp.leroymerlin.com/schemas/portal/labs_category">
+
+    <xs:element name="id" type="xs:integer"/>
+    <xs:element name="obsolete" type="xs:integer" default="0"/>
+    <xs:element name="label" type="xs:string"/>
+    <xs:element name="ordering" type="xs:integer"/>
+    <xs:element name="parent" type="xs:integer"/>
+
+</xs:schema>

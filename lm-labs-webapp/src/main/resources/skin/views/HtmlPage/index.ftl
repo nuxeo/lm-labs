@@ -77,7 +77,7 @@
 							<li>
 								<a id="addsectionlink" href="#" rel="addsection" class="open-dialog" ><i class="icon-plus"></i>Ajouter une section</a>
 								<a href="#" rel="editsection_${section_index}" class="open-dialog" ><i class="icon-edit"></i>Modifier la section</a>
-								<a href="#section_${section_index}" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-plus-sign"></i>Ajouter une ligne</a>
+								<a href="#section_${section_index}" id="actionAddLineOnSection_${section_index}" onClick="javascript:actionAddLine('${section_index}');" ><i class="icon-plus-sign"></i>Ajouter ligne(s)</a>
 								<a href="#" onclick="if(confirm('Voulez vous vraiment supprimer cette section ?')) { $('#frm_section_${section_index}_delete').submit();} ;return false;"><i class="icon-remove"></i>Supprimer la section</a>
 								<a href="#" onClick="javascript:moveUp('${This.path}/s/${section_index}', '${This.path}#section_${section_index - 1}', 'div_section_${section_index}', '#divPageHTML>div');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
 	    						<a href="#" onClick="javascript:moveDown('${This.path}/s/${section_index}', '${This.path}#section_${section_index + 1}', 'div_section_${section_index}', '#divPageHTML>div');" title="Descendre" alt="Descendre"><i class="icon-arrow-down"></i>Descendre</a>
@@ -101,7 +101,7 @@
 			          <form class="form-horizontal" id="addrow_${section_index}" action="${This.path}/s/${section_index}" method="post" >
 			          	  <input type="hidden" name="action" value="addrow"/>
 			              <fieldset>
-			                <legend>Ajouter une ligne</legend>
+			                <legend>Ajouter ligne(s)</legend>
 			                <div class="control-group">
 			                  <label class="control-label" for="title">Type de ligne</label>
 			                  <div class="controls">
@@ -111,24 +111,24 @@
 			                    </#list>
 				                </select>
 				                <select name="rowNumber">
-			                      <option value="1" selected>Ajouté 1 fois</option>
-			                      <option value="2">Ajouté 2 fois</option>
-			                      <option value="3">Ajouté 3 fois</option>
-			                      <option value="4">Ajouté 4 fois</option>
-			                      <option value="5">Ajouté 5 fois</option>
-			                      <option value="6">Ajouté 6 fois</option>
-			                      <option value="7">Ajouté 7 fois</option>
-			                      <option value="8">Ajouté 8 fois</option>
-			                      <option value="9">Ajouté 9 fois</option>
-			                      <option value="10">Ajouté 10 fois</option>
+			                      <option value="1" selected>Insérer 1 fois</option>
+			                      <option value="2">Insérer 2 fois</option>
+			                      <option value="3">Insérer 3 fois</option>
+			                      <option value="4">Insérer 4 fois</option>
+			                      <option value="5">Insérer 5 fois</option>
+			                      <option value="6">Insérer 6 fois</option>
+			                      <option value="7">Insérer 7 fois</option>
+			                      <option value="8">Insérer 8 fois</option>
+			                      <option value="9">Insérer 9 fois</option>
+			                      <option value="10">Insérer 10 fois</option>
 				                </select>
-				                <div id="displayCssClass_${section_index}" style="display: none;float: right;">
-				                	Classe CSS : <input class="input-medium" name="cssClass" />
+				                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
+				                <div id="displayCssClass_${section_index}" style="display: none;">
+				                	<br />Classe CSS : <input class="input-medium" name="cssClass" />
 				                </div>
-				                <div id="herfDisplayCssClass_${section_index}" style="float: right;cursor: pointer;" onClick="javascript:displayCssClass('${section_index}');">
+				                <div id="herfDisplayCssClass_${section_index}" style="cursor: pointer;" onClick="javascript:displayCssClass('${section_index}');">
 				                	<br>Ajouter un style à la ligne
 				                </div>
-				                <button type="submit" class="btn btn-small btn-primary">Ajouter</button>
 				                <p class="help-block">
 				                    Sélectionnez le type de ligne à ajouter. Plusieurs modèles sont disponibles, les chiffres entre
 				                    parenthèses représentent des pourcentages de taille de colonne.
@@ -265,7 +265,7 @@
 								    <input type="hidden" class="section-index-value" value="${section_index}" />
 		                            <input type="hidden" class="row-index-value" value="${row_index}" />
 		                            <input type="hidden" class="content-index-value" value="${content_index}" />
-									<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}', userClassInputTab[${nbrUserClassInput}]);" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier la classe CSS</a>
+									<a href="#" onClick="javascript:openModifiyCSSLine('${This.path}/s/${section_index}/r/${row_index}', '${row.cssClass}', userClassInputTab[${nbrUserClassInput}]);" rel="modifyCSSLine" style="float: left;"><i class="icon-adjust"></i>Modifier le style</a>
 									<a href="#" onclick="$('#rowdelete_s${section_index}_r${row_index}').submit();return false;"><i class="icon-remove"></i>Supprimer la ligne</a>
 									<a href="#" class="open-dialog" rel="divConfigRowGadgets" ><i class="icon-gift"></i>${Context.getMessage('command.HtmlPage.row.widgets.config.button')}</a>
 									<a href="#" onClick="javascript:moveUp('${This.path}/s/${section_index}/r/${row_index}', '${This.path}#section_${section_index - 1}', 'div_row_${row_index}', '#div_section_${section_index}_rows>div');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>

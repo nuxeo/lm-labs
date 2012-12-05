@@ -152,7 +152,7 @@ public class PageNavResource extends NotifiablePageResource{
         CoreSession session = ctx.getCoreSession();
         PageNav pageNav = Tools.getAdapter(PageNav.class, document, session);
         if (pageNav != null){
-            pages = pageNav.getTaggetPages();
+            pages = pageNav.getTaggedPages();
         }
         return pages;
     }
