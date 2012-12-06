@@ -47,6 +47,8 @@ public final class LabsSiteWebAppUtils {
 
     public static final String DIRECTORY_THEME = "/skin/resources/less/theme";
 
+    public static final String DIRECTORY_WIDGETS = "/skin/widgets";
+
     public static String NUXEO_WEBENGINE_BASE_PATH = "nuxeo-webengine-base-path";
 
     public static final String IMPOSSIBLE_TO_PUBLISH = "Impossible to publish!";
