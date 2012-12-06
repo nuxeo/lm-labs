@@ -107,7 +107,7 @@
       <idField>id</idField>
       <autoincrementIdField>false</autoincrementIdField>
       <dataFile>directories/labs_category.csv</dataFile>
-      <createTablePolicy>always</createTablePolicy>
+      <createTablePolicy>on_missing_columns</createTablePolicy>
     </directory>
 
   </extension>
