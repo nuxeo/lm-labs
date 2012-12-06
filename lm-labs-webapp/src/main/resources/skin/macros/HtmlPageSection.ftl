@@ -1,14 +1,14 @@
 <#macro displayHtmlPageSection page section section_index viewMode idsPrefix >
 		<div id="${idsPrefix}div_section_${section_index}" 
-			class="<#if section_index == 0>active </#if><#if viewMode == "tabbed" && 1 < sections?size >tab-pane<#elseif viewMode == "carousel">item</#if>" 
+			class="<#if section_index == 0>active </#if><#if viewMode == "tabbed" && 0 < sections?size >tab-pane<#elseif viewMode == "carousel">item</#if>" 
 			>
 		    <section id="${idsPrefix}section_${section_index}">
 		        <div class="page-header"
-		        <#if viewMode == "tabbed" && 1 < sections?size > style="margin-top: 0px; padding-bottom: 0px; border-bottom: 0px;"
+		        <#if viewMode == "tabbed" && 0 < sections?size > style="margin-top: 0px; padding-bottom: 0px; border-bottom: 0px;"
 		        <#elseif viewMode == "carousel" > style="margin-left: 38px; margin-right: 38px;"
 		        <#elseif section.title?length == 0 && section.description?length == 0 > style="padding-bottom: 0px;"</#if>
 		        >
-		            <#if viewMode != "tabbed" || (viewMode == "tabbed" && sections?size <= 1) ><h1 style="display:inline;">${section.title}</h1></#if><h2 style="display:inline;"> <small>${section.description}</small></h2>
+		            <#if viewMode != "tabbed" ><h1 style="display:inline;">${section.title}</h1></#if><h2 style="display:inline;"> <small>${section.description}</small></h2>
 					<#if page.isDisplayable("pg:collapseType") && viewMode != "carousel" && viewMode != "tabbed" >
 					    <div style="font-size: 32px; float: right; margin-top: 7px;" >
 					    	<i class="icon-minus-sign openCloseBt" title="${Context.getMessage('label.HtmlPage.collapse')}" onclick="slideSection(this, '');" ></i>

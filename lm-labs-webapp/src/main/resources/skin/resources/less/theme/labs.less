@@ -1,6 +1,7 @@
 @import "../theme/tablesorter.less";
 @import "../theme/customBackgroundImage.less";
 @import "../theme/variables.less";
+@import "../theme/labs-mixins.less";
 
 //---------------------------------------------------
 //---------------------FK----------------------------
@@ -421,17 +422,21 @@ section.labsnews {
   margin-bottom: 8px;
   padding: 4px;
   width: @labsNewsSummaryWidth;
-  h2.titleHeaderNews{
-		color: @labsNewsSummaryColorTitle;
-	}
-  a.hrefTitleHeaderNews, a.hrefTitleHeaderNews:hover{
-  	text-decoration: none;
+  div.hrefTitleHeaderNews{
+  	cursor:  pointer;
   }
+}
 
+h1.titleHeaderNews{
+  .applyColor(@labsNewsSummaryColorTitle);
+}
+h2.titleHeaderNews{
+  .applyColor(@labsNewsSummaryColorTitle);
+  .applyFontSize(@labsNewsSummaryFontSizeTitle);
 }
 
 section.istop{
-  	border: 3px solid @grayLight;
+  	border: 4px solid @grayLight;
 }
 
 .topnavpages span{

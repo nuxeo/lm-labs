@@ -83,6 +83,7 @@
         <type>PageClasseur</type>
         <type>PageListe</type>
         <type>HtmlPage</type>
+        <type>PageNav</type>
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -141,6 +142,7 @@
         <type>PageClasseur</type>
         <type>PageListe</type>
         <type>HtmlPage</type>
+        <type>PageNav</type>
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -169,6 +171,36 @@
         <type>PageClasseur</type>
         <type>PageListe</type>
         <type>HtmlPage</type>
+        <type>PageNav</type>
+      </subtypes>
+      <contentViews category="content">
+        <contentView>document_content</contentView>
+      </contentViews>
+      <contentViews category="trash_content">
+        <contentView showInExportView="false">document_trash_content
+        </contentView>
+      </contentViews>
+    </type>
+
+    <type id="PageNav">
+      <label>PageNav</label>
+      <category>Collaborative</category>
+      <default-view>view_documents</default-view>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+      <subtypes>
+        <type>Page</type>
+        <type>PageBlocs</type>
+        <type>PageNews</type>
+        <type>PageClasseur</type>
+        <type>PageListe</type>
+        <type>HtmlPage</type>
+        <type>PageNav</type>
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>
@@ -197,6 +229,7 @@
         <type>PageClasseur</type>
         <type>PageListe</type>
         <type>HtmlPage</type>
+        <type>PageNav</type>
       </subtypes>
       <contentViews category="content">
         <contentView>document_content</contentView>

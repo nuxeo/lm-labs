@@ -32,7 +32,8 @@
 @baseFontColorTitleH6;label.labssites.appearance.theme.property.h.color;;color
 
 @voidLabsNews;label.labssites.appearance.theme.property.news;help.labssites.appearance.theme.property.news;void
-@labsNewsSummaryColorTitle;label.labssites.appearance.theme.property.h.color;help.labssites.appearance.theme.property.labsNewsSummaryColorTitle;color
+@labsNewsSummaryColorTitle;label.labssites.appearance.theme.property.labsNewsSummaryColorTitle;help.labssites.appearance.theme.property.labsNewsSummaryColorTitle;color
+@labsNewsSummaryFontSizeTitle;label.labssites.appearance.theme.property.labsNewsSummaryFontSizeTitle;help.labssites.appearance.theme.property.labsNewsSummaryFontSizeTitle;size
 
 @voidTabs;Navigation;Pour chaque onglets de navigation;void
 @bgcolortabs;Couleur de navigation;Couleur de base;color

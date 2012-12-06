@@ -16,7 +16,7 @@ import org.nuxeo.ecm.core.api.model.impl.primitives.BooleanProperty;
 import org.nuxeo.ecm.core.api.model.impl.primitives.LongProperty;
 import org.nuxeo.ecm.core.api.model.impl.primitives.StringProperty;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsSession;
+import com.leroymerlin.common.core.adapter.SessionAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 
 /**
@@ -110,14 +110,14 @@ public class Tools {
 					Exception nunu = new Exception("adapter" + adapter.getClass().getName());
 					nunu.printStackTrace();
 				}
-				((LabsSession)adapter).setSession(session);
+				((SessionAdapter)adapter).setSession(session);
 			}
     	}
     	return adapter;
     }
     
     private static <T> boolean hasInterfaceLabsSession(Class<T> itf){
-    	return hasInterface(itf, LabsSession.class);
+    	return hasInterface(itf, SessionAdapter.class);
     }
 	
 	/**

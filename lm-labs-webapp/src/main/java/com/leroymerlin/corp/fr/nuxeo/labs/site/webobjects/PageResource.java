@@ -57,6 +57,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.AuthorFullName;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
@@ -64,7 +65,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "LabsPage")
@@ -235,6 +236,10 @@ public class PageResource extends DocumentObject {
     public <A> A getAdapter(Class<A> adapter) {
         return doc.getAdapter(adapter) != null ? doc.getAdapter(adapter)
                 : super.getAdapter(adapter);
+    }
+    
+    public LabsNews getLabsNewsAdapter(DocumentModel document) {
+        return Tools.getAdapter(LabsNews.class, document, ctx.getCoreSession());
     }
 
     @GET
@@ -707,6 +712,9 @@ public class PageResource extends DocumentObject {
                         };
                         runner.runUnrestricted();
                     }
+                }
+                else{
+                    session.saveDocument(newDoc); 
                 }
                 return Response.ok(URIUtils.quoteURIPathComponent(ctx.getUrlPath(newDoc), false)).build();
             }

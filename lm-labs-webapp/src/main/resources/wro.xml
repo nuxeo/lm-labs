@@ -49,14 +49,28 @@
     <js>/site/skin/labs/js/PageHtml.js</js>
     <js>/site/skin/labs/js/move.js</js>
     <js>/site/skin/labs/js/manageDisplayHtmlLine.js</js>
-    <js>/site/skin/labs/js/bootstrap/bootstrap-button.min.js</js>
-    <js>/site/skin/labs/js/bootstrap/bootstrap-tab.min.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-button.js</js>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-tab.js</js>
     <js>/site/skin/labs/js/labs-opensocial-init.js</js>
 
     <css>/site/skin/labs/css/wysiwyg_editor.css</css>
     <css>/site/skin/labs/js/assets/prettify/prettify.css</css>
     <css>/css/opensocial/light-container-gadgets.css</css>
     <css>/site/skin/labs/css/slickmap/slickmap.css</css>
+  </group>
+
+  <group name="labs.pagehtml.bottom">
+    
+    <js>/site/skin/labs/js/bootstrap/bootstrap-collapse.js</js>
+    <js>/site/skin/labs/js/widgetExternalContent.js</js>
+    <js>/site/skin/labs/js/jquery/jquery.json-2.3.min.js</js>
+  </group>
+
+  <group name="labs.pagenav">
+    <group-ref>labs.common</group-ref>
+    <js>/site/skin/labs/js/PageNav.js</js>
+    
+    <css>/site/skin/labs/css/PageNav.css</css>
   </group>
 
   <group name="labs.pagenews">

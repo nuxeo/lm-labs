@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-Name: lm-labs-theme-inspiratas
+Bundle-Vendor: Leroy Merlin
+Bundle-Version: 1.0.0
+Bundle-ManifestVersion: 1
+Bundle-SymbolicName: lm-labs-theme-inspiratas;singleton:=true
+Fragment-Host: com.leroymerlin.labs.webapp

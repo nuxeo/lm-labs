@@ -47,13 +47,13 @@ jQuery(document).ready(function() {
             <tr>
               <#assign doc=page.document />
               <td class="nameCol"><a href="${Context.modulePath}/${page.getPath()?html}">${doc.title}</a></td>
-              <td class="createdCol">${userFullName(doc.dublincore.creator)}</td>
+              <td class="createdCol">${userFullName(doc['dc:creator'])}</td>
               <td class="createdCol">
-                ${doc.dublincore.created?string.medium}
-                <span class="sortValue">${doc.dublincore.created?string("yyyyMMddHHmmss")}</span>
+                ${doc['dc:created']?string.medium}
+                <span class="sortValue">${doc['dc:created']?string("yyyyMMddHHmmss")}</span>
               </td>
-              <#assign modified=doc.dublincore.modified/>
-              <td class="updatedCol">${userFullName(doc.dublincore.lastContributor)}</td>
+              <#assign modified=doc['dc:modified']/>
+              <td class="updatedCol">${userFullName(doc['dc:lastContributor'])}</td>
               <td class="updatedCol">
                 ${modified?string.medium}
                 <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>

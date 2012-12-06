@@ -54,6 +54,18 @@
       </pattern>
     </coreQueryPageProvider>
 
+ 	<coreQueryPageProvider name="list_taggedpage_nxql">
+      <pattern quoteParameters="true" escapeParameters="true">
+        SELECT * FROM Page WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'
+        AND ecm:path STARTSWITH ? AND ltg:tags IN ?
+        ORDER BY dc:modified DESC
+      </pattern>
+    </coreQueryPageProvider>
+
+ 	<coreQueryPageProvider name="empty_pattern_nxql">
+      <pattern quoteParameters="true" escapeParameters="true"></pattern>
+    </coreQueryPageProvider>
+
  	<coreQueryPageProvider name="published_news">
       <pattern quoteParameters="true" escapeParameters="true">
         SELECT * FROM LabsNews WHERE ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'

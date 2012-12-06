@@ -36,6 +36,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
+import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.core.storage.sql.coremodel.SQLBlob;
 import org.nuxeo.ecm.platform.rendering.api.RenderingEngine;
@@ -63,7 +64,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.CacheBlock;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.util.Collections;
 
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
@@ -195,6 +196,27 @@ public class SitesRoot extends ModuleRoot {
             throw new NotAuthorizedException(e.getMessage(), e);
         }
     }
+    
+    @SuppressWarnings("deprecation")
+    @GET
+    @Path("@clearAllSiteThemeCache")
+    public Object doClearAllSiteThemeCache() {
+        CoreSession session = ctx.getCoreSession();
+        if (SecurityConstants.ADMINISTRATOR.equals(session.getPrincipal().getName())){
+            try {
+                for (LabsSite site : getSiteManager().getAllSites(session)) {
+                    site.getThemeManager().getTheme(session).setCssValue(null);
+                    session.saveDocument(site.getDocument());
+                    log.info("Clear theme cache in site : " + site.getTitle());
+                }
+                session.save();
+            } catch (ClientException e) {
+                log.error("No clear theme cache in all sites !");
+                throw WebException.wrap(e);
+            }
+        }
+        return redirect(getPath());
+    }
 
     @GET
     @Path("@templatePreview/{url}")
@@ -291,6 +313,7 @@ public class SitesRoot extends ModuleRoot {
         String pDescription = form.getString("dc:description");
         String pURL = form.getString("webc:url");
         String pTitle = form.getString("dc:title");
+        String category = form.getString("labssite:category");
         String templateId = form.getString("siteTemplateId");
         CoreSession session = ctx.getCoreSession();
         try {
@@ -298,6 +321,7 @@ public class SitesRoot extends ModuleRoot {
             LabsSite labSite = sm.createSite(session, pTitle, pURL);
             labSite.setPiwikId(StringUtils.trim(piwikId));
             labSite.setDescription(pDescription);
+            labSite.setCategory(category);
             String siteTemplateStr = form.getString("labssite:siteTemplate");
             boolean isSiteTemplate = BooleanUtils.toBoolean(siteTemplateStr);
             labSite.setElementTemplate(isSiteTemplate);

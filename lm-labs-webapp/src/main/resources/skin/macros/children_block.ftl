@@ -67,14 +67,14 @@
                 	  <#assign url = Context.modulePath + "/" + Common.siteDoc(child).resourcePath />
                 	  <a href="${url?html}"
                 	    <#if 0 < childSubPages?size > class="dropdown-toggle" data-toggle="dropdown" data-target="#" </#if>
-                	    <#assign childDescr = child.dublincore.description?replace("[[TOC]]", "") />
+                        <#assign childDescr = child['dc:description']?replace("[[TOC]]", "") />
                 		<#if (childDescr?length > 0) >
                 	  		rel="popover" data-content="${childDescr?html}"
                 	  		data-original-title="${Context.getMessage('label.description')}"
                 	  	</#if>
                 	  ><#if displayChevron ><i style="font-size: 9px;" class="icon-chevron-right bullet-icon" ></i></#if>
                 	  <span<#if 0 < childSubPages?size > onclick="stopEventPropagation(event); window.location.href = '${url?html}'; return false;"</#if> >${child.title}</span>
-                	<#if sidebarPosition != "unknown" && 0 < childSubPages?size ><b style="float:right;" class="caret" ></b></#if>
+                	<#if 0 < childSubPages?size ><b style="float:right;" class="caret" ></b></#if>
                 	  </a>
    					<#if 0 < childSubPages?size >
                     <ul class="dropdown-menu">

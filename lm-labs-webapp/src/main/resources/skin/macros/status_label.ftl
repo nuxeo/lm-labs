@@ -10,7 +10,11 @@
 			&nbsp;<span class="label label-info ${editblockClass}">${Context.getMessage('label.status.page.template')}</span>
 		</#if>
 		<#if pageAdapter.hiddenInNavigation >
-			&nbsp;<span class="label label-inverse ${editblockClass}">${Context.getMessage('label.status.hiddenInNavigation')}</span>
+			<#assign mySite = Common.siteDoc(Document).site />
+			<#assign isContributor = mySite?? && mySite.isContributor(Context.principal.name) />
+			<#if isContributor >
+				&nbsp;<span class="label label-inverse ${editblockClass}">${Context.getMessage('label.status.hiddenInNavigation')}</span>
+			</#if>
 		</#if>
 	</#if>
 </#macro>

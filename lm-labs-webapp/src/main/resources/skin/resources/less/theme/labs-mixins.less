@@ -1,0 +1,20 @@
+// labs-mixins.less
+// Snippets  in labs
+// -----------------------------------------------------------------
+
+
+//if
+.applyColor(@a) when (iscolor(@a)) {
+  	color: @a;
+}
+//else
+.applyColor(@a) {
+}
+
+//if
+.applyFontSize(@a) when (isnumber(@a)) {
+  	font-size: @a;
+}
+//else
+.applyFontSize(@a) {
+}

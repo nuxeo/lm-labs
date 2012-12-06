@@ -56,7 +56,7 @@ jQuery(document).ready(function() {
         </div>
         <#if (pagesTemplate?size > 0)>
             <div id="pageTemplateActions" style="margin-bottom: 3px;" >
-              <button class="btn" id="noTemplateSelection" onClick="processSelection(this, 'noTemplate');"><i class="icon-share-alt"></i>${Context.getMessage('command.trash.restore.bulk')}</button>
+              <button class="btn" id="noTemplateSelection" onClick="processSelection(this, 'noTemplate');"><i class="icon-share-alt"></i>${Context.getMessage('command.template.notemplate.bulk')}</button>
             </div>
 	        <table class="table table-striped table-bordered bs">
 	            <thead>
@@ -96,7 +96,7 @@ jQuery(document).ready(function() {
 	              </td>
 	              <td>
 	              	<#assign docUrl = Root.getLink(doc) />
-	              	<a  href="${docUrl}" class="btn" style="margin-bottom: 3px;" onclick="javascript:noTemplate(this);return false;"><i class="icon-share-alt"></i>${Context.getMessage('command.trash.undelete')}</a>
+	              	<a  href="${docUrl}" class="btn" style="margin-bottom: 3px;" onclick="javascript:noTemplate(this);return false;"><i class="icon-share-alt"></i>${Context.getMessage('command.template.notemplate')}</a>
 	              </td>
 	            </tr>
 	          </#list>

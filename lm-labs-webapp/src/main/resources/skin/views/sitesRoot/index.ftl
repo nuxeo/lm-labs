@@ -125,13 +125,13 @@ function deleteDefinitelySite(url){
 
   <@block name="content">
   <section>
+	<#assign undeletedLabsSites = This.undeletedLabsSites />
     <div class="page-header">
-      <h1>${Context.getMessage('label.labssite.list.sites.title')}</h1>
+      <h1>${Context.getMessage('label.labssite.list.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${undeletedLabsSites?size}</span></h1>
     </div>
 
 	<#assign hasOneMoreDeletedSite = false />
 	<#assign deletedLabsSites = This.deletedLabsSites />
-	<#assign undeletedLabsSites = This.undeletedLabsSites />
 	<#assign templateLabsSites = This.templateLabsSites />
     <#if (deletedLabsSites?size > 0 || undeletedLabsSites?size > 0 || templateLabsSites?size > 0) >
     	<#if (undeletedLabsSites?size > 0) >
@@ -164,7 +164,7 @@ function deleteDefinitelySite(url){
 	              		</#list>
 	              	</td>
 	              <#else>
-	              	<td>${userFullName(sit.document.dublincore.creator)}</td>
+	              	<td>${userFullName(sit.document['dc:creator'])}</td>
 	              </#if>
 	              <td><a class="btn" href="${This.path}/${sit.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
 	              <#if hasAtLeastOneAdminSite>
@@ -182,7 +182,7 @@ function deleteDefinitelySite(url){
     	<#if (Context.principal.isAnonymous() == false && templateLabsSites?size > 0) >
     	<section>
 			<div class="page-header">
-				<h4>${Context.getMessage('label.labssite.list.template.sites.title')}</h4>
+				<h4>${Context.getMessage('label.labssite.list.template.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${templateLabsSites?size}</span></h4>
 			</div>
 	    	<#assign hasAtLeastOneAdminSite = false />
 	    	<#list templateLabsSites as labsSite>
@@ -213,7 +213,7 @@ function deleteDefinitelySite(url){
 	              		</#list>
 	              	</td>
 	              <#else>
-	              	<td>${userFullName(labsSite.document.dublincore.creator)}</td>
+	              	<td>${userFullName(labsSite.document['dc:creator'])}</td>
 	              </#if>
 	              <#if hasAtLeastOneAdminSite>
 	              <#if labsSite.isAdministrator(Context.principal.name) >
@@ -233,7 +233,7 @@ function deleteDefinitelySite(url){
 	    <#if (deletedLabsSites?size > 0) >
 	    	<section>
 				<div class="page-header">
-					<h4>${Context.getMessage('label.labssite.list.deleted.sites.title')}</h4>
+					<h4>${Context.getMessage('label.labssite.list.deleted.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${deletedLabsSites?size}</span></h4>
 				</div>
 			      <#assign hasAtLeastOneAdminSite = false />
 			      <#list deletedLabsSites as deletedSite>
@@ -265,7 +265,7 @@ function deleteDefinitelySite(url){
 			              		</#list>
 			              	</td>
 			              <#else>
-			              	<td>${userFullName(deletedSite.document.dublincore.creator)}</td>
+			              	<td>${userFullName(deletedSite.document['dc:creator'])}</td>
 			              </#if>
 			              <td>
 			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>

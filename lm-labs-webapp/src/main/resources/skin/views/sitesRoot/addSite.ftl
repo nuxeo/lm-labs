@@ -39,6 +39,27 @@
       </div>
     </div>
 
+    <div class="control-group">
+      <label class="control-label" for="labsSiteCategory">${Context.getMessage('label.labssite.edit.category')}</label>
+      <div class="controls">
+        <select class="input" name="labssite:category" id="labsSiteCategory" >
+        	<#assign labsCategories = Common.getCategories()/>
+        	<#list labsCategories as category>
+        		<#assign underLabsCategories = Common.getChildrenCategories(category)/>
+        		<#if (underLabsCategories?size > 0)>
+        			<optgroup label="${category.schemacategory.label?html}">
+		        		<#list underLabsCategories as underCategory>
+		        			<option value="${underCategory.schemacategory.label}">${underCategory.schemacategory.label}</option>
+		        		</#list>
+		        	</optgroup>
+		        <#else>
+		        	<option value="${category.schemacategory.label}">${category.schemacategory.label}</option>
+	        	</#if>
+        	</#list>
+        </select>
+      </div>
+    </div>
+
 <#--
     <div class="control-group">
       <label class="control-label" for="piwik:piwikId">${Context.getMessage('label.labssite.edit.piwikId')}</label>
@@ -75,7 +96,7 @@
         	</#if>
         	>
           </input>
-          <span onclick="clickParentInput(this);" rel="popover" data-content="${templateName.document.dublincore.description?html}" data-original-title="${Context.getMessage('label.description')}">${templateName.document.dublincore.title}</span>
+          <span onclick="clickParentInput(this);" rel="popover" data-content="${templateName.document['dc:description']?html}" data-original-title="${Context.getMessage('label.description')}">${templateName.document['dc:title']}</span>
         </span>
         </#list>
       </div>

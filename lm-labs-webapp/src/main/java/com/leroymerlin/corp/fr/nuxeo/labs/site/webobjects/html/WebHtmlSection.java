@@ -56,6 +56,7 @@ public class WebHtmlSection extends MovableElementResource {
         try {
             String cssClass = form.getString("cssClass");
             String userClassStr = form.getString("userClass");
+            String strRowNumber = form.getString("rowNumber");
             List<String> userClass = null;
             if(StringUtils.isNotEmpty(userClassStr)){
                 String[] split = userClassStr.split(",");
@@ -64,10 +65,15 @@ public class WebHtmlSection extends MovableElementResource {
                 }
                 userClass = new ArrayList<String>(Arrays.asList(split));
             }
-            HtmlRow row = section.addRow(cssClass, userClass);
-            String rowTemplate = form.getString("rowTemplate");
-            row.initTemplate(rowTemplate);
-
+            int  rowNumber = 1;
+            HtmlRow row = null;
+            if (StringUtils.isNumeric(strRowNumber)){
+                rowNumber = (new Integer(strRowNumber)).intValue();
+                for (int i=0;i<rowNumber;i++){
+                    row = section.addRow(cssClass, userClass);
+                    row.initTemplate(form.getString("rowTemplate"));
+                }
+            }
             saveDocument();
         } catch (ClientException e) {
             throw WebException.wrap(

@@ -2,10 +2,12 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.model.PropertyException;
@@ -33,12 +36,15 @@ import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.LabsWebAppActivator;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.customview.LabsCustomView;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.page.CollapseTypes;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.FontFamily;
@@ -270,6 +276,41 @@ public final class CommonHelper {
         }
         return list;
     }
+    
+    public static List<DocumentModel> getCategories() {
+        List<DocumentModel> result = new ArrayList<DocumentModel>();
+        int parent = 0;
+        try {
+            for (DocumentModel cat: getAllLabsCategory()){
+                parent = ((Long)cat.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "parent")).intValue();
+                if (parent == 0){
+                    result.add(cat);
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Can't get parents of categories !", e);
+        }
+        return result;
+    }
+    
+    public static List<DocumentModel> getChildrenCategories(DocumentModel currentCategory) throws PropertyException, NullException, ClientException{
+        List<DocumentModel> result = new ArrayList<DocumentModel>();
+        int idCurrentCategory = ((Long)currentCategory.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "id")).intValue();
+        if (idCurrentCategory != 0){
+            int parent;
+            for (DocumentModel cat: getAllLabsCategory()){
+                parent = ((Long)cat.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "parent")).intValue();
+                if (parent == idCurrentCategory){
+                    result.add(cat);
+                }
+            }
+        }
+        return result;
+    }
+
+    public static DocumentModelList getAllLabsCategory() {
+        return DirectoriesUtils.getDirDocumentModelList(Directories.CATEGORY);
+    }
 
     public static List<ThemeProperty> getThemeProperties(
             ThemePropertiesManage tpm) {
@@ -380,6 +421,40 @@ public final class CommonHelper {
         Map<String, Serializable> filter = Collections.emptyMap();
         list.addAll(DirectoriesUtils.getDirDocumentModelList(dirEnum, filter));
         return list;
+    }
+    
+    public List<String> getDeclaredHtmlWidgets() {
+        @SuppressWarnings("unchecked")
+		Enumeration<URL> entries = LabsWebAppActivator.getDefault().getBundle().findEntries(
+                LabsSiteWebAppUtils.DIRECTORY_WIDGETS, null, false);
+
+        List<String> folderList = new ArrayList<String>();
+        while (entries.hasMoreElements()) {
+            URL url = entries.nextElement();
+            String[] nodes = url.getPath().split("/");
+            if (nodes.length > 1) {
+            	String lastname = nodes[nodes.length - 1];
+                lastname = lastname.substring(0, lastname.indexOf(".ftl"));
+                folderList.add(lastname);
+            }
+        }
+        return folderList;
+    }
+    
+    public List<String> getUncategorizedWidgets(String docType) {
+    	List<String> declaredWidgets = getDeclaredHtmlWidgets();
+    	for (String group : getPageWidgetGroups(docType)) {
+    		for (DocumentModel widget : getPageWidgets(docType, group)) {
+    			try {
+					declaredWidgets.remove(widget.getPropertyValue("labshtmlpagewidgets:wname"));
+				} catch (PropertyException e) {
+					LOG.error(e, e);
+				} catch (ClientException e) {
+					LOG.error(e, e);
+				}
+    		}
+    	}
+    	return declaredWidgets;
     }
     
     /**

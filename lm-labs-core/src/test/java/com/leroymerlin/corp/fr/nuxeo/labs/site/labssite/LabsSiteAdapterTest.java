@@ -36,8 +36,9 @@ import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
+import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
-import com.leroymerlin.corp.fr.nuxeo.features.directory.LMTestDirectoryFeature;
+import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
@@ -49,11 +50,10 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.PermissionsHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
-@Features({ LMTestDirectoryFeature.class, SiteFeatures.class })
+@Features({ FakeUserFeature.class, SiteFeatures.class })
 @Deploy("com.leroymerlin.labs.core.test")
 @RepositoryConfig(cleanup = Granularity.METHOD, init = DefaultRepositoryInit.class)
 public class LabsSiteAdapterTest {
@@ -115,7 +115,8 @@ public class LabsSiteAdapterTest {
         assertTrue(PermissionsHelper.hasPermission(site,
                 SecurityConstants.READ_WRITE, USERNAME1));
 
-        LabsSite labssite = Tools.getAdapter(LabsSite.class, site, session);
+        LabsSite labssite = site.getAdapter(LabsSite.class);
+        labssite = Tools.getAdapter(LabsSite.class, site, session);
         assertTrue(labssite.isContributor(USERNAME1));
     }
 
@@ -648,5 +649,23 @@ public class LabsSiteAdapterTest {
         pageNews = session.createDocument(pageNews);
         
         return site;
+    }
+
+    @Test
+    public void iCanGetDefaultCategory() throws Exception {
+        DocumentModel doc = createSite("NameSite1");
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
+        assertThat(labssite.getCategory(), is("Aucune"));
+    }
+
+    @Test
+    public void iCanSetAndGetCategory() throws Exception {
+        DocumentModel doc = createSite("NameSite1");
+        LabsSite labssite = Tools.getAdapter(LabsSite.class, doc, session);
+
+        labssite.setCategory("category 1");
+        doc = session.saveDocument(labssite.getDocument());
+        labssite = Tools.getAdapter(LabsSite.class, doc, session);
+        assertThat(labssite.getCategory(), is("category 1"));
     }
 }

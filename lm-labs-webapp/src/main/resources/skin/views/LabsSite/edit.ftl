@@ -75,6 +75,28 @@ jQuery(document).ready(function() {
                     <textarea name="piwik:piwikId" id="piwik:piwikId" >${mySite.piwikId}</textarea>
                   </div>
                 </div>
+                
+                <div class="control-group">
+			      <label class="control-label" for="labsSiteCategory">${Context.getMessage('label.labssite.edit.category')}</label>
+			      <div class="controls">
+			        <select class="input" name="labssite:category" id="labsSiteCategory" >
+			        	<#assign allLabsCategories = Common.getAllLabsCategory()/>
+			        	<#assign labsCategories = Common.getCategories()/>
+			        	<#list labsCategories as category>
+			        		<#assign underLabsCategories = Common.getChildrenCategories(category)/>
+			        		<#if (underLabsCategories?size > 0)>
+			        			<optgroup label="${category.schemacategory.label?html}">
+					        		<#list underLabsCategories as underCategory>
+					        			<option value="${underCategory.schemacategory.label}"<#if underCategory.schemacategory.label == mySite.category> selected</#if>>${underCategory.schemacategory.label}</option>
+					        		</#list>
+					        	</optgroup>
+					        <#else>
+					        	<option value="${category.schemacategory.label}"<#if category.schemacategory.label == mySite.category> selected</#if>>${category.schemacategory.label}</option>
+				        	</#if>
+			        	</#list>
+			        </select>
+			      </div>
+			    </div>
 
 			    <#if Context.principal.administrator >
 			    <div class="control-group">

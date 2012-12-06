@@ -74,7 +74,7 @@
           	  <#if news != null>
 	              <div class="page-header <@generateClassNewsVisibility news=news result="hiddenNews"/>">
 	                <a name="section_0"></a>
-	                <h1>${news.title} <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
+	                <h1 class="titleHeaderNews">${news.title} <small>${Context.getMessage('label.labsNews.display.by')} ${news.lastContributorFullName}</small></h1>
 	                <small>${Context.getMessage('label.labsNews.display.publish')} ${news.startPublication.time?string('dd MMMMM yyyy')}</small>
 	              	<#if isContributor >
 		              	<div class="editblock" style="margin-top: -15px;width: 100%;text-align: right;float: right">
@@ -177,6 +177,7 @@
 		            </div>
 		            <form class="form-horizontal" id="addrow" action="${This.path}/s/0" method="post" >
 		              <input type="hidden" name="action" value="addrow"/>
+		              <input type="hidden" name="rowNumber" value="1"/>
 		              <fieldset>
 		                <legend>Ajouter une ligne</legend>
 		                <div class="control-group">

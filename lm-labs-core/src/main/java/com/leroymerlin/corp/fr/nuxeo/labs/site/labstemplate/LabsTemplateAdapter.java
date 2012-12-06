@@ -5,14 +5,14 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.model.PropertyException;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsSessionImpl;
+import com.leroymerlin.common.core.adapter.SessionAdapterImpl;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
-public class LabsTemplateAdapter extends LabsSessionImpl implements LabsTemplate {
+public class LabsTemplateAdapter extends SessionAdapterImpl implements LabsTemplate {
 
     private final DocumentModel doc;
 
