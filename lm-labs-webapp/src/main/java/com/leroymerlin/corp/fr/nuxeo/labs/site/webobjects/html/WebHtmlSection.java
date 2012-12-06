@@ -106,6 +106,10 @@ public class WebHtmlSection extends MovableElementResource {
         row.setSession(getCoreSession());
         return newObject("HtmlRow", doc, row, section, rowIndex);
     }
+    
+    public HtmlSection getHtmlSection() {
+        return this.section;
+    }
 
     private void saveDocument() throws ClientException {
         CoreSession session = ctx.getCoreSession();

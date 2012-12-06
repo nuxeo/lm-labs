@@ -472,14 +472,6 @@
     </#if>
 </#macro>
 
-<#macro displayContentHtml content >
-    <#if content.html == "" >
-    &nbsp;
-    <#else>
-        ${content.html}
-    </#if>
-</#macro>
-
 <#macro editblockHiddenInputs widget sectionIdx rowIdx contentIdx >
 <input type="hidden" class="section-index-value" value="${sectionIdx}" />
 <input type="hidden" class="row-index-value" value="${rowIdx}" />
