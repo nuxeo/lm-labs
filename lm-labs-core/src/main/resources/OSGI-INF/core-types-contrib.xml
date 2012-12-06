@@ -26,6 +26,7 @@
     <schema name="piwik" prefix="piwik" src="schemas/piwik.xsd" />
     <schema name="labscontentview" prefix="labscontentview" src="schemas/labscontentview.xsd" />
     <schema name="labshtmlpagewidgets" src="schemas/labshtmlpagewidgets.xsd" />
+    <schema name="schemacategory" src="schemas/labs_category.xsd"/>
   </extension>
 
   <extension target="org.nuxeo.ecm.core.schema.TypeService"
