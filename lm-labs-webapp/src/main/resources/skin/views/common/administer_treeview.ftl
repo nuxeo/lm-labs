@@ -776,7 +776,7 @@
 		</div>
 		</#if>
 
-		<div id="content" class="container jsTreeControlsContent">
+		<div id="treecontent" class="container jsTreeControlsContent">
 			<section>
 				<div>
 					<@jsTreeControls treeId="jstree" />
