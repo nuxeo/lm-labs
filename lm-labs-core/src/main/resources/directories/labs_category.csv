@@ -1,17 +1,17 @@
-id,label, obsolete, parent, ordering
-0,"Aucune","0",0,5
-1,"LM France","0",0,10
-2,"Magasin SI","0",0,20
-3,"Groupe Adeo","0",0,30
-4,"Chantier","0",0,40
-5,"Opération commerciale","0",0,50
-6,"Opération commerciale 1","0",5,60
-7,"Opération commerciale 2","0",5,70
-8,"Opération commerciale 3","0",5,80
-9,"Événement","0",0,90
-10,"Événement 1","0",9,100
-11,"Événement 2","0",9,110
-12,"Événement 3","0",9,120
-13,"Collection","0",0,130
-14,"Merchandising","0",0,140
-15,"Produit","0",0,150
+id, label, obsolete, parent, ordering
+"0","Aucune","0","0","5"
+"1","LM France","0","0","10"
+"2","Magasin SI","0","0","20"
+"3","Groupe Adeo","0","0","30"
+"4","Chantier","0","0","40"
+"5","Opération commerciale","0","0","50"
+"6","Opération commerciale 1","0","5","60"
+"7","Opération commerciale 2","0","5","70"
+"8","Opération commerciale 3","0","5","80"
+"9","Événement","0","0","90"
+"10","Événement 1","0","9","100"
+"11","Événement 2","0","9","110"
+"12","Événement 3","0","9","120"
+"13","Collection","0","0","130"
+"14","Merchandising","0","0","140"
+"15","Produit","0","0","150"
