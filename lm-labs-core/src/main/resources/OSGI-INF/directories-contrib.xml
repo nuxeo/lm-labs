@@ -2,11 +2,6 @@
 
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.site.directories">
 
-  <extension target="org.nuxeo.ecm.core.schema.TypeService"
-  	point="schema">
-  	<schema name="schemacategory" src="schemas/labs_category.xsd"/>
-  </extension>
-
   <extension target="org.nuxeo.ecm.directory.sql.SQLDirectoryFactory"
     point="directories">
 
