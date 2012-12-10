@@ -199,7 +199,7 @@ public class SitesRoot extends ModuleRoot {
                         undeletedLabsSites = getSiteManager().getSitesWithCategory(getContext().getCoreSession(), labelCurrentCategory);
                     }
                     return getView("index").arg("idCurrentCategory", idCategory)
-                            .arg("undeletedLabsSites", undeletedLabsSites)
+                            .arg("undeletedLabsSites", getLabsSitesUndeleted(undeletedLabsSites))
                             .arg("deletedLabsSites", getDeletedLabsSites())
                             .arg("templateLabsSites", getTemplateLabsSites());
                 }
