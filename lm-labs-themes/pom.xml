@@ -10,10 +10,8 @@
 
   <groupId>com.leroymerlin.labs</groupId>
   <artifactId>lm-labs-themes</artifactId>
-  <name>lm-labs-themes</name>
-  <description>
-    
-  </description>
+  <name>LM Labs :: Basic Themes</name>
+  <description></description>
 
   <dependencies>
     <dependency>

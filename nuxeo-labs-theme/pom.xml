@@ -10,10 +10,8 @@
 
   <groupId>org.nuxeo.ecm.platform</groupId>
   <artifactId>nuxeo-labs-theme</artifactId>
-  <name>nuxeo-labs-theme</name>
-  <description>
-    
-  </description>
+  <name>LM Labs :: Nuxeo Theme</name>
+  <description> </description>
 
   <build>
     <plugins>
