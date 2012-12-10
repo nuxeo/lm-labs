@@ -73,7 +73,6 @@ public class ForumCoreTest {
 	
 	@Test
 	public void iCanCreateATopicInAForum() throws Exception {
-//		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString() + "/myForum"));
 	    DocumentModel doc = getOrCreateMyForum();
 		LMForum forum = doc.getAdapter(LMForum.class);
 		forum.addTopic(session, "myTopic");
@@ -99,7 +98,6 @@ public class ForumCoreTest {
 	
 	@Test
 	public void iCanGetAForumAdapter() throws Exception {
-//		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString() + "/myForum"));
         DocumentModel doc = getOrCreateMyForum();
 		LMForum forum = doc.getAdapter(LMForum.class);
 		assertThat(forum,is(notNullValue()));
@@ -109,7 +107,6 @@ public class ForumCoreTest {
 	
 	@Test
 	public void isForumCommentable() throws Exception {
-//		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString()+ "/myForum"));
         DocumentModel doc = getOrCreateMyForum();
 		assertTrue(doc.hasFacet("Commentable"));
 	}
