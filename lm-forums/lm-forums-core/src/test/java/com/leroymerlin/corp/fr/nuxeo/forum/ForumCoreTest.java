@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -29,6 +30,7 @@ import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
 @RunWith(FeaturesRunner.class)
 @Features({CoreFeature.class, SiteFeatures.class,  LabsCommentFeature.class})
 @Deploy({"org.nuxeo.ecm.opensocial.spaces","com.leroymerlin.labs.forums.core"})
+@Ignore 
 public class ForumCoreTest {
 	
 	private static final String FORUM_TITLE = "Mon titre de forum";
