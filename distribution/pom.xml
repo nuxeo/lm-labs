@@ -50,7 +50,7 @@
       <id>with-nuxeo</id>
       <properties>
         <!-- Version used for lm nuxeo packaging -->
-        <nuxeo.lm.version>5.4.2.0</nuxeo.lm.version>
+        <nuxeo.lm.version>5.6.0-HF03</nuxeo.lm.version>
       </properties>
     </profile>
     <profile>
@@ -82,7 +82,7 @@
               <prefix>/home1/nuxeo</prefix>
               <needarch>false</needarch>
               <requires>
-                <require>nuxeo-lm-distribution &gt;= 5.4.1</require>
+                <require>nuxeo-lm-distribution &gt;= 5.6.0</require>
               </requires>
 
               <mappings>
@@ -180,8 +180,18 @@
       <artifactId>lm-labs-gadgets</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
-      <artifactId>lm-portal-user</artifactId>
+      <groupId>com.leroymerlin.labs</groupId>
+      <artifactId>lm-labs-themes</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.adeo.nuxeo</groupId>
+      <artifactId>adeo-nuxeo-user</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.nuxeo.ecm.webengine</groupId>
+      <artifactId>nuxeo-webengine-wro</artifactId>
+    </dependency>
+  
+
   </dependencies>
 </project>

@@ -3,9 +3,9 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.DocumentModel;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsSession;
+import com.leroymerlin.common.core.adapter.SessionAdapter;
 
-public interface LabsTemplate extends LabsSession {
+public interface LabsTemplate extends SessionAdapter {
 
     String getTemplateName() throws ClientException;
     

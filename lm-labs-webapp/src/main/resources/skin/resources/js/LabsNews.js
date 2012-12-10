@@ -197,7 +197,10 @@ $(document).ready(function() {
 		buttons: {
 			"Annuler": function() { jQuery(this).dialog2("close"); },
 		    "Réinitialisation": function() { resetCropCoords(); },
-		    "Valider": function() { saveCropCoords(); }
+		    "Valider": {
+				click: function() { saveCropCoords(); },
+				primary: true
+			} 
 		},
 	});
 	

@@ -7,6 +7,7 @@
 </ul>
 -->
 
+<#assign uncategorizedWidgets = Common.getUncategorizedWidgets(Document.type) />
 <#list contents as content >
     <#assign widgets = [] />
     <#if content.type == "widgetcontainer">
@@ -32,6 +33,12 @@
 					</#list>
 				</#if>
 			</#list>
+			<#if 0 < uncategorizedWidgets?size >
+			            <optgroup label="Autres">
+				<#list uncategorizedWidgets as gadgetName >
+			            <@gadgetOption type="html" name=gadgetName selected=isOptionSelected("html", gadgetName, widgets) />
+				</#list>
+			</#if>
             <#-- gadget opensocial désactivé
             <#assign gadgetType = "opensocial" gadgetName = "lastuploads" />
             <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />

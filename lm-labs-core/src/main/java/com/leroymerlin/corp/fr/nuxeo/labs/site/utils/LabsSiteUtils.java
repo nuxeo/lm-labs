@@ -1,7 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,13 +20,17 @@ import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.platform.usermanager.UserManager;
+import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.LMPermission;
+import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsSecurityException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 
 
 public final class LabsSiteUtils {
@@ -91,13 +94,16 @@ public final class LabsSiteUtils {
     
     public static List<LMPermission> extractPermissions(DocumentModel document) throws Exception{
         List<LMPermission> permissions = PermissionsHelper.getPermissions(document);
-        @SuppressWarnings("deprecation")
-        final String[] excludedUsers = { SecurityConstants.ADMINISTRATOR,
-                SecurityConstants.ADMINISTRATORS, SecurityConstants.MEMBERS };
+        UserManager userManager = Framework.getService(UserManager.class);
+        List<String> excludedUsersList = new ArrayList<String>();
+        excludedUsersList.addAll(userManager.getAdministratorsGroups());
+        excludedUsersList.add(userManager.getDefaultGroup());
+        excludedUsersList.add(SecurityConstants.ADMINISTRATOR); // TODO
+        final List<String> users = new ArrayList<String>(excludedUsersList);
         CollectionUtils.filter(permissions, new Predicate() {
             public boolean evaluate(Object o) {
                 return ((LMPermission) o).isGranted()
-                        && !Arrays.asList(excludedUsers).contains(
+                        && !users.contains(
                                 ((LMPermission) o).getName());
             }
         });

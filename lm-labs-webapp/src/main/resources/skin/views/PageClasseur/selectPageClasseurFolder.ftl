@@ -6,10 +6,10 @@
 	<#list folders as folder >
 	<div class="" >
 		<label class="radio">
-			<input type="radio" value="${folder.document.id}" name="optionPageClasseurFolder">${folder.document.dublincore.title}</input>
+			<input type="radio" value="${folder.document.id}" name="optionPageClasseurFolder">${folder.document['dc:title']}</input>
 			<input type="hidden" class="selectedFolderPath" disabled='' value="${Common.getPathAsString(folder.document)}" >
 			<input type="hidden" class="selectedFolderId" disabled='' value="${folder.document.id}" >
-			<input type="hidden" class="selectedFolderTitle" disabled='' value="${folder.document.dublincore.title?html}" >
+			<input type="hidden" class="selectedFolderTitle" disabled='' value="${folder.document['dc:title']?html}" >
 			<input type="hidden" class="selectedClasseurTitle" disabled='' value="${Document.title?html}" >
 		</label>
 	</div>
