@@ -2,7 +2,7 @@
   <#assign maxSpanSize = 12 />
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
-  <#assign availableHtmlWidgets = ["subTopChildren", "children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor", "externalContent", "toc"] />
+  <#assign availableHtmlWidgets = ["externalLinks", "subTopChildren", "children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor", "externalContent", "toc"] />
   <#assign sectionsViewMode = This.contentView />
   <#if sectionsViewMode?contains('_') >
     <#assign basicSectionsViewMode = sectionsViewMode?split('_')[0] />
@@ -484,6 +484,7 @@
 
   <@block name="bottom-page-js" >
   	<script type="text/javascript" src="${contextPath}/wro/labs.pagehtml.bottom.js"></script>
+  	<script type="text/javascript" src="${skinPath}/js/externalLinksHelper.js"></script>
     <@superBlock />
     <#if 0 < nbrOsGadgets >
     <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.pack.js"></script>
