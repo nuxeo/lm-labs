@@ -18,6 +18,7 @@ import org.nuxeo.runtime.model.DefaultComponent;
 import com.leroymerlin.common.core.security.SecurityData;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
@@ -190,12 +191,37 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
             if(site!= null) {
                 sites.add(site);
             }
-
         }
         return sites;
-
     }
 
+    @Override
+    public List<LabsSite> getSitesWithCategory(CoreSession session, String category) throws ClientException {
+        String query = String.format("SELECT * FROM %s WHERE ecm:path STARTSWITH '%s' AND " + LabsSiteAdapter.PROPERTY_CATEGORY + " = '%s'", LabsSiteConstants.Docs.SITE.type(), SITES_ROOT_REF.toString(), category);
+        DocumentModelList docs = session.query(query);
+        List<LabsSite> sites = new ArrayList<LabsSite>();
+        for(DocumentModel doc : docs) {
+            LabsSite site = Tools.getAdapter(LabsSite.class, doc, session);
+            if(site!= null) {
+                sites.add(site);
+            }
+        }
+        return sites;
+    }  
+
+    @Override
+    public List<LabsSite> getSitesWithoutCategory(CoreSession session) throws ClientException {
+        String query = String.format("SELECT * FROM %s WHERE ecm:path STARTSWITH '%s' AND (" + LabsSiteAdapter.PROPERTY_CATEGORY + " IS NULL OR " + LabsSiteAdapter.PROPERTY_CATEGORY + " = 'Aucune')", LabsSiteConstants.Docs.SITE.type(), SITES_ROOT_REF.toString());
+        DocumentModelList docs = session.query(query);
+        List<LabsSite> sites = new ArrayList<LabsSite>();
+        for(DocumentModel doc : docs) {
+            LabsSite site = Tools.getAdapter(LabsSite.class, doc, session);
+            if(site!= null) {
+                sites.add(site);
+            }
+        }
+        return sites;
+    }  
 
     @Override
     public void updateSite(CoreSession session, LabsSite site) throws ClientException, SiteManagerException {
@@ -203,10 +229,7 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         if(hasChangedUrl(session,site) && siteExists(session, site.getURL())) {
             throw new SiteManagerException("label.labssites.edit.error.url.exist");
         }
-
         session.saveDocument(site.getDocument());
-
-
     }
 
 
@@ -214,7 +237,6 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         // TODO Auto-generated method stub
         DocumentModel originalDoc = session.getDocument(new IdRef(site.getDocument().getId()));
         LabsSite origSite = Tools.getAdapter(LabsSite.class, originalDoc, session);
-
         return !origSite.getURL().equals(site.getURL());
 
     }

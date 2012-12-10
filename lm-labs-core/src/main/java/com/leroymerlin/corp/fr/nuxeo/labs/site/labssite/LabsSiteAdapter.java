@@ -83,7 +83,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     private static final String PROPERTY_CONTACTS = Schemas.LABSSITE.prefix()
             + ":contacts";
 
-    private static final String PROPERTY_CATEGORY = Schemas.LABSSITE.prefix()
+    public static final String PROPERTY_CATEGORY = Schemas.LABSSITE.prefix()
             + ":category";
 
     private static final String PROPERTY_URL = "webcontainer:url";

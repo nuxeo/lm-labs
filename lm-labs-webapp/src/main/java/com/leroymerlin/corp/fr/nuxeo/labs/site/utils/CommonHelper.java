@@ -215,7 +215,7 @@ public final class CommonHelper {
         return false;
     }
 
-    private static final SiteManager getSiteManager() {
+    public static final SiteManager getSiteManager() {
         try {
             return Framework.getService(SiteManager.class);
         } catch (Exception e) {
@@ -298,6 +298,16 @@ public final class CommonHelper {
                 if (parent == idCurrentCategory){
                     result.add(cat);
                 }
+            }
+        }
+        return result;
+    }
+    
+    public static List<DocumentModel> getAllCategoriesWithoutGroup() throws PropertyException, NullException, ClientException{
+        List<DocumentModel> result = new ArrayList<DocumentModel>();
+        for (DocumentModel cat: getAllLabsCategory()){
+            if (getChildrenCategories(cat).size() == 0){
+                result.add(cat);
             }
         }
         return result;

@@ -125,14 +125,29 @@ function deleteDefinitelySite(url){
 
   <@block name="content">
   <section>
-	<#assign undeletedLabsSites = This.undeletedLabsSites />
+	<#--assign undeletedLabsSites = This.undeletedLabsSites /-->
     <div class="page-header">
       <h1>${Context.getMessage('label.labssite.list.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${undeletedLabsSites?size}</span></h1>
     </div>
+    
+	 <ul class="nav nav-tabs">
+	  	 <li <#if (idCurrentCategory == -1) >class="active"</#if>>
+	  	 	<a href="${This.path}">${Context.getMessage('label.labssite.nav.category.allsites')}</a>
+	  	 </li>
+	  	 <#assign labsCategories = This.getDisplayableCategories()/>
+		 <#list labsCategories as category>
+		  	 <li <#if (idCurrentCategory == category.schemacategory.id) >class="active"</#if>>
+		  	 	<a href="${This.path}?idCategory=${category.schemacategory.id}">${category.schemacategory.label}</a>
+		  	 </li>
+	  	 </#list>
+	  	 <li <#if (idCurrentCategory == 0) >class="active"</#if>>
+	  	 	<a href="${This.path}?idCategory=0">${Context.getMessage('label.labssite.nav.without.category.sites')}</a>
+	  	 </li>
+	  </ul>
 
 	<#assign hasOneMoreDeletedSite = false />
-	<#assign deletedLabsSites = This.deletedLabsSites />
-	<#assign templateLabsSites = This.templateLabsSites />
+	<#--assign deletedLabsSites = This.deletedLabsSites /-->
+	<#--assign templateLabsSites = This.templateLabsSites /-->
     <#if (deletedLabsSites?size > 0 || undeletedLabsSites?size > 0 || templateLabsSites?size > 0) >
     	<#if (undeletedLabsSites?size > 0) >
 	    	<#assign hasAtLeastOneAdminSite = false />

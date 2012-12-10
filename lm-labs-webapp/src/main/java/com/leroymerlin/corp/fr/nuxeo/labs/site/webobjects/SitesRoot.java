@@ -15,6 +15,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.EntityTag;
@@ -36,6 +37,7 @@ import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
+import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.core.storage.sql.coremodel.SQLBlob;
@@ -51,18 +53,21 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.common.freemarker.BytesFormatTemplateMethod;
 import com.leroymerlin.common.freemarker.DateInWordsMethod;
 import com.leroymerlin.common.freemarker.UserFullNameTemplateMethod;
+import com.leroymerlin.corp.fr.nuxeo.freemarker.CacheBlock;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.LatestUploadsPageProviderTemplateMethod;
 import com.leroymerlin.corp.fr.nuxeo.freemarker.TableOfContentsDirective;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NotAuthorizedException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsCategoyHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
-import com.leroymerlin.corp.fr.nuxeo.freemarker.CacheBlock;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -179,8 +184,46 @@ public class SitesRoot extends ModuleRoot {
     }
 
     @GET
-    public Object doGetDefaultView() {
-        return getView("index");
+    public Object doGetDefaultView(@QueryParam("idCategory") String strIdCategory) {
+        if (!StringUtils.isEmpty(strIdCategory) && StringUtils.isNumeric(strIdCategory)){
+            try {
+                int idCategory = new Integer(strIdCategory).intValue();
+                DocumentModel category = LabsCategoyHelper.getCategory(idCategory);
+                if (category != null){
+                    String labelCurrentCategory = ((String)category.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "label"));
+                    List<LabsSite> undeletedLabsSites = null;
+                    if (idCategory == 0){
+                        undeletedLabsSites = getSiteManager().getSitesWithoutCategory(getContext().getCoreSession());
+                    }
+                    else{
+                        undeletedLabsSites = getSiteManager().getSitesWithCategory(getContext().getCoreSession(), labelCurrentCategory);
+                    }
+                    return getView("index").arg("idCurrentCategory", idCategory)
+                            .arg("undeletedLabsSites", undeletedLabsSites)
+                            .arg("deletedLabsSites", getDeletedLabsSites())
+                            .arg("templateLabsSites", getTemplateLabsSites());
+                }
+            } catch (ClientException e) {
+                throw WebException.wrap(e);
+            }
+        }
+        return getView("index").arg("idCurrentCategory", -1)
+                .arg("undeletedLabsSites", getUndeletedLabsSites())
+                .arg("deletedLabsSites", getDeletedLabsSites())
+                .arg("templateLabsSites", getTemplateLabsSites());
+    }
+    
+    public List<DocumentModel> getDisplayableCategories() throws PropertyException, NullException, ClientException{
+        List<DocumentModel> categories = new ArrayList<DocumentModel>();
+        SiteManager siteManager = getSiteManager();
+        String labelCurrentCategory = null;
+        for (DocumentModel category:LabsCategoyHelper.getAllCategoriesWithoutGroup()){
+            labelCurrentCategory = ((String)category.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "label"));
+            if (siteManager.getSitesWithCategory(getContext().getCoreSession(), labelCurrentCategory).size() > 0){
+                categories.add(category);
+            }
+        }
+        return categories;
     }
 
     @Path("{url}")

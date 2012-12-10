@@ -28,4 +28,8 @@ public interface SiteManager {
     DocumentModel getSiteRoot(CoreSession session) throws ClientException;
 
     DocumentModel getCommonAssets(CoreSession session) throws ClientException;
+
+    List<LabsSite> getSitesWithCategory(CoreSession session, String category) throws ClientException;
+
+    List<LabsSite> getSitesWithoutCategory(CoreSession session) throws ClientException;
 }
