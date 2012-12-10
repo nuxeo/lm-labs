@@ -1,19 +1,21 @@
 package com.leroymerlin.corp.fr.nuxeo.forum;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.test.CoreFeature;
+import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.ecm.platform.comment.api.CommentManager;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
@@ -22,15 +24,18 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 import com.google.inject.Inject;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsCommentFeature;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.LabsRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.topic.LMTopic;
-
 
 @RunWith(FeaturesRunner.class)
 @Features({CoreFeature.class, SiteFeatures.class,  LabsCommentFeature.class})
 @Deploy({"org.nuxeo.ecm.opensocial.spaces","com.leroymerlin.labs.forums.core"})
-@Ignore 
+@RepositoryConfig(init=LabsRepositoryInit.class)
 public class ForumCoreTest {
 	
 	private static final String FORUM_TITLE = "Mon titre de forum";
@@ -46,29 +51,30 @@ public class ForumCoreTest {
 	
 	@Inject
 	CommentManager commentManager;
+
+    @Inject SiteManager siteManager;
 	
 	@Test
 	public void iCanCreateAForumDoc() throws Exception {
-		DocumentModel doc = session.createDocumentModel("/","myForum","PageForum");
-		doc = session.createDocument(doc);
+		DocumentModel doc = getOrCreateMyForum();
 		LMForum forum = doc.getAdapter(LMForum.class);
 		
+		assertNotNull(forum);
 		forum.setTitle(FORUM_TITLE);
 		forum.setDescription(FORUM_DESCRIPTION);
 //		doc.setPropertyValue("dc:title", FORUM_TITLE);
 //		doc.setPropertyValue("dc:description", FORUM_DESCRPTION);
-		session.saveDocument(doc);
+		doc = session.saveDocument(forum.getDocument());
 		session.save();
 		
-		
-		doc = session.getDocument(new PathRef("/myForum"));
+		doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString() + "/myForum"));
 		assertThat(doc.getTitle(), is(FORUM_TITLE));
-			
 	}
 	
 	@Test
 	public void iCanCreateATopicInAForum() throws Exception {
-		DocumentModel doc = session.getDocument(new PathRef("/myForum"));
+//		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString() + "/myForum"));
+	    DocumentModel doc = getOrCreateMyForum();
 		LMForum forum = doc.getAdapter(LMForum.class);
 		forum.addTopic(session, "myTopic");
 		
@@ -93,7 +99,8 @@ public class ForumCoreTest {
 	
 	@Test
 	public void iCanGetAForumAdapter() throws Exception {
-		DocumentModel doc = session.getDocument(new PathRef("/myForum"));
+//		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString() + "/myForum"));
+        DocumentModel doc = getOrCreateMyForum();
 		LMForum forum = doc.getAdapter(LMForum.class);
 		assertThat(forum,is(notNullValue()));
 		assertThat(forum.getTitle(),is(FORUM_TITLE));
@@ -102,7 +109,8 @@ public class ForumCoreTest {
 	
 	@Test
 	public void isForumCommentable() throws Exception {
-		DocumentModel doc = session.getDocument(new PathRef("/myForum"));
+//		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString()+ "/myForum"));
+        DocumentModel doc = getOrCreateMyForum();
 		assertTrue(doc.hasFacet("Commentable"));
 	}
 	
@@ -113,7 +121,9 @@ public class ForumCoreTest {
 	
 	@Test
 	public void iCanGetATopicAdapter() throws Exception {
-		DocumentModel doc = session.getDocument(new PathRef("/myForum/myTopic"));
+        LMForum forum = getOrCreateMyForum().getAdapter(LMForum.class);
+        getOrCreateMyTopic(forum);
+		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString() + "/myForum/myTopic"));
 		LMTopic topic = doc.getAdapter(LMTopic.class);
 		assertThat(topic,is(notNullValue()));
 		assertThat(topic.getTitle(),is(TOPIC_TITLE));
@@ -122,7 +132,9 @@ public class ForumCoreTest {
 	
 	@Test
 	public void iCanCreateCommentsOnTopic() throws Exception {
-		DocumentModel doc = session.getDocument(new PathRef("/myForum/myTopic"));
+        LMForum forum = getOrCreateMyForum().getAdapter(LMForum.class);
+        getOrCreateMyTopic(forum);
+		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString() + "/myForum/myTopic"));
 		LMTopic topic = doc.getAdapter(LMTopic.class);
 		assertThat(topic,is(notNullValue()));
 		
@@ -136,7 +148,8 @@ public class ForumCoreTest {
 	
 	@Test
 	public void LMForumHasAPageAdapter() throws Exception {
-		DocumentModel doc = session.getDocument(new PathRef("/myForum"));
+        getOrCreateMyForum().getAdapter(LMForum.class);
+		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString() + "/myForum"));
 		Page page = doc.getAdapter(Page.class);
 		assertThat(page, is(notNullValue()));
 				
@@ -146,14 +159,16 @@ public class ForumCoreTest {
 	
 	@Test
 	public void canIsAllContibutorsDefault() throws Exception {
-		DocumentModel doc = session.getDocument(new PathRef("/myForum"));
+        getOrCreateMyForum().getAdapter(LMForum.class);
+		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString()+ "/myForum"));
 		LMForum forum = doc.getAdapter(LMForum.class);
 		assertThat(forum.isAllContributors(),is(true));
 	}
 	
 	@Test
 	public void canSetAndIsAllContibutors() throws Exception {
-		DocumentModel doc = session.getDocument(new PathRef("/myForum"));
+        getOrCreateMyForum().getAdapter(LMForum.class);
+		DocumentModel doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString()+ "/myForum"));
 		LMForum forum = doc.getAdapter(LMForum.class);
 		List<String> fieldsNotDisplayable = new ArrayList<String>();
 		fieldsNotDisplayable.add(LMForumImpl.TOPIC_NOT_ALL_CONTRIBUTOR);
@@ -161,7 +176,7 @@ public class ForumCoreTest {
 		forum.manageAllContributors(false);
 		session.saveDocument(forum.getDocument());
 		session.save();
-		doc = session.getDocument(new PathRef("/myForum"));
+		doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString()+ "/myForum"));
 		forum = doc.getAdapter(LMForum.class);
 		assertThat(forum.isAllContributors(),is(false));
 		
@@ -169,8 +184,37 @@ public class ForumCoreTest {
 		forum.manageAllContributors(true);
 		session.saveDocument(forum.getDocument());
 		session.save();
-		doc = session.getDocument(new PathRef("/myForum"));
+		doc = session.getDocument(new PathRef(getSite().getTree().getPathAsString() + "/myForum"));
 		forum = doc.getAdapter(LMForum.class);
 		assertThat(forum.isAllContributors(),is(true));
 	}
+
+    private LabsSite getSite() throws ClientException, SiteManagerException {
+        LabsSite site = siteManager.getSite(session, SiteFeatures.SITE_NAME);
+        return site;
+    }
+
+    private DocumentModel getOrCreateMyForum() throws ClientException, SiteManagerException {
+        PathRef ref = new PathRef(getSite().getTree().getPathAsString() + "/myForum");
+        if (!session.exists(ref)) {
+            DocumentModel doc = session.createDocumentModel(getSite().getTree().getPathAsString(), "myForum", "PageForum");
+            doc = session.createDocument(doc);
+            LMForum forum = doc.getAdapter(LMForum.class);
+            forum.setTitle(FORUM_TITLE);
+            forum.setDescription(FORUM_DESCRIPTION);
+            doc = session.saveDocument(doc);
+        }
+        return session.getDocument(ref);
+    }
+
+    private DocumentModel getOrCreateMyTopic(LMForum forum) throws ClientException, SiteManagerException {
+        PathRef ref = new PathRef(forum.getDocument().getPathAsString() + "/myTopic");
+        if (!session.exists(ref)) {
+            LMTopic topic = forum.addTopic(session, "myTopic");
+            topic.setTitle(TOPIC_TITLE);
+            topic.setDescription(TOPIC_DESCRIPTION);
+            session.saveDocument(topic.getDocument());
+        }
+        return session.getDocument(ref);
+    }
 }

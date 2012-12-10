@@ -102,7 +102,7 @@ public class PageAdapterTest {
         assertNotNull(commentable.getComments());
     }
 
-    @Ignore @Test
+    @Test
     public void canAddAndGetComments() throws Exception {
         DocumentModel doc = session.getDocument(new PathRef("/page_classeur"));
         assertTrue(doc.hasFacet("Commentable"));
