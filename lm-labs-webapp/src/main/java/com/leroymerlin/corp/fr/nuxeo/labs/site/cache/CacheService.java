@@ -27,6 +27,16 @@ public class CacheService extends DefaultComponent {
 
 	}
 
+	@Override
+	public void deactivate(ComponentContext context) throws Exception {
+		super.deactivate(context);
+		try {
+			cacheManager.removalAll();
+		} finally {
+			cacheManager = null;
+		}
+	}
+
 	protected Configuration getConfiguration(String configPath)
 			throws IOException {
 		InputStream configStream = ResourceLoader.open(configPath);

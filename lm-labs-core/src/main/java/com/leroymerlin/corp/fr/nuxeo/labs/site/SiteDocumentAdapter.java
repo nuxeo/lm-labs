@@ -46,7 +46,7 @@ public class SiteDocumentAdapter extends LabsAdapterImpl implements SiteDocument
     }
 
     @Override
-    public LabsSite getSite() throws ClientException {
+    public LabsSite getSite() throws ClientException, IllegalArgumentException {
     	CoreSession session = getSession();
         DocumentModel parent = doc;
         if (Docs.SITE.type()

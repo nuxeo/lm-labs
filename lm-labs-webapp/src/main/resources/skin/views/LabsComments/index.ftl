@@ -52,7 +52,7 @@
 						<#if isTopic >
 							<#assign label = "label.topic.reply.date" />
 						</#if>
-	      				<p class="labscomments footer" >${Context.getMessage(label)} ${comment.comment.creationDate}</p>
+	      				<p class="labscomments footer" >${Context.getMessage(label)} ${comment['comment:creationDate']?datetime?string("EEEE dd MMMM yyyy HH:mm")}</p>
 	      			</#if>
     			</div>
     		</li>

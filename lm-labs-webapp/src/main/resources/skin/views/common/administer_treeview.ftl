@@ -75,7 +75,8 @@
 
 		jQuery().ready(function() {
 			jQuery("#currentNodeId").val(jQuery("li[rel=Assets]").attr("id"));
-			initFileDrop('fileContent', '${This.path}/@assets/paramId', refreshTreeview, 'currentNodeId', '${Context.getMessage("label.admin.error.too_many_file", 25)}', '${Context.getMessage("label.admin.error.file_too_large", 5)}');
+			//initFileDrop('fileContent', '${This.path}/@assets/paramId', refreshTreeview, 'currentNodeId', '${Context.getMessage("label.admin.error.too_many_file", 25)}', '${Context.getMessage("label.admin.error.file_too_large", 5)}');
+			initFileDrop('fileContent', '${This.path}/@assets/paramId', refreshTreeview, 'currentNodeId', 'pff 25', 'pff 5'); // TODO
 
 			jQuery('#addFileForm').ajaxForm(function() {
 				jQuery("#addFileDialog").dialog2('close');
@@ -775,7 +776,7 @@
 		</div>
 		</#if>
 
-		<div id="content" class="container jsTreeControlsContent">
+		<div id="treecontent" class="container jsTreeControlsContent">
 			<section>
 				<div>
 					<@jsTreeControls treeId="jstree" />

@@ -67,7 +67,7 @@
                 	  <#assign url = Context.modulePath + "/" + Common.siteDoc(child).resourcePath />
                 	  <a href="${url?html}"
                 	    <#if 0 < childSubPages?size > class="dropdown-toggle" data-toggle="dropdown" data-target="#" </#if>
-                	    <#assign childDescr = child.dublincore.description?replace("[[TOC]]", "") />
+                        <#assign childDescr = child['dc:description']?replace("[[TOC]]", "") />
                 		<#if (childDescr?length > 0) >
                 	  		rel="popover" data-content="${childDescr?html}"
                 	  		data-original-title="${Context.getMessage('label.description')}"

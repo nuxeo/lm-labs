@@ -24,15 +24,13 @@
 <html>
   <head>
 
-  <link rel="stylesheet" type="text/css" href="${specDirectoryUrl}gadget-common.css"/>
-  <link rel="stylesheet" type="text/css" href="${specDirectoryUrl}documentlists.css"/>
+  <link rel="stylesheet" type="text/css" href="${clientSideBaseUrl}nxthemes-lib/gadget-common.css,gadget-documentlists.css?path=${contextPath}&basepath=${contextPath}"/>
 
   <!-- insert JS Context -->
   ${jsContext}
 
-  <script src="${specDirectoryUrl}default-automation-request.js"></script>
+  <script src="${clientSideBaseUrl}nxthemes-lib/gadget-default-automation-request.js,gadget-context-management.js"></script>
   <script src="${specDirectoryUrl}labs-documentlist-display.js"></script>
-  <script src="${specDirectoryUrl}context-management.js"></script>
 
     <script type="text/javascript" language="javascript" src="lastuploads.js"></script>
   <script type="text/javascript">

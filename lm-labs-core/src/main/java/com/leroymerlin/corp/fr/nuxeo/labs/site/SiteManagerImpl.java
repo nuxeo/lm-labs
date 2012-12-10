@@ -22,7 +22,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.SecurityDataHelper;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteManagerImpl extends DefaultComponent implements SiteManager {
@@ -234,11 +234,9 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
 
 
     private boolean hasChangedUrl(CoreSession session, LabsSite site) throws ClientException {
-        // TODO Auto-generated method stub
         DocumentModel originalDoc = session.getDocument(new IdRef(site.getDocument().getId()));
         LabsSite origSite = Tools.getAdapter(LabsSite.class, originalDoc, session);
         return !origSite.getURL().equals(site.getURL());
-
     }
 
 }
