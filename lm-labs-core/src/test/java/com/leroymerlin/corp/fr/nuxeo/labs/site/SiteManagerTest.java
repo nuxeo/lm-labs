@@ -218,4 +218,54 @@ public class SiteManagerTest {
     }
 
 
+    @Test
+    public void canGetSitesWithCategory() throws Exception {
+        createSites();
+        
+        List<LabsSite> sites = sm.getAllSites(session);
+        assertThat(sites, is(notNullValue()));
+        assertThat(sites.size(), is(3));
+
+        sites = sm.getSitesWithCategory(session, "ADEO");
+        assertThat(sites, is(notNullValue()));
+        assertThat(sites.size(), is(1));
+
+    }
+
+
+	private void createSites() throws ClientException, SiteManagerException {
+		LabsSite site = sm.createSite(session, "Mon titre", "myurl");
+        assertThat(site,is(notNullValue()));
+        site.setCategory("Aucune");
+        session.saveDocument(site.getDocument());
+        
+        site = sm.createSite(session, "Mon titre1", "myurl1");
+        assertThat(site,is(notNullValue()));
+        site.setCategory(null);
+        session.saveDocument(site.getDocument());
+        
+        site = sm.createSite(session, "Mon titre2", "myurl2");
+        assertThat(site,is(notNullValue()));
+        site.setCategory("ADEO");
+        session.saveDocument(site.getDocument());
+        
+        session.save();
+	}
+
+
+    @Test
+    public void canGetSitesWithoutCategory() throws Exception {
+        createSites();
+        
+        List<LabsSite> sites = sm.getAllSites(session);
+        assertThat(sites, is(notNullValue()));
+        assertThat(sites.size(), is(3));
+
+        sites = sm.getSitesWithoutCategory(session);
+        assertThat(sites, is(notNullValue()));
+        assertThat(sites.size(), is(2));
+
+    }
+
+
 }
