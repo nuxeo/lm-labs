@@ -17,6 +17,7 @@
 
   <modules>
     <module>lm-forums-core</module>
+    <module>lm-forums-webapp</module>
   </modules>
 
 

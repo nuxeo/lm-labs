@@ -173,6 +173,10 @@
     </dependency>
     <dependency>
       <groupId>com.leroymerlin.labs</groupId>
+      <artifactId>lm-forums-webapp</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.leroymerlin.labs</groupId>
       <artifactId>lm-labs-web</artifactId>
     </dependency>
     <dependency>
