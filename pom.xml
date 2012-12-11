@@ -262,6 +262,11 @@
       </dependency>
       <dependency>
         <groupId>com.leroymerlin.labs</groupId>
+        <artifactId>lm-labs-webapp-forum</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.leroymerlin.labs</groupId>
         <artifactId>lm-labs-web</artifactId>
         <version>${project.version}</version>
       </dependency>
