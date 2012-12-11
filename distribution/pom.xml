@@ -83,7 +83,6 @@
               <needarch>false</needarch>
               <requires>
                 <require>nuxeo-lm-distribution &gt;= 5.6.0</require>
-                <require>nuxeo-webengine-wro &gt;= 5.6.0</require>
               </requires>
 
               <mappings>
