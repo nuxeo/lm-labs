@@ -83,6 +83,7 @@
               <needarch>false</needarch>
               <requires>
                 <require>nuxeo-lm-distribution &gt;= 5.6.0</require>
+                <require>lm-nuxeo-common-distribution &gt;= 3.10</require>
               </requires>
 
               <mappings>
