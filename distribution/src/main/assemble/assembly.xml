@@ -49,11 +49,14 @@
         <includes>
           <artifact groupId="com.leroymerlin.labs*" />
           <artifact groupId="com.leroymerlin.corp.fr.nuxeo.portal*" />
-          <artifact groupId="org.nuxeo.ecm.webengine"  artifactId="nuxeo-webengine-wro"/>
         </includes>
         <excludes>
           <artifact artifactId="lm-portal-user" />
           <artifact artifactId="lm-portal-common" />
+          <artifact artifactId="lm-nuxeo-common-core" />
+          <artifact artifactId="lm-nuxeo-common-webapp" />
+          <artifact artifactId="lm-view-service" />
+          <artifact artifactId="nuxeo-platform-rating" />
         </excludes>
       </artifact:set>
     </copy>
