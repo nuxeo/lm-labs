@@ -96,7 +96,7 @@
     </directory>
 
     <directory name="labs_category">
-      <schema>schemacategory</schema>
+      <schema>labscategory</schema>
       <dataSource>java:/nxsqldirectory</dataSource>
       <table>dir_labs_category</table>
       <idField>id</idField>
