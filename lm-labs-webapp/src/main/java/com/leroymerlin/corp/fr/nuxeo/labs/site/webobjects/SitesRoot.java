@@ -192,14 +192,20 @@ public class SitesRoot extends ModuleRoot {
                 if (category != null){
                     String labelCurrentCategory = ((String)category.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "label"));
                     List<LabsSite> undeletedLabsSites = null;
+                    List<LabsSite> undeletedLabsSitesWithReadOnly = new ArrayList<LabsSite>();
                     if (idCategory == 0){
                         undeletedLabsSites = getSiteManager().getSitesWithoutCategory(getContext().getCoreSession());
                     }
                     else{
                         undeletedLabsSites = getSiteManager().getSitesWithCategory(getContext().getCoreSession(), labelCurrentCategory);
                     }
+                    for (LabsSite sit:undeletedLabsSites){
+                        if (!(LabsSiteUtils.isOnlyRead(sit.getDocument(), getContext().getCoreSession()) && !sit.isVisible())) {
+                            undeletedLabsSitesWithReadOnly.add(sit);
+                        }
+                    }
                     return getView("index").arg("idCurrentCategory", idCategory)
-                            .arg("undeletedLabsSites", getLabsSitesUndeleted(undeletedLabsSites))
+                            .arg("undeletedLabsSites", getLabsSitesUndeleted(undeletedLabsSitesWithReadOnly))
                             .arg("deletedLabsSites", getDeletedLabsSites())
                             .arg("templateLabsSites", getTemplateLabsSites());
                 }
