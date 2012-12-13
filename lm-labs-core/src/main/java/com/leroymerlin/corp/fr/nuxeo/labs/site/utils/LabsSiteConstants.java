@@ -114,7 +114,7 @@ public final class LabsSiteConstants {
         LABSSITE("labssite", "labssite"),
         LABSCONTENTVIEW("labscontentview", "labscontentview"),
         LABS_ELEMENT_TEMPLATE("labs_element_template", "let"),
-        LABS_CATEGORY("schemacategory", "schemacategory"),
+        LABS_CATEGORY("labscategory", "schemacategory"),
         SITETHEME("sitetheme", "sitetheme");
 
         private String name;

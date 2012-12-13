@@ -136,9 +136,11 @@ function deleteDefinitelySite(url){
 	  	 </li>
 	  	 <#assign labsCategories = This.getDisplayableCategories()/>
 		 <#list labsCategories as category>
-		  	 <li <#if (idCurrentCategory == category.schemacategory.id) >class="active"</#if>>
-		  	 	<a href="${This.path}?idCategory=${category.schemacategory.id}">${category.schemacategory.label}</a>
-		  	 </li>
+		 	<#if (category.labscategory.id != 0)>
+			  	 <li <#if (idCurrentCategory == category.labscategory.id) >class="active"</#if>>
+			  	 	<a href="${This.path}?idCategory=${category.labscategory.id}">${category.labscategory.label}</a>
+			  	 </li>
+			</#if>
 	  	 </#list>
 	  	 <li <#if (idCurrentCategory == 0) >class="active"</#if>>
 	  	 	<a href="${This.path}?idCategory=0">${Context.getMessage('label.labssite.nav.without.category.sites')}</a>

@@ -54,7 +54,7 @@
 					${Context.getMessage('label.parameters.page.displayableDescriptionPage')}</label>
 				</div>
 			</div>
-			<#if Document.type == "HtmlPage" >
+			<#if Document.type == "HtmlPage" || Document.type == "PageClasseur" >
             <div class="control-group">
 				<div class="controls">
 					<label class="checkbox" for="display-pg:collapseType">

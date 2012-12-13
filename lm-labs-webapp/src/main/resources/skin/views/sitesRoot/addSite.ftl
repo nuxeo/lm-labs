@@ -47,13 +47,13 @@
         	<#list labsCategories as category>
         		<#assign underLabsCategories = Common.getChildrenCategories(category)/>
         		<#if (underLabsCategories?size > 0)>
-        			<optgroup label="${category.schemacategory.label?html}">
+        			<optgroup label="${category.labscategory.label?html}">
 		        		<#list underLabsCategories as underCategory>
-		        			<option value="${underCategory.schemacategory.label}">${underCategory.schemacategory.label}</option>
+		        			<option value="${underCategory.labscategory.label}">${underCategory.labscategory.label}</option>
 		        		</#list>
 		        	</optgroup>
 		        <#else>
-		        	<option value="${category.schemacategory.label}">${category.schemacategory.label}</option>
+		        	<option value="${category.labscategory.label}">${category.labscategory.label}</option>
 	        	</#if>
         	</#list>
         </select>

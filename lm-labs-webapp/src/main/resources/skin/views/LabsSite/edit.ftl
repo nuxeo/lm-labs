@@ -85,13 +85,13 @@ jQuery(document).ready(function() {
 			        	<#list labsCategories as category>
 			        		<#assign underLabsCategories = Common.getChildrenCategories(category)/>
 			        		<#if (underLabsCategories?size > 0)>
-			        			<optgroup label="${category.schemacategory.label?html}">
+			        			<optgroup label="${category.labscategory.label?html}">
 					        		<#list underLabsCategories as underCategory>
-					        			<option value="${underCategory.schemacategory.label}"<#if underCategory.schemacategory.label == mySite.category> selected</#if>>${underCategory.schemacategory.label}</option>
+					        			<option value="${underCategory.labscategory.label}"<#if underCategory.labscategory.label == mySite.category> selected</#if>>${underCategory.labscategory.label}</option>
 					        		</#list>
 					        	</optgroup>
 					        <#else>
-					        	<option value="${category.schemacategory.label}"<#if category.schemacategory.label == mySite.category> selected</#if>>${category.schemacategory.label}</option>
+					        	<option value="${category.labscategory.label}"<#if category.labscategory.label == mySite.category> selected</#if>>${category.labscategory.label}</option>
 				        	</#if>
 			        	</#list>
 			        </select>

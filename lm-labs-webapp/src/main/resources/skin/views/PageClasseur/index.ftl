@@ -22,7 +22,7 @@
 
   <#assign folders = classeur.getFolders() />
   <div class="">
-    <#if folders?size &gt; 0>
+    <#if folders?size &gt; 0 && This.page.isDisplayable("pg:collapseType")>
 		<img class='allFoldersOpened' src="${skinPath}/images/toggle_minus.png" onclick="slideAllFolders(this);" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.allFolders.collapse')}" alt="${Context.getMessage('command.PageClasseur.allFolders.collapse')}" />
 	</#if>
 	<#include "views/common/page_header.ftl">
@@ -45,7 +45,7 @@
     <section class="${folder.document.type}" id="${folder.document.id}" >
       
       <div>
-      	<#if folder.getFiles()?size &gt; 0>
+      	<#if folder.getFiles()?size &gt; 0 && This.page.isDisplayable("pg:collapseType")>
 	      <img class="openCloseBt" src="${skinPath}/images/toggle_minus.png" onclick="slideFolder(this, '');" style="float: left; margin: 5px; cursor: pointer;" title="${Context.getMessage('label.PageClasseur.collapse')}" alt="${Context.getMessage('command.PageClasseur.collapse')}" />
 	    </#if>
 	    <#if canWrite>
