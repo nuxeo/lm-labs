@@ -14,6 +14,18 @@
    <directory name="labs_HtmlPage_widgets" layout="labs_HtmlPage_widgets" sortField="ordering" />
    <directory name="labs_HtmlPage_widgetGroups" layout="vocabulary" sortField="ordering" />
 
+    <directory name="labs_category" layout="labs_category" sortField="ordering">
+    <!-- 
+      <deleteConstraint class="org.nuxeo.ecm.directory.api.ui.HierarchicalDirectoryUIDeleteConstraint">
+        <property name="targetDirectory">labs_sub_category</property>
+        <property name="targetDirectoryField">parent</property>
+      </deleteConstraint>
+     -->
+    </directory>
+    <!-- 
+    <directory name="labs_sub_category" layout="labs_sub_category_vocabulary" sortField="parent"/>
+     -->
+
  </extension>
 
   <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
@@ -163,6 +175,71 @@
       </properties>
     </widget>
 
+    <widget name="labs_category_id" type="text">
+      <labels>
+        <label mode="any">Id</label>
+      </labels>
+      <fields>
+        <field>labscategory:id</field>
+      </fields>
+      <properties widgetMode="edit">
+        <property name="size">40</property>
+        <property name="required">true</property>
+      </properties>
+    </widget>
+
+    <widget name="labs_category_label" type="text">
+      <labels>
+        <label mode="any">label.vocabulary.entry.label</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>labscategory:label</field>
+      </fields>
+      <properties widgetMode="edit">
+        <property name="size">40</property>
+        <property name="required">true</property>
+      </properties>
+    </widget>
+
+    <widget name="labs_category_ordering" type="int">
+      <labels>
+        <label mode="any">label.vocabulary.entry.order</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>labscategory:ordering</field>
+      </fields>
+      <properties widgetMode="edit">
+        <property name="size">5</property>
+      </properties>
+    </widget>
+
+    <widget name="labs_category_obsolete" type="int">
+      <labels>
+        <label mode="any">label.vocabulary.entry.obsolete</label>
+      </labels>
+      <translated>true</translated>
+      <fields>
+        <field>labscategory:obsolete</field>
+      </fields>
+      <properties widgetMode="edit">
+        <property name="size">1</property>
+      </properties>
+    </widget>
+
+    <widget name="labs_category_parent" type="text">
+      <labels>
+        <label mode="any">Parent</label>
+      </labels>
+      <fields>
+        <field>labscategory:parent</field>
+      </fields>
+      <properties widgetMode="edit">
+        <property name="size">40</property>
+      </properties>
+    </widget>
+
   </extension>
 
   <extension target="org.nuxeo.ecm.platform.forms.layout.WebLayoutManager"
@@ -217,6 +294,31 @@
         </row>
         <row>
           <widget>labs_HtmlPage_widgets_order</widget>
+        </row>
+      </rows>
+    </layout>
+
+    <layout name="labs_category">
+      <templates>
+        <template mode="any">
+          /directory/directory_layout_template.xhtml
+        </template>
+      </templates>
+      <rows>
+        <row>
+          <widget>labs_category_id</widget>
+        </row>
+        <row>
+          <widget>labs_category_label</widget>
+        </row>
+        <row>
+          <widget>labs_category_obsolete</widget>
+        </row>
+        <row>
+          <widget>labs_category_ordering</widget>
+        </row>
+        <row>
+          <widget>labs_category_parent</widget>
         </row>
       </rows>
     </layout>
