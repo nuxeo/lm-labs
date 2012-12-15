@@ -9,11 +9,14 @@
   </parent>
 
   <groupId>com.leroymerlin.labs</groupId>
-  <artifactId>lm-labs-theme-inspiratas</artifactId>
-  <name>lm-labs-theme-inspiratas</name>
-  <description>
-    
-  </description>
+  <artifactId>lm-labs-theme-inspiritas</artifactId>
+  <name>LM Labs :: Bootstrap Inspiritas Theme</name>
+  <packaging>pom</packaging>
+  <description></description>
+
+  <modules>
+    <module>lm-labs-theme-inspiritas-marketplace</module>
+  </modules>
 
   <build>
     <plugins>

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<project name="lm-labs-theme-inspiratas" default="deploy-webengine" basedir=".">
+<project name="lm-labs-theme-inspiritas" default="deploy-webengine" basedir=".">
 
   <!-- From the pom.xml -->
-  <property name="name" value="lm-labs-theme-inspiratas" />
+  <property name="name" value="lm-labs-theme-inspiritas" />
 
   <!-- Create a build.properties file from build.properties.sample
        if you wish to override the JBoss paths -->
