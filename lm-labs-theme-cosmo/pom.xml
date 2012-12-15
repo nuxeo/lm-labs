@@ -10,10 +10,13 @@
 
   <groupId>com.leroymerlin.labs</groupId>
   <artifactId>lm-labs-theme-cosmo</artifactId>
-  <name>lm-labs-theme-cosmo</name>
-  <description>
-    
-  </description>
+  <name>LM Labs :: Bootswatch Cosmo Theme</name>
+  <packaging>pom</packaging>
+  <description></description>
+
+  <modules>
+    <module>lm-labs-theme-cosmo-marketplace</module>
+  </modules>
 
   <build>
     <plugins>
