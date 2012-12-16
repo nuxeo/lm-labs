@@ -64,14 +64,11 @@
   </target>
 
   <target name="copy-webengine" description="Copy files to webengine">
-    <delete>
-        <!-- delete old version of the bundle -->
-      <fileset file="${webengine.bundle.dir}/${name}-*.jar"/>
-    </delete>
-    <copy todir="${webengine.bundle.dir}/" overwrite="true">
+    <copy todir="${webengine.bundle.dir}/" overwrite="true" flatten="true">
         <fileset dir="${build.dir}" casesensitive="yes">
-          <include name="${name}-*.jar"/>
-          <exclude name="${name}-*-sources.jar"/>
+        <include name="**/target/*.jar" />
+        <exclude name="**/target/*-sources.jar" />
+        <exclude name="**/target/*-marketplace.jar" />
         </fileset>
     </copy>
     </target>
