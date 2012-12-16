@@ -2,7 +2,7 @@
   <#assign maxSpanSize = 12 />
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
-  <#assign availableHtmlWidgets = ["subTopChildren", "children", "lastuploads", "siteRssFeed-lastNews", "myPages", "pagesSameAuthor", "myPublishedNews", "publishedNewsSameAuthor", "myDraftPages", "draftPagesSameAuthor", "externalContent", "toc"] />
+  <#assign availableHtmlWidgets = Common.declaredHtmlWidgets />
   <#assign sectionsViewMode = This.contentView />
   <#if sectionsViewMode?contains('_') >
     <#assign basicSectionsViewMode = sectionsViewMode?split('_')[0] />
@@ -210,7 +210,7 @@
 		                            <a class="btn open-dialog" rel="divConfigGadget" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')} ${widgetTitle}</a>
 		                        </div>
 		                      <#elseif isWidgetCol >
-		                        <#if widgets[0].name == "externalContent" >
+		                        <#if Common.getWidgetsWithCustomConfigView(widgets[0].type.type())?seq_contains(widgets[0].name) >
 			                    <div class="columns viewblock">
 			                    	<@displayContentHtmlWidget widget=widgets[0] widgetMode="view" sectionIdx=section_index rowIdx=row_index columnIdx=content_index content=content />
 			                    </div>

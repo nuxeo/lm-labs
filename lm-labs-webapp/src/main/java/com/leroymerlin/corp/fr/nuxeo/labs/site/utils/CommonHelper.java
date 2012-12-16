@@ -25,7 +25,6 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
-import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.impl.DocumentModelListImpl;
 import org.nuxeo.ecm.core.api.model.PropertyException;
@@ -43,8 +42,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.customview.LabsCustomView;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager.WidgetType;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.page.CollapseTypes;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.services.LabsThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.FontFamily;
@@ -465,6 +464,38 @@ public final class CommonHelper {
     		}
     	}
     	return declaredWidgets;
+    }
+    
+    public List<String> getWidgetsWithCustomConfigView(String widgetType) {
+    	List<String> folderList = new ArrayList<String>();
+    	WidgetType type = WidgetType.fromString(widgetType);
+    	if (type != null) {
+    		@SuppressWarnings("unchecked")
+    		Enumeration<URL> entries = LabsWebAppActivator.getDefault().getBundle().findEntries(
+    				"/skin/views/HtmlWidget", widgetType + "-*-config.ftl", false);
+    		
+    		while (entries.hasMoreElements()) {
+    			URL url = entries.nextElement();
+    			String[] nodes = url.getPath().split("/");
+    			if (nodes.length > 1) {
+    				String lastname = nodes[nodes.length - 1];
+    				lastname = lastname.substring(0, lastname.indexOf("-config.ftl"));
+    				lastname = lastname.substring((widgetType + "-").length());
+    				folderList.add(lastname);
+    			}
+    		}
+    	} else {
+    		LOG.error("Unknown widget type '" + widgetType + "'");
+    	}
+        return folderList;
+    }
+    
+    public List<String> getWidgetTypes() {
+    	List<String> list = new ArrayList<String>();
+    	for (WidgetType type : WidgetType.values()) {
+    		list.add(type.type());
+    	}
+    	return list;
     }
     
     /**
