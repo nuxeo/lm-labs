@@ -104,5 +104,5 @@ jQuery(document).ready(function() {
 		jQuery(testBtnObj).removeClass('btn-success');
 		jQuery(testBtnObj).addClass('btn-primary');
     });
-})
+});
 </script>
