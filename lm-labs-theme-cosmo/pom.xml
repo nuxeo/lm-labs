@@ -15,8 +15,22 @@
 
   <modules>
     <module>lm-labs-theme-cosmo</module>
-    <module>lm-labs-theme-cosmo-marketplace</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <id>distrib</id>
+      <modules>
+        <module>lm-labs-theme-cosmo-marketplace</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>marketplace</id>
+      <modules>
+        <module>lm-labs-theme-cosmo-marketplace</module>
+      </modules>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
