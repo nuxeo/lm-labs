@@ -9,28 +9,9 @@
   </parent>
 
   <groupId>com.leroymerlin.labs</groupId>
-  <artifactId>lm-labs-widget-pageinfo-parent</artifactId>
-  <name>LM Labs :: Page Information HTML Widget Parent</name>
-  <packaging>pom</packaging>
-
-  <modules>
-    <module>lm-labs-widget-pageinfo</module>
-  </modules>
-
-  <profiles>
-    <profile>
-      <id>distrib</id>
-      <modules>
-        <module>lm-labs-widget-pageinfo-marketplace</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>marketplace</id>
-      <modules>
-        <module>lm-labs-widget-pageinfo-marketplace</module>
-      </modules>
-    </profile>
-  </profiles>
+  <artifactId>lm-labs-widget-pageinfo</artifactId>
+  <name>LM Labs :: Page Information HTML Widget</name>
+  <description></description>
 
   <build>
     <plugins>
