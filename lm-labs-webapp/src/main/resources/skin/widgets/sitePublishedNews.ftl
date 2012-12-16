@@ -8,4 +8,4 @@
     tooltipDocProp="ln:accroche"
     divClass="sitePublishedNews supplychain-unstyled-bloc"
     showDate=true
-    dateTimeDocProp="dc:modified" />
+    dateTimeDocProp="ln:startPublication" />
