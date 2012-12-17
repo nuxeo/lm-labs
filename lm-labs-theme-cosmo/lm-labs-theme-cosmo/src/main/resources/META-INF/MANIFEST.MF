@@ -3,5 +3,5 @@ Bundle-Name: lm-labs-theme-cosmo
 Bundle-Vendor: Leroy Merlin
 Bundle-Version: 1.0.0
 Bundle-ManifestVersion: 1
-Bundle-SymbolicName: lm-labs-theme-cosmo;singleton:=true
+Bundle-SymbolicName: com.leroymerlin.labs.themes.cosmo;singleton:=true
 Fragment-Host: com.leroymerlin.labs.webapp
