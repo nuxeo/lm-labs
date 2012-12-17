@@ -8,6 +8,7 @@ import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
+import org.nuxeo.ecm.spaces.impl.docwrapper.DocGadgetImpl;
 import org.nuxeo.ecm.webengine.ui.tree.document.DocumentContentProvider;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -58,6 +59,9 @@ public class SharedElementContentProvider extends DocumentContentProvider {
     private boolean accept (DocumentModel doc, DocumentModel docParent){
         if(LabsSiteConstants.Docs.SITETHEMESROOT.docName().equals(doc.getName())){
             return false;
+        }
+        if (DocGadgetImpl.TYPE.equals(doc.getType())) {
+        	return false;
         }
         if(LabsSiteConstants.Docs.ASSETS.docName().equals(doc.getName())){
             return true;
