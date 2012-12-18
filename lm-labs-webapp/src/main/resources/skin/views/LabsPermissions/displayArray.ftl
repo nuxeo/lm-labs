@@ -116,7 +116,7 @@
             <#else>
             	<#assign description = ".description" />
             </#if>
-            <a href="#" rel="popover" data-content="${Context.getMessage('label.security.labs.permission.' + permType + description)}" data-original-title="${Context.getMessage('label.security.labs.permission.' + permType)}">Description</a>
+            <a href="#" rel="popover" data-trigger="hover" data-content="${Context.getMessage('label.security.labs.permission.' + permType + description)}" data-original-title="${Context.getMessage('label.security.labs.permission.' + permType)}">Description</a>
         </small>
     </h4>
     <div style="text-align: right;margin-top: -19px;height: 20px;">

@@ -79,7 +79,7 @@ jQuery(document).ready(function() {
 	                <input type="checkbox" name="checkoptions" value="${doc.id}" />
 	              </td>
 	              <td>
-	              	<a href="${url}" rel="popover" data-content="&lt;strong&gt;${Context.getMessage('label.labspath')?html}: &lt;/strong&gt;&lt;br&gt;${Root.getTruncatedLink(doc)}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.doctype')}: &lt;/strong&gt;&lt;br&gt;${doc.type}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.description')}: &lt;/strong&gt;&lt;br&gt;${doc.dublincore.description?html}&lt;br&gt;<#if page.hasElementPreview()>&lt;br&gt;&lt;img src='${url + "/@blob"}'/&gt;</#if>"
+	              	<a href="${url}" rel="popover" data-trigger="hover" data-content="&lt;strong&gt;${Context.getMessage('label.labspath')?html}: &lt;/strong&gt;&lt;br&gt;${Root.getTruncatedLink(doc)}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.doctype')}: &lt;/strong&gt;&lt;br&gt;${doc.type}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.description')}: &lt;/strong&gt;&lt;br&gt;${doc.dublincore.description?html}&lt;br&gt;<#if page.hasElementPreview()>&lt;br&gt;&lt;img src='${url + "/@blob"}'/&gt;</#if>"
 	              	  data-original-title="${Context.getMessage('label.properties')}"
 	              	  onClick="stopEventPropagation(event); window.location.href = '${url?html}'; return false;"">${doc.dublincore.title}</a>
 	              </td>
