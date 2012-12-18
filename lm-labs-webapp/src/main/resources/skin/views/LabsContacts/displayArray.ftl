@@ -4,7 +4,7 @@
 			${Context.getMessage("label.contact")}
 				<#if contactsAdmin?size &gt; 0 ><span class="badge badge-info" style="vertical-align: middle;" >${contactsAdmin?size}</span>&nbsp;</#if>
 			<small>
-				<a href="#" rel="popover" data-content="${Context.getMessage('label.admin.contact.explanation')}" data-original-title="${Context.getMessage('label.security.labs.permission.Everything')}">Description</a>
+				<a href="#" rel="popover" data-trigger="hover" data-content="${Context.getMessage('label.admin.contact.explanation')}" data-original-title="${Context.getMessage('label.security.labs.permission.Everything')}">Description</a>
 			</small>
 		</h3>
 	</div>

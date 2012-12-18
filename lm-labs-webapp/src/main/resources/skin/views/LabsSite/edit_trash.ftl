@@ -81,7 +81,7 @@ jQuery(document).ready(function() {
 	                <input type="checkbox" name="checkoptions" value="${doc.id}" />
 	              </td>
 	              <td>
-	              	<a href="#" rel="popover" data-content="&lt;strong&gt;${Context.getMessage('label.labspath')?html}: &lt;/strong&gt;&lt;br&gt;${Root.getTruncatedLink(doc)}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.doctype')}: &lt;/strong&gt;&lt;br&gt;${doc.type}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.description')}: &lt;/strong&gt;&lt;br&gt;${doc['dc:description']?html}&lt;br&gt;"
+	              	<a href="#" rel="popover" data-trigger="hover" data-content="&lt;strong&gt;${Context.getMessage('label.labspath')?html}: &lt;/strong&gt;&lt;br&gt;${Root.getTruncatedLink(doc)}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.doctype')}: &lt;/strong&gt;&lt;br&gt;${doc.type}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.description')}: &lt;/strong&gt;&lt;br&gt;${doc['dc:description']?html}&lt;br&gt;"
 	              	  data-original-title="${Context.getMessage('label.properties')}">${doc['dc:title']}</a>
 	              </td>
 	              <td>${userFullName(doc['dc:creator'])}</td>

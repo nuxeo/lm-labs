@@ -9,7 +9,7 @@
     <@superBlock/>
     <script type="text/javascript" >
       <#--jQuery(document).ready(function() {
-        jQuery('.news-navigation a[rel=popover]').popover({offset: 10, html: true});
+        jQuery('.news-navigation a[rel=popover]').popover({offset: 10, html: true, trigger: 'hover'});
       });-->
     </script>
   </@block>
