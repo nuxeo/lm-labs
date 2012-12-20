@@ -1,17 +1,24 @@
-id, label, obsolete, parent, ordering
-"0","Aucune","0","0","5"
-"1","LM France","0","0","10"
-"2","Magasin SI","0","0","20"
-"3","Groupe Adeo","0","0","30"
-"4","Chantier","0","0","40"
-"5","Opération commerciale","0","0","50"
-"6","Opération commerciale 1","0","5","60"
-"7","Opération commerciale 2","0","5","70"
-"8","Opération commerciale 3","0","5","80"
-"9","Événement","0","0","90"
-"10","Événement 1","0","9","100"
-"11","Événement 2","0","9","110"
-"12","Événement 3","0","9","120"
-"13","Collection","0","0","130"
-"14","Merchandising","0","0","140"
-"15","Produit","0","0","150"
+id,label,obsolete,parent,ordering
+"0","Aucune","0","0","2"
+"1","Explorer l'intranet","0","0","5"
+"2","Commerce",0,1,10
+"3","Développement",0,1,30
+"4","Produits",0,1,40
+"5","Informations générales",0,1,50
+"6","Chiffres",0,1,60
+"7","Métiers services clients",0,1,70
+"8","Supply Chain",0,1,80
+"9","Liens utiles",0,1,90
+"10","Ressources humaines",0,1,100
+"11","Gestion Finance et Juridique",0,1,110
+"12","Informatique",0,1,120
+"13","Magasins",0,1,130
+"14","LM France","0","0",140
+"15","Magasin SI","0","0",150
+"16","Groupe Adeo","0","0",160
+"17","Chantier","0","0",170
+"18","Opération commerciale","0","0",180
+"19","Fête des envies","0","18",190
+"20","Festival de la maison","0","18",200
+"21","Collection","0","0",210
+"22","Merchandising","0","0",220
