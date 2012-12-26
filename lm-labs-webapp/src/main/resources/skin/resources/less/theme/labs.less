@@ -554,13 +554,20 @@ input &.search-query{
   margin-bottom: 2px;
 }
 
+.navbar .navbar-search {
+  margin-right: 15px;
+  .navbarVerticalAlign(25px);
+}
+
 ul.nav-tabs.topnavpages li span {
 	font-size: @basefontTitleH5;
 }
 
 .divLogoIntraLM {
   margin-left: 15px;
-  margin-top: 2px;
+  > img {
+  .navbarVerticalAlign(26px);
+  }
 }
 
 .labs-pagination-background-color(@labsColor) when (@labsColor = transparent) {

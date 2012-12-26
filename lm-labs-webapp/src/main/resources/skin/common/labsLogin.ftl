@@ -87,7 +87,7 @@
 </script>
 
 <#if Context.principal.isAnonymous() == true>
-    <form class="navbar-form form-horizontal pull-right" action="" onsubmit="return false;">
+    <form class="navbar-form pull-right" action="" onsubmit="return false;">
     <input type="text" id="username" placeholder="${Context.getMessage('label.Username')}" class="input-small listener" size="13"/>
     <input type="password" id="password" class="input-small listener" size="13"/>
     <a href="#" id="login" title="${Context.getMessage('tooltip.login')}" class="btn listener" data-loading-text="${Context.getMessage('command.login.ongoing')}">${Context.getMessage('command.login')}</a>
