@@ -63,11 +63,11 @@
   </script>
 </#if>
 <script type="text/javascript">
-jQuery(function () {
-	jQuery("td[rel=tooltip]").tooltip({live: true})
-	}
-)
 jQuery(document).ready(function () {
+	jQuery(function () {
+		jQuery("td[rel=tooltip]").tooltip({live: true});
+		jQuery("a[rel=lineFiles]").tooltip({live: true, delay: { show: 500, hide: 0 }});
+	});
 
     jQuery("#lineFiles").dialog2({
         title: '${Context.getMessage('label.PageList.line.files.form.title')}',

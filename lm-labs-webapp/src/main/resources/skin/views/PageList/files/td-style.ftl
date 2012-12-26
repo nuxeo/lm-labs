@@ -1,1 +1,1 @@
-vertical-align: middle;width: 15px;
+vertical-align: middle;width: 15px; text-align: center;
