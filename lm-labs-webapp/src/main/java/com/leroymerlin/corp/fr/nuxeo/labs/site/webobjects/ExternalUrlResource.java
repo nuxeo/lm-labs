@@ -1,5 +1,6 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -56,6 +57,13 @@ public class ExternalUrlResource extends DocumentObject {
         session.orderBefore(doc.getParentRef(), beforeName, afterName);
         session.save();
         return Response.status(Status.OK).build();
+    }
+
+    @Path("ajax")
+    @DELETE
+    public Response doDeleteAjax() {
+        super.doDelete();
+        return Response.noContent().build();
     }
 
 }

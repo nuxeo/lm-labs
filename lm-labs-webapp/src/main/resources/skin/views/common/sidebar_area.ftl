@@ -31,7 +31,6 @@
     <#-- EXTERNAL URL AREA --> 
     <@block name="externalURL">
     	<#include "views/common/external_url_area.ftl" />
-		<#include "views/common/externalLinks-edit.ftl"/>
     </@block>
     <#-- LATEST UPLOADS AREA --> 
     <@block name="lastUploads">
