@@ -17,7 +17,7 @@
     <script type="text/javascript">
 jQuery(document).ready(function() {
   jQuery("table[class*='table-striped']").tablesorter({
-    headers: { 2: { sorter: false}},
+    headers: { 3: { sorter: false}},
     sortList: [[0,0]],
     textExtraction: function(node) {
       // extract data from markup and return it
@@ -164,6 +164,7 @@ function deleteDefinitelySite(url){
 	          <tr>
 	            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
 	            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
+	            <th>${Context.getMessage('label.labssite.list.headers.created')}</th>
 	            <th style="width: 57px;">&nbsp;</th>
 	            <#if hasAtLeastOneAdminSite>
 	            <th style="width: 88px;"></th>
@@ -183,6 +184,9 @@ function deleteDefinitelySite(url){
 	              <#else>
 	              	<td>${userFullName(sit.document['dc:creator'])}</td>
 	              </#if>
+			      <#assign creationDate = sit.document['dc:created']?datetime />
+			      <#assign creationDateStr = creationDate?string("EEEE dd MMMM yyyy HH:mm") />
+			      <td><span title="${creationDateStr}" >${Context.getMessage('label.labssite.list.dateInWordsFormat',[dateInWords(creationDate)])}</span><span class="sortValue">${creationDate?string("yyyyMMddHHmmss")}</span></td>
 	              <td><a class="btn" href="${This.path}/${sit.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
 	              <#if hasAtLeastOneAdminSite>
 	              <td>
@@ -213,6 +217,7 @@ function deleteDefinitelySite(url){
 	          <tr>
 	            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
 	            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
+	            <th>${Context.getMessage('label.labssite.list.headers.created')}</th>
 	            <#if hasAtLeastOneAdminSite>
 	            <th style="width: 57px;">&nbsp;</th>
 	            <th style="width: 88px;"></th>
@@ -232,6 +237,9 @@ function deleteDefinitelySite(url){
 	              <#else>
 	              	<td>${userFullName(labsSite.document['dc:creator'])}</td>
 	              </#if>
+			      <#assign creationDate = labsSite.document['dc:created']?datetime />
+			      <#assign creationDateStr = creationDate?string("EEEE dd MMMM yyyy HH:mm") />
+			      <td><span title="${creationDateStr}" >${Context.getMessage('label.labssite.list.dateInWordsFormat',[dateInWords(creationDate)])}</span><span class="sortValue">${creationDate?string("yyyyMMddHHmmss")}</span></td>
 	              <#if hasAtLeastOneAdminSite>
 	              <#if labsSite.isAdministrator(Context.principal.name) >
 	                <td><a class="btn" href="${This.path}/${labsSite.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
@@ -264,6 +272,7 @@ function deleteDefinitelySite(url){
 			          <tr>
 			            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
 			            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
+			            <th>${Context.getMessage('label.labssite.list.headers.created')}</th>
 			            <th style="width: 86px;">&nbsp;</th>
 			            <#if hasAtLeastOneAdminSite>
 	            		<th style="width: 88px;"></th>
@@ -284,6 +293,9 @@ function deleteDefinitelySite(url){
 			              <#else>
 			              	<td>${userFullName(deletedSite.document['dc:creator'])}</td>
 			              </#if>
+					      <#assign creationDate = deletedSite.document['dc:created']?datetime />
+					      <#assign creationDateStr = creationDate?string("EEEE dd MMMM yyyy HH:mm") />
+					      <td><span title="${creationDateStr}" >${Context.getMessage('label.labssite.list.dateInWordsFormat',[dateInWords(creationDate)])}</span><span class="sortValue">${creationDate?string("yyyyMMddHHmmss")}</span></td>
 			              <td>
 			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
 			              </td>
