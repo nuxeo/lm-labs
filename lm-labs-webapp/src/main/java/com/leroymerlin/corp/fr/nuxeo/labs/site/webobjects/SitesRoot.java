@@ -254,15 +254,21 @@ public class SitesRoot extends ModuleRoot {
         if (SecurityConstants.ADMINISTRATOR.equals(session.getPrincipal().getName())){
             try {
                 for (LabsSite site : getSiteManager().getAllSites(session)) {
-                	log.debug("Clearing active theme's cache of site " + site.getTitle() + " (" + site.getURL() + ")");
-                    site.getThemeManager().getTheme(session).setCssValue(null);
-                    session.saveDocument(site.getDocument());
-                    log.info("active theme's cache of site " + site.getTitle() + " cleared");
+                    log.debug("Clearing active theme's cache of site " + site.getTitle() + " (" + site.getURL() + ")");
+                    try {
+                        site.getThemeManager().getTheme(session).setCssValue(null);
+                        session.saveDocument(site.getDocument());
+                        log.info("active theme's cache of site " + site.getTitle() + " cleared");
+                    } catch (ClientException e) {
+                        log.error("Unable active theme's cache of site " + site.getTitle(), e);
+                        continue;
+                    }
                 }
                 session.save();
+            } catch (PropertyException e) {
+                log.error(e, e);
             } catch (ClientException e) {
-                log.error("No clear theme cache in all sites !", e);
-                throw WebException.wrap(e);
+                log.error(e, e);
             }
         }
         return redirect(getPath());
