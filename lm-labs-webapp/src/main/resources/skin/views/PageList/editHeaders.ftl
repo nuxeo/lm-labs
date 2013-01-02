@@ -1,7 +1,7 @@
 <h1>${Context.getMessage('label.pageList.edit.manage.title')}</h1>
 <div class="container-fluid" style="padding-left: 0;height: 290px;">
   <div class="row-fluid">
-	<div class="sidebar span" style="width: 221px;">
+	<div class="sidebar span" style="width: 217px;">
 		<h4>${Context.getMessage('label.pageList.edit.listHeader.title')}</h4>
 		<ul id="ul_action_on_header"></ul>
 		<a href="#" onClick="javascript:addOneHeader();">${Context.getMessage('label.pageList.edit.listHeader.addHeader')}</a>
