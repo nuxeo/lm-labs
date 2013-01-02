@@ -197,4 +197,26 @@ function slideSection(obj, action) {
         refreshDisplayMode(collapsables);
     }
 }
+
+function refreshConfigGadgetDialog() {
+	var waitingPic = '<img src="${skinPath}/images/loading.gif" />';
+	jQuery("#divConfigGadget-content").html(waitingPic);
+    var sectionIndex = jQuery('#divConfigGadget input[name=section]').val();
+    var rowIndex = jQuery('#divConfigGadget input[name=row]').val();
+    var contentIndex = jQuery('#divConfigGadget input[name=content]').val();
+    var widgetType = jQuery('#divConfigGadget input[name=widget-type]').val();
+    var widgetName = jQuery('#divConfigGadget input[name=widget-name]').val();
+    jQuery('#divConfigGadget form').attr('action', '${This.path}/s/' + sectionIndex + '/r/' + rowIndex + '/c/' + contentIndex + '/w/@put');
+    jQuery.ajax({
+        type : "GET",
+        url : '${This.path}/s/' + sectionIndex + '/r/' + rowIndex + '/c/' + contentIndex + '/w/@views/edit',
+        success : function(msg) {
+            jQuery("#divConfigGadget-content").html(msg);
+        },
+        error : function(msg) {
+            jQuery("#divConfigGadget-content").html(msg.responseText);
+            //alert('ERROR' + msg.responseText);
+        }
+    });
+}
 </script>
