@@ -112,6 +112,9 @@
 	                <#if mySite??>
 	                  <li><a href="${Context.modulePath}/${mySite.URL}/@views/sitemap"><i class="icon-map-marker"></i>${Context.getMessage('label.contextmenu.sitemap')}</a></li>
 	                </#if>
+	                <#if mySite?? && !Context.principal.anonymous >
+	                  <li><a href="${Context.modulePath}/${mySite.URL}/@views/subscriptions"><i class="icon-envelope"></i>${Context.getMessage('label.contextmenu.notifications')}</a></li>
+	                </#if>
                 </@block>
 
                 <li class="divider"></li>

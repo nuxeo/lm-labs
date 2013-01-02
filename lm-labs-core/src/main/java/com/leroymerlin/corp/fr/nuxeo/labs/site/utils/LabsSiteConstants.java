@@ -205,7 +205,7 @@ public final class LabsSiteConstants {
         }
 
         public static EnumSet<Docs> notifiableDocs() {
-            return EnumSet.of(HTMLPAGE, DASHBOARD, PAGECLASSEUR, PAGELIST, PAGENEWS, PAGEFORUM, SITE, PAGENAV);
+            return EnumSet.of(HTMLPAGE, DASHBOARD, PAGECLASSEUR, PAGELIST, PAGENEWS, PAGEFORUM, LABSTOPIC, SITE, PAGENAV);
         }
 
         public static EnumSet<Docs> labsLifeCycleDocs() {

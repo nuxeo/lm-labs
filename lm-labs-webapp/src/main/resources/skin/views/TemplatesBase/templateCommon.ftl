@@ -21,7 +21,9 @@
         <script type="text/javascript" src="${skinPath}/js/ckeditor/adapters/jquery.js"></script>
 	    <script type="text/javascript" src="${skinPath}/js/select2.js"></script>
       </#if>
-
+		<#if !Context.principal.anonymous >
+		<script type="text/javascript" src="${contextPath}/wro/labs.common-authenticated.js"></script>
+		</#if>
 
 
         <#--  ckeditor_confi -->
@@ -29,9 +31,6 @@
 			<#include "views/common/ckeditor_config.ftl" />
 			<#include "views/common/highlight.ftl" />
 		</script>
-		<#if !Context.principal.anonymous >
-		<#include "views/common/subscribe_js.ftl" />
-		</#if>
 	</@block>
 
 	<@block name="topbar">

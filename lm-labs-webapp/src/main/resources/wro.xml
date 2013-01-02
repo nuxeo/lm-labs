@@ -30,6 +30,10 @@
     <css>/site/skin/labs/css/jquery/pagination.css</css>
   </group>
 
+  <group name="labs.common-authenticated">
+    <js>/site/skin/labs/js/subscribePage.js</js>
+  </group>
+
   <group name="labs.manage">
     <group-ref>labs.common</group-ref>
     <js>/site/skin/labs/js/assets/less/less-1.3.0.min.js</js>

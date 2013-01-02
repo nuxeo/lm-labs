@@ -23,7 +23,10 @@
 		<!--[if IE]>
 		<script type="text/javascript" src="${skinPath}/js/modernizr.custom.js"></script>
 		<![endif]-->
-			<script type="text/javascript" src="${contextPath}/wro/labs.common.js"></script>
+		<script type="text/javascript" src="${contextPath}/wro/labs.common.js"></script>
+		<#if !Context.principal.anonymous >
+		<script type="text/javascript" src="${contextPath}/wro/labs.common-authenticated.js"></script>
+		</#if>
         </@block>
 
     </head>

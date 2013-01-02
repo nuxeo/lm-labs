@@ -11,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
-import org.nuxeo.ecm.core.api.model.PropertyException;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
@@ -40,18 +39,6 @@ private static final Log log = LogFactory.getLog(LMTopicResource.class);
     public LMTopic getLabsTopic() {
         if (lmTopic == null){
         	lmTopic = Tools.getAdapter(LMTopic.class, doc, getCoreSession());
-        	try {
-        		log.info(lmTopic.getDescription());
-        		log.info(lmTopic.getTitle());
-        		log.info(lmTopic.getDocument().toString());
-				
-			} catch (PropertyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClientException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
         }
         return lmTopic;
     }

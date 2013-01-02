@@ -13,6 +13,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NullException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.MailNotification;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.FacetNames;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
@@ -143,6 +144,16 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
     @Override
     public void setLabsTags(List<String> tags) throws ClientException {
         doc.getProperty(PROPERTY_TAGS).setValue(tags);
+    }
+    
+    public Boolean isSubscribed(String userName) {
+        try {
+            PageSubscription subscriptionAdapter = Tools.getAdapter(PageSubscription.class, doc, getSession());
+            return subscriptionAdapter.isSubscribed(userName);
+        } catch (Exception e) {
+            LOG.error(e, e);
+        }
+        return false;
     }
 
     /* A GARDER

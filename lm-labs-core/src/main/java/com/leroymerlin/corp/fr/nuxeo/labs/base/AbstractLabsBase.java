@@ -34,7 +34,7 @@ public abstract class AbstractLabsBase extends LabsAdapterImpl implements LabsBa
 
     private static final String PROPERTY_ELEMENT_TEMPLATE_PREVIEW = Schemas.LABS_ELEMENT_TEMPLATE.prefix() + ":preview";
     
-    private static final Log LOG = LogFactory.getLog(AbstractLabsBase.class);
+    protected static final Log LOG = LogFactory.getLog(AbstractLabsBase.class);
 
     public AbstractLabsBase(DocumentModel document) {
 		super(document);

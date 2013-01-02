@@ -1,5 +1,7 @@
 <#assign mySite=Common.siteDoc(Document).getSite() />
 <#if mySite?? && !Context.principal.anonymous>
+<#include "macros/notification_button.ftl">
+<#assign subscribedPages = mySite.subscribedPages />
 <@extends src="/views/labs-admin-base.ftl">
 
   <@block name="title">${mySite.title}-${This.document.title} - ${Context.getMessage('title.LabsSite.subscriptions')}</@block>
@@ -12,6 +14,7 @@
     <script type="text/javascript">
 jQuery(document).ready(function() {
   jQuery('.btn').attr('disabled', false);
+<#if This.isSubscribed() || 0 < subscribedPages?size >
   jQuery("table[class*='table-striped']").tablesorter({
     headers: { 5: { sorter: false}},
       sortList: [[0,0]],
@@ -24,6 +27,7 @@ jQuery(document).ready(function() {
             return node.innerHTML;
         }
   });
+</#if>
   jQuery('input[name="checkoptionsHeader"]').change(function() {
     var checkboxes = jQuery(this).closest('table').find('input[name="checkoptions"]');
     if (jQuery(this).is(':checked')) {
@@ -75,7 +79,7 @@ jQuery(document).ready(function() {
               <td>&nbsp;</td>
             </tr>
           </#if> 
-          <#list mySite.getSubscribedPages() as page >
+          <#list subscribedPages as page >
             <#assign doc = page.document />
           <tr>
             <td>
@@ -93,14 +97,16 @@ jQuery(document).ready(function() {
               ${modified?string.medium}
               <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
             </td>
-            <#assign notified = page.getLastNotified() />
             <td>
-            <#-- TODO
+              <@notificationButton notifType="Page" doc=doc />
+              <#assign notified = page.lastNotified />
               <#if notified?? >
-              ${notified?string("yyyy-MM-dd HH:mm:ss zzzz")}
-              <span class="sortValue">${notified?string("yyyyMMddHHmmss")}</span>
-              </#if>
+            <#-- TODO
+	              <#assign motifiedStr = notified?datetime?string("yyyy-MM-dd HH:mm:ss zzzz") />
+				???${motifiedStr}
+              <span class="sortValue">${notified?datetime?string("yyyyMMddHHmmss")}</span>
             -->  
+              </#if>
             </td>
           </tr>
           </#list>
