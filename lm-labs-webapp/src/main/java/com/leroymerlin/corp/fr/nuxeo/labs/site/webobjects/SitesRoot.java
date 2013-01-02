@@ -249,18 +249,19 @@ public class SitesRoot extends ModuleRoot {
     @SuppressWarnings("deprecation")
     @GET
     @Path("@clearAllSiteThemeCache")
-    public Object doClearAllSiteThemeCache() {
+    public Object doClearAllSitesActiveThemeCache() {
         CoreSession session = ctx.getCoreSession();
         if (SecurityConstants.ADMINISTRATOR.equals(session.getPrincipal().getName())){
             try {
                 for (LabsSite site : getSiteManager().getAllSites(session)) {
+                	log.debug("Clearing active theme's cache of site " + site.getTitle() + " (" + site.getURL() + ")");
                     site.getThemeManager().getTheme(session).setCssValue(null);
                     session.saveDocument(site.getDocument());
-                    log.info("Clear theme cache in site : " + site.getTitle());
+                    log.info("active theme's cache of site " + site.getTitle() + " cleared");
                 }
                 session.save();
             } catch (ClientException e) {
-                log.error("No clear theme cache in all sites !");
+                log.error("No clear theme cache in all sites !", e);
                 throw WebException.wrap(e);
             }
         }
