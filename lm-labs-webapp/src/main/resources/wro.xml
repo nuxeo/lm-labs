@@ -43,6 +43,8 @@
     <group-ref>labs.manage</group-ref>
     <group-ref>tablesorter</group-ref>
     <js>/site/skin/labs/js/sitesRoot.js</js>
+    <js>/site/skin/labs/js/filtrify.js</js>
+    <css>/site/skin/labs/css/filtrify.css</css>
   </group>
 
   <group name="labs.pagehtml">

@@ -16,6 +16,7 @@
     <script type="text/javascript" src="${contextPath}/wro/labs.sitesroot.js"></script>
     <script type="text/javascript">
 jQuery(document).ready(function() {
+  jQuery.filtrify('MySites-tbody', 'category-selector');
   jQuery("table[class*='table-striped']").tablesorter({
     headers: { 3: { sorter: false}},
     sortList: [[0,0]],
@@ -127,7 +128,9 @@ function deleteDefinitelySite(url){
   <section>
 	<#--assign undeletedLabsSites = This.undeletedLabsSites /-->
     <div class="page-header">
-      <h1>${Context.getMessage('label.labssite.list.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${undeletedLabsSites?size}</span></h1>
+      <h1>${Context.getMessage('label.labssite.list.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${undeletedLabsSites?size}</span>
+      </h1>
+      <div id="category-selector" class="pull-right"></div>
     </div>
     
 	 <ul class="nav nav-tabs">
@@ -171,9 +174,9 @@ function deleteDefinitelySite(url){
 	            </#if>
 	          </tr>
 	        </thead>
-	        <tbody>
+	        <tbody id="MySites-tbody">
 	          <#list undeletedLabsSites as sit>
-	            <tr>
+	            <tr data-category="${sit.document['labssite:category']}" >
 	              <td>${sit.title}<#if !sit.visible>&nbsp;<i class="icon-eye-close"></i></#if></td>
 	              <#if (sit.administratorsSite?size > 0)>
 	              	<td>
