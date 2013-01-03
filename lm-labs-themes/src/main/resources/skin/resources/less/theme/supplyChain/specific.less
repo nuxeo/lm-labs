@@ -1,6 +1,8 @@
 @import "bootstrap.less";
 @import "../theme/tablesorter.less";
 @import "../theme/labs-fixed.less";
+@import "../theme/supplyChain/titles-variables.less";
+@import "../theme/titles-style.less";
 
 @brown: #4B3621;
 
@@ -12,10 +14,6 @@
 @baseFontSize:          13px;
 @basefont:          13px;
 @textColor: #595959;
-@basefontTitleH1:   22px;
-@basefontTitleH2:   21px;
-@basefontTitleH5:   13px;
-@basefontTitleH6:   11px;
 
 @baseFontFamily:"Trebuchet MS", "Helvetica", "Verdana", "Arial", "Sans-serif";
 
@@ -351,13 +349,16 @@ a:hover {
 
 
 h1 {
+/*
   font-size: @basefontTitleH1;
   color: @baseFontColorTitleH1;
+*/
   small {
   	font-size: @basefontTitleH1 - 7;
   }
 }
 
+/*
 h2 {
   font-size: @basefontTitleH2;
   color: @baseFontColorTitleH2;
@@ -376,6 +377,7 @@ h6 {
   font-size: @basefontTitleH6;
   color: @baseFontColorTitleH6;
 }
+*/
 
 #sidebar {
   #gradient > .vertical-three-colors(@white, @white, 25%, lighten(@white,80%));
