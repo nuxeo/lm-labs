@@ -5,9 +5,24 @@
 @import "../theme/LeroyMerlin/titles-variables.less";
 @import "../theme/titles-style.less";
 
+@navbarHeight:          30px;
+
 // bootswatch 2.0.4 values
 @baseFontSize:          13px;
 @baseLineHeight:        18px;
+
+// override Cerulean's non-dynamic bootswatch.less 2.2.2
+.navbar {
+	.brand {
+	  // Vertically center the text given @navbarHeight
+	  padding: ((@navbarHeight - @baseLineHeight) / 2) 20px ((@navbarHeight - @baseLineHeight) / 2);
+	}
+	.nav > li > a {
+	  // Vertically center the text given @navbarHeight
+	  padding: ((@navbarHeight - @baseLineHeight) / 2) 15px ((@navbarHeight - @baseLineHeight) / 2);
+	}
+}
+// END override
 
 //@mainColor:             #7AB51D;
 @mainColor:             #60ad0e;
