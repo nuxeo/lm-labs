@@ -30,6 +30,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteThemeAdapter implements SiteTheme {
 
+    private static final String CACHE_NAME_PREFIX = "cache.";
+
     private static final String DC_MODIFIED = "dc:modified";
 
     public static final Map<String, ThemeProperty> EMPTY_PROPERTIES = new HashMap<String, ThemeProperty>();
@@ -284,7 +286,7 @@ public class SiteThemeAdapter implements SiteTheme {
 
     private DocumentModel getSibblingDocument() throws ClientException {
         CoreSession session = doc.getCoreSession();
-        String sibblingName = "cache." + doc.getName();
+        String sibblingName = CACHE_NAME_PREFIX + doc.getName();
         DocumentModel parent = session.getDocument(doc.getParentRef());
         DocumentRef cacheRef = new PathRef(parent.getPathAsString() + "/"
                 + sibblingName);
@@ -315,7 +317,7 @@ public class SiteThemeAdapter implements SiteTheme {
 
     private DocumentModel createSibbling() throws ClientException {
         CoreSession session = doc.getCoreSession();
-        final String sibblingName = "cache." + doc.getName();
+        final String sibblingName = CACHE_NAME_PREFIX + doc.getName();
         final DocumentModel parent = session.getDocument(doc.getParentRef());
         
         UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
