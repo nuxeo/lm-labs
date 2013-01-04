@@ -295,15 +295,22 @@ public class SiteThemeAdapter implements SiteTheme {
     }
 
     @Override
-    public void setCssValue(String css) throws ClientException {
+    public void setCssValue(final String css) throws ClientException {
         DocumentModel cache = getSibblingDocument();
         if (cache == null) {
             cache = createSibbling();
         }
-        cache.setPropertyValue(PROPERTY_CACHEDSTYLECSS, css);
-        CoreSession session = doc.getCoreSession();
-        session.saveDocument(cache);
-
+        final DocumentRef cacheRef = cache.getRef();
+        UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(doc.getCoreSession()){
+            @Override
+            public void run() throws ClientException {
+                DocumentModel cache = session.getDocument(cacheRef);
+                cache.setPropertyValue(PROPERTY_CACHEDSTYLECSS, css);
+                session.saveDocument(cache);
+                session.save();
+            }
+        };
+        runner.runUnrestricted();
     }
 
     private DocumentModel createSibbling() throws ClientException {
