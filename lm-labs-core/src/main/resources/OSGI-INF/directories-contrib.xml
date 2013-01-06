@@ -82,7 +82,7 @@
       <idField>code</idField>
       <autoincrementIdField>false</autoincrementIdField>
       <dataFile>directories/labs_HtmlPage_widgets.csv</dataFile>
-      <createTablePolicy>always</createTablePolicy>
+      <createTablePolicy>on_missing_columns</createTablePolicy>
     </directory>
 
     <directory name="labs_userStyle">
