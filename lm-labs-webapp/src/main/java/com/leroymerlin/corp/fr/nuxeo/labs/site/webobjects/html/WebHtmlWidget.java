@@ -45,7 +45,6 @@ public class WebHtmlWidget extends DocumentObject {
         assert args != null && args.length == 4;
         //widgetDoc = (DocumentModel) args[0];
         htmlPage = (DocumentModel) args[1];
-        doc = htmlPage;
         parentContent = (HtmlContent) args[2];
         widget = (LabsWidget) args[3];
 //        RenderingEngine engine = ctx.getEngine().getRendering();
@@ -156,5 +155,9 @@ public class WebHtmlWidget extends DocumentObject {
 
     private void saveWidgetDocument() throws ClientException {
         getCoreSession().saveDocument(doc);
+    }
+
+    public DocumentModel getHtmlPageDoc() {
+        return htmlPage;
     }
 }

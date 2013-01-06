@@ -1,6 +1,6 @@
 <#include "macros/externalLinksList.ftl"/>
 <#if !mySite?? >
-	<#assign mySite=Common.siteDoc(Document).site />
+	<#assign mySite=Common.siteDoc(This.htmlPageDoc).site />
 </#if>
 <ul class="nav nav-tabs">
 	<li class="active" ><a href="#configGadgetExternalLinksListDiv" data-toggle="tab" >${Context.getMessage('label.externalURL.tab.list.title')}</a></li>
