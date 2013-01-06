@@ -6,5 +6,5 @@ ${styleProperties}
   ${This.theme.style}
 </#if>
 
-@fontAwesomePath: '${skinPath}/less/font';
+@FontAwesomePath: '${skinPath}/less/font';
 @skinPath: '${skinPath}';
