@@ -21,6 +21,7 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.EventNames;
 
@@ -42,6 +43,7 @@ public class CommentsActivitiesEventListener implements EventListener {
         if (doc != null) {
         	List<String> allTypes = new ArrayList<String>();
             allTypes.addAll(PageActivitiesEventListener.markDocs);
+            allTypes.add(Docs.LABSTOPIC.type());
 //            allTypes.addAll(PageActivitiesEventListener.markParentDocs);
 //            allTypes.addAll(PageActivitiesEventListener.markParentPageDocs);
             if (!allTypes.contains(doc.getType())) {
