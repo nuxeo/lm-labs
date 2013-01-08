@@ -52,7 +52,7 @@
 		      <div class="content span9">
 		        <div class="row">
 		          <div id="fileContent" class="columns well" style="min-height:300px;">
-		            <@labsContentAssets ref=Document.ref  />
+		            <@labsContentAssets ref=Document.ref />
 		          </div>
 		
 		        </div> <#-- row -->
@@ -152,8 +152,8 @@
 	
   });
 
-    function sendToCallFunction(href) {
-      window.opener.${This.getCallFunction()}('${This.getCalledRef()}', href);
+    function sendToCallFunction(obj, href) {
+      window.opener.${This.getCallFunction()}('${This.getCalledRef()}', href, jQuery(obj).data('docid'));
         window.close();
     }
     

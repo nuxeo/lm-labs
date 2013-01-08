@@ -8,7 +8,7 @@
 	  <#if !doc.isFolder >
 	  <li class="">
 	  <div class="thumbnail" style="background-color:white;" >
-	  <a onclick="sendToCallFunction('${path}/${doc.name}/@blob${endUrl}');return false;">
+	  <a data-docid="${doc.id}" onclick="sendToCallFunction(this, '${paramValue}');return false;">
 	    <img src="${path}/${doc.name}/@blob${endUrl}" width="120"/>
 	    <p style="font-size: smaller;margin: 3px;" >${doc.title?html}</p>
 	  </a>

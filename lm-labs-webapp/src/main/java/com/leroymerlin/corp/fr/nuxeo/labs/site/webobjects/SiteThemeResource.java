@@ -31,6 +31,9 @@ import org.joda.time.DateTime;
 import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.IdRef;
+import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Template;
@@ -141,6 +144,29 @@ public class SiteThemeResource extends PageResource {
         }
     }
 
+    @POST
+    @Path("{resource}/docid")
+    public Response setBannerFromDocId(@PathParam("resource") String resourceName, @FormParam("docid") String docid) throws ClientException {
+        IdRef ref = new IdRef(docid);
+        if (ctx.getCoreSession().exists(ref)) {
+            DocumentModel resDoc = ctx.getCoreSession().getDocument(ref);
+            BlobHolder blobHolder = resDoc.getAdapter(BlobHolder.class);
+            if ("banner".equals(resourceName)) {
+                theme.setBanner(blobHolder.getBlob());
+            } else if ("logo".equals(resourceName)) {
+                theme.setLogo(blobHolder.getBlob());
+            } else {
+                LOG.warn("Unknown resource " + resourceName);
+                return Response.notModified().build();
+            }
+            ctx.getCoreSession().saveDocument(theme.getDocument());
+            return Response.ok().build();
+        } else {
+            LOG.error("Invalid document ID " + docid);
+        }
+        return Response.notModified().build();
+    }
+    
     @GET
     @Path("banner")
     public Response getImgBanner() throws ClientException {

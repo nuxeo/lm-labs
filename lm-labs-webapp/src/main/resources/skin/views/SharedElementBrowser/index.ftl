@@ -23,7 +23,7 @@
 
 var selectedUrl = '';
 
-function sendToCallFunction(href) {
+function sendToCallFunction(this, href) {
   window.opener.${This.activeAdapter.getCallFunction()}('${This.activeAdapter.getCalledRef()}', href);
     window.close();
 }

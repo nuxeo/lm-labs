@@ -83,6 +83,33 @@ function setCallFunction(calledRef, value){
 	jQuery('#actionMedia' + calledRef + ' span > img').show();
 }
 
+function setBannerInput(ref, href, docid) {
+	setSiteThemeConfigInput('Banner', ref, href, docid);
+}
+
+function setLogoInput(ref, href, docid) {
+	setSiteThemeConfigInput('Logo', ref, href, docid);
+	jQuery('div.edit-logo-properties').show();
+}
+
+function setSiteThemeConfigInput(type, ref, href, docid) {
+	updateSiteThemeResourceDocId(type, docid);
+	setCallFunction(type, href);
+}
+
+function hideConfigBanner() {
+	hidePropertyImage('Banner');
+}
+
+function hideConfigLogo() {
+	hidePropertyImage('Logo');
+	jQuery('div.edit-logo-properties').hide();
+}
+
+function hideSiteThemeConfigInput(type) {
+	hidePropertyImage(type);
+}
+
 function hideBanner(){
 	jQuery("#actionMediaBanner").hide();
 	if (jQuery("#bannerImgId")){
@@ -113,9 +140,6 @@ function deleteElement(url, callFunction, msgConfirm){
 			success: function(msg){
 				//document.location.href=path + msg;
 				eval(callFunction);
-				if ($("#div_logo_area_height")){
-					$("#div_logo_area_height").hide();
-				}
 				jQuery('#waitingPopup').dialog2('close');
 			},
 			error: function(msg){

@@ -7,15 +7,10 @@
 	      		<div class="control-group">
                   <label class="control-label" for="banner">${Context.getMessage('label.labssites.appearance.theme.edit.banner.label')}</label>
                   <div class="controls">
-                  	<#if (mySite.themeManager.getTheme(Context.coreSession).banner != null)>
-	                  	<div id="actionMediaBanner" style="float: right;">
-		                  	<span onclick="javascript:deleteElement('${This.path}/banner', 'hideBanner()', '${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete.confirm')}');" style="cursor: pointer;">
-						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.banner.delete')}" src="${skinPath}/images/x.gif"/>
-						  	</span>
-					  	</div>
-					</#if>
-                    <input class="input-file" name="banner" type="file" size="1" enctype="multipart/form-data"/>
-                    <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.banner.help.block')}</p>
+	                  <div class="edit-banner" >
+	                  <#include "views/SiteTheme/editBanner.ftl" />
+	                  </div><#-- edit-banner -->
+                      <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.banner.help.block')}</p>
                   </div>
                 </div>
                 <hr style="margin: 20px 0 0px;">
@@ -28,21 +23,15 @@
                 <div class="control-group">
                   <label class="control-label" for="logo">${Context.getMessage('label.labssites.appearance.theme.edit.logo.label')}</label>
                   <div class="controls">
-                  	 <#assign logoWidth = mySite.themeManager.getTheme(Context.coreSession).logoWidth />
-                  	 <#if logoWidth &gt; 0 >
-	                    <div id="actionMediaLogo" style="float: right;">
-	                    	<img src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.getTheme(Context.coreSession).name}/logo" style="width: 40px;border:1px dashed black;"/>
-		                  	<span onclick="javascript:deleteElement('${This.path}/logo', 'hideLogo()', '${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete.confirm')}');" style="cursor: pointer;">
-						    	<img title="${Context.getMessage('label.labssites.appearance.theme.edit.logo.delete')}" src="${skinPath}/images/x.gif"/>
-						  	</span>                  
-	                    </div>
-	                  </#if>
-                    <input class="input-file" name="logo" type="file" size="1" enctype="multipart/form-data"/>
-                    <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.logo.help.block')}</p>
+	                  <div class="edit-logo" >
+	                  <#include "views/SiteTheme/editLogo.ftl" />
+	                  </div><#-- edit-logo -->
+					  <p class="help-block">${Context.getMessage('label.labssites.appearance.theme.edit.logo.help.block')}</p>
                   </div>
                 </div>
                 
-                <#if logoWidth &gt; 0 >
+				<#assign logoWidth = mySite.themeManager.getTheme(Context.coreSession).logoWidth />
+                <div class="edit-logo-properties" style="<#if logoWidth <= 0 >display: none;</#if>" >
                 	<!--   LOGO ratio -->
                     <div class="control-group">
 	                  <label class="control-label" for="resize_ratio">${Context.getMessage('label.labssites.appearance.theme.edit.logo_params.resize_ratio')}</label>
@@ -57,7 +46,8 @@
 	                    <input id="logo_area_height" name="logo_area_height" type="text" value="${mySite.themeManager.getTheme(Context.coreSession).logoAreaHeight}" class="input-small" />
 	                  </div>
                     </div>
-                </#if>
+                </div><#-- edit-logo-properties -->
+                
                 <hr style="margin: 20px 0 0px;">
                 
                 <#assign properties = This.getThemeProperties() />
@@ -159,4 +149,8 @@
 		    	<#assign cptProperties = cptProperties + 1 />
 	        </#list>
 		}
+		
+function updateSiteThemeResourceDocId(resource, docid) {
+	jQuery.post('${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.getTheme(Context.coreSession).name}/' + resource.toLowerCase() + '/docid', {docid: docid});
+}
 	</script>

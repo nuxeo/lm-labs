@@ -19,9 +19,13 @@
 
 package com.leroymerlin.corp.fr.nuxeo.labs.site.tree.assets;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import org.nuxeo.common.utils.URIUtils;
 import org.nuxeo.ecm.core.api.ClientException;
+import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.model.WebContext;
 import org.nuxeo.ecm.webengine.ui.tree.TreeItem;
@@ -77,6 +81,14 @@ public class AssetsTreeSerializer extends AbstractJSONSerializer {
         sb.append("/" + URIUtils.quoteURIPathComponent(site.getURL(), true));
         sb.append("/@assets");
         return sb.toString();
+    }
+
+    @Override
+    protected JSONObject item2JSON(TreeItem item, JSONArray children) {
+        JSONObject json = super.item2JSON(item, children);
+        DocumentModel doc = (DocumentModel) item.getObject();
+        json.element("data-docid", doc.getId());
+        return json;
     }
 
 }
