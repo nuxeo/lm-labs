@@ -712,7 +712,4 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 		return (String) doc.getPropertyValue(PROPERTY_CATEGORY);
 	}
 	
-	
-	
-	
 }
