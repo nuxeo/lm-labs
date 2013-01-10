@@ -24,7 +24,8 @@
       </div>
     </div>
     
-<#include "/views/sitesRoot/LabsSiteUrl.ftl" />
+<#include "/macros/LabsSiteInputUrl.ftl" />
+<@LabsSiteInputUrl />
 
     <div class="control-group">
       <label class="control-label" for="labsSiteDescription">${Context.getMessage('label.labssite.edit.description')}</label>
@@ -113,29 +114,31 @@
   </div>
 </form>
 <script>
+function successAddSite() {
+   	jQuery('#waitingPopup').dialog2('open');
+	document.location.href = '${This.path}/' + jQuery('#labsSiteURL').val();
+	//document.location.reload(true);
+}
+
+function beforeSubmitCheckSiteUrl() {
+	if (jQuery('#urlAvailability').val() !== 'true') {
+		var ok = verifyUrlAvailability('${Context.modulePath}/@urlAvailability', function() {setCheckUrlButton('complete');}, function() {jQuery('#urlAvailability').val('false');setCheckUrlButton('failed');});
+		return ok;
+	}
+	return true;
+}
+
 jQuery(document).ready(function() {
     jQuery('#form-labssite').ajaxForm({
-        beforeSubmit:  function() {
-        	if (jQuery('#urlAvailability').val() !== 'true') {
-        		var ok = verifyUrlAvailability('${Context.modulePath}/@urlAvailability', function() {setCheckUrlButton('complete');}, function() {jQuery('#urlAvailability').val('false');setCheckUrlButton('failed');});
-        		console.log('beforeSubmit returns ' + ok);
-        		return ok;
-        	}
-        	return true;
-        },
+        beforeSubmit:  beforeSubmitCheckSiteUrl,
         //error: defaultConfigGadgetAjaxFormError,
-        success: function() {
-        	jQuery('#waitingPopup').dialog2('open');
-        	document.location.href = '${This.path}/' + jQuery('#labsSiteURL').val();
-        	//document.location.reload(true);
-        }
+        success: successAddSite
     });
 	jQuery('#verifyUrlAvailability').attr('disabled', true);
 	jQuery('#verifyUrlAvailability').button();
 	jQuery('#verifyUrlAvailability').unbind('click');
 	jQuery('#verifyUrlAvailability').click(function(evt) {
 		var btnObj = evt.target;
-		console.log('CLICK ' + btnObj.id);
 		if (!jQuery(btnObj).hasClass('disabled')) {
 			jQuery(btnObj).button('loading');
 			verifyUrlAvailability('${Context.modulePath}/@urlAvailability',

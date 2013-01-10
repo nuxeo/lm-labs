@@ -2,6 +2,53 @@
 <#if mySite?? && (Session.hasPermission(mySite.document.ref, "Everything") || Session.hasPermission(mySite.document.ref, "ReadWrite"))>
 <@extends src="/views/labs-admin-base.ftl">
 
+  <@block name="scripts">
+    <@superBlock/>
+    <script type="text/javascript" src="${skinPath}/js/LabsSiteUrl.js"></script>
+    <script type="text/javascript" >
+function beforeSubmitCheckSiteUrl() {
+	if (jQuery('#urlAvailability').val() !== 'true') {
+		var ok = verifyUrlAvailability('${This.path}/@urlAvailability', function() {setCheckUrlButton('complete');}, function() {jQuery('#urlAvailability').val('false');setCheckUrlButton('failed');});
+		return ok;
+	}
+	return true;
+}
+
+jQuery(document).ready(function() {
+	jQuery('#siteTemplate').click(function() {
+		if (jQuery(this).is(':checked')) {
+			jQuery('#siteTemplatePreviewDiv').show();
+		} else {
+			jQuery('#siteTemplatePreviewDiv').hide();
+		}
+	});
+    jQuery('#form-labssite').ajaxForm({
+        beforeSubmit:  beforeSubmitCheckSiteUrl
+        //error: function(){},
+        //success: function(){}
+    });
+	jQuery('#verifyUrlAvailability').button();
+	jQuery('#verifyUrlAvailability').unbind('click');
+	jQuery('#verifyUrlAvailability').click(function(evt) {
+		var btnObj = evt.target;
+		if (!jQuery(btnObj).hasClass('disabled')) {
+			jQuery(btnObj).button('loading');
+			verifyUrlAvailability('${This.path}/@urlAvailability',
+				function() {
+					jQuery('#urlAvailability').val('true');
+					setCheckUrlButton('complete');
+				},
+				function() {
+					jQuery('#urlAvailability').val('false');
+					setCheckUrlButton('failed');
+				}
+			);
+		}
+	});
+});
+</script>
+  </@block>
+
   <@block name="docactions"></@block>
 
   <@block name="tabs">
@@ -21,17 +68,6 @@
 &nbsp;
           </div>
           <div class="span8 columns">
-<script>
-jQuery(document).ready(function() {
-	jQuery('#siteTemplate').click(function() {
-		if (jQuery(this).is(':checked')) {
-			jQuery('#siteTemplatePreviewDiv').show();
-		} else {
-			jQuery('#siteTemplatePreviewDiv').hide();
-		}
-	});
-});
-</script>
 <style>
 #form-labssite .input input[type="checkbox"] {
 	margin-top: 6px;
@@ -54,13 +90,8 @@ jQuery(document).ready(function() {
                   </div>
                 </div>
 
-                <div class="control-group">
-                  <label class="control-label" for="labsSiteURL">${Context.getMessage('label.labssite.edit.url')}</label>
-                  <div class="controls">
-                    ${Context.modulePath}/<input class="required" name="webc:url" value="${mySite.URL}" id="labsSiteURL" />
-                    <p class="help-block">C'est par ce lien que le site sera accessible</p>
-                  </div>
-                </div>
+<#include "/macros/LabsSiteInputUrl.ftl" />
+<@LabsSiteInputUrl value=mySite.URL />
 
                 <div class="control-group">
                   <label class="control-label" for="labsSiteDescription">${Context.getMessage('label.labssite.edit.description')}</label>

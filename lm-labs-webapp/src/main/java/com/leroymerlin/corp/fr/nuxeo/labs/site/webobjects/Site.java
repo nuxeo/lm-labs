@@ -45,6 +45,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTreeAsset;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SharedElementTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @WebObject(type = "LabsSite", superType = "LabsPage")
@@ -340,6 +341,16 @@ public class Site extends NotifiablePageResource {
             return Response.status(Status.OK).build();
         } catch (ClientException e) {
             return Response.status(Status.GONE).build();
+        }
+    }
+
+    @GET
+    @Path("@urlAvailability/{url}")
+    public Response getUrlAvailability(@PathParam("url") final String url) throws ClientException {
+        if (site.getURL().equals(url) || LabsSiteUtils.isLabsSiteUrlAvailable(getContext().getCoreSession(), url)) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.CONFLICT).build();
         }
     }
 
