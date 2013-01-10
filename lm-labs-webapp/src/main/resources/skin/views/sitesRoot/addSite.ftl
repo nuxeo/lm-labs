@@ -23,14 +23,8 @@
         <input class="focused required input" name="dc:title" id="labsSiteTitle" required-error-text="${Context.getMessage('label.labssites.edit.required.title')}"/>
       </div>
     </div>
-
-    <div class="control-group">
-      <label class="control-label" for="labsSiteURL">${Context.getMessage('label.labssite.edit.url')}</label>
-      <div class="controls">
-        <span>${This.URL}/</span><input class="input required" name="webc:url" id="labsSiteURL" required-error-text="${Context.getMessage('label.labssites.edit.required.url')}"/>
-        <p class="help-block">C'est par ce lien que le site sera accessible</p>
-      </div>
-    </div>
+    
+<#include "/views/sitesRoot/LabsSiteUrl.ftl" />
 
     <div class="control-group">
       <label class="control-label" for="labsSiteDescription">${Context.getMessage('label.labssite.edit.description')}</label>
@@ -115,39 +109,47 @@
   </fieldset>
   <div class="actions">
     <button class="btn btn-primary required-fields" form-id="form-labssite">${Context.getMessage('label.labssites.edit.valid')}</button>
-    <button class="btn" type="reset">Reset</button>
+    <a class="btn close-dialog" href="#" >Annuler</a>
   </div>
 </form>
 <script>
-function onSelectRadio(obj, url) {
-	jQuery('#templatePreview').html('<img src="' + url + '" onerror="function(){};" style="width:400px;display:block;margin:auto;"/>');
-}
-function cleanPreview() {
-	jQuery('#templatePreview').html('');
-}
-jQuery(function () {
-		jQuery("span[rel=popover]").popover({offset: 10, html:true});
-	}
-) 
-function clickParentInput(obj) {
-	jQuery(obj).siblings('input').click();
-}
 jQuery(document).ready(function() {
-	jQuery('#siteTemplate').click(function() {
-		if (jQuery(this).is(':checked')) {
-			jQuery('#siteTemplateRadioDiv').hide();
-			jQuery('#siteTemplatePreviewDiv').show();
-		} else {
-			jQuery('#siteTemplateRadioDiv').show();
-			jQuery('#siteTemplatePreviewDiv').hide();
+    jQuery('#form-labssite').ajaxForm({
+        beforeSubmit:  function() {
+        	if (jQuery('#urlAvailability').val() !== 'true') {
+        		var ok = verifyUrlAvailability('${Context.modulePath}/@urlAvailability', function() {setCheckUrlButton('complete');}, function() {jQuery('#urlAvailability').val('false');setCheckUrlButton('failed');});
+        		console.log('beforeSubmit returns ' + ok);
+        		return ok;
+        	}
+        	return true;
+        },
+        //error: defaultConfigGadgetAjaxFormError,
+        success: function() {
+        	jQuery('#waitingPopup').dialog2('open');
+        	document.location.href = '${This.path}/' + jQuery('#labsSiteURL').val();
+        	//document.location.reload(true);
+        }
+    });
+	jQuery('#verifyUrlAvailability').attr('disabled', true);
+	jQuery('#verifyUrlAvailability').button();
+	jQuery('#verifyUrlAvailability').unbind('click');
+	jQuery('#verifyUrlAvailability').click(function(evt) {
+		var btnObj = evt.target;
+		console.log('CLICK ' + btnObj.id);
+		if (!jQuery(btnObj).hasClass('disabled')) {
+			jQuery(btnObj).button('loading');
+			verifyUrlAvailability('${Context.modulePath}/@urlAvailability',
+				function() {
+					jQuery('#urlAvailability').val('true');
+					setCheckUrlButton('complete');
+				},
+				function() {
+					jQuery('#urlAvailability').val('false');
+					setCheckUrlButton('failed');
+				}
+			);
 		}
-	});
-	jQuery('span[class*=inputInner]').click(function() {
-		alert('span clicked.');
-		jQuery(this).closest('input[type=radio]').click();
-	});
-	jQuery('#labsSiteURL').keypress(function(e) {
-	    if ((e.which >= 32 && e.which <= 44) || e.which === 47 || (e.which >= 58 && e.which <= 64)) {return false;}
 	});
 });
 </script>
+

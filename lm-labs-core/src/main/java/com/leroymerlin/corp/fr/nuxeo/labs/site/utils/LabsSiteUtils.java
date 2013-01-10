@@ -20,17 +20,19 @@ import org.nuxeo.ecm.core.api.Filter;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsSecurityException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
-import com.leroymerlin.common.core.security.SecurityDataHelper;
 
 
 public final class LabsSiteUtils {
@@ -431,5 +433,29 @@ public final class LabsSiteUtils {
     	copy = session.saveDocument(copy);
         session.save();
     	return copy;
+    }
+    
+    public static boolean isLabsSiteUrlAvailable(CoreSession session, final String url) {
+        try {
+            UnrestrictedSessionRunner unrestricted = new UnrestrictedSessionRunner(session) {
+                @Override
+                public void run() throws ClientException {
+                    StringBuilder str = new StringBuilder();
+                    str.append("SELECT * FROM Document WHERE ");
+                    str.append(NXQL.ECM_PRIMARYTYPE).append(" = '").append(Docs.SITE.type()).append("'")
+                    .append(" AND ")
+                    .append("webc:url = '").append(url).append("'");
+                    DocumentModelList sites = session.query(str.toString());
+                    if (!sites.isEmpty()) {
+                        throw new ClientException("URL " + url + " is already used.");
+                    }
+                }
+            };
+            unrestricted.runUnrestricted();
+        } catch (Exception e) {
+            log.error(e);
+            return false;
+        }
+        return true;
     }
 }

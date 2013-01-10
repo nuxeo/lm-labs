@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -68,8 +69,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
-
-import java.util.Collections;
 
 @WebObject(type = "sitesRoot")
 @Produces("text/html; charset=UTF-8")
@@ -362,6 +361,16 @@ public class SitesRoot extends ModuleRoot {
         return newAllSites;
     }
 
+    @GET
+    @Path("@urlAvailability/{url}")
+    public Response getUrlAvailability(@PathParam("url") final String url) {
+        if (LabsSiteUtils.isLabsSiteUrlAvailable(getContext().getCoreSession(), url)) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+    }
+    
     @POST
     public Response doPost() {
         FormData form = ctx.getForm();

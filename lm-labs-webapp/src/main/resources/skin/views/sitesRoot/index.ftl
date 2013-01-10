@@ -14,21 +14,10 @@
 
   <@block name="scripts">
     <script type="text/javascript" src="${contextPath}/wro/labs.sitesroot.js"></script>
+    <#if canCreateSite>
+    <script type="text/javascript" src="${contextPath}/wro/labs.sitesroot-authenticated.js"></script>
+    </#if>
     <script type="text/javascript">
-jQuery(document).ready(function() {
-  jQuery("table[class*='table-striped']").tablesorter({
-    headers: { 3: { sorter: false}},
-    sortList: [[0,0]],
-    textExtraction: function(node) {
-      // extract data from markup and return it
-      var sortValues = jQuery(node).find('span[class=sortValue]');
-      if (sortValues.length > 0) {
-        return sortValues[0].innerHTML;
-      }
-      return node.innerHTML;
-    }
-  });
-});
 
 function deleteSite(url){
 	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){

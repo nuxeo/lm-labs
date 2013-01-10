@@ -45,6 +45,11 @@
     <js>/site/skin/labs/js/sitesRoot.js</js>
   </group>
 
+  <group name="labs.sitesroot-authenticated">
+    <js>/site/skin/labs/js/addSite.js</js>
+    <js>/site/skin/labs/js/LabsSiteUrl.js</js>
+  </group>
+
   <group name="labs.pagehtml">
     <group-ref>labs.common</group-ref>
     <js>/site/skin/labs/js/jquery/jquery.tablesorter.min.js</js>
