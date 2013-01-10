@@ -17,8 +17,8 @@
     <#if canCreateSite>
     <script type="text/javascript" src="${contextPath}/wro/labs.sitesroot-authenticated.js"></script>
     </#if>
-    <script type="text/javascript">
-
+<#if !Context.principal.anonymous >
+<script type="text/javascript">
 function deleteSite(url){
 	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
 		jQuery('#waitingPopup').dialog2('open');
@@ -85,7 +85,8 @@ function deleteDefinitelySite(url){
 		});
 	}
 }        		
-    </script>
+</script>
+</#if><#-- anonymous -->
   </@block>
 
   <@block name="css">
@@ -148,12 +149,15 @@ function deleteDefinitelySite(url){
 	    			<#break>
 	    		</#if>
 	    	</#list>
-	      <table class="table table-striped table-bordered bs" id="MySites" >
+	      <table class="table table-striped table-bordered bs<#if idCurrentCategory == -1 > hasCategoryColumn</#if><#if hasAtLeastOneAdminSite > hasDeleteColumn</#if>" id="MySites" >
 	        <thead>
 	          <tr>
 	            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
 	            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
 	            <th>${Context.getMessage('label.labssite.list.headers.created')}</th>
+	            <#if idCurrentCategory == -1 >
+	            <th>${Context.getMessage('label.labssite.list.headers.category')}</th>
+	            </#if>
 	            <th style="width: 57px;">&nbsp;</th>
 	            <#if hasAtLeastOneAdminSite>
 	            <th style="width: 88px;"></th>
@@ -176,6 +180,9 @@ function deleteDefinitelySite(url){
 			      <#assign creationDate = sit.document['dc:created']?datetime />
 			      <#assign creationDateStr = creationDate?string("EEEE dd MMMM yyyy HH:mm") />
 			      <td><span title="${creationDateStr}" >${Context.getMessage('label.labssite.list.dateInWordsFormat',[dateInWords(creationDate)])}</span><span class="sortValue">${creationDate?string("yyyyMMddHHmmss")}</span></td>
+	              <#if idCurrentCategory == -1 >
+	              <td>${sit.category}</td>
+	              </#if>
 	              <td><a class="btn" href="${This.path}/${sit.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
 	              <#if hasAtLeastOneAdminSite>
 	              <td>

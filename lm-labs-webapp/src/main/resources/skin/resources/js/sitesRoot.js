@@ -22,19 +22,50 @@ function sendForm(path, msgError){
     $('#form-labssite').ajaxForm(options);
 }
 
-jQuery(document).ready(function(){
-  jQuery("table[class*='table-striped']").tablesorter({
-    headers: { 3: { sorter: false}},
-    sortList: [[0,0]],
-    textExtraction: function(node) {
-      // extract data from markup and return it
-      var sortValues = jQuery(node).find('span[class=sortValue]');
-      if (sortValues.length > 0) {
+function extractSortValue(node) {
+    // extract data from markup and return it
+    var sortValues = jQuery(node).find('span[class=sortValue]');
+    if (sortValues.length > 0) {
         return sortValues[0].innerHTML;
-      }
-      return node.innerHTML;
     }
-  });
+    return node.innerHTML;
+}
+
+jQuery(document).ready(function(){
+    var sitesTables = jQuery("table[class*='table-striped']");
+    jQuery.each(sitesTables, function(i, val) {
+        if (jQuery(val).hasClass('hasCategoryColumn') && jQuery(val).hasClass('hasDeleteColumn')) {
+            jQuery(val).tablesorter({
+                headers: { 4: { sorter: false}, 5: { sorter: false}},
+                sortList: [[0,0]],
+                textExtraction: extractSortValue
+            });
+        } else if (jQuery(val).hasClass('hasCategoryColumn') && !jQuery(val).hasClass('hasDeleteColumn')) {
+            jQuery(val).tablesorter({
+                headers: { 4: { sorter: false}},
+                sortList: [[0,0]],
+                textExtraction: extractSortValue
+            });
+        } else if (jQuery(val).hasClass('hasCategoryColumn') || jQuery(val).hasClass('hasDeleteColumn')) {
+            jQuery(val).tablesorter({
+                headers: { 3: { sorter: false}, 4: { sorter: false}},
+                sortList: [[0,0]],
+                textExtraction: extractSortValue
+            });
+        } else if (jQuery(val).attr('id') == 'MyDeletedSites') {
+            jQuery(val).tablesorter({
+                headers: { 3: { sorter: false}, 4: { sorter: false}},
+                sortList: [[0,0]],
+                textExtraction: extractSortValue
+            });
+        } else {
+            jQuery(val).tablesorter({
+                headers: { 3: { sorter: false}},
+                sortList: [[0,0]],
+                textExtraction: extractSortValue
+            });
+        }
+    });
 
   $(".dialog2").each(function() {
     $(this).dialog2({
