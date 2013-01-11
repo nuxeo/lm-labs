@@ -17,7 +17,9 @@
     <module>lm-labs-webapp</module>
     <module>lm-labs-themes</module>
     <module>lm-labs-web</module>
+    <!--
     <module>nuxeo-labs-theme</module>
+    -->
   </modules>
 
   <profiles>
