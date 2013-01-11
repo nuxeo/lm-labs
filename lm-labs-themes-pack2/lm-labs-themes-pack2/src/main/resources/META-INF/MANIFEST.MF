@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 1
+Bundle-Name: lm-labs-themes-pack2
+Bundle-SymbolicName: com.leroymerlin.labs.themes.pack2;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: Leroy Merlin
+Fragment-Host: com.leroymerlin.labs.webapp
