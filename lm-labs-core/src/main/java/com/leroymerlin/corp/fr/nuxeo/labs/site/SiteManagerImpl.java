@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -13,19 +15,22 @@ import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
+import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.runtime.model.DefaultComponent;
 
 import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSiteAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
-import com.leroymerlin.common.core.security.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteManagerImpl extends DefaultComponent implements SiteManager {
+
+    protected static final Log log = LogFactory.getLog(SiteManagerImpl.class);
 
     private static final PathRef SITES_ROOT_REF = new PathRef(
             "/" + Docs.DEFAULT_DOMAIN.docName() + "/" + Docs.SITESROOT.docName());
@@ -237,6 +242,33 @@ public class SiteManagerImpl extends DefaultComponent implements SiteManager {
         DocumentModel originalDoc = session.getDocument(new IdRef(site.getDocument().getId()));
         LabsSite origSite = Tools.getAdapter(LabsSite.class, originalDoc, session);
         return !origSite.getURL().equals(site.getURL());
+    }
+
+
+    @Override
+    public boolean isLabsSiteUrlAvailable(CoreSession session, final String url) {
+        final String escapedUrl = url.replace("'", "\\'");
+        try {
+            UnrestrictedSessionRunner unrestricted = new UnrestrictedSessionRunner(session) {
+                @Override
+                public void run() throws ClientException {
+                    StringBuilder str = new StringBuilder();
+                    str.append("SELECT * FROM Document WHERE ");
+                    str.append(NXQL.ECM_PRIMARYTYPE).append(" = '").append(Docs.SITE.type()).append("'")
+                    .append(" AND ")
+                    .append("webc:url = '").append(escapedUrl).append("'");
+                    DocumentModelList sites = session.query(str.toString());
+                    if (!sites.isEmpty()) {
+                        throw new ClientException("URL " + url + " is already used.");
+                    }
+                }
+            };
+            unrestricted.runUnrestricted();
+        } catch (Exception e) {
+            log.error(e);
+            return false;
+        }
+        return true;
     }
 
 }

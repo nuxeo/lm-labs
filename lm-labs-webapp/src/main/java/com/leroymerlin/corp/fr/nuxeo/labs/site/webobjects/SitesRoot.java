@@ -364,7 +364,7 @@ public class SitesRoot extends ModuleRoot {
     @GET
     @Path("@urlAvailability/{url}")
     public Response getUrlAvailability(@PathParam("url") final String url) {
-        if (LabsSiteUtils.isLabsSiteUrlAvailable(getContext().getCoreSession(), url)) {
+        if (getSiteManager().isLabsSiteUrlAvailable(getContext().getCoreSession(), url)) {
             return Response.ok().build();
         } else {
             return Response.status(Response.Status.CONFLICT).build();

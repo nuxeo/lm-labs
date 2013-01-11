@@ -347,7 +347,7 @@ public class Site extends NotifiablePageResource {
     @GET
     @Path("@urlAvailability/{url}")
     public Response getUrlAvailability(@PathParam("url") final String url) throws ClientException {
-        if (site.getURL().equals(url) || LabsSiteUtils.isLabsSiteUrlAvailable(getContext().getCoreSession(), url)) {
+        if (site.getURL().equals(url) || getSiteManager().isLabsSiteUrlAvailable(getContext().getCoreSession(), url)) {
             return Response.ok().build();
         } else {
             return Response.status(Response.Status.CONFLICT).build();

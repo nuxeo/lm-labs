@@ -32,4 +32,6 @@ public interface SiteManager {
     List<LabsSite> getSitesWithCategory(CoreSession session, String category) throws ClientException;
 
     List<LabsSite> getSitesWithoutCategory(CoreSession session) throws ClientException;
+
+    boolean isLabsSiteUrlAvailable(CoreSession session, final String url);
 }
