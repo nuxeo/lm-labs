@@ -14,11 +14,12 @@ import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 public class SiteCreationEventListener implements EventListener {
 
-    private static final Log LOG = LogFactory.getLog(SiteCreationEventListener.class);
+	private static final Log LOG = LogFactory.getLog(SiteCreationEventListener.class);
 
     @Override
     public void handleEvent(Event evt) throws ClientException {
@@ -60,6 +61,7 @@ public class SiteCreationEventListener implements EventListener {
             session.createDocument(assets);
             session.createDocument(themesRoot);
             createWelcomePage(doc, session);
+            LabsSiteUtils.createSidebarPage(doc, session);
         }
     }
 

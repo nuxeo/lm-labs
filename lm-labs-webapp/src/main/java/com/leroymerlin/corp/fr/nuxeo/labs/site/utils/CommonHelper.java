@@ -432,6 +432,14 @@ public final class CommonHelper {
         return list;
     }
     
+    public DocumentModelList getSidebarWidgets(String docType) {
+        DocumentModelList list = new DocumentModelListImpl();
+        Directories dirEnum = Directories.fromString("labs_" + docType + "_widgets_sidebar");
+        Map<String, Serializable> filter = Collections.emptyMap();
+        list.addAll(DirectoriesUtils.getDirDocumentModelList(dirEnum, filter));
+        return list;
+    }
+    
     public List<String> getDeclaredHtmlWidgets() {
         @SuppressWarnings("unchecked")
 		Enumeration<URL> entries = LabsWebAppActivator.getDefault().getBundle().findEntries(

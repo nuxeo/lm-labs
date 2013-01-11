@@ -89,6 +89,8 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
     private static final String PROPERTY_URL = "webcontainer:url";
 
     private static final Log LOG = LogFactory.getLog(LabsSiteAdapter.class);
+    
+    private HtmlPage sidebar = null;
 
     @Override
     public String getURL() throws ClientException {
@@ -710,6 +712,22 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 	@Override
 	public String getCategory() throws ClientException {
 		return (String) doc.getPropertyValue(PROPERTY_CATEGORY);
+	}
+
+	@Override
+	public HtmlPage getSidebar() throws ClientException {
+		if (sidebar == null){
+			PathRef pathRefSidebar = new PathRef(this.getDocument().getPathAsString() + "/"
+					+ LabsSiteConstants.Docs.SIDEBAR.docName());
+			CoreSession session = getSession();
+			DocumentModel doc = session.getDocument(pathRefSidebar);
+			if (doc == null){
+				doc = LabsSiteUtils.createSidebarPage(this.getDocument(), session);
+				session.save();
+			}
+			sidebar = Tools.getAdapter(HtmlPage.class, doc, session);
+		}
+		return sidebar;
 	}
 	
 	

@@ -26,11 +26,14 @@ import org.nuxeo.runtime.api.Framework;
 import com.leroymerlin.common.core.security.LMPermission;
 import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsSecurityException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
-import com.leroymerlin.common.core.security.SecurityDataHelper;
 
 
 public final class LabsSiteUtils {
@@ -431,5 +434,27 @@ public final class LabsSiteUtils {
     	copy = session.saveDocument(copy);
         session.save();
     	return copy;
+    }
+
+    /**
+     * @param doc site's {@link DocumentModel}
+     * @param session Core session
+     * @return sidebar page's {@link DocumentModel}
+     * @throws ClientException
+     */
+    public static DocumentModel createSidebarPage(DocumentModel doc, CoreSession session) throws ClientException {
+    	log.debug("Creating sidebar page ...");
+        DocumentModel sidebar = session.createDocumentModel(
+                doc.getPathAsString(), LabsSiteConstants.Docs.SIDEBAR.docName(),
+                LabsSiteConstants.Docs.SIDEBAR.type());
+        sidebar.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.SIDEBAR.docName()));
+        sidebar = session.createDocument(sidebar);
+        HtmlPage side = Tools.getAdapter(HtmlPage.class, sidebar, session);
+        HtmlSection section = side.addSection();
+        HtmlRow row = section.addRow();
+        row.addContent(0, "html/editor");
+        sidebar = session.saveDocument(side.getDocument());
+        session.save();
+        return sidebar;
     }
 }

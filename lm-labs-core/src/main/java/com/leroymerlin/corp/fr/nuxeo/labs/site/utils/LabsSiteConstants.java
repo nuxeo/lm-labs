@@ -163,6 +163,7 @@ public final class LabsSiteConstants {
         PAGEFORUM("PageForum", StringUtils.EMPTY),
         COMMONSASSETS("Assets", "commons-assets"),
         PAGENAV("PageNav", StringUtils.EMPTY),
+        SIDEBAR(HTMLPAGE.type(), "Sidebar"),
         WELCOME(HTMLPAGE.type(), "Accueil"); // TODO
 
         private String docType;
@@ -171,7 +172,7 @@ public final class LabsSiteConstants {
         private static final Map<String, Docs> stringToEnum = new HashMap<String, Docs>();
         static { // Initialize map from constant name to enum constant
             for (Docs op : values())
-                if (op != WELCOME) {
+                if (op != WELCOME && op != SIDEBAR) {
                     stringToEnum.put(op.type(), op);
                 }
         }
