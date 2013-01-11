@@ -4,6 +4,8 @@
 <#assign bsMinified = ".min" />
 <#assign popoverPlacement = "" />
 <#assign mySite = Context.getProperty("site") />
+<#assign callFunction = Context.request.getParameter('callFunction') />
+<#assign calledRef = Context.request.getParameter('calledRef') />
 <#include "views/AssetFolder/macro.ftl"/>
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -81,7 +83,7 @@
 		          </div>
 		
 		     <#include "macros/add_file_dialog.ftl" />
-		     <@addFileDialog action="${This.path}" onSubmit="addFileAsset();return false;"/>
+		     <@addFileDialog action="${This.path}?callFunction=${callFunction}&calledRef=${calledRef}" onSubmit="addFileAsset();return false;"/>
 		        </div> <#-- row -->
 		      </div> <#-- content -->
 		</div><#-- siteAssets -->
@@ -122,8 +124,16 @@
 
    <script>
    var currentPath = "${This.path}";
-  
-   $(document).ready(function() {
+
+$(document).ready(function() {
+	jQuery('#fileContent').on('click', 'a.sendToCallFunction', function() {
+		sendToCallFunction(this, jQuery(this).data('url'));
+		return false;
+	});   
+	jQuery('#fileContentCommon').on('click', 'a.sendToCallFunction', function() {
+		sendToCallFunction(this, jQuery(this).data('url'));
+		return false;
+	});   
      $('#treenav').treeview({
        url: "${Context.modulePath}/${mySite.URL}/@assets/json?callFunction=${This.callFunction}&calledRef=${This.calledRef}",
        persist: "cookie",
@@ -153,16 +163,21 @@
   });
 
     function sendToCallFunction(obj, href) {
-      window.opener.${This.getCallFunction()}('${This.getCalledRef()}', href, jQuery(obj).data('docid'));
+        window.opener.${callFunction}('${calledRef}', href, jQuery(obj).data('docid'));
         window.close();
     }
     
     function loadContentAsset(url, isCommon){
+    	var sep = '?';
+    	if (url.indexOf("?") > -1) {
+    		sep = '&';
+    	}
+    	var urlParams = sep + 'callFunction=${callFunction}&calledRef=${calledRef}';
     	if (isCommon){
-    		$("#fileContentCommon").load(url);
+    		$("#fileContentCommon").load(url + urlParams);
     	}
     	else{
-    		$("#fileContent").load(url);
+    		$("#fileContent").load(url + urlParams);
     	}
     }
     

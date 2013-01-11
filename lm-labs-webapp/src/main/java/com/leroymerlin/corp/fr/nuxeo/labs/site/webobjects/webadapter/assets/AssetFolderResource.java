@@ -93,7 +93,7 @@ public class AssetFolderResource extends DocumentObject {
                     json.element("text", "OK");
                     return Response.ok(json, MediaType.APPLICATION_JSON).build();
                 } else {
-                    return redirect(getPath());
+                    return redirect(getPath() + "?" + "callFunction" + "=" + getCallFunction() + "&" + "calledRef" + "=" + getCalledRef());
                 }
             } catch (Exception e) {
                 throw WebException.wrap(e);

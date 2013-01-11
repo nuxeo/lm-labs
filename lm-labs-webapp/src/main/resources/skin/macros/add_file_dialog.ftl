@@ -1,4 +1,4 @@
-<#macro addFileDialog action onSubmit no_redirect="">
+<#macro addFileDialog action onSubmit="" no_redirect="">
 	<div id="addFileDialog">
 	    <h1>Ajouter un Fichier</h1>
 	   	<form class="form-horizontal" id="addFileForm" action="${action}" onSubmit="${onSubmit}" method="post" enctype="multipart/form-data">

@@ -1,4 +1,4 @@
-<#macro labsContentAssets ref path=This.path isCommon="false">
+<#macro labsContentAssets ref path=This.path isCommon="false" pathSuffix="" >
 	<#assign endUrl = "" />
 	<#if isCommon == "true">
 		<#assign endUrl = "?isCommon=true" />
@@ -9,7 +9,7 @@
 	  <li class="">
 	  <div class="thumbnail" style="background-color:white;" >
 	  <#assign paramValue = path + "/" + doc.name + "/@blob" + endUrl />
-	  <a data-docid="${doc.id}" onclick="sendToCallFunction(this, '${paramValue}');return false;">
+	  <a class="sendToCallFunction" data-url="${paramValue}" data-docid="${doc.id}" >
 	    <img src="${path}/${doc.name}/@blob${endUrl}" width="120"/>
 	    <p style="font-size: smaller;margin: 3px;" >${doc.title?html}</p>
 	  </a>
@@ -18,5 +18,5 @@
 	  </#if>
 	</#list>
 	</ul>
-	<input type="hidden" id="pathToAction" value="${path}" />
+	<input type="hidden" id="pathToAction" value="${path}${pathSuffix}" />
 </#macro>
