@@ -32,6 +32,7 @@
 
   <group name="labs.common-authenticated">
     <js>/site/skin/labs/js/subscribePage.js</js>
+    <js>/site/skin/labs/js/likePage.js</js>
   </group>
 
   <group name="labs.manage">

@@ -156,6 +156,26 @@ public abstract class AbstractPage extends AbstractLabsBase implements Page {
         return false;
     }
 
+    @Override
+    public boolean isLiked(String username) throws ClientException {
+        return this.doc.getAdapter(LabsLike.class).isLiked(username);
+    }
+
+    @Override
+    public LabsLike like(String username) throws ClientException {
+        return this.doc.getAdapter(LabsLike.class).like(username);
+    }
+
+    @Override
+    public List<String> getUsersLiked() throws ClientException {
+        return this.doc.getAdapter(LabsLike.class).getUsersLiked();
+    }
+
+    @Override
+    public long getLikesCount() throws ClientException {
+        return this.doc.getAdapter(LabsLike.class).getLikesCount();
+    }
+
     /* A GARDER
 	@Override
 	public void setCollapseType(final String collapseType) throws ClientException {

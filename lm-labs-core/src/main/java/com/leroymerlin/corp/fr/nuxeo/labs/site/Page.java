@@ -7,9 +7,10 @@ import org.nuxeo.ecm.core.api.ClientException;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsCommentable;
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsLike;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsTags;
 
-public interface Page extends LabsBase, LabsCommentable, LabsTags {
+public interface Page extends LabsBase, LabsCommentable, LabsTags, LabsLike {
 
     public String getPath() throws ClientException;
     
