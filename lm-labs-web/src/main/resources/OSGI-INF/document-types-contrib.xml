@@ -129,6 +129,7 @@
 
     <type id="Page">
       <label>Page</label>
+      <icon>/icons/page_text.gif</icon>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
       <layouts mode="any">
@@ -159,6 +160,7 @@
 
     <type id="HtmlPage">
       <label>HtmlPage</label>
+      <icon>/icons/page_text.gif</icon>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
       <layouts mode="any">
@@ -191,6 +193,7 @@
 
     <type id="PageBlocs">
       <label>PageBlocs</label>
+      <icon>/icons/page_text.gif</icon>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
       <layouts mode="any">
@@ -222,6 +225,7 @@
 
     <type id="PageNews">
       <label>PageNews</label>
+      <icon>/icons/page_text.gif</icon>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
       <layouts mode="any">
@@ -253,6 +257,7 @@
 
     <type id="PageClasseur">
       <label>PageClasseur</label>
+      <icon>/icons/page_text.gif</icon>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
       <layouts mode="any">
@@ -289,6 +294,7 @@
 
     <type id="PageList">
       <label>PageList</label>
+      <icon>/icons/page_text.gif</icon>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
       <layouts mode="any">
@@ -318,6 +324,7 @@
     
      <type id="PageForum">
       <label>PageForum</label>
+      <icon>/icons/forum.gif</icon>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
       <layouts mode="any">
@@ -347,6 +354,7 @@
     
      <type id="PageNav">
       <label>PageNav</label>
+      <icon>/icons/page_text.gif</icon>
       <category>Collaborative</category>
       <default-view>view_documents</default-view>
       <layouts mode="any">
@@ -402,6 +410,21 @@
       <label>News</label>
       <icon>/icons/news.png</icon>
       <bigIcon>/icons/news_100.png</bigIcon>
+      <category>SimpleDocument</category>
+      <default-view>view_documents</default-view>
+      <description></description>
+      <layouts mode="any">
+        <layout>heading</layout>
+      </layouts>
+      <layouts mode="edit">
+        <layout>heading</layout>
+        <layout>dublincore</layout>
+      </layouts>
+    </type>
+
+    <type id="LMForumTopic">
+      <label>Topic</label>
+      <icon>/icons/forum_thread.gif</icon>
       <category>SimpleDocument</category>
       <default-view>view_documents</default-view>
       <description></description>
