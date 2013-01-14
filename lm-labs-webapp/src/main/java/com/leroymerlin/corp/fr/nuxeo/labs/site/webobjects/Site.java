@@ -19,11 +19,13 @@ import org.nuxeo.ecm.core.api.Blob;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.DocumentRef;
 import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.rest.DocumentObject;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
+import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
 import org.nuxeo.runtime.api.Framework;
@@ -34,6 +36,13 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.HomePageException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsOpensocialGadget;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager.WidgetType;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
@@ -44,6 +53,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.AdminSiteTreeAsset;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SharedElementTree;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.tree.site.SiteDocumentTree;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.GadgetUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
@@ -172,7 +182,72 @@ public class Site extends NotifiablePageResource {
             throw WebException.wrap(e);
         }
     }
+    
+    @Path("@configWidget-sidebar")
+    public Object configWidgetSidebar() {
+        FormData form = ctx.getForm();
+        try {
+            int rowIdx = new Integer(form.getString("rowIdx")).intValue();
+            HtmlPage sidebar = site.getSidebar();
+            
+            
+            
+            HtmlContent content = sidebar.section(0).row(rowIdx).content(0);
+            Resource newObject = newObject("HtmlContent", sidebar.getDocument(), content);
+            return newObject;
+            /*List<LabsWidget> widgets = content.getGadgets(getCoreSession());
+            if (!widgets.isEmpty()) {
+                LabsWidget widget = widgets.get(0);
+                if (WidgetType.OPENSOCIAL.equals(widget.getType())) {
+                    DocumentRef ref = ((LabsOpensocialGadget)widget).getDoc().getRef();
+                    if (getCoreSession().exists(ref)) {
+                        DocumentModel gadgetDoc = getCoreSession().getDocument(ref);
+                        return newObject("HtmlWidget", gadgetDoc, doc, content, widget);
+                    }
+                    return Response.noContent().build();
+                }
+                return newObject("HtmlWidget", null, doc, content, widget);
+            }
+            return Response.noContent().build();*/
+            
+            
+            
+        } catch (Exception e) {
+            throw WebException.wrap("Problème lors de la sauvegarde de la configuration du widget de la sidebar", e);
+        }
+    }
 
+    @POST
+    @Path("@manage-sidebar")
+    public Object manageSidebar() {
+        FormData form = ctx.getForm();
+        CoreSession session = getCoreSession();
+        try {
+            int nbRows = new Integer(form.getString("nbRows")).intValue();
+            HtmlPage sidebar = site.getSidebar();
+            HtmlSection section = sidebar.section(0);
+            section.remove();
+            sidebar.addSection();
+            section = sidebar.section(0);
+            HtmlRow row = null;
+            String widget = "";
+            for (int i=0;i<nbRows;i++) {
+                widget = form.getString("bloc" + i);
+                if (!"html/editor".equals(widget)){
+                    row = section.addRow();
+                    row.addContent(0, "");
+                    session.saveDocument(sidebar.getDocument());
+                    session.save();
+                    GadgetUtils.syncWidgetsConfig(row.content(0), widget, sidebar.getDocument(), session);
+                }
+            }
+        } catch (Exception e) {
+            throw WebException.wrap("Problème lors de la sauvegarde des widgets de la sidebar", e);
+        }
+        // TODO row's widget config
+
+        return Response.ok().build();
+    }
 
     @Path("@currenttheme")
     public Object doGetCurrentTheme() {

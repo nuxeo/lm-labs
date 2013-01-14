@@ -6,6 +6,9 @@
 	    <@superBlock/>
 	    <script type="text/javascript" src="${skinPath}/js/siteTheme.js"></script>
 	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.miniColors.min.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.pack.js"></script>
+	    <script type="text/javascript" src="${contextPath}/opensocial/gadgets/js/rpc.js?c=1"></script>
+	    <script type="text/javascript" src="${skinPath}/js/register_rpc_show_fancybox.js"></script>
 	    <#include "views/common/template_description_js.ftl">
 	</@block>
 	
@@ -85,11 +88,265 @@
       </section>
 
 	  <div id="div-editTheme-container"></div>
+	  
+	  <!--    SIDEBAR -->
+      <section>
+        <div class="page-header">
+          <h3>
+          	${Context.getMessage('label.labssites.appearance.sidebar.title')}
+          </h3>
+        </div>
+        <div class="row">
+          <div class="span2 columns">
+			&nbsp;
+          </div>
+          <div class="span8 columns">
+            <form class="form-horizontal well" action="${Context.modulePath}/${mySite.URL}/@manage-sidebar" method="post" id="form-sidebar">
+              <fieldset>
+                <input type="hidden" name="nbRows" id="nbRows" value="${mySite.sidebar.section(0).rows?size}"/>
+				
+				<#assign uncategorizedWidgets = Common.getUncategorizedWidgets("sidebar") />
+					<#list mySite.sidebar.section(0).rows as row>
+						<#assign content = row.content(0) />
+					    <#assign widgets = [] />
+					    <#if content.type == "widgetcontainer">
+					        <#assign widgets = content.getGadgets(Session) />
+					    </#if>
+						<div class="control-group">
+						    <label class="control-label" for="bloc${row_index}">Bloc ${row_index + 1}</label>
+						    <div class="controls" >
+						        <select name="bloc${row_index}" onChange="javascript:addWidget(this);" >
+						            <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.html.editor') />
+						            <#if widgetTitle?starts_with('!') >
+						                <#assign widgetTitle = "Aucun" />
+						            </#if>
+						            <option value="html/editor"<#if content.type == "html"> selected</#if> >${widgetTitle}</option>
+						            <@createSelectOptionWidget  />
+						        </select>
+						        <#if content.type != "html">
+						        	<a class="btn open-dialog" rel="divConfigGadget" rowIdx="${row_index}" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')}</a>
+						        </#if>
+						    </div>
+						</div>
+					</#list>
+              </fieldset>
+			<div class="form-actions" >
+                <button class="btn btn-primary">${Context.getMessage('label.labssites.sidebar.save')}</button>
+            </div>
+            </form>
+          </div>
+        </div>
+        
+        <div id="divConfigGadget" class="dialog2" style="display:none;" >
+          <h1>${Context.getMessage('label.HtmlPage.widget.config.title')}</h1>
+          <form id="config-gadget-form" method="post" onSubmit="javascript:return false;" class="form-horizontal" action="" >
+          <input type="hidden" name="rowIdx" value="" class="span1"/>
+            <fieldset>
+              <div id="divConfigGadget-content" >
+                <img src="${skinPath}/images/loading.gif" />
+              </div>
+            </fieldset>
+            <div class="actions">
+                <button id="config-gadget-form-btn" class="btn btn-primary" form-id="config-gadget-form" title="${Context.getMessage('help.HtmlPage.widget.config.save')}" >${Context.getMessage('command.HtmlPage.widget.config.save')}
+                </button>
+                <a class="btn close-dialog" href="#" title="${Context.getMessage('help.HtmlPage.widget.config.cancel')}" >${Context.getMessage('command.HtmlPage.widget.config.cancel')}</a>
+            </div>
+          </form>
+        </div>
 	    
 	</div>
+	<script type="text/javascript" >
+		jQuery(document).ready(function() {
+			jQuery('#form-sidebar').ajaxForm({
+		        data: {ajax: 'false'},
+		        beforeSubmit:  function () {
+				    //jQuery('#divConfigRowGadgets div.actions a, input, button').attr('disabled', '');
+				    return true;
+				},
+		        error: function () {
+				    alert('error');
+				},
+		        success: function () {
+				    document.location.reload(true);
+				}
+		    });
+		    
+		    jQuery("#divConfigGadget").dialog2({
+		        autoOpen : false,
+		        closeOnOverlayClick : false
+		    });
+		    
+		    jQuery('a[rel=divConfigGadget]').click(function() {
+		        //alert(jQuery(this).attr("rowIdx"));
+		        
+		        var rowIndex = jQuery(this).attr("rowIdx");
+		        jQuery('#divConfigGadget input[name=rowIdx]').val(rowIndex);
+		        jQuery('#divConfigGadget form').attr('action', '${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/w/@put');
+		        
+		        
+		        
+		        jQuery.ajax({
+		            type : "GET",
+		            url : "${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/w/@views/edit",
+		            data : "rowIdx=" + rowIndex,
+		            success : function(msg) {
+		                jQuery("#divConfigGadget-content").html(msg);
+		            },
+		            error : function(msg) {
+		                jQuery("#divConfigGadget-content").html(msg.responseText);
+		                //alert('ERROR' + msg.responseText);
+		            }
+		        });
+		    });
+		    
+		    jQuery('#config-gadget-form-btn').click(function() {
+		        var inputs = jQuery("#divConfigGadget form > fieldset").find("input[type=text],input[type=file],select,checkbox,textarea");
+		        if (inputs.length == 0) {
+		            jQuery('#divConfigGadget').dialog2('close');
+		            return false; <#-- prevents form submit -->
+		        }
+		        jQuery('#waitingPopup').dialog2('open');
+		        
+		        
+		        jQuery.ajax({
+					type: "POST",
+					url: '${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/w/@put',
+					data: $("#config-gadget-form").serialize(),
+					success: function(msg){
+						alert("Configuration du widget enregistré.");
+						//document.location.href=path + msg;
+						jQuery('#divConfigGadget').dialog2('close');
+						jQuery('#waitingPopup').dialog2('close');
+					},
+					error: function(msg){
+						alert( msg.responseText );
+						jQuery('#waitingPopup').dialog2('close');
+					}
+				});
+		    });
+		    
+		    initSelectSidebar();
+		});
+		
+		function isValidExternalContent(content) {
+			return (content.indexOf('dontbeevil') !== -1);
+		}
+		
+		function isValidExternalContentUrl(url) {
+			var modulePath = '${Context.modulePath}';
+			var elems = modulePath.split('/');
+			return (url.length > 0 && url.indexOf(elems[elems.length-1]) !== -1);
+		}
+		
+		function initSelectSidebar(){
+			var finded = false;
+			var element = null;
+			jQuery('#form-sidebar option:selected').each(function() {
+				element = this;	
+	            if (jQuery(this).val() == "html/editor"){
+	            	finded = true;
+	            }
+	        });
+	        if (!finded && element != null){
+	        	addWidget(element);
+	        }
+		}
+		
+		function addWidget(element){
+			if (jQuery(element).val() != 'html/editor'){
+				var nbRows = parseInt(jQuery("#nbRows").val(),10);
+				jQuery("#nbRows").val(nbRows + 1);
+				var controlGroup = '<div class="control-group">\n';
+				controlGroup = controlGroup + '<label class="control-label" for="bloc' + nbRows + '">Bloc ' + (nbRows + 1) + '</label>\n';
+				controlGroup = controlGroup + '<div class="controls" >\n';
+				controlGroup = controlGroup + '<select name="bloc' + nbRows + '" onChange="javascript:addWidget(this);" >\n';
+				<#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.html.editor') />
+	            <#if widgetTitle?starts_with('!') >
+	                <#assign widgetTitle = "Aucun" />
+	            </#if>
+	            controlGroup = controlGroup + '<option value="html/editor" selected >${widgetTitle?js_string}</option>\n';
+				<#list Common.getPageWidgetGroups(mySite.sidebar.document.type) as widgetGroup>
+					<#assign widgetDocs = Common.getPageWidgets("sidebar", widgetGroup) />
+					<#if (widgetDocs?size > 0) >
+				     	controlGroup = controlGroup + '<optgroup label="${widgetGroup?js_string}">\n';
+						<#list widgetDocs as widgetDoc >
+				            <#assign gadgetType = widgetDoc['labshtmlpagewidgets:type'] gadgetName = widgetDoc['labshtmlpagewidgets:wname'] />
+				            <@gadgetOptionJS type=gadgetType name=gadgetName selected=false />
+						</#list>
+					</#if>
+				</#list>
+				<#if 0 < uncategorizedWidgets?size >
+				            controlGroup = controlGroup + '<optgroup label="Autres">\n';
+					<#list uncategorizedWidgets as gadgetName >
+				            <@gadgetOptionJS type="html" name=gadgetName selected=false />
+					</#list>
+				</#if>
+				controlGroup = controlGroup + '</select>\n';
+				controlGroup = controlGroup + '</div>\n';
+				controlGroup = controlGroup + '</div>\n';
+				//alert(controlGroup);
+				jQuery(controlGroup).appendTo('#form-sidebar fieldset');
+			}
+		}
+    </script>
 	
   </@block>
 </@extends>
 <#else>
 	<#include "error/error_404.ftl" >
 </#if>
+
+<#macro createSelectOptionWidget >
+    <#list Common.getPageWidgetGroups(mySite.sidebar.document.type) as widgetGroup>
+		<#assign widgetDocs = Common.getPageWidgets("sidebar", widgetGroup) />
+		<#if (widgetDocs?size > 0) >
+	     <optgroup label="${widgetGroup}">
+			<#list widgetDocs as widgetDoc >
+	            <#assign gadgetType = widgetDoc['labshtmlpagewidgets:type'] gadgetName = widgetDoc['labshtmlpagewidgets:wname'] />
+	            <@gadgetOption type=gadgetType name=gadgetName selected=isOptionSelected(gadgetType, gadgetName, widgets) />
+			</#list>
+		</#if>
+	</#list>
+	<#if 0 < uncategorizedWidgets?size >
+	            <optgroup label="Autres">
+		<#list uncategorizedWidgets as gadgetName >
+	            <@gadgetOption type="html" name=gadgetName selected=isOptionSelected("html", gadgetName, widgets) />
+		</#list>
+	</#if>
+</#macro>
+
+<#macro gadgetOptionJS type name selected=false >
+    <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + type + '.' + name) />
+    <#if widgetTitle?starts_with('!') >
+        <#assign widgetTitle = name />
+    </#if>
+    controlGroup = controlGroup + '<option value="${type}/${name}"<#if selected > selected</#if> >Widget ${widgetTitle?js_string}</option>\n';
+</#macro>
+
+<#macro gadgetOption type name selected=false >
+    <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + type + '.' + name) />
+    <#if widgetTitle?starts_with('!') >
+        <#assign widgetTitle = name />
+    </#if>
+    <option value="${type}/${name}"<#if selected > selected</#if> >Widget ${widgetTitle}</option>
+</#macro>
+
+<#function isOptionSelected type name widgets widgetNbr=0 >
+    <#if 0 < widgets?size && widgets[widgetNbr].type.type() == type && widgets[widgetNbr].name == name >
+        <#return true />
+    </#if>
+    <#return false />
+</#function>
+
+<#macro determineWidgetType content >
+    <#if content.type == "widgetcontainer">
+        <#assign widgets = content.getGadgets(Session) />
+    </#if>
+    <#if 0 < widgets?size >
+        <#if widgets[0].type.type() == "opensocial" >
+            <#assign isOsGadgetCol = true />
+        <#else>
+            <#assign isWidgetCol = true />
+        </#if>
+    </#if>
+</#macro>

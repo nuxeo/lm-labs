@@ -49,6 +49,23 @@ public class SiteCreationEventListenerTest {
     }
 
     @Test
+    public void sidebarIsCreatedUnderSite() throws Exception {
+        DocumentModel sitesRoot = session.getDocument(new PathRef("/"
+                + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName() + "/"
+                + LabsSiteConstants.Docs.SITESROOT.docName()));
+
+        DocumentModel site1 = session.createDocumentModel(
+                sitesRoot.getPathAsString(), SiteFeatures.SITE_NAME,
+                LabsSiteConstants.Docs.SITE.type());
+        // when the "site" is created, an event is fired
+        site1 = session.createDocument(site1);
+
+        PathRef pathRefSidebar = new PathRef(site1.getPathAsString() + "/"
+                + LabsSiteConstants.Docs.SIDEBAR.docName());
+		assertTrue(session.exists(pathRefSidebar));
+    }
+
+    @Test
     public void treeNotCreatedUnderFolder() throws Exception {
         DocumentModel sitesRoot = session.getDocument(new PathRef("/"
                 + LabsSiteConstants.Docs.DEFAULT_DOMAIN.docName() + "/"
