@@ -163,6 +163,7 @@ public final class LabsSiteConstants {
         PAGEFORUM("PageForum", StringUtils.EMPTY),
         COMMONSASSETS("Assets", "commons-assets"),
         PAGENAV("PageNav", StringUtils.EMPTY),
+        SIDEBAR(HTMLPAGE.type(), "sidebar"),
         WELCOME(HTMLPAGE.type(), "Accueil"); // TODO
 
         private String docType;
@@ -171,7 +172,7 @@ public final class LabsSiteConstants {
         private static final Map<String, Docs> stringToEnum = new HashMap<String, Docs>();
         static { // Initialize map from constant name to enum constant
             for (Docs op : values())
-                if (op != WELCOME) {
+                if (op != WELCOME && op != SIDEBAR) {
                     stringToEnum.put(op.type(), op);
                 }
         }
@@ -354,6 +355,7 @@ public final class LabsSiteConstants {
         FONT_SIZES("labs_fontsizes", "vocabulary", "id", "label", "ordering"),
         PAGE_CONTENTVIEWS("labs_HtmlPage_contentviews", "vocabulary", "id", "label", "ordering"),
         PAGE_WIDGETS("labs_HtmlPage_widgets", "labshtmlpagewidgets", "code", "", "ordering"),
+        SIDEBAR_WIDGETS("labs_sidebar_widgets", "labshtmlpagewidgets", "code", "", "ordering"),
         PAGE_WIDGETGROUPS("labs_HtmlPage_widgetGroups", "vocabulary", "id", "label", "ordering"),
         FONT_FAMILIES("labs_fontfamilies", "vocabulary", "id", "label", "label"),
         USER_STYLE("labs_userStyle", "vocabulary", "id", "label", "ordering"),

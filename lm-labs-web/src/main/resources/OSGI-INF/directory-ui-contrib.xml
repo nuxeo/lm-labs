@@ -12,6 +12,7 @@
    <directory name="labs_fontfamilies" layout="vocabulary" sortField="id" />
    <directory name="labs_HtmlPage_contentviews" layout="vocabulary" sortField="id" />
    <directory name="labs_HtmlPage_widgets" layout="labs_HtmlPage_widgets" sortField="ordering" />
+   <directory name="labs_sidebar_widgets" layout="labs_HtmlPage_widgets" sortField="ordering" />
    <directory name="labs_HtmlPage_widgetGroups" layout="vocabulary" sortField="ordering" />
 
     <directory name="labs_category" layout="labs_category" sortField="ordering">

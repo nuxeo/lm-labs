@@ -409,7 +409,11 @@ public final class CommonHelper {
     
     public List<String> getPageWidgetGroups(String docType) {
         List<String> list = new ArrayList<String>();
-        Directories dirEnum = Directories.fromString("labs_" + docType + "_widgetGroups");
+        String docTypeTmp = docType;
+        if ("sidebar".equals(docTypeTmp)){
+            docTypeTmp = Docs.HTMLPAGE.type();
+        }
+        Directories dirEnum = Directories.fromString("labs_" + docTypeTmp + "_widgetGroups");
         list.addAll(DirectoriesUtils.getDirMap(dirEnum).values());
         return list;
     }
@@ -427,16 +431,31 @@ public final class CommonHelper {
     public DocumentModelList getPageWidgets(String docType) {
         DocumentModelList list = new DocumentModelListImpl();
         Directories dirEnum = Directories.fromString("labs_" + docType + "_widgets");
-        Map<String, Serializable> filter = Collections.emptyMap();
+        Map<String, Serializable> filter = new HashMap<String, Serializable>();
+        filter.put("obsolete", "0");
         list.addAll(DirectoriesUtils.getDirDocumentModelList(dirEnum, filter));
         return list;
     }
     
-    public List<String> getDeclaredHtmlWidgets() {
+    private List<String> getAvailableNameWidget(String docType){
+        List<String> available = new ArrayList<String>();
+        try {
+            for(DocumentModel doc:getPageWidgets(docType)){
+                available.add((String)doc.getPropertyValue("labshtmlpagewidgets:wname"));
+            }
+        } catch (PropertyException e) {
+            LOG.error(e, e);
+        } catch (ClientException e) {
+            LOG.error(e, e);
+        }
+        return available;
+    }
+    
+    public List<String> getDeclaredHtmlWidgets(String docType) {
         @SuppressWarnings("unchecked")
 		Enumeration<URL> entries = LabsWebAppActivator.getDefault().getBundle().findEntries(
                 LabsSiteWebAppUtils.DIRECTORY_WIDGETS, null, false);
-
+        List<String> availableWidgets = getAvailableNameWidget(docType);
         List<String> folderList = new ArrayList<String>();
         while (entries.hasMoreElements()) {
             URL url = entries.nextElement();
@@ -444,14 +463,16 @@ public final class CommonHelper {
             if (nodes.length > 1) {
             	String lastname = nodes[nodes.length - 1];
                 lastname = lastname.substring(0, lastname.indexOf(".ftl"));
-                folderList.add(lastname);
+                if (availableWidgets.contains(lastname)){
+                    folderList.add(lastname);
+                }
             }
         }
         return folderList;
     }
     
     public List<String> getUncategorizedWidgets(String docType) {
-    	List<String> declaredWidgets = getDeclaredHtmlWidgets();
+    	List<String> declaredWidgets = getDeclaredHtmlWidgets(docType);
     	for (String group : getPageWidgetGroups(docType)) {
     		for (DocumentModel widget : getPageWidgets(docType, group)) {
     			try {

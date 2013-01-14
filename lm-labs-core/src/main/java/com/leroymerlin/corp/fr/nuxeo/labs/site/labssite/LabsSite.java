@@ -16,6 +16,7 @@ import org.nuxeo.ecm.core.api.DocumentModelList;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
@@ -149,4 +150,6 @@ public interface LabsSite  extends LabsBase {
 	void setCategory(String category) throws ClientException;
 
 	String getCategory() throws ClientException;
+
+	HtmlPage getSidebar() throws ClientException;
 }

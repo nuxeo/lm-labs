@@ -85,6 +85,16 @@
       <createTablePolicy>on_missing_columns</createTablePolicy>
     </directory>
 
+    <directory name="labs_sidebar_widgets">
+      <schema>labshtmlpagewidgets</schema>
+      <dataSource>java:/nxsqldirectory</dataSource>
+      <table>dir_labs_sidebar_widgets</table>
+      <idField>code</idField>
+      <autoincrementIdField>false</autoincrementIdField>
+      <dataFile>directories/labs_sidebar_widgets.csv</dataFile>
+      <createTablePolicy>on_missing_columns</createTablePolicy>
+    </directory>
+
     <directory name="labs_userStyle">
       <schema>vocabulary</schema>
       <dataSource>java:/nxsqldirectory</dataSource>

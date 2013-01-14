@@ -29,6 +29,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.GadgetUtils;
 
 @WebObject(type = "HtmlRow")
 public class WebHtmlRow extends MovableElementResource {
@@ -102,7 +103,7 @@ public class WebHtmlRow extends MovableElementResource {
             String widget = form.getString("column" + colNbr);
             colNbr++;
             try {
-                syncWidgetsConfig(content, widget);
+                GadgetUtils.syncWidgetsConfig(content, widget, doc, getCoreSession());
             } catch (ClientException e) {
                 throw WebException.wrap("Problème lors de la sauvegarde des widgets", e);
             }
@@ -120,92 +121,5 @@ public class WebHtmlRow extends MovableElementResource {
 
     public HtmlRow getRow() {
         return row;
-    }
-
-    private void syncWidgetsConfig(HtmlContent content, String widget) throws ClientException {
-        syncWidgetsConfig(content, Arrays.asList(new String[] {widget}));
-    }
-
-    private void syncWidgetsConfig(HtmlContent content, List<String> widgets) throws ClientException {
-        List<LabsWidget> gadgets = content.getGadgets(getCoreSession());
-        if (widgets.isEmpty())
-        {
-            return /*false*/;
-        }
-        String widget = widgets.get(0);
-        if (!widget.startsWith(WidgetType.OPENSOCIAL.type() + "/")) {
-            // "html/"
-            String widgetName = widget.split("/")[1];
-            if ("editor".equals(widgetName)) {
-                // "html/editor"
-                try {
-                    if (!gadgets.isEmpty()) {
-                        content.removeGadgets(getCoreSession());
-                        content.setHtml("");
-                    }
-                    content.setType(HtmlContent.Type.HTML.type());
-                    saveDocument();
-                } catch (ClientException e) {
-                    LOG.error(e, e);
-                }
-            } else {
-                // "html/"
-                try {
-                    if (!gadgets.isEmpty() && widget.equals(WidgetType.HTML.type() + "/" + gadgets.get(0).getName())) {
-                        // same gadget, do nothing.
-                    } else {
-                        if (!gadgets.isEmpty()) {
-                            content.removeGadgets(getCoreSession());
-                            saveDocument();
-                        }
-                        LabsWidget gadget = new LabsHtmlWidget(widgetName);
-                        LabsGadgetManager service = Framework.getService(LabsGadgetManager.class);
-                        String gadgetDocRef = service.addWidgetToHtmlContent(content, doc, gadget, getCoreSession());
-                        saveDocument();
-                    }
-                } catch (ClientException e) {
-                    LOG.error(e, e);
-                } catch (Exception e) {
-                    LOG.error(e, e);
-                }
-            }
-        } else {
-            // "opensocial/"
-            try {
-                if (!gadgets.isEmpty() && widget.equals(WidgetType.OPENSOCIAL.type() + "/" + gadgets.get(0).getName())) {
-                    // same gadget, do nothing.
-                } else {
-                    if (!gadgets.isEmpty()) {
-                        content.removeGadgets(getCoreSession());
-                        saveDocument();
-                    }
-                    DocumentModel gadgetDoc = getCoreSession().createDocumentModel(LabsOpensocialGadget.DOC_TYPE);
-                    LabsWidget gadget = new LabsOpensocialGadget(gadgetDoc, widget.split("/")[1]);
-                    LabsGadgetManager service = Framework.getService(LabsGadgetManager.class);
-                    String gadgetDocRef = service.addWidgetToHtmlContent(content, doc, gadget, getCoreSession());
-                    saveDocument();
-//                    if ("rss".equals(gadget.getName())) {
-//                        gadgetDoc = getCoreSession().getDocument(new IdRef(gadgetDocRef));
-//                        OpenSocialAdapter adapter = (OpenSocialAdapter) Tools.getAdapter(WebContentAdapter.class, gadgetDoc, getCoreSession());
-//                        OpenSocialData data = adapter.getData();
-//                        List<UserPref> userPrefs = new ArrayList<UserPref>();
-//                        UserPref userPref = new UserPref("rssUrl1", DataType.STRING);
-//                        userPref.setActualValue("http://www.7sur7.be/rss.xml");
-//                        userPrefs.add(userPref);
-//                        userPref = new UserPref("rssUrl2", DataType.STRING);
-//                        userPref.setActualValue("http://intralm2.fr.corp.leroymerlin.com/site/site-actualites/@rss");
-//                        userPrefs.add(userPref);
-//
-//                        data.setUserPrefs(userPrefs);
-//                        adapter.feedFrom(data);
-//                        gadgetDoc = getCoreSession().saveDocument(gadgetDoc);
-//                    }
-                }
-            } catch (ClientException e) {
-                LOG.error(e, e);
-            } catch (Exception e) {
-                LOG.error(e, e);
-            }
-        }
     }
 }

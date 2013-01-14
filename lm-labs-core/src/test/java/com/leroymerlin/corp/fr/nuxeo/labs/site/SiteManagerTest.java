@@ -2,6 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -10,30 +11,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
+import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.local.LocalSession;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
+import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.common.core.security.SecurityData;
+import com.leroymerlin.common.core.security.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
-import com.leroymerlin.common.core.security.SecurityDataHelper;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants;
 
 
 @RunWith(FeaturesRunner.class)
 @Features(SiteFeatures.class)
-@RepositoryConfig(cleanup=Granularity.METHOD, init=DefaultRepositoryInit.class, user = "system")
+@Deploy("com.leroymerlin.labs.core.test")
+@RepositoryConfig(init=DefaultRepositoryInit.class, cleanup=Granularity.METHOD, user = "system")
 public class SiteManagerTest {
+	
     @Inject
     SiteManager sm;
 
@@ -252,7 +260,6 @@ public class SiteManagerTest {
         session.save();
 	}
 
-
     @Test
     public void canGetSitesWithoutCategory() throws Exception {
         createSites();
@@ -267,5 +274,24 @@ public class SiteManagerTest {
 
     }
 
+    @Test
+    public void canGetSidebar() throws Exception {
+    	LabsSite site = sm.createSite(session, "Mon titre6", "myurl6");
+    	assertThat(site.getSidebar(), is(notNullValue()));
+        
+    }
 
+    @Ignore
+    @Test
+    public void canGetSidebarWithCreate() throws Exception {
+    	LabsSite site = sm.createSite(session, "Mon titre7", "myurl7");
+    	PathRef pathRefSidebar = new PathRef(site.getDocument().getPathAsString() + "/"
+    			+ LabsSiteConstants.Docs.SIDEBAR.docName());
+    	session.removeDocument(pathRefSidebar);
+    	session.save();
+		DocumentModel doc = session.getDocument(pathRefSidebar);
+    	assertThat(doc, is(nullValue()));
+    	assertThat(site.getSidebar(), is(notNullValue()));
+        
+    }
 }
