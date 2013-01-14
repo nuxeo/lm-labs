@@ -1,4 +1,3 @@
-<hr/>
 <#assign thisPage = This.page /> 
 <div class="count pull-right">
 <i class="icon-spin icon-spinner" style="display:none;"></i>
