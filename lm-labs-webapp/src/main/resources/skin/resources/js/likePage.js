@@ -53,7 +53,7 @@ function likePageErrorCallback() {
 }
 
 function updateDivLikeWaiting(obj) {
-    var divCount = jQuery(obj).parent('div').siblings('div.count');
+    var divCount = jQuery(obj).find('div.count');
     if (divCount != null) {
         jQuery(divCount).find('span.badge').hide();
         jQuery(divCount).find('i.icon-spinner').show();
