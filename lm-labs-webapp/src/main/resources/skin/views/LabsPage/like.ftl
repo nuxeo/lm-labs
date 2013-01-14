@@ -15,7 +15,7 @@
 	<i class="icon-warning-sign" title="${Context.getMessage('tooltip.page.like.failed')}" ></i>
 </div>
 <div class="action pull-right" >
-<i data-serverurl= "${Context.basePath}" data-docid="${Document.id}" 
+<i data-serverurl= "${Context.serverURL}${Context.basePath}" data-docid="${Document.id}" 
 	class="icon-heart<#if !pageLiked >-empty</#if> pull-right <#if !Context.principal.anonymous ><#if pageLiked>dis</#if>like-action</#if>" 
 	<#if !Context.principal.anonymous >
 	title="<#if pageLiked >${Context.getMessage('tooltip.page.like.dislike')}<#else>${Context.getMessage('tooltip.page.like.like')}</#if>"
