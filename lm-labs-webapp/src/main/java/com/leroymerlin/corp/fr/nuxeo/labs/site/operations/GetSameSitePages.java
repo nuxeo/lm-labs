@@ -40,7 +40,7 @@ public class GetSameSitePages {
         DocumentModel document = session.getDocument(new IdRef(docId));
         SiteDocument siteDocument = Tools.getAdapter(SiteDocument.class, document, session);
         LabsSite site = siteDocument.getSite();
-        DocumentModelList pages = session.query(String.format("SELECT * FROM Page WHERE ecm:path STARTSWITH '%s' AND ecm:mixinType <> 'HiddenInNavigation' AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'", site.getDocument().getPathAsString().replace("'", "\\'")));
+        DocumentModelList pages = session.query(String.format("SELECT * FROM Page WHERE ecm:path STARTSWITH '%s' AND ecm:mixinType <> 'HiddenInNavigation' AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted'", site.getTree().getPathAsString().replace("'", "\\'")));
         PageProvider<DocumentModel> pageProvider = new DocumentModelListPageProvider(pages);
         if (pageSize != null) {
             pageProvider.setPageSize(targetPageSize);
