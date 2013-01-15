@@ -720,12 +720,15 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 			PathRef pathRefSidebar = new PathRef(this.getDocument().getPathAsString() + "/"
 					+ LabsSiteConstants.Docs.SIDEBAR.docName());
 			CoreSession session = getSession();
-			DocumentModel doc = session.getDocument(pathRefSidebar);
-			if (doc == null){
-				doc = LabsSiteUtils.createSidebarPage(this.getDocument(), session);
+			DocumentModel docSidebar = null;
+			if (session.exists(pathRefSidebar)){
+				docSidebar = session.getDocument(pathRefSidebar);
+			}
+			else{
+				docSidebar = LabsSiteUtils.createSidebarPage(this.getDocument(), session);
 				session.save();
 			}
-			sidebar = Tools.getAdapter(HtmlPage.class, doc, session);
+			sidebar = Tools.getAdapter(HtmlPage.class, docSidebar, session);
 		}
 		return sidebar;
 	}
