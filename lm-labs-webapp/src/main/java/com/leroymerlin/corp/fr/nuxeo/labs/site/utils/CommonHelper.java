@@ -453,7 +453,7 @@ public final class CommonHelper {
     
     public List<String> getDeclaredHtmlWidgets(String docType) {
         @SuppressWarnings("unchecked")
-		Enumeration<URL> entries = LabsWebAppActivator.getDefault().getBundle().findEntries(
+        Enumeration<URL> entries = LabsWebAppActivator.getDefault().getBundle().findEntries(
                 LabsSiteWebAppUtils.DIRECTORY_WIDGETS, null, false);
         List<String> availableWidgets = getAvailableNameWidget(docType);
         List<String> folderList = new ArrayList<String>();
@@ -461,7 +461,7 @@ public final class CommonHelper {
             URL url = entries.nextElement();
             String[] nodes = url.getPath().split("/");
             if (nodes.length > 1) {
-            	String lastname = nodes[nodes.length - 1];
+                String lastname = nodes[nodes.length - 1];
                 lastname = lastname.substring(0, lastname.indexOf(".ftl"));
                 if (availableWidgets.contains(lastname)){
                     folderList.add(lastname);
@@ -469,6 +469,10 @@ public final class CommonHelper {
             }
         }
         return folderList;
+    }
+    
+    public List<String> getDeclaredHtmlWidgets() {
+        return getDeclaredHtmlWidgets(Docs.HTMLPAGE.type());
     }
     
     public List<String> getUncategorizedWidgets(String docType) {

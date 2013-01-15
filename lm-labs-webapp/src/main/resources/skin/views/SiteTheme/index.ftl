@@ -115,7 +115,7 @@
 						<div class="control-group">
 						    <label class="control-label" for="bloc${row_index}">Bloc ${row_index + 1}</label>
 						    <div class="controls" >
-						        <select name="bloc${row_index}" onChange="javascript:addWidget(this);" >
+						        <select name="bloc${row_index}" onChange="javascript:onChangeWidget(this);" >
 						            <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.html.editor') />
 						            <#if widgetTitle?starts_with('!') >
 						                <#assign widgetTitle = "Aucun" />
@@ -124,14 +124,14 @@
 						            <@createSelectOptionWidget  />
 						        </select>
 						        <#if content.type != "html">
-						        	<a class="btn open-dialog" rel="divConfigGadget" rowIdx="${row_index}" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')}</a>
+						        	<a class="btn" rel="divConfigGadget" rowIdx="${row_index}" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')}</a>
 						        </#if>
 						    </div>
 						</div>
 					</#list>
               </fieldset>
 			<div class="form-actions" >
-                <button class="btn btn-primary">${Context.getMessage('label.labssites.sidebar.save')}</button>
+                <button id="saveSidebar" class="btn btn-primary disabled" disabled="disabled">${Context.getMessage('label.labssites.sidebar.save')}</button>
             </div>
             </form>
           </div>
@@ -177,26 +177,26 @@
 		    });
 		    
 		    jQuery('a[rel=divConfigGadget]').click(function() {
-		        //alert(jQuery(this).attr("rowIdx"));
-		        
-		        var rowIndex = jQuery(this).attr("rowIdx");
-		        jQuery('#divConfigGadget input[name=rowIdx]').val(rowIndex);
-		        jQuery('#divConfigGadget form').attr('action', '${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/w/@put');
-		        
-		        
-		        
-		        jQuery.ajax({
-		            type : "GET",
-		            url : "${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/w/@views/edit",
-		            data : "rowIdx=" + rowIndex,
-		            success : function(msg) {
-		                jQuery("#divConfigGadget-content").html(msg);
-		            },
-		            error : function(msg) {
-		                jQuery("#divConfigGadget-content").html(msg.responseText);
-		                //alert('ERROR' + msg.responseText);
-		            }
-		        });
+		    	if(jQuery(this).attr("disabled") != "disabled"){
+		    		jQuery("#divConfigGadget").dialog2('open');
+		    		jQuery("#divConfigGadget-content").html('<img src="${skinPath}/images/loading.gif" />');
+			        
+			        var rowIndex = jQuery(this).attr("rowIdx");
+			        jQuery('#divConfigGadget input[name=rowIdx]').val(rowIndex);
+			        
+			        jQuery.ajax({
+			            type : "GET",
+			            url : "${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/w/@views/edit",
+			            data : "rowIdx=" + rowIndex,
+			            success : function(msg) {
+			                jQuery("#divConfigGadget-content").html(msg);
+			            },
+			            error : function(msg) {
+			                jQuery("#divConfigGadget-content").html(msg.responseText);
+			                //alert('ERROR' + msg.responseText);
+			            }
+			        });
+			    }
 		    });
 		    
 		    jQuery('#config-gadget-form-btn').click(function() {
@@ -214,7 +214,6 @@
 					data: $("#config-gadget-form").serialize(),
 					success: function(msg){
 						alert("Configuration du widget enregistré.");
-						//document.location.href=path + msg;
 						jQuery('#divConfigGadget').dialog2('close');
 						jQuery('#waitingPopup').dialog2('close');
 					},
@@ -252,6 +251,20 @@
 	        }
 		}
 		
+		var isChanged = false;
+		
+		function onChangeWidget(element){
+			if (!isChanged){
+				isChanged = true;
+				jQuery("#saveSidebar").removeClass("disabled");
+				jQuery("#saveSidebar").removeAttr("disabled");
+			}
+			var bt = jQuery(element).parent().parent().find("a");
+			jQuery(bt).attr("disabled", "disabled");
+			jQuery(bt).addClass("disabled");
+			addWidget(element);
+		}
+		
 		function addWidget(element){
 			if (jQuery(element).val() != 'html/editor'){
 				var nbRows = parseInt(jQuery("#nbRows").val(),10);
@@ -259,7 +272,7 @@
 				var controlGroup = '<div class="control-group">\n';
 				controlGroup = controlGroup + '<label class="control-label" for="bloc' + nbRows + '">Bloc ' + (nbRows + 1) + '</label>\n';
 				controlGroup = controlGroup + '<div class="controls" >\n';
-				controlGroup = controlGroup + '<select name="bloc' + nbRows + '" onChange="javascript:addWidget(this);" >\n';
+				controlGroup = controlGroup + '<select name="bloc' + nbRows + '" onChange="javascript:onChangeWidget(this);" >\n';
 				<#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.html.editor') />
 	            <#if widgetTitle?starts_with('!') >
 	                <#assign widgetTitle = "Aucun" />
@@ -284,7 +297,6 @@
 				controlGroup = controlGroup + '</select>\n';
 				controlGroup = controlGroup + '</div>\n';
 				controlGroup = controlGroup + '</div>\n';
-				//alert(controlGroup);
 				jQuery(controlGroup).appendTo('#form-sidebar fieldset');
 			}
 		}

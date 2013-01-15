@@ -19,6 +19,7 @@
             <script type="text/javascript" src="${skinPath}/js/jquery/jquery.filedrop.js"></script>
             <script type="text/javascript" src="${skinPath}/js/asset_filedrop.js"></script>
             <script type="text/javascript" src="${skinPath}/js/jquery.ThreeDots.min.leroymerlin.js"></script>
+            <script type="text/javascript" src="${skinPath}/js/bootstrap/bootstrap-tab.js"></script>
   </@block>
 
   <@block name="topbar" />
