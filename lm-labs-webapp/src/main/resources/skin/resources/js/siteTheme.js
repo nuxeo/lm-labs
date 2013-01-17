@@ -151,5 +151,5 @@ function deleteElement(url, callFunction, msgConfirm){
 }
 
 function openAssets(url){
-	popupCenter(url, (screen.width)*2/3, (screen.height)*2/3, "menubar=no,scrollbars=auto,statusbar=no");
+	popupCenter(url, (screen.width)*2/3, (screen.height)*2/3, "menubar=no,scrollbars=yes,statusbar=no");
 }
