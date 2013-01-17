@@ -69,6 +69,9 @@ public class SharedElementContentProvider extends DocumentContentProvider {
         if(LabsSiteConstants.Docs.TREE.docName().equals(doc.getName())){
             return true;
         }
+        if(LabsSiteConstants.Docs.SIDEBAR.docName().equals(doc.getName())){
+            return false;
+        }
         if(Tools.getAdapter(BlobHolder.class, doc, session) != null){
             return true;
         }
