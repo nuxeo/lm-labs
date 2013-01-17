@@ -23,7 +23,7 @@
 
 var selectedUrl = '';
 
-function sendToCallFunction(this, href) {
+function sendToCallFunction(obj, href) {
   window.opener.${This.activeAdapter.getCallFunction()}('${This.activeAdapter.getCalledRef()}', href);
     window.close();
 }
@@ -49,7 +49,7 @@ jQuery(document).ready(function() {
     var type = jQuery(data.rslt.obj).attr("rel");
     if (type != "Folder" && type != "Tree" && type != "Site" && type != "Assets"){
       selectedUrl = '${Context.modulePath}/' + data.rslt.obj.data("url");
-      sendToCallFunction(selectedUrl);
+      sendToCallFunction(this, selectedUrl);
     }
     else{
       alert('${Context.getMessage('label.sharedelement.noselect.element')?js_string}');
