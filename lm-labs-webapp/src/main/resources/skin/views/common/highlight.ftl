@@ -6,5 +6,8 @@
 <#if (fullTextHighlight != null && fullTextHighlight != "") >
 	$(document).ready(function() {
 		$('#FKtopContent').highlight('${fullTextHighlight?js_string}');
+		$('.editblock .highlight').each(function(){
+			jQuery(this).replaceWith(jQuery(this).html());	
+		});
 	});
 </#if>
