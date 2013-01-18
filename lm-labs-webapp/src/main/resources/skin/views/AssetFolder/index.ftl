@@ -5,7 +5,13 @@
 <#assign popoverPlacement = "" />
 <#assign mySite = Context.getProperty("site") />
 <#assign callFunction = Context.request.getParameter('callFunction') />
+<#if callFunction == "">
+	<#assign callFunction = This.callFunction />
+</#if>
 <#assign calledRef = Context.request.getParameter('calledRef') />
+<#if calledRef == "">
+	<#assign calledRef = This.calledRef />
+</#if>
 <#include "views/AssetFolder/macro.ftl"/>
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
