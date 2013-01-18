@@ -8,7 +8,7 @@ function deleteNews(url, path){
 			document.location.href=path;
 		},
 		error: function(msg){
-			alert( msg.responseText );
+			alert('deleteNews failed:' + msg.responseText );
 			jQuery('#waitingPopup').dialog2('close');
 		}
 	});
