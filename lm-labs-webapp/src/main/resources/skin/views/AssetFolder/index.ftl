@@ -169,7 +169,7 @@ $(document).ready(function() {
   });
 
     function sendToCallFunction(obj, href) {
-        window.opener.${callFunction}('${calledRef}', href, jQuery(obj).data('docid'));
+        window.opener.${callFunction}('${calledRef}', href<#if callFunction != "CKEDITOR.tools.callFunction" >, jQuery(obj).data('docid')</#if>);
         window.close();
     }
     
@@ -213,7 +213,7 @@ $(document).ready(function() {
 				jQuery('#waitingPopup').dialog2('close');
 			},
 			error: function(msg){
-				alert( msg.responseText );
+				alert('add folder failed:' + msg.responseText );
 				jQuery('#waitingPopup').dialog2('close');
 			}
 		});
