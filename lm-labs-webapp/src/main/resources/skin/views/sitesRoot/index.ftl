@@ -22,11 +22,6 @@
     </#if>
   </@block>
 
-  <@block name="css">
-    <@superBlock/>
-    <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
-  </@block>
-
   <@block name="docactions">
     <@superBlock/>
     <#if !Context.principal.anonymous && canCreateSite>
