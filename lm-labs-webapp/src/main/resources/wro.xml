@@ -43,12 +43,17 @@
   <group name="labs.sitesroot">
     <group-ref>labs.manage</group-ref>
     <group-ref>tablesorter</group-ref>
+    <js>/site/skin/labs/js/bootstrap/bootstrap-tab.js</js>
     <js>/site/skin/labs/js/sitesRoot.js</js>
   </group>
 
   <group name="labs.sitesroot-authenticated">
     <js>/site/skin/labs/js/addSite.js</js>
+    <js>/site/skin/labs/js/deleteSite.js</js>
     <js>/site/skin/labs/js/LabsSiteUrl.js</js>
+    <js>/site/skin/labs/js/pnotify/jquery.pnotify.js</js>
+    <css>/site/skin/labs/css/pnotify/jquery.pnotify.default.css</css>
+    <css>/site/skin/labs/css/pnotify/jquery.pnotify.default.icons.css</css>
   </group>
 
   <group name="labs.pagehtml">

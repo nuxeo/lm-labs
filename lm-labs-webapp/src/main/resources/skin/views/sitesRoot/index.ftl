@@ -5,6 +5,9 @@
 	<@block name="css">
 		<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.sitesroot.css" />
 		<link rel="stylesheet/less" media="all" href="${Context.modulePath}/@views/variables.less" />
+    <#if !Context.principal.anonymous && canCreateSite>
+		<link rel="stylesheet" type="text/css" media="all" href="${contextPath}/wro/labs.sitesroot-authenticated.css" />
+    </#if>
 		<style type="text/css">
 		  label {
 		  font-weight: bold;
@@ -17,76 +20,6 @@
     <#if canCreateSite>
     <script type="text/javascript" src="${contextPath}/wro/labs.sitesroot-authenticated.js"></script>
     </#if>
-<#if !Context.principal.anonymous >
-<script type="text/javascript">
-function deleteSite(url){
-	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDelete')}")){
-		jQuery('#waitingPopup').dialog2('open');
-		jQuery.ajax({
-			type: 'PUT',
-		    async: false,
-		    url: url,
-		    success: function(data) {
-		    	if (data == 'delete') {
-		          alert("${Context.getMessage('label.lifeCycle.site.hasDeleted')}");
-		          document.location.href = '${Context.modulePath}';
-		        }
-		        else {
-		          alert("${Context.getMessage('label.lifeCycle.site.hasNotDeleted')}");
-      		      jQuery('#waitingPopup').dialog2('close');
-		        }
-		    },
-		    error: function(data) {
-		    	alert(data);
-		    	jQuery('#waitingPopup').dialog2('close');
-		    }
-		});
-	}
-}
-function undeleteSite(url){
-	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouUndelete')}")){
-		jQuery('#waitingPopup').dialog2('open');
-		jQuery.ajax({
-			type: 'PUT',
-		    async: false,
-		    url: url,
-		    success: function(data) {
-		    	if (data == 'undelete') {
-		          alert("${Context.getMessage('label.lifeCycle.site.hasUndeleted')}");
-		          document.location.href = '${Context.modulePath}';
-		        }
-		        else {
-		          alert("${Context.getMessage('label.lifeCycle.site.hasNotUndeleted')}");
-		          jQuery('#waitingPopup').dialog2('close');
-		        }
-		    },
-		    error: function(data) {
-		    	alert(data);
-		    	jQuery('#waitingPopup').dialog2('close');
-		    }
-		});
-	}
-}
-function deleteDefinitelySite(url){
-	if (confirm("${Context.getMessage('label.lifeCycle.site.wouldYouDefinitelyDelete')}")){
-		jQuery('#waitingPopup').dialog2('open');
-		jQuery.ajax({
-			type: 'DELETE',
-		    async: false,
-		    url: url,
-		    success: function(data) {
-	          alert("${Context.getMessage('label.lifeCycle.site.hasDefinitelyDelete')}");
-	          document.location.href = '${Context.modulePath}';
-		    },
-		    error: function(data) {
-	          alert("${Context.getMessage('label.lifeCycle.site.hasNotDefinitelyDelete')}");
-	          jQuery('#waitingPopup').dialog2('close');
-		    }
-		});
-	}
-}        		
-</script>
-</#if><#-- anonymous -->
   </@block>
 
   <@block name="css">
@@ -94,10 +27,9 @@ function deleteDefinitelySite(url){
     <link rel="stylesheet" type="text/css" media="all" href="${skinPath}/css/jquery/jquery.dialog2.css"/>
   </@block>
 
-
   <@block name="docactions">
     <@superBlock/>
-    <#if canCreateSite>
+    <#if !Context.principal.anonymous && canCreateSite>
       <li>
         <a class="open-dialog" modal-height="365px" modal-overflowy="auto" rel="divEditSite" href="#"><i class="icon-plus"></i>${Context.getMessage('label.labssite.add.site')}</a>
         <div id="divEditSite" class="dialog2" style="display:none;">
@@ -111,210 +43,52 @@ function deleteDefinitelySite(url){
 	</#if>
   </@block>
 
-
-
   <@block name="content">
   <section>
-	<#--assign undeletedLabsSites = This.undeletedLabsSites /-->
     <div class="page-header">
-      <h1>${Context.getMessage('label.labssite.list.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${undeletedLabsSites?size}</span></h1>
+      <h1>${Context.getMessage('label.labssite.list.sites.title')}</h1>
     </div>
     
-	 <ul class="nav nav-tabs">
-	  	 <li <#if (idCurrentCategory == -1) >class="active"</#if>>
-	  	 	<a href="${This.path}">${Context.getMessage('label.labssite.nav.category.allsites')}</a>
+    <ul class="nav nav-tabs" id="sitesTabs" >
+	  	 <li class="active">
+	  	 	<a href="#cat-1" data-toggle="tab">${Context.getMessage('label.labssite.nav.category.allsites')} <span class="badge badge-info" style="vertical-align: middle;" ></span></a>
 	  	 </li>
-	  	 <#assign labsCategories = This.getDisplayableCategories()/>
+	  	 <#assign labsCategories = This.displayableCategories />
 		 <#list labsCategories as category>
 		 	<#if (category.labscategory.id != 0)>
-			  	 <li <#if (idCurrentCategory == category.labscategory.id) >class="active"</#if>>
-			  	 	<a href="${This.path}?idCategory=${category.labscategory.id}">${category.labscategory.label}</a>
+			  	 <li >
+			  	 	<a href="#cat${category.labscategory.id}" data-toggle="tab">${category.labscategory.label} <span class="badge badge-info" style="vertical-align: middle;" ></span></a>
 			  	 </li>
 			</#if>
 	  	 </#list>
-	  	 <li <#if (idCurrentCategory == 0) >class="active"</#if>>
-	  	 	<a href="${This.path}?idCategory=0">${Context.getMessage('label.labssite.nav.without.category.sites')}</a>
+	  	 <li >
+	  	 	<a href="#cat0" data-toggle="tab">${Context.getMessage('label.labssite.nav.without.category.sites')} <span class="badge badge-info" style="vertical-align: middle;" ></span></a>
 	  	 </li>
-	  </ul>
+    </ul>
+
+	<div class="tab-content">
+		<div class="tab-pane active" id="cat-1" data-view-url="${This.path}/@views/undeletedSites">
+		<#include "views/sitesRoot/undeletedSites.ftl" >
+		</div>
+		<#list labsCategories as category>
+			<#if (category.labscategory.id != 0)>
+		<div class="tab-pane" id="cat${category.labscategory.id}" 
+			data-view-url="${This.path}/@views/undeletedSites?idCategory=${category.labscategory.id}">
+		</div>
+			</#if>
+		</#list>
+		<div class="tab-pane" id="cat0" data-view-url="${This.path}/@views/undeletedSites?idCategory=0"></div>
+	</div>
 
 	<#assign hasOneMoreDeletedSite = false />
-	<#--assign deletedLabsSites = This.deletedLabsSites /-->
-	<#--assign templateLabsSites = This.templateLabsSites /-->
-    <#if (deletedLabsSites?size > 0 || undeletedLabsSites?size > 0 || templateLabsSites?size > 0) >
-    	<#if (undeletedLabsSites?size > 0) >
-	    	<#assign hasAtLeastOneAdminSite = false />
-	    	<#list undeletedLabsSites as undeletedSite>
-	    		<#if undeletedSite.isAdministrator(Context.principal.name) >
-	    			<#assign hasAtLeastOneAdminSite = true />
-	    			<#break>
-	    		</#if>
-	    	</#list>
-	      <table class="table table-striped table-bordered bs<#if idCurrentCategory == -1 > hasCategoryColumn</#if><#if hasAtLeastOneAdminSite > hasDeleteColumn</#if>" id="MySites" >
-	        <thead>
-	          <tr>
-	            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
-	            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
-	            <th>${Context.getMessage('label.labssite.list.headers.created')}</th>
-	            <#if idCurrentCategory == -1 >
-	            <th>${Context.getMessage('label.labssite.list.headers.category')}</th>
-	            </#if>
-	            <th style="width: 57px;">&nbsp;</th>
-	            <#if hasAtLeastOneAdminSite>
-	            <th style="width: 88px;"></th>
-	            </#if>
-	          </tr>
-	        </thead>
-	        <tbody>
-	          <#list undeletedLabsSites as sit>
-	            <tr>
-	              <td>${sit.title}<#if !sit.visible>&nbsp;<i class="icon-eye-close"></i></#if></td>
-	              <#if (sit.administratorsSite?size > 0)>
-	              	<td>
-	              		<#list sit.administratorsSite as siteAdministrator>
-	              			${userFullName(siteAdministrator)}<#if (siteAdministrator != sit.administratorsSite?last)>,&nbsp;</#if>
-	              		</#list>
-	              	</td>
-	              <#else>
-	              	<td>${userFullName(sit.document['dc:creator'])}</td>
-	              </#if>
-			      <#assign creationDate = sit.document['dc:created']?datetime />
-			      <#assign creationDateStr = creationDate?string("EEEE dd MMMM yyyy HH:mm") />
-			      <td><span title="${creationDateStr}" >${Context.getMessage('label.labssite.list.dateInWordsFormat',[dateInWords(creationDate)])}</span><span class="sortValue">${creationDate?string("yyyyMMddHHmmss")}</span></td>
-	              <#if idCurrentCategory == -1 >
-	              <td>${sit.category}</td>
-	              </#if>
-	              <td><a class="btn" href="${This.path}/${sit.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
-	              <#if hasAtLeastOneAdminSite>
-	              <td>
-	              <#if sit.isAdministrator(Context.principal.name) >
-	              	<a href="#" class="btn btn-danger" onclick="javascript:deleteSite('${Context.modulePath}/${sit.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a>
-	              </#if>
-	              </td>
-	              </#if>
-	            </tr>
-	          </#list>
-	      </table>
-	    </#if>
-	    <#-- template sites -->
-    	<#if (Context.principal.isAnonymous() == false && templateLabsSites?size > 0) >
-    	<section>
-			<div class="page-header">
-				<h4>${Context.getMessage('label.labssite.list.template.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${templateLabsSites?size}</span></h4>
-			</div>
-	    	<#assign hasAtLeastOneAdminSite = false />
-	    	<#list templateLabsSites as labsSite>
-	    		<#if labsSite.isAdministrator(Context.principal.name) >
-	    			<#assign hasAtLeastOneAdminSite = true />
-	    			<#break>
-	    		</#if>
-	    	</#list>
-	      <table class="table table-bordered table-striped bs" id="templateSites" >
-	        <thead>
-	          <tr>
-	            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
-	            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
-	            <th>${Context.getMessage('label.labssite.list.headers.created')}</th>
-	            <#if hasAtLeastOneAdminSite>
-	            <th style="width: 57px;">&nbsp;</th>
-	            <th style="width: 88px;"></th>
-	            </#if>
-	          </tr>
-	        </thead>
-	        <tbody>
-	          <#list templateLabsSites as labsSite>
-	            <tr>
-	              <td>${labsSite.title}</td>
-	              <#if (labsSite.administratorsSite?size > 0)>
-	              	<td>
-	              		<#list labsSite.administratorsSite as siteAdministrator>
-	              			${userFullName(siteAdministrator)}<#if (siteAdministrator != labsSite.administratorsSite?last)>,&nbsp;</#if>
-	              		</#list>
-	              	</td>
-	              <#else>
-	              	<td>${userFullName(labsSite.document['dc:creator'])}</td>
-	              </#if>
-			      <#assign creationDate = labsSite.document['dc:created']?datetime />
-			      <#assign creationDateStr = creationDate?string("EEEE dd MMMM yyyy HH:mm") />
-			      <td><span title="${creationDateStr}" >${Context.getMessage('label.labssite.list.dateInWordsFormat',[dateInWords(creationDate)])}</span><span class="sortValue">${creationDate?string("yyyyMMddHHmmss")}</span></td>
-	              <#if hasAtLeastOneAdminSite>
-	              <#if labsSite.isAdministrator(Context.principal.name) >
-	                <td><a class="btn" href="${This.path}/${labsSite.URL}">${Context.getMessage('command.labssite.list.open')}</a></td>
-	              	<td><a href="#" class="btn btn-danger" onclick="javascript:deleteSite('${Context.modulePath}/${labsSite.URL}/@labspublish/delete');">${Context.getMessage('command.siteactions.delete')}</a></td>
-	              <#else>
-	                <td></td>
-	                <td></td>
-	              </#if>
-	              </#if>
-	            </tr>
-	          </#list>
-	      </table>
-		</section>
-	    </#if>
-	    	<#-- deleted sites -->
-	    <#if (deletedLabsSites?size > 0) >
-	    	<section>
-				<div class="page-header">
-					<h4>${Context.getMessage('label.labssite.list.deleted.sites.title')} <span class="badge badge-info" style="vertical-align: middle;" >${deletedLabsSites?size}</span></h4>
-				</div>
-			      <#assign hasAtLeastOneAdminSite = false />
-			      <#list deletedLabsSites as deletedSite>
-			        <#if deletedSite.isAdministrator(Context.principal.name) >
-			          <#assign hasAtLeastOneAdminSite = true />
-			          <#break>
-	    		    </#if>
-			      </#list>
-			      <table class="table table-bordered table-condensed table-striped bs" id="MyDeletedSites" >
-			        <thead>
-			          <tr>
-			            <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
-			            <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
-			            <th>${Context.getMessage('label.labssite.list.headers.created')}</th>
-			            <th style="width: 86px;">&nbsp;</th>
-			            <#if hasAtLeastOneAdminSite>
-	            		<th style="width: 88px;"></th>
-	            		</#if>
-			          </tr>
-			        </thead>
-			        <tbody>
-			          
-			          <#list deletedLabsSites as deletedSite>
-			            <tr>
-			              <td>${deletedSite.title}</td>
-			              <#if (deletedSite.administratorsSite?size > 0)>
-			              	<td>
-			              		<#list deletedSite.administratorsSite as siteAdministrator>
-			              			${userFullName(siteAdministrator)}<#if (siteAdministrator != deletedSite.administratorsSite?last)>,&nbsp;</#if>
-			              		</#list>
-			              	</td>
-			              <#else>
-			              	<td>${userFullName(deletedSite.document['dc:creator'])}</td>
-			              </#if>
-					      <#assign creationDate = deletedSite.document['dc:created']?datetime />
-					      <#assign creationDateStr = creationDate?string("EEEE dd MMMM yyyy HH:mm") />
-					      <td><span title="${creationDateStr}" >${Context.getMessage('label.labssite.list.dateInWordsFormat',[dateInWords(creationDate)])}</span><span class="sortValue">${creationDate?string("yyyyMMddHHmmss")}</span></td>
-			              <td>
-			              	<a id="undeleteSite" href="#" class="btn" onclick="javascript:undeleteSite('${Root.getLink(deletedSite.document)}/@labspublish/undelete');">${Context.getMessage('command.siteactions.undelete')}</a>
-			              </td>
-			              <#if hasAtLeastOneAdminSite>
-			              <td>
-			              <a href="#" class="btn btn-danger<#if !Common.canDeleteSite(Context.principal.name) > disabled</#if>"
-			              <#if Common.canDeleteSite(Context.principal.name) >
-			                onclick="javascript:deleteDefinitelySite('${Root.getLink(deletedSite.document)}');"
-			              <#else>
-			                title="${Context.getMessage('label.labssite.list.deletion.not.allowed')}"
-			                onclick="alert('${Context.getMessage('label.labssite.list.deletion.not.allowed')?js_string}');"
-			              </#if>
-			              >${Context.getMessage('command.siteactions.delete')}</a>
-			              </td>
-			              </#if>
-			            </tr>
-			          </#list>
-			      </table>
-			</section>
-	    </#if>
-    <#else>
-      Aucun site trouvé
-    </#if>
+    <#-- template sites -->
+    <div class="template-sites" >
+    <#include "views/sitesRoot/templateSites.ftl" >
+    </div>
+	<#-- deleted sites -->
+    <div class="deleted-sites" id="deleted-sites" data-reload-url="${Context.modulePath}/@views/deletedSites" >
+    <#include "views/sitesRoot/deletedSites.ftl" >
+    </div>
   </section>
   </@block>
 </@extends>

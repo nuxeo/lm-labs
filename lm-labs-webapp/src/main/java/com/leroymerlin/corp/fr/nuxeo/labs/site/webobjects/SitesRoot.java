@@ -16,7 +16,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.EntityTag;
@@ -118,7 +117,7 @@ public class SitesRoot extends ModuleRoot {
         rendering.setSharedVariable("tableOfContents", new TableOfContentsDirective());
         rendering.setSharedVariable("cache", new CacheBlock());
     }
-
+    
     public List<LabsSite> getUndeletedLabsSites() {
         try {
             return getLabsSitesUndeleted(getLabsSites());
@@ -126,6 +125,34 @@ public class SitesRoot extends ModuleRoot {
             log.error("Impossible to get the sites!", e);
             return new ArrayList<LabsSite>();
         }
+    }
+
+    public List<LabsSite> getUndeletedLabsSites(int idCategory) {
+        try {
+            DocumentModel category = LabsCategoyHelper.getCategory(idCategory);
+            if (category != null){
+                String labelCurrentCategory = ((String)category.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "label"));
+                List<LabsSite> undeletedLabsSites = null;
+                List<LabsSite> undeletedLabsSitesWithReadOnly = new ArrayList<LabsSite>();
+                if (idCategory == 0){
+                    undeletedLabsSites = getSiteManager().getSitesWithoutCategory(getContext().getCoreSession());
+                }
+                else{
+                    undeletedLabsSites = getSiteManager().getSitesWithCategory(getContext().getCoreSession(), labelCurrentCategory);
+                }
+                for (LabsSite sit:undeletedLabsSites){
+                    if (!(LabsSiteUtils.isOnlyRead(sit.getDocument(), getContext().getCoreSession()) && !sit.isVisible())) {
+                        undeletedLabsSitesWithReadOnly.add(sit);
+                    }
+                }
+                return getLabsSitesUndeleted(undeletedLabsSitesWithReadOnly);
+            } else {
+                return getUndeletedLabsSites();
+            }
+        } catch (ClientException e) {
+            log.error("Impossible to get the sites with category " + idCategory, e);
+        }
+        return new ArrayList<LabsSite>();
     }
 
     public List<LabsSite> getDeletedLabsSites() {
@@ -183,39 +210,8 @@ public class SitesRoot extends ModuleRoot {
     }
 
     @GET
-    public Object doGetDefaultView(@QueryParam("idCategory") String strIdCategory) {
-        if (!StringUtils.isEmpty(strIdCategory) && StringUtils.isNumeric(strIdCategory)){
-            try {
-                int idCategory = new Integer(strIdCategory).intValue();
-                DocumentModel category = LabsCategoyHelper.getCategory(idCategory);
-                if (category != null){
-                    String labelCurrentCategory = ((String)category.getProperty(LabsSiteConstants.Schemas.LABS_CATEGORY.getName(), "label"));
-                    List<LabsSite> undeletedLabsSites = null;
-                    List<LabsSite> undeletedLabsSitesWithReadOnly = new ArrayList<LabsSite>();
-                    if (idCategory == 0){
-                        undeletedLabsSites = getSiteManager().getSitesWithoutCategory(getContext().getCoreSession());
-                    }
-                    else{
-                        undeletedLabsSites = getSiteManager().getSitesWithCategory(getContext().getCoreSession(), labelCurrentCategory);
-                    }
-                    for (LabsSite sit:undeletedLabsSites){
-                        if (!(LabsSiteUtils.isOnlyRead(sit.getDocument(), getContext().getCoreSession()) && !sit.isVisible())) {
-                            undeletedLabsSitesWithReadOnly.add(sit);
-                        }
-                    }
-                    return getView("index").arg("idCurrentCategory", idCategory)
-                            .arg("undeletedLabsSites", getLabsSitesUndeleted(undeletedLabsSitesWithReadOnly))
-                            .arg("deletedLabsSites", getDeletedLabsSites())
-                            .arg("templateLabsSites", getTemplateLabsSites());
-                }
-            } catch (ClientException e) {
-                throw WebException.wrap(e);
-            }
-        }
-        return getView("index").arg("idCurrentCategory", -1)
-                .arg("undeletedLabsSites", getUndeletedLabsSites())
-                .arg("deletedLabsSites", getDeletedLabsSites())
-                .arg("templateLabsSites", getTemplateLabsSites());
+    public Object doGetDefaultView() {
+        return getView("index");
     }
     
     public List<DocumentModel> getDisplayableCategories() throws PropertyException, NullException, ClientException{
