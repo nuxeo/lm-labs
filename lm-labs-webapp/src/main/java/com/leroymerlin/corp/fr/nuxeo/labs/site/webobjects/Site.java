@@ -35,7 +35,6 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.HomePageException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
@@ -184,31 +183,21 @@ public class Site extends NotifiablePageResource {
         try {
             int rowIdx = new Integer(form.getString("rowIdx")).intValue();
             HtmlPage sidebar = site.getSidebar();
-            
-            
-            
-            HtmlContent content = sidebar.section(0).row(rowIdx).content(0);
-            Resource newObject = newObject("HtmlContent", sidebar.getDocument(), content);
+            HtmlRow row = sidebar.section(0).row(rowIdx);
+            Resource newObject = newObject("HtmlRow", doc, row, sidebar.section(0), rowIdx);
             return newObject;
-            /*List<LabsWidget> widgets = content.getGadgets(getCoreSession());
-            if (!widgets.isEmpty()) {
-                LabsWidget widget = widgets.get(0);
-                if (WidgetType.OPENSOCIAL.equals(widget.getType())) {
-                    DocumentRef ref = ((LabsOpensocialGadget)widget).getDoc().getRef();
-                    if (getCoreSession().exists(ref)) {
-                        DocumentModel gadgetDoc = getCoreSession().getDocument(ref);
-                        return newObject("HtmlWidget", gadgetDoc, doc, content, widget);
-                    }
-                    return Response.noContent().build();
-                }
-                return newObject("HtmlWidget", null, doc, content, widget);
-            }
-            return Response.noContent().build();*/
-            
-            
-            
         } catch (Exception e) {
             throw WebException.wrap("Problème lors de la sauvegarde de la configuration du widget de la sidebar", e);
+        }
+    }
+    
+    @Path("@element-sidebar")
+    public Object getSidebar() {
+        try {
+            return newObject("HtmlSection", site.getSidebar().getDocument(), site.getSidebar().section(0), 0, site.getSidebar());
+            
+        }catch (ClientException e) {
+            throw WebException.wrap("Problème lors de la sauvegarde de la configuration de la sidebar", e);
         }
     }
 

@@ -11,21 +11,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.WebObject;
-import org.nuxeo.runtime.api.Framework;
 
-import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager.WidgetType;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsHtmlWidget;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsOpensocialGadget;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
@@ -34,7 +25,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.GadgetUtils;
 @WebObject(type = "HtmlRow")
 public class WebHtmlRow extends MovableElementResource {
 
-    private static final Log LOG = LogFactory.getLog(WebHtmlRow.class);
+    //private static final Log LOG = LogFactory.getLog(WebHtmlRow.class);
 
     private static final String FAILED_TO_DELETE_ROW = "Failed to delete row ";
     private HtmlRow row;

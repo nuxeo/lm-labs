@@ -9,6 +9,7 @@
 	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.pack.js"></script>
 	    <script type="text/javascript" src="${contextPath}/opensocial/gadgets/js/rpc.js?c=1"></script>
 	    <script type="text/javascript" src="${skinPath}/js/register_rpc_show_fancybox.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/move.js"></script>
 	    <#include "views/common/template_description_js.ftl">
 	</@block>
 	
@@ -90,7 +91,7 @@
 	  <div id="div-editTheme-container"></div>
 	  
 	  <!--    SIDEBAR -->
-      <section>
+      <section id="sectionSidebar">
         <div class="page-header">
           <h3>
           	${Context.getMessage('label.labssites.appearance.sidebar.title')}
@@ -106,7 +107,8 @@
                 <input type="hidden" name="nbRows" id="nbRows" value="${mySite.sidebar.section(0).rows?size}"/>
 				
 				<#assign uncategorizedWidgets = Common.getUncategorizedWidgets("sidebar") />
-					<#list mySite.sidebar.section(0).rows as row>
+				<#assign rows = mySite.sidebar.section(0).rows />
+					<#list rows as row>
 						<#assign content = row.content(0) />
 					    <#assign widgets = [] />
 					    <#if content.type == "widgetcontainer">
@@ -124,7 +126,24 @@
 						            <@createSelectOptionWidget  />
 						        </select>
 						        <#if content.type != "html">
-						        	<a class="btn" rel="divConfigGadget" rowIdx="${row_index}" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')}</a>
+						        	<div class="btn-group">
+								      	<a class="btn dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"> </i>Actions <span class="caret"></span></a>
+										<ul class="dropdown-menu" style="left: auto;right: 0px;">
+											<li>
+												<a href="#" rowIdx="${row_index}" rel="divConfigGadget" ><i class="icon-gift"></i>${Context.getMessage('command.HtmlPage.row.widgets.config.button')}</a>
+												<#if rows?first != row>
+													<a href="#" onClick="javascript:ajaxMove2('${Context.modulePath}/${mySite.URL}/@element-sidebar/r/${row_index}/moveUpElement', '${This.path}#sectionSidebar');" title="Monter" alt="Monter"><i class="icon-arrow-up"></i>Monter</a>
+					    						</#if>
+					    						<#if rows?last != row>
+					    							<a href="#" onClick="javascript:ajaxMove2('${Context.modulePath}/${mySite.URL}/@element-sidebar/r/${row_index}/moveDownElement', '${This.path}#sectionSidebar');" title="Descendre" alt="Descendre"><i class="icon-arrow-down"></i>Descendre</a>
+					    						</#if>
+											</li>
+										</ul>
+								    </div>
+						        
+						        
+						        
+						        	<!--<a class="btn" rel="divConfigGadget" rowIdx="${row_index}" ><i class="icon-edit"></i>${Context.getMessage('command.HtmlPage.widget.config.button')}</a>-->
 						        </#if>
 						    </div>
 						</div>
@@ -186,7 +205,7 @@
 			        
 			        jQuery.ajax({
 			            type : "GET",
-			            url : "${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/w/@views/edit",
+			            url : "${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/c/0/w/@views/edit",
 			            data : "rowIdx=" + rowIndex,
 			            success : function(msg) {
 			                jQuery("#divConfigGadget-content").html(msg);
@@ -210,7 +229,7 @@
 		        
 		        jQuery.ajax({
 					type: "POST",
-					url: '${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/w/@put',
+					url: '${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/c/0/w/@put',
 					data: $("#config-gadget-form").serialize(),
 					success: function(msg){
 						alert("Configuration du widget enregistré.");

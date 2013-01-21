@@ -19,7 +19,7 @@ $(document).ready(function() {
             jQuery(this).hide();
     });
     
-    $(".nav-tabs li.dropdown a h5 b.caret").each(function() {
+    $(".nav-tabs li.dropdown a b.caret").each(function() {
     	$(this).remove();
     });
     
