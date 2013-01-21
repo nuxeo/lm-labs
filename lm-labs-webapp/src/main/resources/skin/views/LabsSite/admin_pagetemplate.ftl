@@ -79,17 +79,17 @@ jQuery(document).ready(function() {
 	                <input type="checkbox" name="checkoptions" value="${doc.id}" />
 	              </td>
 	              <td>
-	              	<a href="${url}" rel="popover" data-trigger="hover" data-content="&lt;strong&gt;${Context.getMessage('label.labspath')?html}: &lt;/strong&gt;&lt;br&gt;${Root.getTruncatedLink(doc)}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.doctype')}: &lt;/strong&gt;&lt;br&gt;${doc.type}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.description')}: &lt;/strong&gt;&lt;br&gt;${doc.dublincore.description?html}&lt;br&gt;<#if page.hasElementPreview()>&lt;br&gt;&lt;img src='${url + "/@blob"}'/&gt;</#if>"
+	              	<a href="${url}" rel="popover" data-trigger="hover" data-content="&lt;strong&gt;${Context.getMessage('label.labspath')?html}: &lt;/strong&gt;&lt;br&gt;${Root.getTruncatedLink(doc)}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.doctype')}: &lt;/strong&gt;&lt;br&gt;${doc.type}&lt;br&gt;&lt;strong&gt;${Context.getMessage('label.description')}: &lt;/strong&gt;&lt;br&gt;${doc['dc:description']?html}&lt;br&gt;<#if page.hasElementPreview()>&lt;br&gt;&lt;img src='${url + "/@blob"}'/&gt;</#if>"
 	              	  data-original-title="${Context.getMessage('label.properties')}"
-	              	  onClick="stopEventPropagation(event); window.location.href = '${url?html}'; return false;"">${doc.dublincore.title}</a>
+	              	  onClick="stopEventPropagation(event); window.location.href = '${url?html}'; return false;"">${doc['dc:title']}</a>
 	              </td>
-	              <td>${userFullName(doc.dublincore.creator)}</td>
+	              <td>${userFullName(doc['dc:creator'])}</td>
 	              <td>
-	                ${doc.dublincore.created?string.medium}
-	                <span class="sortValue">${doc.dublincore.created?string("yyyyMMddHHmmss")}</span>
+	                ${doc['dc:created']?string.medium}
+	                <span class="sortValue">${doc['dc:created']?string("yyyyMMddHHmmss")}</span>
 	              </td>
-	              <#assign modified=doc.dublincore.modified/>
-	              <td>${userFullName(doc.dublincore.lastContributor)}</td>
+	              <#assign modified=doc['dc:modified'] />
+	              <td>${userFullName(doc['dc:lastContributor'])}</td>
 	              <td>
 	                ${modified?string.medium}
 	                <span class="sortValue">${modified?string("yyyyMMddHHmmss")}</span>
