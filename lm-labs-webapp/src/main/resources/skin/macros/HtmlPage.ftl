@@ -1,18 +1,3 @@
-<#macro displayContentHtmlWidget widget widgetMode="view" sectionIdx=0 rowIdx=0 columnIdx=0 content="" >
-	<#if Common.declaredHtmlWidgets?seq_contains(widget.name) >
-		<#assign section_index = sectionIdx /> <#-- this is NOT useless code -->
-		<#assign row_index = rowIdx /> <#-- this is NOT useless code -->
-		<#assign content_index = columnIdx /> <#-- this is NOT useless code -->
-	    <#include "widgets/${widget.name}.ftl" />
-	<#else>
-	    <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + widget.type + '.' + widget.name) />
-	    <#if widgetTitle?starts_with('!') >
-	        <#assign widgetTitle = widget.name />
-	    </#if>
-		<span>Le widget '${widgetTitle}' n'est pas disponible</span>
-	</#if>
-</#macro>
-
 <#macro generateCssClass row >
 	<#if row??>
 		<#assign listUserClass=row.userClass>

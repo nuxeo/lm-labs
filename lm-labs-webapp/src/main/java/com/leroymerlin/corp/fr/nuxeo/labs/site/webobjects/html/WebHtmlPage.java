@@ -50,10 +50,6 @@ public class WebHtmlPage extends CacheablePageResource {
         return super.doPost();
 
     }
-    
-    public String getUserPrefsFormatJS(List<UserPref> list) {
-        return GadgetUtils.encode(list);
-    }
 
     private Response doAddSection(FormData form) {
         try {

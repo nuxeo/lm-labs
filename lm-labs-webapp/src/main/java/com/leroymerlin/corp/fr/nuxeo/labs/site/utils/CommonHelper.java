@@ -32,6 +32,7 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.webengine.WebEngine;
 import org.nuxeo.ecm.webengine.WebException;
+import org.nuxeo.opensocial.container.shared.webcontent.UserPref;
 import org.nuxeo.opensocial.gadgets.service.api.GadgetDeclaration;
 import org.nuxeo.runtime.api.Framework;
 
@@ -537,5 +538,9 @@ public final class CommonHelper {
     private static CoreSession getCoreSession() {
         return WebEngine.getActiveContext()
                 .getCoreSession();
+    }
+    
+    public static String getUserPrefsFormatJS(List<UserPref> list) {
+        return GadgetUtils.encode(list);
     }
 }

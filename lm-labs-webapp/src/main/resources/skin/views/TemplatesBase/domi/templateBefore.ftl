@@ -1,19 +1,5 @@
 <@extends src="/views/TemplatesBase/templateCommon.ftl">
 <#assign popoverPlacement = ", placement:'left'" />
-	<@block name="css">
-		<@superBlock/>
-		<link rel="stylesheet" href="${contextPath}/css/opensocial/light-container-gadgets.css" />
-	</@block>
-	<@block name="scripts">
-        <script type="text/javascript" src="${skinPath}/js/labs-opensocial-init.js"></script>
-        <script type="text/javascript" >
-jQuery(document).ready(function() {
-	setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
-	initOpensocialGadgets(jQuery('.sidebar'));
-});
-        </script>
-		<@superBlock/>
-	</@block>
 	<@block name="FKtopContent">
 		<@superBlock/>
 		
@@ -72,16 +58,7 @@ jQuery(document).ready(function() {
 	</@block>
   <@block name="bottom-page-js" >
     <@superBlock />
-    <script type="text/javascript" src="${contextPath}/opensocial/gadgets/js/rpc.js?c=1"></script>
-    <#--
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.pack.js"></script>
-    <script type="text/javascript" language="javascript" src="${contextPath}/opensocial/gadgets/js/rpc:pubsub:lmselectvalue.js?c=1"></script>
-    <script type="text/javascript" src="${skinPath}/js/register_rpc_show_fancybox.js"></script>
-    -->
-    <script type="text/javascript" src="${skinPath}/js/register_rpc_navigateto.js"></script>
-    <script type="text/javascript" src="${contextPath}/js/?scripts=opensocial/cookies.js|opensocial/util.js|opensocial/gadgets.js|opensocial/cookiebaseduserprefstore.js|opensocial/jquery.opensocial.gadget.js"></script>
-    <script type="text/javascript" src="${skinPath}/less/theme/Domi/js/scriptDOMI.js"></script>
-    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.json-2.3.min.js"></script>
+   		<script type="text/javascript" src="${skinPath}/less/theme/Domi/js/scriptDOMI.js"></script>
   </@block>
   
   <@block name="FKfooter">

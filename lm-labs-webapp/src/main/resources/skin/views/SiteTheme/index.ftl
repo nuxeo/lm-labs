@@ -1,3 +1,4 @@
+<#include "macros/widgets.ftl" />
 <#assign mySite=Common.siteDoc(Document).getSite() />
 <#if mySite?? && Session.hasPermission(mySite.document.ref, "Everything")>
 <@extends src="/views/labs-admin-base.ftl">
@@ -354,30 +355,3 @@
     controlGroup = controlGroup + '<option value="${type}/${name}"<#if selected > selected</#if> >Widget ${widgetTitle?js_string}</option>\n';
 </#macro>
 
-<#macro gadgetOption type name selected=false >
-    <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + type + '.' + name) />
-    <#if widgetTitle?starts_with('!') >
-        <#assign widgetTitle = name />
-    </#if>
-    <option value="${type}/${name}"<#if selected > selected</#if> >Widget ${widgetTitle}</option>
-</#macro>
-
-<#function isOptionSelected type name widgets widgetNbr=0 >
-    <#if 0 < widgets?size && widgets[widgetNbr].type.type() == type && widgets[widgetNbr].name == name >
-        <#return true />
-    </#if>
-    <#return false />
-</#function>
-
-<#macro determineWidgetType content >
-    <#if content.type == "widgetcontainer">
-        <#assign widgets = content.getGadgets(Session) />
-    </#if>
-    <#if 0 < widgets?size >
-        <#if widgets[0].type.type() == "opensocial" >
-            <#assign isOsGadgetCol = true />
-        <#else>
-            <#assign isWidgetCol = true />
-        </#if>
-    </#if>
-</#macro>
