@@ -50,7 +50,6 @@
           </#if>
     </#list>
     
-    <script type="text/javascript" src="${contextPath}/wro/labs.pagehtml.bottom.js"></script>
   	<script type="text/javascript" src="${skinPath}/js/externalLinksHelper.js"></script>
     <#if 0 < nbrOsGadgetsSidebar >
 	    <script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.pack.js"></script>
