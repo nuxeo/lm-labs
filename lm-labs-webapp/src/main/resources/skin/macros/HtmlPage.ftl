@@ -13,14 +13,6 @@
 	<#assign keys = mapUserClass?keys>
 <#if (keys?size > 0)><#list keys as key>{id:'${mapUserClass[key]}',text:'${key?js_string}'}<#if (keys?last != key)>,</#if></#list></#if></#macro>
 
-<#macro displayContentHtml content >
-    <#if content.html == "" >
-    &nbsp;
-    <#else>
-        ${content.html}
-    </#if>
-</#macro>
-
 <#macro displayRawSection section >
 	<#assign maxSpanSize = 12 />
 	<section>

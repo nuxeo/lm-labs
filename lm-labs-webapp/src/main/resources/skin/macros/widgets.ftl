@@ -40,3 +40,11 @@
 		<span>Le widget '${widgetTitle}' n'est pas disponible</span>
 	</#if>
 </#macro>
+
+<#macro displayContentHtml content >
+    <#if content.html == "" >
+    &nbsp;
+    <#else>
+        ${content.html}
+    </#if>
+</#macro>
