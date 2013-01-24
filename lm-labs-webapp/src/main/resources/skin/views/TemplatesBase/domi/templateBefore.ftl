@@ -1,19 +1,5 @@
 <@extends src="/views/TemplatesBase/templateCommon.ftl">
 <#assign popoverPlacement = ", placement:'left'" />
-	<@block name="css">
-		<@superBlock/>
-		<link rel="stylesheet" href="${contextPath}/css/opensocial/light-container-gadgets.css" />
-	</@block>
-	<@block name="scripts">
-        <script type="text/javascript" src="${skinPath}/js/labs-opensocial-init.js"></script>
-        <script type="text/javascript" >
-jQuery(document).ready(function() {
-	setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
-	initOpensocialGadgets(jQuery('.sidebar'));
-});
-        </script>
-		<@superBlock/>
-	</@block>
 	<@block name="FKtopContent">
 		<@superBlock/>
 		

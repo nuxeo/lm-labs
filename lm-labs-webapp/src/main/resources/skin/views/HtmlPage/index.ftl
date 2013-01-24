@@ -1,4 +1,5 @@
 <@extends src="/views/TemplatesBase/" + This.page.template.getTemplateName() + "/template.ftl">
+  <#include "macros/widgets.ftl" />
   <#assign maxSpanSize = 12 />
   <#assign nbrOsGadgets = 0 />
   <#assign mySite=Common.siteDoc(Document).getSite() />
@@ -192,7 +193,7 @@
 		                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="columns viewblock" >
 		                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
 		                        <script type="text/javascript">
-		                        	userPrefsTab['${widgets[0].doc.id}'] = eval ( '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
+		                        	userPrefsTab['${widgets[0].doc.id}'] = eval ( '(${Common.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
 		                        </script>
 		                        
 		                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
@@ -289,7 +290,7 @@
 	                        <div id="gadgetCol-s_${section_index}_r_${row_index}_c_${content_index}" class="span<#if maxSpanSize != content.colNumber >${content.colNumber}</#if> columns" >
 	                        <#assign nbrOsGadgets = nbrOsGadgets + 1 />
 		                        <script type="text/javascript">
-		                        	userPrefsTab['${widgets[0].doc.id}'] = eval ( '(${This.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
+		                        	userPrefsTab['${widgets[0].doc.id}'] = eval ( '(${Common.getUserPrefsFormatJS(widgets[0].userPrefs)?js_string})' );
 		                        </script>
 	                        
 	                        <div id="${widgets[0].doc.id}" class="opensocialGadgets gadget-${widgets[0].name} bloc"
@@ -458,19 +459,6 @@
 
   </@tableOfContents>
   <#--/@cache-->
-
-<#macro determineWidgetType content >
-    <#if content.type == "widgetcontainer">
-        <#assign widgets = content.getGadgets(Session) />
-    </#if>
-    <#if 0 < widgets?size >
-        <#if widgets[0].type.type() == "opensocial" >
-            <#assign isOsGadgetCol = true />
-        <#else>
-            <#assign isWidgetCol = true />
-        </#if>
-    </#if>
-</#macro>
 
 <#macro editblockHiddenInputs widget sectionIdx rowIdx contentIdx >
 <input type="hidden" class="section-index-value" value="${sectionIdx}" />

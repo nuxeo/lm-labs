@@ -30,6 +30,10 @@
 		<script type="text/javascript">
 			<#include "views/common/ckeditor_config.ftl" />
 			<#include "views/common/highlight.ftl" />
+			jQuery(document).ready(function() {
+				setOpensocialOptions('${contextPath}/', '${Context.locale.language}');
+				initOpensocialGadgets(jQuery('.sidebar'));
+			});
 		</script>
 	</@block>
 

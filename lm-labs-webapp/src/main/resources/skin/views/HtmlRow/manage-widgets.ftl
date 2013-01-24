@@ -6,7 +6,7 @@
 </#list>
 </ul>
 -->
-
+<#include "macros/widgets.ftl" />
 <#assign uncategorizedWidgets = Common.getUncategorizedWidgets(Document.type) />
 <#list contents as content >
     <#assign widgets = [] />
@@ -72,18 +72,4 @@
     </div>
 </div>
 </#list>
-
-<#macro gadgetOption type name selected=false >
-    <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.' + type + '.' + name) />
-    <#if widgetTitle?starts_with('!') >
-        <#assign widgetTitle = name />
-    </#if>
-    <option value="${type}/${name}"<#if selected > selected</#if> >Widget ${widgetTitle}</option>
-</#macro>
-<#function isOptionSelected type name widgets widgetNbr=0 >
-    <#if 0 < widgets?size && widgets[widgetNbr].type.type() == type && widgets[widgetNbr].name == name >
-        <#return true />
-    </#if>
-    <#return false />
-</#function>
 
