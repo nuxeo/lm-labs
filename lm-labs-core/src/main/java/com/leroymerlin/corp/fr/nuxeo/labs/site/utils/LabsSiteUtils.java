@@ -32,6 +32,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsSecurityException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
@@ -472,7 +474,11 @@ public final class LabsSiteUtils {
                     sidebar.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.SIDEBAR.docName()));
                     sidebar = session.createDocument(sidebar);
                     HtmlPage page = Tools.getAdapter(HtmlPage.class, sidebar, session);
-                    page.addSection().addRow().addContent(0, "");
+                    HtmlSection section = page.addSection();
+					createWidget(sidebar, section, session, "html/topPages");
+					createWidget(sidebar, section, session, "html/children");
+					createWidget(sidebar, section, session, "html/externalLinks");
+					createWidget(sidebar, section, session, "html/lastuploads");
                     session.saveDocument(page.getDocument());
                 }
             };
@@ -482,5 +488,12 @@ public final class LabsSiteUtils {
             log.error(e);
             return null;
         }
+	}
+
+	private static void createWidget(DocumentModel sidebar,
+			HtmlSection section, CoreSession session, String widget) throws ClientException {
+		HtmlRow row = section.addRow();
+		row.addContent(0, "");
+		GadgetUtils.syncWidgetsConfig(row.content(0), widget, sidebar, session);
 	}
 }
