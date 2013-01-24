@@ -18,7 +18,7 @@
       <tr>
         <th>${Context.getMessage('label.labssite.list.headers.site')}</th>
         <th>${Context.getMessage('label.labssite.list.headers.owner')}</th>
-        <th>${Context.getMessage('label.labssite.list.headers.created')}</th>
+        <th style="min-width: 70px;" >${Context.getMessage('label.labssite.list.headers.created')}</th>
         <#if idCurrentCategory == -1 >
         <th>${Context.getMessage('label.labssite.list.headers.category')}</th>
         </#if>
