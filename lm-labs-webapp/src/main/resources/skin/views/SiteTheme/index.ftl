@@ -11,6 +11,7 @@
 	    <script type="text/javascript" src="${contextPath}/opensocial/gadgets/js/rpc.js?c=1"></script>
 	    <script type="text/javascript" src="${skinPath}/js/register_rpc_show_fancybox.js"></script>
 	    <script type="text/javascript" src="${skinPath}/js/move.js"></script>
+	    <script type="text/javascript" src="${skinPath}/js/externalLinksHelper.js"></script>
 	    <#include "views/common/template_description_js.ftl">
 	</@block>
 	
@@ -247,6 +248,23 @@
 		    initSelectSidebar();
 		});
 		
+		function refreshConfigGadgetDialog() {
+			var waitingPic = '<img src="${skinPath}/images/loading.gif" />';
+			jQuery("#divConfigGadget-content").html(waitingPic);
+		    jQuery.ajax({
+		        type : "GET",
+		        url : '${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/c/0/w/@views/edit',
+			    data : "rowIdx=" + jQuery('#divConfigGadget input[name=rowIdx]').val(),
+		        success : function(msg) {
+		            jQuery("#divConfigGadget-content").html(msg);
+		        },
+		        error : function(msg) {
+		            jQuery("#divConfigGadget-content").html(msg.responseText);
+		            //alert('ERROR' + msg.responseText);
+		        }
+		    });
+		}
+		
 		function isValidExternalContent(content) {
 			return (content.indexOf('dontbeevil') !== -1);
 		}
@@ -320,6 +338,7 @@
 				jQuery(controlGroup).appendTo('#form-sidebar fieldset');
 			}
 		}
+		
     </script>
 	
   </@block>
