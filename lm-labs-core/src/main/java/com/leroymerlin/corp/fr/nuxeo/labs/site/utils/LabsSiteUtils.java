@@ -32,6 +32,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsSecurityException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 
@@ -460,15 +461,26 @@ public final class LabsSiteUtils {
         return true;
     }
 
-	public static DocumentModel createSidebarPage(DocumentModel doc, CoreSession session) throws ClientException {
-        DocumentModel sidebar = session.createDocumentModel(
-                doc.getPathAsString(),
-                LabsSiteConstants.Docs.SIDEBAR.docName(), LabsSiteConstants.Docs.SIDEBAR.type());
-        sidebar.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.SIDEBAR.docName()));
-        sidebar = session.createDocument(sidebar);
-        HtmlPage page = Tools.getAdapter(HtmlPage.class, sidebar, session);
-        page.addSection().addRow().addContent(0, "");
-        session.saveDocument(page.getDocument());
-        return sidebar;
+	public static DocumentModel createSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
+		try {
+            UnrestrictedSessionRunner unrestricted = new UnrestrictedSessionRunner(session) {
+                @Override
+                public void run() throws ClientException {
+                	DocumentModel sidebar = session.createDocumentModel(
+                            doc.getPathAsString(),
+                            LabsSiteConstants.Docs.SIDEBAR.docName(), LabsSiteConstants.Docs.SIDEBAR.type());
+                    sidebar.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.SIDEBAR.docName()));
+                    sidebar = session.createDocument(sidebar);
+                    HtmlPage page = Tools.getAdapter(HtmlPage.class, sidebar, session);
+                    page.addSection().addRow().addContent(0, "");
+                    session.saveDocument(page.getDocument());
+                }
+            };
+            unrestricted.runUnrestricted();
+            return Tools.getAdapter(LabsSite.class, doc, session).getSidebar().getDocument();
+        } catch (Exception e) {
+            log.error(e);
+            return null;
+        }
 	}
 }
