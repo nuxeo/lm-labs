@@ -61,7 +61,7 @@ public class SiteCreationEventListener implements EventListener {
             session.createDocument(assets);
             session.createDocument(themesRoot);
             createWelcomePage(doc, session);
-            LabsSiteUtils.createSidebarPage(doc, session);
+            LabsSiteUtils.createDefaultSidebarPage(doc, session);
         }
     }
 

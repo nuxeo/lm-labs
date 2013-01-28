@@ -24,6 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -197,6 +198,9 @@ public class SiteThemeResource extends PageResource {
             String themeName = form.getString("theme");
             site.getThemeManager()
                     .setTheme(themeName, session);
+            String topPageNavigationStr = form.getString("labssite:topPageNavigation");
+            boolean topPageNavigation = BooleanUtils.toBoolean(topPageNavigationStr);
+            site.setTopPageNavigation(topPageNavigation);
             session.saveDocument(site.getDocument());
             session.save();
             return redirect(getPrevious().getPath() + "/@theme/" + themeName

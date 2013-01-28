@@ -87,6 +87,9 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             + ":category";
 
     private static final String PROPERTY_URL = "webcontainer:url";
+    
+    public static final String PROPERTY_TOP_PAGE_NAVIGATION = Schemas.LABSSITE.prefix()
+            + ":topPageNavigation";
 
     private static final Log LOG = LogFactory.getLog(LabsSiteAdapter.class);
     
@@ -725,12 +728,27 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 				docSidebar = session.getDocument(pathRefSidebar);
 			}
 			else{
-				docSidebar = LabsSiteUtils.createSidebarPage(this.getDocument(), session);
+				docSidebar = LabsSiteUtils.createDefaultSidebarPage(this.getDocument(), session);
 				session.save();
 			}
 			sidebar = Tools.getAdapter(HtmlPage.class, docSidebar, session);
 		}
 		return sidebar;
+	}
+
+	@Override
+	public boolean isTopPageNavigation() throws ClientException {
+		Serializable propertyValue = doc.getPropertyValue(PROPERTY_TOP_PAGE_NAVIGATION);
+        if (propertyValue instanceof Boolean) {
+            return ((Boolean) propertyValue).booleanValue();
+        }
+        return false;
+	}
+
+	@Override
+	public void setTopPageNavigation(boolean isTopPageNavigation)
+			throws ClientException {
+		doc.setPropertyValue(PROPERTY_TOP_PAGE_NAVIGATION, isTopPageNavigation);
 	}
 	
 }

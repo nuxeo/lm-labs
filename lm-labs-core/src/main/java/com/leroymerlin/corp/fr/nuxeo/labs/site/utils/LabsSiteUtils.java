@@ -462,8 +462,35 @@ public final class LabsSiteUtils {
         }
         return true;
     }
+    
+    public static DocumentModel createDefaultSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
+    	List<String> widgets = new ArrayList<String>();
+    	widgets.add("html/topPages");
+    	widgets.add("html/children");
+    	widgets.add("html/externalLinks");
+    	widgets.add("html/lastuploads");
+    	return createSidebarPage(doc, session, widgets);
+    }
+    
+    public static DocumentModel createComplexSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
+    	List<String> widgets = new ArrayList<String>();
+    	//widgets.add("html/topPages");
+    	widgets.add("html/children");
+    	widgets.add("html/externalLinks");
+    	widgets.add("html/lastuploads");
+    	return createSidebarPage(doc, session, widgets);
+    }
+    
+    public static DocumentModel createSimpleSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
+    	List<String> widgets = new ArrayList<String>();
+    	widgets.add("html/topPages");
+    	widgets.add("html/children");
+    	widgets.add("html/externalLinks");
+    	//widgets.add("html/lastuploads");
+    	return createSidebarPage(doc, session, widgets);
+    }
 
-	public static DocumentModel createSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
+	public static DocumentModel createSidebarPage(final DocumentModel doc, CoreSession session, final List<String> widgets) throws ClientException {
 		try {
             UnrestrictedSessionRunner unrestricted = new UnrestrictedSessionRunner(session) {
                 @Override
@@ -475,10 +502,9 @@ public final class LabsSiteUtils {
                     sidebar = session.createDocument(sidebar);
                     HtmlPage page = Tools.getAdapter(HtmlPage.class, sidebar, session);
                     HtmlSection section = page.addSection();
-					createWidget(sidebar, section, session, "html/topPages");
-					createWidget(sidebar, section, session, "html/children");
-					createWidget(sidebar, section, session, "html/externalLinks");
-					createWidget(sidebar, section, session, "html/lastuploads");
+                    for (String widget: widgets){
+                    	createWidget(sidebar, section, session, widget);
+                    }
                     session.saveDocument(page.getDocument());
                 }
             };

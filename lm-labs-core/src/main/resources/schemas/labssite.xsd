@@ -9,6 +9,7 @@
   <xs:element name="siteTemplate" type="xs:boolean" default="false" />
   <xs:element name="siteTemplatePreview" type="tns:content"/>
   <xs:element name="category" type="xs:string" default="Aucune"></xs:element>
+  <xs:element name="topPageNavigation" type="xs:boolean" default="true" />
 
    <xs:element name="contacts" type="tns:contacts"></xs:element>
 
