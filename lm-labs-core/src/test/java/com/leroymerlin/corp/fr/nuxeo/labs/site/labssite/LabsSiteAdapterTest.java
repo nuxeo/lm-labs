@@ -74,7 +74,7 @@ public class LabsSiteAdapterTest {
     protected FeaturesRunner featuresRunner;
 
     @Inject
-    SiteManager sm;
+    protected SiteManager sm;
 
     @Test
     public void iCanCreateALabsSiteDocument() throws Exception {
@@ -667,5 +667,22 @@ public class LabsSiteAdapterTest {
         doc = session.saveDocument(labssite.getDocument());
         labssite = Tools.getAdapter(LabsSite.class, doc, session);
         assertThat(labssite.getCategory(), is("category 1"));
+    }
+
+    @Test
+    public void iCanGetDefaultTopPageNavigation() throws Exception {
+        LabsSite site = createLabsSite("NameSite1");
+        assertTrue(site.isTopPageNavigation());
+    }
+
+    @Test
+    public void iCanSetTopPageNavigation() throws Exception {
+        LabsSite site = createLabsSite("NameSite1");
+        site.setTopPageNavigation(false);
+        session.saveDocument(site.getDocument());
+        assertFalse(site.isTopPageNavigation());
+        site.setTopPageNavigation(true);
+        session.saveDocument(site.getDocument());
+        assertTrue(site.isTopPageNavigation());
     }
 }

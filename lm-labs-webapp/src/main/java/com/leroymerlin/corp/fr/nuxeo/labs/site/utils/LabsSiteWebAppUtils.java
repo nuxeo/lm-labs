@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
@@ -30,6 +31,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoDraftException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.providers.LatestUploadsPageProvider;
@@ -192,6 +194,83 @@ public final class LabsSiteWebAppUtils {
             session.save();
         } catch (ClientException e) {
             LOG.error("updateIsTopOnLabsnews : " , e);
+        }
+    }
+    
+    /**
+     * update isTop to default value : false
+     * @param session
+     */
+    public static void updateSiteTemplateAndSidebar(CoreSession session){
+        try {
+            DocumentModelList children = session.query("SELECT * FROM " + Docs.SITE.type());
+            for (DocumentModel docLabsSite: children){
+                LabsSite labsSite = Tools.getAdapter(LabsSite.class, docLabsSite, session);
+                String templateName = labsSite.getTemplate().getTemplateName();
+				if (templateName.equals("homeSimple")){
+                	labsSite.setTopPageNavigation(false);
+                	labsSite.getTemplate().setTemplateName("left");
+                	LabsSiteUtils.createSimpleSidebarPage(labsSite.getDocument(), session);
+                }
+                else if(templateName.equals("homeLeftComplex")){
+                	labsSite.setTopPageNavigation(true);
+                	labsSite.getTemplate().setTemplateName("left");
+                	LabsSiteUtils.createComplexSidebarPage(labsSite.getDocument(), session);
+                }
+                else if(templateName.equals("centerFullScreen")){
+                	labsSite.setTopPageNavigation(true);
+                }
+                else if(templateName.equals("homeRightComplex")){
+                	labsSite.getTemplate().setTemplateName("right");
+                	labsSite.setTopPageNavigation(true);
+                	LabsSiteUtils.createComplexSidebarPage(labsSite.getDocument(), session);
+                }
+                else if(templateName.equals("homeRightSimple")){
+                	labsSite.getTemplate().setTemplateName("right");
+                	labsSite.setTopPageNavigation(false);
+                	LabsSiteUtils.createSimpleSidebarPage(labsSite.getDocument(), session);
+                }
+                else if(templateName.equals("domi")){
+                	labsSite.setTopPageNavigation(true);
+                }
+                else if(templateName.equals("supplyChain")){
+                	labsSite.setTopPageNavigation(true);
+                }
+                session.saveDocument(docLabsSite);
+            }
+            session.save();
+        } catch (ClientException e) {
+            LOG.error("updateSiteTemplateAndSidebar : " , e);
+        }
+    }
+    
+    public static void updatePageTemplate(CoreSession session){
+        try {
+    		DocumentModelList docs = session.query("SELECT * FROM Page");
+    		LabsTemplate template = null;
+    		String templateName = null;
+    		for (DocumentModel doc:docs){
+    			template = Tools.getAdapter(LabsTemplate.class, doc, session);
+    			templateName = template.getDocumentTemplateName();
+    			if (!StringUtils.isEmpty(templateName)){
+    				if (templateName.equals("homeSimple")){
+    					template.setTemplateName("left");
+                    }
+                    else if(templateName.equals("homeLeftComplex")){
+                    	template.setTemplateName("left");
+                    }
+                    else if(templateName.equals("homeRightComplex")){
+                    	template.setTemplateName("right");
+                    }
+                    else if(templateName.equals("homeRightSimple")){
+                    	template.setTemplateName("right");
+                    }
+    				session.saveDocument(doc);
+    			}
+    		}
+    		session.save();
+        } catch (ClientException e) {
+            LOG.error("updatePageTemplate : " , e);
         }
     }
 }

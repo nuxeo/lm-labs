@@ -81,6 +81,13 @@
                     <p class="help-block">${Context.getMessage('label.labssites.appearance.template.help.block')}</p>
                   </div>
                 </div>
+                <div class="control-group">
+			      <div class="controls">
+			        <label class="checkbox" for="navigation">
+			          <input class="checkbox" id="navigation" type="checkbox" name="labssite:topPageNavigation" <#if mySite.topPageNavigation>checked="true"</#if> />
+			        &nbsp;${Context.getMessage('label.labssite.edit.topPageNavigation')}</label>
+			      </div>
+			    </div>
                </fieldset>
               <div class="form-actions" >
                 <button class="btn btn-primary">${Context.getMessage('label.labssites.appearance.save')}</button>
@@ -119,7 +126,7 @@
 						<div class="control-group">
 						    <label class="control-label" for="bloc${row_index}">Bloc ${row_index + 1}</label>
 						    <div class="controls" >
-						        <select name="bloc${row_index}" onChange="javascript:onChangeWidget(this);" >
+						        <select name="bloc${row_index}" id="bloc${row_index}" onChange="javascript:onChangeWidget(this);" >
 						            <#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.html.editor') />
 						            <#if widgetTitle?starts_with('!') >
 						                <#assign widgetTitle = "Aucun" />
@@ -310,7 +317,7 @@
 				var controlGroup = '<div class="control-group">\n';
 				controlGroup = controlGroup + '<label class="control-label" for="bloc' + nbRows + '">Bloc ' + (nbRows + 1) + '</label>\n';
 				controlGroup = controlGroup + '<div class="controls" >\n';
-				controlGroup = controlGroup + '<select name="bloc' + nbRows + '" onChange="javascript:onChangeWidget(this);" >\n';
+				controlGroup = controlGroup + '<select name="bloc' + nbRows + '" id="bloc' + nbRows + '" onChange="javascript:onChangeWidget(this);" >\n';
 				<#assign widgetTitle = Context.getMessage('label.HtmlPage.widget.html.editor') />
 	            <#if widgetTitle?starts_with('!') >
 	                <#assign widgetTitle = "Aucun" />

@@ -152,4 +152,8 @@ public interface LabsSite  extends LabsBase {
 	String getCategory() throws ClientException;
 
 	HtmlPage getSidebar() throws ClientException;
+
+	boolean isTopPageNavigation() throws ClientException;
+
+	void setTopPageNavigation(boolean isTopPageNavigation) throws ClientException;
 }

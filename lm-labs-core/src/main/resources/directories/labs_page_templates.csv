@@ -1,6 +1,6 @@
 id, label, obsolete
 "centerFullScreen","","0"
-"homeLeftComplex","","0"
-"homeRightComplex","","0"
-"homeSimple","","0"
+"left","","0"
+"right","","0"
 "supplyChain","","0"
+"domi","","0"

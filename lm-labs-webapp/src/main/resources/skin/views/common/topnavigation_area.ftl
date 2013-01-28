@@ -16,6 +16,7 @@
 	<#return false>
 </#function>
 
+<#if mySite.topPageNavigation >
 	<ul class="nav nav-tabs topnavpages">
 		<#assign topPages = Common.getTopNavigationPages(mySite.getTree(), Context.principal.name) />
 		<#if topPages?size &gt; 0 >
@@ -55,3 +56,4 @@
 			<li class="active"><a href="${url}"><h5>${Context.getMessage('label.homePage')}</h5></a></li>
 		</#if> 
 	</ul>
+</#if>
