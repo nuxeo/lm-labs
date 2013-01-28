@@ -165,7 +165,7 @@ public class PageNewsResource extends NotifiablePageResource {
 			paramQuery = new Object[] { doc.getId() };
 		} else {
 			coreQueryPageProviderName = "list_news_nxql";
-			String date_str = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(Calendar.getInstance().getTime());
+			String date_str = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 			paramQuery = new Object[] { doc.getId(), date_str, date_str };
 		}
 		try {

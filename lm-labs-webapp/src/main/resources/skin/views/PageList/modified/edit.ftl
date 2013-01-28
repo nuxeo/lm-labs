@@ -7,7 +7,7 @@
         <#assign propValue = Document[prop] />
 		<#if propValue != null>
 	 	   <#assign propValueStr = propValue?string(header.formatDate) />
-	 	   <#assign tooltip = propValue?string('yyyy-MM-dd hh:mm:ss') />
+	 	   <#assign tooltip = propValue?string('yyyy-MM-dd HH:mm:ss') />
 		</#if>
     </#if>
 </#if>
