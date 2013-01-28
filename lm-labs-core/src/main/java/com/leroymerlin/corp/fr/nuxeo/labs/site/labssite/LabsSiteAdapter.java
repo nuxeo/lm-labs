@@ -751,4 +751,14 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
 		doc.setPropertyValue(PROPERTY_TOP_PAGE_NAVIGATION, isTopPageNavigation);
 	}
 	
+    
+    public Boolean isSubscribed(String userName) {
+        try {
+            PageSubscription subscriptionAdapter = Tools.getAdapter(PageSubscription.class, doc, getSession());
+            return subscriptionAdapter.isSubscribed(userName);
+        } catch (Exception e) {
+            LOG.error(e, e);
+        }
+        return false;
+    }
 }
