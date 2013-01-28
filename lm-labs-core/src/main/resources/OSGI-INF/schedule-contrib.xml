@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <component name="com.leroymerlin.corp.fr.nuxeo.labs.schedule.publishedNews">
-  <extension target="org.nuxeo.ecm.platform.scheduler.core.service.SchedulerRegistryService"
+  <extension target="org.nuxeo.ecm.core.scheduler.SchedulerService"
       point="schedule">
       
     <schedule id="checkPages">
