@@ -1,6 +1,7 @@
 code, wname, type, group, obsolete, ordering
 "html-externalContent","externalContent","html","Usine à Sites - Contenu","0","10"
 "html-toc","toc","html","Usine à Sites - Contenu","0","20"
+"html-topPages","topPages","html","Usine à Sites - Navigation","0","22"
 "html-externalLinks","externalLinks","html","Usine à Sites - Navigation","0","25"
 "html-lastuploads","lastuploads","html","Usine à Sites - Navigation","0","30"
 "html-children","children","html","Usine à Sites - Navigation","0","40"
