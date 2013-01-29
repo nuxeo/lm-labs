@@ -5,7 +5,8 @@
 <script type="text/javascript">
 	jQuery(document).ready(function() {
 		jQuery(function () {
-			jQuery(".bloc.children-pages a[rel=popover]").popover({offset: 10, html:true , placement: '<#if sidebarPosition == "left" >right<#elseif sidebarPosition == "right" >left<#else>bottom</#if>'});
+			jQuery(".sidebar .bloc.children-pages li[rel=popover]").popover({offset: 10, html:true , placement: '<#if sidebarPosition == "right" >left<#else>right</#if>'});
+			jQuery("section .bloc.children-pages li[rel=popover]").popover({offset: 10, html:true , placement: 'bottom'});
 		});
 	});
 </script>
@@ -63,15 +64,16 @@
 					<#if showGrandChildPages >
 						<#assign childSubPages = Common.siteDoc(child).getChildrenNavigablePages(Context.principal.name) />
 					</#if>
-                	<li<#if 0 < childSubPages?size > class="dropdown"</#if> >
-                	  <#assign url = Context.modulePath + "/" + Common.siteDoc(child).resourcePath />
-                	  <a href="${url?html}"
-                	    <#if 0 < childSubPages?size > class="dropdown-toggle" data-toggle="dropdown" data-target="#" </#if>
+                	<li<#if 0 < childSubPages?size > class="dropdown"</#if> 
                         <#assign childDescr = child['dc:description']?replace("[[TOC]]", "") />
                 		<#if (childDescr?length > 0) >
                 	  		rel="popover" data-content="${childDescr?html}" data-trigger="hover"
                 	  		data-original-title="${Context.getMessage('label.description')}"
                 	  	</#if>
+                	>
+                	  <#assign url = Context.modulePath + "/" + Common.siteDoc(child).resourcePath />
+                	  <a href="${url?html}"
+                	    <#if 0 < childSubPages?size > class="dropdown-toggle" data-toggle="dropdown" data-target="#" </#if>
                 	  ><#if displayChevron ><i style="font-size: 9px;" class="icon-chevron-right bullet-icon" ></i></#if>
                 	  <span<#if 0 < childSubPages?size > onclick="stopEventPropagation(event); window.location.href = '${url?html}'; return false;"</#if> >${child.title}</span>
                 	<#if 0 < childSubPages?size ><b style="float:right;" class="caret" ></b></#if>
