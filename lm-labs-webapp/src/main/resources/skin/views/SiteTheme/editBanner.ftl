@@ -1,7 +1,9 @@
 <#assign mySite=Common.siteDoc(Document).site />
 <#assign bannerBlob = mySite.themeManager.getTheme(Context.coreSession).banner />
+<#assign webadapter = "sharedElementBrowser" />
+<#assign webadapter = "assets" />
 <input id="valuePropertyBanner" name="valuePropertyBanner" type="hidden" value="" />
-<a href="#" onclick="javascript:openAssets('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@sharedElementBrowser?callFunction=setBannerInput&calledRef=0')">Associer un média</a>
+<a href="#" onclick="javascript:openAssets('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@${webadapter}?callFunction=setBannerInput&calledRef=0')">Associer un média</a>
 <span id="spanTextAssetBanner">&nbsp;</span>
 <div id="actionMediaBanner" style="float: right;">
 	<img class="actionMediaImage" src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.getTheme(Context.coreSession).name}/banner" style="width: 120px;border:1px dashed black;<#if (bannerBlob = null)> display:none;</#if>"/>
