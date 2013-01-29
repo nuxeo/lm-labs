@@ -12,14 +12,26 @@
 					autoOpen : true,
 					closeOnOverlayClick : false,
 					removeOnClose : false,
+					buttons :  {
+						'${Context.getMessage('label.login')}': {
+							click: function() { valid();},
+							primary: true,
+							type: "btn-login"
+						}
+					},
 					showCloseHandle : true
 				});
 				
 				jQuery(".listener").keypress(function(e){
 			      if (e.keyCode == 13 || e.which == 13){
-			       doLogin();
+			       valid();
 			      }
 			    });
+			    jQuery(".btn-login").data('loading-text', "${Context.getMessage('command.login.ongoing')}");
+			    jQuery(".btn-login").unbind('click').click(function(e){
+			    		valid();
+			    	}
+			    );
 				<#if Context.principal.isAnonymous() == false>
 					showError();
 				</#if>
@@ -28,11 +40,12 @@
 			function showError() {
 		       $(".control-group").addClass("error");
 		       $(".control-group").children(".help-inline").show();
+		       jQuery('.btn-login').button('reset');
 			}
 			
 		
-		  function doLogin() {
-		  	jQuery('#login').text('Connexion en cours ...');
+		  function valid() {
+		  	jQuery('.btn-login').button('loading');
  		    username = $('#username').val();
  		    password = $('#password').val();
 		  	if(username=='' || password == '') {
@@ -61,7 +74,7 @@
 	<@block name="content">
 		<div id="divLogin"  class="fixed-container dialog2" style="display: none;">
 			<h1>${Context.getMessage('label.unauthorized.popup.title')}</h1>
-			<form id="form-loginPopup" class="form-horizontal" onsubmit="doLogin();return false;" action="">
+			<form id="form-loginPopup" class="form-horizontal" onsubmit="return false;" action="">
 				<fieldset>
 					<div class="control-group">
 						<label class="control-label" style="font-weight: bold;">${Context.getMessage('label.Username')}</label>
@@ -86,9 +99,6 @@
 						</span>
 					</div>
 				</fieldset>
-				<div  class="actions">
-					<button id="login" title="${Context.getMessage('tooltip.login')}" form-id="form-loginPopup" class="btn btn-primary">${Context.getMessage('label.login')}</button>
-				</div>
 			</form>
 		</div>
 	
