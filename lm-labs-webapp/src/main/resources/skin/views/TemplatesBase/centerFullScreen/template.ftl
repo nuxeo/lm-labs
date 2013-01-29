@@ -5,8 +5,8 @@
 		
 		<#--  masthead  -->
 		<div id="masthead">
-			<#--  Logo  
-			<#include "views/common/logo.ftl" /> -->
+			<#--  Logo  -->
+			<#include "views/common/logo.ftl" /> 
 			<#--  Banner  -->
 			<#include "views/common/banner.ftl" />
 		</div>
