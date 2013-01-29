@@ -1,8 +1,10 @@
 <#assign mySite=Common.siteDoc(Document).site />
 <#assign logoWidth = mySite.themeManager.getTheme(Context.coreSession).logoWidth />
 <#assign logoBlob = mySite.themeManager.getTheme(Context.coreSession).logo />
+<#assign webadapter = "sharedElementBrowser" />
+<#assign webadapter = "assets" />
 <input id="valuePropertyLogo" name="valuePropertyLogo" type="hidden" value="" />
-<a href="#" onclick="javascript:openAssets('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@sharedElementBrowser?callFunction=setLogoInput&calledRef=0')">Associer un média</a>
+<a href="#" onclick="javascript:openAssets('${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@${webadapter}?callFunction=setLogoInput&calledRef=0')">Associer un média</a>
 <span id="spanTextAssetLogo">&nbsp;</span>
 <div id="actionMediaLogo" style="float: right;">
 	<img class="actionMediaImage" src="${Context.modulePath}/${mySite.URL}/@theme/${mySite.themeManager.getTheme(Context.coreSession).name}/logo" style="width: 40px;border:1px dashed black;<#if (logoBlob = null)> display:none;</#if>"/>
