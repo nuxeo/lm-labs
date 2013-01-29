@@ -30,6 +30,7 @@ import com.leroymerlin.common.core.security.GroupUserSuggest;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoDraftException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.NoPublishException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.list.PageListLine;
@@ -198,7 +199,28 @@ public final class LabsSiteWebAppUtils {
     }
     
     /**
-     * update isTop to default value : false
+     * update updateEmptySidebar
+     * @param session
+     */
+    public static void updateEmptySidebar(CoreSession session){
+        try {
+            DocumentModelList children = session.query("SELECT * FROM " + Docs.SITE.type());
+            for (DocumentModel docLabsSite: children){
+                LabsSite labsSite = Tools.getAdapter(LabsSite.class, docLabsSite, session);
+                HtmlPage sidebar = labsSite.getSidebar();
+				if (sidebar.getSections().size() < 2){
+					session.removeDocument(sidebar.getDocument().getRef());
+					session.save();
+					LabsSiteUtils.createDefaultSidebarPage(labsSite.getDocument(), session);
+		            session.save();
+                }
+            }
+        } catch (ClientException e) {
+            LOG.error("updateEmptySidebar : " , e);
+        }
+    }
+    
+    /**
      * @param session
      */
     public static void updateSiteTemplateAndSidebar(CoreSession session){
@@ -219,6 +241,7 @@ public final class LabsSiteWebAppUtils {
                 }
                 else if(templateName.equals("centerFullScreen")){
                 	labsSite.setTopPageNavigation(true);
+                	LabsSiteUtils.createDefaultSidebarPage(labsSite.getDocument(), session);
                 }
                 else if(templateName.equals("homeRightComplex")){
                 	labsSite.getTemplate().setTemplateName("right");
@@ -232,9 +255,11 @@ public final class LabsSiteWebAppUtils {
                 }
                 else if(templateName.equals("domi")){
                 	labsSite.setTopPageNavigation(true);
+                	LabsSiteUtils.createDefaultSidebarPage(labsSite.getDocument(), session);
                 }
                 else if(templateName.equals("supplyChain")){
                 	labsSite.setTopPageNavigation(true);
+                	LabsSiteUtils.createDefaultSidebarPage(labsSite.getDocument(), session);
                 }
                 session.saveDocument(docLabsSite);
             }

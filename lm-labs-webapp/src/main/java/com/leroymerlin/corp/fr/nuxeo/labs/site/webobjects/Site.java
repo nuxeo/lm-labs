@@ -1,5 +1,7 @@
 package com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -210,27 +212,51 @@ public class Site extends NotifiablePageResource {
             int nbRows = new Integer(form.getString("nbRows")).intValue();
             HtmlPage sidebar = site.getSidebar();
             HtmlSection section = sidebar.section(0);
-            section.remove();
-            sidebar.addSection();
-            section = sidebar.section(0);
             HtmlRow row = null;
             String widget = "";
+            int rowSize = section.getRows().size();
             for (int i=0;i<nbRows;i++) {
                 widget = form.getString("bloc" + i);
-                if (!"html/editor".equals(widget)){
-                    row = section.addRow();
-                    row.addContent(0, "");
-                    session.saveDocument(sidebar.getDocument());
-                    session.save();
-                    GadgetUtils.syncWidgetsConfig(row.content(0), widget, sidebar.getDocument(), session);
-                }
+            	if (i < rowSize){
+            		row = section.row(i);
+            	}
+            	else{
+            		row = section.addRow();
+            		row.addContent(0, "");
+            		session.saveDocument(sidebar.getDocument());
+            	}
+                GadgetUtils.syncWidgetsConfig(row.content(0), widget, sidebar.getDocument(), session);
             }
+            clearSidebar();
+            session.save();
         } catch (Exception e) {
             throw WebException.wrap("Problème lors de la sauvegarde des widgets de la sidebar", e);
         }
         // TODO row's widget config
 
         return Response.ok().build();
+    }
+    
+    private void clearSidebar() throws Exception{
+    	HtmlPage sidebar = site.getSidebar();
+    	if (sidebar.getSections().size() < 1){
+    		return;
+    	}
+    	HtmlSection section = sidebar.section(0);
+    	List<Integer> indexToRemove = new ArrayList<Integer>();
+    	int cpt = 0;
+    	for (HtmlRow row : section.getRows()){
+    		if ("html".equals(row.content(0).getType())){
+    			indexToRemove.add(cpt);
+    		}
+    		cpt++;
+    	}
+    	CoreSession session = getCoreSession();
+    	Collections.reverse(indexToRemove);
+    	for (Integer index: indexToRemove){
+			section.row(index).remove(session);
+    	}
+    	session.saveDocument(sidebar.getDocument());
     }
 
     @Path("@currenttheme")
