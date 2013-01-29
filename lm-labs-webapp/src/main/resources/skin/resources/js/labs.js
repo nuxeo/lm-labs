@@ -35,16 +35,15 @@ $(document).ready(function() {
 	    cache: false
 	});
   
+  var hasPb = false;
   //TODO Laissez quelques temps et enlever quand pb résolu avec cache WRO
-  $(".modal-overlay").each(function(i, element) {
-	  var hasPb = false;
-	  if($(element)[0].style.display == "block"){
-		  $(element)[0].style.display = "none";
-	  }
-	  if (hasPb){
-		  alert("Il y a eu un problème d'affichage des popup du labs\nS'il n'est pas résolu, veuillez prévenir Guillaume Mortier au 03 28 80 83 47.");
-	  }
+  $(".modal-overlay:visible").each(function(i, element) {
+	  $(element).hide();
+	  hasPb = true;
   });
+  if (hasPb){
+	  alert("Il y a eu un problème d'affichage des popup du labs\nS'il n'est pas résolu, veuillez prévenir Guillaume Mortier au 03 28 80 83 47.");
+  }
   
 });
 
