@@ -495,17 +495,33 @@ public final class LabsSiteUtils {
             UnrestrictedSessionRunner unrestricted = new UnrestrictedSessionRunner(session) {
                 @Override
                 public void run() throws ClientException {
-                	DocumentModel sidebar = session.createDocumentModel(
-                            doc.getPathAsString(),
-                            LabsSiteConstants.Docs.SIDEBAR.docName(), LabsSiteConstants.Docs.SIDEBAR.type());
-                    sidebar.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.SIDEBAR.docName()));
-                    sidebar = session.createDocument(sidebar);
+                	DocumentModel sidebar = null;
+                	PathRef pathRefSidebar = new PathRef(doc.getPathAsString() + "/"
+        					+ LabsSiteConstants.Docs.SIDEBAR.docName());
+                	if (session.exists(pathRefSidebar)){
+                		sidebar = session.getDocument(pathRefSidebar);
+                		HtmlPage page = Tools.getAdapter(HtmlPage.class, sidebar, session);
+                		if (page.getSections().size() == 1){
+                			page.section(0).remove();
+                			sidebar = session.saveDocument(sidebar);
+                		}
+                	}
+                	else{
+	                	sidebar = session.createDocumentModel(
+	                            doc.getPathAsString(),
+	                            LabsSiteConstants.Docs.SIDEBAR.docName(), LabsSiteConstants.Docs.SIDEBAR.type());
+	                    sidebar.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.SIDEBAR.docName()));
+	                    sidebar = session.createDocument(sidebar);
+                	}
+                    
                     HtmlPage page = Tools.getAdapter(HtmlPage.class, sidebar, session);
+                    
+                    
                     HtmlSection section = page.addSection();
                     for (String widget: widgets){
                     	createWidget(sidebar, section, session, widget);
                     }
-                    session.saveDocument(page.getDocument());
+                    session.saveDocument(sidebar);
                 }
             };
             unrestricted.runUnrestricted();
