@@ -53,12 +53,10 @@
   </group>
 
   <group name="labs.sitesroot-authenticated">
+    <group-ref>pnotify</group-ref>
     <js>/site/skin/labs/js/addSite.js</js>
     <js>/site/skin/labs/js/deleteSite.js</js>
     <js>/site/skin/labs/js/LabsSiteUrl.js</js>
-    <js>/site/skin/labs/js/pnotify/jquery.pnotify.js</js>
-    <css>/site/skin/labs/css/pnotify/jquery.pnotify.default.css</css>
-    <css>/site/skin/labs/css/pnotify/jquery.pnotify.default.icons.css</css>
   </group>
 
   <group name="labs.pagehtml">
@@ -187,5 +185,11 @@
 
   <group name="bootstrap">
     <css>/site/skin/labs/less/bootstrap/bootstrap.less</css>
+  </group>
+
+  <group name="pnotify">
+    <js>/site/skin/labs/js/pnotify/jquery.pnotify.js</js>
+    <css>/site/skin/labs/css/pnotify/jquery.pnotify.default.css</css>
+    <css>/site/skin/labs/css/pnotify/jquery.pnotify.default.icons.css</css>
   </group>
 </groups>
