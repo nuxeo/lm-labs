@@ -150,6 +150,32 @@ function deleteElement(url, callFunction, msgConfirm){
 	}
 }
 
+function deleteSiteThemeBlob(blobName, sitethemeId, serverUrl, callFunction, msgConfirm) {
+	if (confirm(msgConfirm)) {
+		jQuery('#waitingPopup').dialog2('open');
+	    var operation = 'Blob.Remove';
+	    var d = {"params":{"xpath":"sitetheme:" + blobName},"input":"doc:"+sitethemeId,"context":{}};
+		jQuery.ajax({
+			type: "POST",
+			url: serverUrl + '/automation/' + operation,
+	        async: false,
+	        contentType: 'application/json+nxrequest',
+	        data: JSON.stringify(d),
+	        success: function(data, textStatus, jqXHR) {
+				eval(callFunction);
+				jQuery('#waitingPopup').dialog2('close');
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert( textStatus + ':' + errorThrown );
+				jQuery('#waitingPopup').dialog2('close');
+			}
+			/*
+	        ,complete: function(jqXHR, textStatus) {alert('complete');}
+			 */
+		});
+	}
+}
+
 function openAssets(url){
 	popupCenter(url, (screen.width)*2/3, (screen.height)*2/3, "menubar=no,scrollbars=yes,statusbar=no");
 }
