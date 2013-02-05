@@ -36,6 +36,7 @@
   </group>
 
   <group name="labs.common-authenticated">
+    <css>/site/skin/labs/less/bootstrap/responsive-utilities.less</css>
     <js>/site/skin/labs/js/subscribePage.js</js>
     <js>/site/skin/labs/js/likePage.js</js>
   </group>

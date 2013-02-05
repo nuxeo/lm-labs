@@ -11,6 +11,9 @@
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastNews" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastNews.title')}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/lastUpload" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.lastUpload.title')}" />
         <link href="${Context.modulePath}/${mySite.URL}/@labsrss/all" rel="alternate" type="application/rss+xml" title="${Context.getMessage('label.rss.all.title')}" />
+		<#if !Context.principal.anonymous >
+		<link rel="stylesheet" type="text/css" href="${contextPath}/wro/labs.common-authenticated.css"></link>
+		</#if>
   </@block>
 
   <@block name="scripts">
