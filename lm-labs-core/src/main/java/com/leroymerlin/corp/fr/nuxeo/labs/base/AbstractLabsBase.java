@@ -32,7 +32,7 @@ public abstract class AbstractLabsBase extends LabsAdapterImpl implements LabsBa
 	public static final String DC_TITLE = "dc:title";
 	public static final String DC_DESCRIPTION = "dc:description";
 
-    private static final String PROPERTY_ELEMENT_TEMPLATE_PREVIEW = Schemas.LABS_ELEMENT_TEMPLATE.prefix() + ":preview";
+    public static final String PROPERTY_ELEMENT_TEMPLATE_PREVIEW = Schemas.LABS_ELEMENT_TEMPLATE.prefix() + ":preview";
     
     protected static final Log LOG = LogFactory.getLog(AbstractLabsBase.class);
 

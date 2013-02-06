@@ -13,15 +13,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.IdRef;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.SortInfo;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
@@ -32,14 +36,18 @@ import org.nuxeo.ecm.platform.query.nxql.CoreQueryDocumentPageProvider;
 import org.nuxeo.ecm.webengine.WebException;
 import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
+import org.nuxeo.ecm.webengine.model.Template;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.labssite.LabsSite;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNewsAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteWebAppUtils;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.NotifiablePageResource;
@@ -65,6 +73,29 @@ public class PageNewsResource extends NotifiablePageResource {
                 .setSharedVariable("pageNews", Tools.getAdapter(PageNews.class, doc, ctx.getCoreSession()));
 
     }
+    
+    @GET
+    @Path("@labsNewsTemplateOfSiteElementTemplate")
+    public Template getLabsNewsTemplateOfSiteElementTemplate(){
+    	String property = getProperty("labs.site.element.template.url", "modeles-pages");
+    	try {
+			LabsSite siteTemplate = getSiteManager().getSite(ctx.getCoreSession(), property);
+			return getTemplate("views/LabsPage/pageTemplate.ftl").arg("pages", siteTemplate.getAllLabsNewsTemplate());
+		} catch (Exception e) {
+			throw WebException.wrap(e);
+		}
+    }
+
+    @GET
+    @Path("@labsNewsTemplateOfSite")
+    public Template getLabsNewsTemplateOfSite(){
+    	try {
+    		LabsSite site = CommonHelper.siteDoc(doc).getSite();
+			return getTemplate("views/LabsPage/pageTemplate.ftl").arg("pages", site.getAllLabsNewsTemplate());
+		} catch (Exception e) {
+			throw WebException.wrap(e);
+		}
+    }
 
     @Override
     @POST
@@ -75,8 +106,19 @@ public class PageNewsResource extends NotifiablePageResource {
             String pTitle = form.getString("dc:title");
             CoreSession session = ctx.getCoreSession();
             PageNews pageNews = Tools.getAdapter(PageNews.class, doc, session);
-            news = pageNews.createNews(pTitle);
 
+            
+            if("assistant".equalsIgnoreCase(form.getString("assistant"))){
+                final String idRefPage = form.getString("idPageTemplate");
+                if (!StringUtils.isEmpty(idRefPage)){
+                    DocumentModel copynews = LabsSiteUtils.copyHierarchyPage(new IdRef(idRefPage), doc.getRef(), pTitle, pTitle, session, false);
+                    news = Tools.getAdapter(LabsNews.class, copynews, session);
+                }
+            }
+            
+            if(news == null){
+            	news = pageNews.createNews(pTitle);
+            }
             LabsNewsResource.fillNews(form, news, session);
 
             DocumentModel newDocNews = session.saveDocument(news.getDocumentModel());

@@ -761,4 +761,19 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
         }
         return false;
     }
+
+	@Override
+	public List<LabsNews> getAllLabsNewsTemplate() throws ClientException {
+		CoreSession session = getSession();
+		List<LabsNews> result = new ArrayList<LabsNews>();
+		StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM ").append(Docs.LABSNEWS.type()).append(" WHERE ");
+        query.append(NXQL.ECM_PATH).append(" STARTSWITH '").append(doc.getPathAsString().replace("'", "\\'")).append("'");
+        query.append(" AND ").append(NXQL.ECM_MIXINTYPE).append(" = '").append(FacetNames.LABS_ELEMENT_TEMPLATE).append("'");
+		DocumentModelList docus = session.query(query.toString());
+    	for (DocumentModel docu : docus){
+    		result.add(Tools.getAdapter(LabsNews.class, docu, session));
+    	}
+		return result;
+	}
 }

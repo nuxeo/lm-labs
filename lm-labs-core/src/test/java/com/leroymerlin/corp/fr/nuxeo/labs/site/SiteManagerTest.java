@@ -2,7 +2,7 @@ package com.leroymerlin.corp.fr.nuxeo.labs.site;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -11,12 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
-import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.local.LocalSession;
 import org.nuxeo.ecm.core.test.CoreFeature;
@@ -281,7 +279,6 @@ public class SiteManagerTest {
         
     }
 
-    @Ignore
     @Test
     public void canGetSidebarWithCreate() throws Exception {
     	LabsSite site = sm.createSite(session, "Mon titre7", "myurl7");
@@ -289,8 +286,7 @@ public class SiteManagerTest {
     			+ LabsSiteConstants.Docs.SIDEBAR.docName());
     	session.removeDocument(pathRefSidebar);
     	session.save();
-		DocumentModel doc = session.getDocument(pathRefSidebar);
-    	assertThat(doc, is(nullValue()));
+    	assertFalse(session.exists(pathRefSidebar));
     	assertThat(site.getSidebar(), is(notNullValue()));
         
     }
