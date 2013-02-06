@@ -91,7 +91,7 @@ public class AssetFolderResource extends DocumentObject {
                 if (noRedirect != null) {
                     JSONObject json = new JSONObject();
                     json.element("text", "OK");
-                    return Response.ok(json, MediaType.APPLICATION_JSON).build();
+                    return Response.ok().build();
                 } else {
                     return redirect(getPath() + "?" + "callFunction" + "=" + getCallFunction() + "&" + "calledRef" + "=" + getCalledRef());
                 }
