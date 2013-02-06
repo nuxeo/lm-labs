@@ -236,8 +236,12 @@
 					                <div id="s_${section_index}_r_${row_index}_c_${content_index}" class="ckeditorBorder" style="cursor: pointer;" >${content.html}</div>
 					            	<div class="col-link" >
 					            		<input type="hidden" value="${This.path}/s/${section_index}/r/${row_index}/c/${content_index}" ></input>
-				            			<a class="open-dialog" rel="divColumnUrl" style="text-decoration:none;" >
+				            			<a class="open-dialog" rel="divColumnUrl" style="text-decoration:none;" title="${Context.getMessage('tooltip.ckeditor.hover.button.link')}" >
 						            		<i class="icon-link" ></i>
+				            			</a>
+				            			<a href="#" class="hidden-desktop" style="text-decoration:none;" title="${Context.getMessage('tooltip.ckeditor.hover.button.edit')}" 
+				            				onclick="jQuery('#s_${section_index}_r_${row_index}_c_${content_index}').dblclick();return false;" >
+						            		<i class="icon-pencil" ></i>
 				            			</a>
 					            	</div>
 					                <script type="text/javascript">

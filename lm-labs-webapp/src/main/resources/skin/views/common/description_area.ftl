@@ -5,6 +5,11 @@
 
 	<div class="row-ckeditor editblock toc-noreplace" id="pageDescription" style="display: none;" >
 		<div id="description" class="ckeditorBorder" style="cursor: pointer">${Document['dc:description']}</div>
+    	<div class="col-link" >
+			<a href="#" class="hidden-desktop" style="text-decoration:none;" title="${Context.getMessage('tooltip.ckeditor.hover.button.edit')}" onclick="jQuery('#description').dblclick();return false;" >
+        		<i class="icon-pencil" ></i>
+			</a>
+    	</div>
 		<script type="text/javascript">
 function reloadPageData(response, ckeObj, ckeip_html) {
     reloadPageForTocIfNeeded(response, ckeObj, ckeip_html);

@@ -443,6 +443,7 @@ public class LabsSiteAdapter extends AbstractLabsBase implements LabsSite {
             folder = session.createDocumentModel(
                     doc.getPathAsString(), Docs.EXTERNAL_URLS.docName(),
                     Docs.EXTERNAL_URLS.type());
+            folder.setPropertyValue("dc:title", Docs.EXTERNAL_URLS.docName());
             folder = session.createDocument(folder);
         } else {
             folder = session.getDocument(
