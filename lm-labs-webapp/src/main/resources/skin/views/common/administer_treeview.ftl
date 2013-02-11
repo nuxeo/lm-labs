@@ -17,12 +17,16 @@
 				}
   			</style>
   		</#if>
+		<#if adminTreeviewType == "Assets">
+        <link rel="stylesheet" type="text/css" href="${skinPath}/css/jquery/jquery.fancybox-1.3.4.css"/>
+  		</#if>
 	</@block>
 
 	<@block name="scripts">
 	<@superBlock/>
 	<#if adminTreeviewType=="Assets">
 		<#assign formPath=This.path+"/@assets" />
+		<script type="text/javascript" src="${skinPath}/js/jquery/jquery.fancybox-1.3.4.pack.js"></script>
 	</#if>
 	<script type="text/javascript" src="${skinPath}/js/jstree/jquery.jstree.js"></script>
 	<script type="text/javascript">

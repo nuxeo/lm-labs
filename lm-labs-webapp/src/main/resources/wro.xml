@@ -193,4 +193,9 @@
     <css>/site/skin/labs/css/pnotify/jquery.pnotify.default.css</css>
     <css>/site/skin/labs/css/pnotify/jquery.pnotify.default.icons.css</css>
   </group>
+
+  <group name="fancybox">
+    <js>/site/skin/labs/js/jquery/jquery.fancybox-1.3.4.js</js>
+    <css>/site/skin/labs/css/jquery/jquery.fancybox-1.3.4.css</css>
+  </group>
 </groups>
