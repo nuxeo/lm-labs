@@ -748,7 +748,7 @@
 
 		<#if adminTreeviewType=="Assets">
 		<div style="margin: 0px 0px 8px 283px;">
-            <a href="#" rel="addFileDialog" class="open-dialog btn" onclick="openAddFileDialog(jQuery('#currentNodeId').val())"><i class="icon-file"></i>Ajouter un fichier</a>
+            <a href="#" rel="addFileDialog" class="open-dialog btn btn-primary" onclick="openAddFileDialog(jQuery('#currentNodeId').val())"><i class="icon-file"></i>Ajouter un fichier</a>
             <a href="#" rel="addFolderDialog" class="open-dialog btn"><i class="icon-folder-close"></i>Ajouter un répertoire</a>
 
 			<div style="font-weight: bold;font-size:16px;margin:10px 0px -6px 0px">
