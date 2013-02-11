@@ -1,3 +1,18 @@
+			<style media="all" type="text/css">
+				.assistant {
+					display: block;
+					position: relative;
+					top: 5%;
+					left: 5%;
+				}
+				.dropdown-menu a {
+					white-space: normal;
+				}
+				#divAssistantPagesPreview {
+					margin-top: 30px;
+					margin-left: 25px;
+				}
+			</style>
 			<div class="editblock">
 				<div id="editprops" style="display: none;">
 					  <#if news != null>
@@ -19,6 +34,7 @@
 					<div class="well" style="width: 730px;margin-left: auto;margin-right: auto;">
 						<#--<h1>Editer les information de l'actualité</h1>-->
 						<form class="form-horizontal" id="form-editNews" method="post" action="${This.path}" class="well" enctype="multipart/form-data" >
+						  <input name="idPageTemplate" id="idPageTemplate" type="hidden" value="" />
 						  <fieldset>
 						    <legend>Propriétés de l'actualité</legend>
 						    <#--Titre de la news-->
@@ -75,7 +91,65 @@
 								    <input type="hidden" id="cropSummaryPictureOrigin" value="${news.cropCoords?html}" />
 								</div>
 							</#if>
-						    <div class="actions" style="margin-left: 200px;">
+							<#if news?? && news != null>
+								<#if mySite?? && mySite.isAdministrator(Context.principal.name)>
+						            <#--  To define as template   -->
+						            <div class="control-group">
+										<div class="controls">
+									    	<label class="checkbox" for="pageTemplate">
+									        <input class="checkbox" id="pageTemplate" type="checkbox" name="let:elementTemplate" <#if news.elementTemplate>checked="true"</#if> />
+									        &nbsp;${Context.getMessage('label.parameters.page.template')}</label>
+									    </div>
+									</div>
+									<div class="control-group" id="pageTemplatePreviewDiv" <#if !news.elementTemplate>style="display:none;"</#if>>
+										<#if news.hasElementPreview() >
+									    	<div id="divElementPreview" style="float: right; margin-right: 25px;" >
+										        <img style="width:400px;cursor:pointer;"
+										          title="${Context.getMessage('label.element.template.preview.delete')}" 
+										          onclick="javascript:deleteTemplatePreviewBlob('${news.document.id}', '${Context.serverURL}/nuxeo/site', '${Context.getMessage('label.element.template.preview.delete.confirm')?js_string}');"
+										          src="${Context.serverURL}/nuxeo/site/automation/files/${news.document.id}?path=%2Flet%3Apreview"/>
+									      	</div>
+									    </#if>
+									    <label class="control-label" for="siteTemplatePreview">${Context.getMessage('label.parameters.page.preview')}</label>
+									    <div class="controls">
+									        <input name="let:preview" type="file" size="25" id="pagePreview" />
+									    </div>
+									</div>
+								</#if>
+							<#else>
+								<div class="control-group">
+							    	<label class="control-label" for="assistant">Mode de création</label>
+							    	<div class="controls">
+									    <label class="radio inline">
+										  <input type="radio" name="assistant" id="assistant" value="assistant" onChange="javascript:changeAssistant('assistant');" checked />
+										  Assistant
+										</label>
+										<label class="radio">
+										  <input type="radio" name="assistant" id="assistant" onChange="javascript:changeAssistant('blankPage');" value="blankPage" />
+										  Page vierge
+										</label>
+									</div>
+								</div>
+								<div class="row-fluid" id="divAssistantContent">
+								  	<div class="span4">
+								  		<h3 style="text-align: center;">Catégories</h3>
+										<ul class="dropdown-menu assistant" role="menu" aria-labelledby="dropdownMenu" style="width: 100%">
+											  <li><a tabindex="-1" onClick="javascript:loadPagesTemplate('${This.path}/@labsNewsTemplateOfSiteElementTemplate', '${skinPath}', this);" href="#"><i class="icon-arrow-right"></i>Actualités standards</a></li>
+											  <li class="divider"></li>
+											  <li><a tabindex="-1" onClick="javascript:loadPagesTemplate('${This.path}/@labsNewsTemplateOfSite', '${skinPath}', this);" href="#"><i class="icon-arrow-right"></i>${Context.getMessage('label.list.elements.site.template')}</a></li>
+										</ul>
+								  	</div><#-- /span4 -->
+								  	<div class="span4">
+								  		<h3 style="text-align: center;">Modèles d'actualités</h3>
+								  		<div id="divAssistantPages"></div>
+								  	</div><#-- /span4 -->
+								  	<div class="span4" id="divAssistantPagesPreview">
+								  		
+								  	</div><#-- /span4 -->
+								  	<br>
+								  </div><#-- /row -->
+							</#if>
+						    <div class="actions" style="margin-left: 200px;margin-top: 20px;">
 						      <button class="btn btn-primary required-fields" form-id="form-editNews"><i class='icon-ok'></i>${Context.getMessage('label.labsNews.edit.save')}</button>
 						      <#-- a class="btn btn-danger" id="btnDeleteNews" onclick="javascript:if(confirm('${Context.getMessage('label.admin.labsnews.deleteConfirm')}')){deleteNews('${This.path}', '${This.previous.path}');};"><i class='icon-remove'></i>Supprimer l'actualité</a-->
 						      <a class="btn" id="btnCloseProps" onclick="javascript:closePropsNews();"><i class='icon-eye-close'></i>Fermer</a>
@@ -103,6 +177,7 @@
 					  	  <#if This.page.commentable >
 				  	  	jQuery('#commentablePage').attr('checked', 'checked');
 					  	  </#if>
+					  	jQuery('#assistant').attr('checked', 'checked');
 				  	  <#else>
 					  	  <#if news.commentable >
 				  	  	jQuery('#commentablePage').attr('checked', 'checked');
@@ -110,6 +185,14 @@
 					  	  <#if news.isTop() >
 				  	  	jQuery('#isTop').attr('checked', 'checked');
 					  	  </#if>
+					  	
+					    jQuery('#pageTemplate').click(function() {
+							if (jQuery(this).is(':checked')) {
+								jQuery('#pageTemplatePreviewDiv').show();
+							} else {
+								jQuery('#pageTemplatePreviewDiv').hide();
+							}
+						});
 				  	  </#if>
 				  });
 			  	</script>

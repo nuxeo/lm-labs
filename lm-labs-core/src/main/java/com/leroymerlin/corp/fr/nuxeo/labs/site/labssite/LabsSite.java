@@ -17,6 +17,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.theme.SiteThemeManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.State;
@@ -156,4 +157,6 @@ public interface LabsSite  extends LabsBase {
 	boolean isTopPageNavigation() throws ClientException;
 
 	void setTopPageNavigation(boolean isTopPageNavigation) throws ClientException;
+
+	List<LabsNews> getAllLabsNewsTemplate() throws ClientException;
 }

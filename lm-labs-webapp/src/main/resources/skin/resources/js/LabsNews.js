@@ -303,3 +303,29 @@ function deleteSummaryPicture(message){
 		jQuery("#formDeleteSummaryPicture").submit();
 	}
 }
+
+function deleteTemplatePreviewBlob(labsNewsId, serverUrl, msgConfirm) {
+	if (confirm(msgConfirm)) {
+		jQuery('#waitingPopup').dialog2('open');
+	    var operation = 'Blob.Remove';
+	    var d = {"params":{"xpath":"let:preview"},"input":"doc:"+labsNewsId,"context":{}};
+		jQuery.ajax({
+			type: "POST",
+			url: serverUrl + '/automation/' + operation,
+	        async: false,
+	        contentType: 'application/json+nxrequest',
+	        data: JSON.stringify(d),
+	        success: function(data, textStatus, jqXHR) {
+	        	jQuery('#divElementPreview').hide()
+				jQuery('#waitingPopup').dialog2('close');
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert( textStatus + ':' + errorThrown );
+				jQuery('#waitingPopup').dialog2('close');
+			}
+			/*
+	        ,complete: function(jqXHR, textStatus) {alert('complete');}
+			 */
+		});
+	}
+}

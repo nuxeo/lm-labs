@@ -28,6 +28,8 @@ import org.nuxeo.ecm.webengine.model.WebAdapter;
 import org.nuxeo.ecm.webengine.model.impl.DefaultAdapter;
 import org.nuxeo.runtime.api.Framework;
 
+import com.leroymerlin.corp.fr.nuxeo.labs.base.LabsElementTemplateBlobHolder;
+
 @WebAdapter(name = "blob", type = "BlobService")
 public class BlobService extends DefaultAdapter {
 
@@ -85,7 +87,11 @@ public class BlobService extends DefaultAdapter {
     public Object doDelete() {
         DocumentModel documentModel = this.getTarget().getAdapter(DocumentModel.class);
 		BlobHolder blobHolder = documentModel.getAdapter(BlobHolder.class);
-        try {
+        return delete(documentModel, blobHolder);
+    }
+
+	private Object delete(DocumentModel documentModel, BlobHolder blobHolder) {
+		try {
 			blobHolder.setBlob(null);
 			getContext().getCoreSession().saveDocument(documentModel);
 		} catch (ClientException e) {
@@ -93,55 +99,77 @@ public class BlobService extends DefaultAdapter {
 			return Response.notModified().build();
 		}
         return Response.noContent().build();
+	}
+    
+    @DELETE
+    @Path("labsNews")
+    public Object doDeleteLabsNews() {
+        DocumentModel documentModel = this.getTarget().getAdapter(DocumentModel.class);
+        BlobHolder blobHolder = new LabsElementTemplateBlobHolder(documentModel, "let:preview");
+        return delete(documentModel, blobHolder);
+    }
+    
+    @GET
+    @Path("labsNews")
+    public Object doGetBlobLabsNews(@Context Request request) {
+        DocumentModel doc = this.getTarget().getAdapter(DocumentModel.class);
+        BlobHolder blobHolder = new LabsElementTemplateBlobHolder(doc, "let:preview");
+        return getResponseBlob(doc, request, ContentDisposition.attachement, blobHolder);
+
     }
 
     protected Object getBlob(DocumentModel doc, Request request,
             ContentDisposition disposition) {
-        try {
-            Blob blob = doc.getAdapter(BlobHolder.class)
-                    .getBlob();
+        	BlobHolder blobHolder = doc.getAdapter(BlobHolder.class);
+            return getResponseBlob(doc, request, disposition, blobHolder);
 
-            EntityTag etag = null;
-            try {
-                String digest = ((SQLBlob) blob).getBinary()
-                        .getDigest();
-                if (digest != null) {
-                    etag = new EntityTag(digest);
-                }
+    }
 
-            } catch (ClassCastException e) {
-                // Rare case where we are not in VCS
-                etag = computeEntityTag(doc);
-            }
-
-            Response.ResponseBuilder rb = request.evaluatePreconditions(etag);
-            if (rb != null) {
-                return rb.build();
-            }
-            String mimeType = blob.getMimeType() == null ? "image/jpeg"
-                    : blob.getMimeType();
-            String filename = blob.getFilename() == null ? "file"
-                    : blob.getFilename();
-
-            rb = Response.ok(blob)
-                    .header("Content-Disposition",
-                            disposition.name() + ";filename=\"" + filename
-                                    + "\"")
-                    .type(mimeType);
-
-            if (etag != null) {
-                rb.tag(etag);
-            }
-
-            return rb.build();
-        } catch (NullPointerException e) {
+	private Object getResponseBlob(DocumentModel doc, Request request,
+			ContentDisposition disposition, BlobHolder blobHolder) {
+		try {
+			Blob blob = blobHolder.getBlob();
+			EntityTag etag = null;
+			try {
+			    String digest = ((SQLBlob) blob).getBinary()
+			            .getDigest();
+			    if (digest != null) {
+			        etag = new EntityTag(digest);
+			    }
+	
+			} catch (ClassCastException e) {
+			    // Rare case where we are not in VCS
+			    etag = computeEntityTag(doc);
+			}
+	
+			Response.ResponseBuilder rb = request.evaluatePreconditions(etag);
+			if (rb != null) {
+			    return rb.build();
+			}
+			String mimeType = blob.getMimeType() == null ? "image/jpeg"
+			        : blob.getMimeType();
+			String filename = blob.getFilename() == null ? "file"
+			        : blob.getFilename();
+	
+			rb = Response.ok(blob)
+			        .header("Content-Disposition",
+			                disposition.name() + ";filename=\"" + filename
+			                        + "\"")
+			        .type(mimeType);
+	
+			if (etag != null) {
+			    rb.tag(etag);
+			}
+	
+			return rb.build();
+		} catch (NullPointerException e) {
             LOG.error(e, e);
         } catch (ClientException e) {
             LOG.error(e, e);
         }
         return Response.status(Status.NOT_FOUND)
                 .build();
-    }
+	}
 
     protected EntityTag computeEntityTag(DocumentModel doc)
             throws PropertyException, ClientException {

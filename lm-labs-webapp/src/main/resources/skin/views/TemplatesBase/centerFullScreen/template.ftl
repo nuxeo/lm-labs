@@ -39,6 +39,11 @@
 					   	<#include "views/common/labsTags.ftl">
 					</@block>
 				    
+				    <#--  Like --> 
+					<@block name="like">
+					   	<#include "common/like.ftl">
+					</@block>
+				    
 				    <#--  Commentaires  -->
 					<@block name="pageCommentable">
 					   	<#include "views/LabsComments/macroComments.ftl">

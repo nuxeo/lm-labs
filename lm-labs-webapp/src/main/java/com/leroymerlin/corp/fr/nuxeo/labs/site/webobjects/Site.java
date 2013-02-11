@@ -29,11 +29,9 @@ import org.nuxeo.ecm.webengine.forms.FormData;
 import org.nuxeo.ecm.webengine.model.Resource;
 import org.nuxeo.ecm.webengine.model.WebObject;
 import org.nuxeo.ecm.webengine.model.exceptions.WebResourceNotFoundException;
-import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteDocument;
-import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.HomePageException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
@@ -281,15 +279,6 @@ public class Site extends NotifiablePageResource {
         } catch (ClientException e) {
             throw new WebResourceNotFoundException("Theme not found", e);
         }
-    }
-
-    private SiteManager getSiteManager() {
-        try {
-            return Framework.getService(SiteManager.class);
-        } catch (Exception e) {
-            return null;
-        }
-
     }
 
     @GET

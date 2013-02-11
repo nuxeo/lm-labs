@@ -32,6 +32,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsBlobHolderException
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.news.PageNews;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.CommonHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.webobjects.PageResource;
 
@@ -127,6 +128,22 @@ public class LabsNewsResource extends PageResource {
         try {
             LabsNews news = Tools.getAdapter(LabsNews.class, doc, session);
             fillNews(form, news, session);
+            if (CommonHelper.siteDoc(doc).getSite().isAdministrator(ctx.getPrincipal().getName())){
+                String elementTemplateStr = form.getString("let:elementTemplate");
+                boolean isElementTemplate = BooleanUtils.toBoolean(elementTemplateStr);
+                if (news.isElementTemplate() != isElementTemplate) {
+                	news.setElementTemplate(isElementTemplate);
+                }
+                if (isElementTemplate) {
+                    if (form.isMultipartContent()) {
+                        Blob preview = form.getBlob("let:preview");
+                        if (preview != null
+                                && !StringUtils.isEmpty(preview.getFilename())) {
+                        	news.setElementPreview(preview);
+                        }
+                    }
+                }
+            }
             session.saveDocument(doc);
             session.save();
 

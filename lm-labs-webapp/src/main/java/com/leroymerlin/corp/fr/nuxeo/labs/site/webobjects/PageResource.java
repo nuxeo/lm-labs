@@ -212,7 +212,7 @@ public class PageResource extends DocumentObject {
         return Framework.getProperty(prop, defaultValue);
     }
     
-    private SiteManager getSiteManager() {
+    protected SiteManager getSiteManager() {
         try {
             return Framework.getService(SiteManager.class);
         } catch (Exception e) {
@@ -479,7 +479,7 @@ public class PageResource extends DocumentObject {
         return Response.status(Status.NO_CONTENT).build();
     }
     
-    private List<DocumentModel> getCategoriesOfSiteElementTemplate(){
+    protected List<DocumentModel> getCategoriesOfSiteElementTemplate(){
         String property = getProperty("labs.site.element.template.url", "modeles-pages");
         SiteManager siteManager = getSiteManager();
         List<DocumentModel> result = new ArrayList<DocumentModel>();

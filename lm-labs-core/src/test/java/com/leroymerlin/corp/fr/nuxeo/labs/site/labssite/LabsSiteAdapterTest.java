@@ -44,6 +44,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.blocs.ExternalURL;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.classeur.PageClasseurFolder;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.SiteManagerException;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.labstemplate.LabsTemplate;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.news.LabsNews;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.DefaultRepositoryInit;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
@@ -684,5 +685,25 @@ public class LabsSiteAdapterTest {
         site.setTopPageNavigation(true);
         session.saveDocument(site.getDocument());
         assertTrue(site.isTopPageNavigation());
+    }
+    
+    @Test
+    public void iCanGetAllLabsNewsTemplate() throws Exception {
+        LabsSite site = createLabsSite("NameSite1");
+        DocumentModel docNews = session.createDocumentModel(site.getDocument().getPathAsString(), "news1", Docs.LABSNEWS.type());
+        session.createDocument(docNews);
+        LabsNews news = Tools.getAdapter(LabsNews.class, docNews, session);
+        news.setElementTemplate(true);
+        session.saveDocument(news.getDocumentModel());
+        docNews = session.createDocumentModel(site.getDocument().getPathAsString(), "news2", Docs.LABSNEWS.type());
+        session.createDocument(docNews);
+        news = Tools.getAdapter(LabsNews.class, docNews, session);
+        session.saveDocument(news.getDocumentModel());
+        session.save();
+        
+        List<LabsNews> listNews = site.getAllLabsNewsTemplate();
+        assertNotNull(listNews);
+        assertThat(listNews.size(), is(1));
+        assertThat(listNews.get(0).getDocumentModel().getName(), is("news1"));        
     }
 }
