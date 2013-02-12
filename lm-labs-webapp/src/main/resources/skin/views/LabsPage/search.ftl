@@ -70,7 +70,7 @@
             <#assign formattedFilesize = "(" + Context.getMessage('label.search.result.noFile') + ")" />
             <#assign filesize = 0 />
             <#assign hasFile = false />
-            <#if sd.blobHolder?? && sd.blobHolder.blob != null >
+            <#if doc.type != "LabsNews" && sd.blobHolder?? && sd.blobHolder.blob != null >
               <#assign hasFile = true />
               <#assign filesize = sd.blobHolder.blob.length />
               <#assign formattedFilesize = bytesFormat(filesize, "K", "fr_FR") />
