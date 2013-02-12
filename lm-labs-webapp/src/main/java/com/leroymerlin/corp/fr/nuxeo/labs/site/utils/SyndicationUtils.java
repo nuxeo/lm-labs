@@ -83,10 +83,14 @@ public final class SyndicationUtils {
                 }
             }
             String description = null;
+            entry.setUri("");
             if (LabsSiteConstants.Docs.LABSNEWS.type().equals(doc.getType())){
                 LabsNews news = Tools.getAdapter(LabsNews.class, doc, context.getCoreSession());
                 entry.setDescription(NewsTools.createRssNewsDescription(news));
                 entry.setPublishedDate(((GregorianCalendar) doc.getPropertyValue("ln:startPublication")).getTime());
+                if (news.hasSummaryPicture()){
+                	entry.setUri("hasSummaryPicture");
+                }
             }
             else{
                 description = (String) doc.getPropertyValue("dc:description");

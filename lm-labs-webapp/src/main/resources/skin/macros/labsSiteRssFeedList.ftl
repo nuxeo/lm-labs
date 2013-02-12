@@ -30,7 +30,8 @@ function ${divId}_parseXml(xml) {
             $(this).find("pubDate").text(),
             $(this).find("title").text(),
             $(this).find("description").text(),
-            $(this).find("link").text()
+            $(this).find("link").text(),
+            $(this).find("guid").text()
         );
         ${divId}_last_messages.push(item);
     });
@@ -55,7 +56,7 @@ function ${divId}_loadContents(page_index, jq){
 
     // Iterate through a selection of the content and build an HTML string
     for(var i=page_index*items_per_page;i<max_elem;i++) {
-    	var ahref = getEntryAhref(${divId}_last_messages[i][1], ${divId}_last_messages[i][2], dateAsString(${divId}_last_messages[i][0]), ${divId}_last_messages[i][3], '${divId}', i, 'rss-${feed}');
+    	var ahref = getEntryAhref(${divId}_last_messages[i][1], ${divId}_last_messages[i][2], dateAsString(${divId}_last_messages[i][0]), ${divId}_last_messages[i][3], '${divId}', i, 'rss-${feed}', ${divId}_last_messages[i][4]);
         newcontent += ahref;
         if (i < max_elem - 1){
             newcontent += '<hr style="margin:0;">';
@@ -72,7 +73,7 @@ function ${divId}_loadContents(page_index, jq){
 
     // resize DIV
     jQuery("#${divId}-container").animate({
-        height:jQuery("#${divId}").height() + 12
+        //height:jQuery("#${divId}").height() + 20
     });
 
 
