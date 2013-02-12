@@ -66,7 +66,7 @@ jQuery(document).ready(function() {
 				<a id="${doc.id}" class="btn btn-mini btn-danger" onclick="deletePicture('${doc.id}');" title="Effacer" ><i class="icon-remove"></i></a>
 				<#if doc.facets?seq_contains("HasStoryboard") >
 				<a class="btn btn-mini btn-info open-fancybox" href="${This.path}/@assets/id/${doc.id}/@labsvideo/@views/video_info_popup" title="${Context.getMessage('heading.video.info')}" ><i class="icon-film"></i></a>
-				<div class="player-button" data-viewurl="${This.path}/@assets/id/${doc.id}/@labsvideo/@views/player_button" >
+				<div class="player-button" data-viewurl="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@assets/id/${doc.id}/@labsvideo/@views/player_button" >
 				</div>
 				</#if>
 		    </div>

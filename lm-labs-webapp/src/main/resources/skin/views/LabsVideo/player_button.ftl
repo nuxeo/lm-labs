@@ -30,7 +30,7 @@ jQuery(document).ready(function() {
 </#if>
 	
 <#if videoAvailable >
-	<a class="btn btn-mini open-fancybox" href="${This.path}/@assets/id/${Document.id}/@labsvideo/@views/player" title="${Context.getMessage('heading.video.player')}" ><i class="icon-play"></i></a>
+	<a class="btn btn-mini open-fancybox" href="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@assets/id/${Document.id}/@labsvideo/@views/player" title="${Context.getMessage('heading.video.player')}" ><i class="icon-play"></i></a>
 <#else>
 	<btn class="btn btn-mini" title="${Context.getMessage('status.video.conversionPending')}"><i class="icon-spinner"></i></btn>
 </#if>
