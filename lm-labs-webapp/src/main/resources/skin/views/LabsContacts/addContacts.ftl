@@ -1,9 +1,11 @@
 	<h1>${Context.getMessage('label.admin.contact.addContact.title')}</h1>
 	<div class="container-fluid">
 		<section>
-			<a href="#" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">?</a>
-		 	<input type="text" id="usernameContacts" name="usernameContacts" value="" class="span4" style="margin-left:20px;">
-			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" style="margin-left:20px;" >${Context.getMessage('command.security.searchUsers')}</button>
+		<div class="input-prepend input-append">
+			<button type="button" class="btn" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}"><i class="icon-question-sign"></i></button>
+		 	<input type="text" id="usernameContacts" name="usernameContacts" value="" class="span4">
+			<button type="button" id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" ><i class="icon-search"></i></button>
+		</div>
 		</section>
 		<section>
 			<h5>${Context.getMessage('label.admin.contact.addContact.toSelect')}</h5>
@@ -37,8 +39,8 @@ jQuery(document).ready(function(){
 	      jQuery("#divSelectedUsers").html(data);
 	      jQuery('#waitingPopup').dialog2('close');
 	  },
-      error: function(data) {
-      	alert('ERROR' + data.responseText);
+	  error: function(jqXHR, textStatus, errorThrown) {
+      	alert(textStatus + ':' + errorThrown);
 	    jQuery('#waitingPopup').dialog2('close');
 	  }
     });
@@ -60,8 +62,8 @@ function addContact(){
 		    success: function(data) {
 		    	window.location.reload();
 		    },
-		      error: function(data) {
-		      	alert('ERROR' + data.responseText);
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert(textStatus + ':' + errorThrown);
 			    jQuery('#waitingPopup').dialog2('close');
 			  }
 		});
@@ -69,8 +71,8 @@ function addContact(){
 }
 
 $(function () {
-	$("a[rel=tooltip]")
-		.tooltip({live: true}) // TODO live still exists in 'tooltip' ??
+	$("button[rel=tooltip]")
+		.tooltip({trigger: 'hover', placement: 'right'}) // TODO live still exists in 'tooltip' ??
 	}
 ) 
 

@@ -9,7 +9,9 @@
 		</h3>
 	</div>
 	<div style="text-align: right;margin-top: -46px;">
-		<button id="displayAddPerm" onClick="javascript:displayAddContact();" title="${Context.getMessage('label.admin.contact.addContact.title')}" class="btn " style="margin-left:20px;" >+</button>
+		<button id="displayAddPerm" onClick="javascript:displayAddContact();" title="${Context.getMessage('label.admin.contact.addContact.title')}" class="btn btn-mini" style="margin-left:20px;" >
+			<i class="icon-plus" style="padding-right:0px;" ></i>
+		</button>
 	</div>
 	<#list contactsAdmin as contact>
 		<div class="row">
@@ -23,9 +25,10 @@
 				${contact.email}&nbsp;
 			</div>
 			<div class="span2 columns">
-				<span onclick="javascript:labsContactDelete('${This.path}/@labscontacts/delete?ldap=${contact.ldap}', '${Context.getMessage('label.admin.contact.confirm_delete', contact.displayName)?js_string}');" style="cursor: pointer;">
-	            	<img alt="${Context.getMessage('command.contact.remove')}" src="${skinPath}/images/x.gif"/>
-	            </span>
+            	<button class="btn btn-mini btn-danger" title="${Context.getMessage('command.contact.remove')}" 
+            		onclick="javascript:labsContactDelete('${This.path}/@labscontacts/delete?ldap=${contact.ldap}', '${Context.getMessage('label.admin.contact.confirm_delete', contact.displayName)?js_string}');" > 
+	            	<i class="icon-remove" style="padding-right:0px;"></i>
+            	</button>
 	        </div>
 		</div>
 	</#list>
@@ -33,6 +36,7 @@
 		<i>${Context.getMessage("label.admin.noContact")}</i>
 	</#if>
 </section>
+<div>&nbsp;</div>
 
 <script type="text/javascript">
 $(function () {
