@@ -2,7 +2,9 @@
 	<div class="container-fluid">
 		<section>
 		<div class="input-prepend input-append">
-			<button type="button" class="btn" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}"><i class="icon-question-sign"></i></button>
+			<button type="button" class="btn" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">
+				<i class="icon-question-sign" style="font-size: 16px;" ></i>
+			</button>
 		 	<input type="text" id="usernameContacts" name="usernameContacts" value="" class="span4">
 			<button type="button" id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" ><i class="icon-search"></i></button>
 		</div>
@@ -72,7 +74,7 @@ function addContact(){
 
 $(function () {
 	$("button[rel=tooltip]")
-		.tooltip({trigger: 'hover', placement: 'right'}) // TODO live still exists in 'tooltip' ??
+		.tooltip({trigger: 'hover', placement: 'right'});
 	}
 ) 
 
