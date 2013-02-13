@@ -82,10 +82,14 @@ public class LabsContactsService extends DefaultAdapter {
     public Template getSuggestedUsers(@PathParam("string") String str) {
         final String pattern = StringEscapeUtils.unescapeJavaScript(str);
         Map<String, Object> params = LabsSiteWebAppUtils.getSuggestedUsers(pattern);
-        if (((List<GroupUserSuggest>) params.get("suggests")).size() > 0) {
+        if (params.containsKey("suggests") && ((List<GroupUserSuggest>) params.get("suggests")).size() > 0) {
             return getView("selectUsers").args(params);
         } else {
-            return getView("selectUsers").arg("errorMessage", "Aucun résultat trouvé.");
+            String cause = "";
+            if (params.containsKey("errorMessage")) {
+                cause = (String) params.get("errorMessage");
+            }
+            return getView("selectUsers").arg("errorMessage", "Aucun résultat trouvé. " + cause);
         }
     }
 
