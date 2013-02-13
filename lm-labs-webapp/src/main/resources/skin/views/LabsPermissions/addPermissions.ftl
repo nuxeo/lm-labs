@@ -2,13 +2,11 @@
 	<fieldset>
 		<div class="control-group"><div class="controls">
 			<div class="input-prepend input-append">
-			<span class="add-on" style="margin-right: -5px;" >
-			  <a href="#" style="text-decoration: none;cursor: default;" rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">
-			    <i class="icon-question-sign" style="font-size: 24px;" ></i>
-			  </a>
-			</span>
+			<button type="button" class="btn"  rel="tooltip" data-original-title="${Context.getMessage('label.security.labs.grouporuser')}">
+			    <i class="icon-question-sign" style="font-size: 16px;" ></i>
+		    </button>
 		 	<input type="text" id="userNamePermissions" name="userNamePermissions" value="" class="span4 focused" style="vertical-align: top;" />
-			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" style="margin-left: -5px;" >${Context.getMessage('command.security.searchUsers')}</button>
+			<button id="searchUsersBt" title="${Context.getMessage('command.security.searchUsers')}" class="btn btn-primary disabled" style="margin-left: -5px;" ><i class="icon-search"></i></button>
 			</div>
 		</div></div>
 		<section>
@@ -46,9 +44,10 @@ jQuery(document).ready(function(){
 	      jQuery("#divSelectedUsers").html(data);
 	      jQuery('#waitingPopup').dialog2('close');
 	    },
-      error: function(data) {
-	      jQuery('#waitingPopup').dialog2('close');
-	    }
+	  error: function(jqXHR, textStatus, errorThrown) {
+      	alert(textStatus + ':' + errorThrown);
+	    jQuery('#waitingPopup').dialog2('close');
+	  }
     });
     return false;
   });
@@ -145,8 +144,8 @@ function labsPermissionsAdd(username, permission){
 }
 
 $(function () {
-	$("a[rel=tooltip]")
-		.tooltip({live: true})
+	$("button[rel=tooltip]")
+		.tooltip({trigger: 'hover', placement: 'right'});
 	}
 ) 
 
