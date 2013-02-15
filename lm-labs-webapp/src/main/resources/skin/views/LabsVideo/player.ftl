@@ -1,6 +1,6 @@
 <#assign width = "550" />
 <#assign height = "310" />
-<#assign nuxeoBaseUrl = "/nuxeo/" />
+<#assign nuxeoBaseUrl = Context.serverURL + "/nuxeo/" />
 <#assign staticPreview = nuxeoBaseUrl + This.activeAdapter.getURLForStaticPreview(Document) />
 <#assign mp4URL = nuxeoBaseUrl + This.activeAdapter.getTranscodedVideoURL(Document, 'MP4 480p') />
 <#assign webmURL = nuxeoBaseUrl + This.activeAdapter.getTranscodedVideoURL(Document, 'WebM 480p') />
