@@ -455,6 +455,15 @@
 				},
 				"dnd" : {
 					"drag_check" : function(data) {
+						var objId = data.o.id;
+					<#if adminTreeviewType=="Assets">
+						if (!jQuery(data.o).hasClass('assetVignette')) {
+							objId = jQuery(data.o).closest('div.assetVignette').data('docid');
+						}
+					</#if>
+						if(objId === "") {
+							return false;
+						}
 						if(data.r.attr("id") == "phtml_1") {
 							return false;
 						}
@@ -465,12 +474,18 @@
 						};
 					},
 					"drag_finish" : function(data) {
+						var objId = data.o.id;
+					<#if adminTreeviewType=="Assets">
+						if (!jQuery(data.o).hasClass('assetVignette')) {
+							objId = jQuery(data.o).closest('div.assetVignette').data('docid');
+						}
+					</#if>
 						jQuery.ajax({
 							async : false,
 							type: 'POST',
 							url: "${This.path}/@pageUtils/move",
 							data : {
-								"source" : data.o.id,
+								"source" : objId,
 								"destinationContainer" : data.r.attr("id")
 							},
 							success : function (r) {

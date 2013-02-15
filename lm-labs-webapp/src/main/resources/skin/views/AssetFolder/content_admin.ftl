@@ -58,20 +58,20 @@ jQuery(document).ready(function() {
 		<#list children as doc>
 		  <#if !doc.isFolder >
 		  <#--We affect the same 'id' attribute to all element in this div, because JsTree needs -->
-		  <div class="assetVignette jstree-draggable" title="${doc.name}" id="${doc.id}">
-		  <div class="pull-left" style="min-height: 70%;" >
-		    <img src="/nuxeo/nxpicsfile/default/${doc.id}/Thumbnail:content/any_value" class="imgVignette jstree-draggable" id="${doc.id}"/>
+		  <div id="${doc.id}" data-docid="${doc.id}" class="assetVignette jstree-draggable" title="${doc.name}">
+		    <div id="divimg-${doc.id}" class="pull-left" style="min-height: 70%;" >
+		      <img id="img-${doc.id}" src="/nuxeo/nxpicsfile/default/${doc.id}/Thumbnail:content/any_value" class="imgVignette jstree-draggable" d/>
 		    </div>
 		    <div class="pull-right actions" style="width:22px;" >
-				<a id="${doc.id}" class="btn btn-mini btn-danger" onclick="deletePicture('${doc.id}');" title="Effacer" ><i class="icon-remove"></i></a>
+				<a class="btn btn-mini btn-danger" onclick="deletePicture('${doc.id}');" title="Effacer" ><i class="icon-remove"></i></a>
 				<#if doc.facets?seq_contains("HasStoryboard") >
 				<a class="btn btn-mini btn-info open-fancybox" href="${This.path}/@assets/id/${doc.id}/@labsvideo/@views/video_info_popup" title="${Context.getMessage('heading.video.info')}" ><i class="icon-film"></i></a>
 				<div class="player-button" data-viewurl="${Context.modulePath}/${Common.siteDoc(Document).site.URL}/@assets/id/${doc.id}/@labsvideo/@views/player_button" >
 				</div>
 				</#if>
 		    </div>
-			<div style="clear:both" id="${doc.id}"></div>
-		    <div class="ellipsisText" rel="adminAsset" ellipsisTextOptions="{max_rows:2, alt_text_e:true, alt_text_t:true}" style="width:125px;margin-top:10px" id="${doc.id}">${doc.title?html}</div>
+			<div style="clear:both"></div>
+		    <div id="ellipsis-${doc.id}" class="ellipsisText" rel="adminAsset" ellipsisTextOptions="{max_rows:2, alt_text_e:true, alt_text_t:true}" style="width:125px;margin-top:10px" >${doc.title?html}</div>
 		  </div>
 		  <#assign hasPicture="1" />
 		  </#if>
