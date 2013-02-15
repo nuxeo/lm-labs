@@ -14,16 +14,20 @@
 </div>
 
 <script type="text/javascript">
-var ${divId}_last_messages = new Array();
 
-$(".rss-feed-list.bloc > .itemList").ready(function() {
-  $.ajax({
-    type: "GET",
-    url: "${Context.modulePath}/${mySite.URL}/@labsrss/${feed}",
-    dataType: "xml",
-    success: ${divId}_parseXml
-  });
-});
+if(!${divId}_last_messages){
+	var ${divId}_last_messages = new Array();
+	$(".rss-feed-list.bloc > .itemList").ready(function() {
+	  $.ajax({
+	    type: "GET",
+	    url: "${Context.modulePath}/${mySite.URL}/@labsrss/${feed}",
+	    dataType: "xml",
+	    success: ${divId}_parseXml
+	  });
+	});
+}
+
+
 function ${divId}_parseXml(xml) {
     $(xml).find("item").each(function(i) {
         var item = new Array(
@@ -73,7 +77,7 @@ function ${divId}_loadContents(page_index, jq){
 
     // resize DIV
     jQuery("#${divId}-container").animate({
-        //height:jQuery("#${divId}").height() + 20
+        height:jQuery("#${divId}").height() + 50
     });
 
 
