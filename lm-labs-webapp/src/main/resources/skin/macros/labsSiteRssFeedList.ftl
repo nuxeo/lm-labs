@@ -1,4 +1,4 @@
-<#macro labsSiteRssFeedList feed="all" nbrItems="2" divId="rss-feed-list-" >
+<#macro labsSiteRssFeedList feed="all" nbrItems="2" divId="rss-feed-list-" guid="" >
 <#assign mySite=Common.siteDoc(Document).getSite() />
 <div id="${divId}-container" style="position: relative; overflow: hidden;" >
 <div id="${divId}" class="rss-feed-list bloc">
@@ -14,7 +14,6 @@
 </div>
 
 <script type="text/javascript">
-
 if(!${divId}_last_messages){
 	var ${divId}_last_messages = new Array();
 	$(".rss-feed-list.bloc > .itemList").ready(function() {
@@ -35,7 +34,11 @@ function ${divId}_parseXml(xml) {
             $(this).find("title").text(),
             $(this).find("description").text(),
             $(this).find("link").text(),
-            $(this).find("guid").text()
+            <#if guid == "hasSummaryPicture">
+            	$(this).find("guid").text()
+            <#else>
+            	''
+            </#if>
         );
         ${divId}_last_messages.push(item);
     });
