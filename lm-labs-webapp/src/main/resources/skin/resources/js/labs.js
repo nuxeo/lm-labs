@@ -230,3 +230,24 @@ function stopEventPropagation(evt){
 		evt.cancelBubble = true;
 	}
 }
+
+function openModifiyCSSLine(url, cssName, userClassInput){
+	jQuery("#div-modifyCSSLine").dialog2('open');
+	jQuery('#form-modifyCSSLine').attr('action', url + '/@modifyCSS');
+	jQuery("#cssName").val(cssName);
+	$("#userClassSelect").val(userClassInput).select2({
+		placeholder: "Ajouter du style",
+		formatNoMatches: function(trem){
+				return '';
+			}
+		}
+	);
+	$("#userClassSelect").on("change", function(event) {
+		$("#userClass").val($("#userClassSelect").select2("val"));
+	});
+}
+
+function displayCssClass(section){
+    jQuery("#displayCssClass_" + section).show();
+    jQuery("#herfDisplayCssClass_" + section).hide();
+}
