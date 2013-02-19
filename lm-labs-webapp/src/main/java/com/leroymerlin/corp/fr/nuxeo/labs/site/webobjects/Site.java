@@ -184,7 +184,7 @@ public class Site extends NotifiablePageResource {
             int rowIdx = new Integer(form.getString("rowIdx")).intValue();
             HtmlPage sidebar = site.getSidebar();
             HtmlRow row = sidebar.section(0).row(rowIdx);
-            Resource newObject = newObject("HtmlRow", doc, row, sidebar.section(0), rowIdx);
+            Resource newObject = newObject("HtmlRow", site.getSidebar().getDocument(), row, sidebar.section(0), rowIdx);
             return newObject;
         } catch (Exception e) {
             throw WebException.wrap("Problème lors de la sauvegarde de la configuration du widget de la sidebar", e);

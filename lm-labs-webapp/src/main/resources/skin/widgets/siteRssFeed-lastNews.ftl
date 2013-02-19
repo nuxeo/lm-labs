@@ -3,8 +3,8 @@
 <#assign guid = "" />
 <#attempt>
 	<#if content.html?trim?contains("-on")>
-		<#assign nbrNews = content.html?trim?replace("-on", "")?number />
 		<#assign guid = "hasSummaryPicture" />
+		<#assign nbrNews = content.html?trim?replace("-on", "")?number />
 	<#elseif content.html?trim?contains("-undefined")>		
 		<#assign nbrNews = content.html?trim?replace("-undefined", "")?number />
 	<#else>
