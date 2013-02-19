@@ -8,7 +8,8 @@
         <input class="checkbox" id="configsiteRssFeedLastNewsSummary" type="checkbox"  name="configsiteRssFeedLastNewsSummary"  <#if content.html?contains(",hasSummaryPicture")>checked="true"</#if> />
     </div>
 </div>
-<input type="hidden" name="content" id="contentDivConfigGadget" value ="${content.html?html}" />
+<input type="hidden" name="content" id="contentDivConfigGadget" value ="${content.html}" />
+<input type="hidden" id="typeConfigGadget" value ="html" />
 <script type="text/javascript">
 jQuery(document).ready(function() {
 	var formObj = jQuery('#divConfigGadget form');

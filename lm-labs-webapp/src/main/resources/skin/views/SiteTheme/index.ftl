@@ -234,11 +234,15 @@
 		            return false; <#-- prevents form submit -->
 		        }
 		        jQuery('#waitingPopup').dialog2('open');
-		        
+			        
+		        var url = "${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/c/0/w/@put";
+		        if (jQuery("#typeConfigGadget") && jQuery("#typeConfigGadget").val() == "html"){
+		        	url = "${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/c/0";
+		        }
 		        
 		        jQuery.ajax({
 					type: "POST",
-					url: '${Context.modulePath}/${mySite.URL}/@configWidget-sidebar/c/0/w/@put',
+					url: url,
 					data: $("#config-gadget-form").serialize(),
 					success: function(msg){
 						alert("Configuration du widget enregistré.");
