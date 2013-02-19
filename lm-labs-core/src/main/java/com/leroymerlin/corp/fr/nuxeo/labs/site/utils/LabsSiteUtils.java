@@ -22,6 +22,7 @@ import org.nuxeo.ecm.core.api.UnrestrictedSessionRunner;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.query.sql.NXQL;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
+import org.nuxeo.ecm.spaces.impl.docwrapper.DocGadgetImpl;
 import org.nuxeo.runtime.api.Framework;
 
 import com.leroymerlin.common.core.security.LMPermission;
@@ -31,6 +32,10 @@ import com.leroymerlin.common.core.security.SecurityDataHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.base.AbstractLabsBase;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.exception.LabsSecurityException;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsGadgetManager.WidgetType;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsOpensocialGadget;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.gadget.LabsWidget;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlContent;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlPage;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlRow;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.html.HtmlSection;
@@ -400,13 +405,64 @@ public final class LabsSiteUtils {
      * @throws ClientException
      */
     public static DocumentModel copyHierarchyPage(DocumentRef src, DocumentRef dest, String name, String title, CoreSession session, boolean withElementTemplate) throws ClientException{
+        return copyHierarchyPage(src, dest, name, title, session, withElementTemplate, src);
+    }
+
+    private static DocumentModel copyHierarchyPage(DocumentRef src, DocumentRef dest, String name, String title, CoreSession session, boolean withElementTemplate, DocumentRef rootRef) throws ClientException{
     	DocumentModel copyPage = copyPage(src, dest, name, title, session, withElementTemplate);
+    	if (!src.equals(rootRef)) {
+    	    copyOpensocialGadgetRefInParentPage(src, copyPage, session.getDocument(rootRef), session);
+    	}
     	if (!src.toString().equals(dest.toString())){
 	    	for (DocumentModel document: session.getChildren(src)){
-	    		copyHierarchyPage(document.getRef(), copyPage.getRef(), document.getName(), document.getTitle(), session, withElementTemplate);
+	    		copyHierarchyPage(document.getRef(), copyPage.getRef(), document.getName(), document.getTitle(), session, withElementTemplate, rootRef);
 	    	}
     	}
     	return copyPage;
+    }
+
+    private static void copyOpensocialGadgetRefInParentPage(DocumentRef srcRef, DocumentModel copyGadgetDoc, DocumentModel rootDoc, CoreSession session)
+            throws ClientException {
+        if (DocGadgetImpl.TYPE.equals(copyGadgetDoc.getType())) {
+            DocumentModel srcGadgetDoc = session.getDocument(srcRef);
+            DocumentModel parentCopyDoc = session.getParentDocument(copyGadgetDoc.getRef());
+            boolean modified = false;
+            HtmlPage htmlPage = parentCopyDoc.getAdapter(HtmlPage.class);
+            if (htmlPage != null) {
+                List<HtmlSection> destSections = htmlPage.getSections();
+                for (HtmlSection section : destSections) {
+                    List<HtmlRow> destRows = section.getRows();
+                    for (HtmlRow row : destRows) {
+                        List<HtmlContent> destContents = row.getContents();
+                        for (HtmlContent content : destContents) {
+                            for (LabsWidget widget : content.getGadgets(session)) {
+                                if (WidgetType.OPENSOCIAL.equals(widget.getType())) {
+                                    if (srcGadgetDoc.getId().equals(((LabsOpensocialGadget)widget).getDoc().getId())) {
+                                        content.removeWidgetRef(srcGadgetDoc.getId());
+                                        content.addWidgetRef(copyGadgetDoc.getId());
+                                        parentCopyDoc = session.saveDocument(parentCopyDoc);
+                                        modified = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (modified) {
+                                break;
+                            }
+                        } // contents
+                        if (modified) {
+                            break;
+                        }
+                    } // rows
+                    if (modified) {
+                        break;
+                    }
+                } // sections
+            } // htmlPgae
+            if (modified) {
+                session.save();
+            }
+        }
     }
     
     // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.5.0-HF01

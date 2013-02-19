@@ -1,6 +1,11 @@
 String.prototype.replaceAt=function(index, char, nbrChar) {
 	return this.substr(0, index) + char + this.substr(index+nbrChar);
 }
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+    return this.slice(0, str.length) == str;
+  };
+}
 function isNumber(o) {
 	return ! isNaN (o-0);
 }
@@ -39,7 +44,17 @@ if(NX_FOLDER_jsonstr !== "") {
 	NXFOLDERTITLE = unescape(docidjson.NXTITLE);
 	NXCLASSEURTITLE = unescape(docidjson.NXCLASSEURTITLE);
 }
+
 // configure Automation REST call
+var NXRequestParamsConvertPath = {
+	operationId : 'LabsSite.MakeAbsolutePath',
+	operationParams : {
+		gadgetDocId : NXID_GADGET,
+		endPath : NXPATH
+	},
+	operationContext : {},
+	operationCallback : callbackConvertPath
+};
 var NXRequestParams = {
 	operationId: 'Document.PageProvider',
 	operationParams: {
@@ -143,9 +158,16 @@ function classeurDisplayDocumentList(entries, nxParams) {
 		displayCustomTitle();
 	}
 }
+
 function callbackSiteUrl(response, nxParams) {
 	var labsSiteUrl = response.data['value'];
 	displayDetailsUrl(labsSiteUrl, nxParams.labsSiteModulePath);
+}
+
+function callbackConvertPath(response, nxParams) {
+	NXPATH = response.data['value'];
+	NXRequestParams.operationParams.queryParams = NXPATH;
+	doAutomationRequest(NXRequestParams);
 }
 
 function getTitleStyle() {
@@ -243,7 +265,11 @@ function initGadget() {
 // execute automation request onload
 gadgets.util.registerOnLoadHandler(function() {
 	initGadget();
-	doAutomationRequest(NXRequestParams);
+	if (NXPATH !== "" && !NXPATH.startsWith('/')) {
+		doAutomationRequest(NXRequestParamsConvertPath);
+	} else {
+		doAutomationRequest(NXRequestParams);
+	}
 });
 
 function log(str) {

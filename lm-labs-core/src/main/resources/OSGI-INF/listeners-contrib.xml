@@ -8,6 +8,8 @@
 			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.SiteCreationEventListener" priority="151" />
 		<listener name="checkPagesToNotify" async="false" postCommit="false"
 			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.CheckPagesToNotify" priority="150" />
+        <listener name="OpensocialWidgetCreationEventListener" async="false" postCommit="false"
+            class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.OpensocialWidgetCreationEventListener" priority="500" />
 		<listener name="pageActivitiesListener" async="false" postCommit="false"
 			class="com.leroymerlin.corp.fr.nuxeo.labs.site.event.PageActivitiesEventListener" priority="151" />
         <listener name="pageSubscriptionForSiteSubscribers" async="false" postCommit="false"

@@ -8,6 +8,8 @@
     <operation class="com.leroymerlin.corp.fr.nuxeo.labs.site.operations.GetSiteUrlProp" />
     <operation class="com.leroymerlin.corp.fr.nuxeo.labs.site.operations.GetChildrenPages" />
     <operation class="com.leroymerlin.corp.fr.nuxeo.labs.site.operations.GetSameSitePages" />
+    <operation class="com.leroymerlin.corp.fr.nuxeo.labs.site.operations.MakeAbsolutePath" />
+    <operation class="com.leroymerlin.corp.fr.nuxeo.labs.site.operations.MakeRelativePath" />
 
   </extension>
 
