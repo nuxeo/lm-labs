@@ -150,8 +150,15 @@ function doEllipsisTextId(id) {
 	doEllipsisText(ellip);
 }
 
+function doEllipsisTextFind(element) {
+	jQuery(element).find(".ellipsisText").each(function(index, obj) {
+			doEllipsisText(obj);
+		});
+}
+
 function doEllipsisText(element) {
 	var ellip = jQuery(element);
+	//alert(ellip.html());
 	if(ellip){
         jQuery(ellip).html('<span class="ellipsis_text">' + jQuery(ellip).html() + '</span>');
         var option = jQuery(ellip).attr('ellipsisTextOptions');

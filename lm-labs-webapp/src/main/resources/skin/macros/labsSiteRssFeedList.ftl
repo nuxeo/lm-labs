@@ -1,4 +1,4 @@
-<#macro labsSiteRssFeedList feed="all" nbrItems="2" divId="rss-feed-list-" >
+<#macro labsSiteRssFeedList feed="all" nbrItems="2" divId="rss-feed-list-" guid="" >
 <#assign mySite=Common.siteDoc(Document).getSite() />
 <div id="${divId}-container" style="position: relative; overflow: hidden;" >
 <div id="${divId}" class="rss-feed-list bloc">
@@ -14,16 +14,19 @@
 </div>
 
 <script type="text/javascript">
-var ${divId}_last_messages = new Array();
+if(!${divId}_last_messages){
+	var ${divId}_last_messages = new Array();
+	$(".rss-feed-list.bloc > .itemList").ready(function() {
+	  $.ajax({
+	    type: "GET",
+	    url: "${Context.modulePath}/${mySite.URL}/@labsrss/${feed}",
+	    dataType: "xml",
+	    success: ${divId}_parseXml
+	  });
+	});
+}
 
-$(".rss-feed-list.bloc > .itemList").ready(function() {
-  $.ajax({
-    type: "GET",
-    url: "${Context.modulePath}/${mySite.URL}/@labsrss/${feed}",
-    dataType: "xml",
-    success: ${divId}_parseXml
-  });
-});
+
 function ${divId}_parseXml(xml) {
     $(xml).find("item").each(function(i) {
         var item = new Array(
@@ -31,7 +34,11 @@ function ${divId}_parseXml(xml) {
             $(this).find("title").text(),
             $(this).find("description").text(),
             $(this).find("link").text(),
-            $(this).find("guid").text()
+            <#if guid == "hasSummaryPicture">
+            	$(this).find("guid").text()
+            <#else>
+            	''
+            </#if>
         );
         ${divId}_last_messages.push(item);
     });
@@ -73,7 +80,7 @@ function ${divId}_loadContents(page_index, jq){
 
     // resize DIV
     jQuery("#${divId}-container").animate({
-        //height:jQuery("#${divId}").height() + 20
+        height:jQuery("#${divId}").height() + 50
     });
 
 
