@@ -2,8 +2,11 @@
 
 ${styleProperties}
 
-<#if ! withoutAddedStyle>
+<#if !withoutaddedstyle >
   ${This.theme.style}
+<#else>
+/* withoutaddedstyle = ${withoutaddedstyle} */
+/* ************************* NO THEME 'EXPERT' STYLE ************************* */
 </#if>
 
 @FontAwesomePath: '${skinPath}/less/font';
