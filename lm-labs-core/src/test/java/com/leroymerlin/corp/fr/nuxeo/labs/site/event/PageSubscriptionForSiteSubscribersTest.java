@@ -4,20 +4,22 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
+import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
 import org.nuxeo.ecm.platform.ec.notification.NotificationConstants;
 import org.nuxeo.ecm.platform.notification.api.NotificationManager;
+import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
-import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
 import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -31,8 +33,8 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.NotifName
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
-@Features({ FakeUserFeature.class, SiteFeatures.class })
-@Deploy({"org.nuxeo.ecm.platform.notification.api", 
+@Features({ SiteFeatures.class })
+@Deploy({"org.nuxeo.ecm.platform.notification.api",
     "org.nuxeo.ecm.platform.types.core",
     "org.nuxeo.ecm.platform.types.api",
     "org.nuxeo.ecm.platform.notification.core",
@@ -53,16 +55,27 @@ public class PageSubscriptionForSiteSubscribersTest {
     private static final String DOCNAME_CLASSEUR1 = "classeur1";
 
     private static final String CGM = "CGM";
-//    private static final String CSLOG = "CSLOG";
 
     @Inject
     SiteManager sm;
 
     @Inject
     private CoreSession session;
-    
+
     @Inject NotificationManager nm;
-    
+
+    @Inject UserManager um;
+
+    @Before
+    public void doBefore() throws Exception {
+        NuxeoPrincipal user = um.getPrincipal(CGM);
+        if(user == null) {
+            DocumentModel userDoc = um.getBareUserModel();
+            userDoc.setPropertyValue("user:username", CGM);
+            um.createUser(userDoc);
+        }
+    }
+
     @Test
     public void notificationDeployed() throws Exception {
         assertNotNull(nm.getNotificationByName(NotifNames.PAGE_MODIFIED));
@@ -79,19 +92,18 @@ public class PageSubscriptionForSiteSubscribersTest {
         session.save();
         assertTrue(subscriptionAdapter.isSubscribed(CGM));
     }
-    
+
     @Test
     public void siteSubscriberSubscribedOnPageWhenCreated() throws Exception {
         LabsSite labsSite = sm.getSite(session, URL_SITE1);
         DocumentModel classeur = session.createDocumentModel(Docs.PAGECLASSEUR.type());
         classeur.setPathInfo(labsSite.getTree().getPathAsString(), DOCNAME_CLASSEUR1);
-//        classeur.putContextData(NotificationConstants.DISABLE_NOTIFICATION_SERVICE, new Boolean(true));
         classeur = session.createDocument(classeur);
         session.save();
         assertTrue(nm.getUsersSubscribedToNotificationOnDocument(NotifNames.PAGE_MODIFIED, classeur.getId()).contains(NotificationConstants.USER_PREFIX + CGM));
         assertTrue(Tools.getAdapter(PageSubscription.class, classeur, session).isSubscribed(CGM));
     }
-    
+
     @Test
     public void makeSurePageModificationDoesNotSubscribeUser() throws Exception {
         LabsSite labsSite = sm.getSite(session, URL_SITE1);
@@ -103,7 +115,7 @@ public class PageSubscriptionForSiteSubscribersTest {
         session.save();
         assertFalse(Tools.getAdapter(PageSubscription.class, classeur, session).isSubscribed(CGM));
     }
-    
+
     @Test
     public void makeSurePagePublicationDoesNotSubscribeUser() throws Exception {
         LabsSite labsSite = sm.getSite(session, URL_SITE1);
@@ -115,7 +127,7 @@ public class PageSubscriptionForSiteSubscribersTest {
         session.save();
         assertFalse(Tools.getAdapter(PageSubscription.class, classeur, session).isSubscribed(CGM));
     }
-    
+
     @Test
     public void makeSurePageCopySubscribeUser() throws Exception {
         LabsSite labsSite = sm.getSite(session, URL_SITE1);
