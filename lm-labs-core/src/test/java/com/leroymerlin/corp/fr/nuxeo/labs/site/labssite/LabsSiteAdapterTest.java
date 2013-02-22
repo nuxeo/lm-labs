@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nuxeo.common.utils.FileUtils;
@@ -25,6 +26,7 @@ import org.nuxeo.ecm.core.api.CoreInstance;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentModelList;
+import org.nuxeo.ecm.core.api.NuxeoPrincipal;
 import org.nuxeo.ecm.core.api.PathRef;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
 import org.nuxeo.ecm.core.api.local.LocalSession;
@@ -32,11 +34,11 @@ import org.nuxeo.ecm.core.api.security.SecurityConstants;
 import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.ecm.core.test.annotations.Granularity;
 import org.nuxeo.ecm.core.test.annotations.RepositoryConfig;
+import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
-import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
 import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
@@ -54,7 +56,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Schemas;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.Tools;
 
 @RunWith(FeaturesRunner.class)
-@Features({ FakeUserFeature.class, SiteFeatures.class })
+@Features({ SiteFeatures.class })
 @Deploy("com.leroymerlin.labs.core.test")
 @RepositoryConfig(cleanup = Granularity.METHOD, init = DefaultRepositoryInit.class)
 public class LabsSiteAdapterTest {
@@ -77,6 +79,18 @@ public class LabsSiteAdapterTest {
     @Inject
     protected SiteManager sm;
 
+    @Inject UserManager um;
+
+
+    @Before
+    public void doBefore() throws Exception {
+        NuxeoPrincipal user = um.getPrincipal(USERNAME1);
+        if(user == null) {
+            DocumentModel userDoc = um.getBareUserModel();
+            userDoc.setPropertyValue("user:username", USERNAME1);
+            um.createUser(userDoc);
+        }
+    }
     @Test
     public void iCanCreateALabsSiteDocument() throws Exception {
         // Use the session as a factory
@@ -364,7 +378,7 @@ public class LabsSiteAdapterTest {
                 page2.getPathAsString(), "news2bis", Docs.LABSNEWS.type());
         news2bis = session.createDocument(news2bis);
         session.save();
-        
+
         // we create another site with news
         DocumentModel autreSite = createSite("NameAutreSite");
         session.save();
@@ -513,7 +527,7 @@ public class LabsSiteAdapterTest {
         assertEquals(themeName, template1.getThemeName());
         assertEquals(templateName, template1.getTemplate().getTemplateName());
         DocumentModel child = session.getChild(template1.getTree().getRef(), "pagehtml");
-		assertEquals(PAGE_TEMPLATE_CUSTOM, Tools.getAdapter(LabsTemplate.class, child, session).getDocumentTemplateName());
+        assertEquals(PAGE_TEMPLATE_CUSTOM, Tools.getAdapter(LabsTemplate.class, child, session).getDocumentTemplateName());
         assertEquals(PAGE_TEMPLATE_CUSTOM, child.getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
 
         CoreSession cgmSession = changeUser(USERNAME1);
@@ -539,11 +553,11 @@ public class LabsSiteAdapterTest {
                 "File");
         assertEquals(0, assetsList.size());
         DocumentModel child2 = session.getChild(cgmSite.getTree().getRef(), "pagehtml");
-		assertEquals(PAGE_TEMPLATE_CUSTOM, child2.getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
+        assertEquals(PAGE_TEMPLATE_CUSTOM, child2.getPropertyValue(Schemas.LABSTEMPLATE.getName() + ":name"));
         assertEquals(PAGE_TEMPLATE_CUSTOM, Tools.getAdapter(LabsTemplate.class, child2, session).getDocumentTemplateName());
         assertEquals(PAGE_TEMPLATE_CUSTOM, Tools.getAdapter(LabsTemplate.class, child2, session).getTemplateName());
         DocumentModel childPageNews = session.getChild(cgmSite.getTree().getRef(), "pagenews");
-		assertEquals("", Tools.getAdapter(LabsTemplate.class, childPageNews, session).getDocumentTemplateName());
+        assertEquals("", Tools.getAdapter(LabsTemplate.class, childPageNews, session).getDocumentTemplateName());
         assertEquals(templateName, Tools.getAdapter(LabsTemplate.class, childPageNews, session).getTemplateName());
         // TODO more tests
     }
@@ -615,7 +629,7 @@ public class LabsSiteAdapterTest {
 
     private LabsSite createLabsSite(final String siteName)
             throws ClientException {
-		final LabsSite site = Tools.getAdapter(LabsSite.class, createSite(siteName), session);
+        final LabsSite site = Tools.getAdapter(LabsSite.class, createSite(siteName), session);
         return site;
     }
 
@@ -644,11 +658,11 @@ public class LabsSiteAdapterTest {
         LabsTemplate templatedPage = Tools.getAdapter(LabsTemplate.class, htmlPage, session);
         templatedPage.setTemplateName(PAGE_TEMPLATE_CUSTOM);
         session.saveDocument(htmlPage);
-        
+
         DocumentModel pageNews = session.createDocumentModel(Docs.PAGENEWS.type());
         pageNews.setPathInfo(site.getTree().getPathAsString(), "pagenews");
         pageNews = session.createDocument(pageNews);
-        
+
         return site;
     }
 

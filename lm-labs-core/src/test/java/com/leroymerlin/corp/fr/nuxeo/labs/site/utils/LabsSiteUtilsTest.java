@@ -28,7 +28,6 @@ import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
-import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
 import com.leroymerlin.common.core.security.PermissionsHelper;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.Page;
@@ -41,7 +40,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 @RunWith(FeaturesRunner.class)
-@Features({ FakeUserFeature.class, SiteFeatures.class })
+@Features({  SiteFeatures.class })
 @Deploy("com.leroymerlin.labs.core.test")
 @RepositoryConfig(user = "Administrator",init=DefaultRepositoryInit.class, cleanup=Granularity.METHOD)
 public final class LabsSiteUtilsTest {
@@ -275,8 +274,8 @@ public final class LabsSiteUtilsTest {
         userSession.connect(coreFeature.getRepository().getName(), ctx);
         return userSession;
     }
-    
-    @Test 
+
+    @Test
     public void isOnlyRead() throws Exception {
         DocumentModel docu = session.createDocumentModel("/", "myfolder", "Folder");
         docu = session.createDocument(docu);
@@ -287,8 +286,8 @@ public final class LabsSiteUtilsTest {
         docu = sessionToto.getDocument(docu.getRef());
         assertTrue(LabsSiteUtils.isOnlyRead(docu, sessionToto));
     }
-    
-    @Test 
+
+    @Test
     public void isNotOnlyRead() throws Exception {
         DocumentModel docu = session.createDocumentModel("/", "myfolder", "Folder");
         docu = session.createDocument(docu);
@@ -299,7 +298,7 @@ public final class LabsSiteUtilsTest {
         docu = sessionToto.getDocument(docu.getRef());
         assertTrue(!LabsSiteUtils.isOnlyRead(docu, session));
     }
-    
+
     @Test
     public void existPageName() throws Exception {
         LabsSite site = sm.createSite(session, "Mon Site", "monsite");
@@ -330,7 +329,7 @@ public final class LabsSiteUtilsTest {
         assertFalse(LabsSiteUtils.pageNameExists("pageList", site.getTree().getRef(), session));
         assertTrue(LabsSiteUtils.pageNameExists("pageNews", site.getTree().getRef(), session));
     }
-    
+
     @Test
     public void getPageName() throws Exception {
         LabsSite site = sm.createSite(session, "Mon Site", "monsite");
@@ -348,12 +347,18 @@ public final class LabsSiteUtilsTest {
         pageNews = session.createDocument(pageNews);
         assertNotNull(LabsSiteUtils.getPageName("pageNews", site.getTree().getRef(), session));
         pageNews.getAdapter(LabsPublisher.class).delete();
-        
+
         session.save();
 
         assertNull(LabsSiteUtils.getPageName("papage", site.getTree().getRef(), session));
         assertNull(LabsSiteUtils.getPageName("pageList", site.getTree().getRef(), session));
         assertNotNull(LabsSiteUtils.getPageName("pageNews", site.getTree().getRef(), session));
+    }
+
+
+    @Test
+    public void slugify() throws Exception {
+        assertEquals("test", LabsSiteUtils.doLabsSlugify("test"));
     }
 
 }

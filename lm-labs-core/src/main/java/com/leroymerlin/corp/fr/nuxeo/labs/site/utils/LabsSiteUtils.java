@@ -45,18 +45,18 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Rights;
 
 
 public final class LabsSiteUtils {
-    
+
     private static final String IMPOSSIBLE_TO_VERIFY_THE_PERMISSION = "Impossible to verify the permissions only 'Read'";
     private static final Log log = LogFactory.getLog(LabsSiteUtils.class);
-    
-    public static String beforeConversion = "àÀâÂäÄáÁéÉèÈêÊëËìÌîÎïÏòÒôÔöÖùÙûÛüÜçÇ’ñ /\\.,;?!'\"$&%()[]{}@^§*:<>+=°#";
+
+    public static String beforeConversion = "\u00e0\u00c0\u00e2\u00c2\u00e4\u00c4\u00e1\u00c1\u00e9\u00c9\u00e8\u00c8\u00ea\u00ca\u00eb\u00cb\u00ec\u00cc\u00ee\u00ce\u00ef\u00cf\u00f2\u00d2\u00f4\u00d4\u00f6\u00d6\u00f9\u00d9\u00fb\u00db\u00fc\u00dc\u00e7\u00c7\u2019\u00f1 /\\.,;?!'\"$&%()[]{}@^\u00a7*:<>+=\u00b0#";
     public static String afterConversion = "aAaAaAaAeEeEeEeEiIiIiIoOoOoOuUuUuUcC'n------------------------------";
     public static int maxSizeCharacterName = 64;
 
     public static final String COPYOF_PREFIX = "Copie de ";
 
     private static final String THE_RIGHT_LIST_DONT_BE_NULL = "The right'list dont be null !";
-    
+
     public enum Action {
         GRANT, REMOVE;
     }
@@ -82,7 +82,7 @@ public final class LabsSiteUtils {
         }
         return result;
     }
-    
+
     public static DocumentModel getPageName(String name, DocumentRef parentRef, CoreSession session) throws ClientException {
         DocumentModel parent = session.getDocument(parentRef);
         PathRef pathRef = new PathRef(parent.getPathAsString() + "/" + doLabsSlugify(name));
@@ -91,7 +91,7 @@ public final class LabsSiteUtils {
         }
         return null;
     }
-    
+
     public static boolean pageNameExists(final String title, DocumentRef parentRef, CoreSession session) {
         try {
             if(getPageName(title, parentRef, session) != null) {
@@ -102,7 +102,7 @@ public final class LabsSiteUtils {
         }
         return false;
     }
-    
+
     public static List<LMPermission> extractPermissions(DocumentModel document) throws Exception{
         List<LMPermission> permissions = PermissionsHelper.getPermissions(document);
         UserManager userManager = Framework.getService(UserManager.class);
@@ -120,7 +120,7 @@ public final class LabsSiteUtils {
         });
         return permissions;
     }
-    
+
     /**
      * @param permission
      * @throws ClientException
@@ -128,7 +128,7 @@ public final class LabsSiteUtils {
      */
     public static void unblockInherits(String permission, DocumentModel document, final CoreSession session) throws ClientException,Exception {
         if(StringUtils.isEmpty(permission)){
-            SecurityData sd = SecurityDataHelper.buildSecurityData(document);         
+            SecurityData sd = SecurityDataHelper.buildSecurityData(document);
             sd.setBlockRightInheritance(false, null);
             SecurityDataHelper.updateSecurityOnDocument(document, sd);
             session.save();
@@ -161,10 +161,10 @@ public final class LabsSiteUtils {
                 }
             }
         }
-        
+
         final DocumentRef ref = document.getRef();
         UnrestrictedSessionRunner runner = new UnrestrictedSessionRunner(session){
-            
+
             @Override
             public void run() throws ClientException {
                 DocumentModel docu = session.getDocument(ref);
@@ -175,10 +175,10 @@ public final class LabsSiteUtils {
                 }
                 session.save();
             }
-            
+
         };
         runner.runUnrestricted();
-        
+
         deleteDuplicate(document, session);
     }
 
@@ -218,7 +218,7 @@ public final class LabsSiteUtils {
             List<LMPermission> permissions, Map<String, LMPermission> mapPerm, CoreSession session)
             throws Exception {
         List<LMPermission> permToDelete = new ArrayList<LMPermission>();
-        
+
         for (LMPermission perm : permissions) {
             if(mapPerm.containsKey(perm.getName())){
                 if(!perm.isInherited()){
@@ -233,7 +233,7 @@ public final class LabsSiteUtils {
                 mapPerm.put(perm.getName(), perm);
             }
         }
-        
+
         for (LMPermission perm : permToDelete){
             setPermission(document, perm.permission, perm.getName(), Action.REMOVE, true, session);
         }
@@ -251,12 +251,12 @@ public final class LabsSiteUtils {
 
         }
     }
-    
+
 
 
     /**
      * @return
-     * @throws LabsSecurityException 
+     * @throws LabsSecurityException
      */
     public static List<String> getListRights() throws LabsSecurityException {
         List<String> labsRightsString = new ArrayList<String>();
@@ -269,12 +269,12 @@ public final class LabsSiteUtils {
         }
         return labsRightsString;
     }
-    
+
 
 
     /**
      * Sets a permission on a element.
-     * 
+     *
      * @param doc {@link DocumentModel}
      * @param permission permission name
      * @param id user or group name
@@ -297,7 +297,7 @@ public final class LabsSiteUtils {
                 boolean granted = Action.GRANT.equals(action);
                 if (granted) {
                     try {
-                    	List<String> labsRightsString = getListRights();
+                        List<String> labsRightsString = getListRights();
                         PermissionsHelper helper = new PermissionsHelper(
                                 labsRightsString);
                         if (!override
@@ -343,7 +343,7 @@ public final class LabsSiteUtils {
             log.error("set permission on null document");
         }
     }
-    
+
     public static DocumentModelList getChildrenPageDocuments(DocumentModel document, final CoreSession session) throws ClientException {
         @SuppressWarnings("serial")
         DocumentModelList children = session.getChildren(document.getRef(), null, new Filter() {
@@ -369,7 +369,7 @@ public final class LabsSiteUtils {
         if (s.length() > maxSizeCharacterName) {
             s = s.substring(0, maxSizeCharacterName).trim();
         }
-        
+
         for (int i = 0; i < beforeConversion.length(); i++) {
              s = s.replace(beforeConversion.charAt(i), afterConversion.charAt(i));
         }
@@ -389,10 +389,10 @@ public final class LabsSiteUtils {
                 beforeIsTiret = false;
             }
         }
-        
+
         return sb.toString();
     }
-    
+
     // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.5.0-HF01
     /**
      * it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.5.0-HF01
@@ -409,16 +409,16 @@ public final class LabsSiteUtils {
     }
 
     private static DocumentModel copyHierarchyPage(DocumentRef src, DocumentRef dest, String name, String title, CoreSession session, boolean withElementTemplate, DocumentRef rootRef) throws ClientException{
-    	DocumentModel copyPage = copyPage(src, dest, name, title, session, withElementTemplate);
-    	if (!src.equals(rootRef)) {
-    	    copyOpensocialGadgetRefInParentPage(src, copyPage, session.getDocument(rootRef), session);
-    	}
-    	if (!src.toString().equals(dest.toString())){
-	    	for (DocumentModel document: session.getChildren(src)){
-	    		copyHierarchyPage(document.getRef(), copyPage.getRef(), document.getName(), document.getTitle(), session, withElementTemplate, rootRef);
-	    	}
-    	}
-    	return copyPage;
+        DocumentModel copyPage = copyPage(src, dest, name, title, session, withElementTemplate);
+        if (!src.equals(rootRef)) {
+            copyOpensocialGadgetRefInParentPage(src, copyPage, session.getDocument(rootRef), session);
+        }
+        if (!src.toString().equals(dest.toString())){
+            for (DocumentModel document: session.getChildren(src)){
+                copyHierarchyPage(document.getRef(), copyPage.getRef(), document.getName(), document.getTitle(), session, withElementTemplate, rootRef);
+            }
+        }
+        return copyPage;
     }
 
     private static void copyOpensocialGadgetRefInParentPage(DocumentRef srcRef, DocumentModel copyGadgetDoc, DocumentModel rootDoc, CoreSession session)
@@ -464,7 +464,7 @@ public final class LabsSiteUtils {
             }
         }
     }
-    
+
     // TODO it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.5.0-HF01
     /**
      * it looks like Nuxeo does NOT copy schemas of dynamically added facets !!! see NXP-8242. FIXED in 5.5.0-HF01
@@ -477,24 +477,24 @@ public final class LabsSiteUtils {
      * @throws ClientException
      */
     public static DocumentModel copyPage(DocumentRef src, DocumentRef dest, String name, String title, CoreSession session, boolean withElementTemplate) throws ClientException{
-    	DocumentModel docDest = session.getDocument(dest);
-    	DocumentModel docSrc = session.getDocument(src);
-    	DocumentModel copy = session.createDocumentModel(docDest.getPathAsString(), LabsSiteUtils.doLabsSlugify(name), docSrc.getType());
-    	copy = session.createDocument(copy);
-    	for (String facetName: docSrc.getFacets()){
-    		if (withElementTemplate || !LabsSiteConstants.FacetNames.LABS_ELEMENT_TEMPLATE.equals(facetName)){
-    			copy.addFacet(facetName);
-    		}
-    	}
-    	for (String schemaName: docSrc.getSchemas()){
-    		copy.setProperties(schemaName, docSrc.getProperties(schemaName));
-    	}
-    	copy.setPropertyValue(AbstractLabsBase.DC_TITLE, title);
-    	copy = session.saveDocument(copy);
+        DocumentModel docDest = session.getDocument(dest);
+        DocumentModel docSrc = session.getDocument(src);
+        DocumentModel copy = session.createDocumentModel(docDest.getPathAsString(), LabsSiteUtils.doLabsSlugify(name), docSrc.getType());
+        copy = session.createDocument(copy);
+        for (String facetName: docSrc.getFacets()){
+            if (withElementTemplate || !LabsSiteConstants.FacetNames.LABS_ELEMENT_TEMPLATE.equals(facetName)){
+                copy.addFacet(facetName);
+            }
+        }
+        for (String schemaName: docSrc.getSchemas()){
+            copy.setProperties(schemaName, docSrc.getProperties(schemaName));
+        }
+        copy.setPropertyValue(AbstractLabsBase.DC_TITLE, title);
+        copy = session.saveDocument(copy);
         session.save();
-    	return copy;
+        return copy;
     }
-    
+
     public static boolean isLabsSiteUrlAvailable(CoreSession session, final String url) {
         try {
             UnrestrictedSessionRunner unrestricted = new UnrestrictedSessionRunner(session) {
@@ -518,70 +518,70 @@ public final class LabsSiteUtils {
         }
         return true;
     }
-    
+
     public static DocumentModel createInitSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
-    	List<String> widgets = new ArrayList<String>();
-    	widgets.add("html/editor");
-    	return createSidebarPage(doc, session, widgets);
-    }
-    
-    public static DocumentModel createDefaultSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
-    	List<String> widgets = new ArrayList<String>();
-    	widgets.add("html/topPages");
-    	widgets.add("html/children");
-    	widgets.add("html/externalLinks");
-    	widgets.add("html/lastuploads");
-    	return createSidebarPage(doc, session, widgets);
-    }
-    
-    public static DocumentModel createComplexSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
-    	List<String> widgets = new ArrayList<String>();
-    	//widgets.add("html/topPages");
-    	widgets.add("html/children");
-    	widgets.add("html/externalLinks");
-    	widgets.add("html/lastuploads");
-    	return createSidebarPage(doc, session, widgets);
-    }
-    
-    public static DocumentModel createSimpleSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
-    	List<String> widgets = new ArrayList<String>();
-    	widgets.add("html/topPages");
-    	widgets.add("html/children");
-    	widgets.add("html/externalLinks");
-    	//widgets.add("html/lastuploads");
-    	return createSidebarPage(doc, session, widgets);
+        List<String> widgets = new ArrayList<String>();
+        widgets.add("html/editor");
+        return createSidebarPage(doc, session, widgets);
     }
 
-	public static DocumentModel createSidebarPage(final DocumentModel doc, CoreSession session, final List<String> widgets) throws ClientException {
-		try {
+    public static DocumentModel createDefaultSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
+        List<String> widgets = new ArrayList<String>();
+        widgets.add("html/topPages");
+        widgets.add("html/children");
+        widgets.add("html/externalLinks");
+        widgets.add("html/lastuploads");
+        return createSidebarPage(doc, session, widgets);
+    }
+
+    public static DocumentModel createComplexSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
+        List<String> widgets = new ArrayList<String>();
+        //widgets.add("html/topPages");
+        widgets.add("html/children");
+        widgets.add("html/externalLinks");
+        widgets.add("html/lastuploads");
+        return createSidebarPage(doc, session, widgets);
+    }
+
+    public static DocumentModel createSimpleSidebarPage(final DocumentModel doc, CoreSession session) throws ClientException {
+        List<String> widgets = new ArrayList<String>();
+        widgets.add("html/topPages");
+        widgets.add("html/children");
+        widgets.add("html/externalLinks");
+        //widgets.add("html/lastuploads");
+        return createSidebarPage(doc, session, widgets);
+    }
+
+    public static DocumentModel createSidebarPage(final DocumentModel doc, CoreSession session, final List<String> widgets) throws ClientException {
+        try {
             UnrestrictedSessionRunner unrestricted = new UnrestrictedSessionRunner(session) {
                 @Override
                 public void run() throws ClientException {
-                	DocumentModel sidebar = null;
-                	PathRef pathRefSidebar = new PathRef(doc.getPathAsString() + "/"
-        					+ LabsSiteConstants.Docs.SIDEBAR.docName());
-                	if (session.exists(pathRefSidebar)){
-                		sidebar = session.getDocument(pathRefSidebar);
-                		HtmlPage page = Tools.getAdapter(HtmlPage.class, sidebar, session);
-                		if (page.getSections().size() == 1){
-                			page.section(0).remove();
-                			sidebar = session.saveDocument(sidebar);
-                		}
-                	}
-                	else{
-	                	sidebar = session.createDocumentModel(
-	                            doc.getPathAsString(),
-	                            LabsSiteConstants.Docs.SIDEBAR.docName(), LabsSiteConstants.Docs.SIDEBAR.type());
-	                    sidebar.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.SIDEBAR.docName()));
-	                    sidebar = session.createDocument(sidebar);
-                	}
-                    
+                    DocumentModel sidebar = null;
+                    PathRef pathRefSidebar = new PathRef(doc.getPathAsString() + "/"
+                            + LabsSiteConstants.Docs.SIDEBAR.docName());
+                    if (session.exists(pathRefSidebar)){
+                        sidebar = session.getDocument(pathRefSidebar);
+                        HtmlPage page = Tools.getAdapter(HtmlPage.class, sidebar, session);
+                        if (page.getSections().size() == 1){
+                            page.section(0).remove();
+                            sidebar = session.saveDocument(sidebar);
+                        }
+                    }
+                    else{
+                        sidebar = session.createDocumentModel(
+                                doc.getPathAsString(),
+                                LabsSiteConstants.Docs.SIDEBAR.docName(), LabsSiteConstants.Docs.SIDEBAR.type());
+                        sidebar.setPropertyValue("dc:title", StringUtils.capitalize(LabsSiteConstants.Docs.SIDEBAR.docName()));
+                        sidebar = session.createDocument(sidebar);
+                    }
+
                     HtmlPage page = Tools.getAdapter(HtmlPage.class, sidebar, session);
-                    
-                    
+
+
                     HtmlSection section = page.addSection();
                     for (String widget: widgets){
-                    	createWidget(sidebar, section, session, widget);
+                        createWidget(sidebar, section, session, widget);
                     }
                     session.saveDocument(sidebar);
                 }
@@ -592,12 +592,12 @@ public final class LabsSiteUtils {
             log.error(e);
             return null;
         }
-	}
+    }
 
-	private static void createWidget(DocumentModel sidebar,
-			HtmlSection section, CoreSession session, String widget) throws ClientException {
-		HtmlRow row = section.addRow();
-		row.addContent(0, "");
-		GadgetUtils.syncWidgetsConfig(row.content(0), widget, sidebar, session);
-	}
+    private static void createWidget(DocumentModel sidebar,
+            HtmlSection section, CoreSession session, String widget) throws ClientException {
+        HtmlRow row = section.addRow();
+        row.addContent(0, "");
+        GadgetUtils.syncWidgetsConfig(row.content(0), widget, sidebar, session);
+    }
 }

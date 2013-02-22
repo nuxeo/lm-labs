@@ -60,6 +60,7 @@
       <groupId>org.nuxeo.ecm.platform</groupId>
       <artifactId>nuxeo-platform-preview</artifactId>
     </dependency>
+<<<<<<< HEAD
     <dependency>
       <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
       <artifactId>lm-nuxeo-common-webapp</artifactId>
@@ -68,14 +69,23 @@
       <groupId>com.adeo.nuxeo</groupId>
       <artifactId>adeo-nuxeo-user</artifactId>
     </dependency>
+=======
+
+
+>>>>>>> GetBackFromLM
     <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
     </dependency>
+<<<<<<< HEAD
     <dependency>
       <groupId>com.leroymerlin.corp.fr.nuxeo.portal</groupId>
       <artifactId>lm-nuxeo-common-core</artifactId>
     </dependency>
+=======
+
+  
+>>>>>>> GetBackFromLM
     <dependency>
       <groupId>org.nuxeo.ecm.platform</groupId>
       <artifactId>nuxeo-platform-imaging-api</artifactId>

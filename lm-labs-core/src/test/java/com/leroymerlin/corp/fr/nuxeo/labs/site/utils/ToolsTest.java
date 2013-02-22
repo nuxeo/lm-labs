@@ -14,7 +14,6 @@ import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
-import com.adeo.nuxeo.user.test.FakeUserFeature;
 import com.google.inject.Inject;
 import com.leroymerlin.common.core.adapter.SessionAdapter;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.SiteManager;
@@ -25,7 +24,7 @@ import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 import com.leroymerlin.corp.fr.nuxeo.labs.site.utils.LabsSiteConstants.Docs;
 
 @RunWith(FeaturesRunner.class)
-@Features({ FakeUserFeature.class, SiteFeatures.class })
+@Features({ SiteFeatures.class })
 @Deploy("com.leroymerlin.labs.core.test")
 @RepositoryConfig(user = "Administrator",init=DefaultRepositoryInit.class, cleanup=Granularity.METHOD)
 public class ToolsTest {
@@ -93,7 +92,7 @@ public class ToolsTest {
                 + Docs.TREE.docName() + "/" + Docs.WELCOME.docName()
                 + "/folder2/sub2_1")));
     }
-	
+
     @Test
     public void hasInterfaceLabsSession() throws Exception {
         generateSite();
@@ -105,7 +104,7 @@ public class ToolsTest {
         LabsSite site  = Tools.getAdapter(LabsSite.class, site1, session);
         assertTrue(Tools.hasInterface(site.getClass(), SessionAdapter.class));
     }
-	
+
     @Test
     public void hasNoInterfaceLabsSession() throws Exception {
         generateSite();

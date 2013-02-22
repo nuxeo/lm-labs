@@ -3,6 +3,8 @@
 .settings
 .DS_Store
 bin
+pojo-bin
+seam-bin
 target
 *~
 *.orig
