@@ -16,7 +16,6 @@ $(document).ready(function() {
 	jQuery('#tabbed_divSections').find('a[data-toggle="tab"]').on('shown', function (e) {
         var pattern=/#.+/gi //use regex to get anchor(==selector)
         var contentID = e.target.toString().match(pattern)[0];   
-        initWidgets(jQuery(contentID));
         //Refresh ellipsis
         if (!executedDoEllipsisTabbed_divSections[contentID]){
         	doEllipsisTextFind(jQuery(contentID));
@@ -39,19 +38,8 @@ $(document).ready(function() {
 	
 });
 
-function initHtmlWidgets(parentObj) {
-	// resize widget 'Dernieres actualites du site'
-	jQuery(parentObj).find('.rss-feed-list.bloc .itemList').ready(function() {
-		jQuery('.rss-feed-list.bloc').each(function(index, obj) {
-			jQuery(obj).parent().animate({
-				height:jQuery(obj).height() + 25
-			});
-		});
-	});
-}
 
 function initWidgets(parentObj) {
 	initOpensocialGadgets(jQuery(parentObj));
-	initHtmlWidgets(parentObj);
 }
 
