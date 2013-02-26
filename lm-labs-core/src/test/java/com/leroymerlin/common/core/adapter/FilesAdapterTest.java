@@ -9,19 +9,18 @@ import org.nuxeo.ecm.core.api.ClientException;
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.impl.blob.FileBlob;
-import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 import com.leroymerlin.common.core.utils.BlobUtils;
+import com.leroymerlin.corp.fr.nuxeo.labs.site.test.SiteFeatures;
 
 @RunWith(FeaturesRunner.class)
-@Features(CoreFeature.class)
+@Features(SiteFeatures.class)
 @Deploy( {
-        "com.leroymerlin.common.core",
-        "com.leroymerlin.common.core.test:OSGI-INF/test-core-types-contrib.xml" })
+        "com.leroymerlin.labs.core.test:OSGI-INF/test-core-types-contrib.xml" })
 public class FilesAdapterTest {
 
     private DocumentModel doc;

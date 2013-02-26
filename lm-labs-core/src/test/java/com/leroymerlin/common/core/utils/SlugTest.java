@@ -11,21 +11,21 @@ public class SlugTest {
 
     @Test
     public void canSlugSomeTitle() throws Exception {
-        assertThat(Slugify.slugify("Un titre comme ça ?"), is("un-titre-comme-ca-"));
+        assertThat(Slugify.slugify("Un titre comme \u00e7a ?"), is("un-titre-comme-ca-"));
     }
-    
+
     @Ignore @Test
-	public void canSlugSimplequote() throws Exception {
-		assertFalse(Slugify.slugify("'titre'").contains("'"));
-	}
-    
+    public void canSlugSimplequote() throws Exception {
+        assertFalse(Slugify.slugify("'titre'").contains("'"));
+    }
+
     @Ignore @Test
-	public void canSlugDoublequote() throws Exception {
-		assertFalse(Slugify.slugify("\"titre\"").contains("\""));
-	}
-    
+    public void canSlugDoublequote() throws Exception {
+        assertFalse(Slugify.slugify("\"titre\"").contains("\""));
+    }
+
     @Test
     public void canSlugSomeTitleNoToLower() throws Exception {
-        assertThat(Slugify.slugify("Un titre comme ça ?", false), is("Un-titre-comme-ca-"));
+        assertThat(Slugify.slugify("Un titre comme \u00e7a ?", false), is("Un-titre-comme-ca-"));
     }
 }

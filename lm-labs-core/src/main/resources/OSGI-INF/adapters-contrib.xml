@@ -59,10 +59,10 @@
 
       <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisher"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.publisher.LabsPublisherAdapterFactory" />
-      
+
       <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscription"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.notification.PageSubscriptionAdapterFactory" />
-      
+
       <adapter class="com.leroymerlin.corp.fr.nuxeo.piwik.Piwik"
       factory="com.leroymerlin.corp.fr.nuxeo.piwik.PiwikAdapterFactory" />
 
@@ -74,7 +74,10 @@
 
       <adapter class="com.leroymerlin.corp.fr.nuxeo.labs.base.LabsLike"
       factory="com.leroymerlin.corp.fr.nuxeo.labs.site.like.LabsLikeAdapterFactory" />
-      
+
+          <adapter class="com.leroymerlin.common.core.adapter.FilesAdapter"
+      factory="com.leroymerlin.common.core.adapter.FilesAdapterFactory" />
+
   </extension>
 
 </component>
