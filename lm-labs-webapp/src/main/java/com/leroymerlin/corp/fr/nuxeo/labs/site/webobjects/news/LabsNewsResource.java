@@ -48,7 +48,7 @@ public class LabsNewsResource extends PageResource {
     private PageProvider<DocumentModel> newsPageProvider;
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat(
-            "dd/MM/yyyy 'à' HH:mm");
+            "dd/MM/yyyy '\u00e0' HH:mm");
 
     @SuppressWarnings("unchecked")
     @Override
@@ -58,51 +58,51 @@ public class LabsNewsResource extends PageResource {
                 .getRendering()
                 .setSharedVariable("news", getLabsNews());
         if (args.length >= 2) {
-        	newsPageProvider = (PageProvider<DocumentModel>) args[1];
+            newsPageProvider = (PageProvider<DocumentModel>) args[1];
         }
     }
 
     private void initPrevNextNews() {
-    	PageProvider<DocumentModel> pageProvider = getNewsPageProvider();
-    	pageProvider.setPageSize(Long.MAX_VALUE);
-    	try {
-    		pageProvider.setCurrentEntry(getDocument());
-    		getNewsPageProvider();
-    		if (pageProvider.isPreviousEntryAvailable()) {
-    			pageProvider.previousEntry();
-    			prevNewsDoc = pageProvider.getCurrentEntry();
-    		}
-    		pageProvider.setCurrentEntry(getDocument());
-    		getNewsPageProvider();
-    		if (pageProvider.isNextEntryAvailable()) {
-    			pageProvider.nextEntry();
-    			nextNewsDoc = pageProvider.getCurrentEntry();
-    		}
-    	} catch (Exception e) {
-    		throw WebException.wrap(e);
-    	}
+        PageProvider<DocumentModel> pageProvider = getNewsPageProvider();
+        pageProvider.setPageSize(Long.MAX_VALUE);
+        try {
+            pageProvider.setCurrentEntry(getDocument());
+            getNewsPageProvider();
+            if (pageProvider.isPreviousEntryAvailable()) {
+                pageProvider.previousEntry();
+                prevNewsDoc = pageProvider.getCurrentEntry();
+            }
+            pageProvider.setCurrentEntry(getDocument());
+            getNewsPageProvider();
+            if (pageProvider.isNextEntryAvailable()) {
+                pageProvider.nextEntry();
+                nextNewsDoc = pageProvider.getCurrentEntry();
+            }
+        } catch (Exception e) {
+            throw WebException.wrap(e);
+        }
     }
 
     public DocumentModel getPrevNewsDoc() {
-    	return prevNewsDoc;
+        return prevNewsDoc;
     }
 
     public DocumentModel getNextNewsDoc() {
-    	return nextNewsDoc;
+        return nextNewsDoc;
     }
 
     public boolean hasNextNewsDoc() {
-    	return nextNewsDoc == null ? false : true;
+        return nextNewsDoc == null ? false : true;
     }
 
     public boolean hasPrevNewsDoc() {
-    	return prevNewsDoc == null ? false : true;
+        return prevNewsDoc == null ? false : true;
     }
 
     @Override
     public Object doGet() {
-    	initPrevNextNews();
-    	return super.doGet();
+        initPrevNextNews();
+        return super.doGet();
     }
 
     public LabsNews getLabsNews() {
@@ -132,14 +132,14 @@ public class LabsNewsResource extends PageResource {
                 String elementTemplateStr = form.getString("let:elementTemplate");
                 boolean isElementTemplate = BooleanUtils.toBoolean(elementTemplateStr);
                 if (news.isElementTemplate() != isElementTemplate) {
-                	news.setElementTemplate(isElementTemplate);
+                    news.setElementTemplate(isElementTemplate);
                 }
                 if (isElementTemplate) {
                     if (form.isMultipartContent()) {
                         Blob preview = form.getBlob("let:preview");
                         if (preview != null
                                 && !StringUtils.isEmpty(preview.getFilename())) {
-                        	news.setElementPreview(preview);
+                            news.setElementPreview(preview);
                         }
                     }
                 }
@@ -237,7 +237,7 @@ public class LabsNewsResource extends PageResource {
     }
 
     public Map<String, String> getColumnLayoutsSelect() throws ClientException {
-    	return HtmlRow.getColumnLayoutsSelect();
+        return HtmlRow.getColumnLayoutsSelect();
     }
 
     @GET
@@ -281,30 +281,30 @@ public class LabsNewsResource extends PageResource {
     }
 
     private PageProvider<DocumentModel> getNewsPageProvider() {
-    	//logNewsPageProvider();
-    	return this.newsPageProvider;
+        //logNewsPageProvider();
+        return this.newsPageProvider;
     }
 
     public LabsNews getLabsNews(DocumentModel document) {
         return Tools.getAdapter(LabsNews.class, document, ctx.getCoreSession());
     }
 
-	@SuppressWarnings("unused")
+    @SuppressWarnings("unused")
     private void logNewsPageProvider() {
-		if (log.isDebugEnabled()) {
-    		final String logPrefix = "<getNewsPageProvider> ";
-    		try {
-    			log.debug(logPrefix + "pageSize: " + newsPageProvider.getPageSize());
-    			log.debug(logPrefix + "currentEntry: " + newsPageProvider.getCurrentEntry().getTitle());
-    			log.debug(logPrefix + "isNextEntryAvailable: " + newsPageProvider.isNextEntryAvailable());
-    			if (newsPageProvider.isNextEntryAvailable()) {
-    				log.debug(logPrefix + "currentEntry: " + "");
-    			}
-    			log.debug(logPrefix + "isPreviousEntryAvailable: " + newsPageProvider.isPreviousEntryAvailable());
-    		} catch (ClientException e) {
-    			log.error(logPrefix);
-    		}
-    	}
-	}
+        if (log.isDebugEnabled()) {
+            final String logPrefix = "<getNewsPageProvider> ";
+            try {
+                log.debug(logPrefix + "pageSize: " + newsPageProvider.getPageSize());
+                log.debug(logPrefix + "currentEntry: " + newsPageProvider.getCurrentEntry().getTitle());
+                log.debug(logPrefix + "isNextEntryAvailable: " + newsPageProvider.isNextEntryAvailable());
+                if (newsPageProvider.isNextEntryAvailable()) {
+                    log.debug(logPrefix + "currentEntry: " + "");
+                }
+                log.debug(logPrefix + "isPreviousEntryAvailable: " + newsPageProvider.isPreviousEntryAvailable());
+            } catch (ClientException e) {
+                log.error(logPrefix);
+            }
+        }
+    }
 
 }
