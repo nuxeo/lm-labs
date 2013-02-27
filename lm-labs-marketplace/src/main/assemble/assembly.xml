@@ -1,81 +1,60 @@
-<project name="nuxeo-assembly" default="build" xmlns:nx="urn:nuxeo-build" xmlns:artifact="urn:nuxeo-artifact">
+<project name="nuxeo-assembly"
+         default="build"
+         xmlns:nx="urn:nuxeo-build"
+         xmlns:artifact="urn:nuxeo-artifact">
   <taskdef resource="org/nuxeo/build/antlib.xml" uri="urn:nuxeo-build" />
-  <taskdef resource="org/nuxeo/build/artifact/antlib.xml" uri="urn:nuxeo-artifact" />
+  <taskdef resource="org/nuxeo/build/artifact/antlib.xml"
+           uri="urn:nuxeo-artifact" />
 
-  <target name="init" unless="init.done">
-    <property name="outdir" value="${maven.project.build.directory}" />
-    <antcall target="expand" />
-    <property name="init.done" value="true" />
-  </target>
-
-  <target name="expand">
-    <!-- Include your artifacts in the graph adding your groupId to groupPrefixes -->
-    <mkdir dir="${outdir}"/>
-    <artifact:nuxeo-expand includeTestScope="true"
-                           groupPrefixes="com.leroymerlin" />
-    <!-- For Nuxeo IDE being able to use that distribution as a SDK -->
-    <artifact:print output="${outdir}/artifacts-lm-labs.properties" mode="sdk" />
-    <artifact:print output="${outdir}/test-artifacts-lm-labs.properties"
-                    mode="sdk"
-                    scopes="test" />
-    <!-- Prints the graph for debugging purpose -->
-    <artifact:print output="${outdir}/dependency-tree.log" />
-  </target>
-
-  <target name="build" depends="init" description="Build LM Labs Marketplace package">
+  <target name="build" description="Build LM LabsMarketplace package">
     <tstamp />
-    <delete failonerror="false" dir="${maven.project.build.directory}/marketplace" />
+    <delete failonerror="false"
+            dir="${maven.project.build.directory}/marketplace" />
     <mkdir dir="${maven.project.build.directory}/marketplace" />
-    <mkdir dir="${maven.project.build.directory}/marketplace/bundles" />
-    <mkdir dir="${maven.project.build.directory}/marketplace/lib" />
-
     <copy todir="${maven.project.build.directory}/marketplace">
       <fileset dir="src/main/resources" />
       <filterset>
         <filter token="VERSION" value="${maven.project.version}" />
       </filterset>
     </copy>
+    <copy todir="${maven.project.build.directory}">
+      <artifact:resolveFile key="com.leroymerlin.labs:lm-labs-distribution::zip" />
+      <artifact:resolveFile key="org.nuxeo.ecm.distribution:nuxeo-distribution-cap::zip" />
+    </copy>
+    <nx:zipdiff file1="${maven.project.build.directory}/lm-labs-distribution-${maven.project.version}.zip"
+                file2="${maven.project.build.directory}/nuxeo-distribution-cap-${nuxeo.distribution.version}.zip"
+                includesfile="${maven.project.build.directory}/includes"
+                excludesfile="${maven.project.build.directory}/excludesfile"
+                patternsetid="labs.versus.cap">
+    </nx:zipdiff>
+    <unzip src="${maven.project.build.directory}/lm-labs-distribution-${maven.project.version}.zip"
+           dest="${maven.project.build.directory}/marketplace/install">
+      <patternset refid="labs.versus.cap" />
+    </unzip>
 
-    <copy todir="${maven.project.build.directory}/marketplace/bundles">
-      <artifact:set>
+    <!-- Freemarker 2.3.19 -->
+    <copy todir="${maven.project.build.directory}/marketplace/install/syslib"
+        overwrite="true">
+        <artifact:resolveFile key="org.freemarker:freemarker::jar" />
+        <artifact:set>
         <includes>
-          <artifact groupId="com.leroymerlin.labs*" />
-          <artifact groupId="com.leroymerlin.corp.fr.nuxeo.portal*" />
-          <artifact groupId="org.nuxeo.ecm.webengine"  artifactId="nuxeo-webengine-wro"/>
+          <artifact groupId="org.freemarker" />
         </includes>
-        <excludes>
-          <artifact artifactId="lm-portal-user" />
-          <artifact artifactId="lm-portal-common" />
-        </excludes>
       </artifact:set>
     </copy>
 
-    <copy todir="${maven.project.build.directory}/marketplace/lib">
-      <artifact:set>
-        <includes>
-          <artifact groupId="org.jsoup" />
+    <!-- Labs templates -->
+    <unzip dest="${maven.project.build.directory}/marketplace/install/templates/labs"
+           overwrite="true">
+      <artifact:resolveFile key="com.leroymerlin.labs:lm-labs-distribution::zip"
+                            classifier="resources" />
+    </unzip>
 
-      <!-- In order to make wro4j works -->
-          <artifact groupId="ro.isdc.wro4j" />
-          <artifact groupId="commons-io" artifactId="commons-io" version="2.1"/>
-          <artifact groupId="commons-pool" />
-          <artifact groupId="org.apache.commons" artifactId="commons-lang3" />
-          <artifact groupId="org.mozilla" artifactId="rhino"/>
-        </includes>
-      </artifact:set>
-
-      <!-- artifact:resolveFile key="ro.isdc.wro4j:wro4j-core:1.4.7:jar" />
-      <artifact:resolveFile key="ro.isdc.wro4j:wro4j-extensions:1.4.7:jar" />
-      <artifact:resolveFile key="org.apache.commons:commons-lang3:3.1:jar"/>
-      <artifact:resolveFile key="org.mozilla:rhino:1.7R3:jar"/>
-      <artifact:resolveFile key="commons-io:commons-io:2.1:jar"/-->
-    </copy>
-
-
-
-
-    <zip destfile="${maven.project.build.directory}/${maven.project.artifactId}-${maven.project.version}.zip" basedir="${maven.project.build.directory}/marketplace" />
-    <artifact:attach file="${maven.project.build.directory}/${maven.project.artifactId}-${maven.project.version}.zip" target="${maven.project.groupId}:${maven.project.artifactId}" type="zip" />
+    <zip destfile="${maven.project.build.directory}/${maven.project.artifactId}-${maven.project.version}.zip"
+         basedir="${maven.project.build.directory}/marketplace" />
+    <artifact:attach file="${maven.project.build.directory}/${maven.project.artifactId}-${maven.project.version}.zip"
+                     target="${maven.project.groupId}:${maven.project.artifactId}"
+                     type="zip" />
   </target>
 
 </project>

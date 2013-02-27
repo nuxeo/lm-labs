@@ -5,86 +5,82 @@
 
 
   <target name="init" unless="init.done">
-    <tstamp />
-    <condition property="with.nuxeo">
-      <isset property="maven.profile.with-nuxeo" />
-    </condition>
-
+    <tstamp />    
     <property name="outdir" value="${maven.project.build.directory}" />
+    <mkdir dir="${outdir}"/>
+    <property name="nuxeo.ear" value="${outdir}/nuxeo.ear" />
+    <antcall target="expand" />
     <property name="init.done" value="true" />
-    <property name="labs" value="${outdir}/labs" />
-
   </target>
 
-  <target name="expand-nuxeo" if="with.nuxeo">
-    <unzip dest="${outdir}">
-      <artifact:resolveFile key="org.nuxeo.ecm.distribution:nuxeo-distribution-tomcat:5.6.0-HF05:zip" classifier="nuxeo-cap" />
-    </unzip>
-    <nx:rename from="${outdir}/nuxeo-cap-5.6.0-HF05-tomcat" to="${labs}" />
+  <target name="expand">
+    <artifact:nuxeo-expand includeTestScope="true" />
+    <artifact:print output="${outdir}/artifacts-labs.properties" mode="sdk" />
+    <artifact:print output="${outdir}/test-artifacts-labs.properties"
+                    mode="sdk"
+                    scopes="test" />
+    <artifact:print output="${outdir}/dependency-tree.log" />
   </target>
 
-  <target name="build" depends="init">
-    <echo>Building LM Tomcat distribution...</echo>
-    <antcall target="expand-nuxeo" />
+  <target name="build" depends="init" description="Build Nuxeo DAM">
+    <echo>Building default Nuxeo Labs EAR</echo>
+    <delete failonerror="false" dir="${nuxeo.ear}" />
+    <mkdir dir="${nuxeo.ear}" />
     <antcall target="build-labs" />
+    <antcall target="build-resources" />
   </target>
 
-
-  <target name="build-labs">
+  <target name="build-labs"
+      description="Build labs distribution"
+          depends="init">
     <echo>Building LM Labs distributions...</echo>
-
-    <mkdir dir="${labs}/nxserver/bundles" />
-
-    <!-- Custom resources -->
-    <copy todir="${labs}/" overwrite="true">
-      <fileset dir="src/main/resources/" />
-    </copy>
-
-    <echo>Copy our own plugins</echo>
-    <copy todir="${labs}/nxserver/bundles" overwrite="true">
+    <copy todir="${nuxeo.ear}/bundles" overwrite="true">
       <artifact:set>
         <includes>
-          <artifact groupId="com.leroymerlin.labs*" />
-          <artifact groupId="com.leroymerlin.corp.fr.nuxeo.portal*" />
-        </includes>
-        <excludes>
-          <artifact artifactId="lm-portal-user" />
-          <artifact artifactId="lm-portal-common" />
-          <artifact artifactId="lm-nuxeo-common-core" />
-          <artifact artifactId="lm-nuxeo-common-webapp" />
-          <artifact artifactId="lm-view-service" />
-          <artifact artifactId="nuxeo-platform-rating" />
-        </excludes>
-      </artifact:set>
-    </copy>
-
-    <echo>Copy custom libs</echo>
-    <copy todir="${labs}/nxserver/lib" overwrite="true">
-      <artifact:set>
-        <includes>
-          <artifact groupId="org.jsoup" />
-
-		  <!-- In order to make wro4j works -->
-          <artifact groupId="ro.isdc.wro4j" />
-		  <artifact groupId="commons-io" artifactId="commons-io" version="2.1"/>
-    	  <artifact groupId="commons-pool" />
-		  <artifact groupId="org.apache.commons" artifactId="commons-lang3" />
-		  <artifact groupId="org.mozilla" artifactId="rhino"/>
+          <artifact groupId="com.leroymerlin*" scope="!test" type="!pom" />
         </includes>
       </artifact:set>
     </copy>
+
+    <antcall target="third-party-libraries" />
+
+    <copy file="${outdir}/artifacts-labs.properties" todir="${nuxeo.ear}" />
+    <copy file="${outdir}/test-artifacts-labs.properties" todir="${nuxeo.ear}" />
 
     <!-- make the final zip -->
-    <zip destfile="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip" basedir="${labs}" />
-    <artifact:attach file="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip" type="zip" target="${maven.project.groupId}:${maven.project.artifactId}" />
+    <zip destfile="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip" basedir="${nuxeo.ear}" />
+    <artifact:attach file="${outdir}/${maven.project.artifactId}-${maven.project.version}.zip"
+                     target="${maven.project.groupId}:${maven.project.artifactId}"
+                     type="zip" />
+    
   </target>
 
-  <target name="clean">
-    <delete dir="${stagedir}" />
+
+  <target name="third-party-libraries">
+      <echo>Copy custom libs</echo>
+    <copy todir="${nuxeo.ear}/lib" overwrite="true">    
+      <artifact:set>
+        <includes>
+          <artifact groupId="org.jsoup" />          		      
+        </includes>
+      </artifact:set>
+    </copy>
   </target>
 
-  <target name="cleanall">
-    <delete dir="${outdir}" />
+    
+
+  <target name="build-resources">
+    <delete dir="${outdir}/template-labs" failonerror="false" />
+    <copy todir="${outdir}/template-labs" overwrite="true">
+      <fileset dir="src/main/resources/templates/labs" />
+    </copy>
+
+    <zip destfile="${outdir}/${maven.project.artifactId}-${maven.project.version}-resources.zip"
+         basedir="${outdir}/template-labs" />
+    <artifact:attach file="${outdir}/${maven.project.artifactId}-${maven.project.version}-resources.zip"
+                     target="${maven.project.groupId}:${maven.project.artifactId}"
+                     type="zip"
+                     classifier="resources" />
   </target>
 
 </project>

@@ -10,7 +10,7 @@
 
     
   </description>
-  <home-page>http://doc.nuxeo.com/x/bIEk</home-page>
+  <home-page>https://github.com/Leroy-Merlin-France/lm-labs</home-page>
   <vendor>Leroy Merlin</vendor>
   <installer restart="false" />
   <uninstaller restart="false" />
@@ -21,8 +21,13 @@
   <production-state>production_ready</production-state>
   <supported>false</supported>
   <platforms>
-    <platform>cap-5.6.0-HF03-SNAPSHOT</platform>
+    <platform>cap-5.6.0</platform>
   </platforms>
+  <dependencies>
+    <package>nuxeo-webengine-wro:5.6</package>
+    <package>nuxeo-social-collaboration:5.6</package>
+    <package>nuxeo-dam:5.6</package>    
+  </dependencies>
   <license>LGPL</license>
   <license-url>http://www.gnu.org/licenses/lgpl.html</license-url>
 </package>

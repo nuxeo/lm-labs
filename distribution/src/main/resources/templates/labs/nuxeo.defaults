@@ -1,6 +1,11 @@
+labs.target=nxserver
+
 # Mail settings (for notifications)
 nuxeo.notification.eMailSubjectPrefix=[Nuxeo-Labs] 
+
 #labs.notification.enabled=true
+
 #labs.baseUrl=http://localhost:8080/nuxeo
+
 labs.max.size.file.read=6
 labs.site.element.template.url=modeles-pages
