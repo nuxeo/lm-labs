@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<component name="com.leroymerlin.labs.webapp.filter.config">
+
+  <extension target="org.nuxeo.ecm.platform.web.common.requestcontroller.service.RequestControllerService"
+    point="filterConfig">
+
+    <filterConfig name="LabsAssets" cached="true" cacheTime="3600">
+      <pattern>${org.nuxeo.ecm.contextPath}/site/skin/labs/.*</pattern>
+    </filterConfig>
+  </extension>
+
+</component>

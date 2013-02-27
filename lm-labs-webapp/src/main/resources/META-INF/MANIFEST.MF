@@ -8,7 +8,7 @@ Bundle-Name: lm-labs-webapp
 Bundle-ManifestVersion: 1
 Nuxeo-Component: OSGI-INF/pageproviders-contrib.xml,OSGI-INF/operation
  s-contrib.xml,OSGI-INF/cache-service.xml,OSGI-INF/labsthememanager-se
- rvice.xml
+ rvice.xml,OSGI-INF/nuxeo-web-filter-contrib.xml
 Bundle-SymbolicName: com.leroymerlin.labs.webapp;singleton:=true
 Bundle-Activator: com.leroymerlin.corp.fr.nuxeo.labs.LabsWebAppActivator
 Nuxeo-AllowOverride: true
